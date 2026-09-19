@@ -1,3 +1,5 @@
+import os as _os
+_ROOT = _os.path.abspath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..'))
 """v4 audit: independent finite-dimensional root-fidelity evaluation + the xi0-phase consistency test.
 
 Independent formula used (Theorem 2.1, second form of the note):
@@ -8,10 +10,10 @@ det(1+T^{1/2})).  Both are cross-checked against a brute-force Fock-space trace 
 All heavy linear algebra in mpmath at dps=40.
 """
 import sys, numpy as np, mpmath as mp
-sys.path.insert(0, "/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics")
+sys.path.insert(0, _os.path.join(_ROOT, "numerics"))
 from compression_box import Q_box
 
-NUM = "/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/"
+NUM = _os.path.join(_ROOT, "numerics")
 
 # ---------- mpmath helpers ----------
 def to_mp(A):

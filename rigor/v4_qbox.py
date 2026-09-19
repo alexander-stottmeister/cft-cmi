@@ -1,3 +1,5 @@
+import os as _os
+_ROOT = _os.path.abspath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..'))
 """v4 audit: independent verification of the compressed vacuum symbol Q_box (compression_box.Q_box).
 
 Independent route (Fourier / Plancherel), completely different from the code's t-integrals:
@@ -10,7 +12,7 @@ Quadrature in k: Gauss-Legendre panels of width (2pi/Lam)/2 (half an oscillation
 plus an explicit asymptotic tail |k|>K.
 """
 import sys, numpy as np
-sys.path.insert(0, "/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics")
+sys.path.insert(0, _os.path.join(_ROOT, "numerics"))
 from compression_box import Q_box
 
 
@@ -43,8 +45,8 @@ def Qbox_fourier(kvals, Lam, xi0, K=60.0, ngl=24, panels_per_period=4):
 if __name__ == "__main__":
     a, L, Lam = 1.0, 2.0, 60.0
     xi0 = float(np.log(a/L))
-    kappa = np.load("/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/"
-                    "Dhat_exact_s0.2_Lam60_k30_g12.npz", allow_pickle=True)['kappa']
+    kappa = np.load(_os.path.join(_ROOT, "numerics",
+                    "Dhat_exact_s0.2_Lam60_k30_g12.npz"), allow_pickle=True)['kappa']
     N = len(kappa); mid = N//2; kv = kappa/(2*np.pi)
     Q = Q_box(kappa, Lam)
     print(f"N={N} Lam={Lam} xi0={xi0:.6f} Delta_kappa={kappa[1]-kappa[0]:.6f}", flush=True)

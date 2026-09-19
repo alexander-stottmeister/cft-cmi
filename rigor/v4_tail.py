@@ -1,9 +1,11 @@
+import os as _os
+_ROOT = _os.path.abspath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..'))
 """v4 audit: (i) derivation check of the tail correction zeta^2/(15 kappa_c^2) and its validity;
 (ii) the note's 'trap' remark; (iii) ratio tests for the kmax exponents."""
 import sys, numpy as np, re
-sys.path.insert(0, "/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics")
+sys.path.insert(0, _os.path.join(_ROOT, "numerics"))
 from compression_box import Q_box
-NUM = "/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/"
+NUM = _os.path.join(_ROOT, "numerics")
 from scipy.integrate import quad
 
 print("=== (F) tail correction: sum over discarded modes of the EXACT single-mode -log fidelity ===")

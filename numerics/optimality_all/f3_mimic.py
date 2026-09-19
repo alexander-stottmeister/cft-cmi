@@ -1,3 +1,5 @@
+import os as _os
+_ROOT = _os.path.abspath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..'))
 """F3 T3 decisive test: run the MODULAR GALERKIN machinery on the CIRCLE model's mesh.
 Circle grid theta_j = 2 pi j / L  ->  x_j = tan(theta_j/2)  ->  xi_j = log((x_j+a)/(Lg-x_j)).
 Cell edges = xi-midpoints; the outermost cell is capped at modular distance 'cap' beyond the last
@@ -6,7 +8,7 @@ the circle value (~0.29) while the uniform-in-xi mesh of comparable size gives ~
 discrepancy is the MESH: the circle grid resolves the modular neighbourhood of the endpoint of D
 only to depth ~log(#points)."""
 import sys, time, numpy as np
-sys.path.insert(0,'/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/optimality_all')
+sys.path.insert(0,_os.path.join(_ROOT, 'numerics/optimality_all'))
 from kkt_continuum import Qmat, defect
 import f3_gal as G
 f2 = 1.0/(12*np.pi**2)

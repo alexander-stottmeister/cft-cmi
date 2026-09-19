@@ -1,7 +1,9 @@
+import os as _os
+_ROOT = _os.path.abspath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..'))
 import sys, numpy as np, re
-sys.path.insert(0, "/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics")
+sys.path.insert(0, _os.path.join(_ROOT, "numerics"))
 from compression_box import Q_box
-NUM = "/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/"
+NUM = _os.path.join(_ROOT, "numerics")
 
 print("=== (J) the Moebius check (a,L,s)=(2,1,0.1) vs (1,2,0.2) ===")
 z1 = np.load(NUM+"Dhat_exact_s0.2_Lam60_k30_g12.npz", allow_pickle=True)

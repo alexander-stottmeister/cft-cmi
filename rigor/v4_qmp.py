@@ -1,11 +1,13 @@
+import os as _os
+_ROOT = _os.path.abspath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..'))
 """Compare fidelity_hp.Q_box_mp (mp.quad) with compression_box.Q_box (trapezoid), and check the
 1/kappa_c law for S against the full 91-mode compression."""
 import sys, numpy as np, mpmath as mp
-sys.path.insert(0, "/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics")
+sys.path.insert(0, _os.path.join(_ROOT, "numerics"))
 from compression_box import Q_box
 from fidelity_hp import Q_box_mp
-kap = np.load("/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/"
-              "Dhat_exact_s0.2_Lam60_k30_g12.npz", allow_pickle=True)['kappa']
+kap = np.load(_os.path.join(_ROOT, "numerics",
+              "Dhat_exact_s0.2_Lam60_k30_g12.npz"), allow_pickle=True)['kappa']
 Qd = Q_box(kap, 60.0)
 Qm = Q_box_mp(kap, 60.0, 40)
 N = len(kap); dif = max(abs(float(Qm[i, j])-Qd[i, j]) for i in range(N) for j in range(N))

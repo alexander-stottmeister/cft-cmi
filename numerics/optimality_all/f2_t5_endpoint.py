@@ -1,3 +1,5 @@
+import os as _os
+_ROOT = _os.path.abspath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..'))
 """F2/T5: the ENDPOINT condition (e) of F1 Thm 4.4 (repaired), Prop 4.10 (prop:bdryfun),
 in the rigid parameter-free modular Wiener-Hopf frame (f3_t0.py machinery, as in T4).
 
@@ -20,7 +22,7 @@ so -2 sigma_{zeta_0} = |delta_0><delta_0| and, in the orthonormal cell basis (fi
 Usage:  f2_t5_endpoint.py [h1,h2,..] [Y] [Ymax]
 """
 import sys, time, numpy as np
-sys.path.insert(0, '/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/optimality_all')
+sys.path.insert(0, _os.path.join(_ROOT, 'numerics/optimality_all'))
 import f2_t4_wh as T4
 
 

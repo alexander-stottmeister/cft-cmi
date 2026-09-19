@@ -1,3 +1,5 @@
+import os as _os
+_ROOT = _os.path.abspath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..'))
 """E2 (d): beyond first order.  With the optimised exterior generator Z_e (Tikhonov
 parameter mu) form the unitary W~ and evaluate the EXACT Uhlmann exponent
    UH(W~) := -1/2 log det(1 - V^*V),   V = P^perp W~ P,
@@ -11,7 +13,7 @@ Z E_I to first order and leaves exactly E_c Z E_c free.
 Compare with UB (first order) and with 1/2 s^2 |u|^2 (1-theta).
 """
 import sys, numpy as np, scipy.linalg as sla
-sys.path.insert(0, '/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/optimality_all')
+sys.path.insert(0, _os.path.join(_ROOT, 'numerics/optimality_all'))
 import e2_common as E
 
 def UH(P, Pp, Wt):

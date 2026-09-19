@@ -1,3 +1,5 @@
+import os as _os
+_ROOT = _os.path.abspath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..'))
 """F3 T0: the parameter-free Wiener-Hopf problem of F1 Prop 6.2 (prop:thetaframe), discretised
 directly in the modular frame of I.
 
@@ -16,7 +18,7 @@ parameter-free, with no A-D block ambiguity.  Its tail is ~ e^{y1} e^{-y2/2} as 
 moving endpoint x=1 (y=+inf) is NOT integrable away trivially: y_max convergence must be checked.
 theta = 2<beta,A^{-1}beta>/g_Q(ddot) by the CG of f3_gal.theta (identical operator algebra)."""
 import sys, time, numpy as np
-sys.path.insert(0,'/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/optimality_all')
+sys.path.insert(0,_os.path.join(_ROOT, 'numerics/optimality_all'))
 from kkt_continuum import Qmat, _nodes
 import f3_gal as G
 f2 = 1.0/(12*np.pi**2)

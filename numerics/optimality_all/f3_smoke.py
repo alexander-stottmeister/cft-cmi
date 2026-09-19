@@ -1,6 +1,8 @@
+import os as _os
+_ROOT = _os.path.abspath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..'))
 """F3 smoke: reproduce one published number in each frame, and check CG convergence."""
 import sys, time, numpy as np
-HERE='/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/optimality_all'
+HERE=_os.path.join(_ROOT, 'numerics/optimality_all')
 sys.path.insert(0,HERE)
 from kkt_continuum import build
 from s10_theta import setup

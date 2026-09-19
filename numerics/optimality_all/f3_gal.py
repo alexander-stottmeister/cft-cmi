@@ -1,8 +1,10 @@
+import os as _os
+_ROOT = _os.path.abspath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..'))
 """F3 T1: Galerkin theta, fast operator, graded meshes, Lambda sweep, restricted classes.
 Aop(G) = 1/4 * antiherm( Uh^dag [K o (Uh G Uh^dag)] Uh ),  K_ij=(q_i-q_j)^2 w_ij,  Uh = U^dag E_D.
 Checked against theta_galerkin.py (h=0.3 -> 0.29926)."""
 import sys, os, time, numpy as np
-HERE='/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/optimality_all'
+HERE=_os.path.join(_ROOT, 'numerics/optimality_all')
 sys.path.insert(0,HERE); sys.path.insert(0,os.getcwd())
 from kkt_continuum import Qmat, defect
 f2 = 1.0/(12*np.pi**2)

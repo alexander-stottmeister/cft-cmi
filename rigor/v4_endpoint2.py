@@ -1,11 +1,13 @@
+import os as _os
+_ROOT = _os.path.abspath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..'))
 """Clean version: same sub-compression DIMENSION (61) for both, so the comparison isolates the
 endpoint term rather than the change of n_sub."""
 import sys, numpy as np, mpmath as mp
-sys.path.insert(0, "/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics")
-sys.path.insert(0, "/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/rigor")
+sys.path.insert(0, _os.path.join(_ROOT, "numerics"))
+sys.path.insert(0, _os.path.join(_ROOT, "rigor"))
 from compression_box import Q_box
 from v4_fid import to_mp, logfid_route_A
-NUM = "/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/"
+NUM = _os.path.join(_ROOT, "numerics")
 z = np.load(NUM+"Dhat_exact_s0.2_Lam60_k30_g12.npz", allow_pickle=True)
 D = z['Dhat']; kap = z['kappa']; Lam = 60.0; zeta = 1/15.
 nt = 400001; w0 = Lam/(2*(nt-1)); k = kap/(2*np.pi)

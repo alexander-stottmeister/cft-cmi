@@ -1,9 +1,11 @@
+import os as _os
+_ROOT = _os.path.abspath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..'))
 """v4 audit: fast double-precision diagnostics."""
 import sys, numpy as np, glob, re
-sys.path.insert(0, "/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics")
+sys.path.insert(0, _os.path.join(_ROOT, "numerics"))
 from compression_box import Q_box
 from fidelity_flint import second_order
-NUM = "/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/"
+NUM = _os.path.join(_ROOT, "numerics")
 a, L = 1.0, 2.0; xi0 = np.log(a/L)
 
 print("=== (A) first-order defect matrix vs the closed form D1(k,k')=(q-q')(k+k')/[u(u^2+4pi^2)] ===")

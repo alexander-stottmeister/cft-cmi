@@ -1,8 +1,10 @@
+import os as _os
+_ROOT = _os.path.abspath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..'))
 """F3 T3: phi(Delta) = theta with the G class restricted to modular distance >= Delta from the
 far endpoint of D (x=L), in BOTH frames.  Delta is a Moebius-invariant label, so the two
 discretisations must agree at matched Delta wherever both resolve it.  phi(0)=theta."""
 import sys, time, numpy as np
-sys.path.insert(0,'/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/optimality_all')
+sys.path.insert(0,_os.path.join(_ROOT, 'numerics/optimality_all'))
 import f3_gal as G, f3_circ as C
 f2 = 1.0/(12*np.pi**2)
 

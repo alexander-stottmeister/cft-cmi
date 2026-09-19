@@ -1,8 +1,10 @@
+import os as _os
+_ROOT = _os.path.abspath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..'))
 """S10: is the optimal rotation implementable?  Check ||P^perp G P||_2 (Shale-Stinespring)
 for (i) the CG optimiser G_*, (ii) the single direction G = R_a, and the single-direction
 gain cos^2(u, v_{R_a}), as functions of L."""
 import numpy as np, sys
-sys.path.insert(0,'/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/optimality_all')
+sys.path.insert(0,_os.path.join(_ROOT, 'numerics/optimality_all'))
 from s10_theta import setup
 for L in (256,384,512):
     S=setup(L=L,a=2.0,Lg=1.0); D=S['D']; u=S['u']; nu2=S['nu2']; P=S['P']; Pp=S['Pp']

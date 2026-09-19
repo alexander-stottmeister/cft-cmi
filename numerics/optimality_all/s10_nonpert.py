@@ -1,9 +1,11 @@
+import os as _os
+_ROOT = _os.path.abspath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..'))
 """S10: non-perturbative check. Build W_s = exp(-s Dchi) (exactly unitary), the exact
 defect delta(eps) = E_I(P - Wt^* P Wt)E_I with Wt = W_s exp(-eps G_*), and evaluate the
 exact quadratic form g_Q(delta) = (1/4) sum w_ik |delta~_ik|^2 (capped weights).
 Compare min_eps g_Q vs g_Q at eps=0 and vs the predicted (1-theta)."""
 import numpy as np, sys, scipy.linalg as sla
-sys.path.insert(0,'/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/optimality_all')
+sys.path.insert(0,_os.path.join(_ROOT, 'numerics/optimality_all'))
 from s10_theta import setup
 
 L=512; S=setup(L=L,a=2.0,Lg=1.0)

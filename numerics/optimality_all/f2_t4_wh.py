@@ -1,3 +1,5 @@
+import os as _os
+_ROOT = _os.path.abspath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..'))
 """F2/T4: the F1 Thm 4.4 KKT criterion in the PARAMETER-FREE modular Wiener-Hopf frame
 (F1 Prop 6.2, discretised by F3 in f3_t0.py), where Moebius rigidity is EXACT:
 deltadot is exactly A-D off-diagonal (no DD/AA blocks at all), unlike the spectral circle
@@ -14,7 +16,7 @@ CRITERION: orbit = global optimum of the tangent problem  <=>  M_* >= 0 and M_* 
 Usage:  f2_t4_wh.py h1,h2,.. [Y] [Ymax] [cap]
 """
 import sys, time, numpy as np
-sys.path.insert(0, '/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/optimality_all')
+sys.path.insert(0, _os.path.join(_ROOT, 'numerics/optimality_all'))
 from kkt_continuum import Qmat
 import f3_t0 as T0
 import f3_gal as FG

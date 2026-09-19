@@ -1,0 +1,13 @@
+This repository contains two kinds of material, under two licences.
+
+1. Software (everything under numerics/, all *.py and *.sh files, and the LaTeX
+   macro package rigor/rigor_preamble.tex): MIT Licence, see LICENSE-CODE.
+
+2. Documents and data (all *.tex, *.md, *.txt, *.raw and *.out files that are not
+   software, i.e. the papers, the notes, the rigor documents, the referee reports
+   and the numerical result files): Creative Commons Attribution 4.0 International
+   (CC BY 4.0), see LICENSE-DOCS.
+
+Neither licence covers third-party material.  Excerpts of other authors' papers
+quoted in the rigor documents remain the property of their rights holders and are
+reproduced for the purpose of quotation and scholarly criticism; see THIRD-PARTY.md.

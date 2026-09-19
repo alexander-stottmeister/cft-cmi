@@ -33,3 +33,16 @@
 % extra calligraphic shortcuts (\providecommand: no clash if a document defines its own)
 \providecommand{\cB}{\mathcal B}\providecommand{\cC}{\mathcal C}\providecommand{\cD}{\mathcal D}\providecommand{\cE}{\mathcal E}\providecommand{\cG}{\mathcal G}\providecommand{\cH}{\mathcal H}\providecommand{\cI}{\mathcal I}\providecommand{\cJ}{\mathcal J}\providecommand{\cK}{\mathcal K}\providecommand{\cL}{\mathcal L}\providecommand{\cO}{\mathcal O}\providecommand{\cP}{\mathcal P}\providecommand{\cQ}{\mathcal Q}\providecommand{\cR}{\mathcal R}\providecommand{\cS}{\mathcal S}\providecommand{\cT}{\mathcal T}\providecommand{\cU}{\mathcal U}\providecommand{\cV}{\mathcal V}\providecommand{\cW}{\mathcal W}\providecommand{\cX}{\mathcal X}\providecommand{\cY}{\mathcal Y}\providecommand{\cZ}{\mathcal Z}
 \newcommand{\Fid}{\operatorname{F}}\newcommand{\Tr}{\operatorname{Tr}}\newcommand{\eps}{\varepsilon}\newcommand{\dd}{\,\mathrm d}
+
+% --- excerpts of cited sources ----------------------------------------------------
+% The page images in rigor/shots/ are excerpts of third-party publications and are NOT
+% redistributed with the public release.  \shot is an exact drop-in for \includegraphics
+% that degrades to a framed note when shots/ is absent, so every document still compiles
+% from a clone without them; \shotc is the centred variant.  The precise locator of each
+% excerpt is always stated in the accompanying cited-result box.
+\newcommand{\shotmissing}[2]{\fbox{\parbox{\dimexpr#1-2\fboxsep-2\fboxrule\relax}{\small%
+\textbf{Screenshot not included.}\ \texttt{\detokenize{#2}} is an image of a third-party
+publication, omitted from the public release; see the locator in the cited-result box.}}}
+\newcommand{\shot}[2][\textwidth]{%
+  \IfFileExists{shots/#2}{\includegraphics[width=#1]{shots/#2}}{\shotmissing{#1}{#2}}}
+\newcommand{\shotc}[2][\textwidth]{\begin{center}\shot[#1]{#2}\end{center}}

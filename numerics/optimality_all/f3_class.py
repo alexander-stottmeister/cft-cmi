@@ -1,9 +1,11 @@
+import os as _os
+_ROOT = _os.path.abspath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..'))
 """F3 T3: restrict the admissible G class in the modular coordinate xi of AD.
 (i)  support window:  G supported on {xi0 <= xi <= xi0+W} inside D
 (ii) bandwidth:       G in the span of modular Fourier modes |kappa| <= K on the D window
 Both are frame-independent continuum classes, so the two discretisations can be matched."""
 import sys, time, numpy as np
-sys.path.insert(0,'/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/optimality_all')
+sys.path.insert(0,_os.path.join(_ROOT, 'numerics/optimality_all'))
 import f3_gal as G
 f2 = 1.0/(12*np.pi**2)
 

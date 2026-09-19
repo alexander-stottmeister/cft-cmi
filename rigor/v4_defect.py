@@ -1,3 +1,5 @@
+import os as _os
+_ROOT = _os.path.abspath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..'))
 """v4 audit: independent recomputation of the defect matrix Dhat, and the xi0-phase consistency test.
 
 Independent quadrature: double-exponential (tanh-sinh) in the variable p = |xi-xi0| after the
@@ -5,7 +7,7 @@ substitution p = exp(sigma), sigma in (-inf, log(Lam/2)], with scipy's fixed-ord
 DIFFERENT panel structure (width 0.37 in sigma over the whole range, no split at p=0.2).
 """
 import sys, numpy as np
-sys.path.insert(0, "/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics")
+sys.path.insert(0, _os.path.join(_ROOT, "numerics"))
 import defect_matrix as dm
 
 a, L = 1.0, 2.0
@@ -43,8 +45,8 @@ def run_v4(a, L, s, Lam, kmax_kappa, kind, ngl=20, width=0.37, pmin=1e-14, xi0_p
 if __name__ == "__main__":
     s, Lam, kmax = 0.2, 60.0, 30.0
     zeta = a*s/(a+L)
-    ref = np.load("/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/"
-                  f"Dhat_exact_s{s}_Lam{int(Lam)}_k{int(kmax)}_g12.npz", allow_pickle=True)
+    ref = np.load(_os.path.join(_ROOT, "numerics",
+                  f"Dhat_exact_s{s}_Lam{int(Lam)}_k{int(kmax)}_g12.npz"), allow_pickle=True)
     D0 = ref['Dhat']; kap = ref['kappa']
     print(f"== stored file: N={len(kap)} dkappa={kap[1]-kap[0]:.6f} zeta={zeta:.6f}")
     D1, kap1 = dm.run(a, L, s, Lam, kmax, 'exact', ngl=12)
@@ -76,5 +78,5 @@ if __name__ == "__main__":
     U = np.exp(-1j*(kap/(2*np.pi))*np.log(a/L))
     print(f"   check D(with xi0) = U D(no xi0) U^*:  max|diff| = "
           f"{np.abs(D3 - (U[:,None]*Dnp*U.conj()[None,:])).max():.3e}  (max|D| = {mx:.3e})")
-    np.save("/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/rigor/v4_D_nophase.npy", Dnp)
-    np.save("/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/rigor/v4_D_phase.npy", D3)
+    np.save(_os.path.join(_ROOT, "rigor/v4_D_nophase.npy"), Dnp)
+    np.save(_os.path.join(_ROOT, "rigor/v4_D_phase.npy"), D3)

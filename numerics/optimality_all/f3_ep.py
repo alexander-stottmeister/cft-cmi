@@ -1,9 +1,11 @@
+import os as _os
+_ROOT = _os.path.abspath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..'))
 """F3 T1/T3: the h-dependence of theta is an ENDPOINT effect (phi(Delta) jumps at Delta=0).
 Resolve it cheaply: uniform mesh of width h, but the LAST cell (at xi_max, i.e. x -> L, the
 common endpoint of D and I) is subdivided geometrically, K levels with ratio r.  Smallest cell
 h*r^K.  Optionally the same at the left end of the window (x -> -a, inside A, no G there)."""
 import sys, time, numpy as np
-sys.path.insert(0,'/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/optimality_all')
+sys.path.insert(0,_os.path.join(_ROOT, 'numerics/optimality_all'))
 from kkt_continuum import Qmat, defect
 import f3_gal as G
 f2 = 1.0/(12*np.pi**2)

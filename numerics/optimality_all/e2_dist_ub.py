@@ -1,3 +1,5 @@
+import os as _os
+_ROOT = _os.path.abspath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..'))
 """E2 (b),(c): the invisible components (1-Pi)M, (1-Pi)v and their distance to Ext;
 the optimised Uhlmann bound UB(Z_I) = min_{Z_e} 1/2||P^perp(Z_I+Z_e)P||_F^2.
 
@@ -9,7 +11,7 @@ I^c-I^c block deleted gives the same UB; the strictly block-diagonal truncation
 E_I D_chi E_I is reported separately.  Tikhonov mu bounds ||Z_e||_F.
 """
 import sys, numpy as np
-sys.path.insert(0, '/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/optimality_all')
+sys.path.insert(0, _os.path.join(_ROOT, 'numerics/optimality_all'))
 import e2_common as E
 
 def report(S, X, name, tag=""):

@@ -1,3 +1,5 @@
+import os as _os
+_ROOT = _os.path.abspath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..'))
 """E2 (a): dimensions of N, N^perp, Ext in S_2(PH,P^perp H); is Ext = N^perp?
 Two independent computations:
  (A) brute force at small L: explicit real bases, ranks by SVD (relative tolerance),
@@ -9,7 +11,7 @@ Two independent computations:
 Predicted exactly:  dim N = m^2 - 2 z^2,  z = m - L/2,  dim N^perp = (L-m)^2 = dim Ext.
 """
 import sys, numpy as np
-sys.path.insert(0, '/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/optimality_all')
+sys.path.insert(0, _os.path.join(_ROOT, 'numerics/optimality_all'))
 import e2_common as E
 
 def bases(S):

@@ -1,5 +1,7 @@
+import os as _os
+_ROOT = _os.path.abspath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..'))
 import numpy as np, sys
-sys.path.insert(0,'/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/optimality_all')
+sys.path.insert(0,_os.path.join(_ROOT, 'numerics/optimality_all'))
 from s10_theta import setup
 
 def diag(L=512,a=2.0,Lg=1.0,uv=(0.30,0.42),alpha=3.0,cap=1e10,iters=70):
