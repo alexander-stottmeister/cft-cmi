@@ -8,7 +8,7 @@ written as Lamport-style structured proofs, plus a compendium of every cited ext
 * Screenshots go in `cft_cmi/rigor/shots/` as PNG, made with `rigor/snap.py <pdf> <page> <out.png> [--clip x0 y0 x1 y1] [--find "text"]`
   (fractions of the page; use `--find` to locate a theorem and choose a tight clip). Include with `\includegraphics[width=...]{shots/NAME.png}`.
 * Reference PDFs go in `cft_cmi/refs/` via `refs/getref.sh <arxiv-id> <Short>` or `refs/getref.sh <URL> <Short>`. Never claim to have checked a source you could not open; write "NOT OBTAINED" and say why.
-* Python for numerics: `/private/tmp/claude-501/-Users-alex-Documents-Uni-Hannover-claude-team/2a3c5aab-2bd9-408c-811f-f4144c2149e4/scratchpad/venv/bin/python` (numpy, scipy, mpmath, pymupdf). Existing scripts: `cft_cmi/numerics/`.
+* Python for numerics: any interpreter with numpy, scipy, mpmath, python-flint and pymupdf; scripts take `PYTHON` if set, else `python3`. Session scratchpad venvs do NOT survive a restart, so never hardcode one (see the lesson `scratchpad-venv-fragility`). Existing scripts: `cft_cmi/numerics/`.
 
 ## Lamport style (mandatory for every proof and every verification)
 Follow L. Lamport, "How to Write a 21st Century Proof" (2012). Every theorem/lemma is proved by a hierarchy of numbered steps:
