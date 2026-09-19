@@ -32,3 +32,29 @@ Final message to the orchestrator: at most 450 words. List: files written; each 
 
 ## Findings entries: plain LaTeX only (added 2026-09-08)
 Entries appended to findings_entries.tex are compiled inside findings.tex with rigor_preamble.tex ONLY. Do not use private macros from your own document (\Wt, \Gm, ...) and do not use the notes' shortcuts \norm, \abs, \ip, \dist, \Sone, \Stwo, \one, \dd, \Ad, \CMI, \MI: write \lVert x\rVert, \lvert x\rvert, \langle x,y\rangle, \operatorname{dist}, \mathfrak S_1, ... explicitly. (Adding these macros to rigor_preamble breaks documents that define them with \newcommand.)
+
+## Two repositories over one work tree (2026-09-20)
+
+The project directory is covered by **two** git repositories, sharing one work tree, so no
+file ever moved and no tool needs reconfiguring:
+
+* `.git` — the project: papers, notes, rigor documents, numerics, result captures.
+  Prepared for publication (MIT + CC BY, README.md, THIRD-PARTY.md).
+* `.git-private` — what must not be published: `rigor/shots/` (page excerpts of cited
+  publications), `refs/*.pdf` (downloaded sources), `CHECKLIST.md`, `PRIVATE.md`, `pgit`.
+  Driven by the wrapper `./pgit` (`./pgit status`, `./pgit sync`, `./pgit check`).
+
+Consequences for agents:
+
+1. **Agents still never run git.** The orchestrator commits, in both repositories.
+2. Documents build exactly as before: `rigor/shots/` is on disk. The macro `\shot` in
+   `rigor_preamble.tex` embeds an excerpt when present and prints a framed note when not,
+   so a public clone without excerpts still compiles. Use `\shot[<width>]{<file.png>}`
+   (or `\shotc` for a centred one) instead of `\includegraphics{shots/...}`.
+3. After `rigor/snap.py` makes a screenshot or `refs/getref.sh` fetches a paper, tell the
+   orchestrator: those files are invisible to both `git status` and `./pgit status` until
+   `./pgit sync` stages them. `./pgit check` reports the mismatch.
+4. **Never run `git clean -xfd`.** It deletes every untracked file, which includes all the
+   excerpts and source PDFs; they are recoverable only from the private repository.
+5. Python scripts resolve paths against the repository root (`_ROOT`), not an absolute
+   home directory. Keep it that way when writing new scripts.
