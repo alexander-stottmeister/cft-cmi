@@ -1,0 +1,764 @@
+\documentclass[11pt]{article}\input{rigor_preamble}
+\newcommand{\gt}{\widetilde g}\newcommand{\gh}{\widehat g}\newcommand{\Wh}{\widehat W}
+\newcommand{\gfr}{\mathfrak g}\newcommand{\Dt}{\widetilde D^{(1)}}\newcommand{\psih}{\psi}
+\title{The kernel identity: a complete analytic proof\\[2pt]
+\large (Lemma~5.1(ii) of \texttt{universality\_normalization.tex}; item (c) of Note~7)}
+\author{}\date{}
+\begin{document}\maketitle
+
+\begin{abstract}\noindent
+We give a complete, self-contained analytic proof of the kernel identity
+\(D^{(1)}(\kappa,\kappa')=i(q_\kappa-q_{\kappa'})\gfr(\kappa,\kappa')\)
+of \texttt{universality\_normalization.tex} (its eq.~(21), Lemma~5.1(ii)), which up to now was
+established only numerically.  The conventions are taken verbatim from that note
+(eqs.~(D1-kernel), (ghat)) and from \texttt{numerics/verify\_normalization.py} (function
+\texttt{D1\_kernel\_FT}); we verify explicitly that the two agree.  The route is: substitute
+\(a=-\xi,\ b=\xi'\); prove an explicit bound giving absolute convergence; expand
+\(\sinh^{-2}\frac{a+b}2=4\sum_{n\ge1}ne^{-n(a+b)}\) and integrate termwise (Tonelli, all terms
+positive); sum the resulting rational series by Heaviside partial fractions and the Gauss series
+for the digamma function; take the imaginary part with the reflection formula
+\(\operatorname{Im}\psi(\frac12-ix)=-\frac\pi2\tanh\pi x\), which produces exactly
+\(q_\kappa-q_{\kappa'}\).  The identity holds for \emph{all} real \(\kappa,\kappa'\), the diagonal
+\(\kappa=\kappa'\) included, where the pole of \(\gh\) at \(k=0\) is cancelled by
+\(q_\kappa-q_{\kappa'}\to0\).  As by-products we obtain the fully explicit closed form
+\(D^{(1)}=(q_\kappa-q_{\kappa'})(\kappa+\kappa')/[(\kappa-\kappa')((\kappa-\kappa')^2+4\pi^2)]\).
+Every intermediate closed form is verified to \(\ge24\) digits by \texttt{rigor/p3\_check.py}.
+\end{abstract}
+
+\tableofcontents
+
+\section{Conventions}\label{sec:conv}
+
+All conventions are those of \texttt{universality\_normalization.tex} (henceforth \emph{the note}).
+\emph{Numbering convention}: a reference of the form "the note's (\(n\))" points to equation
+\((n)\) of the note (so (8) is \(\gh\), (10) is the defect kernel, (20)--(22) are the one-particle
+formulas, the kernel identity and the weights); all unqualified equation numbers are those of the
+present document.  Nothing here is new; the point of this section
+is that every symbol used below is pinned down once, so that no step can hide a factor.
+
+\begin{definition}[Modular frame and modes]\label{def:frame}
+\(\xi\in\mathbb R\) is the note's modular coordinate \(\xi=-\log\frac{L-x}{L}\) (its \S2,
+eq.~(eq:xi)), so that \(A\Leftrightarrow\xi<0\),
+\(D\Leftrightarrow\xi>0\).  The one-particle space is \(L^2(\mathbb R,d\xi)\) in the half-density
+identification.  The modular modes are
+\begin{equation}\label{eq:psi}
+ \psih_\kappa(\xi):=\frac{1}{2\pi}\,e^{i\kappa\xi/2\pi},\qquad\kappa\in\mathbb R ,
+\end{equation}
+normalized by \(\int d\kappa\,|\psih_\kappa\rangle\langle\psih_\kappa|=\mathbf 1\); indeed
+\(\int d\kappa\,\psih_\kappa(\xi)\overline{\psih_\kappa(\xi')}
+=(2\pi)^{-2}\!\int d\kappa\,e^{i\kappa(\xi-\xi')/2\pi}=\delta(\xi-\xi')\).
+They are not in \(L^2\); all "matrix elements" below are defined as the (absolutely convergent)
+double integrals written out in Definition~\ref{def:D1}.
+\end{definition}
+
+\begin{definition}[The first-order defect kernel]\label{def:D1}
+\(\Dt\) is the kernel of the note's (10):
+\begin{equation}\label{eq:Dt}
+ \Dt(\xi,\xi')=\begin{cases}
+  \dfrac{i}{2\pi}\,R(\xi,\xi'), & \xi<0<\xi',\\[6pt]
+  \overline{\Dt(\xi',\xi)}=\overline{\dfrac{i}{2\pi}R(\xi',\xi)}, & \xi'<0<\xi,\\[6pt]
+  0,&\text{otherwise (the diagonal blocks \(A\times A\), \(D\times D\)),}\end{cases}
+\end{equation}
+where
+\begin{equation}\label{eq:Rdef}
+ R(\xi,\xi'):=-\,\frac{\sinh\frac\xi2\,\sinh\frac{\xi'}2}{\sinh^2\frac{\xi-\xi'}2},
+\end{equation}
+and \(D^{(1)}(\kappa,\kappa'):=\langle\psih_\kappa,D^{(1)}\psih_{\kappa'}\rangle\) means
+\begin{equation}\label{eq:matrixelt}
+ D^{(1)}(\kappa,\kappa')
+ :=\frac{1}{(2\pi)^2}\iint_{\mathbb R^2} d\xi\,d\xi'\;e^{-i\kappa\xi/2\pi}\,\Dt(\xi,\xi')\,e^{i\kappa'\xi'/2\pi}.
+\end{equation}
+\end{definition}
+
+\begin{remark}[Consistency of \eqref{eq:Dt} with the note and with the script]\label{rem:consistency}
+The note's (10) reads \(\Dt(\xi,\xi')=-\frac{i}{2\pi}\sinh\frac\xi2\sinh\frac{\xi'}2/
+\sinh^2\frac{\xi-\xi'}2\) for \(\xi<0<\xi'\), which is exactly \(\frac i{2\pi}R(\xi,\xi')\) with the
+\(R\) of \eqref{eq:Dt}; and \texttt{verify\_normalization.py} defines
+\texttt{Dkernel(xi,xip)}\(=-\sinh(\xi/2)\sinh(\xi'/2)/\sinh^2((\xi-\xi')/2)=R(\xi,\xi')\) with the
+comment "\emph{times i/2pi omitted}".  So note, script and \eqref{eq:Dt} agree; there is
+\textbf{no inconsistency to fix}.  Note that \(R>0\) on the block \(\xi<0<\xi'\), because
+\(\sinh\frac\xi2<0<\sinh\frac{\xi'}2\) there.
+\end{remark}
+
+\begin{definition}[The block transform \(J\)]\label{def:J}
+\begin{equation}\label{eq:Jdef}
+ J(\kappa,\kappa'):=\int_{-\infty}^0\!\!d\xi\int_0^\infty\!\!d\xi'\;
+ e^{-i\kappa\xi/2\pi}\,R(\xi,\xi')\,e^{i\kappa'\xi'/2\pi} .
+\end{equation}
+This is the \(J\) of \texttt{D1\_kernel\_FT} in \texttt{verify\_normalization.py}.
+\end{definition}
+
+\begin{definition}[Right-hand side]\label{def:rhs}
+With \(q_\kappa:=(1+e^\kappa)^{-1}\) and the analytic continuation (8) of the note,
+\begin{equation}\label{eq:ghat}
+ \gh(k)=\frac{-2i}{k(k^2+1)},\qquad
+ \gfr(\kappa,\kappa'):=\frac1{(2\pi)^2}\,\gh\Bigl(\frac{\kappa-\kappa'}{2\pi}\Bigr)\,\frac{\kappa+\kappa'}{4\pi}.
+\end{equation}
+Throughout we write
+\begin{equation}\label{eq:vars}
+ \alpha:=\frac{\kappa}{2\pi},\quad \beta:=\frac{\kappa'}{2\pi},\quad
+ k:=\alpha-\beta=\frac{\kappa-\kappa'}{2\pi},\quad \sigma:=\alpha+\beta=\frac{\kappa+\kappa'}{2\pi}.
+\end{equation}
+\end{definition}
+
+\section{Statement}\label{sec:statement}
+
+\begin{theorem}[Kernel identity; = Lemma~5.1(ii) of the note]\label{thm:main}
+For every \((\kappa,\kappa')\in\mathbb R^2\) the double integral \eqref{eq:matrixelt} converges
+absolutely, \(D^{(1)}(\kappa,\kappa')\) is \emph{real}, and, with \(u:=\kappa-\kappa'\),
+\(v:=\kappa+\kappa'\),
+\begin{equation}\label{eq:main}
+ \boxed{\;D^{(1)}(\kappa,\kappa')=i\,(q_\kappa-q_{\kappa'})\,\gfr(\kappa,\kappa')
+ =\frac{(q_\kappa-q_{\kappa'})\,v}{u\,(u^2+4\pi^2)}
+ =\frac{-\,v\,\sinh\frac u2}{u\,(u^2+4\pi^2)\bigl(\cosh\frac v2+\cosh\frac u2\bigr)}\;}
+\end{equation}
+for \(\kappa\neq\kappa'\).  On the diagonal \(u=0\) the middle and right members of \eqref{eq:main}
+have removable singularities and all members are to be read as the (finite) limit; explicitly
+\begin{equation}\label{eq:diag}
+ D^{(1)}(\kappa,\kappa)=-\frac{\kappa\,q_\kappa(1-q_\kappa)}{2\pi^2}
+ =-\frac{\kappa}{8\pi^2\cosh^2\frac\kappa2}.
+\end{equation}
+\end{theorem}
+
+\paragraph{Domain of validity.}
+\(\kappa,\kappa'\) range over all of \(\mathbb R\); no restriction, no principal value, no
+regularization is needed on the left-hand side, which is an ordinary absolutely convergent Lebesgue
+integral throughout.  The only caveat is on the \emph{right}: \(\gh(k)=-2i/(k(k^2+1))\) has a simple
+pole at \(k=0\), so the factorized form \(i(q_\kappa-q_{\kappa'})\gfr(\kappa,\kappa')\) is literally
+defined only for \(\kappa\neq\kappa'\) and must be read as a limit on the diagonal
+(step \(\langle1\rangle7\) below); the product is real-analytic across the diagonal, so the limit is
+unambiguous.  The identity is an identity of functions on \(\mathbb R^2\), not of distributions:
+no \(\delta(\kappa-\kappa')\) term is present or needed.
+
+\section{Proof}\label{sec:proof}
+
+Throughout, \(\alpha,\beta,k,\sigma\) are as in \eqref{eq:vars}, and for \(a,b>0\) we write
+\begin{equation}\label{eq:rho}
+ \rho(a,b):=\frac{\sinh\frac a2\,\sinh\frac b2}{\sinh^2\frac{a+b}2},\qquad
+ s:=\frac{a+b}2,\quad d:=\frac{a-b}2\quad(\text{so }|d|<s).
+\end{equation}
+
+% ---------------------------------------------------------------- step 1
+\lstep{1}{1}{For all \(a,b>0\): \(R(-a,b)=\rho(a,b)=\dfrac{\cosh s-\cosh d}{2\sinh^2s}\), and
+\begin{equation}\label{eq:bound}
+ 0<\rho(a,b)\le\frac1{4\cosh^2\frac{a+b}4}\le\min\Bigl(\frac14,\;e^{-(a+b)/2}\Bigr),
+ \quad \iint_{(0,\infty)^2}\!\!\rho\,da\,db\le4\log2<\infty .
+\end{equation}}
+\lproof
+\lstep{2}{1}{\(R(-a,b)=\rho(a,b)\).}
+\lby{\eqref{eq:Rdef}: the numerator picks up
+\(\sinh\frac{-a}2=-\sinh\frac a2\), the denominator is unchanged,
+\(\sinh^2\frac{-a-b}2=\sinh^2\frac{a+b}2\), and this minus sign cancels the explicit
+one in \eqref{eq:Rdef}}
+\lstep{2}{2}{\(\sinh\frac a2\sinh\frac b2=\tfrac12(\cosh s-\cosh d)\), hence
+\(\rho=\frac{\cosh s-\cosh d}{2\sinh^2s}\).}
+\lby{the product-to-sum identity \(\sinh X\sinh Y=\frac12[\cosh(X+Y)-\cosh(X-Y)]\) with
+\(X=\frac a2\), \(Y=\frac b2\), and \(\sinh^2s>0\) for \(s>0\)}
+\lstep{2}{3}{\(0<\cosh s-\cosh d\le\cosh s-1=2\sinh^2\frac s2\).}
+\lby{\(\cosh\) is strictly increasing on \([0,\infty)\) and even, \(|d|<s\) by \(a,b>0\), so
+\(\cosh d<\cosh s\); and \(\cosh d\ge1\); and \(\cosh s-1=2\sinh^2\frac s2\)}
+\lstep{2}{4}{\(\rho\le\dfrac{2\sinh^2\frac s2}{2\sinh^2 s}=\dfrac1{4\cosh^2\frac s2}
+=\dfrac1{4\cosh^2\frac{a+b}4}\).}
+\lby{$\langle2\rangle2$, $\langle2\rangle3$ and \(\sinh s=2\sinh\frac s2\cosh\frac s2\) with
+\(\sinh\frac s2\neq0\)}
+\lstep{2}{5}{\(\dfrac1{4\cosh^2t}\le\min\bigl(\tfrac14,e^{-2t}\bigr)\) for \(t\ge0\); apply with
+\(t=\frac{a+b}4\).}
+\lby{\(\cosh t\ge1\) and \(4\cosh^2t=(e^{t}+e^{-t})^2\ge e^{2t}\)}
+\lstep{2}{6}{\(\displaystyle\iint_{(0,\infty)^2}\frac{da\,db}{4\cosh^2\frac{a+b}4}
+=\int_0^\infty\frac{t\,dt}{4\cosh^2\frac t4}=4\int_0^\infty\frac{y\,dy}{\cosh^2y}=4\log2\).}
+\lproof
+\lstep{3}{1}{The push-forward of Lebesgue measure on \((0,\infty)^2\) under \((a,b)\mapsto t=a+b\)
+is \(t\,dt\) on \((0,\infty)\), so the first equality holds by the image-measure (layer-cake) theorem
+for the nonnegative measurable function \((a,b)\mapsto(4\cosh^2\frac{a+b}4)^{-1}\); the second is
+\(t=4y\).}
+\lby{Tonelli / change of variables}
+\lstep{3}{2}{\(\int_0^Ty\operatorname{sech}^2y\,dy=T\tanh T-\log\cosh T
+=T(\tanh T-1)+\log2-\log(1+e^{-2T})\xrightarrow[T\to\infty]{}\log2\).}
+\lby{integration by parts (\((\tanh)'=\operatorname{sech}^2\)),
+\(\log\cosh T=T-\log2+\log(1+e^{-2T})\), and \(T(\tanh T-1)=-2Te^{-2T}/(1+e^{-2T})\to0\)}
+\lqed{3}{3}
+\lby{$\langle3\rangle1$, $\langle3\rangle2$}
+\lqed{2}{7}
+\lby{$\langle2\rangle1$--$\langle2\rangle6$}
+
+% ---------------------------------------------------------------- step 2
+\lstep{1}{2}{The integral \eqref{eq:matrixelt} and the integral \eqref{eq:Jdef} converge absolutely;
+moreover
+\begin{equation}\label{eq:split}
+ D^{(1)}(\kappa,\kappa')=\frac1{(2\pi)^2}\Bigl[\frac{i}{2\pi}J(\kappa,\kappa')
+  +\overline{\frac{i}{2\pi}J(\kappa',\kappa)}\Bigr],
+ \qquad
+ J(\kappa,\kappa')=\iint_{(0,\infty)^2}e^{i(\alpha a+\beta b)}\rho(a,b)\,da\,db .
+\end{equation}}
+\lproof
+\lstep{2}{1}{The integrand of \eqref{eq:matrixelt} vanishes outside
+\(B_1:=(-\infty,0)\times(0,\infty)\) and \(B_2:=(0,\infty)\times(-\infty,0)\); on \(B_1\) its modulus
+is \(\frac1{(2\pi)^2}\frac1{2\pi}\rho(-\xi,\xi')\) and on \(B_2\) it is
+\(\frac1{(2\pi)^2}\frac1{2\pi}\rho(-\xi',\xi)\).}
+\lby{Definition~\ref{def:D1}, \(|e^{i\theta}|=1\) for \(\theta\in\mathbb R\) (here
+\(\kappa,\kappa',\xi,\xi'\) are real), and $\langle1\rangle1$}
+\lstep{2}{2}{Both moduli are integrable over the respective blocks, with total mass
+\(\le\frac{4\log2}{(2\pi)^3}\) each; hence \eqref{eq:matrixelt} converges absolutely and equals the
+sum of the two block integrals, and \eqref{eq:Jdef} converges absolutely.}
+\lby{$\langle2\rangle1$, \eqref{eq:bound}, and countable additivity of the integral of an
+\(L^1\) function over a partition of \(\mathbb R^2\)}
+\lstep{2}{3}{The \(B_1\)-integral equals \(\frac1{(2\pi)^2}\frac i{2\pi}J(\kappa,\kappa')\).}
+\lby{\eqref{eq:Dt} on \(B_1\) and Definition~\ref{def:J}}
+\lstep{2}{4}{The \(B_2\)-integral equals \(\frac1{(2\pi)^2}\overline{\frac i{2\pi}J(\kappa',\kappa)}\).}
+\lproof
+\lstep{3}{1}{Renaming the integration variables \((\xi,\xi')=(\eta',\eta)\) maps \(B_2\) onto
+\(\{\eta<0<\eta'\}\) and turns the \(B_2\)-integral into
+\(\frac1{(2\pi)^2}\iint_{\eta<0<\eta'}e^{-i\kappa\eta'/2\pi}\,
+\overline{\tfrac i{2\pi}R(\eta,\eta')}\,e^{i\kappa'\eta/2\pi}\,d\eta\,d\eta'\).}
+\lby{\eqref{eq:Dt} (second line) and Fubini's theorem for the absolutely convergent integral
+of $\langle2\rangle2$}
+\lstep{3}{2}{\(R(\eta,\eta')\in\mathbb R\) and \(\kappa,\kappa'\in\mathbb R\), so the integrand of
+$\langle3\rangle1$ is the complex conjugate of
+\(e^{i\kappa\eta'/2\pi}\frac i{2\pi}R(\eta,\eta')e^{-i\kappa'\eta/2\pi}\), whose integral over
+\(\{\eta<0<\eta'\}\) is \(\frac i{2\pi}J(\kappa',\kappa)\) by Definition~\ref{def:J} with
+\((\kappa,\kappa')\) replaced by \((\kappa',\kappa)\) and \((\xi,\xi')=(\eta,\eta')\).}
+\lby{\eqref{eq:Dt}, Definition~\ref{def:J}, and conjugation commutes with the integral}
+\lqed{3}{3}
+\lby{$\langle3\rangle1$, $\langle3\rangle2$}
+\lstep{2}{5}{The affine bijection \((\xi,\xi')\mapsto(a,b)=(-\xi,\xi')\) of
+\((-\infty,0)\times(0,\infty)\) onto \((0,\infty)^2\) has \(|\det|=1\) and turns
+\(e^{-i\kappa\xi/2\pi}R(\xi,\xi')e^{i\kappa'\xi'/2\pi}\) into
+\(e^{i\alpha a}\rho(a,b)e^{i\beta b}\), giving the second identity in \eqref{eq:split}.}
+\lby{$\langle1\rangle1$ ($R(-a,b)=\rho$), \eqref{eq:vars}, and the change-of-variables theorem}
+\lqed{2}{6}
+\lby{$\langle2\rangle2$--$\langle2\rangle5$}
+
+% ---------------------------------------------------------------- step 3
+\lstep{1}{3}{With \(E_n(x):=\displaystyle\int_0^\infty e^{ixa}e^{-na}\sinh\tfrac a2\,da\) one has, for
+all real \(\kappa,\kappa'\),
+\begin{equation}\label{eq:Jseries}
+ J(\kappa,\kappa')=4\sum_{n\ge1}n\,E_n(\alpha)E_n(\beta),\qquad
+ E_n(x)=\frac{1/2}{(n-ix)^2-\frac14},
+\end{equation}
+the series being absolutely convergent.}
+\lproof
+\lstep{2}{1}{For \(s>0\): \(\dfrac1{\sinh^2s}=4\sum_{n\ge1}n\,e^{-2ns}\), all terms \(\ge0\).}
+\lby{\(\sinh s=\frac12(e^s-e^{-s})\) gives \(\sinh^{-2}s=4e^{-2s}(1-e^{-2s})^{-2}\), and
+\(\sum_{n\ge1}nx^n=x(1-x)^{-2}\) for \(|x|<1\) (differentiated geometric series), applied to
+\(x=e^{-2s}\in(0,1)\)}
+\lstep{2}{2}{Hence for \(a,b>0\): \(\rho(a,b)=\sum_{n\ge1}u_n(a,b)\) with
+\(u_n(a,b):=4n\,e^{-n(a+b)}\sinh\frac a2\sinh\frac b2\ge0\).}
+\lby{$\langle2\rangle1$ with \(s=\frac{a+b}2\), \eqref{eq:rho}, and \(\sinh\frac a2,\sinh\frac b2>0\)}
+\lstep{2}{3}{\(\displaystyle\sum_{n\ge1}\iint_{(0,\infty)^2}\bigl|e^{i(\alpha a+\beta b)}u_n(a,b)\bigr|
+\,da\,db=\iint_{(0,\infty)^2}\rho\le4\log2<\infty\).}
+\lby{\(|e^{i(\alpha a+\beta b)}|=1\), \(u_n\ge0\), Tonelli's theorem for the product of counting
+measure on \(\mathbb N\) with Lebesgue measure on \((0,\infty)^2\), $\langle2\rangle2$, and
+\eqref{eq:bound}}
+\lstep{2}{4}{Therefore Fubini's theorem applies and, absolutely,
+\[
+ J=\sum_{n\ge1}\iint_{(0,\infty)^2} e^{i(\alpha a+\beta b)}u_n\,da\,db
+  =4\sum_{n\ge1}n\,E_n(\alpha)E_n(\beta).
+\]}
+\lby{$\langle2\rangle3$ (the hypothesis of Fubini), \eqref{eq:split}, and, for each fixed \(n\),
+Fubini on the product \((0,\infty)\times(0,\infty)\), which factors the integral of
+\(e^{i\alpha a+i\beta b}e^{-n(a+b)}\sinh\frac a2\sinh\frac b2\) as \(E_n(\alpha)E_n(\beta)\)
+and is legitimate because \(e^{-na}\sinh\frac a2\in L^1(0,\infty)\) for \(n\ge1\)}
+\lstep{2}{5}{\(E_n(x)=\frac12\Bigl[\frac1{n-\frac12-ix}-\frac1{n+\frac12-ix}\Bigr]
+=\dfrac{1/2}{(n-ix)^2-\frac14}\) for every \(n\ge1\) and \(x\in\mathbb R\).}
+\lby{\(\sinh\frac a2=\frac12(e^{a/2}-e^{-a/2})\) and
+\(\int_0^\infty e^{-za}da=1/z\) for \(\operatorname{Re}z>0\), here with
+\(z=n\mp\frac12-ix\), \(\operatorname{Re}z=n\mp\frac12\ge\frac12>0\); then a common denominator}
+\lqed{2}{6}
+\lby{$\langle2\rangle4$, $\langle2\rangle5$}
+
+% ---------------------------------------------------------------- step 4
+\lstep{1}{4}{\lassume \(\kappa\neq\kappa'\). \lprove\ with \(p:=i\alpha\), \(r:=i\beta\),
+\(\delta:=p-r=ik\neq0\),
+\begin{equation}\label{eq:Jclosed}
+ J(\kappa,\kappa')=\frac{p+r}{\delta(\delta^2-1)}\Bigl[\psi\bigl(\tfrac12-p\bigr)
+ -\psi\bigl(\tfrac12-r\bigr)\Bigr]-\frac2{\delta^2-1}
+ =-\frac{\sigma}{k(k^2+1)}\Bigl[\psi\bigl(\tfrac12-i\alpha\bigr)-\psi\bigl(\tfrac12-i\beta\bigr)\Bigr]
+ +\frac2{k^2+1}.
+\end{equation}}
+\lproof
+\lstep{2}{1}{\(4n\,E_n(\alpha)E_n(\beta)=\dfrac{n}{\prod_{j=1}^4(n-c_j)}\) with
+\(c_1=p+\frac12,\;c_2=p-\frac12,\;c_3=r+\frac12,\;c_4=r-\frac12\), and the \(c_j\) are pairwise
+distinct.}
+\lproof
+\lstep{3}{1}{\((n-ix)^2-\frac14=(n-(ix+\frac12))(n-(ix-\frac12))\), so
+\(4nE_nE_n=4n\cdot\frac{1/2}{(n-c_1)(n-c_2)}\cdot\frac{1/2}{(n-c_3)(n-c_4)}\).}
+\lby{$\langle1\rangle3$ and factoring a difference of squares}
+\lstep{3}{2}{\(c_1-c_2=c_3-c_4=1\); \(c_1-c_3=c_2-c_4=\delta\); \(c_1-c_4=\delta+1\);
+\(c_2-c_3=\delta-1\). All are nonzero: \(\delta=ik\) with \(k\neq0\), and \(\delta\) is purely
+imaginary, hence \(\delta\notin\{-1,+1\}\).}
+\lby{the hypothesis \(\kappa\neq\kappa'\), i.e.\ \(k\neq0\), and \eqref{eq:vars}}
+\lqed{3}{3}
+\lby{$\langle3\rangle1$, $\langle3\rangle2$}
+\lstep{2}{2}{\(\dfrac{n}{\prod_j(n-c_j)}=\sum_{j=1}^4\dfrac{r_j}{n-c_j}\) for every \(n\ge1\), where
+\(r_j:=\dfrac{c_j}{\prod_{l\neq j}(c_j-c_l)}\); explicitly
+\[
+ r_1=\frac{p+\frac12}{\delta(\delta+1)},\quad
+ r_2=-\frac{p-\frac12}{\delta(\delta-1)},\quad
+ r_3=\frac{r+\frac12}{\delta(\delta-1)},\quad
+ r_4=-\frac{r-\frac12}{\delta(\delta+1)} .
+\]}
+\lby{the Heaviside cover-up formula for a rational function with numerator degree \(1<4\) and four
+simple poles ($\langle2\rangle1$), evaluated with the differences listed in $\langle3\rangle2$;
+e.g.\ \(r_1=\frac{c_1}{(c_1-c_2)(c_1-c_3)(c_1-c_4)}=\frac{p+\frac12}{1\cdot\delta\cdot(\delta+1)}\)}
+\lstep{2}{3}{\(r_1+r_2=-\Lambda\) and \(r_3+r_4=+\Lambda\), where
+\(\Lambda:=\dfrac{p+r}{\delta(\delta^2-1)}\); consequently \(\sum_{j}r_j=0\).}
+\lproof
+\lstep{3}{1}{\(r_1+r_2=\frac1\delta\cdot\frac{(p+\frac12)(\delta-1)-(p-\frac12)(\delta+1)}{\delta^2-1}
+=\frac{\delta-2p}{\delta(\delta^2-1)}\).}
+\lby{common denominator \(\delta(\delta+1)(\delta-1)\) and the expansion
+\((p+\frac12)(\delta-1)-(p-\frac12)(\delta+1)=(p\delta-p+\frac\delta2-\frac12)
+-(p\delta+p-\frac\delta2-\frac12)=\delta-2p\)}
+\lstep{3}{2}{\(\delta-2p=(p-r)-2p=-(p+r)\), so \(r_1+r_2=-\Lambda\).}
+\lby{$\langle3\rangle1$ and \(\delta=p-r\)}
+\lstep{3}{3}{\(r_3+r_4=\frac1\delta\cdot\frac{(r+\frac12)(\delta+1)-(r-\frac12)(\delta-1)}{\delta^2-1}
+=\frac{2r+\delta}{\delta(\delta^2-1)}=\frac{p+r}{\delta(\delta^2-1)}=\Lambda\).}
+\lby{the same computation with \((p,\delta)\) replaced by \((r,-\delta)\) in the numerator, i.e.\
+\((r+\frac12)(\delta+1)-(r-\frac12)(\delta-1)=2r+\delta\), and \(2r+\delta=2r+p-r=p+r\)}
+\lqed{3}{4}
+\lby{$\langle3\rangle2$, $\langle3\rangle3$}
+\lstep{2}{4}{\(\dfrac{r_2}{\frac12-p}=\dfrac1{\delta(\delta-1)}\),
+\(\dfrac{r_4}{\frac12-r}=\dfrac1{\delta(\delta+1)}\), and
+\(\dfrac1{\delta(\delta-1)}+\dfrac1{\delta(\delta+1)}=\dfrac2{\delta^2-1}\).}
+\lby{$\langle2\rangle2$ (\(r_2=\frac{\frac12-p}{\delta(\delta-1)}\),
+\(r_4=\frac{\frac12-r}{\delta(\delta+1)}\)), \(\frac12-p=\frac12-i\alpha\neq0\) and
+\(\frac12-r\neq0\) since \(\alpha,\beta\) are real, and
+\((\delta+1)+(\delta-1)=2\delta\)}
+\lstep{2}{5}{For \(c\in\mathbb C\setminus\{1,2,3,\dots\}\):
+\(\displaystyle\sum_{n\ge1}\Bigl[\frac1{n-c}-\frac1n\Bigr]=-\gamma-\psi(1-c)\).}
+\lby{the Gauss series \(\psi(1+z)=-\gamma+\sum_{n\ge1}\bigl(\frac1n-\frac1{n+z}\bigr)\)
+(DLMF~5.7.6, see the cited box in \S\ref{sec:cited}) with \(z=-c\); the hypothesis on \(c\)
+guarantees \(n-c\neq0\) for all \(n\ge1\) and \(1-c\notin\{0,-1,-2,\dots\}\)}
+\lstep{2}{6}{\(J=-\sum_{j=1}^4r_j\,\psi(1-c_j)\).}
+\lproof
+\lstep{3}{1}{For each \(n\ge1\):
+\(\frac{n}{\prod_j(n-c_j)}=\sum_jr_j\bigl[\frac1{n-c_j}-\frac1n\bigr]\).}
+\lby{$\langle2\rangle2$ and $\langle2\rangle3$ (\(\sum_jr_j=0\), so subtracting \(\frac1n\sum_jr_j=0\)
+changes nothing)}
+\lstep{3}{2}{\(\sum_{n=1}^N\frac{n}{\prod_j(n-c_j)}
+=\sum_{j=1}^4r_j\sum_{n=1}^N\bigl[\frac1{n-c_j}-\frac1n\bigr]\) for every finite \(N\), and both
+sides converge as \(N\to\infty\).}
+\lby{$\langle3\rangle1$ and interchange of two \emph{finite} sums; the left side converges by
+$\langle1\rangle3$ and $\langle2\rangle1$, each inner sum on the right by $\langle2\rangle5$
+(applicable: \(\operatorname{Re}c_j=\pm\frac12\notin\{1,2,\dots\}\))}
+\lstep{3}{3}{Hence \(J=\sum_jr_j\bigl[-\gamma-\psi(1-c_j)\bigr]=-\sum_jr_j\psi(1-c_j)\).}
+\lby{$\langle3\rangle2$, $\langle2\rangle5$, $\langle1\rangle3$, and \(\sum_jr_j=0\)
+($\langle2\rangle3$), which kills the \(-\gamma\)}
+\lqed{3}{4}
+\lby{$\langle3\rangle3$}
+\lstep{2}{7}{\(\psi(1-c_1)=\psi(\frac12-p)\), \(\psi(1-c_3)=\psi(\frac12-r)\),
+\(\psi(1-c_2)=\psi(\frac32-p)=\psi(\frac12-p)+\frac1{\frac12-p}\),
+\(\psi(1-c_4)=\psi(\frac12-r)+\frac1{\frac12-r}\).}
+\lby{\(1-c_1=\frac12-p\), \(1-c_2=\frac32-p\), \(1-c_3=\frac12-r\), \(1-c_4=\frac32-r\) from
+$\langle2\rangle1$, and the recurrence \(\psi(z+1)=\psi(z)+1/z\) (DLMF~5.5.2) with
+\(z=\frac12-p\) resp.\ \(z=\frac12-r\), both \(\neq0\)}
+\lstep{2}{8}{\(J=\Lambda\bigl[\psi(\frac12-p)-\psi(\frac12-r)\bigr]-\frac2{\delta^2-1}\).}
+\lby{$\langle2\rangle6$, $\langle2\rangle7$: \(J=-\bigl[(r_1+r_2)\psi(\frac12-p)
++(r_3+r_4)\psi(\frac12-r)+\frac{r_2}{\frac12-p}+\frac{r_4}{\frac12-r}\bigr]\), then
+$\langle2\rangle3$ and $\langle2\rangle4$}
+\lstep{2}{9}{\(p+r=i\sigma\), \(\delta=ik\), \(\delta^2-1=-(k^2+1)\), hence
+\(\Lambda=-\frac{\sigma}{k(k^2+1)}\) and \(-\frac2{\delta^2-1}=\frac2{k^2+1}\).}
+\lby{\eqref{eq:vars} and \(\frac{i\sigma}{ik\cdot(-(k^2+1))}=-\frac\sigma{k(k^2+1)}\)}
+\lqed{2}{10}
+\lby{$\langle2\rangle8$, $\langle2\rangle9$}
+
+% ---------------------------------------------------------------- step 5
+\lstep{1}{5}{\lassume \(\kappa\neq\kappa'\). \lprove
+\begin{equation}\label{eq:ImJ}
+ \operatorname{Im}J(\kappa,\kappa')=-\frac{\pi\,\sigma}{k(k^2+1)}\,(q_\kappa-q_{\kappa'}).
+\end{equation}}
+\lproof
+\lstep{2}{1}{\(\operatorname{Im}\psi\bigl(\tfrac12-ix\bigr)=-\tfrac\pi2\tanh(\pi x)\) for
+\(x\in\mathbb R\).}
+\lproof
+\lstep{3}{1}{\(\overline{\psi(\frac12-ix)}=\psi(\frac12+ix)\), hence
+\(\operatorname{Im}\psi(\frac12-ix)=\frac1{2i}\bigl[\psi(\frac12-ix)-\psi(\frac12+ix)\bigr]\).}
+\lby{\(\psi\) is holomorphic on \(\mathbb C\setminus\{0,-1,-2,\dots\}\) and real on \((0,\infty)\),
+so \(\overline{\psi(\bar z)}=\psi(z)\) by the Schwarz reflection principle; here
+\(\overline{\frac12-ix}=\frac12+ix\) and \(\frac12\pm ix\) lies in the right half plane}
+\lstep{3}{2}{\(\psi(\frac12+ix)-\psi(\frac12-ix)=\pi\tan(i\pi x)=i\pi\tanh(\pi x)\).}
+\lby{the reflection formula \(\psi(1-z)-\psi(z)=\pi\cot(\pi z)\) (DLMF~5.5.4, see
+\S\ref{sec:cited}) at \(z=\frac12-ix\), where \(1-z=\frac12+ix\) and
+\(\cot(\pi(\frac12-ix))=\tan(i\pi x)\); then \(\tan(iy)=i\tanh y\)}
+\lqed{3}{3}
+\lby{$\langle3\rangle1$, $\langle3\rangle2$: \(\operatorname{Im}\psi(\frac12-ix)
+=\frac1{2i}\bigl(-i\pi\tanh\pi x\bigr)=-\frac\pi2\tanh\pi x\)}
+\lstep{2}{2}{\(\tanh(\pi\alpha)=\tanh\frac\kappa2=1-2q_\kappa\), hence
+\(\tanh\pi\alpha-\tanh\pi\beta=-2\,(q_\kappa-q_{\kappa'})\).}
+\lby{\(\pi\alpha=\frac\kappa2\) by \eqref{eq:vars}, and
+\(1-2q_\kappa=\frac{1+e^\kappa-2}{1+e^\kappa}=\frac{e^{\kappa/2}-e^{-\kappa/2}}
+{e^{\kappa/2}+e^{-\kappa/2}}=\tanh\frac\kappa2\) with \(q_\kappa=(1+e^\kappa)^{-1}\)}
+\lstep{2}{3}{\(\operatorname{Im}J=-\frac{\sigma}{k(k^2+1)}\bigl[\operatorname{Im}\psi(\frac12-i\alpha)
+-\operatorname{Im}\psi(\frac12-i\beta)\bigr]
+=\frac{\pi\sigma}{2k(k^2+1)}\bigl[\tanh\pi\alpha-\tanh\pi\beta\bigr]\).}
+\lby{$\langle1\rangle4$ (second form in \eqref{eq:Jclosed}), in which the coefficient
+\(-\frac{\sigma}{k(k^2+1)}\) and the additive term \(\frac2{k^2+1}\) are \emph{real} because
+\(\sigma,k\in\mathbb R\) and \(k\neq0\); then $\langle2\rangle1$}
+\lqed{2}{4}
+\lby{$\langle2\rangle3$, $\langle2\rangle2$}
+
+% ---------------------------------------------------------------- step 6
+\lstep{1}{6}{Theorem~\ref{thm:main} holds for \(\kappa\neq\kappa'\).}
+\lproof
+\lstep{2}{1}{\(J(\kappa',\kappa)=J(\kappa,\kappa')\).}
+\lby{$\langle1\rangle3$: the series \(4\sum_nnE_n(\alpha)E_n(\beta)\) is symmetric under
+\(\alpha\leftrightarrow\beta\), and interchanging \(\kappa,\kappa'\) interchanges \(\alpha,\beta\)}
+\lstep{2}{2}{\(D^{(1)}(\kappa,\kappa')=\frac1{(2\pi)^2}\cdot2\operatorname{Re}\frac{iJ}{2\pi}
+=-\frac{\operatorname{Im}J(\kappa,\kappa')}{\pi(2\pi)^2}\in\mathbb R\).}
+\lby{\eqref{eq:split}, $\langle2\rangle1$, \(w+\bar w=2\operatorname{Re}w\), and
+\(\operatorname{Re}(iJ)=-\operatorname{Im}J\)}
+\lstep{2}{3}{\(D^{(1)}(\kappa,\kappa')=\dfrac{\sigma\,(q_\kappa-q_{\kappa'})}{(2\pi)^2\,k(k^2+1)}\).}
+\lby{$\langle2\rangle2$ and \eqref{eq:ImJ}}
+\lstep{2}{4}{\(i\,\gfr(\kappa,\kappa')=\dfrac{\sigma}{(2\pi)^2k(k^2+1)}\).}
+\lby{\eqref{eq:ghat}: \(i\gh(k)=i\cdot\frac{-2i}{k(k^2+1)}=\frac2{k(k^2+1)}\), and
+\(\frac{\kappa+\kappa'}{4\pi}=\frac{2\pi\sigma}{4\pi}=\frac\sigma2\), so
+\(i\gfr=\frac1{(2\pi)^2}\cdot\frac2{k(k^2+1)}\cdot\frac\sigma2\)}
+\lstep{2}{5}{Hence \(D^{(1)}(\kappa,\kappa')=i(q_\kappa-q_{\kappa'})\gfr(\kappa,\kappa')\), the first
+equality of \eqref{eq:main}.}
+\lby{$\langle2\rangle3$, $\langle2\rangle4$}
+\lstep{2}{6}{\(\dfrac{\sigma}{(2\pi)^2k(k^2+1)}=\dfrac{v}{u(u^2+4\pi^2)}\), giving the second
+equality of \eqref{eq:main}.}
+\lby{\(k=\frac u{2\pi}\), \(\sigma=\frac v{2\pi}\), so
+\(k(k^2+1)=\frac{u(u^2+4\pi^2)}{8\pi^3}\) and
+\(\frac{v/2\pi}{(2\pi)^2}\cdot\frac{8\pi^3}{u(u^2+4\pi^2)}=\frac v{u(u^2+4\pi^2)}\)}
+\lstep{2}{7}{\(q_\kappa-q_{\kappa'}=\dfrac{-2e^{v/2}\sinh\frac u2}{(1+e^\kappa)(1+e^{\kappa'})}
+=\dfrac{-\sinh\frac u2}{\cosh\frac v2+\cosh\frac u2}\), giving the third equality of
+\eqref{eq:main}.}
+\lby{\(q_\kappa-q_{\kappa'}=\frac{e^{\kappa'}-e^{\kappa}}{(1+e^\kappa)(1+e^{\kappa'})}\) and
+\(e^{\kappa'}-e^{\kappa}=e^{v/2}(e^{-u/2}-e^{u/2})=-2e^{v/2}\sinh\frac u2\); and
+\((1+e^\kappa)(1+e^{\kappa'})=4e^{v/2}\cosh\frac\kappa2\cosh\frac{\kappa'}2
+=2e^{v/2}\bigl(\cosh\frac v2+\cosh\frac u2\bigr)\) by
+\(2\cosh X\cosh Y=\cosh(X+Y)+\cosh(X-Y)\)}
+\lqed{2}{8}
+\lby{$\langle2\rangle5$--$\langle2\rangle7$}
+
+% ---------------------------------------------------------------- step 7
+\lstep{1}{7}{Theorem~\ref{thm:main} holds on the diagonal \(\kappa=\kappa'\), with the value
+\eqref{eq:diag}.}
+\lproof
+\lstep{2}{1}{\((\kappa,\kappa')\mapsto D^{(1)}(\kappa,\kappa')\) is continuous on \(\mathbb R^2\).}
+\lby{\eqref{eq:matrixelt}: the integrand is continuous in \((\kappa,\kappa')\) for each fixed
+\((\xi,\xi')\) off the null set \(\{\xi\xi'=0\}\), and is dominated in modulus, \emph{uniformly in}
+\((\kappa,\kappa')\), by the fixed \(L^1\) function of $\langle1\rangle2$, $\langle2\rangle1$;
+dominated convergence along arbitrary sequences \((\kappa_m,\kappa_m')\to(\kappa,\kappa')\)}
+\lstep{2}{2}{\(F(\kappa,\kappa'):=\dfrac{(q_\kappa-q_{\kappa'})\,v}{u(u^2+4\pi^2)}
+=\dfrac{q_\kappa-q_{\kappa'}}{\kappa-\kappa'}\cdot\dfrac{\kappa+\kappa'}{(\kappa-\kappa')^2+4\pi^2}\)
+extends real-analytically to all of \(\mathbb R^2\), with
+\(F(\kappa,\kappa)=q'(\kappa)\frac{\kappa}{2\pi^2}=-\frac{\kappa}{8\pi^2\cosh^2\frac\kappa2}\).}
+\lproof
+\lstep{3}{1}{\(q(z)=(1+e^z)^{-1}\) is holomorphic on the strip \(|\operatorname{Im}z|<\pi\), so its
+divided difference \(\frac{q(\kappa)-q(\kappa')}{\kappa-\kappa'}=\int_0^1q'(\kappa'+t(\kappa-\kappa'))
+\,dt\) is real-analytic on \(\mathbb R^2\) and equals \(q'(\kappa)\) when \(\kappa=\kappa'\).}
+\lby{the Hadamard integral formula for the divided difference of a \(C^1\) (here analytic) function,
+obtained from the fundamental theorem of calculus}
+\lstep{3}{2}{\(\frac{\kappa+\kappa'}{(\kappa-\kappa')^2+4\pi^2}\) is a rational function with
+nowhere-vanishing denominator, hence real-analytic, with value \(\frac{2\kappa}{4\pi^2}
+=\frac\kappa{2\pi^2}\) on the diagonal.}
+\lby{\((\kappa-\kappa')^2+4\pi^2\ge4\pi^2>0\)}
+\lstep{3}{3}{\(q'(\kappa)=-\frac{e^\kappa}{(1+e^\kappa)^2}=-q_\kappa(1-q_\kappa)
+=-\frac1{4\cosh^2\frac\kappa2}\).}
+\lby{differentiation, and \((1+e^\kappa)^2e^{-\kappa}=(e^{\kappa/2}+e^{-\kappa/2})^2
+=4\cosh^2\frac\kappa2\)}
+\lqed{3}{4}
+\lby{$\langle3\rangle1$--$\langle3\rangle3$}
+\lstep{2}{3}{\(D^{(1)}=F\) on \(\{\kappa\neq\kappa'\}\), which is dense in \(\mathbb R^2\); both
+are continuous on \(\mathbb R^2\); hence \(D^{(1)}=F\) everywhere, and in particular
+\eqref{eq:diag} holds.}
+\lby{$\langle1\rangle6$, $\langle2\rangle1$, $\langle2\rangle2$, and the fact that two continuous
+functions agreeing on a dense set agree}
+\lstep{2}{4}{(Independent confirmation, not used.) \(J(\kappa,\kappa)=2+2i\alpha\,
+\psi'(\frac12-i\alpha)\) and \(\operatorname{Re}\psi'(\frac12-ix)=\frac{\pi^2}{2\cosh^2\pi x}\),
+whence \(\operatorname{Im}J(\kappa,\kappa)=\frac{\pi^2\alpha}{\cosh^2\pi\alpha}\) and
+\(D^{(1)}(\kappa,\kappa)=-\frac{\operatorname{Im}J}{\pi(2\pi)^2}
+=-\frac{\kappa}{8\pi^2\cosh^2\frac\kappa2}\), the same value.}
+\lby{$\langle1\rangle3$ at \(\beta=\alpha\) together with the \(\beta\to\alpha\) limit of
+\eqref{eq:Jclosed} (Taylor: \(\psi(\frac12-i\alpha)-\psi(\frac12-i\beta)=-ik\psi'(\frac12-i\alpha)
++O(k^2)\)); the derivative of DLMF~5.5.4 in the form
+\(\psi'(\frac12+z)+\psi'(\frac12-z)=\pi^2\sec^2\pi z\) at \(z=ix\), whose left side is
+\(2\operatorname{Re}\psi'(\frac12-ix)\) by $\langle1\rangle5$, $\langle3\rangle1$; and
+$\langle1\rangle6$, $\langle2\rangle2$}
+\lqed{2}{5}
+\lby{$\langle2\rangle3$}
+
+\lqed{1}{8}
+\lby{$\langle1\rangle6$ (off-diagonal) and $\langle1\rangle7$ (diagonal), the absolute convergence
+and reality being $\langle1\rangle2$ and $\langle1\rangle6$, $\langle2\rangle2$}
+
+\begin{verdictok}
+Lemma~5.1(ii) of \texttt{universality\_normalization.tex}, i.e.\ eq.~(21)
+\(D^{(1)}(\kappa,\kappa')=i(q_\kappa-q_{\kappa'})\gfr(\kappa,\kappa')\), is \textbf{proved as
+stated}, for all real \(\kappa,\kappa'\), with no change of constants, signs or normalizations.  The
+proof above is complete and elementary: absolute convergence \(\langle1\rangle1\)--%
+\(\langle1\rangle2\); one interchange of sum and integral, justified by Tonelli on nonnegative terms
+\(\langle1\rangle3\); one Heaviside partial fraction and the Gauss series for \(\psi\)
+\(\langle1\rangle4\); the reflection formula \(\langle1\rangle5\); and a density/continuity argument
+for the diagonal \(\langle1\rangle7\).  No contour shift, no analytic continuation, and no
+regularization is used anywhere; the analytic continuation \eqref{eq:ghat} that the note's general
+route needs is thereby \emph{derived}, not assumed (see Remark~\ref{rem:continuation}).
+\end{verdictok}
+
+\section{Consequences and remarks on the note's text}\label{sec:remarks}
+
+\begin{remark}[The analytic continuation \eqref{eq:ghat} is derived, not assumed]\label{rem:continuation}
+The note's part~(ii) argues formally:
+\(\langle\psih_\kappa,\gfr\psih_{\kappa'}\rangle
+=\frac1{(2\pi)^2}\int_0^\infty e^{-i(\kappa-\kappa')\xi/2\pi}\bigl[\frac{i\kappa'}{2\pi}\gt
++\frac12\gt'\bigr]d\xi=i\gfr(\kappa,\kappa')\),
+"provided the divergent integral \(\int_0^\infty e^{-ik\xi}\gt\) is interpreted as (8)".  Two
+things are worth recording.
+\emph{(a) The prescription is self-consistent.}  With \(\gt(\xi)=-4\sinh^2\frac\xi2\) one has
+\(\gt(0)=0\), and for \(\operatorname{Re}\eps>1\) the regularized integrals converge absolutely and
+satisfy \(\int_0^\infty e^{-(ik+\eps)\xi}\gt'\,d\xi=-\gt(0)+(ik+\eps)\int_0^\infty
+e^{-(ik+\eps)\xi}\gt\,d\xi=(ik+\eps)\gh_\eps(k)\), the boundary term at \(\xi=\infty\) vanishing
+\emph{only because} \(\operatorname{Re}\eps>1\); continuing in \(\eps\) to \(0\) gives
+\(\widehat{\gt'}=ik\gh\), whence
+\(\frac1{(2\pi)^2}\bigl[\frac{i\kappa'}{2\pi}+\frac{ik}2\bigr]\gh(k)
+=\frac{i\gh(k)}{(2\pi)^2}\cdot\frac{\kappa+\kappa'}{4\pi}=i\gfr(\kappa,\kappa')\), using
+\(k=\frac{\kappa-\kappa'}{2\pi}\).  This is exactly the note's sentence "the boundary contribution
+at \(\xi'\to\infty\) in the integration by parts is what the continuation encodes".
+\emph{(b) It is only a prescription.}  \(\gt(\xi)\sim-e^{\xi}\) as \(\xi\to\infty\), so
+\(\int_0^\infty e^{-ik\xi}\gt\,d\xi\) diverges for every real \(k\); moreover \(\psih_\kappa\notin
+L^2\) and \(\gfr\psih_{\kappa'}\notin L^2\), so \(\langle\psih_\kappa,\gfr\psih_{\kappa'}\rangle\) is
+not an inner product; and the passage from \(Q\gfr+\gfr^*Q\) to \((q_\kappa-q_{\kappa'})\) times a
+single matrix element uses the skew-adjointness \(\gfr^*=-\gfr\) of the half-density Lie derivative,
+which for the cut-off, exponentially growing \(\gt\) is again only formal.  Theorem~\ref{thm:main}
+bypasses all of this: it starts from the \emph{absolutely convergent} integral \eqref{eq:matrixelt}
+and lands on \(i(q_\kappa-q_{\kappa'})\gfr\) with \(\gh(k)=-2i/(k(k^2+1))\).  The continuation
+\eqref{eq:ghat} used in the note's general route (Sections~3--4, eqs.~(15), (16),
+(17)) is therefore \emph{validated}, which is precisely the role the note assigns to
+Section~5.
+\end{remark}
+
+\begin{remark}[Coherence of the \(Q\)-conventions]\label{rem:Q}
+Although not needed above, the note's off-diagonal thermal kernel
+\(\widetilde Q(u)=-\frac i{4\pi}\sinh^{-1}\frac u2\) (used in part~(i)) is consistent with
+\(Q\psih_\kappa=q_\kappa\psih_\kappa\): with the diagonal part \(\frac12\delta(u)\),
+\(\int_{\mathbb R}e^{-iku}\bigl[\tfrac12\delta(u)+\widetilde Q(u)\bigr]du
+=\tfrac12-\tfrac12\tanh\pi k=q_{2\pi k}\), using the principal-value transform
+\(\mathrm{p.v.}\!\int e^{-iku}\sinh^{-1}\frac u2\,du=-2\pi i\tanh\pi k\) and
+\(\tanh\frac\kappa2=1-2q_\kappa\).
+\end{remark}
+
+\begin{remark}[The contour route suggested by the note is incomplete as sketched]\label{rem:contour}
+The note ends part~(ii) with: "\emph{An analytic proof evaluates the transform of (10) by
+shifting \(\xi'\to\xi'-i\pi\) in the \(\xi'\)-integral, exactly as in Lemma~3.1}"
+(the note's Lemma~3.1 for \(\Wh\)).  It is \emph{not} exactly as there.  In Lemma~3.1 the contour is
+the full line and the integrand decays at both ends, so the shift costs nothing.  Here the
+\(\xi'\)-contour is the half-line \([0,\infty)\): shifting it to \([-i\pi,\infty-i\pi)\) requires
+the vertical segment \(\{\xi'=-i\tau:0\le\tau\le\pi\}\), whose contribution does \emph{not} vanish
+(\(\sinh\frac{\xi'}2=-i\sin\frac\tau2\neq0\) for \(0<\tau\le\pi\), and \(R\) has no zero there), and
+after the shift \(\sinh^2\frac{\xi-\xi'}2\mapsto-\cosh^2\frac{\xi-\xi'}2\) but the remaining
+\(\xi\)-integral is still over a half-line, so no closed-form Fourier pair is reached in one step.
+The route can presumably be completed, but it is not a one-liner; the series route of
+\S\ref{sec:proof} avoids contours altogether.  This is a gap in the note's \emph{sketch}, not in its
+\emph{statement}.
+\end{remark}
+
+\begin{remark}[A sign slip in the note's "Weights" paragraph]\label{rem:signslip}
+The note displays, just after Lemma~5.1,
+\[
+ \text{"}\;q_\kappa-q_{\kappa'}=\frac{2\sinh\frac u2\,e^{(\kappa+\kappa')/2}}
+ {(1+e^\kappa)(1+e^{\kappa'})}\;\text{"},\qquad u=\kappa-\kappa',\;v=\kappa+\kappa'.
+\]
+The correct value carries a minus sign,
+\(q_\kappa-q_{\kappa'}=\frac{-2\sinh\frac u2\,e^{v/2}}{(1+e^\kappa)(1+e^{\kappa'})}
+=\frac{-\sinh\frac u2}{\cosh\frac v2+\cosh\frac u2}\)
+(step \(\langle1\rangle6\), \(\langle2\rangle7\); check at \(\kappa=1,\kappa'=3\):
+\(q_1-q_3=+0.2215>0\) while \(u=-2\) makes \(\sinh\frac u2<0\)).  The slip is
+\textbf{inconsequential} for the note's conclusions: the first line of its (22) involves
+\((q_\kappa-q_{\kappa'})^2\), and its second line, \((q_\kappa-q_{\kappa'})(\kappa'-\kappa)
+=\frac{u\sinh\frac u2}{\cosh\frac v2+\cosh\frac u2}\), is stated \emph{with} the correct overall
+sign (it is the displayed intermediate expression, not the result, that is wrong).  Recommended fix:
+insert the minus sign.
+\end{remark}
+
+\begin{corollary}[Input to the note's Theorem~A]\label{cor:thmA}
+For all real \(\kappa,\kappa'\),
+\(|D^{(1)}(\kappa,\kappa')|^2=(q_\kappa-q_{\kappa'})^2\,|\gfr(\kappa,\kappa')|^2\) with
+\(|\gfr(\kappa,\kappa')|^2=\frac{|\gh(u/2\pi)|^2v^2}{256\pi^6}\), \(u=\kappa-\kappa'\),
+\(v=\kappa+\kappa'\); equivalently
+\[
+ |D^{(1)}(\kappa,\kappa')|^2
+ =\frac{v^2\sinh^2\frac u2}{u^2(u^2+4\pi^2)^2\bigl(\cosh\frac v2+\cosh\frac u2\bigr)^2}.
+\]
+\end{corollary}
+\begin{proof}
+Take moduli in \eqref{eq:main}; \(q_\kappa-q_{\kappa'}\) and \(i\gfr\) are real
+(\(\langle1\rangle6\), \(\langle2\rangle4\)).  The second form follows from
+\(\langle1\rangle6\), \(\langle2\rangle6\)--\(\langle2\rangle7\).
+\end{proof}
+
+\noindent
+This is exactly the expression inserted into the note's (20); Theorem~A of the note
+therefore no longer depends on an unproved lemma.
+
+\section{Cited results}\label{sec:cited}
+
+Only four external facts are used, all classical.  For each we transcribe the statement, give an
+exact locator, say how it is used, and record a verdict.  \textbf{Screenshots: NOT OBTAINED.}
+Reason: the primary locator is the NIST Digital Library of Mathematical Functions, a web resource;
+there is no corresponding PDF in \texttt{cft\_cmi/refs/}, and the screenshot helper
+\texttt{rigor/snap.py} referred to in \texttt{README\_AGENTS.md} is not present in the repository, so
+no page image could be produced.  To compensate, (i) a second, independent printed locator is given
+for each identity, and (ii) every one of them is verified numerically to \(\ge24\) correct digits by
+\texttt{rigor/p3\_check.py} (checks C4, C5, C8, C10), which is reported in
+Table~\ref{tab:numerics}.
+
+\begin{citedbox}{DLMF 5.7.6 (Gauss/Weierstrass series for \(\psi\))}
+\textbf{(i) Statement} (transcribed): \(\displaystyle\psi(1+z)=-\gamma+\sum_{n=1}^{\infty}
+\frac{z}{n(n+z)}\), \(z\neq-1,-2,-3,\dots\).
+\textbf{(ii) Locator}: NIST DLMF, \S5.7(ii), eq.~5.7.6 (\url{https://dlmf.nist.gov/5.7.E6});
+equivalently E.~T.~Whittaker \& G.~N.~Watson, \emph{A Course of Modern Analysis}, 4th ed.,
+\S12.16 (Gauss' expression), and Abramowitz--Stegun eq.~6.3.16.
+\textbf{(iii) Screenshot}: NOT OBTAINED (see above).
+\textbf{(iv) Use}: step \(\langle1\rangle4\), \(\langle2\rangle5\), in the form
+\(\sum_{n\ge1}[\frac1{n-c}-\frac1n]=-\gamma-\psi(1-c)\) (put \(z=-c\) and use
+\(\frac{z}{n(n+z)}=\frac1n-\frac1{n+z}\)); it converts the partial-fraction series for \(J\) into
+digammas.
+\textbf{(v) Verdict}: hypotheses satisfied --- the four values \(c=c_j\) have
+\(\operatorname{Re}c_j=\pm\frac12\), so \(-c\notin\{-1,-2,\dots\}\) and \(n-c\neq0\) for all
+\(n\ge1\).  Verified numerically to \(30\) digits (check C8).
+\end{citedbox}
+
+\begin{citedbox}{DLMF 5.5.2 (recurrence) and DLMF 5.5.4 (reflection)}
+\textbf{(i) Statements} (transcribed): \(\psi(z+1)=\psi(z)+\dfrac1z\) (5.5.2);
+\(\psi(1-z)-\psi(z)=\pi\cot(\pi z)\) (5.5.4).
+\textbf{(ii) Locator}: NIST DLMF \S5.5(i)--(ii), eqs.~5.5.2 and 5.5.4
+(\url{https://dlmf.nist.gov/5.5}); equivalently Whittaker \& Watson, 4th ed., \S12.12--\S12.14, and
+Abramowitz--Stegun 6.3.5 and 6.3.7.
+\textbf{(iii) Screenshot}: NOT OBTAINED (see above).
+\textbf{(iv) Use}: 5.5.2 in \(\langle1\rangle4\), \(\langle2\rangle7\) (to reduce
+\(\psi(\frac32-p)\) to \(\psi(\frac12-p)\)); 5.5.4 in \(\langle1\rangle5\), \(\langle2\rangle1\)
+(with \(z=\frac12-ix\), giving \(\operatorname{Im}\psi(\frac12-ix)=-\frac\pi2\tanh\pi x\)) and, once
+differentiated, in \(\langle1\rangle7\), \(\langle2\rangle4\)
+(\(\psi'(\frac12+z)+\psi'(\frac12-z)=\pi^2\sec^2\pi z\)).
+\textbf{(v) Verdict}: hypotheses satisfied --- the arguments \(\frac12\pm ix\), \(\frac32-p\) avoid
+the poles \(\{0,-1,-2,\dots\}\); differentiation of 5.5.4 is legitimate on the domain of holomorphy.
+Both verified numerically to \(30\) digits (check C10).
+\end{citedbox}
+
+\begin{citedbox}{Tonelli's and Fubini's theorems}
+\textbf{(i) Statement} (faithful paraphrase): for \(\sigma\)-finite measure spaces and a
+nonnegative measurable \(f\), the iterated and product integrals of \(f\) agree (Tonelli); if
+\(\int|f|<\infty\) with respect to the product measure, the same holds for \(f\) and the order of
+integration may be interchanged (Fubini).
+\textbf{(ii) Locator}: W.~Rudin, \emph{Real and Complex Analysis}, 3rd ed., Theorem~8.8
+(a)--(c), p.~164.
+\textbf{(iii) Screenshot}: NOT OBTAINED (textbook not in \texttt{refs/}).
+\textbf{(iv) Use}: \(\langle1\rangle2\), \(\langle2\rangle2\) and \(\langle2\rangle4\) (splitting
+\eqref{eq:matrixelt} into blocks, conjugating one of them); \(\langle1\rangle3\),
+\(\langle2\rangle3\)--\(\langle2\rangle4\) (interchanging \(\sum_{n\ge1}\) with
+\(\iint_{(0,\infty)^2}\) --- counting measure \(\times\) Lebesgue measure is \(\sigma\)-finite and
+the summands \(u_n\ge0\), so Tonelli applies to \(|{\cdot}|\) and Fubini then to the oscillatory
+integrand; and factoring the \((a,b)\)-integral for fixed \(n\)).
+\textbf{(v) Verdict}: hypotheses satisfied; the required finiteness is \eqref{eq:bound},
+\(\iint\rho\le4\log2\), proved in \(\langle1\rangle1\).
+\end{citedbox}
+
+\begin{citedbox}{Elementary identities used without further citation}
+\(\sinh X\sinh Y=\frac12[\cosh(X+Y)-\cosh(X-Y)]\);
+\(2\cosh X\cosh Y=\cosh(X+Y)+\cosh(X-Y)\);
+\(\cosh t-1=2\sinh^2\frac t2\); \(\sinh t=2\sinh\frac t2\cosh\frac t2\);
+\(\sum_{n\ge1}nx^n=x(1-x)^{-2}\) for \(|x|<1\);
+\(\int_0^\infty e^{-za}da=z^{-1}\) for \(\operatorname{Re}z>0\);
+\(\int_0^\infty y\operatorname{sech}^2y\,dy=\log2\) (proved in \(\langle1\rangle1\),
+\(\langle3\rangle2\));
+\(\mathrm{p.v.}\int_{\mathbb R}\sin(bx)/\sinh(ax)\,dx=\frac\pi a\tanh\frac{\pi b}{2a}\)
+(Remark~\ref{rem:Q} only, not used in the proof; Gradshteyn--Ryzhik 3.981.1).
+\end{citedbox}
+
+\section{Numerical verification}\label{sec:numerics}
+
+The script \texttt{rigor/p3\_check.py} (mpmath, \texttt{mp.dps = 30}) verifies every intermediate
+closed form of \S\ref{sec:proof} independently.  Its tolerance is \(10^{-24}\); all checks pass.
+Run \texttt{python p3\_check.py} (about one minute; \texttt{--fast} skips the slow literal
+two-dimensional quadrature).  The four points \((\kappa,\kappa')=(1,3),(2.5,-1),(4,4.5),(-3,0.7)\)
+are those already used in \texttt{numerics/verify\_normalization.py}, extended by \((6,-5)\),
+\((0.4,-0.4)\) (where \(\kappa+\kappa'=0\) and both sides vanish), \((0.05,0.03)\) (near the
+diagonal), and the diagonal points \(\kappa=\kappa'\in\{1,2.5,-3,0\}\).
+
+\begin{table}[h]\centering\footnotesize
+\begin{tabular}{llll}\toprule
+Check & Step & Content & Result\\\midrule
+C1 & \(\langle1\rangle1\) & \(R(-a,b)=\rho(a,b)>0\), four \((a,b)\) & exact \\
+C2 & \(\langle1\rangle1\) & \(\rho=(\cosh s-\cosh d)/(2\sinh^2s)\) & \(<10^{-29}\) \\
+C3 & \(\langle1\rangle1\) & bound \eqref{eq:bound} on \(1521\) grid points; \(\iint\)-bound \(=4\log2\) & exact / \(30\) digits \\
+C4 & \(\langle1\rangle3\), \(\langle2\rangle1\) & \(\sinh^{-2}s=4\sum n e^{-2ns}\), three \(s\) & \(30\) digits \\
+C5 & \(\langle1\rangle3\), \(\langle2\rangle5\) & \(E_n(x)\) closed form vs.\ quadrature, \(n\le12\) & \(\ge26\) digits \\
+C6 & \(\langle1\rangle2\) & exact \((s,d)\) reduction: inner \(d\)-integral in closed form & \(30\) digits \\
+C7 & \(\langle1\rangle4\) & residues \(r_j\); \(\sum_jr_j=0\); \(r_1+r_2=-\Lambda\); Heaviside expansion & \(30\) digits \\
+C8 & \(\langle1\rangle4\), \(\langle2\rangle5\) & \(\sum_{n\ge1}[\frac1{n-c}-\frac1n]=-\gamma-\psi(1-c)\), three \(c\) & \(30\) digits \\
+C9 & \(\langle1\rangle4\) & \(J\): series \(=\) 1-D integral \(=\) digamma closed form; symmetry & \(30\) digits \\
+C10 & \(\langle1\rangle5\) & \(\operatorname{Im}\psi(\frac12-ix)\), \(\operatorname{Re}\psi'(\frac12-ix)\) & \(30\) digits \\
+C11 & \(\langle1\rangle5\) & \(\operatorname{Im}J\) formula \eqref{eq:ImJ}, seven \((\kappa,\kappa')\) & \(30\) digits \\
+C12 & \(\langle1\rangle6\) & \textbf{identity \eqref{eq:main}}, all three forms, seven points; \(D^{(1)}\in\mathbb R\) & \(30\) digits \\
+C13 & \(\langle1\rangle7\) & diagonal value \eqref{eq:diag}; continuity of the right-hand side & \(30\) digits \\
+C14 & \(\langle1\rangle1\)--\(\langle1\rangle2\) & literal 2-D quadrature of \eqref{eq:matrixelt} in \((\xi,\xi')\) & rel.\ err.\ \(3\cdot10^{-13}\) \\
+\bottomrule
+\end{tabular}
+\caption{Output of \texttt{rigor/p3\_check.py}; "exact" means agreement to the last bit.  C14 is the
+only low-precision item: it is a two-dimensional oscillatory quadrature with a direction-dependent
+limit of the integrand at the corner \((\xi,\xi')=(0,0)\), and is included solely to confirm that
+the conventions of \S\ref{sec:conv} reproduce \texttt{D1\_kernel\_FT} of
+\texttt{numerics/verify\_normalization.py}.}
+\label{tab:numerics}
+\end{table}
+
+Sample values (all real, as \(\langle1\rangle6\), \(\langle2\rangle2\) predicts):
+\[
+ D^{(1)}(1,3)=-0.010189678484077,\quad
+ D^{(1)}(2.5,-1)=-0.0054283541588303,
+\]
+\[
+ D^{(1)}(4,4.5)=-0.0029950235073652,\quad
+ D^{(1)}(-3,0.7)=+0.0072576735528016,
+\]
+\[
+ D^{(1)}(1,1)=-0.0099604768971176,\qquad D^{(1)}(0.4,-0.4)=0 .
+\]
+
+\section{Summary}
+
+\begin{verdictok}
+\textbf{Item (c) of Note~7 is discharged.}  Lemma~5.1(ii) of
+\texttt{universality\_normalization.tex} is proved analytically, for all real \(\kappa,\kappa'\)
+including the diagonal, exactly as stated: no constant, sign or normalization in
+the note's eq.~(21) needs changing, and the correspondence between the note's (10)
+and the kernel \(R\) of \texttt{verify\_normalization.py} is consistent
+(Remark~\ref{rem:consistency}).  As a by-product the proof \emph{derives} the analytic continuation
+the note's (8) that its general route postulates (Remark~\ref{rem:continuation}), and yields the
+fully explicit closed forms of Theorem~\ref{thm:main}, hence Corollary~\ref{cor:thmA}, which is the exact input
+of the note's Theorem~A.
+\end{verdictok}
+
+\begin{verdictgap}
+Two blemishes in the note's \emph{text} (neither affects any stated result).
+(1) The last sentence of the proof of Lemma~5.1 proposes to obtain the analytic proof by shifting
+\(\xi'\to\xi'-i\pi\) "exactly as in Lemma~3.1"; on a half-line contour this shift leaves an extra
+vertical-segment contribution and does not close in one step (Remark~\ref{rem:contour}).  The route
+given here replaces it.
+(2) In the "Weights" paragraph the displayed formula for \(q_\kappa-q_{\kappa'}\) is missing a minus
+sign (Remark~\ref{rem:signslip}); only that intermediate display is affected --- both lines of
+(22) and Theorem~A are correct as printed.
+\end{verdictgap}
+
+
+\section*{Orchestrator's note (2026-09-05, after the referee report V8)}
+\begin{verdictok}
+\textbf{Referee verdict (V8, \texttt{referee\_kernel\_identity.tex}).} Theorem~3.1 and its proof are correct; no gap.  The referee evaluated \(D^{(1)}\) independently from the defining double integral of Note~7 (polar chart removing the corner discontinuity) and found agreement with the closed form to \(2.8\times10^{-22}\) relative at random points; the single interchange (Tonelli, majorant \(\iint\rho\le4\log2\)) is correct and no principal value or regularization is involved; all residues, the Gauss/digamma summation, the reflection formula and the diagonal limit were re-derived.  The vanishing of the \(D\times D\) block, asserted in Note~7 without computation, is proved in the referee report.
+
+\textbf{Stale remarks.} Remarks~\ref{rem:contour} and \ref{rem:signslip} and the closing \emph{verdictgap} refer to the text of Note~7 \emph{before} the errata of 2026-09-05: the contour-shift remark of Note~7 was replaced by a pointer to this document, and the sign in the ``Weights'' paragraph was corrected (\texttt{errata\_log.md}).  Remark~\ref{rem:Q} (\(Q\psi_\kappa=q_\kappa\psi_\kappa\)) is load-bearing for the sign of the identity, which is odd under \(\kappa\to-\kappa\); Note~7 uses only \(|D^{(1)}|^2\).
+\end{verdictok}
+
+\subsection*{Screenshots for the cited identities (added by the orchestrator)}
+The three digamma identities cited in Section~\ref{sec:cited} from the DLMF are classical; the public-domain Abramowitz--Stegun scans (pages 258--259, \url{https://personal.math.ubc.ca/~cbm/aands/}) show them as 6.3.5 (recurrence), 6.3.7 (reflection, in the form \(\psi(1-z)=\psi(z)+\pi\cot\pi z\)) and 6.3.16 (Gauss series \(\psi(1+z)=-\gamma+\sum_{n\ge1}\frac{z}{n(n+z)}\), equivalent to DLMF~5.7.6 after \(\psi(1+z)=\psi(z)+1/z\)).
+\begin{center}
+\includegraphics[width=0.48\textwidth]{shots/P3_AS_page_258.jpg}\hfill
+\includegraphics[width=0.48\textwidth]{shots/P3_AS_page_259.jpg}
+\end{center}
+DLMF pages (screenshots taken 2026-09-05; \S5.7(ii) with eq.~5.7.6, and \S5.5 with eqs.~5.5.2 and 5.5.4):
+\begin{center}
+\includegraphics[width=0.48\textwidth]{shots/P3_DLMF_5.7.E6_light.png}\hfill
+\includegraphics[width=0.48\textwidth]{shots/P3_DLMF_5.5.E2_light.png}
+\end{center}
+
+\end{document}

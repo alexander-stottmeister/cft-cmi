@@ -1,0 +1,237 @@
+% !TeX root = main.tex
+\label{sec:petz}
+Everything in this section is from Note~4 \cite{Note4}.
+
+\subsection{The translation coordinate and the Borchers semigroup}
+On $D=(0,L)$ set $q(x)=(L-x)/x$, a decreasing bijection onto $(0,\infty)$ with
+$q(b)=c/b=:\lambda$, so that $q(B)=(\lambda,\infty)$.  Translation by $s\ge0$ in
+the $q$-coordinate is the fractional-linear map
+\begin{equation}\label{eq:hs}
+ q(h_s(x))=q(x)+s,\qquad
+ h_s(x)=\frac{Lx}{L+sx},\qquad
+ h_s'(x)=\frac{L^2}{(L+sx)^2},\qquad h_s\circ h_t=h_{s+t}.
+\end{equation}
+Thus $D_s:=h_s(D)=\bigl(0,\tfrac L{1+s}\bigr)$ and $D_\lambda=B$.  Let
+$\gamma_s:\cF_r(D)\to\cF_r(D_s)$ be the vacuum-covariant M\"obius homomorphism
+induced by $h_s$.  The inclusion
+$\cF_r(B)=\gamma_\lambda(\cF_r(D))\subset\cF_r(D)$ is half-sided modular with
+common left endpoint $0$ ($+$hsm in Wiesbrock's convention: $U(s)$, $s\ge0$, maps
+$\cF_r(D)$ into itself, $\Delta^{it}U(s)\Delta^{-it}=U(e^{2\pi t}s)$ and
+$JU(s)J=U(-s)$), and $\gamma_s=\operatorname{Ad}U(s)$ on $\cF_r(D)$.
+
+\subsection{The rotated Petz family is geometric}
+For a half-sided modular inclusion $\cB=U(\lambda)\cA U(\lambda)^*\subset\cA$ with
+common cyclic separating vacuum, the standard-form embedding is the identity, so
+the Petz generalized conditional expectation is
+$\alpha_0(x)=J_{\cB}J_{\cA}xJ_{\cA}J_{\cB}$; vacuum covariance gives
+$J_{\cB}=U(\lambda)J_{\cA}U(\lambda)^*$ and $J_{\cA}U(s)J_{\cA}=U(-s)$, hence
+$J_{\cB}=U(2\lambda)J_{\cA}$ and $\alpha_0=\operatorname{Ad}U(2\lambda)$.  In the
+orientation \eqref{eq:hs} this is $\gamma_{2\lambda}$.  For the rotated family of
+\cite[Sec.~4.2]{FHSW} we use the modular-time convention
+\begin{equation}\label{eq:st}
+ \boxed{\;s_t=\lambda\bigl(1+e^{-2\pi t}\bigr),\qquad
+ \alpha^{D\to B}_t=\gamma_{s_t}.\;}
+\end{equation}
+Indeed, with $\alpha_t=\sigma^{\cN}_{-t}\circ\alpha_0\circ\sigma^{\cM}_{t}$,
+$\sigma_t=\operatorname{Ad}\Delta^{it}$, the $+$hsm relation
+$\Delta_{\cM}^{-it}U(s)\Delta_{\cM}^{it}=U(e^{-2\pi t}s)$ and
+$\Delta_{\cN}=U(\lambda)\Delta_{\cM}U(\lambda)^*$ give
+$\Delta_{\cN}^{-it}U(2\lambda)\Delta_{\cM}^{it}
+=U(\lambda)U(e^{-2\pi t}\lambda)=U(s_t)$.  Writing
+$\alpha_t=\sigma^{\cN}_{t}\circ\alpha_0\circ\sigma^{\cM}_{-t}$ replaces $t$ by
+$-t$; since the twirling density $p(t)=\pi/(1+\cosh2\pi t)$ is even, nothing
+depends on the choice.  Since $s_t\ge\lambda$ one has $D_{s_t}\subset B$, so
+$\alpha_t^{D\to B}$ maps $\cF_r(D)$ into $\cF_r(B)$; at $t=0$,
+$s_{\rm P}=2\lambda=2c/b$.
+
+\begin{remark}
+Equation~(167) of \cite{FHSW} as printed is inconsistent with their own (25),
+(166), (22): as printed it maps $\cA$ out of $\cB$, and ``for $t\ge0$'' must read
+$t\le0$.  Nothing here relies on the printed formula; \eqref{eq:st} is derived
+above from the half-sided modular relations.
+\end{remark}
+
+\subsection{One-particle form and the zero-collar glue}
+Let $H_X=L^2(X;\mathbb C^r)$.  The half-density push-forward
+\begin{equation}\label{eq:Vs}
+ (V_sf)(y)=\frac{f(h_s^{-1}(y))}{\sqrt{h_s'(h_s^{-1}(y))}},\qquad y\in D_s,
+\end{equation}
+is an isometry $H_D\to H_{D_s}$ implementing $\gamma_s$ on the one-particle level;
+the corresponding Bogoliubov transformation of the CAR algebra is implementable in
+the sense of Shale--Stinespring/Ruijsenaars \cite{Ruij77} whenever its
+off-diagonal part is Hilbert--Schmidt, which is the criterion used in
+\cref{sec:quadratic}.
+Tensoring with the identity on $H_{A_\eps}$, $A_\eps=(-a,-\eps)$, gives the
+positive-collar Petz maps $\alpha_{\eps,t}$ on
+$\cM_\eps=\cF_r(A_\eps)\vee\cF_r(D)$ (the graded tensor product; the Klein
+transformation converting it into an ordinary tensor product is spelled out in
+\cite{Note4}).  At zero collar one glues,
+\begin{equation}\label{eq:Ws}
+ W_s=1_{H_A}\oplus V_s:H_I\to H_{J_s},\qquad J_s=\Bigl(-a,\frac L{1+s}\Bigr),
+\end{equation}
+and defines the CAR isomorphism $\beta_s$ by $a^\#(f)\mapsto a^\#(W_sf)$.  The
+recovered symbol is $\widetilde Q_s=W_s^*Q_{J_s}W_s$ and the covariance defect
+$\delta_s=Q_I-\widetilde Q_s$ is block off-diagonal in $H_I=H_A\oplus H_D$:
+\begin{equation}\label{eq:defect}
+ \delta_s=\begin{pmatrix}0&\Delta_s\\ \Delta_s^*&0\end{pmatrix},\qquad
+ \Delta_s(-u,v)=\frac i{2\pi}R_s(u,v),\qquad
+ R_s(u,v)=\frac{suv}{(u+v)\bigl(L(u+v)+suv\bigr)} .
+\end{equation}
+
+\begin{theorem}[Exact endpoint trace norm; {\cite[Thm.~6.2]{Note4}}]\label{thm:tracenorm}
+For every $s>0$ the scalar operator $R_s:L^2(0,L)\to L^2(0,a)$ is trace class and
+\begin{equation}\label{eq:Rtrace}
+ \norm{R_s}_1=\tfrac12\log\Bigl(1+\frac{as}{a+L}\Bigr),\qquad
+ \norm{Q_I-\widetilde Q_s}_1=\frac r{2\pi}\log\Bigl(1+\frac{as}{a+L}\Bigr).
+\end{equation}
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+Inversion at the touching endpoint turns $R_s$ into a Hankel operator
+$H_{\alpha,\beta}$ with a positive symbol; $\Tr H_{\alpha,\beta}$ is a Frullani
+integral,
+$\int_0^\infty\rho^{-1}\bigl(e^{-\beta\rho}-e^{-(\beta+\alpha)\rho}\bigr)d\rho
+=\log\frac{\beta+\alpha}\beta$, and $\alpha/\beta=(s/L)/(1/a+1/L)=as/(a+L)$.
+The factor $1/2\pi$ in \eqref{eq:defect}, the direct sum of $r$ components, and
+the fact that a self-adjoint block operator
+$\left(\begin{smallmatrix}0&T\\T^*&0\end{smallmatrix}\right)$ has the singular
+values of $T$ with multiplicity two, give the second identity.  Full proof in
+\cite[Sec.~6]{Note4}.
+\end{proof}
+
+\begin{definition}\label{def:zeta}
+$\displaystyle \zeta:=\frac{as}{a+L}$.  For the ordinary Petz map $s=2c/b$ and
+$\zeta=2z$; for the rotated map $s_t$ one has $\zeta_t=z(1+e^{-2\pi t})$.
+\end{definition}
+
+\begin{theorem}[Normal zero-collar map; {\cite[Thm.~7.1]{Note4}}]\label{thm:normal}
+For every $s\ge\lambda$ the $C^*$-isomorphism $\beta_s$ extends uniquely to a
+normal, parity-preserving $*$-isomorphism onto its range,
+\begin{equation}\label{eq:betabar}
+ \overline\beta_s:\cF_r(I)\longrightarrow\cF_r(J_s)\subset\cF_r(AB),
+\end{equation}
+and for $s=s_t$ its restriction to every positive-collar algebra is the rotated
+Petz map, $\overline\beta_{s_t}|_{\cM_\eps}=\alpha_{\eps,t}$.
+\end{theorem}
+
+\begin{proof}
+By \cref{thm:tracenorm}, $Q_I-\widetilde Q_s\in\Sone$.  The Powers--St\o rmer
+inequality $\norm{S^{1/2}-T^{1/2}}_2^2\le\norm{S-T}_1$ \cite[Lemma~4.1]{PS70},
+applied to $(Q_I,\widetilde Q_s)$ and to $(1-Q_I,1-\widetilde Q_s)$, gives
+\begin{equation}\label{eq:PS}
+ \norm{Q_I^{1/2}-\widetilde Q_s^{1/2}}_2^2\le\frac r{2\pi}\log(1+\zeta),\qquad
+ \norm{(1-Q_I)^{1/2}-(1-\widetilde Q_s)^{1/2}}_2^2\le\frac r{2\pi}\log(1+\zeta),
+\end{equation}
+so the quasi-free representations with symbols $Q_I$ and $\widetilde Q_s$ are
+quasi-equivalent \cite{PS70,ArakiCAR}.  The vacuum restricted to $\CAR(H_I)$ is
+faithful and $\Omega$ is cyclic for $\cF_r(I)$ by Reeh--Schlieder, so the
+restricted vacuum representation is the GNS representation to which the criterion
+refers.  A $C^*$-isomorphism whose source representation and pulled-back target
+representation are quasi-equivalent extends uniquely to a $*$-isomorphism of the
+von Neumann closures, which is automatically normal.  The restriction identity
+holds on the CAR generators localized in $A_\eps\cup D$ and extends by normality.
+\end{proof}
+
+\begin{remark}
+The argument proves normal extendability of the recovery \emph{homomorphism}, not
+merely local normality of the recovered state, and it uses no global smooth
+diffeomorphism implementer: the exact trace-class estimate \eqref{eq:Rtrace}
+supplies the required quasi-equivalence directly.  A diffeomorphism extension
+does exist and is used in \cref{sec:quadratic}, but only as a trial object.
+\end{remark}
+
+\subsection{Positive collar, tensorization, and the twirled channel}
+For $0<\eps<a$ put $A_\eps=(-a,-\eps)$ and
+\begin{equation}\label{eq:collar-algebras}
+ \cM_\eps=\cF_r(A_\eps)\vee\cF_r(D),\qquad
+ \cN_\eps=\cF_r(A_\eps)\vee\cF_r(B).
+\end{equation}
+The split property gives graded tensor-product identifications
+$\cM_\eps\simeq\cF_r(A_\eps)\overline\otimes_{\rm gr}\cF_r(D)$ and
+$\cN_\eps\simeq\cF_r(A_\eps)\overline\otimes_{\rm gr}\cF_r(B)$.  For
+parity-preserving maps one may use the Klein transform and ordinary tensor
+products instead; $\sigma_\eps=\omega_{A_\eps}\otimes\omega_D$ is then the unique
+normal state factorizing over the two factors, and it is faithful.
+
+\begin{lemma}[Tensorization; {\cite[Lemma~3.1]{Note4}}]\label{lem:tensorization}
+The rotated Petz map for $\cN_\eps\subset\cM_\eps$ with reference state
+$\sigma_\eps$ is
+$\alpha_{\eps,t}=\id_{\cF_r(A_\eps)}\overline\otimes\,\alpha_t^{D\to B}$.  In
+particular its nontrivial factor does not depend on $\eps$.
+\end{lemma}
+
+\begin{proof}
+For product standard forms $J_{A_\eps D}=J_{A_\eps}\otimes J_D$ and
+$\Delta_{\sigma_\eps}=\Delta_{\omega_{A_\eps}}\otimes\Delta_{\omega_D}$, and the
+standard-form isometry of the inclusion is $1\otimes V_{B\subset D}$.  Substituting
+into $\alpha_0(x)=J_{\cN}V^*J_{\cM}xJ_{\cM}VJ_{\cN}$ gives
+$\id\otimes\alpha_0^{D\to B}$ on elementary tensors; the modular rotations factor
+as well, and normality extends the identity to the von Neumann tensor product.
+\end{proof}
+
+It is \cref{lem:tensorization} that makes the zero-collar limit meaningful: the
+recovery map to be extended is the same for all $\eps$, and \cref{thm:normal}
+supplies the extension.  Averaging over the modular rotation with the
+Faulkner--Hollands--Swingle--Wang density
+\begin{equation}\label{eq:pt}
+ p(t)=\frac{\pi}{1+\cosh2\pi t},\qquad \int_{\mathbb R}p(t)\,dt=1,
+\end{equation}
+gives a genuine channel at zero collar.  The maps
+$t\mapsto\overline\beta_{s_t}(x)$ are ultraweakly measurable and uniformly bounded
+for each $x$ (test on the ultraweakly dense CAR algebra, where the one-particle
+maps are strongly continuous in $t$; measurability for all $x\in\cF_r(I)$ follows
+because $\cF_r(I)$ has separable predual), so the ultraweak integral
+\begin{equation}\label{eq:twirled}
+ \overline\beta(x)=\int_{\mathbb R}p(t)\,\overline\beta_{s_t}(x)\,dt
+\end{equation}
+is defined.  It is unital and completely positive, and normal, since for
+$0\le x_n\uparrow x$ normality of each $\overline\beta_{s_t}$ and scalar monotone
+convergence against positive normal functionals give
+$\overline\beta(x_n)\uparrow\overline\beta(x)$.  Thus
+$\overline\beta:\cF_r(ABC)\to\cF_r(AB)$ is a normal zero-collar recovery channel.
+
+\begin{lemma}[Continuity from below of fidelity; {\cite[Lemma~10.1]{Note4}}]\label{lem:fidbelow}
+Let $M_n\nearrow M$ be an increasing sequence of von Neumann algebras with
+strongly dense union.  For normal states $\varphi,\psi$ on $M$,
+$\Fid_{M_n}(\varphi|_{M_n},\psi|_{M_n})\downarrow\Fid_M(\varphi,\psi)$.
+\end{lemma}
+
+\begin{proof}
+Restriction is a channel, so the sequence is nonincreasing with limit
+$\ge\Fid_M$.  For the converse use Alberti's variational formula for normal states
+of a W*-algebra \cite[Thm.~2]{AU02},
+$\Fid_M(\varphi,\psi)=\inf_{x\in M,\,x>0}\frac12(\varphi(x)+\psi(x^{-1}))$.  Given
+$\epsilon>0$ pick a positive invertible $x\in M$ within $\epsilon$ of the
+infimum, with $m\one\le x\le M_0\one$.  Kaplansky density and continuous
+functional calculus give positive invertible $x_k$ in the algebraic union
+$\bigcup_nM_n$, uniformly bounded above and below, with $x_k\to x$ and
+$x_k^{-1}\to x^{-1}$ strongly.  Each $x_k$ lies in some $M_{n_k}$, so the
+variational formula inside $M_{n_k}$ gives
+$\Fid_{M_{n_k}}\le\frac12(\varphi(x_k)+\psi(x_k^{-1}))$, and bounded strong
+convergence plus normality send the right-hand side to
+$\frac12(\varphi(x)+\psi(x^{-1}))\le\Fid_M+\epsilon$.
+\end{proof}
+
+Combining \cref{lem:fidbelow} with the collar-wise inequality \eqref{eq:fhsw} of
+\cite{FHSW} and $\delta_\eps\downarrow I_\omega(A{:}C\mid B)$ from
+\eqref{eq:delta-eps} yields the zero-collar bound
+\begin{equation}\label{eq:zero-collar-bound}
+ -2\int_{\mathbb R}p(t)\log\Fid_{\cF_r(I)}(\omega,\widetilde\omega_t)\,dt
+ \ \le\ I_\omega(A{:}C\mid B)=\tfrac r6\log(1+z).
+\end{equation}
+By \cref{cor:collapse} the left side is
+$2\int p(t)\Phi(z(1+e^{-2\pi t}))\,dt$, so \eqref{eq:zero-collar-bound} is a
+statement about the single function $\Phi$; \cref{thm:main} shows it is loose by a
+factor $\Theta(1/z)$.
+
+\subsection{Comparison with the conditional mutual information}
+Combining \eqref{eq:Rtrace} at $s=s_{\rm P}$, where $\zeta=2z$, with
+\eqref{eq:CMI} gives the exact relation
+\begin{equation}\label{eq:norm-CMI}
+ \norm{Q_I-\widetilde Q_{\rm P}}_1
+ =\frac r{2\pi}\log\bigl(2e^{6I_\omega(A:C\mid B)/r}-1\bigr),
+\end{equation}
+and for $z\downarrow0$, $\norm{Q_I-\widetilde Q_{\rm P}}_1=\frac r\pi z+O(z^2)$,
+i.e.\ $\frac6\pi I_\omega(A{:}C\mid B)+O(I_\omega^2/r)$.  This compares the
+conditional mutual information with a Schatten norm of covariances, not with a
+state distance; the latter is the subject of the next section.

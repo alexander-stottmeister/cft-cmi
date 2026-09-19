@@ -1,0 +1,127 @@
+% sec_second_variation.tex -- Source: rigor/lemma_second_variation.tex (P1), imported into universality_theorem_B.tex Sec. 3-4.
+Throughout this section $\cM$ is an arbitrary von Neumann algebra on $\Hil$ with cyclic and separating unit
+vector $\Omega$, $\omega=\langle\Omega,\cdot\,\Omega\rangle$, and $(\Delta,J)$ are the associated modular
+objects.  The results are stated for an abstract differentiable curve of states; they are applied to the
+recovery curve in \Cref{sec:univ}.  Everything in this section is proved in \cite{RigorSV}.
+
+\subsection{The tangent functional and the Bures form}
+
+\begin{definition}\label{def:gB}
+For $b\in\Hil$ with $\operatorname{Im}\langle\Omega,b\rangle=0$ put
+\begin{equation}\label{eq:phib}
+ \varphi_{b}(K):=-2\operatorname{Im}\langle b,K\Omega\rangle\quad(K\in\cM_{\rm sa}),
+ \qquad
+ \gB(b):=4\,\dist\bigl(b,H_{\cM'}\bigr)^{2}.
+\end{equation}
+\end{definition}
+
+If a curve $s\mapsto\omega_{s}$ of normal states is differentiable at $s=0$ with derivative $\varphi$, and
+$\varphi=\varphi_{b}$ for some such $b$, we call $b$ a \emph{tangent vector} and $\varphi$ the
+\emph{tangent functional}.  The tangent vector is far from unique: adding any element of $H_{\cM'}$ leaves
+$\varphi_{b}$ unchanged, since $\operatorname{Im}\langle\xi,K\Omega\rangle=0$ for $\xi\in H_{\cM'}$,
+$K\in\cM_{\rm sa}$.  The whole point of the next theorem is that $\gB$ sees only $\varphi_{b}$, so this
+gauge freedom is harmless --- and, in \Cref{sec:univ}, is precisely the freedom of extending the
+compression map.
+
+\begin{theorem}[three faces of the Bures form]\label{thm:three}
+Let $b\in\Hil$ with $\operatorname{Im}\langle\Omega,b\rangle=0$, and set $u:=(1+\Delta)^{-1/2}$.  Then
+\begin{equation}\label{eq:three}
+ \tfrac14\gB(b)\;=\;\tfrac12\bigl\|(1-J)\,u\,b\bigr\|^{2}
+ \;=\;\dist\bigl(b,H_{\cM'}\bigr)^{2}
+ \;=\;\sup_{K\in\cM_{\rm sa}}\bigl[\varphi_{b}(K)-\Var_{\omega}(K)\bigr],
+\end{equation}
+where $\Var_{\omega}(K)=\omega(K^{2})-\omega(K)^{2}$.  The nearest point of $H_{\cM'}$ to $b$ is
+\begin{equation}\label{eq:Eprime}
+ E'b=\Delta(1+\Delta)^{-1}b+(1+\Delta)^{-1}\Delta^{1/2}Jb .
+\end{equation}
+No domain hypothesis on $b$ is used; in particular $b\in D(\Delta^{-1/2})$ is \emph{not} required, and the
+right-hand sides depend on $b$ only through $\varphi_{b}$.
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+See \cite[Lemma ``Explicit real-orthogonal projection onto $H_{\cM'}$'' and Theorem ``Three faces of the
+Bures form'']{RigorSV}.  The three steps are: (i) the characterisation \eqref{eq:realsub} of $H_{\cM'}$ as
+the $+1$ eigenspace of $F=J\Delta^{-1/2}$, from which one checks directly that the vector \eqref{eq:Eprime}
+lies in $H_{\cM'}$ and that $\operatorname{Re}\langle b-E'b,\zeta\rangle=0$ for all $\zeta\in H_{\cM'}$,
+so that $E'$ is the real-orthogonal projection and $\dist(b,H_{\cM'})=\|b-E'b\|=\|u(1-J)ub\|$;
+(ii) the identity $\|u\psi\|^{2}=\tfrac12\|\psi\|^{2}$ for $\psi:=(1-J)ub$, which holds because
+$J\psi=-\psi$ and $Ju^{2}J=v^{2}$ with $u^{2}+v^{2}=\one$, giving the first equality in \eqref{eq:three};
+(iii) the Legendre duality between the quadratic functional $K\mapsto\Var_{\omega}(K)$ on $\cM_{\rm sa}$ and
+the squared distance, which yields the variational form and, in particular, shows that the value depends on
+$b$ only through $\varphi_{b}$.
+\end{proof}
+
+In finite dimensions $\gB(b)$ is the Bures metric of the curve, $\gB=\sum_{ij}|d\rho_{ij}|^{2}\,
+\frac{2}{p_{i}+p_{j}}$, which is why we call it the Bures form; see \cite[\S(B)]{RigorSV} and
+\cite{AU02}.
+
+\subsection{The lower bound: Alberti's inequality}
+
+\begin{theorem}[Alberti]\label{thm:alberti}
+Assume \textup{(F$\varphi$)}: the $\omega_{s}$ are normal states on $\cM$ and for every $y\in\cM$
+$\omega_{s}(y)=\omega(y)+s\varphi(y)+o(s)$, with $\varphi=\varphi_{b}$ on $\cM_{\rm sa}$ for some $b\in\Hil$
+with $\operatorname{Im}\langle\Omega,b\rangle=0$.  Then
+\begin{equation}\label{eq:albertibound}
+ \liminf_{s\to0}\ \frac{1-\Fid(\omega,\omega_{s})}{s^{2}}\ \ge\ \tfrac18\,\gB(b).
+\end{equation}
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+\cite[Theorem ``Upper bound'']{RigorSV}.  The single external input is the Alberti--Uhlmann estimate
+$P_{\cM}(\nu,\varrho)\le\nu(x)\,\varrho(x^{-1})$ for positive invertible $x\in\cM$
+\cite[p.~4, (1--4)]{AU02}, applied with $x=\one+sK$ for $K\in\cM_{\rm sa}$ fixed.  Expanding both factors to
+second order in $s$ and using $\omega_{s}(K)=\omega(K)+s\varphi(K)+o(s)$ and
+$\omega_{s}(K^{2})\to\omega(K^{2})$ gives
+$\Fid^{2}\le1-s^{2}\bigl[\varphi(K)-\Var_{\omega}(K)\bigr]+o(s^{2})$; taking the supremum over $K$ and
+invoking the variational face of \eqref{eq:three} yields \eqref{eq:albertibound}.
+\end{proof}
+
+Note that \Cref{thm:alberti} needs only \emph{first-order} differentiability of the states on a suitable
+set of test operators; no vector representatives, no differentiability of any vector curve.  This is why
+(H3) alone suffices for the lower half of the main theorem.
+
+\subsection{The upper bound: Uhlmann's supremum formula with commutant unitaries}
+
+\begin{theorem}[Uhlmann]\label{thm:uhlmann}
+Assume \textup{(V)}: there are unit vectors $\Psi_{s}$ with $\Psi_{0}=\Omega$,
+$\omega_{s}=\langle\Psi_{s},\cdot\,\Psi_{s}\rangle|_{\cM}$ and
+$\|\Psi_{s}-\Omega-s\dot\Psi_{0}\|=o(s)$.  Put $b:=i\dot\Psi_{0}$.  Then
+\begin{equation}\label{eq:uhlbound}
+ \limsup_{s\to0}\ \frac{1-\Fid(\omega,\omega_{s})}{s^{2}}\ \le\ \tfrac18\,\gB(b).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+\cite[Theorem ``Lower bound'']{RigorSV}.  We give the argument, because its mechanism recurs in
+\Cref{prop:geom} in geometric form.  By the Alberti--Uhlmann supremum formula
+$\Fid(\omega_{\psi},\omega)=\sup_{v'\in\U(\cM')}|\langle\Omega,v'\psi\rangle|$
+\cite[Theorem 2(3)]{AU02} --- of which only the elementary ``$\ge$'' half is used, namely that
+$v'\Psi_{s}$ is again a vector representative of $\omega_{s}$ for $v'\in\U(\cM')$ --- we have, for every
+bounded $B'\in\cM'_{\rm sa}$,
+\[
+ \Fid(\omega,\omega_{s})\ \ge\ \bigl|\langle\Omega,e^{-isB'}\Psi_{s}\rangle\bigr|
+ \ \ge\ \operatorname{Re}\langle\Omega,e^{-isB'}\Psi_{s}\rangle
+ \ =\ 1-\tfrac12\bigl\|e^{isB'}\Omega-\Psi_{s}\bigr\|^{2}.
+\]
+By (V) and Stone's theorem, $e^{isB'}\Omega-\Psi_{s}=is\,(B'\Omega+b)+o(s)$ in norm, whence
+$\limsup_{s}s^{-2}(1-\Fid)\le\tfrac12\|b+B'\Omega\|^{2}$.  Taking the infimum over bounded
+$B'\in\cM'_{\rm sa}$ and using $\overline{\cM'_{\rm sa}\Omega}=H_{\cM'}$ gives
+$\tfrac12\dist(b,H_{\cM'})^{2}=\tfrac18\gB(b)$.
+\end{proof}
+
+The three displayed inequalities are the whole of the upper bound.  In particular \emph{only first-order
+norm differentiability of the vector curve is used}: no second-order expansion, no assumption
+$\Omega\in D(A^{2})$ for the generator, and no product formula for $e^{isB'}U_{s}^{*}$.
+
+\begin{theorem}[type-III second variation of the fidelity]\label{thm:secvar}
+If both \textup{(F$\varphi$)} and \textup{(V)} hold with the same tangent functional, then
+\begin{equation}\label{eq:secvar}
+ -\log\Fid(\omega,\omega_{s})=\frac{s^{2}}{8}\,\gB+o(s^{2}),\qquad
+ \gB=4\dist\bigl(b,H_{\cM'}\bigr)^{2}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Combine \Cref{thm:alberti,thm:uhlmann}: $1-\Fid=\frac{s^{2}}{8}\gB+o(s^{2})$, and
+$-\log(1-x)=x+O(x^{2})$.
+\end{proof}

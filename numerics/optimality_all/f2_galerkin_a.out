@@ -1,0 +1,10 @@
+h=0.4 N=69 (nA,nB,nC)=(30,9,30) g_Q(d_c)=8.14953486e-06 = 0.8687 f2 z^2 | theta=0.28578 orbit (1-theta)=0.71422 check g_orb/g0=0.71422 (CG 595)
+   FULL F : min_F g_Q = 6.85460121e-05  min_F/g_Q(d_c) = 8.411034  [orbit 1-theta = 0.714222]  optimal  9425s
+   structure: ||1-XX*||_F=5.8717 tr(1-XX*)=35.1565 eig(1-XX*) in [+1.795e-04,+1.000e+00] | ||Z-XQ_BBX*||_F=3.5559e+00 tr=1.7578e+01 eig in [+2.474e-09,+9.878e-01] | sv(X) in [0.0061,0.9999]
+h=0.3 N=91 (nA,nB,nC)=(40,11,40) g_Q(d_c)=8.40205908e-06 = 0.8956 f2 z^2 | theta=0.29926 orbit (1-theta)=0.70074 check g_orb/g0=0.70074 (CG 600)
+   FULL F : min_F g_Q = 5.98704833e-05  min_F/g_Q(d_c) = 7.125692  [orbit 1-theta = 0.700736]  optimal  24923s
+   structure: ||1-XX*||_F=6.7798 tr(1-XX*)=46.7073 eig(1-XX*) in [+2.060e-04,+1.000e+00] | ||Z-XQ_BBX*||_F=4.1211e+00 tr=2.3354e+01 eig in [+3.038e-09,+9.924e-01] | sv(X) in [0.0002,0.9999]
+
+#  h     N   1-theta(orbit)   min_F g_Q / g_Q(d_c)
+0.400    69   0.714222      8.411034
+0.300    91   0.700736      7.125692

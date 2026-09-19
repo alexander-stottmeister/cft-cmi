@@ -1,0 +1,123 @@
+% !TeX root = main.tex
+\label{sec:intro}
+Let $\omega$ be a state on a composite system $ABC$.  The conditional mutual
+information $I_\omega(A{:}C\mid B)$ vanishes precisely when $\omega$ is a quantum
+Markov chain, and in that case the state on $ABC$ is reconstructed exactly from
+its restriction to $AB$ by a channel that acts on $B$ alone: the Petz recovery
+map.  When $I_\omega(A{:}C\mid B)>0$ the reconstruction is no longer exact, and
+the theorem of Fawzi--Renner \cite{FR} and its operator-algebraic descendants bound the
+recovery error by the conditional mutual information.  In the formulation of
+Faulkner, Hollands, Swingle and Wang \cite{FHSW} the statement survives the
+passage to type III von Neumann algebras: for a suitable \emph{rotated} Petz map
+$\alpha_t$ one has, in terms of the root fidelity $\Fid$,
+\begin{equation}\label{eq:fhsw}
+ -2\log \Fid\bigl(\omega,\widetilde\omega\bigr)\ \le\ I_\omega(A{:}C\mid B).
+\end{equation}
+In quantum field theory the four von Neumann entropies whose alternating sum is
+the conditional mutual information are all infinite, but the combination is not:
+Longo and Xu \cite{LX} construct a finite \emph{relative}-entropy substitute and
+compute it for adjacent intervals in chiral conformal field theory, where it is a
+logarithm of a cross ratio.  The question addressed in this paper is what the
+corresponding recovery error actually \emph{is} --- not a bound on it, but its
+exact value in the limit in which the three intervals touch.
+
+\paragraph{The configuration.}
+Throughout, $A=(-a,0)$, $B=(0,b)$ and $C=(b,b+c)$ are three adjacent intervals of
+the light ray, $I=ABC=(-a,L)$ with $L=b+c$, and $\omega$ is the vacuum of the net
+$\cF_r$ of $r$ complex chiral free fermions, of central charge $c_{\rm cft}=r$.
+The Longo--Xu conditional mutual information is
+$I_\omega(A{:}C\mid B)=\frac r6\log(1+z)$ with
+\begin{equation}\label{eq:z-intro}
+ z=\frac{ac}{b(a+b+c)}.
+\end{equation}
+The recovery problem is posed at \emph{zero collar}: the three intervals share
+their endpoints, so no regularizing gap is inserted, and the recovery map is
+required to be a normal map of the type III$_1$ factor $\cF_r(I)$ itself.
+
+\paragraph{Results.}
+Three statements are proved.  First (\cref{sec:petz}), the whole
+Faulkner--Hollands--Swingle--Wang family of rotated Petz maps for the half-sided
+modular inclusion $\cF_r(B)\subset\cF_r(BC)$ is \emph{geometric}: it is the
+Borchers translation semigroup of that inclusion, realized in the coordinate
+$q(x)=(L-x)/x$, and after gluing with the identity on $A$ it extends from the
+positive-collar algebras to a normal $*$-isomorphism
+$\overline\beta_s:\cF_r(I)\to\cF_r(J_s)\subset\cF_r(AB)$ at zero collar,
+$J_s=(-a,L/(1+s))$.  The extension is not obtained from a global diffeomorphism;
+it comes from an exact trace-norm identity for the covariance defect,
+$\|Q_I-\widetilde Q_s\|_1=\frac r{2\pi}\log(1+\zeta)$, together with the
+Powers--St\o rmer--Araki quasi-equivalence criterion.  Here
+\begin{equation}\label{eq:zeta-intro}
+ \zeta=\frac{as}{a+L}
+\end{equation}
+is the single conformal invariant of the problem: $1+\zeta$ is the cross ratio of
+the four points $-a<0<L/(1+s)<L$.
+
+Second (\crefrange{sec:fidelity}{sec:quadratic}), the recovery error
+\begin{equation}
+ \Phi(\zeta):=-\log \Fid_{\cF_r(I)}\bigl(\omega,\widetilde\omega_s\bigr),
+ \qquad \widetilde\omega_s=\omega\circ\overline\beta_s ,
+\end{equation}
+is a function of $\zeta$ alone, and its exact small-cross-ratio law is
+\begin{equation}\label{eq:main-intro}
+ \boxed{\ \lim_{\zeta\downarrow0}\frac{\Phi(\zeta)}{\zeta^2}=\frac{c_{\rm cft}}{12\pi^2},
+ \qquad c_{\rm cft}=r.\ }
+\end{equation}
+The lower bound is a data-processing argument through finite-rank compressions
+combined with the Legendre form of the SLD (Bures) information; the upper bound
+is a single Uhlmann trial vector, built from a Bogoliubov extension of the
+compression $\overline\beta_s$ to a diffeomorphism of the line, whose vacuum
+overlap is a Fredholm determinant.  The two halves meet exactly.  The
+corresponding relative-entropy coefficient is
+$D(\omega\Vert\widetilde\omega_s)=\frac{c_{\rm cft}}{12}\zeta^2+o(\zeta^2)$; the
+Kubo--Mori half is proved here at the level of the quantum Fisher information and
+confirmed numerically, see \cref{rem:s2-status}.
+
+Third (\cref{sec:2d}), because $\zeta$ is the only variable, the entire rotated
+family collapses onto the one function $\Phi$: the rotated Petz map with modular
+parameter $t$ has $\zeta_t=z(1+e^{-2\pi t})$, so the ordinary Petz map sits at
+$\zeta_0=2z$ and, for a single chirality, is worse than the best rotation by a
+factor $4$ in $-\log\Fid$.  In a two-dimensional CFT the Bisognano--Wichmann
+boost dilates the two light-ray coordinates oppositely, so the two chiralities
+see opposite rotations and the recovery error is a \emph{sum of two branches},
+\begin{equation}\label{eq:twobranch-intro}
+ -\log F^{(\lambda)}=\Phi_{c}\bigl(z(1+e^{-\pi\lambda})\bigr)
+ +\Phi_{\bar c}\bigl(z(1+e^{\pi\lambda})\bigr).
+\end{equation}
+This is even in $\lambda$ with its minimum at $\lambda=0$, and it accounts
+quantitatively for the apparent exponents of $-\log F^{(\lambda)}$ measured on the
+lattice by Vardhan, Wei and Zou \cite{VWZ}: what looks like a $\lambda$-dependent
+power law is the second branch entering the crossover region of $\Phi$.
+
+\begin{table}[ht]\centering\small
+\caption{The four quantities of this paper and their status.  $c_{\rm cft}=r$ for
+the net of $r$ complex chiral fermions.}\label{tab:summary}
+\begin{tabular}{@{}l l l@{}}\toprule
+quantity & value & status\\\midrule
+$I_\omega(A{:}C\mid B)$ & $\frac r6\log(1+z)$ & theorem (\cref{thm:LX}, from \cite{LX})\\
+$\norm{Q_I-\widetilde Q_s}_1$ & $\frac r{2\pi}\log(1+\zeta)$ & theorem (\cref{thm:tracenorm})\\
+$\lim_{\zeta\to0}\Phi(\zeta)/\zeta^2$ & $c_{\rm cft}/(12\pi^2)=0.00844343\,r$ & theorem (\cref{thm:main})\\
+$\lim_{\zeta\to0}\cD(\zeta)/\zeta^2$ & $c_{\rm cft}/12$ & quadratic form proved; identification numerical (\cref{rem:s2-status})\\
+$\Phi(\zeta)$, $\zeta\lesssim0.5$ & \cref{tab:scan} & numerics, heuristic tail correction\\
+$\Phi(\zeta)$, $\zeta\gtrsim1$ & brackets, \cref{rem:largezeta} & lower bounds plus extrapolation only\\
+\bottomrule\end{tabular}\end{table}
+
+\paragraph{Relation to earlier work.}
+The bound \eqref{eq:fhsw} is never close to saturation here: the ratio
+$-2\log\Fid/I_\omega(A{:}C\mid B)$ grows linearly from $1.7\times10^{-3}$ at
+$\zeta=0.008$ to $7.8\times10^{-2}$ at $\zeta=0.53$ (\cref{tab:scan}).  The
+quadratic law \eqref{eq:main-intro} is therefore a genuinely finer statement than
+\eqref{eq:fhsw}, which is linear in $z$.  The lattice study \cite{VWZ} found
+$-\log F^{(0)}\propto\eta_{\rm V}^{2}$ with a $\lambda$-dependent apparent
+exponent; \eqref{eq:twobranch-intro} together with \eqref{eq:main-intro} explains
+both the exponent $2$ at $\lambda=0$ and its apparent decrease with $\lambda$, and
+fixes the coefficient, $-\log F^{(0)}=\frac{c+\bar c}{3\pi^2}\eta_{\rm V}^2
++O(\eta_{\rm V}^3)$.
+
+\paragraph{Plan.}
+\Cref{sec:setting} fixes the net, the geometry and the Longo--Xu conditional
+mutual information.  \Cref{sec:petz} constructs the zero-collar recovery map.
+\Cref{sec:fidelity} gives the compression formulas that define $\Phi$ and the
+collapse of the rotated family.  \Cref{sec:quadratic} proves the quadratic law.
+\Cref{sec:2d} treats two-dimensional CFTs and the lattice, \cref{sec:numerics}
+the numerics, and \cref{sec:outlook} the universality programme.  Two appendices
+collect deferred proofs and conventions.

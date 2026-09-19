@@ -1,0 +1,4 @@
+Dhat_first_s1.0_Lam60_k30_g12.npz: kmax=29.61 N=91 f2_line=0.0083698 s2_line=0.073531 s2/f2=8.7853
+Dhat_first_s1.0_Lam120_k37_g12.npz: kmax=36.85 N=225 f2_line=0.0083956 s2_line=0.075421 s2/f2=8.9834
+Dhat_first_s1.0_Lam120_k41_g12.npz: kmax=40.79 N=249 f2_line=0.0084045 s2_line=0.076189 s2/f2=9.0653
+Dhat_first_s1.0_Lam120_k45_g12.npz: kmax=44.74 N=273 f2_line=0.0084112 s2_line=0.076821 s2/f2=9.1332

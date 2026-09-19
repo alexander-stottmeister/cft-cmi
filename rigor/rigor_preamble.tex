@@ -1,0 +1,35 @@
+% Shared preamble for the rigor documents (Lamport-style structured proofs).  \input this file after \documentclass.
+\usepackage[T1]{fontenc}\usepackage{lmodern}\usepackage{microtype}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{xcolor}\usepackage{enumitem}\usepackage{booktabs}\usepackage{graphicx}\usepackage{hyperref}
+\usepackage[most]{tcolorbox}
+\definecolor{navy}{HTML}{17365D}\definecolor{teal}{HTML}{117A8B}\definecolor{warn}{HTML}{A33A2B}\definecolor{okgreen}{HTML}{2E7D4F}
+\hypersetup{colorlinks=true,linkcolor=navy,citecolor=teal,urlcolor=teal}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]\newtheorem{lemma}[theorem]{Lemma}\newtheorem{proposition}[theorem]{Proposition}\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}\newtheorem{definition}[theorem]{Definition}\newtheorem{remark}[theorem]{Remark}\newtheorem{claim}[theorem]{Claim}\newtheorem{issue}[theorem]{Issue}
+% ---------- Lamport structured proofs ----------
+% \lstep{level}{number}{assertion}   -> indented "<level>number. assertion"
+% \lproof                             -> "PROOF:" line (start of the sub-proof of the preceding step)
+% \lby{justification}                 -> "BY ..." leaf justification for the preceding step
+% \lqed{level}{number}                -> QED step of a sub-proof
+% keywords: \lassume \lprove \lsuffices \lcase \ldefine \lpick \lnew
+\newlength{\lindent}\setlength{\lindent}{1.7em}
+\newcommand{\lstep}[3]{\par\smallskip\noindent\hspace*{\dimexpr\numexpr#1-1\relax\lindent\relax}{\color{navy}$\langle#1\rangle#2$.}\ #3}
+\newcommand{\lproof}{\par\noindent\hspace*{\lindent}{\scshape Proof:}}
+\newcommand{\lby}[1]{\par\noindent\hspace*{\lindent}{\scshape By}\ #1.}
+\newcommand{\lqed}[2]{\par\smallskip\noindent\hspace*{\dimexpr\numexpr#1-1\relax\lindent\relax}{\color{navy}$\langle#1\rangle#2$.}\ {\scshape Q.E.D.}}
+\newcommand{\lassume}{{\scshape Assume}\ }\newcommand{\lprove}{{\scshape Prove}\ }\newcommand{\lsuffices}{{\scshape Suffices}\ }
+\newcommand{\lcase}{{\scshape Case}\ }\newcommand{\ldefine}{{\scshape Define}\ }\newcommand{\lpick}{{\scshape Pick}\ }\newcommand{\lnew}{{\scshape New}\ }
+% ---------- verdict boxes ----------
+\newtcolorbox{verdictok}{colback=okgreen!8,colframe=okgreen,title={\bfseries Verdict: verified},fonttitle=\small}
+\newtcolorbox{verdictgap}{colback=orange!10,colframe=orange!80!black,title={\bfseries Verdict: gap / caveat},fonttitle=\small}
+\newtcolorbox{verdictbreak}{colback=warn!10,colframe=warn,title={\bfseries Verdict: proof-breaking issue},fonttitle=\small}
+\newtcolorbox{citedbox}[1]{colback=navy!5,colframe=navy!60,title={\bfseries Cited result: #1},fonttitle=\small,breakable}
+\setlength{\parindent}{0pt}\setlength{\parskip}{4pt}\allowdisplaybreaks
+\newcommand{\cA}{\mathcal A}\newcommand{\cF}{\mathcal F}\newcommand{\cM}{\mathfrak M}\newcommand{\cN}{\mathfrak N}
+
+% extra calligraphic shortcuts (\providecommand: no clash if a document defines its own)
+\providecommand{\cB}{\mathcal B}\providecommand{\cC}{\mathcal C}\providecommand{\cD}{\mathcal D}\providecommand{\cE}{\mathcal E}\providecommand{\cG}{\mathcal G}\providecommand{\cH}{\mathcal H}\providecommand{\cI}{\mathcal I}\providecommand{\cJ}{\mathcal J}\providecommand{\cK}{\mathcal K}\providecommand{\cL}{\mathcal L}\providecommand{\cO}{\mathcal O}\providecommand{\cP}{\mathcal P}\providecommand{\cQ}{\mathcal Q}\providecommand{\cR}{\mathcal R}\providecommand{\cS}{\mathcal S}\providecommand{\cT}{\mathcal T}\providecommand{\cU}{\mathcal U}\providecommand{\cV}{\mathcal V}\providecommand{\cW}{\mathcal W}\providecommand{\cX}{\mathcal X}\providecommand{\cY}{\mathcal Y}\providecommand{\cZ}{\mathcal Z}
+\newcommand{\Fid}{\operatorname{F}}\newcommand{\Tr}{\operatorname{Tr}}\newcommand{\eps}{\varepsilon}\newcommand{\dd}{\,\mathrm d}

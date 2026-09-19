@@ -1,0 +1,1152 @@
+\documentclass[11pt]{article}
+\input{rigor_preamble}
+\newcommand{\Sch}{\mathcal S}
+\newcommand{\Mob}{\operatorname{M\ddot ob}}
+\newcommand{\bI}{\beta_I}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Rp}{\mathsf R}
+\newcommand{\Lp}{\mathsf L}
+\newcommand{\Fr}{\cF_r}
+\newcommand{\PP}{\mathcal P}
+\newcommand{\Bang}{\mathsf A}
+\newcommand{\doc}{\texttt{network\_corner\_calculus.tex}}
+\theoremstyle{definition}\newtheorem{example}[theorem]{Example}
+
+\title{Referee report REF-P6-3 on\\
+\texttt{rigor/network\_corner\_calculus.tex} (track G1a, Phase 6)\\
+\large and on the eight pending knowledge-base cards}
+\author{Referee REF-P6-3 (adversarial)}
+\date{2026-09-16}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+The document is essentially sound: every one of its numbered results was
+re-derived here independently, and the two central theorems (the corner calculus,
+Thm.~5.2/5.3, and the separation bound, Thm.~11.1) survive an adversarial attack in exact
+rational arithmetic ($1200$ random protocols, $60\,000$ random chains, $0$ failures).
+Four displayed statements are nevertheless \emph{false as written}, each with a one-line
+repair: Thm.~7.3(3) drops the hypothesis that Thm.~7.3(2) carries and is refuted by the
+document's own Rem.~7.4; Prop.~13.1 uses $\dd\mu(t)=\frac\pi2(\cosh2\pi t+1)^{-1}\dd t$,
+which has total mass $\frac12$ --- FHSW's weight is $\pi(\cosh2\pi t+1)^{-1}$ (FHSW
+eq.~(26), p.~6), so the ``mixture'' is not a state and both Jensen steps fail;
+Lem.~10.3~(29) asserts a \emph{strict} inequality that is an \emph{equality} at the last
+corner $k=n-1$ (as the document itself uses in Thm.~11.1$\langle1\rangle7$); and
+Lem.~4.5 claims a M\"obius factor with no pole on $\overline{\Phi_1(J)}$, which is false
+($\Phi_1=\id$, $\Phi_2(x)=x/(1-x)$ on $(0,1)$) and is not what its proof gives.  Two
+further items: Prop.~9.1's count ``exactly $n-1$ classes'' is true but its proof only
+establishes the corner \emph{ranges}, which coincide for all middle starting pairs; and
+the sharpness claim after Thm.~11.1 holds only as $\eps\to0$ --- the exact constrained
+minimum is $(\eps/2)e^{\Delta}=1.0220$ at $\eps=0.3$, and REF-P6-0's $\eps=0.3$ entry
+$6.75$, quoted verbatim in the verdict box, lies \emph{below} the true minimum $6.8134$.
+Hypothesis~(U) cannot be discharged: \texttt{refs/Uhlmann76.pdf} \emph{is} on disk (so
+``NOT OBTAINED'' is wrong) but contains no standard-form statement, and
+Alberti--Uhlmann~2002 has none either; however the \emph{second-order} bound
+Cor.~12.6~(35), which is all that W6 needs, follows without (U) from the Bures-\emph{distance}
+triangle inequality (Alberti--Uhlmann 2002 Prop.~1(1), p.~3).  Card verdicts: six pass,
+two fail (\texttt{network-second-order-law}, \texttt{phase6-plan}).
+\end{abstract}
+
+\tableofcontents
+
+\section{Scope, method, and the verdict table}\label{sec:scope}
+
+\paragraph{What was done.}
+The document (38~pp.) was read in full, section by section.  Every closed-form identity
+and every protocol statement was re-derived \emph{independently} and checked in
+\textbf{exact rational arithmetic}, not by reusing the author's code: the composite point
+map of a protocol was rebuilt from scratch as a genuine piecewise-M\"obius object (a list
+of $(x_{\rm left},x_{\rm right},M)$ with $M\in\mathrm{GL}_2(\mathbb Q)$), its breakpoints
+obtained by pushing the breakpoints of the outer maps back through the inner ones, and the
+Schwarzian masses read off as exact jumps of $v=-2c/(cx+d)$.  Scripts:
+\begin{itemize}[leftmargin=2em,nosep]
+\item \texttt{rigor/ref\_p6\_3\_calculus.py} (+\,\texttt{.out}), $57$ checks, all PASS:
+ the single-corner mass from either side; $1200$ random protocols in three classes against
+ Thm.~5.2 and Thm.~5.3 with (H) decided from its definition; REF-P6-0's counterexample;
+ Ex.~5.6; the VWZ protocols; Tables 1--3 entry by entry.
+\item \texttt{rigor/ref\_p6\_3\_separation.py} (+\,\texttt{.out}), $19$ checks, all PASS:
+ Lem.~10.3 in exact rationals including the boundary case; Thm.~11.1's recursion, fixed
+ point and bound in $60\,000$ exact chains; the \emph{exact} constrained minimum of
+ $e^{\Delta_k}$ (a closed backward recursion, made possible by Lem.~10.3 itself);
+ Cor.~11.2; the asymptotics of Cor.~12.6 and the chordal route that avoids (U); the
+ normalisation of the FHSW weight.
+\item The author's \texttt{g1a\_calculus.py} and \texttt{g1a\_separation.py} were rerun
+ (\S\ref{sec:scripts}).
+\end{itemize}
+Sources opened: \texttt{refs/Uhlmann76.pdf}, \texttt{refs/AlbertiUhlmann02\_math-ph-0202038.pdf},
+\texttt{refs/FHSW20\_2006.08002.pdf}, \texttt{refs/VWZ\_2307.14434.pdf},
+\texttt{refs/BGL93\_funct-an-9302008.pdf}, \texttt{paper1/sec\_petz.tex},
+\texttt{paper1/sec\_setting.tex}, \texttt{continuum\_petz\_free\_fermion.tex}.
+
+\paragraph{Where to find what (the verdict notes recorded in the KB on 2026-09-16 cite
+section numbers of an earlier draft; use this map).}
+\begin{center}\small
+\begin{tabular}{@{}ll@{}}
+\toprule
+card / topic & section of this report\\
+\midrule
+\texttt{corner-calculus} (Thm.~5.2/5.3, (H)) & \S\ref{sec:H}, and \S\ref{sec:cards}\\
+\texttt{vacuum-rigidity-exact-recovery} (Thm.~7.3) & \S\ref{sec:d1}, \S\ref{sec:minor},
+ \S\ref{sec:cards}\\
+\texttt{corner-separation-constraint} (Lem.~10.3, Thm.~11.1) & \S\ref{sec:d3},
+ \S\ref{sec:d6}, \S\ref{sec:cards}\\
+\texttt{frame-strength-amplification} (Lem.~10.1) & \S\ref{sec:minor}, \S\ref{sec:cards}\\
+\texttt{protocol-corner-data-n4-n5} (Prop.~9.1, Tab.~1--3) & \S\ref{sec:d5}
+ (Lem.~\ref{lem:missing}), \S\ref{sec:cards}\\
+\texttt{sequential-recovery-bound-type-iii} (Thm.~12.5, (U)) & \S\ref{sec:U}, boxes
+ [G7]/[G8] in \S\ref{sec:cited}, \S\ref{sec:cards}\\
+\texttt{network-second-order-law}, \texttt{phase6-plan} & \S\ref{sec:d6}, \S\ref{sec:H},
+ \S\ref{sec:cards}\\
+Prop.~13.1 / the FHSW weight & \S\ref{sec:d2}, box [G5] in \S\ref{sec:cited}\\
+the full list of required repairs & \S\ref{sec:repairs}\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Grading.}
+\textbf{STANDS} $=$ the statement is correct as written and its proof is complete from the
+cited results.  \textbf{STANDS WITH REPAIR} $=$ the mathematics is right but the displayed
+statement is false or incomplete as written; the repair is given.  \textbf{FAILS} $=$ the
+result is wrong and cannot be repaired locally.  \emph{Nothing in the document FAILS.}
+
+\begin{table}[h]\centering\small
+\caption{Verdict on every numbered result of \doc.}
+\label{tab:verdicts}
+\begin{tabular}{@{}llp{7.4cm}@{}}
+\toprule
+result & verdict & note\\
+\midrule
+Lem.~3.1 admissibility & STANDS & \\
+Lem.~3.3 $(-1)$-density & STANDS & \\
+Lem.~3.4 exact first-order field & STANDS & identity re-verified; signs as in Rem.~3.6\\
+Lem.~4.2 masses, no square term & STANDS & \\
+Lem.~4.3 corner mass $-2\sigma$, either side & STANDS & re-verified exactly, $2000$ corners\\
+Lem.~4.4 composition rule & STANDS & \\
+Lem.~4.5 equal Schwarzians & STANDS WITH REPAIR & \S\ref{sec:d4}: ``without pole on
+ $\overline{\Phi_1(J)}$'' is false; read $\Phi_1(J)$\\
+Thm.~5.2 general rule & STANDS & exact in $1200$ random protocols, $0$ failures\\
+Thm.~5.3 corner calculus under (H) & STANDS & boxed sum should say \emph{interior}
+ junctions (\S\ref{sec:minor})\\
+Prop.~5.4 sufficient conditions & STANDS & (a) confirmed in $400$ random protocols\\
+Ex.~5.5, Ex.~5.6 & STANDS & both recomputed exactly, all digits reproduced\\
+Lem.~6.1, Lem.~6.2 & STANDS & \\
+Thm.~6.3 normality, state $=$ f($\Sch$) & STANDS & per-step use of Note~4 Thm.~7.1 is
+ legitimate (\S\ref{sec:thm63})\\
+Lem.~7.1 two-point rigidity & STANDS & \\
+Lem.~7.2 $F=1\Rightarrow$ equality & STANDS & \\
+Thm.~7.3(1),(2) & STANDS & \\
+Thm.~7.3(3) ``never'' & STANDS WITH REPAIR & \S\ref{sec:d1}: false as written; restore
+ (2)'s hypothesis\\
+Prop.~8.2 1(B)$=$1(A) & STANDS & exact; $A_{\rm new}=CD$ needs the coarse chain
+ (\S\ref{sec:minor})\\
+Prop.~8.4 Protocol 2 & STANDS & \\
+Thm.~8.5 Protocol 3 & STANDS & $s'>2\lambda'$ \emph{strictly}; one tacit step
+ (\S\ref{sec:thm85})\\
+Cor.~8.6 holonomy & STANDS & \\
+Prop.~9.1 tables & STANDS WITH REPAIR & \S\ref{sec:d5}: injectivity of
+ ``one class per pair'' is not proved\\
+Tables 1--3 & STANDS & every entry recomputed\\
+Lem.~10.1 amplification & STANDS & \\
+Lem.~10.3 modular corner data & STANDS WITH REPAIR & \S\ref{sec:d3}: (29) is an
+ \emph{equality} at $k=n-1$\\
+Thm.~11.1 separation & STANDS & sharpness claim needs ``as $\eps\to0$'' (\S\ref{sec:d6})\\
+Cor.~11.2 admissible $s_k$ & STANDS & \\
+Lem.~12.2 Choi, Lem.~12.3 monotonicity & STANDS & \\
+Lem.~12.4 spherical triangle & STANDS & \\
+Thm.~12.5, Cor.~12.6 under (U) & STANDS & (U) not dischargeable, but (35) does not need
+ it (\S\ref{sec:U})\\
+Prop.~13.1 twirl & STANDS WITH REPAIR & \S\ref{sec:d2}: $\dd\mu$ has total mass
+ $\frac12$; replace $\frac\pi2$ by $\pi$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\begin{equation}\label{eq:nothing}
+ \Rp_{p,\sigma}(x)=p+\frac{x-p}{1+\sigma(x-p)}\quad(x>p),\qquad \Rp_{p,\sigma}(x)=x\quad(x\le p)
+ \qquad\text{(document (5))}.
+\end{equation}
+
+\section{Defect 1: Theorem 7.3(3) is false as written}\label{sec:d1}
+
+\textbf{Location.}  \doc, Thm.~7.3, p.~21, item (3); also the abstract (``so no non-empty
+protocol recovers exactly''), the title of \S7 (``Rigidity: exact recovery never happens'')
+and Tab.~4 (``no exact recovery, ever'').
+
+\textbf{The objection.}  Item (2) reads
+\begin{quote}\itshape
+for \emph{every} non-empty one-sided protocol $\PP$ \textbf{whose last step keeps a
+non-empty part (C3)} --- with or without (H) --- $\Sch(\Phi)\ne0$ on $I$,
+\end{quote}
+and item (3) reads
+\begin{quote}\itshape
+hence $\omega_\PP\ne\omega|_{\Fr(I)}$ and $\Phi_{\rm fid}(\PP)>0$ \textbf{for every
+non-empty protocol}.
+\end{quote}
+Item (3) drops the boldfaced hypothesis, and its proof is ``(3): $\omega_\PP\ne\omega$ by
+(1) and (2)'', which cannot deliver more than (2).  The document itself exhibits the
+counterexample two paragraphs later.
+
+\begin{example}[Rem.~7.4 of the document, made explicit]\label{ex:counter73}
+$n=2$, $J_0=A_1$, one step adjoining $A_2$ with $A_B=J_0=A_1$ (the degenerate step, which
+(C3) explicitly allows: ``the degenerate case $A_B=J$ (empty kept part) is allowed, and
+then $p$ is the far endpoint of $J$'').  The corner is $p=p_1$, and
+$\Phi=\Rp_{p_1,\sigma}|_I$ is the restriction to $I=(p_1,p_3)$ of a \emph{global} M\"obius
+map.  By Thm.~7.3(1), $\omega_\PP=\omega|_{\Fr(I)}$ and $\Phi_{\rm fid}(\PP)=0$.  The
+protocol is non-empty ($N=1\ge1$).
+\end{example}
+\begin{proof}[Verification]
+\lstep{1}{1}{$\Rp_{p_1,\sigma}$ restricted to $I=(p_1,p_3)$ is $x\mapsto
+ p_1+(x-p_1)/(1+\sigma(x-p_1))$ throughout $I$, i.e.\ a single M\"obius map, with no
+ breakpoint in $I$.}
+\lby{\eqref{eq:nothing} --- the piece ``$x\le p$'' of the document's (5) meets $I$ only in
+ $\emptyset$, since $p=p_1=\inf I$; the pole is at $p_1-1/\sigma<p_1$}
+\lstep{1}{2}{Hence $\Sch(\Phi)=0$ as a distribution on $I$.}
+\lby{Lem.~4.2$\langle1\rangle1$ of the document (a M\"obius map has $v'-\frac12v^2=0$
+ pointwise and no breakpoint)}
+\lstep{1}{3}{Therefore $\omega_\Phi=\omega|_{\Fr(I)}$ and $\Phi_{\rm fid}=0$.}
+\lby{Thm.~7.3(1) of the document, direction $\Sch(\Phi)=0\Rightarrow$ M\"obius
+ $\Rightarrow\omega_\Phi=\omega$; and $-\log F(\omega,\omega)=0$}
+\lqed{1}{4}
+\end{proof}
+
+\begin{verdictbreak}
+\textbf{Thm.~7.3(3) is false as written} and is refuted by the document's own Rem.~7.4.
+\textbf{Repair (one clause).}  In (3) write ``for every non-empty protocol \emph{whose last
+step keeps a non-empty part}''; in the abstract, ``so no protocol that keeps a non-empty
+part at its last step recovers exactly''; in \S7's title and in Tab.~4, add ``(last step
+keeps a non-empty part)''.  Nothing else in the document depends on (3) in its unqualified
+form.  Note that the card \texttt{corner-calculus} and the card
+\texttt{vacuum-rigidity-exact-recovery} \emph{both carry the hypothesis correctly} --- the
+cards are here more careful than the document.  Note also that the strict positivity
+$\sigma_m>0$ needs no separate hypothesis: $\sigma_m=s_m/(l_B+l_{\rm new})$ with
+$s_m\ge\lambda_m=l_{\rm new}/l_B>0$, so every step of a legal protocol has $\sigma_m>0$
+automatically (checked in \texttt{ref\_p6\_3\_calculus.out}~A).
+\end{verdictbreak}
+
+\section{Defect 2: the FHSW weight in Box~[G5] and Proposition 13.1}\label{sec:d2}
+
+\textbf{Location.}  \doc, Box~[G5], p.~8 (``the twirled Petz map is the average
+$\int\dd t\,p(t)\alpha_t$ with $p(t)=\frac\pi2(\cosh2\pi t+1)^{-1}$''), and Prop.~13.1,
+p.~35 (``$\mu$ the FHSW measure $\dd\mu(t)=\frac\pi2(\cosh2\pi t+1)^{-1}\dd t$'').
+
+\textbf{The objection.}  FHSW's weight is $\pi(\cosh2\pi t+1)^{-1}$, not
+$\frac\pi2(\cosh2\pi t+1)^{-1}$.  The document's measure has total mass $\frac12$, so it
+is \emph{not} a probability measure; Prop.~13.1$\langle1\rangle1$ asserts that it is, the
+right-hand side of the document's (36) is then $2^{-N}$ times a state (hence not a state),
+and the two Jensen steps of $\langle1\rangle3$--$\langle1\rangle4$ --- both of which need
+a probability measure --- do not apply.
+
+\begin{proof}[Verification]
+\lstep{1}{1}{FHSW eq.~(26), printed p.~6 of \texttt{refs/FHSW20\_2006.08002.pdf}, reads
+ verbatim: ``$p(t)$ is the normalized probability density defined by\quad
+ $p(t)=\dfrac\pi{\cosh(2\pi t)+1}$''.}
+\lby{\texttt{pdftotext -layout -f 6 -l 6 refs/FHSW20\_2006.08002.pdf}, lines 29--32}
+\lstep{1}{2}{$\cosh(2\pi t)+1=2\cosh^2(\pi t)$, hence
+ $\int_{\mathbb R}\frac{\pi\dd t}{\cosh2\pi t+1}
+ =\frac\pi2\int_{\mathbb R}\operatorname{sech}^2(\pi t)\dd t
+ =\frac\pi2\cdot\frac2\pi=1$.}
+\lby{$\cosh2u=2\cosh^2u-1$; $\int\operatorname{sech}^2(\pi t)\dd t=\tanh(\pi t)/\pi$ and
+ $\tanh(\pm\infty)=\pm1$}
+\lstep{1}{3}{Therefore $\int\frac\pi2(\cosh2\pi t+1)^{-1}\dd t=\frac12$.}
+\lby{$\langle1\rangle2$, linearity}
+\lqed{1}{4} \lby{numerically, \texttt{ref\_p6\_3\_separation.out}~(e):
+ $0.5000000000$ against $1.0000000000$}
+\end{proof}
+
+\begin{verdictbreak}
+\textbf{Prop.~13.1 and Box~[G5] are wrong by a factor $2$ in the twirling weight.}
+\textbf{Repair (one constant).}  Replace $\frac\pi2(\cosh2\pi t+1)^{-1}$ by
+$\pi(\cosh2\pi t+1)^{-1}$ in Box~[G5] and in Prop.~13.1; everything else in \S13 then
+stands verbatim (the concavity direction of $\langle1\rangle3$ and both Jensen steps of
+$\langle1\rangle4$ are correct, and I verified them: $P_{\rm tr}(\omega,\cdot)=\inf_a
+\omega(a)\psi(a^{-1})$ is an infimum of affine functionals, hence concave; $\sqrt\cdot$ is
+concave increasing, so $F(\omega,\cdot)$ is concave; and $-\log\int e^{-\Phi}\dd\mu\le
+\int\Phi\dd\mu$ is Jensen for the convex $-\log$, both directions as printed).
+\textbf{Second, independent item in the same box:} Box~[G5] says the rotated map ``acts
+geometrically as the Borchers translation by $1+e^{-2\pi t}$''; FHSW eq.~(167), p.~31 ---
+which is the page reproduced in \texttt{shots/FHSW\_hsm.png} --- gives
+$\alpha^t_\eta(x)=U(a(1+e^{-2\pi t}))^*xU(a(1+e^{-2\pi t}))$ for $\cA_a\subset\cA$, i.e.\
+the translation is $a(1+e^{-2\pi t})$.  The document's parenthetical ``in the
+normalisation where the ordinary Petz map, $t=0$, is the translation by $2$'' makes this
+right, but the $a$ should be written.
+\textbf{Third:} (C3) restricts $s\in[\lambda,2\lambda]$, i.e.\ $t\ge0$, whereas the
+$t$-average of Prop.~13.1 runs over all of $\mathbb R$, where $s_t=\lambda(1+e^{-2\pi t})$
+exceeds $2\lambda$ and $\theta_t=\frac12(1+e^{-2\pi t})>1$.  This is harmless (Note~4
+Thm.~7.1 needs only $s\ge\lambda$, and the corner calculus needs only $\sigma>0$), but
+(C3) and Prop.~13.1 must be made consistent --- and ``$\theta_t\in(0,1]$'' in Prop.~8.2 is
+correct only for $t\ge0$, where in fact $\theta_t\in(\frac12,1]$.
+\end{verdictbreak}
+
+
+\section{Defect 3: Lemma 10.3, equation (29), at the last corner}\label{sec:d3}
+
+\textbf{Location.}  \doc, Lem.~10.3, p.~29, eq.~(29) and its proof step
+$\langle1\rangle10$.
+
+\textbf{The objection.}  (29) states
+\[
+ e^{\Delta_k}<1+\frac2{\zeta_k}\qquad(2\le k\le n-1),
+\]
+``with equality in the limit $\Delta_{k+1}\to\infty$''.  But Def.~10.2 \emph{fixes}
+$\Delta_n:=+\infty$, so at $k=n-1$ the limit is not a limit: it is the actual value, and
+(29) is an \emph{equality}.  Indeed the document proves this itself:
+$\langle1\rangle9$ gives $1/\zeta_{n-1}=(e^{\Delta_{n-1}}-1)/2$, i.e.\
+$e^{\Delta_{n-1}}=1+2/\zeta_{n-1}$ exactly, and Thm.~11.1$\langle1\rangle7$ then says
+``in fact with equality in the first inequality''.  The justification of
+$\langle1\rangle10$, ``$\coth(\Delta_{k+1}/2)>1$'', is false at $k=n-1$, where the
+document's own convention is $\coth(\infty)=1$.
+
+\begin{proof}[Verification]
+\lstep{1}{1}{$1/\zeta_k=\sinh^2\frac{\Delta_k}2\coth\frac{\Delta_{k+1}}2
+ +\frac12\sinh\Delta_k$ and $\coth\frac u2>1$ for $u\in(0,\infty)$, $\coth\frac u2=1$ for
+ $u=\infty$.}
+\lby{the document's Lem.~10.3$\langle1\rangle8$ and Def.~10.2's convention}
+\lstep{1}{2}{$\sinh^2\frac u2+\frac12\sinh u=\frac{\cosh u-1}2+\frac{\sinh u}2
+ =\frac{e^u-1}2$.}
+\lby{$\sinh^2\frac u2=\frac{\cosh u-1}2$ and $\cosh u+\sinh u=e^u$}
+\lstep{1}{3}{Hence $1/\zeta_k\ge(e^{\Delta_k}-1)/2$, i.e.\ $e^{\Delta_k}\le1+2/\zeta_k$,
+ with equality \emph{iff} $\coth(\Delta_{k+1}/2)=1$, i.e.\ iff $k=n-1$.}
+\lby{$\langle1\rangle1$, $\langle1\rangle2$, $\sinh^2\frac{\Delta_k}2>0$}
+\lqed{1}{4} \lby{exact rational test, $20\,000$ random chains: strict for every $k\le n-2$
+ ($0$ violations) and \emph{exact equality} for $k=n-1$ in $20\,000/20\,000$ chains,
+ \texttt{ref\_p6\_3\_separation.out}~(a)}
+\end{proof}
+
+\begin{verdictgap}
+\textbf{(29) must read $e^{\Delta_k}\le1+2/\zeta_k$ for $2\le k\le n-1$, with equality iff
+$k=n-1$} (equivalently: strict for $2\le k\le n-2$), and $\langle1\rangle10$ must split
+the two cases.  Nothing downstream changes: Rem.~11.3's sandwich
+$2/\eps\le e^{\Delta_k}<1+2/\zeta_k$ becomes $\le$ on both sides, and Thm.~11.1 already
+treats $k=n-1$ separately.  The author's check of (29) in
+\texttt{g1a\_separation.py} line~49 uses the multiplicative slack $(1+10^{-8})$, so it
+tests $\le$, not the printed $<$: the numerics could not have caught this.
+\end{verdictgap}
+
+\section{Defect 4: Lemma 4.5's M\"obius factor and the pole}\label{sec:d4}
+
+\textbf{Location.}  \doc, Lem.~4.5, p.~13, and Thm.~6.3(2), p.~19.
+
+\textbf{The objection.}  Lem.~4.5 concludes that there is $g\in\Mob$ \emph{without pole on
+$\overline{\Phi_1(J)}$} with $\Phi_2=g\circ\Phi_1$.  The proof only delivers ``without pole
+there'' on the \emph{open} interval $\Phi_1(J)$ ($\langle1\rangle6$), and the closure
+version is false.
+
+\begin{example}\label{ex:pole}
+$J=(0,1)$, $\Phi_1=\id$, $\Phi_2(x)=x/(1-x)$.  Then $\Phi_1,\Phi_2\in\mathrm{PM}(J)$,
+$\Sch(\Phi_1)=\Sch(\Phi_2)=0$, and the only $g\in\Mob$ with $\Phi_2=g\circ\Phi_1$ is
+$g=\Phi_2$, whose pole is at $1\in\overline{\Phi_1(J)}=[0,1]$.
+\end{example}
+\begin{proof}[Verification]
+\lstep{1}{1}{$\Phi_2'(x)=(1-x)^{-2}>0$ on $(0,1)$ and $\Phi_2$ is M\"obius with no
+ breakpoint, so $\Phi_2\in\mathrm{PM}((0,1))$ and $\Sch(\Phi_2)=0$.}
+\lby{Lem.~4.2$\langle1\rangle1$ of the document}
+\lstep{1}{2}{$\Phi_2=g\circ\Phi_1$ with $\Phi_1=\id$ forces $g=\Phi_2$, and
+ $g(x)=x/(1-x)$ has its pole at $x=1$, an endpoint of $\Phi_1(J)=(0,1)$.}
+\lby{$\langle1\rangle1$}
+\lqed{1}{3}
+\end{proof}
+
+\begin{verdictgap}
+\textbf{Repair: delete ``$\overline{\phantom{x}}$'' in Lem.~4.5 and in Thm.~6.3(2).}  The
+hypothesis is in fact \emph{superfluous} in Thm.~6.3(2): Lem.~6.2 proves that $V_g$ is
+\emph{unitary on all of} $H=L^2(\mathbb R;\mathbb C^r)$ and commutes with $P$ for
+\emph{every} $g\in\Mob$, so
+$\omega\circ\beta_{V_{\Phi_2}}=(\omega\circ\beta_{V_g})\circ\beta_{V_{\Phi_1}}
+=\omega\circ\beta_{V_{\Phi_1}}$ regardless of where the pole of $g$ sits; the
+factorisation $V_{\Phi_2}=V_gV_{\Phi_1}$ (Lem.~6.1) only needs $g\circ\Phi_1$ to be
+defined on $J_N$, which is the open-interval condition.  The one place where the stronger
+form is genuinely wanted --- Thm.~8.5$\langle1\rangle6$, ``$M$ has its pole at
+$p_3+1/\sigma_1$, outside $\overline{\Rp(I)}$'' --- verifies it by hand, correctly:
+$\sigma_1(c+d)<1+(\sigma_1+\sigma_2)(c+d)=1+s'$ because $\sigma_2>0$, so
+$p_3+\frac{c+d}{1+s'}<p_3+\frac1{\sigma_1}$ (checked exactly,
+\texttt{ref\_p6\_3\_calculus.out}~E).
+\end{verdictgap}
+
+\section{Defect 5: Proposition 9.1's count of classes}\label{sec:d5}
+
+\textbf{Location.}  \doc, Prop.~9.1, p.~26, the sentence ``the number of distinct corner
+measures among the $2^{n-2}$ protocols with a starting \emph{pair} is exactly $n-1$, one
+per pair'', and the proof step $\langle1\rangle5$.
+
+\textbf{The objection.}  Step $\langle1\rangle5$ establishes only that the left corners
+occupy $p_3,\dots,p_{i+1}$ and the right corners $p_j,\dots,p_{n-1}$.  For a starting pair
+($j=i+1$) this gives the \emph{support}
+\[
+ \{p_3,\dots,p_{i+1}\}\cup\{p_{i+1},\dots,p_{n-1}\}
+ =\{p_3,\dots,p_{n-1}\}\quad\text{for every }2\le i\le n-2,
+\]
+\emph{the same set for all middle starting pairs}.  (Example: $n=5$, starts $A_2A_3$ and
+$A_3A_4$ both have support $\{p_3,p_4\}$, cf.\ Tab.~2.)  So the supports do not separate
+the classes and the claim ``one per pair'' is not proved.  It is nevertheless \textbf{true}:
+
+\begin{lemma}[the missing step]\label{lem:missing}
+For $1\le i<i'\le n-1$ the corner measures of the starting pairs $(i,i+1)$ and
+$(i',i'+1)$ differ: their masses at $p_{i+1}$ differ by $\sigma^R_{i+2}>0$.
+\end{lemma}
+\begin{proof}
+\lstep{1}{1}{By (22), the mass of the starting pair $(i,i+1)$ at $p_m$ equals
+ $\sigma^L_{m-2}\mathbf 1[m\le i+1]+\sigma^R_{m+1}\mathbf 1[m\ge i+1]$, for
+ $3\le m\le n-1$, together with $\sigma^R_3$ at $p_2$ when $i=1$ and $\sigma^L_{n-2}$ at
+ $p_n$ when $i=n-1$.}
+\lby{the document's (22) with $j=i+1$: left steps $k=1,\dots,i-1$ give mass
+ $\sigma^L_k$ at $p_{k+2}$, i.e.\ $m=k+2\le i+1$; right steps $k=i+2,\dots,n$ give mass
+ $\sigma^R_k$ at $p_{k-1}$, i.e.\ $m=k-1\ge i+1$}
+\lstep{1}{2}{\lcase $2\le i$ and $i+1\le n-1$.  Put $m=i+1$.  The measure of $(i,i+1)$ has
+ mass $\sigma^L_{i-1}+\sigma^R_{i+2}$ at $p_m$; the measure of $(i',i'+1)$ has mass
+ $\sigma^L_{i-1}$ there, because $m=i+1\le i'+1$ but $m=i+1<i'+1$ fails $m\ge i'+1$.}
+\lby{$\langle1\rangle1$ and $i<i'$}
+\lstep{1}{3}{$\sigma^R_{i+2}=\theta_t\,2l_{i+2}/(l_{i+1}(l_{i+1}+l_{i+2}))>0$, so the two
+ masses differ.}
+\lby{(22), all lengths positive, $\theta_t>0$}
+\lstep{1}{4}{\lcase $i=1$: the measure of $(1,2)$ has mass $\sigma^R_3>0$ at $p_2$ while
+ every $(i',i'+1)$ with $i'\ge2$ has none there.  \lcase $i'=n-1$ (and $i\le n-2$):
+ symmetric, at $p_n$.}
+\lby{$\langle1\rangle1$}
+\lqed{1}{5} \lby{$\langle1\rangle2$--$\langle1\rangle4$ exhaust $1\le i<i'\le n-1$}
+\end{proof}
+
+\begin{verdictgap}
+\textbf{Prop.~9.1's count is correct; Lem.~\ref{lem:missing} (three lines) is the missing
+step.}  Verified independently for $n=4,5$ with exact rational lengths
+(\texttt{ref\_p6\_3\_calculus.out}~F: $4$ protocols into $3$ classes, $8$ into $4$, the
+class of a protocol equal to its starting pair in every case).  Two further remarks on the
+same proposition.  (i) Tab.~1's caption ``all $2^2=4$ one-sided protocols'' means all with
+a starting \emph{pair}; complete protocols with a three-interval starting block exist for
+$n=4$ and are not in the table (they are covered by (22) with $j>i+1$).  (ii) Every entry
+of Tables 1--3 was recomputed from scratch and agrees to the printed digits.
+\end{verdictgap}
+
+
+\section{The separation theorem: proof audited, and how sharp the constant really
+is}\label{sec:d6}
+
+\textbf{The proof of Thm.~11.1 is correct, step by step.}  I re-derived every inequality:
+from Lem.~10.3$\langle1\rangle8$, with $E=e^{\Delta_j}$ and $c=\coth(\Delta_{j+1}/2)
+=1+\gamma_{j+1}$,
+\[
+ \frac4{\zeta_j}=c\Bigl(E-2+\frac1E\Bigr)+E-\frac1E
+ \;\Longrightarrow\;(c+1)E=\frac4{\zeta_j}+2c-\frac{c-1}E ,
+\]
+and $E\ge1$, $c\ge1$ give $\frac{c-1}E\le c-1$, hence $E\ge1+\frac4{\zeta_j(2+\gamma_{j+1})}$
+and $\gamma_j=\frac2{E-1}\le\zeta_j(1+\frac{\gamma_{j+1}}2)$.  The downward induction from
+$\gamma_n=0$ has fixed point $\gamma=\eps(1+\gamma/2)$, i.e.\ $\gamma=\frac{2\eps}{2-\eps}$
+(this needs $\eps<2$, which is hypothesised), and substituting back,
+$e^{\Delta_k}\ge1+\frac4{\eps(2+\frac{2\eps}{2-\eps})}=1+\frac{2-\eps}\eps=\frac2\eps$.
+All four displayed constants are right, the direction of every inequality is right, the
+last corner is handled correctly ($\gamma_n=0$), and --- a point worth stressing --- the
+hypothesis uses only the corners $j\ge k$, which is \emph{weaker} than the ``all-weak''
+wording of W3.  Exact rational test over $60\,000$ random chains: $0$ violations of the
+recursion, of the fixed point, of $e^{\Delta_k}\ge2/\eps$ and of
+$e^{\Delta_{n-1}}\ge1+2/\eps$, with $\min(\eps/2)e^{\Delta_k}=1.000000276$
+(\texttt{ref\_p6\_3\_separation.out}~(b)).  Cor.~11.2 is likewise correct
+($\zeta_j^{\rm Petz}\le2\zeta_j\le2\eps$, then Thm.~11.1 at $2\eps<2$, i.e.\ $\eps<1$),
+and the ``pair only'' caveat is confirmed ($\min e^{\Delta_k}=8.07$ with
+$\zeta_k,\zeta_{k+1}\le0.01$, against $2/\eps=200$).
+
+\textbf{The sharpness claim, however, is an $\eps\to0$ statement.}  Lem.~10.3 has a
+consequence the document does not exploit: since $\zeta_k$ depends only on
+$(\Delta_k,\Delta_{k+1})$, and since $(\Delta_2,\dots,\Delta_{n-1})$ are \emph{free}
+positive reals (given any $y_2<\dots<y_n$ put $x_j=e^{y_j}/(1+e^{y_j})$ and
+$l_k=T(x_{k+1}-x_k)$, $l_1=Tx_2$, $l_n=T(1-x_n)$), the constrained minimum of
+$e^{\Delta_k}$ is a \emph{closed backward recursion}: setting $\zeta_j=\eps$ (the binding
+constraint) in the display above gives the quadratic
+\[
+ (c_{j+1}+1)E^2-\Bigl(\frac4\eps+2c_{j+1}\Bigr)E+(c_{j+1}-1)=0 ,\qquad
+ \gamma_j=\frac2{E-1},\quad \gamma_n=0 ,
+\]
+whose root $E$ is the exact minimum of $e^{\Delta_j}$; $\gamma_j$ is increasing in
+$\gamma_{j+1}$, so iterating upward from $\gamma_n=0$ maximises $\gamma_k$.  Theorem~11.1
+is exactly this recursion with the term $(c-1)/E$ dropped.  The numbers:
+
+\begin{table}[h]\centering\small
+\caption{Exact minimum of $e^{\Delta_k}$ over chains with $\zeta_j\le\eps$ for all $j\ge k$,
+as a function of the number $m$ of corners $j\ge k$ (\texttt{ref\_p6\_3\_separation.out}).}
+\label{tab:sharp}
+\begin{tabular}{@{}rrrrrrrr@{}}
+\toprule
+$\eps$ & $m=1$ & $m=2$ & $m=3$ & $m=10$ & $m\to\infty$ & $2/\eps$ & $(\eps/2)\min$\\
+\midrule
+$0.3$   & $7.6667$  & $6.9087$  & $6.8252$  & $6.8134$  & $6.8134$  & $6.6667$  & $1.022015$\\
+$0.1$   & $21.0000$ & $20.0929$ & $20.0519$ & $20.0499$ & $20.0499$ & $20.0000$ & $1.002494$\\
+$0.03$  & $67.6667$ & $66.6960$ & $66.6819$ & $66.6817$ & $66.6817$ & $66.6667$ & $1.000225$\\
+$0.01$  & $201.000$ & $200.010$ & $200.005$ & $200.005$ & $200.005$ & $200.000$ & $1.000025$\\
+$0.003$ & $667.667$ & $666.670$ & $666.668$ & $666.668$ & $666.668$ & $666.667$ & $1.000002$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{verdictgap}
+\textbf{The verdict box after Thm.~11.1 over-states sharpness, and repeats a spurious
+number.}  (i) ``The constant $2$ is sharp'' is true only asymptotically: the exact minimum
+exceeds $2/\eps$ by $2.2\%$ at $\eps=0.3$ and by $0.25\%$ at $\eps=0.1$; write ``the
+constant $2$ is sharp as $\eps\to0$''.  (ii) The box quotes REF-P6-0's minima
+``$6.75$, $20.05$, $66.68$, $200.0$, $666.7$ at $\eps=0.3,0.1,0.03,0.01,0.003$''.  The
+last four agree with the exact minima of Tab.~\ref{tab:sharp} to all printed digits, but
+$6.75$ at $\eps=0.3$ lies \emph{below} the exact minimum $6.8134$ and is therefore not
+attainable; drop it or mark it.  (iii) A warning for whoever repeats the minimisation: a
+naive float search over the \emph{lengths} drives $l_2/l_1\sim10^{-15}$ and destroys
+$T-L_k$; it then reports $e^{\Delta_2}=6.40$ at $\eps=0.3$, below the theorem.  Exact
+recomputation of that point gives $e^{\Delta_2}=6.979$, $\zeta_2=0.29922$: no violation.
+The diagnostic is $\gamma_{n-1}=\zeta_{n-1}$, which the corrupted point violates
+grossly.  Minimise in the modular variables, as above.  \emph{Theorem 11.1 itself is
+untouched and is a genuine advance over W3.}
+\end{verdictgap}
+
+\section{Theorem 6.3: is the per-step use of Note 4 Thm.~7.1 legitimate?}\label{sec:thm63}
+
+Yes.  Three points were checked adversarially.
+
+\lstep{1}{1}{\textbf{State-independence.}  Box~[G1] is a purely algebraic statement about
+ the map $\beta_s$ --- ``the $C^*$-isomorphism $\beta_s$ extends uniquely to a normal,
+ parity-preserving $*$-isomorphism onto its range'' --- and says nothing about which state
+ it is applied to.  Applying $\beta_m$ to the previously recovered (non-vacuum) state is
+ therefore legitimate: composition happens in the Heisenberg picture,
+ $\beta_\PP=\beta_1\circ\dots\circ\beta_N$, and the input state enters only at the very
+ end.}
+\lby{Box~[G1] verified verbatim against \texttt{continuum\_petz\_free\_fermion.tex}
+ Thm.~\texttt{thm:normal-extension} (\S``Quasi-equivalence and normal zero-collar
+ extension'') and \texttt{paper1/sec\_petz.tex} Thm.~\texttt{thm:normal}}
+\lstep{1}{2}{\textbf{Order and target algebras.}  $\beta_m:\Fr(J_m)\to\Fr(J_{m-1})$, so
+ $\beta_1\circ\dots\circ\beta_N:\Fr(J_N)\to\Fr(J_0)$ is the only composable order, and it
+ matches the point-map order $\Phi=k_1\circ\dots\circ k_N$ of (6).  Note~4's target is
+ $\Fr(J_s)\subset\Fr(AB)$ with $AB=A\cup B$; under the document's identification
+ $A=J_{m-1}\setminus A^{(m)}_B$, $B=A^{(m)}_B$, $C=A^{(m)}_{\rm new}$ one has
+ $AB=J_{m-1}$, so the target is right.}
+\lby{(C3), (C4); Note~4's $J_s=(-a,L/(1+s))\subseteq(-a,b)=AB$ iff $s\ge\lambda$, which is
+ the document's Lem.~3.1}
+\lstep{1}{3}{\textbf{$V_{k_1}V_{k_2}=V_{k_1\circ k_2}$.}  Lem.~6.1's computation is
+ correct: the two half-density Jacobians multiply by the chain rule
+ $((k_1k_2)^{-1})'=(k_2^{-1})'\circ k_1^{-1}\cdot(k_1^{-1})'$, all factors positive.
+ Consequently $\beta_{V_{k_1}}\circ\beta_{V_{k_2}}=\beta_{V_{k_1}V_{k_2}}$ on the CAR
+ generators, and $\beta_\PP=\beta_{V_\Phi}$.}
+\lby{Lem.~6.1$\langle1\rangle2$, re-derived}
+\lqed{1}{4}
+
+\begin{verdictok}
+Thm.~6.3 stands.  Rem.~6.4 already records the two caveats REF-P6-0 raised, correctly:
+(i) Box~[G1] is never applied to $\Phi$ itself, and (ii) in a factorisation
+$\Phi=g\circ\Phi_1$ the range of $\beta_{V_{\Phi_1}}$ need not sit inside $\Fr(J_0)$.  One
+thing the document never says and should: \emph{each step is the vacuum Petz map of its own
+inclusion $\Fr(A_B)\subset\Fr(A_B\cup A_{\rm new})$, not the Petz map of the state that
+happens to be the input}.  This is what VWZ do as well (their $P_{R\to RS}$ is built from
+the vacuum reduced state and is then applied to $\sigma^{(1)}$, Box~[G6]), so the
+comparison with VWZ is faithful; but a reader could take ``sequential Petz recovery'' to
+mean the adaptive version, which is a different channel.  One sentence in (C3) fixes it.
+\end{verdictok}
+
+
+\section{Hypothesis (U): can it be discharged?}\label{sec:U}
+
+\textbf{The document's claim.}  Hyp.~12.1, p.~31: ``this is the standard-form version of
+Uhlmann's theorem (Araki--Raggio; Uhlmann).  \emph{Both sources are NOT OBTAINED
+(paywalled)}'', repeated in the bibliography (\cite{Uhl76}: ``NOT OBTAINED, paywalled;
+used only through \cite{AU02}''; \cite{AR82}: ``NOT OBTAINED, paywalled'').
+
+\textbf{Finding 1 (factual).}  \texttt{refs/Uhlmann76.pdf} \emph{is on disk}
+($379\,818$ bytes, dated 5 Sep 2026).  ``NOT OBTAINED'' is wrong, and
+\texttt{README\_AGENTS.md}'s rule (``Never claim to have checked a source you could not
+open; write NOT OBTAINED and say why'') is violated in the opposite direction: a source
+that \emph{was} available was declared unavailable without being read.
+
+\textbf{Finding 2 (substantive --- (U) survives anyway).}  I read Uhlmann~1976 in full
+(7~pp.) and Alberti--Uhlmann~2002 in full (40~pp.).  Neither contains (U).
+\begin{itemize}[leftmargin=2em,nosep]
+\item \textbf{Uhlmann 1976} has exactly one named statement, an \emph{unnumbered}
+ ``THEOREM.'' on printed p.~277, which is the explicit-formula theorem
+ ($\omega_j(a)=\omega(b_j^*ab_j)$, $b_1^*b_2=b_2^*b_1\ge0$ $\Rightarrow$
+ $P(\omega_1,\omega_2)=\omega(b_1^*b_2)^2$).  Its only monotonicity statement is eq.~(24),
+ p.~277, for the \emph{restriction to a subalgebra} $R_1\subseteq R_2$ --- not for Schwarz
+ or CP maps.  Its only convexity statement is eq.~(8), p.~274, one-argument concavity of
+ $P$ (not of $F$).  There is no standard form, no natural cone, no metric statement (the
+ words ``cos'', ``angle'', ``triangle'', ``distance'' do not occur).
+\item \textbf{Alberti--Uhlmann 2002} has no natural-cone representation of $P_M$ either.
+ Its only metric statement is \textsc{Proposition 1}(1), printed p.~3: ``$d_B$ is a
+ distance function on the points of $M^*_+$'' --- stated \emph{without proof} (``The
+ relevant basic facts will be stated here without proof'') and attributed to D.~Bures,
+ Trans.\ AMS \textbf{135} (1969) 199--212.  Araki--Raggio is cited (ref.~[8]) only for
+ $P_M=T_M$ (quadratic means, eq.~(2-2), p.~12), not for (U).
+\end{itemize}
+So \textbf{the decision to declare (U) rather than cite it is correct}; only the sentence
+``both sources are NOT OBTAINED'' must be replaced by ``Uhlmann 1976 (\texttt{refs/})
+contains neither the standard-form statement nor CP-monotonicity; Araki--Raggio 1982 is
+NOT OBTAINED''.  (Note in passing that the \emph{document does not need} Uhlmann~1976 for
+monotonicity: Lem.~12.3 proves it from Box~[G4] plus Choi, and that proof is correct.)
+
+\textbf{Finding 3 (a repair that removes (U) from the only statement that matters).}
+The Bures \emph{distance} $d_B(\varphi,\psi)=\sqrt{2-2F(\varphi,\psi)}$ on normal states
+satisfies the triangle inequality by Alberti--Uhlmann 2002 Prop.~1(1), p.~3 --- a
+\emph{citable, on-disk} statement --- and decreases under the channels $S_j$ because $F$
+increases (Lem.~12.3).  The telescoping of Thm.~12.5 then runs verbatim in $d_B$:
+\begin{equation}\label{eq:chordal}
+ d_B\bigl(\omega|_{\cN_m},\ \omega|_{\cN_1}\circ R\bigr)\ \le\
+ \sum_{k=1}^{m-1}d_B\bigl(\omega|_{\cN_{k+1}},\ \omega|_{\cN_k}\circ R_k\bigr),
+\end{equation}
+with no Hypothesis~(U) and no natural cone.  Since $d_B=\sqrt{2(1-e^{-\Phi_{\rm fid}})}
+=\sqrt{2\Phi_{\rm fid}}\,(1+O(\Phi_{\rm fid}))$, \eqref{eq:chordal} gives
+$\Phi_{\rm tot}\le(\sum_k\sqrt{\Phi_k})^2(1+o(1))$ --- \emph{exactly} Cor.~12.6~(35),
+which is the form W6 needs and the only form used elsewhere (Rem.~12.7, the saturation
+statement, the comparison with W2).  I verified the two asymptotics numerically: the
+relative excess of the exact bound over $(\sum\sqrt{\Phi_k})^2$ falls as
+$1.1\cdot10^{-1}\to7.2\cdot10^{-4}\to7.4\cdot10^{-6}$ (angle route) and
+$1.7\cdot10^{-1}\to9.6\cdot10^{-4}\to1.0\cdot10^{-5}$ (chordal route) for
+$\Phi_k\le10^{-2},10^{-4},10^{-6}$ (\texttt{ref\_p6\_3\_separation.out}~(d)).
+
+\begin{verdictgap}
+\textbf{Repair.}  Split Thm.~12.5 into (a) the \emph{chordal} inequality
+\eqref{eq:chordal}, proved unconditionally from Lem.~12.3 and Alberti--Uhlmann 2002
+Prop.~1(1) (with a citedbox recording that AU02 states it without proof and attributes it
+to Bures 1969), and (b) the \emph{angle} inequality (33), which keeps (U).  Cor.~12.6~(35)
+then becomes unconditional; only the exact form (34),
+$\Phi_{\rm tot}\le-\log\cos(\sum\arccos e^{-\Phi_k})$, still needs (U).  This is a strict
+improvement: the angle triangle inequality is strictly stronger than the chordal one
+(chord $=2\sin(\text{angle}/2)$ is concave increasing and vanishes at $0$), so nothing is
+lost at second order.  Also correct the bibliography entry for \cite{Uhl76} and the
+``NOT OBTAINED'' sentence of Hyp.~12.1.
+\end{verdictgap}
+
+\section{Theorem 8.5: Protocol 3}\label{sec:thm85}
+
+Everything checks, exactly.  $\sigma_1=\theta_t2a/(b(a+b))$ and
+$\sigma_2=\theta_t2d/(c(c+d))$ are the parameters of (C3) for $P_{B\to AB}$ (corner: the
+right end of $B$, i.e.\ $p_3$) and $P_{C\to CD}$ (corner: the left end of $C$, i.e.\
+$p_3$); the two orders give \emph{literally} the same point map (verified exactly at $36$
+rational points); $\Sch(\Phi^{(3)})=-2(\sigma_1+\sigma_2)\delta_{p_3}$ exactly; and
+$\zeta_{\rm eff}=(\sigma_1+\sigma_2)(a+b)(c+d)/(a+b+c+d)$ exactly
+(\texttt{ref\_p6\_3\_calculus.out}~E).  On the checklist question ``is $s'\ge2\lambda'$
+true for all $a,b,c,d>0$ or only $s'\ge\lambda'$'':
+\[
+ s'=(\sigma_1+\sigma_2)(c+d)
+ =\theta_t\Bigl[\frac{2a(c+d)}{b(a+b)}+\frac{2d}c\Bigr]
+ \;>\;\theta_t\,\frac{2d}c=2\theta_t\lambda' ,
+\]
+\emph{strictly}, for all $a,b,c,d>0$, since the first bracketed term is positive: at
+$t=0$ ($\theta_0=1$) this is $s'>2\lambda'$, and for every $t\ge0$, $\theta_t\ge\frac12$
+gives $s'>\lambda'$.  Checked in $50\,000$ random rational configurations, $0$ failures.
+The document's ``$\ge$'' is therefore correct but weaker than the truth.
+
+\begin{verdictok}
+Thm.~8.5 stands.  One step is tacit and should be written: item~(4) turns an identity of
+\emph{states} into the identity of \emph{numbers} $\Phi^{(3)}_{\rm fid}=\Phi_A(\zeta_{\rm
+eff})$, which presupposes that \emph{for a single corner $\Phi_{\rm fid}$ is a function of
+$\zeta$ alone}.  That is true and available from the document's own machinery ---
+$\Mob$ acts transitively on pairs (interval, interior point), $\zeta=\sigma\bI(p)$ is the
+$\Mob$-invariant (Lem.~3.3) and $\omega$ is $\Mob$-invariant (Lem.~6.2) --- but it is
+nowhere stated.  Add it as a corollary of Lem.~3.3 and Thm.~6.3(2).  A second, smaller
+point: ``$\Phi_A$'' is introduced in (C7) as ``paper~1's single-step function'' with the
+card \texttt{thm-a-quadratic-law} as the reference, but that card states only the
+\emph{asymptotic} law $\lim_{\zeta\to0}\Phi/\zeta^2=c/(12\pi^2)$; at finite $\zeta$,
+$\Phi_A(\zeta)$ is a definition ($-\log F$ of the single compression with invariant
+$\zeta$), not a theorem, and (C7) should say so.
+\end{verdictok}
+
+
+\section{Hypothesis (H): sufficiency, necessity, and Theorem 5.2 recomputed}\label{sec:H}
+
+\subsection{Is (single-interval conditioning $+$ starting block of $\ge2$ intervals)
+sufficient?  Yes.}
+
+Prop.~5.4(a)'s proof is correct and I reproduce the decisive point: if $|J_0|\ge2$ chain
+intervals and every $A_B$ is a single one, then (i) $p^{(m)}$ is an \emph{interior} chain
+point of $J_{m-1}$, hence of every later $J_{m'-1}$; (ii)
+$\operatorname{int}M_{m'}$ contains exactly one chain point, the junction $q_{m'}$ between
+$A^{(m')}_B$ and $A^{(m')}_{\rm new}$, and $q_{m'}\in\partial J_{m'-1}$; (iii)
+$\operatorname{int}J\cap\partial J=\emptyset$, so $p^{(m)}\ne q_{m'}$ and
+$p^{(m)}\notin\operatorname{int}M_{m'}$.  Empirically: in $400$ random complete protocols
+of that class (chains of $3$--$6$ intervals, random rational lengths, random interleavings),
+(H) held $400/400$ and the naive corner measure was \emph{exactly} the Schwarzian
+$400/400$ (\texttt{ref\_p6\_3\_calculus.out}~B).
+
+\subsection{Is it necessary?  No --- twice.}
+
+(H) does not imply single-interval conditioning: VWZ 1(B) conditions on the union $BC$ and
+satisfies (H) through Prop.~5.4(b).  And single-interval conditioning does not imply (H)
+when $J_0$ is one interval: that is Ex.~5.6, which I recomputed exactly (below).  In $400$
+random protocols with a single-interval start, (H) failed $209$ times; in $400$ with
+arbitrary union conditioning regions, it failed $199$ times.  In \emph{all $408$} failures
+the naive corner measure was \emph{wrong}, while Thm.~5.2 was exact in all $1200$
+protocols --- so (H) is, empirically, not merely sufficient but also necessary for
+Thm.~5.3's conclusion at generic lengths.
+
+\subsection{Example 5.5 (REF-P6-0's counterexample) recomputed from Thm.~5.2}
+
+Lengths $(1.3,2.1,0.9,1.7)$, $J_0=A_2A_3$, step~1 $=A_4$ on $A_3$, step~2 $=A_1$ on
+$A_2A_3$.  Independently, in exact rational arithmetic:
+$\sigma_1=2l_4/(l_3(l_3+l_4))=\frac{2\cdot1.7}{0.9\cdot2.6}=1.452991$,
+$\sigma_2=2l_1/((l_2+l_3)(l_1+l_2+l_3))=\frac{2\cdot1.3}{3.0\cdot4.3}=0.201550$;
+$p^{(1)}=p_3=3.4\in\operatorname{int}M_2=(0,4.3)$, so (H) fails;
+$x_0=k_2^{-1}(p_3)=\tfrac{4.3\cdot0.81860464-0.9}{0.81860464}$, numerically
+$3.200568181818\ldots$; $k_2'(x_0)=(1+\sigma_2\cdot1.099436)^{-2}=0.670114$;
+mass $=-2\sigma_1k_2'(x_0)=-1.947338594$; no mass at $p_3$ (\emph{exactly} zero, not
+$5.4\cdot10^{-5}$ --- that figure is the finite-difference noise of the author's
+\texttt{jump()} routine); mass $-2\sigma_2=-0.403101$ at $p_4$; total
+$-2.350439=71.03\%$ of the naive $-2(\sigma_1+\sigma_2)=-3.309084$.  Every digit printed
+in Ex.~5.5 is reproduced.  Control: with $A_B=A_2$ both corners sit at $p_3$ and the
+masses add \emph{exactly} to $-3.6342742\ldots$ (the document's $-3.634266$ vs
+$-3.634274$ is again finite-difference noise).
+
+\subsection{Example 5.6 (the swallowed corner) recomputed}
+
+$l=(1,1,1)$, $J_0=A_2$; $\sigma_1=\sigma_2=1$; $k_2=\Lp_{p_3,1}$ has range
+$(\tfrac43,2)\not\ni p_2=1$, so the index $m=1$ drops out of (16) altogether; the exact
+Schwarzian of $\Phi$ is $-2\delta_{p_3}$ and nothing else.  Confirmed exactly.  The
+example is correct and the correction it forces on W1 (``the first implies the second'' is
+\emph{false}) is correct.
+
+\begin{verdictok}
+Thm.~5.2, Thm.~5.3, Prop.~5.4 and both examples stand.  Two wording items.  (i) The boxed
+(17) should restrict the sum to the \emph{interior} junctions of $J_N$: a degenerate step
+($A_B=J_{m-1}$) puts its corner on $\partial I$, where it carries no mass; the proof's
+step $\langle1\rangle3$ says so in a parenthesis but the display does not.  (ii) The
+parenthetical in $\langle1\rangle3$, ``the degenerate case excluded by $\kappa_k$ ranging
+over junctions of $J_N$'', is opaque; say ``corners at $\partial J_N$ contribute no mass''.
+\end{verdictok}
+
+\section{The remaining results, briefly}\label{sec:minor}
+
+\begin{itemize}[leftmargin=1.4em]
+\item \textbf{Lem.~3.3, Lem.~3.4 (the $(-1)$-density law and the exact field).}  Correct.
+ The conjugation computation $\tilde u=(u+\gamma)/g'(p)$ is right, so
+ $\sigma'=\sigma/g'(p)$ and $\zeta=\sigma\bI(p)$ is $\Mob$-invariant.  The field identity
+ $-(x-p)^2/\beta_{I'}(x)=\beta_{I'}(p)w(u)$, $w(u)=-4\sinh^2(u/2)$, is an identity of
+ rational functions and I re-derived each of the five algebraic steps.  \emph{Signs}:
+ $\partial_\sigma|_0\Rp=-(x-p)^2$ for $x>p$ and $\partial_\sigma|_0\Lp=+(x-p)^2$ for
+ $x<p$, so the two fields point \emph{towards} $p$ from their own side, as they must, and
+ in the frame $y$ they are $\pm\zeta w(u)\mathbf 1_{\pm u>0}\partial_y$ with
+ $w\le0$; the associated Schwarzian jump is $-2\sigma$ \emph{for both}
+ (Lem.~4.3, re-verified exactly for $2000$ random $(p,\sigma)$ and both sides), so
+ $\kappa=-[v]_p/2=+\sigma>0$ from either side.  Rem.~3.6 states this correctly.
+\item \textbf{Lem.~4.2.}  Correct, including the point the brief cares about: $v^2\in
+ L^\infty_{\rm loc}$ has no atom because $\Phi'$ is continuous, so there is no ``square''
+ contribution and $\Sch$ is a pure sum of point masses.
+\item \textbf{Lem.~4.4.}  Correct.  The pullback factor is $g'(g^{-1}(r))$ on the mass
+ (equivalently $\delta_r\circ g=g'(g^{-1}(r))^{-1}\delta_{g^{-1}(r)}$ with the extra
+ $(g')^2$); both forms agree.  A pedantic point: the sum in (14) runs over the breakpoints
+ $r$ of $f$ \emph{that lie in $g(J)$}; the statement omits that restriction, which
+ Thm.~5.2$\langle1\rangle2$ then supplies.
+\item \textbf{Lem.~7.1, Lem.~7.2.}  Correct.  The separable ODE $g'=g^2/(c(x-y_1)^2)$ and
+ its integral $1/g=1/(c(x-y_1))+A_\pm$ are right, and the base-point argument gluing
+ $M_-=M_+$ is right.  Lem.~7.2's perturbation $a=1+tb$ is right (the remainder is
+ $O(t^2)$ uniformly).
+\item \textbf{Lem.~10.1 (amplification).}  Correct: $\beta_{(\alpha,\omega)}(p)$ is
+ strictly increasing in $\omega$ and strictly decreasing in $\alpha$, so
+ $\zeta^{(I)}\ge\zeta^{(I_{\rm step})}$ with equality iff $I=I_{\rm step}$; and for
+ $I_{\rm step}=(p_1,f)$ the ratio is $1+ac/(b(a+b+c))=1+z'$, the cross ratio, verified in
+ $20\,000$ exact rational cases.  The document is careful to hypothesise that the kept
+ block reaches $p_1$ --- the brief's W1 states the closed form without that hypothesis,
+ and for a step whose $I_{\rm step}$ is strictly interior the ratio is a product of two
+ such factors, not $1+z'$.  Worth one sentence.
+\item \textbf{Lem.~12.2 (Choi), Lem.~12.3 (monotonicity), Lem.~12.4 (spherical).}  All
+ three correct; the Schur-complement argument, the two-step chain
+ $\varphi(T(a))\psi(T(a^{-1}))\ge\varphi(T(a))\psi(T(a)^{-1})\ge P_{\rm tr}(\varphi,\psi)$
+ and the $\cos(\alpha+\beta)$ bound are right, and the direction of every inequality is
+ right ($F$ \emph{increases} under a Heisenberg channel, $\Bang$ decreases).
+\item \textbf{Prop.~8.2.}  The identity and the literal equality of the point maps are
+ exact (I re-verified the identity in $20\,000$ random rational $(b,c,d)$).  One
+ definitional wrinkle: 1(A) is the single step $P_{B\to BCD}$ with
+ $A_{\rm new}=CD$, a \emph{union} of two chain intervals, whereas (C3) admits only ``a
+ chain interval $A_{\rm new}$ adjacent to $J$''.  1(A) is a protocol of the \emph{coarse}
+ chain $A|B|CD$; say so, or widen (C3).
+\item \textbf{Cor.~8.6, Rem.~9.2.}  Correct.
+\item \textbf{Cor.~12.6.}  Correct.  $\arccos e^{-\Phi}=\sqrt{2\Phi}(1+O(\Phi))$,
+ $-\log\cos\Bang=\frac12\Bang^2(1+O(\Bang^2))$ and
+ $\frac12(\sum\sqrt{2\Phi_k})^2=(\sum\sqrt{\Phi_k})^2$: all three verified.  The
+ extension step $\Phi_k\le\check\Phi_k$ is right (restriction along the inclusion
+ $\cN_{k+1}\hookrightarrow\Fr(I)$ is a normal unital $*$-homomorphism, so Lem.~12.3
+ applies).  The saturation claim of Rem.~12.7 is right:
+ $(\sum\sqrt{f_2}\zeta_k)^2=f_2(\sum\zeta_k)^2$.
+\end{itemize}
+
+
+\section{Audit of the six citedboxes}\label{sec:cited}
+
+Each of the document's boxes was checked against the source on disk: statement, locator,
+screenshot, use, verdict.
+
+\begin{center}\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+box & statement & locator & screenshot\\
+\midrule
+{[G1]} Note~4 Thm.~7.1 & verbatim, correct & correct & \texttt{G1a\_N4\_thm71.png}, present\\
+{[G2]} paper~1 Def.~2.5 & verbatim, correct & correct & \texttt{G1a\_P1\_defzeta\_thmnormal.png}\\
+{[G3]} BGL Thm.~2.3(ii) & verbatim, correct & correct & \texttt{R1\_BGL\_thm23.png}\\
+{[G4]} Alberti--Uhlmann & correct formulas & \textbf{mislabelled} & \textbf{shows the proof,
+ not the statement}\\
+{[G5]} FHSW & \textbf{$p(t)$ wrong by $2$} & $\S4.2$ correct & \texttt{FHSW\_hsm.png} (does
+ not show $p(t)$)\\
+{[G6]} VWZ \S5 & verbatim, correct & correct & two figures, present\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{[G1].}  Transcription checked word for word against
+\texttt{continuum\_petz\_free\_fermion.tex} (Thm.~\texttt{thm:normal-extension}: ``For
+every $s\ge\lambda$, the $C^*$-isomorphism $\beta_s$ in (beta-Cstar) extends uniquely to a
+normal, parity-preserving $*$-isomorphism onto its range,
+$\overline\beta_s:\cF_r(I)\to\cF_r(J_s)\subset\cF_r(AB)$'') and against
+\texttt{paper1/sec\_petz.tex} Thm.~\texttt{thm:normal}: verbatim.  Hypotheses satisfied per
+step (\S\ref{sec:thm63}).  \emph{Verdict: verified.}
+
+\textbf{[G2].}  \texttt{paper1/sec\_petz.tex} Def.~\texttt{def:zeta}: ``$\zeta:=\frac{as}
+{a+L}$.  For the ordinary Petz map $s=2c/b$ and $\zeta=2z$; for the rotated map $s_t$ one
+has $\zeta_t=z(1+e^{-2\pi t})$.''  Verbatim; and $z=ac/(b(a+b+c))$ is
+\texttt{paper1/sec\_setting.tex} eq.~(eta-z), quoted correctly in the document's (25).
+\emph{Verdict: verified.}
+
+\textbf{[G3].}  \texttt{refs/BGL93\_funct-an-9302008.pdf}, ``2.3 Theorem'', reads
+``\dots (ii) If $O$ is a region in $\widetilde{\mathcal K}$, $\Delta_O$ the modular
+operator for $(R(O),\Omega)$ and $U_O(t)$ the unitary associated with $\Lambda^O_t$, then
+$\Delta^{it}_O=U_O(t)$'': verbatim.  The document is right that for $\Fr$ it does not
+need BGL (Lem.~6.2 proves M\"obius invariance at the one-particle level).
+\emph{Verdict: verified.}
+
+\begin{citedbox}{[G4] corrected --- Alberti--Uhlmann 2002: which formula is which}
+\emph{Transcribed verbatim} from \texttt{refs/AlbertiUhlmann02\_math-ph-0202038.pdf}:
+\begin{itemize}[leftmargin=1.4em,nosep]
+\item \textsc{Definition 2}, p.~4: ``$P_M(\nu,\varrho)=\sup_{\{\pi,K\},
+ \phi\in S_{\pi,M}(\nu),\psi\in S_{\pi,M}(\varrho)}|\langle\psi,\phi\rangle|^2$'';
+ eq.~(1-4), p.~4: ``$|f(1)|^2\le P_M(\nu,\varrho)\le\nu(a)\varrho(a^{-1})$''.
+\item \textsc{Theorem 2}, \textbf{p.~6}: ``Let $M$ be a $W^*$-algebra, and be
+ $\nu,\varrho\in M^*_+$.  Then, the following facts hold: (1)
+ $\sqrt{P_M(\nu,\varrho)}=\inf_{x>0}\sqrt{\nu(x)\varrho(x^{-1})}$; \dots''  The paragraph
+ after it adds: ``The previous result remains valid even if $M$ is supposed to be a unital
+ $C^*$-algebra.''
+\item \textsc{Corollary 2}(5), \textbf{p.~8}: ``$\sqrt{P_M(\nu,\varrho)}
+ =\inf_{x>0}\frac12\{\nu(x)+\varrho(x^{-1})\}$.''
+\end{itemize}
+\emph{Objection.}  The document's Box~[G4] attributes the \emph{normalised}
+($\frac12\{\nu(a)+\varrho(a^{-1})\}$) form to ``Theorem 2(1)''.  It is
+\textbf{Corollary 2(5), p.~8}; Theorem 2(1), p.~6, is the product form.  The screenshot the
+document includes, \texttt{shots/alberti\_uhlmann\_thm2\_p11.png}, is \emph{page 11} and
+shows the \emph{proof} of Corollary 2(5) (``Hence, from \textsc{Theorem} 2(1) one can
+conclude that $\sqrt{P_M(\nu,\varrho)}\le\inf_{x>0}(1/2)\{\nu(x)+\varrho(x^{-1})\}$ \dots
+the validity of (5) follows''), not the statement of Theorem 2.  Mathematically nothing is
+wrong --- the two forms are equivalent by $x\mapsto tx$ and AM--GM, and Lem.~7.2 and
+Lem.~12.3 use only eq.~(1-4) and Theorem 2(1) --- but the locator and the screenshot must
+be corrected.  \emph{Verdict: usage sound, locator wrong.}
+
+\smallskip\noindent\includegraphics[width=\textwidth]{shots/REFP63_AU02_thm2_p6.png}
+\end{citedbox}
+
+\begin{citedbox}{[G5] corrected --- FHSW 2020 eq.~(26), p.~6: the twirling weight}
+\emph{Transcribed verbatim} (\texttt{refs/FHSW20\_2006.08002.pdf}, printed p.~6):
+``$p(t)$ is the normalized probability density defined by\quad
+$p(t)=\dfrac{\pi}{\cosh(2\pi t)+1}$. \hfill (26)''
+The document's Box~[G5] and Prop.~13.1 write $\frac\pi2(\cosh2\pi t+1)^{-1}$, whose total
+mass is $\frac12$ (\S\ref{sec:d2}).  The geometric action is FHSW eq.~(167), p.~31:
+``$\alpha^t_\eta(x)\equiv U(a(1+e^{-2\pi t}))^*xU(a(1+e^{-2\pi t}))$'' --- with the factor
+$a$; the page reproduced in the document's \texttt{shots/FHSW\_hsm.png} is exactly this
+page, so the screenshot supports the translation claim but \emph{not} the $p(t)$ claim,
+which has no screenshot.  \emph{Verdict: one wrong constant, one missing factor $a$, one
+unsupported claim; repairs in \S\ref{sec:d2}.}
+
+\smallskip\noindent\includegraphics[width=\textwidth]{shots/REFP63_FHSW_pt_eq26.png}
+\end{citedbox}
+
+\begin{citedbox}{[G7] new --- Alberti--Uhlmann 2002 Prop.~1(1), p.~3: the Bures distance is
+a metric}
+\emph{Transcribed verbatim} (\texttt{refs/AlbertiUhlmann02\_math-ph-0202038.pdf}, p.~3):
+``\textsc{Proposition 1}.  Let $d_{\rm B}:M^*_+\times M^*_+\ni\{\nu,\varrho\}\mapsto
+d_{\rm B}(M|\nu,\varrho)\in\mathbb R_+$ be given in accordance with Definition 1.  Then
+the following hold: (1) $d_{\rm B}$ is a distance function on the points of $M^*_+$; (2)
+$d_{\rm B}$ is topologically equivalent with $d_1$ on bounded subsets of $M^*_+$.''
+Definition~1, p.~1: $d_{\rm B}(M|\nu,\varrho)=\inf\lVert\psi-\phi\rVert$ over
+representations and vector representatives; eq.~(1-3), p.~4:
+$d_{\rm B}^2=(\lVert\nu\rVert_1-\sqrt{P_M})+(\lVert\varrho\rVert_1-\sqrt{P_M})$, i.e.\
+$d_{\rm B}=\sqrt{2-2F}$ on states.
+
+\emph{Caveats, both important.}  The proposition is stated \emph{without proof} (``The
+relevant basic facts will be stated here without proof and read as follows'') and item~(1)
+is attributed to ``D.~Bures in [11]'' $=$ Trans.\ Amer.\ Math.\ Soc.\ \textbf{135} (1969)
+199--212, which is \textbf{NOT OBTAINED} (not in \texttt{refs/}).  And the metric is the
+\emph{chordal} one; nothing in Alberti--Uhlmann~2002 or in Uhlmann~1976 concerns the
+Bures \emph{angle} $\arccos\sqrt{P}$ (I searched both for ``arccos'', ``angle'',
+``geodesic'', ``natural cone'', ``standard form'': no hits).
+
+\emph{Use.}  \S\ref{sec:U}: it replaces Hypothesis~(U) in the only statement W6 needs.
+
+\smallskip\noindent\includegraphics[width=\textwidth]{shots/REFP63_AU02_prop1_p3.png}
+\end{citedbox}
+
+\begin{citedbox}{[G8] new --- Uhlmann 1976 (\texttt{refs/Uhlmann76.pdf}): what it does and
+does not contain}
+\emph{Transcribed verbatim}, printed p.~277 (pdf p.~5), the \emph{only} monotonicity
+statement in the paper:
+``We may extend this result considerably with the help of a simple observation.  Assuming
+for two algebras the relation $R_1\subseteq R_2$, we find
+$P(R_1|\hat\omega_1,\hat\omega_2)\ge P(R_2|\omega_1,\omega_2)$ \hfill (24)
+if only $\hat\omega_j$ are the restrictions of the states $\omega_j$ of $R_2$ on $R_1$.''
+Also printed p.~274 (pdf p.~2), eq.~(8), one-argument concavity of $P$:
+``$P(\omega,p_1\omega_1+p_2\omega_2)\ge p_1P(\omega,\omega_1)+p_2P(\omega,\omega_2)$''.
+The paper's single named theorem (unnumbered, p.~277) is the explicit-formula theorem.
+\emph{There is no standard-form / natural-cone statement, no CP- or Schwarz-map
+data-processing inequality, and no metric statement anywhere in the paper.}
+
+\emph{Use.}  It is the source the document declares ``NOT OBTAINED''.  It is obtained; it
+does not contain (U); so (U) must stay a hypothesis --- but the bibliography entry and
+Hyp.~12.1 must be corrected.  \emph{Verdict: the document's factual claim about this
+source is wrong; its mathematical decision is right.}
+
+\smallskip\noindent\includegraphics[width=\textwidth]{shots/REFP63_Uhlmann76_p277.png}
+\end{citedbox}
+
+\textbf{[G6].}  All five VWZ quotations were checked against
+\texttt{refs/VWZ\_2307.14434.pdf} (pp.~43--46): the 1(B)$=$1(A) passage, the Protocol~2
+and Protocol~3 passages, (5.9), (5.10) and the clause ``with $f'<f$, confirming that the
+sequential recovery is less effective than the single-step case''.  All verbatim, and the
+clause REF-P6-0 insisted on is present.  \emph{Verdict: verified.}
+
+\section{The author's scripts}\label{sec:scripts}
+
+Both were rerun with the session interpreter (\texttt{numpy} is required, so the system
+\texttt{python3} fails; the session venv was used).
+
+\textbf{\texttt{g1a\_calculus.py}}: runs clean, output \emph{byte-identical} to
+\texttt{g1a\_calculus.out}, $33$ PASS, $0$ FAIL.  It tests what the text claims, with two
+caveats.  (i) The \S4 rotated-$t$ checks multiply both sides of the same identity by the
+common $\theta_t$ and are therefore vacuous as independent tests (the mathematical point
+--- that a \emph{common} $\theta_t$ factors out --- is nonetheless correct).  (ii) \S5
+verifies the masses \emph{at the claimed corners} but never checks that there are no
+masses elsewhere; under (H) that is guaranteed by Thm.~5.3, but the check is one-sided.
+(iii) The verdict box after Lem.~4.5 says ``all $32$ checks PASS'' while the Summary says
+$33$; the script prints $33$.
+
+\textbf{\texttt{g1a\_separation.py}}: runs clean, $10$ PASS, $0$ FAIL, but the output
+\emph{differs} from the stored \texttt{g1a\_separation.out}: the three
+\texttt{RuntimeWarning} lines were deleted from the stored file while the three
+source-echo lines they annotate were kept.  The \texttt{.out} on disk is therefore not a
+verbatim capture of the run.  Substantive caveats: (a) check (iv) uses the multiplicative
+slack $(1+10^{-8})$ and so tests $e^{\Delta_k}\le1+2/\zeta_k$, not the strict inequality
+the document prints (\S\ref{sec:d3}); (b) the last-corner check uses
+$\eps=\max_j\zeta_j$ over \emph{all} corners rather than $\zeta_{n-1}$, which makes it
+strictly weaker than Thm.~11.1$\langle1\rangle7$; (c) \texttt{pen\_obj} contains the
+expression \texttt{np.log(D[k] and np.exp(D[k]))}, a Python truthiness idiom that
+evaluates to $\Delta_k$ only because $\Delta_k\neq0$ --- it should be \texttt{D[k]};
+(d) the ``constant is sharp'' check re-uses REF-P6-0's optimum instead of establishing a
+minimum, and is subject to the float-cancellation trap of \S\ref{sec:d6}.
+
+\begin{verdictok}
+Both scripts support the text.  No numerical claim of the document was found to be wrong;
+the four defects above are all analytic and could not have been caught by these scripts as
+written (\S\ref{sec:d3}(a) explains why for (29)).
+\end{verdictok}
+
+
+\section{The eight pending cards}\label{sec:cards}
+
+Packet \texttt{rigor/review\_packet\_P6\_3.md}.  Before anything else: \textbf{ten of the
+thirteen \texttt{doc:} evidence tokens of the six new cards did not resolve}
+(\texttt{\#Thm5.2}, \texttt{\#Thm5.3}, \texttt{\#Thm7.3}, \texttt{\#Thm11.1},
+\texttt{\#Lem10.3}, \texttt{\#Lem10.1}, \texttt{\#Prop9.1}, \texttt{\#Tab1},
+\texttt{\#Thm12.5}, \texttt{\#Cor12.6}: ``anchor NOT FOUND''), and the eleventh,
+\texttt{\#Lem7.1}, resolved \emph{falsely} to lines 122--142 --- paragraph (C3) of the
+document --- because \texttt{kb}'s resolver strips the ``Lem'' prefix and then matches the
+substring ``7.1'' in ``Note~4 Thm.~7.1''.  A referee following that pointer would read the
+wrong passage.  Per \texttt{kb/REVIEW\_BRIEF.md} (``Fix nothing yourself except evidence
+tokens that point to the wrong location''), I rewrote all of them as
+\texttt{\#label\{thm:corner\}} etc.; each now resolves to a unique line, namely the
+\verb|\label| of the intended result.  The author should use this form from now on.
+
+\begin{center}\small
+\begin{tabular}{@{}llp{8.6cm}@{}}
+\toprule
+card & verdict & reason\\
+\midrule
+\texttt{corner-calculus} & \textbf{FAIL} & the Statement's general rule reads
+ ``$S(\Phi)=-2\sum_m\sigma_m\,G_m(x_m)\,\delta_{x_m}$ \dots\ and $G_m$ the derivative
+ there'': two missing primes.  Since $G_m(x_m)=p^{(m)}$ by the definition of $x_m$ given in
+ the same sentence, the displayed formula is not merely a typo, it is false.  The History
+ entry of the same card has $G_m'(x_m)$ correctly.  Everything else checks (see below).\\
+\texttt{corner-separation-constraint} & \textbf{FAIL} & (i) ``consequently
+ $e^{\Delta_k}<1+2/\zeta_k$ \emph{always}'' is false: at $k=n-1$ it is an equality
+ (\S\ref{sec:d3}).  (ii) ``The constant 2 is SHARP'' holds only as $\eps\to0$: the exact
+ constrained minimum is $1.0220\times(2/\eps)$ at $\eps=0.3$ (Tab.~\ref{tab:sharp}).
+ (iii) the quoted list ``$6.75$, $20.05$, \dots\ to four digits'' contains a value,
+ $6.75$ at $\eps=0.3$, that is \emph{below} the exact minimum $6.8134$ and therefore not
+ attainable; and $20.05$ agrees with $2/\eps$ to three digits, not four.\\
+\texttt{sequential-recovery-bound-type-iii} & \textbf{FAIL} & the Statement says (U) rests
+ on ``Uhlmann 1976 / Araki-Raggio 1982, both NOT OBTAINED, paywalled''.
+ \texttt{refs/Uhlmann76.pdf} is on disk, and reading it shows it contains \emph{no}
+ standard-form statement (\S\ref{sec:U}, Box~[G8]) --- so the attribution is wrong twice
+ over.  Add: the second-order form, which is all the card's own ``SATURATION''/``W2''
+ discussion uses, needs no (U) at all (\eqref{eq:chordal}).  The rest of the card ---
+ including the attribution of the variational formula to Alberti--Uhlmann Thm.~2(1), which
+ is \emph{more} accurate than the document's Box~[G4] --- is correct.\\
+\texttt{network-second-order-law} & \textbf{FAIL} & the Statement still asserts ``the bound
+ $e^{\Delta_k}\ge2/\eps$ is NOT proved (a minimisation bounds the minimum only from above;
+ target of G1a)''.  It \emph{is} proved (Thm.~11.1, audited in \S\ref{sec:d6}), and the
+ sibling card \texttt{corner-separation-constraint} carries it with status
+ \texttt{proved}: the KB now contradicts itself.  \emph{Judgement asked for in the charge:
+ the clause is now WRONG, not merely stale} --- it is an assertion about what is proved,
+ it is false, and it contradicts another card; a dated note that says it ``can be dropped''
+ does not repair a Statement, it only records that the author knows.  Repair: replace the
+ clause by ``$e^{\Delta_k}\ge2/\eps$ for all-weak chains is proved
+ (\texttt{corner-separation-constraint}; the hypothesis needs only the corners $j\ge k$)''
+ and delete ``given the separation bound'' wherever it is carried as a proviso.\\
+\texttt{phase6-plan} & \textbf{FAIL} & three items.  (i) ``hypothesis: every step conditions
+ on a single chain interval, or more generally no earlier corner lies in the interior of a
+ later step's moving part --- \emph{the first implies the second}, not conversely'': the
+ implication is \textbf{refuted} by Ex.~5.6 of the very document this plan commissioned
+ (recomputed exactly, \S\ref{sec:H}); the correct sufficient condition adds ``and the
+ starting block has $\ge2$ chain intervals'', exactly as the card
+ \texttt{corner-calculus} now says.  (ii) ``all-weak separation constraint (numerical
+ minimum $e^\Delta=2/\eps$, bound to be proved)'' --- proved.  (iii) W1 is described as
+ ``unrefereed'' and \texttt{next:} still says ``referee pass REF-P6-2 after the documents
+ exist''; G1a's document exists and this report is REF-P6-3.\\
+\texttt{vacuum-rigidity-exact-recovery} & PASS & \\
+\texttt{frame-strength-amplification} & PASS & \\
+\texttt{protocol-corner-data-n4-n5} & PASS & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{\texttt{corner-calculus} --- everything except the two primes.}
+Statement against document: the protocol conventions, $\sigma_m=s_m/(l_B+l_{\rm new})$,
+$s_m\in[\lambda_m,2\lambda_m]$, ``first step OUTERMOST'', the (H) clause of (2), the three
+sufficient conditions (a)--(c), the CORRECTION recording Ex.~5.6, the normality clause (3)
+and the identity $V_{k_1}V_{k_2}=V_{k_1\circ k_2}$, the rigidity clause (4)
+\emph{including the hypothesis ``whose last step keeps a non-empty part'' that the document's
+own Thm.~7.3(3) drops}, and all of (5) are faithful and correct.  Status \texttt{proved} is
+right: Thm.~5.2 is unconditional and Thm.~5.3's hypothesis (H) is named in the Statement.
+No undeclared hypothesis.  Consistency: the card contradicts \texttt{phase6-plan} only
+because \texttt{phase6-plan} is out of date (see above).  One improvement to offer with the
+fix: (5)'s ``$s=(\sigma_1+\sigma_2)(c+d)\ge2\lambda=2d/c$'' is a strict inequality
+(\S\ref{sec:thm85}).
+
+\paragraph{\texttt{vacuum-rigidity-exact-recovery} --- PASS.}
+(a), (b), (c) all faithful; the ODE, the ``test with disjointly supported $f,h$'' step, the
+$[V_g,P]=0$ step, the negative-sign argument and the $a=1+tb$ perturbation are all as in
+the document and all correct.  The card \emph{carries the hypothesis} ``whose last step
+keeps a non-empty part'' and even records the degenerate exception explicitly, so the card
+is right where the document (Thm.~7.3(3)) is wrong; \textbf{the author must fix the
+document, not the card}.  ``How to verify'' is executable as written.
+
+\paragraph{\texttt{frame-strength-amplification} --- PASS.}
+The monotonicity, the equality case, the hypothesis ``if the step's kept block reaches the
+left end of the chain'' (which the brief's W1 omits and which is genuinely needed), the
+identification of $z'$ with the cross ratio and with paper~1's $z$, the case $z'=0$, and
+the reference to Lem.~3.3/3.4 (numbering correct) all check.  Verified in $20\,000$ exact
+rational cases.  One incompleteness, not a failure: ``the coefficient of
+$w(y-y_p)=-4\sinh^2((y-y_p)/2)\mathbf 1_{y>y_p}$'' is the right-compression case only; the
+left compression has $-\zeta w\,\mathbf 1_{y<y_p}$ (document (11)).
+
+\paragraph{\texttt{protocol-corner-data-n4-n5} --- PASS.}
+Every number was recomputed: $\sigma^L_k$, $\sigma^R_k$, the corner ranges, the double
+corner at $p_{i+1}=p_j$, the $n=4$ equal-length strengths $(0.75,1)$, $(2)$, $(1,0.75)$,
+the $n=5$ classes, the identification of start $A_1A_2$ with VWZ Protocol~2 and of start
+$A_2A_3$ with VWZ Protocol~3, and the failure of (H) for ``add $D$ on $C$, then $A$ on
+$BC$''.  All correct.  ``How to verify'' is accurate.  One caveat to attach when the card
+is next touched: the claim ``exactly $n-1$ classes, one per pair'' is \emph{true} but the
+document's Prop.~9.1 does not prove the injectivity (\S\ref{sec:d5}); this report's
+Lem.~\ref{lem:missing} supplies it.
+
+
+\section{Required repairs, in order of severity}\label{sec:repairs}
+
+\begin{enumerate}[leftmargin=2.2em]
+\item \textbf{[BREAK] \doc{} Thm.~7.3(3), p.~21} (and the abstract, the title of \S7,
+ Tab.~4): ``for every non-empty protocol'' must read ``for every non-empty protocol
+ \emph{whose last step keeps a non-empty part}''; as written the claim is refuted by the
+ document's own Rem.~7.4.  \emph{One clause.}
+\item \textbf{[BREAK] \doc{} Box~[G5], p.~8, and Prop.~13.1, p.~35}: the FHSW weight is
+ $p(t)=\pi(\cosh2\pi t+1)^{-1}$ (FHSW eq.~(26), p.~6), not $\frac\pi2(\cdots)^{-1}$; the
+ printed measure has total mass $\frac12$, so Prop.~13.1$\langle1\rangle1$ (``$\mu$ a
+ probability measure''), the display (36) and both Jensen steps fail.  \emph{One constant.}
+\item \textbf{[GAP] \doc{} Lem.~10.3~(29), p.~29}: ``$e^{\Delta_k}<1+2/\zeta_k$
+ ($2\le k\le n-1$)'' must be ``$\le$, with equality iff $k=n-1$''; step
+ $\langle1\rangle10$'s ``$\coth(\Delta_{k+1}/2)>1$'' is false at $k=n-1$, where
+ Def.~10.2 sets $\Delta_n=+\infty$ and the document's own convention gives $\coth=1$.
+\item \textbf{[GAP] \doc{} Lem.~4.5, p.~13, and Thm.~6.3(2), p.~19}: ``without pole on
+ $\overline{\Phi_1(J)}$'' must be ``on $\Phi_1(J)$'' ($\Phi_1=\id$, $\Phi_2(x)=x/(1-x)$ on
+ $(0,1)$); in Thm.~6.3(2) the clause is superfluous, since $V_g$ is unitary on all of $H$
+ for every $g\in\Mob$ (Lem.~6.2).
+\item \textbf{[GAP] \doc{} Prop.~9.1, p.~26}: ``exactly $n-1$ classes, one per pair'' is
+ true but unproved; step $\langle1\rangle5$ gives only the corner \emph{ranges}, which
+ coincide for every middle pair.  Insert Lem.~\ref{lem:missing} of this report (three
+ lines).
+\item \textbf{[MINOR] \doc{} Hyp.~12.1, p.~31, and the bibliography}:
+ \texttt{refs/Uhlmann76.pdf} \emph{is} on disk; ``both sources are NOT OBTAINED'' is
+ false.  Replace by ``Uhlmann 1976 is on disk and contains neither the standard-form
+ statement nor CP-monotonicity (its only monotonicity statement is eq.~(24), p.~277, for
+ restriction to a subalgebra); Araki--Raggio 1982 is NOT OBTAINED''.  \emph{Strongly
+ recommended addition:} split Thm.~12.5 into the chordal form \eqref{eq:chordal}, which
+ is unconditional given Alberti--Uhlmann 2002 Prop.~1(1), p.~3, and the angle form, which
+ keeps (U); Cor.~12.6~(35) then becomes unconditional (\S\ref{sec:U}).
+\item \textbf{[MINOR] \doc{} Box~[G4], p.~8}: the $\frac12\{\nu(a)+\varrho(a^{-1})\}$ form
+ is Alberti--Uhlmann 2002 \emph{Corollary 2(5), p.~8}, not Theorem 2(1) (which is the
+ product form, p.~6); and the included screenshot is p.~11, the \emph{proof} of
+ Corollary 2(5).
+\item \textbf{[MINOR] \doc{} verdict box after Thm.~11.1, p.~30}: ``the constant 2 is
+ sharp'' $\to$ ``sharp as $\eps\to0$''; and REF-P6-0's $\eps=0.3$ entry $6.75$ is below
+ the exact minimum $6.8134$ (Tab.~\ref{tab:sharp}) --- drop it or mark it as a numerical
+ artifact.
+\item \textbf{[MINOR] \doc{} Thm.~5.3~(17), p.~15}: restrict the sum to the \emph{interior}
+ junctions of $J_N$.
+\item \textbf{[MINOR] \doc{} (C3), p.~3}: say that each step is the vacuum Petz map of its
+ own inclusion (not the Petz map of the intermediate state), and reconcile
+ $s\in[\lambda,2\lambda]$ ($t\ge0$) with the $t$-average over all of $\mathbb R$ in
+ Prop.~13.1; also $A_{\rm new}$ is a single chain interval, so VWZ 1(A) (Prop.~8.2) lives
+ on the coarse chain $A|B|CD$.
+\item \textbf{[MINOR] \doc{} Thm.~8.5(4), p.~25}: add the step ``for a single corner
+ $\Phi_{\rm fid}$ depends only on $\zeta$'' (Lem.~3.3 $+$ Thm.~6.3(2)), and say in (C7)
+ that $\Phi_A(\zeta)$ at finite $\zeta$ is a \emph{definition}, the card
+ \texttt{thm-a-quadratic-law} giving only the $\zeta\to0$ law.  $s'>2\lambda'$ is strict.
+\item \textbf{[MINOR] \doc{} \S5 verdict box, p.~18}: ``all $32$ checks'' $\to$ $33$; and
+ \texttt{g1a\_separation.out} should be a verbatim capture of the run (three warning lines
+ were removed while their source-echo lines were kept).
+\end{enumerate}
+
+\paragraph{Not obtained / not done.}
+Bures, Trans.\ AMS \textbf{135} (1969) 199--212 and Araki--Raggio, Lett.\ Math.\ Phys.\
+\textbf{6} (1982) 237--240 are \textbf{NOT OBTAINED} (not in \texttt{refs/}, no network
+access); the first is the only proof of Alberti--Uhlmann 2002 Prop.~1(1), the second is
+the natural home of Hypothesis~(U).  I did not attempt any lattice or Petz-map numerics
+(tracks G2/G3 do not exist yet), and I did not audit W2 or $\hat G$, which the document
+correctly declares out of scope.
+
+
+\section{Second pass (REF-P6-3b), 2026-09-16}\label{sec:pass2}
+Repaired document 42~pp., new \S15; packet \texttt{rigor/review\_packet\_P6\_3b.md}.  \textbf{All
+twelve repairs of \S\ref{sec:repairs} are applied, correctly}: Thm.~7.3(3)/abstract/\S7
+title/Tab.~4 carry ``last step keeps a non-empty part''; Box~[G5] and Prop.~13.1 use
+$p(t)=\pi(\cosh2\pi t+1)^{-1}$ with $\int\dd\mu=1$ shown and the factor $a$ in FHSW eq.~(167);
+(29) is ``$\le$, equality iff $k=n-1$'', $\langle1\rangle10$ split, Rem.~11.3 adjusted; Lem.~4.5
+says ``open interval'' and prints my counterexample, the clause is gone from Thm.~6.3(2); the new
+Lem.~9.2 is my Lem.~\ref{lem:missing}, correct (its cases exhaust $1\le i<i'\le n-1$); Hyp.~12.1
+and the bibliography are factually right, Bures~1969 added as NOT OBTAINED; Box~[G4] has both
+locators (Thm.~2(1) p.~6, Cor.~2(5) p.~8) with statement screenshots; the Thm.~11.1 box has the
+exact minima and withdraws $6.75$; and the MINORs (interior junctions in (17), (C3)(i)--(ii),
+1(A) on the coarse chain, Cor.~6.5, (C7), strict $s'>2\lambda'$, ``$33$ checks'') are in.
+Scripts rerun: \texttt{g1a\_calculus.py} $33/33$, byte-identical to its \texttt{.out};
+\texttt{g1a\_separation.py} $15/15$, \texttt{.out} now a verbatim capture, its (iv)/(iv$'$)
+testing the gap $2\sinh^2(\Delta_k/2)(\coth(\Delta_{k+1}/2)-1)$ and the equality at $k=n-1$, its
+\S5 reproducing my backward recursion to the digit.
+
+\textbf{Is Cor.~12.7(2) free of (U)?  Mathematically yes; as written, not quite.}  Line by line:
+$d_{\rm B}=\sqrt{2-2F}$ by \cite{AU02} eq.~(1-3) p.~4; the triangle inequality is Prop.~1(1) p.~3
+(Box~[G7], caveats included); $d_{\rm B}$ decreases under $S_j$ because $F$ increases (Lem.~12.3,
+itself (U)-free: Choi $+$ eq.~(1-4) $+$ Thm.~2(1)); the $\mu_j$ telescoping is unchanged; and
+$\langle1\rangle3$a is right ($2-2e^{-\Phi}=2\Phi+O(\Phi^2)$, then $-\log(1-D^2/2)=D^2/2+O(D^4)$).
+\emph{But} Thm.~12.6 and Cor.~12.7 open ``In the situation of Theorem~12.5'', which opens
+``Assume (U)'': the theorem titled ``no Hypothesis (U)'' and the item ``unconditionally''
+formally inherit it.  \textbf{Repair:} ``In the setting of Theorem~12.5 \emph{but without
+assuming} (U) (only the hypotheses on $\cM,\omega,\cN_k,R_k$)'' in both, plus one sentence in the
+proof of Thm.~12.6: ``steps $\langle1\rangle1$--$\langle1\rangle3$ of Thm.~12.5 do not use (U);
+only $\langle1\rangle4$ does.''
+
+\textbf{Three residuals, one line each.}  (i) The abstract still says ``the \emph{sharp}
+separation bound \dots\ matching REF-P6-0's numerical minimum to four digits'', contradicting the
+repaired verdict box: write ``sharp as $\eps\to0$'', drop ``to four digits''.  (ii) Its (viii)
+advertises only the Bures-\emph{angle} bound; Cor.~12.7(2) unconditional via Thm.~12.6 belongs
+there.  (iii) \texttt{g1a\_separation.py} \S2 still prints ``the constant 2 is sharp'', against
+its own \S5 label.  Cosmetic: Prop.~8.2's ``$\theta_t\in(0,1]$'' is $(\frac12,1]$ for $t\ge0$.
+
+\textbf{Cards: all seven PASS} (\texttt{corner-calculus}, \texttt{corner-separation-constraint},
+\texttt{sequential-recovery-bound-type-iii}, \texttt{network-second-order-law},
+\texttt{phase6-plan}, \texttt{protocol-corner-data-n4-n5},
+\texttt{frame-strength-amplification}): every first-pass failure is repaired in the Statement,
+every anchor resolves, and I added \texttt{\#label\{thm:sep\}} to the second-order-law card.
+\end{document}
+

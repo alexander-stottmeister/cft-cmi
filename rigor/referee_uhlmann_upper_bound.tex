@@ -1,0 +1,806 @@
+\documentclass[11pt]{article}
+\input{rigor_preamble}
+\title{Referee report: \texttt{rigor/uhlmann\_upper\_bound.tex}\\
+{\large (agent PA: $\limsup_{\zeta\to0}\Phi(\zeta)/\zeta^2\le g_B/8$)}}
+\author{Referee PR}
+\date{2026-09-08}
+\newcommand{\Wt}{\widetilde W}
+\newcommand{\kt}{\widetilde k}
+\newcommand{\HS}{\mathrm{HS}}
+\newcommand{\Pp}{P_+}\newcommand{\Pm}{P_-}
+\providecommand{\Om}{\Omega}\providecommand{\Gm}{\Gamma}\providecommand{\Qt}{\widetilde Q}
+\providecommand{\Msa}{\cM_{\mathrm{sa}}}\providecommand{\Mpsa}{\cM'_{\mathrm{sa}}}
+\providecommand{\dist}{\operatorname{dist}}\providecommand{\Var}{\operatorname{Var}}
+\providecommand{\Stwo}{\mathfrak S_2}\providecommand{\Sone}{\mathfrak S_1}
+\providecommand{\CAR}{\operatorname{CAR}}
+\providecommand{\norm}[1]{\lVert #1\rVert}\providecommand{\abs}[1]{\lvert #1\rvert}
+\providecommand{\ip}[2]{\langle #1,#2\rangle}\providecommand{\one}{\mathbf 1}
+\providecommand{\ket}[1]{|#1\rangle}\providecommand{\bra}[1]{\langle #1|}
+\begin{document}
+\maketitle
+\tableofcontents
+\bigskip
+\hrule
+\bigskip
+\textbf{Scope.} This report checks, adversarially and step by step, the five ingredients of
+\texttt{uhlmann\_upper\_bound.tex} (28\,pp., agent PA):
+(1) the $C^{1,1}$/circle extension $\kt_s$ of the piecewise-M\"obius map and implementability of $\Wt_s$;
+(2) the vector representative $\Gamma(\Wt)^*\Omega$ and the Uhlmann inequality with $u'=\Gamma(1\oplus W')$ in the
+commutant (graded/Klein issues, twisted duality);
+(3) PA's from-scratch proof of $|\langle\Omega,\Gamma(U)\Omega\rangle|=\det(1-V^*V)^{1/2}$;
+(4) the analytic core $G_s=\int_0^s \Wt_\sigma^*G^{(1)}\Wt_\sigma\dd\sigma$ and the expansion
+$\lVert V_\zeta\rVert_2^2=\zeta^2\lVert \Pm(D+ih')\Pp\rVert_2^2+o(\zeta^2)$;
+(5) the Wick-reduction lemma and $\inf_{h'}\lVert \Pm(D+ih')\Pp\rVert_2^2=g_B/4$, with all normalisations;
+plus the final theorem statement and its combination with \texttt{quadratic\_limit.tex} Thm.~4.2.
+
+\textbf{Summary of verdicts.} (Filled in at the end; see \S\ref{sec:summary}.)
+
+\section{Ingredient 1: the extension $\kt_s$ and implementability of $\Wt_s$}\label{sec:i1}
+
+\subsection{Is $\kt_s|_{[0,1]}=h_s$ exactly?}
+\textbf{Verified.}  PA's Definition~2.1 defines $\kt_s$ as the flow of $-\chi\partial_x$ with
+$\chi=x^2$ on $[0,1]$.  Lemma~2.2(E2) is correct and its proof is complete: $[0,1]$ is forward
+invariant because $0$ is a fixed point ($\chi(0)=0$) and $\chi\ge0$; on $[0,1]$ the ODE is
+$\dot y=-y^2$, whose solution from $y(0)=x$ is $x/(1+sx)=h_s(x)$.  I re-derived the semigroup law
+independently: $h_s\circ h_t=h_{s+t}$ since $1/h_s(x)=1/x+s$.  This is the cleanest part of the
+document, and Remark~2.3(i) states the reason correctly: the M\"obius semigroup $h_s$ \emph{is} the
+flow of $-x^2\partial_x$, so no gluing error at the matching point $x=1$ can occur --- the extension
+is exact on $[0,1]$ by construction, not by a Whitney-type patching.
+
+One point of hygiene.  Lemma~2.2(E2) is asserted ``for every $s\ge0$'' but the proof of
+$\langle2\rangle1$ (forward invariance of $[0,1]$) uses $s\ge0$, whereas $\langle1\rangle2$ asserts a
+one-parameter group over $s\in\mathbb R$.  For $s<0$ the identity $\kt_s|_{[0,1]}=h_s$ is false in
+general (the flow leaves $[0,1]$ through $x=1$).  This is harmless --- only $s\ge0$ is used --- but
+the quantifier in (E2) should read $s\ge0$, as it in fact does.  \emph{No issue.}
+
+\subsection{Is $\Wt_s$ a unitary group on half-densities?}
+\textbf{Verified, with one repairable slip in the core argument.}  Unitarity of $W_\phi$ in (C3) is
+the change-of-variables formula and the group law $W_\phi W_\psi=W_{\phi\circ\psi}$ is immediate;
+combined with $\kt_s\circ\kt_t=\kt_{s+t}$ this gives the group property (PA Lemma~5.1
+$\langle1\rangle1$).  Strong continuity holds because $\kt_s\to\mathrm{id}$ locally uniformly
+together with $\kt_s'$.
+
+The slip is in the justification of Lemma~5.1 $\langle1\rangle4$:
+\begin{quote}\itshape
+``$C_c^\infty$ is invariant under $\Wt_s$ up to the $C^{1,1}$-regularity of $\kt_s$ and is dense and
+$\Wt$-invariant in the wider space $C_c^1$, hence a core by Nelson's invariant-domain criterion.''
+\end{quote}
+Neither $C_c^\infty$ nor $C_c^1$ is invariant under $\Wt_s$: if $\kt_s$ is only $C^{1,1}$ then
+$(\Wt_sf)(y)=f(\kt_{-s}(y))\kt_{-s}'(y)^{1/2}$ has a derivative containing $\kt_{-s}''$, which is only
+$L^\infty$; so $\Wt_sf\notin C^1$ in general.  Nelson's criterion therefore does not apply to the
+domain named.  \emph{Repair}: take $\mathcal D:=H^1_c(\mathbb R)$ (compactly supported $H^1$
+functions).  Since $\kt_{\pm s}$ is bi-Lipschitz with Lipschitz derivative, $\Wt_s\mathcal D=\mathcal
+D$; $\mathcal D$ is dense in $L^2$; $D\mathcal D\subset L^2$ because $\chi\in L^\infty$ and
+$\chi'\in L^\infty$; and $D$ is skew-symmetric on $\mathcal D$ by PA's $\langle1\rangle3$ (the
+integration by parts is valid for $H^1$ functions).  Nelson's invariant-domain theorem then makes
+$\mathcal D$ a core.  Nothing downstream changes: every later use of $D$ is either through
+$\Pm D\Pp$ (a bounded, indeed Hilbert--Schmidt, object) or through the pointwise kernel identity of
+Lemma~5.3, which is proved without reference to a core.
+
+\subsection{Is the Hilbert--Schmidt bound proved?  The $C^{1,1}$ kink at $0$}
+\textbf{Verified.}  I checked PA's Lemma~2.4 line by line.
+\begin{itemize}[leftmargin=1.4em]
+\item $\langle1\rangle1$ (transported kernel $\sqrt{\phi'(x)\phi'(y)}\Pp(\phi(x),\phi(y))$): correct,
+ and the substitution identity $(W_\phi f)(\phi(x))=f(x)\phi'(x)^{-1/2}$ used in $\langle2\rangle2$ is
+ the correct consequence of (C3).
+\item $\langle1\rangle2$ ($\delta$-parts cancel exactly): correct.
+\item $\langle2\rangle1$ of $\langle1\rangle3$ is the heart.  I re-derived the three estimates:
+ $F(x,y)=\int_0^1\phi'(y+t(x-y))\dd t\ge c$ and $|F-\phi'(y)|\le\frac\Lambda2|x-y|$; then
+ $|\sqrt{\phi'(x)\phi'(y)}-\phi'(y)|\le\Lambda|x-y|$ --- \emph{this step is where $C^{1,1}$
+ (not merely $C^1$) is used, and it is used correctly}: the bound
+ $\sqrt{b}\,|a-b|/(\sqrt a+\sqrt b)\le|a-b|$ needs only $\sqrt b\le\sqrt a+\sqrt b$, and
+ $|a-b|=|\phi'(x)-\phi'(y)|\le\Lambda|x-y|$ is exactly the Lipschitz property of $\phi'$.
+ The total $\frac32\Lambda$ and hence $|\kappa_\phi|\le\frac{3\Lambda}{2c}$ are correct.
+\end{itemize}
+Consequently the kink at the touching point $x=0$ (where $\chi''$ jumps by $2$) enters only through
+$\Lambda_1=\operatorname{ess\,sup}|\chi''|<\infty$, exactly as PA's Remark~2.6 claims.  I confirm the
+counterfactual in that remark: for merely $C^1$ $\phi$ one gets $|m(x,y)-1|=o(1)$ but not
+$O(|x-y|)$, so $\kappa_\phi$ need not be bounded near the diagonal and the finite-measure argument on
+the circle would fail as well.  The $C^{1,1}$ class is therefore not a convenience but the natural
+threshold, and the note says so.
+
+\subsection{Behaviour at infinity, the circle chart, and the ``factor $8$'' trap}\label{sec:i1inf}
+This is the point on which the note was most at risk, and I have checked it against the numerics
+track independently of PA's own reading.
+
+\textbf{(a) The trap is real.}  \texttt{numerics/p1\_bogoliubov.out} \S2 and \S4 (agent PN) report, in
+the finite configuration $a=1$, $L=2$ (so $\zeta=s/3$ and the $\zeta$-normalised functional is
+$9Q$): over the full circle class $\inf 4.5\,Q_{\min}=0.0084465$ (Richardson $0.00844649$) against
+$g_B/8=0.00844343$; over the class ``$\widetilde g(\pi)=\widetilde g'(\pi)=0$'' (displacement
+$\to0$ at $|x|=\infty$) $\inf 4.5\,Q_{\min}=0.06780$ at $M=90$ and still falling, ratio $8.03$.  So
+an extension class that pins the point at infinity does \emph{not} reach $g_B/8$.
+
+\textbf{(b) PA's class is not caught by the trap, and the reason given is correct.}  PA's
+Remark~6.3 argues that PN's constraint is an artefact of PN's chart.  I verified this by computing
+the M\"obius map explicitly.  The map $m$ carrying PN's marked points $(-a,0,L)=(-1,0,2)$ to PA's
+$(\infty,0,1)$ is $m(x)=\frac{3x}{2(x+1)}$; hence $m(\infty_{\mathrm{PN}})=\tfrac32$, an
+\emph{interior} point of PA's $I'=(1,\infty)$, and $m(-1)=\infty$, i.e.\ PA's point at infinity is the
+\emph{endpoint} $-a$ of PN's $I'$.  Therefore:
+\begin{itemize}[leftmargin=1.4em]
+\item In PN's chart $\theta=\pi$ is interior to the single arc $I'$ and $\widetilde g(\pi)$ is free;
+ imposing $\widetilde g(\pi)=\widetilde g'(\pi)=0$ is an extra, unmotivated interior constraint ---
+ which costs the factor $8$.
+\item In PA's chart the same two conditions at $\theta=\pi$ are \emph{forced} and cost nothing,
+ because $\theta=\pi$ is the common endpoint of $I$ and $I'$ and the field vanishes identically on
+ the whole arc $A=(-\infty,0)$, which abuts $\theta=\pi$ from the other side.  The free datum is the
+ jump $\widetilde\chi''(\pi^+)$, i.e.\ the constant $\alpha=\lim_{x\to+\infty}\chi(x)$ of PA
+ eq.~(31).
+\end{itemize}
+I checked the asymptotics behind eq.~(31): with $\theta=2\arctan x$ and $\widetilde\chi=\chi\,
+\frac{\dd\theta}{\dd x}=\frac{2\chi(x)}{1+x^2}$, writing $\theta=\pi-\eps$ one has
+$x=\cot(\eps/2)\sim2/\eps$, so $\widetilde\chi\sim\tfrac12\eps^2\chi(x)$.  Hence
+$\widetilde\chi\in C^{1,1}$ near $\pi$ forces $\widetilde\chi(\pi)=\widetilde\chi'(\pi)=0$ and allows
+$\chi(x)\to\alpha$ with $\alpha=\frac12\widetilde\chi''(\pi^+)$.  \emph{The statement in eq.~(31) is
+correct.}  (A pedantic caveat: $C^{1,1}$ gives $\widetilde\chi=O(\eps^2)$ but not the existence of
+$\widetilde\chi''(\pi^+)$, so ``$\chi(x)\to\alpha$'' should read ``$\chi$ bounded'', with $\alpha$
+existing when $\widetilde\chi$ is $C^2$ from the right.  Nothing uses the limit.)
+
+\textbf{(c) But the class $\mathcal X$ of eq.~(30) is not what the theorem actually uses.}  This is
+the sharpest structural observation I can make about the note, and it is in the note's favour.  The
+final proof (Theorem~8.1) does \emph{not} go through eq.~(32), the geometric infimum over
+$\mathcal X$; it uses the \emph{single} base-point extension of Definition~2.1 --- the one with
+compactly supported displacement, $\alpha=0$, which PA itself reports to have
+$Q[\chi]=0.1926\approx11.4\times g_B/4$ --- together with the infimum over the \emph{operator} class
+$\mathcal A'$ of Definition~5.3.  That this is legitimate is not an accident, and the note does not
+say clearly why, so I record the reason: by Theorem~7.1 (three faces) the quantity
+$\dist(a,\overline{\Mpsa\Om})^2$ \emph{depends on $a$ only through the functional
+$\varphi(K)=\frac{\dd}{\dd s}\widetilde\omega_s(K)|_{s=0}$} (this is stated verbatim in
+\texttt{lemma\_second\_variation.tex}, Thm.\ ``Three faces'', last sentence), and $\varphi$ is
+determined by $\widetilde\omega_s$, hence by $k_s|_I$ alone.  Two admissible extensions differ by a
+field supported in $I'$, i.e.\ by an element of $\mathcal K$, so they give the same distance.  The
+choice $\alpha=0$ is therefore harmless \emph{provided} the infimum is taken over all of
+$\mathcal A'$, and the factor $8$ of PN's restricted class reappears only if one simultaneously
+restricts the extension \emph{and} forbids $h'$.  PA's \S6 verdict box says this, but the logical
+dependency (``eq.~(32) is not used in the proof of Theorem~8.1'') deserves to be stated as such;
+as printed, \S6 reads as if the repaired class $\mathcal X$ were needed.
+
+\textbf{(d) Is the admissible class stated precisely?}  Partly.  Definition~5.3 ($\mathcal A'$) is
+precise: $h'=h'^*$ bounded, $h'=E_{I'}h'E_{I'}$, $\Pm h'\Pp\in\Stwo$.  Definition~2.1 is precise.
+The class $\mathcal X$ of eq.~(30) is stated with the regularity condition
+$\widetilde\chi\in C^{1,1}(S^1)$, which is the right condition, but Proposition~6.1 then asserts that
+``all of Lemma~2.2 (except $\kt_s=\mathrm{id}$ for $x\ge2$) \dots\ hold verbatim'' --- and this is
+\emph{not} checked for the one place where compact support was genuinely used, namely
+$\langle1\rangle3$--$\langle1\rangle5$ of Proposition~2.5 (the $L^2$ decay of $\kappa_\phi$ at
+infinity in the \emph{line} chart).  PA's $\langle1\rangle2$ of Proposition~6.1 replaces this by the
+circle estimate, which is correct and in fact easier ($S^1\times S^1$ has finite measure); but then
+the line-chart quantity $\iint_{\mathbb R^2}(\kappa^{(1)})^2$ appearing in eq.~(22) and
+Lemma~6.2 has to be re-justified as finite for $\alpha\ne0$, which the note asserts
+($\langle1\rangle3$) rather than proves.  I did the verification: for
+$x$ in a compact set and $|y|\to\infty$ one has $\kappa^{(1)}(x,y)=-\frac{\chi'(x)}{2(x-y)}+O(y^{-2})$,
+which is $L^2$; and on the diagonal region $x,y\in[R,2R]$ one has $\chi'=O(1/x)$ (from
+$\widetilde\chi'=O(\eps)$), hence $\kappa^{(1)}=O(R^{-2})$ and the block contributes $O(R^{-2})$,
+summable over dyadic $R$.  So the assertion is true; it is simply not proved in the note.  Since eq.~(32) is not used in the
+final theorem (item (c)), this is a cosmetic gap.
+
+\begin{verdictgap}
+\textbf{Ingredient 1: correct, with two cosmetic gaps and one presentational defect.}
+$\kt_s|_{[0,1]}=h_s$ is exact (flow of $-x^2\partial_x$); $\Wt_s$ is a strongly continuous unitary
+group; the Hilbert--Schmidt bound of Proposition~2.5 is proved with explicit constants and the
+$C^{1,1}$ kink at the touching point $x=0$ costs nothing.  The class is stated precisely
+($\mathcal A'$, Definition~5.3; $\mathcal X$, eq.~(30)) and PA's chart analysis correctly explains
+why PN's ``factor $8$'' constraint does not bind here --- I re-derived the M\"obius map
+$m(x)=3x/(2(x+1))$ and confirmed $m(\infty_{\mathrm{PN}})=\frac32\in\operatorname{int}I'$ while PA's
+$\infty$ is an endpoint of $I'$.  \emph{Gaps}: (i) the core statement in Lemma~5.1
+$\langle1\rangle4$ names a domain ($C_c^\infty$, $C_c^1$) that is \emph{not} $\Wt$-invariant for a
+$C^{1,1}$ flow; use $H^1_c(\mathbb R)$ instead.  (ii) Proposition~6.1 $\langle1\rangle3$ asserts
+$\kappa^{(1)}\in L^2(\mathbb R^2)$ for the non-compactly-supported members of $\mathcal X$ without
+proof (it is true).  \emph{Presentational defect}: \S6 reads as if the enlarged class $\mathcal X$
+were needed for the theorem.  It is not: Theorem~8.1 uses only Definition~2.1 plus the operator
+class $\mathcal A'$, and the reason this is safe --- that $\dist(a,\overline{\Mpsa\Om})$ depends on
+$a$ only through $\varphi$, so all admissible extensions give the same answer --- is nowhere stated.
+\end{verdictgap}
+
+\section{Ingredient 2: the vector representative and the Uhlmann inequality}\label{sec:i2}
+
+\subsection{$\Psi_s=\Gm(\Wt_s)^*\Om$ represents $\widetilde\omega_s$}
+\textbf{Verified.}  PA Proposition~3.1.  The only step that needs care is $\langle1\rangle1$
+($\Wt_sf=W_{k_s}f$ for $f\in L^2(I)$): this is correct because $\kt_s|_I=k_s$ and the push-forward
+is local.  Note that $\Wt_s$ does \emph{not} preserve $L^2(I)$ --- it maps $L^2(I)$ onto
+$L^2(J_s)\subsetneq L^2(I)$, $J_s=(-\infty,\frac1{1+s})$ --- which is exactly why
+$\widetilde\omega_s=\omega_{J_s}\circ\beta_s$ is a state on $\cM$ and not a vacuum: PA's
+$\langle1\rangle3$ handles this correctly.  The $\sigma$-weak continuity argument in
+$\langle1\rangle4$ is sound (both sides are vector states of $\cM$; von Neumann density).
+As a by-product this reproves normality of $\widetilde\omega_s$ without the Powers--St\o rmer
+argument of Note~4 \S8, as PA notes.
+
+\subsection{Is $\Gm(\one\oplus W')$ in the commutant?  Graded/Klein aspects}
+\textbf{Verified, and PA's handling of the grading is correct and correctly scoped.}  The relevant
+distinction, which the note draws in Remark~3.3, is:
+\begin{itemize}[leftmargin=1.4em]
+\item For the \emph{lower bound on the fidelity} one needs only \emph{some} unitaries of $\cM'$.
+ $\Gm(\widehat W')$ with $\widehat W'=\one_{L^2(I)}\oplus W'$ satisfies
+ $\Gm(\widehat W')a(f)\Gm(\widehat W')^*=a(\widehat W'f)=a(f)$ for $f\in L^2(I)$ \emph{on the nose},
+ so it commutes with the odd generators without any twist.  No Klein transformation, no twisted
+ duality, no evenness hypothesis is needed --- and, contrary to what one might expect, evenness is
+ not an extra assumption here but a \emph{consequence}: a gauge-invariant (linear) Bogoliubov
+ implementer is automatically even.  I confirm PA's Lemma~3.2 and its one-line proof.
+\item Twisted duality $\cF(I)'=Z\cF(I')Z^*$, $Z=(1+iV)/(1+i)$, is needed only in \S7 (Lemma~7.4
+ $\langle1\rangle1$), and there only in the hard direction $\cM'\subseteq Z\cF(I')Z^*$.  PA
+ identifies this correctly and attributes it to Foit (Publ.\ RIMS 19 (1983) 729, Thm.~1).
+ \emph{This is a genuine external dependency of the theorem}, not an ornament: without it one cannot
+ conclude that the trial family $\mathcal K$ exhausts $E\,H_{\cM'}$, and the infimum could a priori
+ exceed $g_B/4$.  The note lists it as ``imported, screenshot NOT OBTAINED''.  I did not obtain the
+ Foit paper either; it is however a standard and uncontested result for the free chiral fermion net,
+ and it is also implied by the Bisognano--Wichmann/Haag-duality package used in
+ \texttt{refs/LongoXu\_1712.07283.pdf}.
+\end{itemize}
+The $Z$-algebra manipulations in Lemma~7.4 $\langle2\rangle2$ are correct: $V\Om=\Om\Rightarrow
+Z\Om=Z^*\Om=\Om$, $[V,E]=0$ so $[Z,E]=0$, and $Z$ acts as $\one$ on the even subspace, so
+$EZbZ^*\Om=ZEb\Om=Eb\Om$.  Odd $b$ contribute nothing since $\mathcal H^{(1,1)}$ is even.
+
+\subsection{The Uhlmann inequality}
+\textbf{Verified.}  Only the elementary direction of Alberti--Uhlmann Thm.~2(3) is used
+(``$\Fid\ge|\ip{\Om}{u'\Psi_s}|$'' for $u'\in U(\cM')$), which is immediate from the definition of
+the root fidelity as a supremum over vector representatives; no attainability or completeness claim
+enters.  PA's screenshot \texttt{shots/PA\_AU02\_thm2.png} exists and I checked that the transcribed
+statement matches the displayed theorem.  The normalisation is the root fidelity
+$\Fid=\Tr|\rho^{1/2}\sigma^{1/2}|$, the same as in \texttt{quadratic\_limit.tex} (its
+eq.~(2.7) and its citedbox ``Uhlmann 1976 / Alberti 1983''), so the two halves of Theorem~A are
+measured in the same units.  The phase bookkeeping in $\langle1\rangle4$
+($\ip{\Om}{u'\Psi_s}=\overline{\ip{\Om}{\Gm(U)\Om}}$) is correct and the modulus makes the choice of
+implementer phases irrelevant.
+
+\begin{verdictok}
+\textbf{Ingredient 2: verified.}  $\Psi_s=\Gm(\Wt_s)^*\Om$ is a vector representative of
+$\widetilde\omega_s$ on $\cM=\cF(I)$; $\Gm(\one\oplus W')$ lies in $\cM'$ for elementary reasons
+(a gauge-invariant implementer is even and commutes with $a(f)$, $f\in L^2(I)$, exactly); the
+Uhlmann inequality is used only in its trivial direction, with the correct fidelity normalisation.
+The graded subtlety is correctly localised: twisted duality (Foit) is used once, in \S7, in the
+direction $\cM'\subseteq Z\cF(I')Z^*$, and it \emph{is} load-bearing for the sharpness of the
+constant.  Neither Foit nor Shale--Stinespring could be screenshotted; both are standard.
+\end{verdictok}
+
+\section{Ingredient 3: $|\ip\Om{\Gm(U)\Om}|=\det(\one-V^*V)^{1/2}$}\label{sec:i3}
+
+\subsection{Step-by-step check of PA's proof}
+I verified every step of PA Theorem~4.1.
+\begin{itemize}[leftmargin=1.4em]
+\item $\langle1\rangle1$: $\Pp=\Pp U^*U\Pp=X^*X+V^*V$ and $\Pp=\Pp UU^*\Pp=XX^*+AA^*$ --- correct
+ (insert $\one=\Pp+\Pm$).  Invertibility of $X$ from $X^*X\ge1-\norm V^2$ and $XX^*\ge1-\norm A^2$:
+ correct, and both bounds are needed (bounded below \emph{and} dense range).
+\item $\langle1\rangle3$: $0=\Pp U^*U\Pm=X^*A+V^*Y\Rightarrow A=-X^{-*}V^*Y\Rightarrow
+ AY^{-1}=-(VX^{-1})^*$.  Correct.
+\item $\langle1\rangle4$: the annihilation equations.  Correct; I re-derived
+ $a(Uf)=b(Xf)+d^*(\overline{Vf})$ from the particle/hole split and $a^{\#}(Uf)\Phi=0$.
+\item $\langle1\rangle5$ $\langle2\rangle3$: the four-dimensional one-pair computation.  I redid it
+ with signs: $b\Phi_j=\beta\Om+\delta d^*\Om$, $d^*\Phi_j=\alpha d^*\Om-\beta b^*d^*\Om$, so
+ $b\Phi_j=-z\,d^*\Phi_j$ forces $\beta=0,\ \delta=-z\alpha$; and $d\Phi_j=\gamma\Om-\delta b^*\Om$,
+ $b^*\Phi_j=\alpha b^*\Om+\gamma b^*d^*\Om$, so $d\Phi_j=z\,b^*\Phi_j$ forces $\gamma=0$ and
+ $-\delta=z\alpha$ --- \emph{consistent}, as PA says.  Hence
+ $\Phi_j=\alpha(\one-z_jb_j^*d_j^*)\Om_j$.  Correct, including the sign of $z_j$.
+\item $\langle1\rangle6$: $\norm\Phi^2=|c|^2\prod(1+z_j^2)$.  Correct.
+\item $\langle1\rangle7$: $\one+Z^*Z=X^{-*}(X^*X+V^*V)X^{-1}=X^{-*}X^{-1}=(XX^*)^{-1}$.  Correct.
+ PA then writes $\det(\one+Z^*Z)=\det(X^*X)^{-1}$; strictly this is
+ $\det(XX^*)^{-1}$, and the passage to $\det(X^*X)$ requires the similarity
+ $X^*X=X^{-1}(XX^*)X$ with $X$ bounded invertible, under which the Fredholm determinant of
+ $\one+\Sone$ is invariant.  PA's single word ``conjugated'' is the whole argument; it is true, but
+ it should be a step.  (Equivalently: $\det(\one-V^*V)=\det(\one-AA^*)$, a nontrivial identity.)
+\end{itemize}
+
+\subsection{The one-mode check and the numerical test}
+PA's Remark~4.2 (rotation by $\theta$, overlap $\cos\theta$, $V=\sin\theta$, $Z=\tan\theta$) is
+correct, and its observation that the hypotheses fail exactly at $\theta=\pi/2$ where the overlap
+vanishes is a good sanity check.
+
+I tested the identity independently in an explicit Fock space
+(\texttt{rigor/pr\_onishi\_check.py}, written for this report).  Setup: $H=\mathbb C^n$, a random
+Haar rank-$p$ projection $\Pp$, the full $2^n$-dimensional Fock space by Jordan--Wigner, $\Om$ the
+filled sea of the $\Pp$ modes (checked: $\ip\Om{c_i^*c_j\Om}=(\Pp)_{ji}$ to $0$), and $\Gm(U)$ built
+two independent ways ($e^{\dd\Gm(\log U)}$ and $\bigoplus_k\Lambda^kU$ by minors), agreeing to
+$3.3\cdot10^{-15}$ and satisfying $\Gm(U)c^*(f)\Gm(U)^*=c^*(Uf)$.  Results:
+\begin{enumerate}[label=(T\arabic*),leftmargin=3em]
+\item $|\ip\Om{\Gm(U)\Om}|=\det(\one-V^*V)^{1/2}$, $V=\Pm U\Pp$: max error $9.8\cdot10^{-15}$ over
+ $2400$ samples, $(n,p)=(3,1),(3,2),(4,1),(4,2),(4,3),(5,2),(5,3),(5,4)$.  \emph{No failures.}
+\item The stronger statement $\ip\Om{\Gm(U)\Om}=\det(\Pp U\Pp)$ holds \emph{including the phase}
+ (error $0.0$, bit-identical), the phases being uniformly spread ($|\overline{e^{i\arg}}|=0.022$),
+ so the modulus is essential only in the comparison with $\det(\one-V^*V)^{1/2}$.
+\item One-mode pair: overlap $=\cos t$, $V=\sin t$, to $10^{-12}$ for $t=0,0.1,\dots,1.5$
+ --- PA's Remark~4.2 reproduced.
+\item The chain $-\tfrac12\log\det(\one-V^*V)\le\frac{\norm V_2^2}{2(1-\norm V^2)}$ of PA
+ Corollary~4.3 held at all $3000$ samples tested, up to $\norm V=0.9998$, with slack $\to0$ like
+ $O(\eps^4)$ --- i.e.\ the bound is tight to leading order, which is what the argument needs.
+\item \emph{Failure mode located.}  If $\Gm$ implements a genuinely \emph{pairing} (bare-$N$
+ violating) Bogoliubov transformation, the formula with $V=\Pm U\Pp$ fails by $O(1)$ (median error
+ $0.29$--$0.48$); the correct statement is then the self-dual/Nambu one with exponent $\frac14$.
+ \emph{This does not affect the note}: PA's $U$ is always a one-particle unitary implemented
+ gauge-invariantly, which is case (T1).  But it shows the hypothesis ``$\Gm(U)$ implements a
+ \emph{linear} Bogoliubov automorphism'' is doing real work and should not be dropped.
+\end{enumerate}
+
+\subsection{A citable free source for the overlap formula}
+PA records the Ruijsenaars/Berezin citation as \textbf{NOT OBTAINED} and reproves the formula.  I
+obtained free sources; they confirm the formula but in a convention that must be translated, and the
+translation is exactly the trap that PA's from-scratch proof sidesteps.
+
+\begin{citedbox}{Derezi\'nski, ``Introduction to Representations of CCR and CAR'', Thm.~31(3)}
+\textbf{Statement (transcribed).}  For $r=\begin{psmallmatrix}p&\bar q\\ q&\bar
+p\end{psmallmatrix}$ a Bogoliubov transformation on $\mathcal Z\oplus\overline{\mathcal Z}$ with
+$p^*p+q^{\#}q=\one$, the ``natural'' implementer is
+$U^j_r=|\det pp^*|^{1/4}e^{\frac12a^*(d)}\Gm((p^*)^{-1})e^{-\frac12a(c)}$ with $c=p^{-1}\bar q$,
+$d=qp^{-1}$, and (eq.~(58)) $(\Om|U^j_r\Om)>0$; hence
+$\ip\Om{U^j_r\Om}=|\det pp^*|^{1/4}=|\det p|^{1/2}$.  Together with Thm.~29 eq.~(55),
+$\Om_c=(\det(\one+cc^*))^{-1/4}e^{\frac12a^*(c)}\Om$, and $\one+cc^*=(p^*p)^{-1}$.
+\emph{Locator}: \texttt{math-ph/0511030} (Lect.\ Notes Phys.\ \textbf{695}), p.~32 Thm.~31(3)
+eq.~(57)--(58); blocks and $p^*p+q^{\#}q=\one$ on p.~31; Thm.~29 eq.~(55) on p.~30; the $\pm$ of the
+Pin double cover (the ``Onishi sign'') in Thm.~34 eq.~(60), p.~33.
+\emph{File}: \texttt{refs/Derezinski\_CCRCAR\_math-ph-0511030.pdf}.\\
+\includegraphics[width=\textwidth]{shots/PR_onishi_Derezinski_thm31_eq57.png}\\[2pt]
+\includegraphics[width=\textwidth]{shots/PR_onishi_Derezinski_blocks_pq.png}\\
+\emph{How PA's statement relates.}  Derezi\'nski's $q$ is the off-diagonal block on the
+\emph{doubled} space $\mathcal Z\oplus\overline{\mathcal Z}$, so $|\det p|^{1/2}$ reads
+$\det(\one-q^{\#}q)^{1/4}$ there, whereas PA's $\det(\one-V^*V)^{1/2}$ is over the half-space
+$\Pp H$ only, and $\det_{\text{full}}=(\det_{\text{half}})^2$.  \emph{The two agree}; the exponent
+$\frac14$ versus $\frac12$ is a doubling artefact and \emph{not} a discrepancy.
+\emph{Verdict on the usage}: PA does not rely on this source, and does not need to; but if a
+citation is wanted, this is the one, with the doubling caveat spelled out.  My numerical test (T5)
+found precisely this: applied blindly with $V=\Pm U\Pp$ to a pairing transformation, the exponent
+$\frac12$ is wrong by $O(1)$ and $\frac14$ on the doubled space is right.
+\end{citedbox}
+
+\begin{citedbox}{Robledo, PRC 79 (2009) 021302(R), eq.~(9) --- ``the Onishi formula''}
+\textbf{Statement (transcribed).}  $\langle\phi_0|\phi_1\rangle=\bigl(\det(\one-M^{(0)*}M^{(1)})
+\bigr)^{1/2}$, with $|\phi_i\rangle=\exp\bigl(\frac12\sum_{kk'}M^{(i)}_{kk'}a^+_ka^+_{k'}\bigr)|0
+\rangle$, $M^{(i)}=(V_iU_i^{-1})^*$ skew-symmetric, phase fixed by $\langle0|\phi_i\rangle=1$; the
+sign-resolved version is the Pfaffian eq.~(7).  \emph{Locator}: \texttt{arXiv:0901.3213}, p.~3
+eq.~(9) (definitions p.~1 eq.~(1)).  \emph{File}: \texttt{refs/Robledo\_HFBsign\_0901.3213.pdf}.
+Same formula, verbatim ``the Onishi formula'', in Mizusaki--Oi--Shimizu \texttt{arXiv:1711.00369},
+p.~1 eq.~(3): $\langle\phi^{(0)}|\phi^{(1)}\rangle=\sqrt{\mathrm{Det}(I-Z^{0*}Z^1)}$.\\
+\includegraphics[width=0.92\textwidth]{shots/PR_onishi_Robledo_eq9.png}\\
+\emph{Caveats}: $M$, $Z$ are Thouless \emph{ratio} matrices $(VU^{-1})^*$, not the block $V$; the
+states are unnormalised ($\langle0|\phi_i\rangle=1$); no modulus is taken, and the square root is
+genuinely two-valued (that is the point of both papers).  \emph{Verdict}: consistent with PA's
+theorem after normalisation, but not directly quotable for it; PA's from-scratch proof is the better
+route and the note is right to take it.
+\end{citedbox}
+\emph{Not obtained}: no free source states the charged/particle--hole form
+$|\ip\Om{\Gm(U)\Om}|=|\det(\Pp U\Pp)|$ verbatim (Ruijsenaars, Ann.\ Phys.\ \textbf{116} (1978) 105;
+Pressley--Segal, \emph{Loop Groups}, are paywalled/book-only).
+
+\begin{verdictgap}
+\textbf{Ingredient 3: the identity is correct and the proof is essentially complete; one
+mis-statement in the theorem as printed.}  Every step of PA Theorem~4.1 checks out, and the identity
+is confirmed numerically to $10^{-14}$ on $2400$ random Bogoliubov unitaries plus the one-mode
+case.  Two defects.  (i) \emph{The first equality of eq.~(16) is not well posed.}  PA writes
+$|\ip\Om{\Gm(U)\Om}|=|\det(\Pp U\Pp|_{\Pp H})|=\det(\one-V^*V)^{1/2}$ ``the determinants being
+Fredholm determinants of identity-plus-trace-class operators on $\Pp H$''.  But $V\in\Stwo$ does
+\emph{not} make $X=\Pp U\Pp$ of the form $\one+\Sone$: only $X^*X=\one-V^*V$ is.  The middle
+expression therefore has no meaning in general, and the proof never establishes it --- it proves the
+outer equality only.  Delete the middle term, or add the hypothesis $\Pp(U-\one)\Pp\in\Sone$.  This
+is harmless downstream (only the outer equality is used, in Corollary~4.3).  (ii)
+$\det(\one+Z^*Z)=\det(XX^*)^{-1}$, and the passage to $\det(X^*X)^{-1}$ needs the similarity
+invariance of the Fredholm determinant; PA compresses it into the word ``conjugated''.
+\end{verdictgap}
+
+\section{Ingredient 4: the analytic core}\label{sec:i4}
+
+\subsection{The identity $G_s=\int_0^s\Wt_\sigma^*G^{(1)}\Wt_\sigma\dd\sigma$}
+\textbf{Verified analytically and numerically.}  This is PA's Lemma~5.2 and it is the best idea in
+the document: it replaces a second-order Taylor expansion of $\kappa_{\kt_s}$ in $s$ --- which would
+need $\chi\in C^{2,1}$, false at the kink --- by an \emph{exact} first-order flow identity.
+
+I re-derived the differential step $\langle1\rangle2$.  With $X=\kt_s(x)$, $Y=\kt_s(y)$ and
+$\Psi_s=\sqrt{\kt_s'(x)\kt_s'(y)}/(X-Y)$:
+$\partial_s\log\sqrt{\kt_s'(x)\kt_s'(y)}=-\frac12[\chi'(X)+\chi'(Y)]$ from
+$\partial_s\kt_s'=-\chi'(\kt_s)\kt_s'$, and
+$\partial_s\log(X-Y)=-\frac{\chi(X)-\chi(Y)}{X-Y}$ from $\partial_s\kt_s=-\chi(\kt_s)$.  Hence
+$\partial_s\Psi_s=\Psi_s\bigl[\frac{\chi(X)-\chi(Y)}{X-Y}-\frac{\chi'(X)+\chi'(Y)}2\bigr]
+=\sqrt{\kt_s'(x)\kt_s'(y)}\,\kappa^{(1)}(X,Y)$, using $\Psi_s\cdot(X-Y)=\sqrt{\kt_s'\kt_s'}$.
+Correct, with the correct signs.  $\Psi_0=1/(x-y)$ and $\kappa_{\kt_s}=\Psi_s-\Psi_0$, so integrating
+gives the pointwise identity.  I confirmed it numerically by integrating the flow of
+$-\chi\partial_x$ (with $\chi=x^2\beta(x-1)$, $\beta$ an explicit $C^2$ step) and comparing the two
+sides at several point pairs and several $s$ (\texttt{rigor/pr\_intrep\_check.py}; see
+Table~\ref{tab:intrep}).
+
+The upgrade to a Bochner integral in $\Stwo$ ($\langle1\rangle3$) is justified by
+$\langle1\rangle4$ ($\sigma\mapsto\Wt_\sigma^*T\Wt_\sigma$ is $\norm\cdot_2$-continuous, proved by
+finite-rank approximation and unitary invariance of $\norm\cdot_2$).  That argument is correct and
+complete.  One small omission: $\langle1\rangle3$ asserts that the kernel of the Bochner integral is
+the pointwise integral of the kernels; this follows because $T\mapsto$ kernel is an isometry
+$\Stwo\to L^2(\mathbb R^2)$ and Bochner integrals commute with isometries, but it is not said.
+
+\subsection{Is the error term rigorously $o(\zeta^2)$?}
+\textbf{Yes, and PA's qualitative $\epsilon(\zeta)$ is enough.}  This was the item flagged in the
+brief and I checked it carefully, because ``$\epsilon(\zeta)\to0$ without a rate'' sounds like a gap
+and here it is not one.  Proposition~5.4 gives, for fixed $h'$ and $0\le s\le1$,
+\[
+ \bigl|\ \norm{V^{\mathrm{tot}}_s}_2-s\norm{\Pm K\Pp}_2\ \bigr|\le s\,\epsilon(s)+C_4s^2 ,
+\]
+whence $\norm{V^{\mathrm{tot}}_s}_2^2\le s^2\bigl(\norm{\Pm K\Pp}_2+\epsilon(s)+C_4s\bigr)^2$ and
+therefore $\limsup_{s\downarrow0}\norm{V^{\mathrm{tot}}_s}_2^2/s^2\le\norm{\Pm K\Pp}_2^2$.  A
+$\limsup$ statement needs no rate; the constant $C_4$ may (and does) blow up as
+$\mu=\norm{h'}\to\infty$, but $h'$ is \emph{fixed} before $s\to0$ and the infimum over $h'$ is taken
+\emph{after} the $\limsup$ (PA Corollary~5.5 $\langle1\rangle3$).  The order of quantifiers is
+correct and is the whole reason the argument avoids an interchange of limits.  \emph{This is
+sound.}
+
+\subsection{Every interchange, itemised}
+I list every place where a limit, derivative or integral is exchanged, and its status.
+\begin{enumerate}[label=(X\arabic*),leftmargin=3em]
+\item Lemma~5.2 $\langle1\rangle3$: pointwise $\sigma$-integral $\to$ Bochner integral in $\Stwo$.
+ \emph{Justified} ($\norm\cdot_2$-continuity of the integrand, $\langle1\rangle4$).
+\item Lemma~5.2 $\langle2\rangle1$ of $\langle1\rangle5$: $G^{(1)}=\frac{\dd}{\dd s}G_s|_{s=0}$ in
+ $\Stwo$ \emph{and} $=[\Pm,D]$ weakly on $C_c^\infty$.  \emph{Justified}, but the two identifications
+ are of different types (norm derivative vs.\ quadratic form on a core) and are silently glued.  The
+ gluing is legitimate because both operators are bounded with continuous kernels agreeing off the
+ diagonal; a sentence is missing.
+\item Proposition~5.4 $\langle2\rangle1$: $e^{ish'}-\one=i\int_0^sh'e^{i\sigma h'}\dd\sigma$,
+ norm-convergent.  \emph{Justified} ($h'$ bounded --- this is where boundedness of $h'$ is used).
+\item Proposition~5.4, Gr\"onwall in $\Stwo$.  \emph{Justified}.
+\item Corollary~5.5: $\limsup$ then $\inf_{h'}$, never the reverse.  \emph{Justified}, see above.
+\item Lemma~6.2 (the Fourier form of $Q$): \emph{not proved at all}; see below.
+\end{enumerate}
+No interchange in the chain that leads to Theorem~8.1 is unjustified.
+
+\subsection{The cross-checks in \S5 and \S6}
+\textbf{Remark~5.6 (cross-check against Note~4) is correct, with one stray sign in the prose.}  PA
+writes ``the kernel $\frac i{2\pi}\kappa^{(1)}$ must equal $-\frac{\dd}{\dd s}\Delta_s|_{s=0}$'' and
+then compares $\kappa^{(1)}(-u,v)$ with $+\partial_sR_s|_{s=0}$ and finds agreement.  The comparison
+performed is the right one and the sign is right; the ``$-$'' in the sentence is a slip.  I checked
+directly from the definitions: for $x=-u<0<y=v<1$, $k_s(-u)=-u$, $k_s(v)=v/(1+sv)$, so
+\[
+ \kappa_{k_s}(-u,v)=\frac{(1+sv)^{-1}}{-u-\frac v{1+sv}}+\frac1{u+v}
+ =\frac{suv}{(u+v)(u+v+suv)}=R_s(u,v)\big|_{L=1},
+\]
+i.e.\ $G_s|_{A\times D}$ \emph{is} $\Delta_s$ with $\Delta_s=\frac i{2\pi}R_s$, so
+$G^{(1)}=+\partial_s\Delta_s|_0$ and $\kappa^{(1)}(-u,v)=\partial_sR_s|_0=\frac{uv}{(u+v)^2}$.  Both
+of PA's computed expressions are correct.
+\emph{Consequence worth recording, which the note states only loosely}: because
+$h'=E_{I'}h'E_{I'}$, the commutator $[\Pm,ih']$ \emph{vanishes identically} on the blocks
+$A\times D$ and $D\times A$ (its kernel there is $i[(\Pm h')(x,y)-(h'\Pm)(x,y)]$ and both terms need
+an endpoint in $I'$).  Hence for \emph{every} $h'\in\mathcal A'$,
+\[
+ \norm{\Pm(D+ih')\Pp}_2^2=\tfrac12\norm{[\Pm,D+ih']}_2^2
+ \ \ge\ \frac1{8\pi^2}\cdot2\!\!\int_0^\infty\!\!\!\dd u\!\int_0^1\!\!\dd v\,\frac{u^2v^2}{(u+v)^4}
+ =\frac1{24\pi^2}=\frac14\cdot\frac{g_B}4 .
+\]
+So the touching-point block gives an \emph{unconditional lower bound} equal to one quarter of the
+claimed infimum.  This is a genuine independent check of Proposition~7.5 (it would immediately
+refute any claimed infimum below $1/(24\pi^2)$), and it is much stronger than the heuristic reading
+that PA's Remark~5.6 suggests.  I verified $\int_0^\infty u^2(u+v)^{-4}\dd u=\frac1{3v}$ and the
+resulting $\frac13$.
+
+\begin{table}[h]\centering\small
+\caption{Independent numerical verification of PA's Lemma~5.2 and Remark~5.6
+(\texttt{rigor/pr\_intrep\_check.py}; $\chi=x^2\beta(x-1)$ with $\beta$ the quintic $C^2$ step, flow
+integrated to \texttt{rtol}$=10^{-12}$).}\label{tab:intrep}
+\begin{tabular}{lll}
+\toprule
+check & quantity & result\\
+\midrule
+eq.~(21) pointwise & $\max\bigl|\kappa_{\kt_s}(x,y)-\int_0^s\sqrt{\kt_\sigma'\kt_\sigma'}\,
+ \kappa^{(1)}(\kt_\sigma(x),\kt_\sigma(y))\dd\sigma\bigr|$, $7$ point pairs
+ & $9.2\cdot10^{-14}$ ($s=0.05$)\\
+ & (pairs straddling $0$, inside $D$, beyond $L$, near-diagonal) & $5.0\cdot10^{-12}$ ($s=0.3$)\\
+ & & $5.7\cdot10^{-12}$ ($s=1$)\\
+Remark~5.6 & $\max\bigl|\kappa^{(1)}(-u,v)-uv/(u+v)^2\bigr|$, $20$ pairs & $8.3\cdot10^{-17}$\\
+$A\times D$ block & $\frac1{8\pi^2}\cdot2\iint u^2v^2(u+v)^{-4}$ & $0.0042217160$\\
+ & $\tfrac14\cdot g_B/4=1/(24\pi^2)$ & $0.0042217160$ (ratio $0.250000$)\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{verdictok}
+\textbf{Ingredient 4: verified.}  The integral representation
+$G_s=\int_0^s\Wt_\sigma^*G^{(1)}\Wt_\sigma\dd\sigma$ is an exact identity, correctly derived and
+confirmed numerically to $10^{-12}$ at finite $s$ up to $s=1$.  The expansion
+$\norm{V_\zeta}_2^2=\zeta^2\norm{\Pm(D+ih')\Pp}_2^2+o(\zeta^2)$ is rigorous: the error bound of
+Proposition~5.4 is explicit except for the single factor $\epsilon(s)\to0$, which is the
+$\Stwo$-continuity of $\sigma\mapsto\Wt_\sigma^*G^{(1)}\Wt_\sigma$ at $\sigma=0$ and suffices for a
+$\limsup$.  Every interchange (X1)--(X5) is justified; the quantifier order ($\limsup$ first,
+$\inf_{h'}$ second) is correct and is what makes the route free of the interchange that defeated the
+earlier attempts.  Minor: the ``$-$'' in the Remark~5.6 sentence is a slip, and the identification of
+the $\Stwo$-derivative with the form $[\Pm,D]$ deserves one sentence.  A stronger statement than PA
+makes is available and I have checked it: because $[\Pm,ih']$ vanishes on $A\times D$, the
+touching-point block gives the unconditional lower bound
+$\inf_{h'}\norm{\Pm(D+ih')\Pp}_2^2\ge1/(24\pi^2)=\frac14(g_B/4)$.
+\end{verdictok}
+
+\section{Ingredient 5: Wick reduction and $\inf_{h'}=g_B/4$}\label{sec:i5}
+
+\subsection{The Wick reduction lemma}
+\textbf{Verified.}  PA Lemma~7.4.  The content is: for $B$ self-adjoint in $\cF(X)$, the
+$(1,1)$-particle component of $B\Om$ is $\Pm h\Pp$ with $h=h^*$ \emph{localised in} $X$.  The proof
+is by (i) reduction to the $*$-algebra generated by $\{a(f):f\in L^2(X)\}$ via Kaplansky (correct:
+Kaplansky gives self-adjoint $b_n$ in the unit ball converging strongly, hence $b_n\Om\to B\Om$);
+(ii) Wick ordering, where only the degree-two charge-zero monomial
+$:a^*(f)a(g):=\dd\Gm(\ket f\bra g)-\Tr(\Pp\ket f\bra g)$ has a $\mathcal H^{(1,1)}$ component;
+(iii) self-adjointness of $b$ forcing $h=h^*$ by uniqueness of the Wick decomposition.
+I checked the identification $\dd\Gm(\ket f\bra g)=a^*(f)a(g)$ against PA's conventions
+($a^*$ linear, $a$ antilinear, $\dd\Gm(T)=\sum T_{ij}a_i^*a_j$): correct.  I also checked
+$E\,\dd\Gm(T)\Om=\Pm T\Pp$ (only $a_i^*a_j\Om$ with $j$ occupied, $i$ empty survives): correct, and
+isometric under $\mathcal H^{(1,1)}\cong\Stwo(\Pp H,\Pm H)$.
+Finally, the finite-rank $h$ produced in $\langle1\rangle3$ is bounded with kernel supported in
+$X\times X$, hence lies in $\mathcal A'$ when $X=I'$: so $E\,\cM'_{\rm sa}\Om\subseteq
+\overline{\mathcal K}$ as claimed, and the boundedness requirement in Definition~5.3 costs nothing.
+
+\subsection{The identification $\inf_{h'}\norm{\Pm(D+ih')\Pp}_2^2=g_B/4$}
+The chain is
+$\inf_{h'}\norm{\Pm(D+ih')\Pp}_2^2
+ \overset{(1)}=\dist(a,\overline{\mathcal K})^2
+ \overset{(2)}=\dist(a,H_{\cM'})^2
+ \overset{(3)}=\sup_{K\in\Msa}[\varphi(K)-\Var_\omega(K)]
+ \overset{(4)}=\tfrac14\sup_\ell\Omega(\ell)=\tfrac14g_B$.
+Steps (1),(2) I verified above.  Step (3) is Theorem~7.1, transcribed \emph{accurately} from
+\texttt{lemma\_second\_variation.tex} (I compared word by word, including ``no domain hypothesis on
+$a$'').  Step (4) is PA's $\langle1\rangle4$--$\langle1\rangle6$, and it is the delicate one: it says
+the supremum over \emph{all} $K\in\Msa$ is attained on the \emph{quasi-free} $K=\dd\Gm(\ell)$.
+PA proves this correctly, by the same Wick reduction applied on the $\cM$ side: with $w=-ia=Ew$,
+replacing $k$ by $Ek$ never decreases $2\operatorname{Re}\ip wk-\norm k^2$, and
+$E\,H_\cM\subseteq\overline{\mathcal L}$.  I checked the two bookkeeping points in
+$\langle1\rangle4$: $\Var_\omega(K)=\norm{K\Om-\omega(K)\Om}^2$; and the passage from $\Msa\Om$ to
+$\{K\Om-\omega(K)\Om\}$ changes nothing because $\ip w\Om=0$ and $\Om\perp k$, so
+$F(k+t\Om)=F(k)-t^2\le F(k)$.  Both correct.
+
+\subsection{Normalisations: the factors $2$, $4$, $8$}\label{sec:norm}
+This is where a factor slip would be invisible and fatal, so I traced every one.
+\begin{enumerate}[label=(\alph*),leftmargin=2em]
+\item \emph{$g_B$ and $f_2$.}  $g_B=\frac{2c}{3\pi^2}$ (Note~7 eq.~(20)); $f_2=g_B/8=\frac
+ c{12\pi^2}=0.00844343\,c$.  PA's (C5) is consistent, and $g_B/4=\frac1{6\pi^2}=0.01688686$.
+\item \emph{Bures $\to$ fidelity.}  $-\log\Fid=\frac{\eps^2}8g_B+O(\eps^3)$
+ (\texttt{quadratic\_limit.tex} citedbox on the Bures/SLD normalisation), so ``$g_B/8$'' and not
+ ``$g_B/4$'' is the coefficient of $\zeta^2$ in $\Phi$.  Consistent with PA.
+\item \emph{Uhlmann bound $\to$ $\frac12\norm V_2^2$.}  $-\frac12\log\det(\one-V^*V)
+ \approx\frac12\norm V_2^2$: the factor $\frac12$ comes from the square root in
+ $\det(\one-V^*V)^{1/2}$.  Hence $\Phi\le\frac12E$ with $E=\norm{V}_2^2$, matching PN (N2).
+\item \emph{$E$ versus $\norm G_2^2$.}  PN's $E=\frac12\norm{G}_2^2=\frac1{8\pi^2}\iint\kappa^2$;
+ PA's Proposition~2.5 $\langle1\rangle7$ uses only $\norm{V}_2\le\norm{G}_2$, i.e.\ it throws away
+ the factor $\frac12$ in the \emph{safe} direction (upper bounds stay upper bounds).  PA's
+ eq.~(22) does use the sharp form $\norm{\Pm D\Pp}_2^2=\frac12\norm{G^{(1)}}_2^2
+ =\frac1{8\pi^2}\iint(\kappa^{(1)})^2$, justified by HS-orthogonality of the two off-diagonal
+ blocks of a skew-adjoint $[\Pm,D]$.  \emph{Both are correct and they are used in the right
+ places.}
+\item \emph{The $\frac14$.}  $\varphi(\dd\Gm(\ell))-\Var_\omega(\dd\Gm(\ell))
+ =\Tr(\dot Q\ell)-\Tr(Q\ell(1-Q)\ell)=\frac14\Omega(2\ell)$; since $\ell\mapsto2\ell$ is a bijection
+ of the test set, $\sup[\varphi-\Var]=\frac14g_B$.  Correct.
+\item \emph{The final $\frac12$.}  $\limsup\Phi/\zeta^2\le\frac12\inf\norm{\Pm K\Pp}_2^2
+ =\frac12\cdot\frac{g_B}4=\frac{g_B}8$.  Correct.
+\item \emph{Against PN.}  In PN's configuration $a=1$, $L=2$, $\zeta=s/3$, so the $\zeta$-normalised
+ functional is $9Q$: $9Q_{\min}=0.0168930$ against $g_B/4=0.0168869$ ($0.04\%$), and
+ $4.5\,Q_{\min}=0.0084465$ against $g_B/8=0.0084434$.  \emph{The factor $9=((a+L)/a)^2$ is right}
+ ($Q$ is quadratic in the field and $\dd/\dd\zeta=3\,\dd/\dd s$), and the two independent
+ determinations of the same number agree to $4$ parts in $10^4$.  This is the single most convincing
+ external check in the whole file.
+\item \emph{One genuine sign mismatch, harmless.}  \texttt{quadratic\_limit.tex} defines
+ $\delta_\zeta:=Q-\Qt_\zeta$ and $D^{(1)}:=\partial_\zeta\delta_\zeta|_0$, hence
+ $D^{(1)}=-\dot Q$ in PA's notation; but PA's Theorem~7.2 states $\Omega(\ell)=2\Tr(\dot Q\ell)
+ -\Tr(Q\ell(1-Q)\ell)$, i.e.\ with the opposite sign of the linear term.  The supremum is unaffected
+ ($\ell\mapsto-\ell$ leaves the quadratic term invariant), so nothing breaks; but the two documents
+ do not literally define the same $\Omega$, and this should be reconciled in print.
+\end{enumerate}
+
+\subsection{The one real gap in ingredient 5: $\dd\Gm(D)$ is not normal-ordered}
+\textbf{This is the most serious defect I found.}  PA Lemma~7.3 sets
+``$\Gm(\Wt_s):=e^{s\dd\Gm(D)}$, $\mathcal A:=-i\dd\Gm(D)$, $a:=-i\dd\Gm(D)\Om$''.  With
+$\dd\Gm(T)=\sum_{ij}T_{ij}a_i^*a_j$ as PA defines it, $\dd\Gm(D)\Om$ \emph{does not exist}: the
+terms with both indices in $\Pp H$ contribute $\Tr(\Pp D\Pp)\,\Om$, and $\Pp D\Pp$ is not trace class
+(indeed $D=\chi\partial_x+\frac12\chi'$ is unbounded and $\Pp D\Pp$ is not even bounded).  The object
+that exists is the normal-ordered
+$\!:\!\dd\Gm(D)\!:\,=\dd\Gm(D)-\Tr(\Pp D\Pp)$, whose action on $\Om$ is exactly the block
+$\Pm D\Pp$ that PA's own justification of $\langle1\rangle1$ describes (``on $\Om$ only the terms
+with $a_i^*$ creating a particle and $a_j$ creating a hole survive'').  So the \emph{formula} PA uses
+is the right one; the \emph{operator} named is not.
+
+Two further things are then owed and not supplied:
+\begin{enumerate}[label=(\roman*),leftmargin=2em]
+\item that $-i\!:\!\dd\Gm(D)\!:$ is (essentially) self-adjoint with $\Om$ in its domain, and
+\item that $e^{s:\dd\Gm(D):}$ is an implementer of $\Wt_s$, i.e.\ a legitimate choice of
+ $\Gm(\Wt_s)$.
+\end{enumerate}
+For a \emph{bounded} skew-adjoint $T$ with $\Pm T\Pp\in\Stwo$ both are classical (Lundberg; Carey--
+Ruijsenaars); for the \emph{unbounded} $D$ they are the content of the positive-energy
+representation theory of $\mathrm{Diff}(S^1)$ (Goodman--Wallach; Carpi--Weiner, which the note itself
+cites in Remark~8.3 --- but for a different purpose).  Nothing in \S\S2--6 needs any of this.
+
+\emph{The gap is repairable without any new input, and here is how.}  Define $a$ directly as the
+vector of $\mathcal H^{(1,1)}\cong\Stwo(\Pp H,\Pm H)$ corresponding to $-i\,\Pm D\Pp$ --- which is a
+Hilbert--Schmidt operator by eq.~(22), so $a$ is a bona fide vector with
+$\norm a=\norm{\Pm D\Pp}_2$ and $a\perp\Om$.  Theorem~7.1 needs nothing else about $a$.  The only
+place where the group $e^{is\mathcal A}$ was used is eq.~(34), and eq.~(34) is needed only for
+$K=\dd\Gm(\ell)$ with $\ell$ finite rank supported in $I$, where it reduces to the elementary
+identity $\frac{\dd}{\dd s}\Tr(\Qt_s\ell)|_{s=0}=\Tr(\dot Q\ell)=-2\operatorname{Im}\ip a{\dd\Gm(\ell)
+\Om}$, a two-line computation in $\Stwo$ that uses only $\Qt_s=\Wt_s^*\Pp\Wt_s|_I$ and the already
+established $\Stwo$-differentiability of $G_s$ at $s=0$ (Lemma~5.2).  As written, however, the note
+asserts eq.~(34) for \emph{all} $K\in\Msa$ by differentiating a one-parameter group whose generator
+it has not constructed, and additionally differentiates $\ip\Om{e^{is\mathcal A}Ke^{-is\mathcal
+A}\Om}$ under no stated domain hypothesis on $K$.
+
+\begin{verdictgap}
+\textbf{Ingredient 5: the identification is correct; the tangent vector is defined by a
+non-existent operator.}  The Wick reduction lemma is right and is proved correctly in both
+directions, and it is the load-bearing new ingredient: it makes the distance computable in the
+$(1,1)$ sector on the $\cM'$ side (giving $\dist(a,\overline{\mathcal K})=\dist(a,H_{\cM'})$, which
+needs twisted duality) \emph{and} on the $\cM$ side (giving that the supremum in the three-faces
+theorem is attained on quasi-free elements, which is what identifies the abstract $g_B(a)$ with the
+$g_B$ of \texttt{quadratic\_limit.tex}).  All normalisations --- the $2$ between $\norm{\Pm D\Pp}_2^2$
+and $\norm{G^{(1)}}_2^2$, the $4$ between $\varphi-\Var$ and $\Omega$, the $8$ between $g_B$ and
+$f_2$, and PN's $9$ --- are correct, and the independent numbers agree to $0.04\%$.  \emph{The gap}:
+$\dd\Gm(D)\Om$ does not exist ($\Tr(\Pp D\Pp)=\infty$); the intended object is
+$:\!\dd\Gm(D)\!:\Om\leftrightarrow\Pm D\Pp$, and the note owes either the normal-ordering
+subtraction plus essential self-adjointness of $-i\!:\!\dd\Gm(D)\!:$ and the fact that its
+exponential implements $\Wt_s$, or --- much better --- the direct definition of $a$ as the
+$\mathcal H^{(1,1)}$-vector $-i\Pm D\Pp$ together with a two-line verification of eq.~(34) for
+quasi-free $K$ only.  Repairable with no new input; but as printed, Lemma~7.3 is false as an
+operator statement.  A second, smaller item: PA's $\Omega(\ell)$ has the opposite sign of the linear
+term from \texttt{quadratic\_limit.tex} Def.~4.1 (because $D^{(1)}=\partial_\zeta(Q-\Qt_\zeta)|_0
+=-\dot Q$); the suprema coincide, so nothing breaks.
+\end{verdictgap}
+
+\subsection{A finite-dimensional test of the whole chain}\label{sec:chaintest}
+Because a factor slip in \S\ref{sec:norm} would be invisible, I ran the entire chain in an exactly
+solvable finite-dimensional surrogate (\texttt{rigor/pr\_step5\_chain.py}, written for this report;
+independent of PA's \texttt{pa\_step5\_check.py}).  Model: $H=\mathbb C^n$, a \emph{random} rank-$p$
+projection $\Pp$ deliberately not aligned with the coordinate splitting $H=H_I\oplus H_{I'}$
+($\norm{[E_I,\Pp]}=0.69$--$0.96$), the full $2^n$-dimensional Fock space, $\Om$ the filled $\Pp$-sea,
+$D$ a random skew-adjoint matrix, $\Wt_s=e^{sD}$, $\Qt_s=E_I\Wt_s^*\Pp\Wt_sE_I$, and $\cM$ the
+algebra generated by $\{a(f):f\in H_I\}$ with its \emph{true} commutant computed by brute force.
+Four quantities were computed by four independent routines:
+(i) $\inf_{h'}\norm{\Pm(D+ih')\Pp}_2^2$ over all self-adjoint $h'=E_{I'}h'E_{I'}$ (real least
+squares); (ii) $\dist(a,\Mpsa\Om)^2$ (real projection onto the commutant orbit);
+(iii) $\sup_{K\in\Msa}[\varphi(K)-\Var_\omega(K)]$; (iv) $\frac14\sup_\ell\Omega(\ell)$.
+
+\begin{center}\small
+\begin{tabular}{lccccc}
+\toprule
+$(n,p,m)$ & (i) $\inf_{h'}$ & (ii) $\dist^2$ & (iii) $\sup[\varphi-\Var]$ & (iv) $\frac14\sup\Omega$
+ & max rel.\ diff.\\
+\midrule
+$(4,2,2)$ & $0.2738785526$ & $0.2738785526$ & $0.2738785526$ & $0.2738785526$ & $4.9\cdot10^{-15}$\\
+$(6,3,3)$ & $3.9026818983$ & $3.9026818983$ & $3.9026818983$ & $3.9026818983$ & $1.1\cdot10^{-15}$\\
+$(6,2,3)$ & $2.0594866709$ & $2.0594866709$ & $2.0594866709$ & $2.0594866709$ & $1.5\cdot10^{-15}$\\
+$(6,3,2)$ & $1.6591339489$ & $1.6591339489$ & $1.6591339489$ & $1.6591339489$ & $3.5\cdot10^{-15}$\\
+$(8,4,4)$ & $3.8064371385$ & $3.8064371385$ & $3.8064371385$ & $3.8064371385$ & $2.1\cdot10^{-15}$\\
+$(8,3,5)$ & $3.1083123942$ & $3.1083123942$ & $3.1083123942$ & $3.1083123942$ & $8.6\cdot10^{-16}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+So Proposition~7.5 --- \emph{including the factor $\frac14$} --- is exactly right.  Three further
+outcomes are worth recording.
+\begin{enumerate}[label=(\alph*),leftmargin=2em]
+\item \emph{Normal ordering: invisible in $\varphi$, essential everywhere else.}  $\varphi(K)=
+ \frac{\dd}{\dd s}\widetilde\omega_s(K)|_0$ holds ($8\cdot10^{-10}$, five-point finite differences)
+ for \emph{both} the subtracted and the unsubtracted $\dd\Gm(D)$, to the last digit.  The reason,
+ which I confirmed numerically, is that $\Tr(\Pp D\Pp)$ is \emph{purely imaginary} for skew-adjoint
+ $D$, so the omitted term shifts $\ip a{K\Om}$ by a \emph{real} multiple of $\omega(K)$ and dies
+ under $-2\operatorname{Im}$.  But without the subtraction $\ip\Om{a}\ne0$, $a\notin\mathcal
+ H^{(1,1)}$, and $\norm a^2-\norm{\Pm D\Pp}_2^2$ is off by up to $8.46$.  \emph{So the gap of
+ \S\ref{sec:i5} is exactly located}: it does not damage eq.~(34), it damages Lemma~7.3
+ $\langle1\rangle1$--$\langle1\rangle2$ and hence the steps $a=Ea$, $w=Ew$ on which
+ Proposition~7.5 $\langle1\rangle2$ and $\langle1\rangle5$ rest.  With the subtraction all three
+ statements hold to $5\cdot10^{-16}$, including that the coefficient matrix of $a$ is exactly
+ $-i\Pm D\Pp$.
+\item \emph{Sign of $\Omega$ irrelevant, as predicted.}  Replacing $\Tr(\dot Q\ell)$ by
+ $-\Tr(\dot Q\ell)$ changes the supremum by $0.0$ exactly.
+\item \emph{Twisted versus untwisted commutant.}  The true $\cM'$ and the untwisted algebra
+ generated by $\{a(f):f\in H_{I'}\}$ are genuinely different subspaces
+ ($\norm{P_{\cM'}-P_{N}}=2.8$--$9.6$ on $\Msa\Om$-type orbits, $N\not\subseteq\cM'$), \emph{yet the
+ projections of $a$ coincide} to $6.6\cdot10^{-15}$ and the two distances agree to
+ $3.6\cdot10^{-15}$.  This is the finite-dimensional shadow of PA's Lemma~7.4 $\langle2\rangle2$
+ ($Z$ acts as $\one$ on even vectors): the Klein twist moves the real subspace but not the
+ projection of a $(1,1)$-sector vector.  It does not remove the need for twisted duality in the
+ infinite-dimensional proof (one still needs $\cM'\subseteq Z\cF(I')Z^*$ to know that
+ $E\,H_{\cM'}\subseteq\overline{\mathcal K}$), but it shows the conclusion is robust.
+\item The equality (i)$=$(ii)$=$(iii)$=$(iv) survived even in instances where $\Om$ fails to be
+ separating for $\cM$ (e.g.\ $\dim_{\mathbb R}\Msa\Om=448$ out of $1024$), which is reassuring about
+ the role of the cyclic-separating hypothesis in Theorem~7.1: it is used for the abstract identity,
+ not for the two-particle bookkeeping.
+\end{enumerate}
+
+\section{The theorem: is it exactly what is proved?}\label{sec:thm}
+
+\subsection{Hypotheses, $\Phi$, and the $r$-dependence}
+\textbf{Theorem 8.1 as stated matches what is proved}, with the caveats above.  Specifically:
+\begin{itemize}[leftmargin=1.4em]
+\item \emph{What $\Phi$ is.}  PA's (C4)/eq.~(6): $\Phi(\zeta)=-\log\Fid_{\cF(I)}(\omega,
+ \widetilde\omega_s)|_{s=\zeta}$ with $\Fid$ the Uhlmann \emph{root} fidelity.
+ \texttt{quadratic\_limit.tex} p.~1 and its \S2 use $\Phi(\zeta)=-\log\Fid_{\cF_r(I)}
+ (\omega,\widetilde\omega_\zeta)$ with the same root fidelity ($\Fid=\Tr|\rho^{1/2}\sigma^{1/2}|$ in
+ finite dimensions, and the Alberti--Uhlmann supremum in general).  \emph{Same $\Phi$, same
+ algebra, same normalisation.}
+\item \emph{What $\zeta$ is.}  Both use the cross ratio $\zeta=as/(a+L)$.  PA works in the half-line
+ chart $a=\infty$, $L=1$, where $\zeta=s$, and imports the reduction to the cross ratio from Note~5
+ Lemma~1.1.  \emph{This import is a hypothesis of the theorem and it is not verified in the
+ note.}  It is used twice (in (C4) to legitimate the half-line chart, and in \S6.2 to compare with
+ PN's finite configuration).  I did not re-verify Note~5 Lemma~1.1 here; the audit files record it
+ as checked (M\"obius covariance of the vacuum and of $\Fid$), and the $0.04\%$ agreement between
+ PA's half-line computation and PN's $a=1,L=2$ computation is strong empirical support.
+\item \emph{$r$-dependence.}  Theorem~8.1 $\langle1\rangle1$ is correct: $H=\bigoplus_1^rL^2(\mathbb
+ R)$, $\Wt_s,\Pp,D,h'$ act diagonally, $\norm{\Pm K\Pp}_2^2$ and $g_B$ scale by $r$, and $\Fid$
+ factorises over the $r$ tensor factors so $\Phi$ scales by $r$.  Note the small asymmetry: the
+ direct sum makes $\mathcal A'$ \emph{larger} than $r$ diagonal copies (off-diagonal $h'$ are
+ allowed), so the infimum could a priori be smaller than $r$ times the $r=1$ infimum --- but that
+ would only \emph{strengthen} the upper bound, and it cannot go below $g_B/8$ by the matching lower
+ bound.  PA's reduction is therefore safe, though the stated reason (``all objects are direct sums
+ of $r$ identical copies'') is not literally true for $h'$.
+\item \emph{Hypotheses actually used.}  Free chiral fermion (needed for: quasi-freeness in
+ Theorem~7.2, twisted duality in Lemma~7.4, Shale--Stinespring in Corollary~2.7); the zero-collar
+ curve of Note~4; $\zeta\downarrow0$.  No collar limit, no tail bound, no interchange with the
+ compression limit.  PA's \S9 inventory is accurate; I checked each item against where it is used.
+\end{itemize}
+
+\subsection{Is the combination with \texttt{quadratic\_limit.tex} Thm.~4.2 legitimate?}
+\textbf{Yes.}  Thm.~4.2 there reads $\liminf_{\zeta\downarrow0}\Phi(\zeta)/\zeta^2\ge g_B/8$,
+unconditional, with the same $\Phi$, the same $\zeta$, the same $\Fid$ and the same $g_B$
+(Def.~4.1 there = Theorem~7.2 here, modulo the sign of the linear term noted in \S\ref{sec:norm}(h),
+which does not change the supremum).  Both halves are for the $r$-component free chiral fermion.
+The two arguments are logically independent (a Legendre/data-processing bound in compressed algebras
+versus a single Uhlmann trial vector), so no circularity.  Therefore
+$\lim_{\zeta\downarrow0}\Phi(\zeta)/\zeta^2=g_B/8=r/(12\pi^2)=c/(12\pi^2)$ \emph{follows}, subject
+only to the repair of the tangent-vector gap of \S\ref{sec:i5}.
+
+\section{Residual items, and things that are \emph{not} proved}\label{sec:residual}
+\begin{enumerate}[label=(R\arabic*),leftmargin=3em]
+\item \emph{Lemma~6.2 is not proved.}  The chain
+ $\norm{\Pm D_\chi\Pp}_2^2=\frac1{8\pi^2}\iint(\kappa^{(1)})^2
+ =\frac1{48\pi^2}\int_0^\infty k^3|\hat\chi|^2\dd k=\frac1{12}\sum_{n\ge2}(n^3-n)|\widetilde\chi_n|^2$
+ has its first equality proved (eq.~(22)) and its second and third \emph{asserted}, with a
+ numerical check by PN (to $10$ digits, for a Gaussian) and by PA (to $1.1\%$).  \emph{This is not
+ load-bearing}: Lemma~6.2 is used only in \S6.3 to compare with PN's numbers and in eq.~(32),
+ neither of which enters the proof of Theorem~8.1.  It should nevertheless be labelled as
+ unproved in the statement, not only in the verdict box.
+\item \emph{$Q[\chi_{\text{Def.~2.1}}]=0.1926$ is not reproducible as printed}, because
+ Definition~2.1 fixes only the existence of the cut-off $\beta$, not $\beta$ itself, and the value
+ depends on it.  Either fix a $\beta$ or drop the number.  (I attempted the quadrature and the
+ diagonal $0/0$ of $\kappa^{(1)}$ defeats a naive \texttt{dblquad}; a removable-singularity
+ treatment is needed.)
+\item \emph{Corollary~2.7 does not state $A=\Pp U\Pm\in\Stwo$}, which is a hypothesis of
+ Theorem~4.1.  It follows by the same argument applied to $U^*$; and in fact only $\norm A<1$ is
+ used in the proof, so the hypothesis ``$A\in\Stwo$'' in Theorem~4.1 can be dropped.
+\item \emph{$r$-dependence of $\mathcal A'$}: see \S\ref{sec:thm}; the reduction is safe but the
+ stated reason is not literally correct.
+\item \emph{No rate.}  PA's Remark~8.3(i) is honest: the argument gives
+ $\Phi(\zeta)=f_2\zeta^2+o(\zeta^2)$ and nothing more, because $\epsilon(\zeta)$ is qualitative.
+ The claim in Note~5 Cor.~4.2 of an $O(\log^{-2}(1/\zeta))$ relative remainder is neither proved nor
+ refuted here.
+\item \emph{Screenshots not obtained}: Shale--Stinespring, Foit.  Both standard; Foit is
+ load-bearing (\S\ref{sec:i2}).  For the overlap formula I obtained a free substitute
+ (Derezi\'nski) --- but PA does not need it.
+\end{enumerate}
+
+\section{Summary of verdicts}\label{sec:summary}
+\begin{center}\small
+\begin{tabular}{p{0.30\textwidth}p{0.13\textwidth}p{0.49\textwidth}}
+\toprule
+ingredient & verdict & the one thing that is wrong or missing\\
+\midrule
+1. extension $\kt_s$, $\Wt_s$ unitary group, HS bound, class at infinity
+ & \textsc{gap} (cosmetic)
+ & core named in Lemma~5.1 $\langle1\rangle4$ is not $\Wt$-invariant (use $H^1_c$);
+   $\kappa^{(1)}\in L^2$ unproved for $\alpha\ne0$; \S6 misleads about what the proof uses\\
+2. vector representative, Uhlmann, commutant
+ & \textsc{ok}
+ & nothing; twisted duality (Foit) is correctly localised and correctly flagged as imported\\
+3. $|\ip\Om{\Gm(U)\Om}|=\det(\one-V^*V)^{1/2}$
+ & \textsc{gap} (statement)
+ & the middle term $|\det(\Pp U\Pp)|$ of eq.~(16) is not a well-defined Fredholm determinant under
+   the stated hypotheses and is not proved; the identity itself is right\\
+4. $G_s=\int_0^s\Wt_\sigma^*G^{(1)}\Wt_\sigma$, expansion $o(\zeta^2)$
+ & \textsc{ok}
+ & nothing substantive; $\epsilon(\zeta)\to0$ without a rate is sufficient for a $\limsup$\\
+5. Wick reduction, $\inf_{h'}=g_B/4$, normalisations
+ & \textsc{gap} (real)
+ & $\dd\Gm(D)\Om$ does not exist; the tangent vector must be $:\!\dd\Gm(D)\!:\Om
+   \leftrightarrow\Pm D\Pp$, with the group statement of Lemma~7.3 replaced\\
+\midrule
+Theorem~8.1 / Theorem~8.2 & \textsc{gap} & correct as stated; conditional on the repair of
+ ingredient 5, and on Note~5 Lemma~1.1 (cross-ratio reduction), which is imported, not re-verified\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Bottom line.}  I find \emph{no proof-breaking issue}.  The strategy is sound and, unusually
+for this programme, genuinely free of the interchange of limits that defeated earlier attempts: the
+$\limsup$ is taken with $h'$ fixed and the infimum only afterwards.  The four load-bearing new
+results --- the exact flow representation of the defect kernel, the from-scratch overlap determinant,
+the Wick reduction in both $\cM$ and $\cM'$, and the reduction of the three-faces supremum to
+quasi-free elements --- are all correct.  Four independent numerical confirmations point the same
+way: the overlap identity to $10^{-14}$ ($2400$ random Bogoliubov unitaries), the flow
+representation to $10^{-12}$ at finite $s$, the full identification
+$\inf_{h'}=\dist^2=\sup[\varphi-\Var]=\frac14\sup\Omega$ to $5\cdot10^{-15}$ in a
+finite-dimensional surrogate, and PN's $4.5\,Q_{\min}=0.0084465$ against $g_B/8=0.0084434$.  The single item that must be fixed before the
+note can be called a proof is the tangent vector of Lemma~7.3, and the fix is two lines.  Subject to
+that,
+\[
+ \boxed{\ \lim_{\zeta\downarrow0}\frac{\Phi(\zeta)}{\zeta^2}=\frac{g_B}8=\frac c{12\pi^2}\ }
+\]
+\emph{stands} for the $r$-component free chiral fermion, and Theorem~A of Note~7 becomes a theorem.
+\end{document}

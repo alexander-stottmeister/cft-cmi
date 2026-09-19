@@ -1,0 +1,61 @@
+L=64 nD=15 nI=37 cap=1e+10: theta=0.350955  g_Q(d_*)=2.404137e-03  SLD identity (1/2)Tr(t d)/g = 1.0000000000
+    eig(M_*           ) min=-1.553927e-01  max=+7.555207e-01  min/scale=-2.057e-01
+    eig(M_* - t_DD    ) min=-1.553961e-01  max=+7.555197e-01  min/scale=-2.057e-01
+    eig(t_DD          ) min=-7.548729e-01  max=+7.548739e-01  min/scale=-9.991e-01
+    eig(M_* - (t_DD)_+) min=-1.655963e-01  max=+2.817094e-02  min/scale=-2.192e-01
+    scale=7.555e-01  NECESSARY (M>=0 and M-t_DD>=0): False   SUFFICIENT (M>=(t_DD)_+): False
+    FD check: d g_Q = -5.32376204e-01  predicted -5.32376199e-01  rel.err 9.88e-09  |d_rot|/|d| 9.89e-08
+    FD check: d g_Q = +1.70935898e+00  predicted +1.70935898e+00  rel.err 6.49e-10  |d_rot|/|d| 3.63e-08
+    FD check: d g_Q = +7.49803849e-01  predicted +7.49803856e-01  rel.err 8.48e-09  |d_rot|/|d| 7.82e-08
+    [0.9s]
+
+L=96 nD=23 nI=56 cap=1e+10: theta=0.301210  g_Q(d_*)=2.482124e-03  SLD identity (1/2)Tr(t d)/g = 1.0000000000
+    eig(M_*           ) min=-3.848428e-03  max=+5.106643e-01  min/scale=-7.536e-03
+    eig(M_* - t_DD    ) min=-3.851508e-03  max=+5.106629e-01  min/scale=-7.542e-03
+    eig(t_DD          ) min=-5.093863e-01  max=+5.093877e-01  min/scale=-9.975e-01
+    eig(M_* - (t_DD)_+) min=-1.751468e-02  max=+3.116949e-02  min/scale=-3.430e-02
+    scale=5.107e-01  NECESSARY (M>=0 and M-t_DD>=0): False   SUFFICIENT (M>=(t_DD)_+): False
+    FD check: d g_Q = +5.47925733e-01  predicted +5.47925729e-01  rel.err 7.24e-09  |d_rot|/|d| 4.71e-07
+    FD check: d g_Q = +2.38329694e+00  predicted +2.38329694e+00  rel.err 3.22e-10  |d_rot|/|d| 1.41e-07
+    FD check: d g_Q = -1.27892651e+00  predicted -1.27892651e+00  rel.err 3.57e-09  |d_rot|/|d| 3.01e-08
+    [1.5s]
+
+L=128 nD=31 nI=76 cap=1e+10: theta=0.291179  g_Q(d_*)=2.607951e-03  SLD identity (1/2)Tr(t d)/g = 1.0000000000
+    eig(M_*           ) min=-1.738533e-02  max=+4.940032e-01  min/scale=-3.519e-02
+    eig(M_* - t_DD    ) min=-1.738097e-02  max=+4.940036e-01  min/scale=-3.518e-02
+    eig(t_DD          ) min=-4.922424e-01  max=+4.922411e-01  min/scale=-9.964e-01
+    eig(M_* - (t_DD)_+) min=-1.912825e-02  max=+3.439721e-02  min/scale=-3.872e-02
+    scale=4.940e-01  NECESSARY (M>=0 and M-t_DD>=0): False   SUFFICIENT (M>=(t_DD)_+): False
+    FD check: d g_Q = -9.19674682e-01  predicted -9.19674682e-01  rel.err 1.78e-10  |d_rot|/|d| 2.57e-07
+    FD check: d g_Q = -9.09359026e-01  predicted -9.09359029e-01  rel.err 3.99e-09  |d_rot|/|d| 8.15e-07
+    FD check: d g_Q = +2.61954043e+00  predicted +2.61954042e+00  rel.err 4.27e-09  |d_rot|/|d| 1.24e-07
+    [2.2s]
+
+L=192 nD=47 nI=114 cap=1e+10: theta=0.288861  g_Q(d_*)=2.585621e-03  SLD identity (1/2)Tr(t d)/g = 1.0000000000
+    eig(M_*           ) min=-3.153396e-02  max=+5.448140e-01  min/scale=-5.788e-02
+    eig(M_* - t_DD    ) min=-3.152985e-02  max=+5.448126e-01  min/scale=-5.787e-02
+    eig(t_DD          ) min=-5.429568e-01  max=+5.429582e-01  min/scale=-9.966e-01
+    eig(M_* - (t_DD)_+) min=-3.157991e-02  max=+3.736540e-02  min/scale=-5.796e-02
+    scale=5.448e-01  NECESSARY (M>=0 and M-t_DD>=0): False   SUFFICIENT (M>=(t_DD)_+): False
+    FD check: d g_Q = -2.98298542e+00  predicted -2.98298542e+00  rel.err 7.18e-10  |d_rot|/|d| 3.75e-07
+    FD check: d g_Q = +2.61459382e-01  predicted +2.61459377e-01  rel.err 2.07e-08  |d_rot|/|d| 9.96e-06
+    FD check: d g_Q = +4.87514910e-01  predicted +4.87514899e-01  rel.err 2.32e-08  |d_rot|/|d| 1.02e-06
+    [4.2s]
+
+L=256 nD=63 nI=153 cap=1e+10: theta=0.289582  g_Q(d_*)=2.623984e-03  SLD identity (1/2)Tr(t d)/g = 1.0000000000
+    eig(M_*           ) min=-2.931790e-02  max=+5.884004e-01  min/scale=-4.983e-02
+    eig(M_* - t_DD    ) min=-2.931841e-02  max=+5.884006e-01  min/scale=-4.983e-02
+    eig(t_DD          ) min=-5.864396e-01  max=+5.864394e-01  min/scale=-9.967e-01
+    eig(M_* - (t_DD)_+) min=-2.953748e-02  max=+3.979570e-02  min/scale=-5.020e-02
+    scale=5.884e-01  NECESSARY (M>=0 and M-t_DD>=0): False   SUFFICIENT (M>=(t_DD)_+): False
+    FD check: d g_Q = -2.40587501e-01  predicted -2.40587520e-01  rel.err 7.93e-08  |d_rot|/|d| 1.04e-06
+    FD check: d g_Q = +1.06186968e+00  predicted +1.06186969e+00  rel.err 4.35e-09  |d_rot|/|d| 2.64e-07
+    FD check: d g_Q = -5.04468570e-01  predicted -5.04468569e-01  rel.err 1.39e-09  |d_rot|/|d| 2.41e-07
+    [7.5s]
+
+# summary  L | min eig M_* | min eig (M_*-t_DD) | min eig t_DD | min eig (M_*-(t_DD)_+) | nec | suf
+   64 -1.5539e-01 -1.5540e-01 -7.5487e-01 -1.6560e-01  False  False
+   96 -3.8484e-03 -3.8515e-03 -5.0939e-01 -1.7515e-02  False  False
+  128 -1.7385e-02 -1.7381e-02 -4.9224e-01 -1.9128e-02  False  False
+  192 -3.1534e-02 -3.1530e-02 -5.4296e-01 -3.1580e-02  False  False
+  256 -2.9318e-02 -2.9318e-02 -5.8644e-01 -2.9537e-02  False  False

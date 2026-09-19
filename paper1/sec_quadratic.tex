@@ -1,0 +1,274 @@
+% !TeX root = main.tex
+\label{sec:quadratic}
+This section states and proves the main theorem.  Throughout,
+$N(\kappa,\kappa')=q_\kappa(1-q_{\kappa'})+q_{\kappa'}(1-q_\kappa)$ is the SLD
+weight of \eqref{eq:qfi}, and $D^{(1)}=\partial_\zeta\delta_\zeta|_{\zeta=0}$ is the
+first-order covariance defect, with modular matrix elements
+$D^{(1)}(\kappa,\kappa')=\langle\psi_\kappa,D^{(1)}\psi_{\kappa'}\rangle$.
+
+\begin{definition}[The Bures form]\label{def:gB}
+$\displaystyle
+ g_B:=\sup\bigl\{\Omega(\ell):\ell=\ell^*\text{ finite rank on }H_I\bigr\}$, where
+$\Omega(\ell)$ is the Legendre functional of \cref{lem:legendre}; equivalently, for
+the quasi-free curve $s\mapsto\widetilde\omega_s$,
+\begin{equation}\label{eq:gB-int}
+ g_B=2r\iint_{\mathbb R^2}\frac{|D^{(1)}(\kappa,\kappa')|^2}{N(\kappa,\kappa')}
+ \,d\kappa\,d\kappa' ,
+\end{equation}
+normalized so that $-\log\Fid=\frac{\zeta^2}8g_B+o(\zeta^2)$ along the curve, and
+$g_{\mathrm{KM}}$ is the Kubo--Mori form of \eqref{eq:km}, normalized by
+$D(\omega\Vert\widetilde\omega_s)=\frac{\zeta^2}2g_{\mathrm{KM}}+o(\zeta^2)$.
+\end{definition}
+
+\begin{theorem}[Main theorem]\label{thm:main}
+For the $r$-component free chiral fermion, with
+$\Phi(\zeta)=-\log\Fid_{\cF_r(I)}(\omega,\widetilde\omega_s)$ and $\zeta=as/(a+L)$,
+\begin{equation}\label{eq:main}
+ \boxed{\ \lim_{\zeta\downarrow0}\frac{\Phi(\zeta)}{\zeta^2}=\frac{g_B}8
+ =\frac r{12\pi^2}=\frac{c_{\rm cft}}{12\pi^2}=f_2,\qquad
+ f_2=0.00844343\,r.\ }
+\end{equation}
+Moreover, unconditionally for all $\zeta$ with
+$\tau(\zeta):=\frac r{2\pi}\log(1+\zeta)<1$,
+\begin{equation}\label{eq:unconditional}
+ \Phi(\zeta)\ \le\ \frac{\tau(\zeta)}{1-\tau(\zeta)}=\frac r{2\pi}\zeta+O(\zeta^2).
+\end{equation}
+\end{theorem}
+
+The proof combines \cref{thm:lower} and \cref{thm:upper} below, which are
+logically independent and meet exactly.  The remainder is $o(\zeta^2)$ without a
+rate; see \cref{rem:norate}.
+
+\subsection{The lower bound}
+The lower half is a data-processing argument that never interchanges the
+compression limit with the second-order expansion.
+
+\begin{lemma}[Legendre form of the SLD information; {\cite[Lemma~3.1]{RigorQL}}]\label{lem:legendre}
+For a differentiable curve of faithful states on a finite-dimensional algebra with
+$\rho_0=\rho$ and tangent $\dot\rho$, the SLD (Bures) information admits the
+variational form
+\begin{equation}\label{eq:legendre}
+ \tfrac14 g_B=\sup_{K=K^*}\Bigl[\dot\rho(K)-\operatorname{Var}_\rho(K)\Bigr],
+\end{equation}
+the supremum being attained at $K=\frac12\times$ the symmetric logarithmic
+derivative.  Consequently every finite-rank test operator gives a lower bound.
+\end{lemma}
+
+\begin{proposition}[One-particle Legendre bound; {\cite[Prop.~3.3]{RigorQL}}]\label{prop:oneparticle}
+For a quasi-free curve with one-particle tangent $D^{(1)}$ and symbol $Q$,
+the supremum in \eqref{eq:legendre} restricted to one-particle test operators
+$K=a^*(\ell)a$, $\ell=\ell^*$ finite rank, equals
+\begin{equation}\label{eq:Omega-ell}
+ \Omega(\ell)=2\operatorname{Re}\Tr\bigl(D^{(1)}\ell\bigr)
+ -\Tr\bigl(\ell\,\mathcal N_Q\ell\bigr),
+\end{equation}
+where $\mathcal N_Q$ is multiplication by $N(\kappa,\kappa')$ in the modular
+kernel representation.  Its supremum over $\ell$ is the integral
+\eqref{eq:gB-int}, by density of finite-rank kernels in
+$L^2(N\,d\kappa\,d\kappa')$.
+\end{proposition}
+
+\begin{theorem}[Lower bound, unconditional; {\cite[Thm.~4.2]{RigorQL}}]\label{thm:lower}
+$\displaystyle
+ \liminf_{\zeta\downarrow0}\frac{\Phi(\zeta)}{\zeta^2}\ \ge\ \frac{g_B}8 .$
+\end{theorem}
+
+\begin{proof}[Proof sketch; complete proof in {\cite[\S4, Thm.~4.2]{RigorQL}}]
+It suffices to prove
+$\liminf_{\zeta\downarrow0}\Phi(\zeta)/\zeta^2\ge\Omega(\ell)/8$ for every
+self-adjoint finite-rank $\ell$, and then to take the supremum over $\ell$
+(\cref{def:gB}, \cref{prop:oneparticle}).  Fix such an $\ell$ and let $P$ be the
+orthogonal projection onto $\Ran\ell$, so $P$ has finite rank and $\ell=P\ell P$.
+Three steps:
+\begin{enumerate}[label=(\roman*)]
+\item $\Phi(\zeta)\ge\Phi_P(\zeta)$, where $\Phi_P$ is computed in the compressed
+algebra $\cM_P$: the restriction $\cM\to\cM_P$ is unital completely positive, and
+root fidelity is nondecreasing under channels.
+\item $\zeta\mapsto\Phi_P(\zeta)$ extends to a real-analytic function near $0$
+with $\Phi_P(0)=\Phi_P'(0)=0$.  Indeed $z\mapsto Q_P-P\delta_zP$ is a holomorphic
+$B(PH)$-valued function on the unit disc whose value at $z=\zeta$ is the
+compressed recovered symbol, $PH$ being finite dimensional; and
+\cref{prop:secondorder} identifies $\frac12\Phi_P''(0)$ with the compressed SLD
+information.
+\item $\frac12\Phi_P''(0)\ge\Omega(\ell)/8$ by \cref{lem:legendre} applied inside
+$\cM_P$ with the test operator $a^*(\ell)a$.
+\end{enumerate}
+No interchange of limits occurs anywhere: the compression is fixed before the
+limit $\zeta\to0$ is taken, and the supremum over $\ell$ is taken last.
+\end{proof}
+
+\begin{proposition}[Evaluation of $g_B$; {\cite[Prop.~5.1]{RigorQL}}, {\cite[Thm.~A]{Note7}}]\label{prop:gBvalue}
+$\displaystyle g_B=\frac{2r}{3\pi^2}$ and $g_{\mathrm{KM}}=\frac r6$, hence
+$f_2=g_B/8=r/(12\pi^2)$ and $s_2=g_{\mathrm{KM}}/2=r/12$.
+\end{proposition}
+
+\begin{proof}[Proof sketch]
+The input is the \emph{kernel identity} \cite{RigorKI}: in the modular frame the
+first-order defect factorizes as
+\begin{equation}\label{eq:kernel-identity}
+ D^{(1)}(\kappa,\kappa')=i\,(q_\kappa-q_{\kappa'})\,\mathfrak g(\kappa,\kappa'),
+ \qquad
+ \mathfrak g(\kappa,\kappa')
+ =\frac1{(2\pi)^2}\,\widehat g\Bigl(\frac{\kappa-\kappa'}{2\pi}\Bigr)
+ \frac{\kappa+\kappa'}{4\pi},
+\end{equation}
+with $\widehat g$ the analytic continuation of the Fourier transform of the
+modular-frame vector field of the recovery flow, and
+$|\widehat g(u/2\pi)|^2=256\pi^6/\bigl(u^2(u^2+4\pi^2)^2\bigr)$.  With
+$u=\kappa-\kappa'$, $v=\kappa+\kappa'$ the weights are
+\begin{equation}\label{eq:weights}
+ \frac{(q_\kappa-q_{\kappa'})^2}{N}
+ =\frac{\sinh^2\frac u2}{\cosh\frac u2\bigl(\cosh\frac v2+\cosh\frac u2\bigr)},
+ \qquad
+ (q_\kappa-q_{\kappa'})^2\bigl[\ell(q,q')+\ell(1-q,1-q')\bigr]
+ =\frac{u\sinh\frac u2}{\cosh\frac v2+\cosh\frac u2},
+\end{equation}
+and $d\kappa\,d\kappa'=\frac12du\,dv$.  The $v$-integral is
+$V(u)=\int_{\mathbb R}\frac{v^2dv}{\cosh\frac v2+\cosh\frac u2}
+=\frac{2u(u^2+4\pi^2)}{3\sinh\frac u2}$, so that all powers of $\pi$ cancel and
+\begin{equation}\label{eq:two-integrals}
+ g_B=\frac{2r}3\int_{\mathbb R}\frac{\tanh\frac u2}{u(u^2+4\pi^2)}\,du
+ =\frac{2r}{3\pi^2},
+ \qquad
+ g_{\mathrm{KM}}=\frac r3\int_{\mathbb R}\frac{du}{u^2+4\pi^2}=\frac r6 ,
+\end{equation}
+the first by $\int_0^\infty\frac{\tanh\pi k}{k(k^2+1)}dk=2$.  Both auxiliary
+integrals and the kernel identity are given elementary proofs in
+\cite{RigorQL,RigorKI}; in \cite{Note7} the same numbers are obtained for an
+arbitrary diffeomorphism-covariant net from the stress-tensor two-point function
+in the modular frame, see \cref{sec:outlook}.
+\end{proof}
+
+\subsection{The upper bound}
+The upper half uses a single Uhlmann trial vector.  The idea is that although
+$\overline\beta_s$ is \emph{not} induced by a diffeomorphism, its one-particle
+symbol map $W_s$ extends from $I$ to a $C^{1,1}$ diffeomorphism of $\mathbb R$,
+whose Bogoliubov implementer exists by Shale--Stinespring; the extension is
+arbitrary outside $I$, and the freedom is exactly what is needed to saturate the
+bound.
+
+\begin{lemma}[Vector representative; {\cite[Prop.~3.1]{RigorUB}}]\label{lem:vector}
+Let $\varphi$ be an increasing $C^{1,1}$ diffeomorphism of $\mathbb R$ with
+$\varphi|_I=$ the zero-collar recovery map $k_s$, i.e.\ $\varphi(x)=x$ on
+$(-a,0]$ and $\varphi(x)=h_s(x)=Lx/(L+sx)$ on $[0,L]$, and let
+$\widetilde W_\varphi$ be the half-density push-forward.  If
+$V:=P_-\widetilde W_\varphi P_+$ and $A:=P_+\widetilde W_\varphi P_-$ are
+Hilbert--Schmidt, then $\Gamma(\widetilde W_\varphi)^*\Omega$ is a vector
+representative of $\widetilde\omega_s|_{\cF_r(I)}$.
+\end{lemma}
+
+\begin{theorem}[Vacuum overlap; {\cite[Thm.~4.1]{RigorUB}}, cf.\ {\cite[Thm.~31(3)]{Derez}}]\label{thm:det}
+Let $U$ be a unitary of $H$ with $V=P_-UP_+$ and $A=P_+UP_-$ Hilbert--Schmidt and
+$\norm V<1$, $\norm A<1$, and let $\Gamma(U)$ be any implementer.  Then
+\begin{equation}\label{eq:det}
+ \bigl|\langle\Omega,\Gamma(U)\Omega\rangle\bigr|=\det(\one-V^*V)^{1/2},
+\end{equation}
+the Fredholm determinant of $\one-V^*V$ on $P_+H$.
+\end{theorem}
+
+\begin{theorem}[Sharp upper bound; {\cite[Thm.~8.1]{RigorUB}}]\label{thm:upper}
+$\displaystyle
+ \limsup_{\zeta\downarrow0}\frac{\Phi(\zeta)}{\zeta^2}\ \le\ \frac{g_B}8
+ =\frac r{12\pi^2}.$
+\end{theorem}
+
+\begin{proof}[Proof sketch; complete proof in {\cite[\S\S2--8]{RigorUB}}]
+It suffices to treat $r=1$: all objects are direct sums of $r$ identical copies,
+$\norm{P_-(D+ih')P_+}_2^2$ and $g_B$ are multiplied by $r$, and $\Phi$ is
+multiplied by $r$ because the fidelity factorizes.  The four steps are:
+\begin{enumerate}[label=(\roman*)]
+\item \emph{Extension and implementability.}  The zero-collar map extends to an
+increasing $C^{1,1}$ diffeomorphism $\varphi_s$ of $\mathbb R$, free on
+$I'=(-\infty,-a]\cup[L,\infty)$ --- a single arc through infinity in the circle
+chart --- subject to matching $u_s=x-\varphi_s(x)$ and $u_s'$ at $L$ and vanishing
+to first order at $-a$.  An explicit Hilbert--Schmidt bound on
+$V_\zeta=P_-\widetilde W_{\varphi_s}P_+$ gives implementability.
+\item \emph{Uhlmann inequality.}  By \cref{lem:vector} and
+\cite[Thm.~2(3)]{AU02}, $\Fid\ge|\langle\Omega,\Gamma(U)\Omega\rangle|$ for
+$U=\widetilde W_{\varphi_s}\widehat W'$ with any $\widehat W'$ localized in $I'$,
+because $\Gamma(\widehat W')^*\in U(\cF_r(I)')$.  Hence
+$\Phi(\zeta)\le-\frac12\log\det(\one-V_\zeta^*V_\zeta)$ by \cref{thm:det}.
+\item \emph{Quadratic expansion.}  $-\frac12\log\det(\one-V^*V)
+=\frac12\norm{V_\zeta}_2^2+O(\norm{V_\zeta}_2^4)$, and
+$\norm{V_\zeta}_2^2=\zeta^2\norm{P_-(D+ih')P_+}_2^2+o(\zeta^2)$, where $D$ is the
+generator of the recovery flow inside $I$ (the flow of $-x^2\,d/dx$ on $D$ in the
+$q$-coordinate, i.e.\ $g_{\rm tot}=0$ on $(-a,0)$ and $-x^2/L$ on $(0,L)$), and
+$h'$ ranges over the vector fields supported in $I'$ that implement the freedom in
+the extension.  The expansion is controlled by an exact integral representation of
+the defect kernel and comes with an error bound.
+\item \emph{The infimum.}  $\inf_{h'}\frac12\norm{P_-(D+ih')P_+}_2^2
+=\frac12\cdot\frac{g_B}4=\frac{g_B}8$.  This is the ``three faces of the Bures
+form'' identity of \cite{RigorSV},
+$\frac14g_B=\operatorname{dist}\bigl(a,\overline{\cM'_{\rm sa}\Omega}\bigr)^2
+=\sup_{K\in\cM_{\rm sa}}\bigl[\varphi(K)-\operatorname{Var}_\omega(K)\bigr]$,
+combined with the value \eqref{eq:gB-int} of the quasi-free supremum from
+\cref{prop:gBvalue} and a Wick reduction identifying the two-particle sector of
+the trial vector with the one-particle integral.
+\end{enumerate}
+Steps (i)--(iii) are carried out both on the line and in the circle chart obtained
+by the Cayley transform; the admissible family and the two configurations used are
+described in \cite[\S6]{RigorUB}.  The document has been refereed; the repairs are
+listed in its \S11.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:main}]
+\Cref{thm:lower} with \cref{prop:gBvalue} gives
+$\liminf\Phi/\zeta^2\ge g_B/8=r/(12\pi^2)$; \cref{thm:upper} gives the matching
+$\limsup$.  Hence the limit exists and equals $r/(12\pi^2)$.  For
+\eqref{eq:unconditional}, \cref{thm:detrep} gives $\Phi=\sup_n\Phi_{P_n}$, each
+$\Phi_{P_n}$ is bounded by the Hellinger (Powers--St\o rmer) functional
+$-\log\det(S_n\widetilde S_n+C_n\widetilde C_n)$, and the operator-monotonicity
+estimate $\norm{X^{1/2}-Y^{1/2}}\le\norm{X-Y}^{1/2}$ \cite[Thm.~X.1.1]{Bhatia}
+together with \cref{thm:tracenorm} bounds the latter by
+$\tau(\zeta)/(1-\tau(\zeta))$; see \cite[Thm.~``Upper bound'']{RigorQL}.
+\end{proof}
+
+\begin{remark}[Why the natural-cone bound is not enough]\label{rem:hellinger}
+The Hellinger (Powers--St\o rmer) functional
+$-\log\det(S_n\widetilde S_n+C_n\widetilde C_n)$ used for
+\eqref{eq:unconditional} also has a second-order coefficient, and it is
+\emph{not} $f_2$: one finds $h_2=\frac{r\log2}{6\pi^2}=2\log2\cdot f_2$
+\cite[Prop.~``Value of the Hellinger coefficient'']{RigorQL}.  Its weight $1/W$ differs pointwise from the SLD weight
+$1/N$ of \eqref{eq:qfi} except on the diagonal $\kappa=\kappa'$, and the natural
+cone does not compute the fidelity: $\langle\xi_\rho,\xi_\sigma\rangle
+=\Tr\rho^{1/2}\sigma^{1/2}\le\Fid$, so the supremum over $U(\cM')$ in Uhlmann's
+formula is genuinely needed.  Before \cref{thm:upper} the constant was therefore
+known only to lie in $[f_2,\,2\log2\,f_2]=[1,1.3863]\cdot f_2$ --- and even the
+existence of the limit was open.  What closes the gap is that the Uhlmann trial
+vector may be optimized over an infinite-dimensional family (the extension of the
+compression outside $I$), which is exactly the supremum over $\cM'_{\rm sa}\Omega$
+appearing in the variational characterization of $g_B$.
+\end{remark}
+
+\begin{remark}[What the argument does not give]\label{rem:norate}
+(i) Rate: with the extension chosen as the flow of a fixed field, $s\mapsto\widetilde W_s$ is a one-parameter group and the exact identity of step (iii) gives $\|V_s\|_2^2\le s^2\|P_-DP_+\|_2^2$, hence the global bound $\Phi(\zeta)\le-\tfrac12\log(1-2f_2\zeta^2)=f_2\zeta^2(1+f_2\zeta^2+O(\zeta^4))$ with no cubic term \cite{RigorRR}; the lower bound of step (i) carries only $o(\zeta^2)$, so the sign and size of the cubic term, $c_3=-0.99(1)$, rest on numerics.  (ii) Nothing about the Kubo--Mori coefficient
+$s_2$: see \cref{rem:s2-status}.  (iii) Nothing beyond the free fermion: both
+\cref{prop:gBvalue} in the form used here and the Wick reduction are quasi-free
+statements.  For a general diffeomorphism-covariant net the Uhlmann half would
+need a substitute for the Wick reduction, and the implementability of the
+extension would be the Carpi--Weiner positive-energy representation of
+$\mathrm{Diff}(S^1)$ rather than Shale--Stinespring.
+\end{remark}
+
+\begin{remark}[Status of $s_2$]\label{rem:s2-status}
+\Cref{prop:gBvalue} proves $g_{\mathrm{KM}}=r/6$, i.e.\
+$s_2=g_{\mathrm{KM}}/2=r/12$, as a statement about the Kubo--Mori quadratic form
+of the curve.  Its identification with $\lim_{\zeta\to0}\cD(\zeta)/\zeta^2$ has no
+analogue of \cref{thm:upper}: the Kubo--Mori half of the second-variation lemma
+\cite{RigorSV} is open beyond finite dimensions, and the Kubo--Mori weight
+$4(\lambda-1)/\log\lambda$ is not dominated by $1+\lambda$, so finiteness needs a
+domain condition that the Bures form does not.  What is available is: the monotone
+lower bounds \eqref{eq:detrepS} from every compression, and the numerical
+agreement $s_2^{\rm num}=0.0837(5)$ against $1/12=0.083333$
+(\cref{sec:numerics}).  We therefore state
+$\cD(\zeta)=\frac{c_{\rm cft}}{12}\zeta^2+o(\zeta^2)$ as a proposition about the
+quadratic form and a numerically confirmed conjecture about $\cD$ itself.
+\end{remark}
+
+\begin{remark}[The recovery bounds are far from saturated]
+Comparing \eqref{eq:main} with \eqref{eq:cmi-bound}: at $\zeta_0=2z$,
+$-2\log\Fid=8f_2z^2+O(z^3)$ while $I_\omega(A{:}C\mid B)=\frac r6z+O(z^2)$, so the
+ratio vanishes linearly, $\approx0.20\,\zeta$ (\cref{tab:scan}).  The
+Faulkner--Hollands--Swingle--Wang bound is correct but, in this configuration,
+loose by a factor $\Theta(1/z)$.
+\end{remark}

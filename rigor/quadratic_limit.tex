@@ -1,0 +1,1299 @@
+\documentclass[11pt]{article}\input{rigor_preamble}
+\usepackage{amsopn}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\ip}[2]{\left\langle #1,#2\right\rangle}
+\newcommand{\one}{\mathbf 1}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\CAR}{\operatorname{CAR}}
+\newcommand{\Sone}{\mathfrak S_1}\newcommand{\Stwo}{\mathfrak S_2}
+\newcommand{\Dt}{\widetilde D^{(1)}}
+\newcommand{\Qt}{\widetilde Q}
+\newcommand{\Hell}{\operatorname{A}}
+\newcommand{\Ran}{\operatorname{Ran}}
+\theoremstyle{definition}\newtheorem{problem}[theorem]{Problem}
+\title{The quadratic limit \(\lim_{\zeta\to0}\Phi(\zeta)/\zeta^{2}\) for the free fermion\\[3pt]
+\large A rigorous lower bound \(=g_B/8\), a rigorous upper bound \(=2\log2\cdot g_B/8\),\\
+and the precise remaining gap\\[3pt]
+\normalsize (item (b) of Note~7 \S8; Corollary~4.2 of Note~5)}
+\author{}\date{}
+\begin{document}\maketitle
+
+\begin{abstract}\noindent
+Let \(\Phi(\zeta)=-\log\Fid_{\cF_r(I)}(\omega,\widetilde\omega_\zeta)\) be the negative logarithm of
+the Uhlmann root fidelity between the free-fermion vacuum on \(I=ABC\) and the state recovered by the
+zero-collar geometric (rotated Petz) channel, as a function of the cross-ratio variable \(\zeta\).
+Note~5 asserts (its Corollary~4.2) that \(\Phi(\zeta)=f_2\zeta^2[1+O(\log^{-2}(1/\zeta))]\) with
+\(f_2=g_B/8\), \(g_B\) the one-particle quantum Fisher (SLD) information; Note~7 evaluates
+\(g_B=2r/(3\pi^2)\), \(f_2=r/(12\pi^2)\).  The argument given there is a formal interchange of the
+compression limit with the second-order expansion.  We prove here, completely and unconditionally:
+\begin{enumerate}[label=(\roman*),leftmargin=2.2em]
+\item \(\displaystyle\liminf_{\zeta\to0}\Phi(\zeta)/\zeta^2\;\ge\;g_B/8=r/(12\pi^2)\)
+      (Theorem~\ref{thm:lower}), by data processing on a \emph{single} finite-rank compression, a
+      variational (Legendre) formula for the SLD information which makes its monotonicity manifest,
+      and a density argument in a weighted Hilbert--Schmidt space;
+\item \(\displaystyle\limsup_{\zeta\to0}\Phi(\zeta)/\zeta^{2}\;\le\;2\log 2\cdot g_B/8
+      =r\log2/(6\pi^2)\) \emph{conditionally} on one explicitly isolated one-particle estimate
+      (Lemma~\ref{lem:H}, marked \textsc{gap}), and \(\Phi(\zeta)\le\frac r{2\pi}\log(1+\zeta)(1+O(\zeta))\)
+      unconditionally (Theorem~\ref{thm:upper}).
+\end{enumerate}
+The upper bound rests on the Uhlmann inequality \(\Fid\ge\Hell:=\langle\xi_\omega,\xi_{\widetilde\omega}\rangle\)
+(natural-cone overlap \(=\) Hellinger affinity \(=\) Petz--R\'enyi \(\alpha=\frac12\)), the closed form
+\(\Hell=\det(Q^{1/2}\Qt^{1/2}+(1-Q)^{1/2}(1-\Qt)^{1/2})\), and the Ostrowski--Taussky inequality
+\(\det\operatorname{Re}A\le|\det A|\), which reduces everything to the Powers--St\o rmer functional
+\(h(\zeta)=\frac12[\norm{Q^{1/2}-\Qt^{1/2}}_2^2+\norm{(1-Q)^{1/2}-(1-\Qt)^{1/2}}_2^2]\).  Its
+\emph{formal} second-order coefficient is computed in closed form,
+\(h_2=\frac12\iint|D^{(1)}|^2/W=r\log2/(6\pi^2)=2\log2\,f_2\), with
+\(W=(\sqrt{q_\kappa(1-q_{\kappa'})}+\sqrt{q_{\kappa'}(1-q_\kappa)})^2\) replacing the SLD weight
+\(N=q_\kappa(1-q_{\kappa'})+q_{\kappa'}(1-q_\kappa)\); the gap is exactly the uniformity in the
+compression, i.e.\ the ultraviolet block, which is also where the numerical tail correction of
+Note~5 was found to be unreliable.  Thus \(\Phi(\zeta)\asymp\zeta^2\) with the constant pinned
+between \(f_2\) and \(1.3863\,f_2\); the identification of the limit with \(f_2\) itself remains
+open, and we state precisely what is missing.
+\end{abstract}
+
+\tableofcontents
+
+\section{Scope: what is proved and what is not}\label{sec:scope}
+
+\begin{center}\small
+\begin{tabular}{p{0.42\textwidth}p{0.52\textwidth}}\toprule
+\textbf{Statement} & \textbf{Status here}\\\midrule
+\(\Phi\) is a monotone limit of finite-dimensional quasi-free fidelities & taken from Note~5,
+Thm.~3.1 (only the direction \(\Phi\ge\Phi_P\), which is data processing, is used for the lower
+bound; the harder direction \(\Phi=\sup_P\Phi_P\) is used only for the upper bound and is cited)\\
+\(\liminf_{\zeta\to0}\Phi/\zeta^2\ge g_B/8\) & \textbf{proved} (Thm.~\ref{thm:lower}), unconditionally\\
+\(g_B=2r/(3\pi^2)\), \(f_2=g_B/8=r/(12\pi^2)\) & \textbf{proved} (Prop.~\ref{prop:gB}), using the
+kernel identity of \texttt{rigor/kernel\_identity.tex}\\
+\(\Phi(\zeta)=O(\zeta)\) with the explicit constant \(\frac r{2\pi}\) & \textbf{proved}
+(Thm.~\ref{thm:upper}(i)), unconditionally\\
+\(\limsup_{\zeta\to0}\Phi/\zeta^2\le 2\log2\cdot g_B/8\) & proved \textbf{modulo}
+Lemma~\ref{lem:H} (one-particle, \textsc{gap})\\
+\(\lim_{\zeta\to0}\Phi/\zeta^2=g_B/8\) & \textbf{not proved}; reduced to Problem~\ref{prob:sharp}\\
+\(\Phi(\zeta)=f_2\zeta^2+O(\zeta^2\log^{-2}(1/\zeta))\) & \textbf{not proved}; the lower half is
+reduced to Problem~\ref{prob:rate} (a uniform cubic remainder with explicit cutoff dependence)\\
+\bottomrule\end{tabular}
+\end{center}
+
+Every step below is either a complete Lamport-style proof, a \texttt{citedbox} with an exact
+locator, or an explicitly flagged \textsc{gap}.  We write \textsc{gap} in the statement of any
+assertion that is used but not proved here.
+
+\section{Setting, conventions, standing hypotheses}\label{sec:setting}
+
+\subsection{Geometry, symbols, states}
+
+\begin{definition}[Configuration and cross ratio]\label{def:config}
+Fix \(r\in\mathbb N\) (number of chiral fermion components) and \(L>0\).  We work in the
+\emph{half-line frame} of Note~7 \S2:
+\[
+ A=(-\infty,0),\qquad D=BC=(0,L),\qquad I=ABC=(-\infty,L),\qquad H:=H_I=L^2(I;\mathbb C^r).
+\]
+For \(s>0\) let \(h_s(x)=Lx/(L+sx)\), \(J_s=(-\infty,L/(1+s))\), \(W_s=\one_{H_A}\oplus V_s\) with
+\(V_s\) the half-density push-forward by \(h_s\), and
+\[
+ Q:=E_IP_+E_I,\qquad \Qt_s:=W_s^*Q_{J_s}W_s .
+\]
+By Lemma~1.1 of Note~5 all quantities below depend on \((a,L,s)\) only through
+\(\zeta=as/(a+L)\), and in the half-line frame (\(a=\infty\)) one has \(\zeta=s\).  We therefore
+write \(\zeta\) for the parameter throughout and set \(\Qt_\zeta:=\Qt_s\big|_{s=\zeta}\),
+\(\delta_\zeta:=Q-\Qt_\zeta\).
+\end{definition}
+
+\begin{definition}[Modular frame, modes, weights]\label{def:frame}
+\(\xi=-\log\frac{L-x}{L}\) is the modular coordinate, \(\beta=dx/d\xi=L-x\); in the half-density
+identification \(H\cong L^2(\mathbb R,d\xi;\mathbb C^r)\).  The modular modes are
+\(\psi_\kappa(\xi)=(2\pi)^{-1}e^{i\kappa\xi/2\pi}\), \(\int d\kappa\,\lvert\psi_\kappa\rangle\langle\psi_\kappa\rvert=\one\)
+(Definition~1.1 of \texttt{kernel\_identity.tex}), and
+\begin{equation}\label{eq:Qdiag}
+ \mathcal F:H\to L^2(\mathbb R,d\kappa;\mathbb C^r),\quad(\mathcal Ff)(\kappa)=\ip{\psi_\kappa}{f},
+ \qquad \mathcal FQ\mathcal F^*=M_{q},\quad q_\kappa=\frac1{1+e^\kappa},
+\end{equation}
+i.e.\ in the \(\kappa\)-representation \(Q\) is multiplication by \(q_\kappa\) (Casini--Huerta;
+Note~5 \S4.1).  We put, for \(\kappa,\kappa'\in\mathbb R\),
+\begin{equation}\label{eq:NW}
+ N(\kappa,\kappa'):=q_\kappa(1-q_{\kappa'})+q_{\kappa'}(1-q_\kappa),\qquad
+ W(\kappa,\kappa'):=\Bigl(\sqrt{q_\kappa(1-q_{\kappa'})}+\sqrt{q_{\kappa'}(1-q_\kappa)}\Bigr)^{2},
+\end{equation}
+so that \(0<N\le W\le 2N\le2\).  With \(u=\kappa-\kappa'\), \(v=\kappa+\kappa'\),
+\begin{equation}\label{eq:NWuv}
+ N=\frac{\cosh\frac u2}{\cosh\frac v2+\cosh\frac u2},\qquad
+ W=\frac{1+\cosh\frac u2}{\cosh\frac v2+\cosh\frac u2},\qquad
+ (q_\kappa-q_{\kappa'})^2=\frac{\sinh^2\frac u2}{(\cosh\frac v2+\cosh\frac u2)^2}.
+\end{equation}
+\end{definition}
+
+\begin{definition}[The first-order defect]\label{def:D1}
+\(D^{(1)}:=\partial_\zeta\delta_\zeta|_{\zeta=0}\).  Its kernel on \(A\times D\) is
+\(D^{(1)}(-u,v)=\frac i{2\pi L}\frac{uv}{(u+v)^2}\); in the modular frame
+\(\Dt(\xi,\xi')=-\frac i{2\pi}\sinh\frac\xi2\sinh\frac{\xi'}2/\sinh^2\frac{\xi-\xi'}2\) for
+\(\xi<0<\xi'\), the adjoint kernel on the other block, and \(0\) on the diagonal blocks
+(Note~7, eqs.~(9)--(10)).  Its modular matrix elements are
+\(D^{(1)}(\kappa,\kappa')=\ip{\psi_\kappa}{D^{(1)}\psi_{\kappa'}}\).
+\end{definition}
+
+\begin{lemma}[Standing analytic facts]\label{lem:standing}
+\begin{enumerate}[label=(\alph*),leftmargin=2em]
+\item \(0<Q<1\) and \(\ker Q=\ker(1-Q)=\{0\}\); the same holds for \(\Qt_\zeta\).
+\item \(\delta_\zeta\) is off-diagonal in \(H=H_A\oplus H_D\), with kernel
+ \(\Delta_\zeta(-u,v)=\frac i{2\pi}R_\zeta(u,v)\),
+ \(R_\zeta(u,v)=\frac{\zeta uv}{(u+v)(L(u+v)+\zeta uv)}\), \(u\in(0,\infty)\), \(v\in(0,L)\); it is
+ trace class with \(\norm{\delta_\zeta}_1=\frac r{2\pi}\log(1+\zeta)\) (Note~4, Thm.~7.1).
+\item For every \(u\in(0,\infty)\), \(v\in(0,L)\) the map \(z\mapsto R_z(u,v)\) is holomorphic on
+ \(\{|z|<1\}\) and \(|R_z(u,v)|\le\frac{|z|}{L(1-|z|)}\) there; consequently
+ \(z\mapsto\ip{f}{\delta_z g}\) is holomorphic on \(\{|z|<1\}\) for all \(f,g\in H\), and
+ \(\partial_\zeta\delta_\zeta|_{0}=D^{(1)}\) weakly.
+\item \(D^{(1)}\) is Hilbert--Schmidt.
+\end{enumerate}
+\end{lemma}
+
+\lstep{1}{1}{(a) holds.}
+\lproof
+\lstep{2}{1}{\(0\le Q\le1\) because \(Q=E_IP_+E_I\) with \(P_+\) an orthogonal projection.}
+\lby{\(0\le E_IP_+E_I\le E_I\)}
+\lstep{2}{2}{\(\ker Q=\{0\}\): \(\ip fQf=\norm{P_+E_If}^2=0\) forces \(P_+f=0\) for \(f\in H_I\),
+i.e.\ \(f\) is the boundary value of a function in the lower Hardy space vanishing on \(I\), hence
+\(f=0\).}
+\lby{the Hardy-space uniqueness theorem (a nonzero \(H^2\) function on a half-plane has boundary
+values nonzero a.e.); Note~5, \S3, first paragraph}
+\lstep{2}{3}{\(\ker(1-Q)=\{0\}\) by the same argument applied to \(P_-=1-P_+\).}
+\lby{$\langle2\rangle2$ with \(P_+\) replaced by \(P_-\)}
+\lstep{2}{4}{\(\Qt_\zeta=W_\zeta^*Q_{J_\zeta}W_\zeta\) with \(W_\zeta\) isometric inherits both.}
+\lby{\(\ip f{\Qt f}=\ip{W f}{Q_{J}Wf}\) and $\langle2\rangle2$ applied on \(J_\zeta\)}
+\lqed{2}{5}\lby{$\langle2\rangle1$--$\langle2\rangle4$}
+
+\lstep{1}{2}{(b) holds.}
+\lby{Note~4, eqs.~(38),(40) and Thm.~7.1 (verified independently in
+\texttt{rigor/check\_note4.tex}); the trace norm is \(\frac r{2\pi}\log(1+\frac{as}{a+L})\), which in
+the half-line frame is \(\frac r{2\pi}\log(1+\zeta)\)}
+
+\lstep{1}{3}{(c) holds.}
+\lproof
+\lstep{2}{1}{For \(u>0\), \(0<v<L\): \(\frac{uv}{u+v}\le\min(u,v)<L\).}
+\lby{\(\frac{uv}{u+v}=(\frac1u+\frac1v)^{-1}\le\min(u,v)\), and \(v<L\)}
+\lstep{2}{2}{Hence \(|L(u+v)+zuv|\ge L(u+v)-|z|uv\ge L(u+v)(1-|z|)>0\) for \(|z|<1\).}
+\lby{$\langle2\rangle1$: \(uv\le L(u+v)\cdot\frac{1}{L}\cdot\frac{uv}{u+v}\cdot\frac{L}{u+v}\)\,---\,more
+directly, \(uv=(u+v)\frac{uv}{u+v}\le(u+v)L\) by $\langle2\rangle1$}
+\lstep{2}{3}{\(R_z(u,v)\) is a quotient of two functions holomorphic in \(z\) with nonvanishing
+denominator on \(\{|z|<1\}\), and \(|R_z|\le\frac{|z|uv}{(u+v)L(u+v)(1-|z|)}\le\frac{|z|}{L(1-|z|)}\).}
+\lby{$\langle2\rangle1$, $\langle2\rangle2$}
+\lstep{2}{4}{For \(f,g\in H\) the function \(z\mapsto\ip f{\delta_zg}\) is holomorphic on \(\{|z|<1\}\).}
+\lby{$\langle2\rangle3$, the dominated-convergence form of Morera's theorem (the integrand is
+dominated by \(\frac{|f(-u)||g(v)|}{2\pi L(1-|z|)}\in L^1(du\,dv)\) on compact subsets, since
+\(f,g\in L^2\) and \(|D|<\infty\)); the two off-diagonal blocks are treated identically}
+\lstep{2}{5}{\(\partial_zR_z|_{z=0}=\frac{uv}{L(u+v)^2}\), so \(\partial_\zeta\delta_\zeta|_0=D^{(1)}\)
+weakly.}
+\lby{differentiating \(R_z=\frac{zuv}{(u+v)(L(u+v)+zuv)}\) at \(z=0\); Definition~\ref{def:D1}}
+\lqed{2}{6}\lby{$\langle2\rangle3$--$\langle2\rangle5$}
+
+\lstep{1}{4}{(d) holds.}
+\lproof
+\lstep{2}{1}{\(\norm{D^{(1)}}_2^2=2\iint_{\mathbb R^2}|D^{(1)}(\kappa,\kappa')|^2\dd\kappa\dd\kappa'\)
+for the \(r=1\) component, and \(\mathcal F\) is unitary.}
+\lby{\eqref{eq:Qdiag}; unitaries preserve \(\norm\cdot_2\); the factor \(r\) multiplies the result}
+\lstep{2}{2}{\(|D^{(1)}(\kappa,\kappa')|^2=\frac{\sinh^2\frac u2}{(\cosh\frac v2+\cosh\frac u2)^2}
+\cdot\frac{v^2}{u^2(u^2+4\pi^2)^2}\).}
+\lby{Theorem~2.1 of \texttt{kernel\_identity.tex}, i.e.\
+\(D^{(1)}=(q_\kappa-q_{\kappa'})v/[u(u^2+4\pi^2)]\), and \eqref{eq:NWuv}}
+\lstep{2}{3}{\(\iint|D^{(1)}|^2\dd\kappa\dd\kappa'
+=\frac12\int\dd u\frac{\sinh^2\frac u2}{u^2(u^2+4\pi^2)^2}\int\dd v\frac{v^2}{(\cosh\frac v2+\cosh\frac u2)^2}<\infty\).}
+\lby{$\langle2\rangle2$, the change of variables \(\dd\kappa\dd\kappa'=\frac12\dd u\dd v\), Tonelli
+(the integrand is nonnegative); the inner integral is finite, \(O(1)\) as \(u\to0\) and
+\(O(|u|^3e^{-|u|})\) as \(|u|\to\infty\) (split at \(|v|=|u|\) and use
+\(\cosh\frac v2+\cosh\frac u2\ge\max(\cosh\frac v2,\cosh\frac u2)\)), while
+\(\sinh^2\frac u2/(u^2(u^2+4\pi^2)^2)\) is bounded near \(0\) and
+\(\sim e^{|u|}/(4u^6)\) at infinity; the product is \(O(|u|^{-3})\), hence integrable}
+\lqed{2}{4}\lby{$\langle2\rangle1$, $\langle2\rangle3$}
+
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$}
+
+\subsection{Compressions and the two quantities}\label{sec:compress}
+
+\begin{definition}[Compressed algebras and the functions \(\Phi\), \(\Phi_P\)]\label{def:PhiP}
+Let \(\cM:=\cF_r(I)=\pi_\omega(\CAR(H))''\) and let \(\omega\), \(\widetilde\omega_\zeta\) be the
+gauge-invariant quasi-free states with symbols \(Q\), \(\Qt_\zeta\).  For an orthogonal projection
+\(P\) on \(H\) of finite rank put \(\cM_P:=\pi_\omega(\CAR(PH))''\), a finite-dimensional factor, and
+\[
+ \Phi(\zeta):=-\log\Fid_{\cM}(\omega,\widetilde\omega_\zeta),\qquad
+ \Phi_P(\zeta):=-\log\Fid_{\cM_P}\bigl(\omega|_{\cM_P},\widetilde\omega_\zeta|_{\cM_P}\bigr).
+\]
+The restrictions are the quasi-free states of \(\cM_P\) with symbols
+\(Q_P:=PQP|_{PH}\) and \(\Qt_{\zeta,P}:=P\Qt_\zeta P|_{PH}\), and \(0<Q_P,\Qt_{\zeta,P}<1\) on \(PH\).
+\end{definition}
+
+\medskip\noindent\textit{Why \(0<Q_P<1\):}\ 
+If \(f\in PH\) and \(\ip f{Q_Pf}=0\) then \(\ip f{Qf}=0\), so \(Q^{1/2}f=0\), so \(f=0\) by
+Lemma~\ref{lem:standing}(a); similarly for \(1-Q_P\).  Finite-dimensionality then gives strict
+inequalities.  The same for \(\Qt_\zeta\).\hfill\(\square\)\medskip
+
+\begin{citedbox}{Uhlmann 1976 / Alberti 1983 --- root fidelity and its monotonicity}
+For normal states \(\varphi,\psi\) of a von Neumann algebra \(\cM\) in standard form
+\((\mathcal H,J,\Delta,\mathcal P^\natural)\),
+\[
+ \Fid_\cM(\varphi,\psi)=\sup\bigl\{|\ip{\xi_\varphi}{\xi_\psi}|:\ \xi_\varphi,\xi_\psi\ \text{vector
+ representatives}\bigr\}
+ \;=\;\inf_{x\in\cM,\,x>0}\tfrac12\bigl(\varphi(x)+\psi(x^{-1})\bigr),
+\]
+in finite dimensions \(\Fid=\norm{\rho^{1/2}\sigma^{1/2}}_1=\Tr|\rho^{1/2}\sigma^{1/2}|\), and
+\(\Fid\) is nondecreasing under unital normal completely positive maps applied to the algebra
+(equivalently under channels applied to the states).  \emph{Locators:} Uhlmann, Rep.\ Math.\ Phys.\
+\textbf{9} (1976) 273--279, Thm.\ (transition probability); Alberti, Lett.\ Math.\ Phys.\ \textbf{7}
+(1983) 25--32 (variational formula).  \emph{Use here:} the inequality \(\Fid_\cM\le\Fid_{\cM_P}\) for
+\(\cM_P\subset\cM\) (restriction is a channel), and \(\Fid\ge|\ip{\xi_\varphi}{\xi_\psi}|\) for the
+natural-cone pair.  \emph{Verdict:} both are exactly the standard statements; the sources are
+paywalled (\texttt{NOT OBTAINED} as PDFs), but the two facts used are also proved in Note~4,
+Lemma~10.1 and its proof, which we have checked.
+\end{citedbox}
+
+\begin{citedbox}{Note~5, Theorem~3.1 (determinant representation) --- used only for the upper bound}
+``Let \(P_1\le P_2\le\cdots\) be finite-rank projections on \(H_I\) with \(P_n\uparrow1\) strongly
+\dots\ The sequence in (17) is nonincreasing\dots'' i.e.
+\(\Fid_{\cM}(\omega,\widetilde\omega_s)=\lim_n\Fid_{\cM_{P_n}}=\inf_n\Fid_{\cM_{P_n}}\), equivalently
+\(\Phi=\sup_n\Phi_{P_n}\).  \emph{Locator:} \texttt{fidelity\_recovered\_quasifree.tex},
+Thm.~3.1, eq.~(17).  Its proof uses (i) the quasi-free restriction property, (ii) Note~4,
+Lemma~10.1 (continuity of fidelity from below along increasing algebras with strongly dense
+union).  \emph{Use here:} only in Theorem~\ref{thm:upper}; the lower bound
+(Theorem~\ref{thm:lower}) uses \emph{only} \(\Phi\ge\Phi_P\), which is data processing.
+\emph{Verdict:} the direction \(\Phi\ge\sup_P\Phi_P\) is immediate; the direction
+\(\Phi\le\sup_n\Phi_{P_n}\) relies on Note~4 Lemma~10.1, whose Kaplansky-density argument we have
+verified.
+\end{citedbox}
+
+\section{Finite-dimensional input}\label{sec:fd}
+
+Throughout this section \(\mathfrak k\) is a finite-dimensional Hilbert space,
+\(\mathcal A=B(\Lambda\mathfrak k)\), and all states are faithful.
+
+\subsection{The Bures second variation and its Legendre form}
+
+\begin{citedbox}{Bures--Uhlmann metric \(=\) \(\frac14\times\) SLD Fisher information (finite dimensions)}
+Let \(\rho>0\) on \(\mathbb C^m\) with spectral decomposition \(\rho=\sum_ip_i\lvert i\rangle\langle i\rvert\), and let
+\(\varepsilon\mapsto\rho_\varepsilon\) be a \(C^3\) curve of states with \(\rho_0=\rho\),
+\(\dot\rho:=\partial_\varepsilon\rho_\varepsilon|_0\).  Then, with
+\(\Fid(\rho,\sigma)=\Tr|\rho^{1/2}\sigma^{1/2}|\),
+\begin{equation}\label{eq:bures}
+ -\log\Fid(\rho,\rho_\varepsilon)=\frac{\varepsilon^2}{8}\,g_B[\rho;\dot\rho]+O(\varepsilon^3),
+ \qquad g_B[\rho;\dot\rho]=2\sum_{i,j}\frac{|\dot\rho_{ij}|^2}{p_i+p_j}=\Tr(\dot\rho\,\mathcal L),
+\end{equation}
+where \(\mathcal L\) is the symmetric logarithmic derivative,
+\(\dot\rho=\frac12(\rho\mathcal L+\mathcal L\rho)\).  \emph{Locators:} M.~H\"ubner, Phys.\ Lett.\ A
+\textbf{163} (1992) 239--242, eq.~(9) (explicit computation of the Bures metric
+\(g_{\mathrm{Bures}}=\frac12\sum_{ij}|\dot\rho_{ij}|^2/(p_i+p_j)\) and
+\(\Fid=1-\frac12 g_{\mathrm{Bures}}\varepsilon^2+\dots\)); D.~Petz, Linear Algebra Appl.\
+\textbf{244} (1996) 81--96, \S3 (SLD metric is the smallest monotone metric); the same formula is
+Note~7, eq.~(13).  \emph{Use here:} applied on each finite-dimensional \(\cM_P\).
+\emph{Verdict:} standard and unambiguous once the normalization \(-\log\Fid=\frac{\varepsilon^2}8g_B\)
+is fixed as above; we verified \eqref{eq:bures} numerically (script
+\texttt{scratchpad/p2d.py}: for a random \(4\)-mode quasi-free pair,
+\(-\log\Fid/\varepsilon^2\to g_B/8\) as \(\varepsilon=10^{-2},3\cdot10^{-3},10^{-3}\):
+\(6.1988,6.0199,5.9801\) versus \(g_B/8=5.96196\)).  \textsc{Note}: for the curve used below,
+\(\varepsilon\mapsto\rho_\varepsilon\) is real-analytic, so \eqref{eq:bures} is a Taylor expansion
+with a genuine \(O(\varepsilon^3)\) remainder, but with a constant depending on the curve.
+\end{citedbox}
+
+\begin{lemma}[Legendre form of the SLD information]\label{lem:legendre}
+With \(\rho,\dot\rho\) as above (\(\dot\rho=\dot\rho^*\), \(\Tr\dot\rho=0\)),
+\begin{equation}\label{eq:legendre}
+ g_B[\rho;\dot\rho]=\sup\Bigl\{\,2\Tr(\dot\rho\,X)-\Tr(\rho X^2)\ :\ X=X^*\in B(\mathbb C^m)\Bigr\}.
+\end{equation}
+In particular, for any \(*\)-subalgebra \(\mathcal B\subset B(\mathbb C^m)\) containing \(\one\), the
+supremum restricted to \(X\in\mathcal B_{sa}\) is monotone nondecreasing in \(\mathcal B\).
+\end{lemma}
+
+\lstep{1}{1}{\ldefine \(J_\rho(X):=\frac12(\rho X+X\rho)\) on the real Hilbert space of self-adjoint
+matrices with \(\ip AB=\Tr(AB)\).  \(J_\rho\) is symmetric and positive definite.}
+\lby{\(\ip X{J_\rho X}=\Tr(\rho X^2)\ge0\), with equality iff \(\rho^{1/2}X=0\) iff \(X=0\) since
+\(\rho>0\); symmetry is cyclicity of the trace}
+\lstep{1}{2}{For a symmetric positive-definite \(J\) on a real Hilbert space and any vector \(Y\),
+\(\ip Y{J^{-1}Y}=\sup_X[2\ip YX-\ip X{JX}]\), the supremum attained at \(X=J^{-1}Y\).}
+\lby{\(2\ip YX-\ip X{JX}=\ip Y{J^{-1}Y}-\ip{X-J^{-1}Y}{J(X-J^{-1}Y)}\), an algebraic identity}
+\lstep{1}{3}{\(\mathcal L=J_\rho^{-1}\dot\rho\) and \(g_B=\ip{\dot\rho}{J_\rho^{-1}\dot\rho}\).}
+\lby{the definition \(\dot\rho=\frac12(\rho\mathcal L+\mathcal L\rho)=J_\rho\mathcal L\) and
+\eqref{eq:bures}: \(\Tr(\dot\rho\mathcal L)=\ip{\dot\rho}{J_\rho^{-1}\dot\rho}\)}
+\lstep{1}{4}{\eqref{eq:legendre} holds.}
+\lby{$\langle1\rangle2$ with \(Y=\dot\rho\), \(J=J_\rho\), and $\langle1\rangle3$; \(\ip{\dot\rho}X=\Tr(\dot\rho X)\)
+and \(\ip X{J_\rho X}=\Tr(\rho X^2)\) by $\langle1\rangle1$}
+\lstep{1}{5}{Monotonicity in \(\mathcal B\) is immediate: a supremum over a larger set is larger.}
+\lby{$\langle1\rangle4$}
+\lqed{1}{6}\lby{$\langle1\rangle1$--$\langle1\rangle5$}
+
+\begin{remark}
+\eqref{eq:legendre} is the finite-dimensional shadow of the fact that the SLD metric is the
+\emph{smallest} monotone Riemannian metric (Petz).  Its virtue here is that data processing becomes
+the trivial statement ``a supremum over a subset is smaller''; no operator-monotone function theory
+is needed, and the formula makes sense verbatim on any von Neumann algebra.
+\end{remark}
+
+\subsection{Quasi-free curves: the one-particle lower bound for \texorpdfstring{\(g_B\)}{gB}}
+
+\begin{proposition}[One-particle Legendre bound]\label{prop:oneparticle}
+Let \(\mathfrak k\) be finite dimensional, \(0<Q_0<1\) on \(\mathfrak k\), and let
+\(\varepsilon\mapsto Q_\varepsilon\) be a differentiable curve of symbols with
+\(0<Q_\varepsilon<1\) and \(\dot Q:=\partial_\varepsilon Q_\varepsilon|_0=\dot Q^*\).  Let
+\(\rho_\varepsilon\) be the corresponding quasi-free density matrices on \(\Lambda\mathfrak k\).  Then
+\begin{equation}\label{eq:oneparticle}
+ g_B[\rho_0;\dot\rho]\;\ge\;\Omega^*:=\sup_{\ell=\ell^*\in B(\mathfrak k)}
+ \Bigl[\,2\Tr(\dot Q\,\ell)-\Tr\bigl(Q_0\,\ell\,(1-Q_0)\,\ell\bigr)\Bigr]
+ \;=\;2\sum_{i,k}\frac{|\dot Q_{ik}|^2}{N_{ik}},
+\end{equation}
+where the matrix of \(\dot Q\) is taken in an eigenbasis of \(Q_0\) with eigenvalues \(q_i\), and
+\(N_{ik}=q_i(1-q_k)+q_k(1-q_i)\).  (In fact equality holds in the first inequality --- this is
+Proposition~2.3 of Note~5 --- but only ``\(\ge\)'' is used below.)
+\end{proposition}
+
+\lstep{1}{1}{\ldefine for \(\ell=\ell^*\in B(\mathfrak k)\) the self-adjoint element
+\(X_\ell:=d\Gamma(\ell)-\Tr(Q_0\ell)\one\in B(\Lambda\mathfrak k)\), where
+\(d\Gamma(\ell)=\sum_{ij}\ell_{ij}a_i^*a_j\).}
+\lstep{1}{2}{\(\Tr(\dot\rho\,X_\ell)=\Tr(\dot Q\,\ell)\).}
+\lproof
+\lstep{2}{1}{\(\Tr(\rho_\varepsilon\,d\Gamma(\ell))=\Tr(Q_\varepsilon\ell)\).}
+\lby{the defining property \(\omega_{Q}(a^*(f)a(g))=\ip g{Qf}\) of a gauge-invariant quasi-free state,
+i.e.\ \(\Tr(\rho_Qa_i^*a_j)=Q_{ji}\)}
+\lstep{2}{2}{\(\Tr(\dot\rho)=0\), so the constant in \(X_\ell\) does not contribute.}
+\lby{\(\Tr\rho_\varepsilon\equiv1\)}
+\lqed{2}{3}\lby{differentiating $\langle2\rangle1$ at \(\varepsilon=0\) and using $\langle2\rangle2$}
+\lstep{1}{3}{\(\Tr(\rho_0X_\ell^2)=\Tr\bigl(Q_0\ell(1-Q_0)\ell\bigr)\).}
+\lproof
+\lstep{2}{1}{\(\Tr(\rho_0X_\ell)=0\), so \(\Tr(\rho_0X_\ell^2)\) is the variance of \(d\Gamma(\ell)\)
+in \(\omega_{Q_0}\).}
+\lby{$\langle2\rangle1$ of $\langle1\rangle2$ and the definition of \(X_\ell\)}
+\lstep{2}{2}{\(\omega_{Q_0}(a_i^*a_ja_k^*a_l)-\omega(a_i^*a_j)\omega(a_k^*a_l)
+=\omega(a_i^*a_l)\,\omega(a_ja_k^*)=Q_{li}(\delta_{jk}-Q_{jk})\).}
+\lby{Wick's theorem for gauge-invariant quasi-free states (only the pairing
+\(\langle a_i^*a_l\rangle\langle a_ja_k^*\rangle\) survives besides the disconnected one)}
+\lstep{2}{3}{\(\operatorname{Var}(d\Gamma(\ell))=\sum_{ijkl}\ell_{ij}\ell_{kl}Q_{li}(\delta_{jk}-Q_{jk})
+=\Tr(Q_0\ell^2)-\Tr(Q_0\ell Q_0\ell)=\Tr(Q_0\ell(1-Q_0)\ell)\).}
+\lby{$\langle2\rangle2$ and reindexing the two sums}
+\lqed{2}{4}\lby{$\langle2\rangle1$, $\langle2\rangle3$}
+\lstep{1}{4}{\(g_B[\rho_0;\dot\rho]\ge\sup_\ell\bigl[2\Tr(\dot Q\ell)-\Tr(Q_0\ell(1-Q_0)\ell)\bigr]\).}
+\lby{Lemma~\ref{lem:legendre} with the trial operators \(X=X_\ell\), together with $\langle1\rangle2$
+and $\langle1\rangle3$}
+\lstep{1}{5}{\(\Tr\bigl(Q_0\ell(1-Q_0)\ell\bigr)=\frac12\sum_{ik}|\ell_{ik}|^2N_{ik}\).}
+\lby{in the eigenbasis of \(Q_0\): \(\Tr(Q_0\ell(1-Q_0)\ell)=\sum_{ik}q_i\ell_{ik}(1-q_k)\ell_{ki}
+=\sum_{ik}q_i(1-q_k)|\ell_{ik}|^2\), and symmetrizing \(i\leftrightarrow k\) gives
+\(\frac12\sum_{ik}|\ell_{ik}|^2N_{ik}\)}
+\lstep{1}{6}{\(\sup_\ell\bigl[2\Tr(\dot Q\ell)-\frac12\sum_{ik}|\ell_{ik}|^2N_{ik}\bigr]
+=2\sum_{ik}|\dot Q_{ik}|^2/N_{ik}\), attained at \(\ell_{ik}=2\dot Q_{ik}/N_{ik}\).}
+\lby{\(\Tr(\dot Q\ell)=\sum_{ik}\dot Q_{ik}\overline{\ell_{ik}}\) (both matrices self-adjoint), so the
+functional is \(2\langle\ell,\dot Q\rangle_{HS}-\frac12\norm\ell_N^2\) with
+\(\norm\ell_N^2=\sum|\ell_{ik}|^2N_{ik}\); completing the square as in $\langle1\rangle2$ of
+Lemma~\ref{lem:legendre} gives the value \(2\sum|\dot Q_{ik}|^2/N_{ik}\)}
+\lqed{1}{7}\lby{$\langle1\rangle4$--$\langle1\rangle6$}
+
+\begin{remark}[Completing the square, once and for all]\label{rem:square}
+With \(\norm\ell_N^2:=\sum_{ik}|\ell_{ik}|^2N_{ik}\) and \(\ell_*:=2\dot Q/N\) (entrywise), the
+identity used in \(\langle1\rangle6\) reads
+\begin{equation}\label{eq:square}
+ \Omega(\ell):=2\langle\ell,\dot Q\rangle_{HS}-\tfrac12\norm{\ell}_N^2
+ =\Omega(\ell_*)-\tfrac12\norm{\ell-\ell_*}_N^2,\qquad
+ \Omega(\ell_*)=2\sum_{ik}\frac{|\dot Q_{ik}|^2}{N_{ik}}=\tfrac12\norm{\ell_*}_N^2 .
+\end{equation}
+It converts every supremum over a linear subspace \(V\) into a distance:
+\(\sup_{\ell\in V}\Omega=\Omega(\ell_*)-\frac12\operatorname{dist}_N(\ell_*,V)^2\).  This is the engine
+of Theorem~\ref{thm:lower}.
+\end{remark}
+
+\section{The lower bound}\label{sec:lower}
+
+\begin{definition}[The one-particle Fisher form]\label{def:gB}
+For \(\ell=\ell^*\) a finite-rank operator on \(H\) put
+\begin{equation}\label{eq:Omega}
+ \Omega(\ell):=2\Tr\bigl(D^{(1)}\ell\bigr)-\Tr\bigl(Q\,\ell\,(1-Q)\,\ell\bigr)\in\mathbb R,
+ \qquad
+ g_B:=\sup\bigl\{\Omega(\ell):\ \ell=\ell^*\ \text{finite rank}\bigr\}.
+\end{equation}
+Both traces are finite (\(D^{(1)}\) is bounded by Lemma~\ref{lem:standing}(d), \(\ell\) is finite
+rank, \(0\le Q\le1\)), and \(\Omega(\ell)\in\mathbb R\) because \(D^{(1)}=D^{(1)*}\) and
+\(Q=Q^*\).
+\end{definition}
+
+\begin{theorem}[Lower bound; unconditional]\label{thm:lower}
+\[
+ \liminf_{\zeta\downarrow0}\ \frac{\Phi(\zeta)}{\zeta^{2}}\ \ge\ \frac{g_B}{8},
+ \qquad\text{and}\qquad
+ g_B=2\iint_{\mathbb R^2}\frac{|D^{(1)}(\kappa,\kappa')|^2}{N(\kappa,\kappa')}\dd\kappa\dd\kappa'
+ \cdot r .
+\]
+\end{theorem}
+
+\lstep{1}{1}{\lsuffices\lprove for every self-adjoint finite-rank \(\ell\) on \(H\),
+\(\liminf_{\zeta\downarrow0}\Phi(\zeta)/\zeta^2\ge\Omega(\ell)/8\).}
+\lby{taking the supremum over \(\ell\) on the right and Definition~\ref{def:gB}; the identification of
+\(g_B\) with the integral is Proposition~\ref{prop:gB} below}
+
+\lstep{1}{2}{\lassume \(\ell=\ell^*\) finite rank.  \lpick the orthogonal projection \(P\) onto
+\(\Ran\ell\); \(P\) has finite rank and \(\ell=P\ell P\).}
+\lby{\(\ell=\ell^*\) implies \(\Ran\ell\) is \(\ell\)-invariant and \(\ell\) vanishes on
+\((\Ran\ell)^\perp=\ker\ell\)}
+
+\lstep{1}{3}{\(\Phi(\zeta)\ge\Phi_P(\zeta)\) for all \(\zeta>0\).}
+\lby{restriction \(\cM\to\cM_P\) of states is a channel (the inclusion \(\cM_P\hookrightarrow\cM\) is
+unital and completely positive), and root fidelity is nondecreasing under channels (Uhlmann/Alberti
+box in \S\ref{sec:compress}); hence \(\Fid_{\cM_P}\ge\Fid_{\cM}\) and \(-\log\) reverses}
+
+\lstep{1}{4}{\(\zeta\mapsto\Phi_P(\zeta)\) extends to a real-analytic function on a neighbourhood of
+\(0\) with \(\Phi_P(0)=0\) and \(\Phi_P'(0)=0\).}
+\lproof
+\lstep{2}{1}{\(z\mapsto Q_{P}-P\delta_zP\) is a holomorphic \(B(PH)\)-valued function on \(\{|z|<1\}\)
+whose value at \(z=\zeta\in(0,1)\) is \(\Qt_{\zeta,P}\).}
+\lby{Lemma~\ref{lem:standing}(c): each matrix element \(\ip{e_i}{\delta_ze_j}\) in a basis of \(PH\) is
+holomorphic; \(PH\) is finite dimensional}
+\lstep{2}{2}{There is \(\zeta_0\in(0,1)\) with \(0<Q_P-P\delta_zP<1\) for all real \(|z|<\zeta_0\).}
+\lby{\(0<Q_P<1\) on the finite-dimensional \(PH\) (Definition~\ref{def:PhiP}), so the spectrum of
+\(Q_P\) lies in \([\alpha,1-\alpha]\) for some \(\alpha>0\); \(\norm{P\delta_zP}\le\norm{\delta_z}
+\le\norm{\delta_z}_1\to0\) as \(z\to0\) by Lemma~\ref{lem:standing}(b)--(c) --- more simply, by
+$\langle2\rangle1$ and continuity at \(z=0\), where \(\delta_0=0\)}
+\lstep{2}{3}{On \(\{(X,Y):0<X,Y<1\}\subset B(PH)^2_{sa}\) the function
+\((X,Y)\mapsto\Fid(\omega_X,\omega_Y)=\det[(1-X)(1-Y)]^{1/2}\det[1+(G_X^{1/2}G_YG_X^{1/2})^{1/2}]\)
+is real-analytic and strictly positive.}
+\lby{Note~5, Thm.~2.1 (formula (10)); \(X\mapsto G_X=X(1-X)^{-1}\) and \(X\mapsto X^{1/2}\) are
+real-analytic on positive definite matrices (holomorphic functional calculus with a contour in the
+right half plane), \(G_X^{1/2}G_YG_X^{1/2}>0\), and \(\det[1+\cdot\,]>0\) on positive matrices}
+\lstep{2}{4}{Hence \(\zeta\mapsto\Phi_P(\zeta)=-\log\Fid(\omega_{Q_P},\omega_{\Qt_{\zeta,P}})\) is
+real-analytic on \((-\zeta_0,\zeta_0)\), and \(\Phi_P(0)=0\).}
+\lby{$\langle2\rangle1$--$\langle2\rangle3$ and \(\Fid(\varphi,\varphi)=1\)}
+\lstep{2}{5}{\(\Phi_P'(0)=0\).}
+\lby{\(\Phi_P\ge0\) everywhere (\(\Fid\le1\)) and \(\Phi_P(0)=0\), so \(0\) is an interior minimum of a
+differentiable function}
+\lqed{2}{6}\lby{$\langle2\rangle4$, $\langle2\rangle5$}
+
+\lstep{1}{5}{\(\displaystyle\lim_{\zeta\to0}\frac{\Phi_P(\zeta)}{\zeta^2}=\frac{g_B^{(P)}}8\), where
+\(g_B^{(P)}:=g_B[\rho_{Q_P};\partial_\zeta\rho_{\Qt_{\zeta,P}}|_0]\) is the SLD information of the
+compressed curve at \(\zeta=0\).}
+\lby{$\langle1\rangle4$ (Taylor with \(\Phi_P(0)=\Phi_P'(0)=0\)) and \eqref{eq:bures} applied to the
+real-analytic curve \(\zeta\mapsto\rho_{\Qt_{\zeta,P}}\) on the finite-dimensional \(\cM_P\)}
+
+\lstep{1}{6}{\(g_B^{(P)}\ \ge\ \Omega(\ell)\).}
+\lproof
+\lstep{2}{1}{\(\partial_\zeta\Qt_{\zeta,P}|_{0}=-PD^{(1)}P\) as an operator on \(PH\).}
+\lby{\(\Qt_\zeta=Q-\delta_\zeta\) and Lemma~\ref{lem:standing}(c)}
+\lstep{2}{2}{\(g_B^{(P)}\ge2\Tr_{PH}\bigl(-PD^{(1)}P\,\ell\bigr)
+-\Tr_{PH}\bigl(Q_P\,\ell\,(1-Q_P)\,\ell\bigr)\) for every self-adjoint \(\ell\in B(PH)\).}
+\lby{Proposition~\ref{prop:oneparticle} applied on \(\mathfrak k=PH\) with \(\dot Q=-PD^{(1)}P\), and
+$\langle2\rangle1$}
+\lstep{2}{3}{\(\Tr_{PH}(PD^{(1)}P\,\ell)=\Tr_H(D^{(1)}\ell)\) and
+\(\Tr_{PH}(Q_P\ell(1-Q_P)\ell)=\Tr_H(Q\ell(1-Q)\ell)\) whenever \(\ell=P\ell P\).}
+\lby{for the first, \(P\ell P=\ell\) and cyclicity; for the second,
+\(Q_P\ell(1-Q_P)\ell=PQP\,\ell\,P(1-Q)P\,\ell\) and, using \(P\ell=\ell P=\ell\) and moving the
+leading \(P\) around the trace, \(\Tr_{PH}=\Tr_H(Q\,\ell\,(1-Q)\,\ell)\)}
+\lstep{2}{4}{Applying $\langle2\rangle2$ with \(-\ell\) in place of \(\ell\) and inserting
+$\langle2\rangle3$ gives \(g_B^{(P)}\ge2\Tr(D^{(1)}\ell)-\Tr(Q\ell(1-Q)\ell)=\Omega(\ell)\).}
+\lby{$\langle2\rangle2$, $\langle2\rangle3$, and \eqref{eq:Omega}; note
+\(\Tr(Q(-\ell)(1-Q)(-\ell))=\Tr(Q\ell(1-Q)\ell)\)}
+\lqed{2}{5}\lby{$\langle2\rangle4$}
+
+\lqed{1}{7}
+\lby{$\langle1\rangle3$, $\langle1\rangle5$, $\langle1\rangle6$:
+\(\liminf_{\zeta\to0}\Phi(\zeta)/\zeta^2\ge\lim_{\zeta\to0}\Phi_P(\zeta)/\zeta^2=g_B^{(P)}/8\ge
+\Omega(\ell)/8\), which is $\langle1\rangle1$}
+
+\section{Identification and evaluation of \texorpdfstring{\(g_B\)}{gB}}\label{sec:gB}
+
+\begin{proposition}[\(g_B\) is the one-particle Fisher integral, and equals \(2r/(3\pi^2)\)]\label{prop:gB}
+With \(g_B\) as in Definition~\ref{def:gB},
+\begin{equation}\label{eq:gBvalue}
+ g_B=2r\iint_{\mathbb R^2}\frac{|D^{(1)}(\kappa,\kappa')|^2}{N(\kappa,\kappa')}\dd\kappa\dd\kappa'
+ =\frac{2r}{3}\int_{\mathbb R}\frac{\tanh\frac u2}{u\,(u^2+4\pi^2)}\dd u=\frac{2r}{3\pi^2},
+ \qquad \frac{g_B}{8}=\frac{r}{12\pi^2}=0.00844343\,r .
+\end{equation}
+\end{proposition}
+
+We first record two elementary integrals, both proved from scratch.
+
+\begin{lemma}[The \(v\)-integral]\label{lem:V}
+For every real \(a\neq0\),
+\(\displaystyle\int_{\mathbb R}\frac{w^2\dd w}{\cosh w+\cosh a}=\frac{2a(a^2+\pi^2)}{3\sinh a}\), hence
+\(\displaystyle V(u):=\int_{\mathbb R}\frac{v^2\dd v}{\cosh\frac v2+\cosh\frac u2}
+=\frac{2u\,(u^2+4\pi^2)}{3\sinh\frac u2}\).
+\end{lemma}
+
+\lstep{1}{1}{\lassume \(a>0\) (both sides are even in \(a\)).
+\ldefine \(\varphi(x):=(1+e^{-x})^{-1}\) and \(\phi(y):=(1+e^{y})^{-1}\) for \(y\ge0\).}
+\lstep{1}{2}{\(\dfrac{1}{\cosh w+\cosh a}=\dfrac{\varphi(w+a)-\varphi(w-a)}{\sinh a}\) for all \(w\in\mathbb R\).}
+\lproof
+\lstep{2}{1}{\(\varphi(w+a)-\varphi(w-a)
+=\dfrac{(1+e^{-(w-a)})-(1+e^{-(w+a)})}{(1+e^{-(w+a)})(1+e^{-(w-a)})}
+=\dfrac{e^{-w}(e^{a}-e^{-a})}{(1+e^{-(w+a)})(1+e^{-(w-a)})}\).}
+\lby{putting the two fractions over a common denominator}
+\lstep{2}{2}{\((1+e^{-(w+a)})(1+e^{-(w-a)})=1+e^{-w}(e^{a}+e^{-a})+e^{-2w}
+=e^{-w}\bigl(e^{w}+e^{-w}+2\cosh a\bigr)=2e^{-w}(\cosh w+\cosh a)\).}
+\lby{expanding the product and factoring \(e^{-w}\)}
+\lstep{2}{3}{Therefore \(\varphi(w+a)-\varphi(w-a)=\dfrac{2\sinh a}{2(\cosh w+\cosh a)}\).}
+\lby{$\langle2\rangle1$, $\langle2\rangle2$ and \(e^a-e^{-a}=2\sinh a\)}
+\lqed{2}{4}\lby{$\langle2\rangle3$}
+\lstep{1}{3}{\(\varphi(x)=\theta(x)-\operatorname{sgn}(x)\phi(|x|)\) for \(x\ne0\), \(\theta\) the
+Heaviside function.}
+\lby{for \(x>0\): \(\varphi(x)-1=-e^{-x}/(1+e^{-x})=-1/(1+e^{x})=-\phi(x)\); for \(x<0\):
+\(\varphi(x)=1/(1+e^{|x|})=\phi(|x|)\)}
+\lstep{1}{4}{\(\displaystyle\int_{\mathbb R}w^2\bigl[\theta(w+a)-\theta(w-a)\bigr]\dd w
+=\int_{-a}^{a}w^2\dd w=\frac{2a^3}3\).}
+\lby{\(\theta(w+a)-\theta(w-a)=\one_{(-a,a)}(w)\)}
+\lstep{1}{5}{\(\displaystyle\int_{\mathbb R}w^2\bigl[-\operatorname{sgn}(w+a)\phi(|w+a|)
++\operatorname{sgn}(w-a)\phi(|w-a|)\bigr]\dd w=\frac{2a\pi^2}{3}\).}
+\lproof
+\lstep{2}{1}{Each of the two integrals converges absolutely
+(\(w^2\phi(|w\pm a|)\) decays like \(w^2e^{-|w|}\)); substituting \(y=w+a\) in the first and
+\(y=w-a\) in the second gives
+\(\int_{\mathbb R}\bigl[(y+a)^2-(y-a)^2\bigr]\operatorname{sgn}(y)\phi(|y|)\dd y\).}
+\lby{the substitutions and combining the two absolutely convergent integrals}
+\lstep{2}{2}{\((y+a)^2-(y-a)^2=4ay\), and \(4ay\operatorname{sgn}(y)=4a|y|\).}
+\lby{algebra}
+\lstep{2}{3}{\(\displaystyle\int_{\mathbb R}4a|y|\phi(|y|)\dd y=8a\int_0^\infty\frac{y\dd y}{1+e^y}
+=8a\sum_{n\ge1}(-1)^{n-1}\int_0^\infty y\,e^{-ny}\dd y=8a\sum_{n\ge1}\frac{(-1)^{n-1}}{n^2}
+=8a\cdot\frac{\pi^2}{12}=\frac{2a\pi^2}{3}\).}
+\lby{the geometric series \(\frac{1}{1+e^y}=\sum_{n\ge1}(-1)^{n-1}e^{-ny}\) for \(y>0\) (alternating,
+so partial sums bracket the value and dominated convergence applies with dominating function
+\(y e^{-y}/(1-e^{-y})\in L^1(0,\infty)\)); \(\int_0^\infty ye^{-ny}dy=n^{-2}\); and
+\(\sum(-1)^{n-1}n^{-2}=\eta(2)=\frac12\zeta(2)=\pi^2/12\)}
+\lqed{2}{4}\lby{$\langle2\rangle1$--$\langle2\rangle3$}
+\lstep{1}{6}{\(\displaystyle\int_{\mathbb R}\frac{w^2\dd w}{\cosh w+\cosh a}
+=\frac1{\sinh a}\Bigl(\frac{2a^3}{3}+\frac{2a\pi^2}{3}\Bigr)=\frac{2a(a^2+\pi^2)}{3\sinh a}\).}
+\lby{$\langle1\rangle2$, $\langle1\rangle3$ (applied to \(x=w+a\) and \(x=w-a\)), $\langle1\rangle4$,
+$\langle1\rangle5$; the splitting is legitimate because the \(\theta\)-part and the \(\phi\)-part are
+separately absolutely integrable against \(w^2\)}
+\lstep{1}{7}{\(V(u)=8\int_{\mathbb R}\frac{w^2\dd w}{\cosh w+\cosh\frac u2}
+=\frac{16\cdot\frac u2\bigl(\frac{u^2}4+\pi^2\bigr)}{3\sinh\frac u2}
+=\frac{2u(u^2+4\pi^2)}{3\sinh\frac u2}\).}
+\lby{\(v=2w\), \(\dd v=2\dd w\), \(v^2=4w^2\), and $\langle1\rangle6$ with \(a=u/2\)}
+\lqed{1}{8}\lby{$\langle1\rangle6$, $\langle1\rangle7$}
+
+\begin{lemma}[The two \(u\)-integrals]\label{lem:U}
+\begin{equation}\label{eq:Uint}
+ \int_{\mathbb R}\frac{\tanh\frac u2}{u(u^2+4\pi^2)}\dd u=\frac1{\pi^2},
+ \qquad
+ \int_{\mathbb R}\frac{\tanh\frac u4}{u(u^2+4\pi^2)}\dd u=\frac{\log2}{\pi^2}.
+\end{equation}
+\end{lemma}
+
+\lstep{1}{1}{\ldefine \(u=2\pi k\).  Then the two integrals equal
+\(\frac1{4\pi^2}\int_{\mathbb R}\frac{\tanh(\pi k)}{k(k^2+1)}\dd k\) and
+\(\frac1{4\pi^2}\int_{\mathbb R}\frac{\tanh(\pi k/2)}{k(k^2+1)}\dd k\).}
+\lby{\(\dd u=2\pi\dd k\), \(u=2\pi k\), \(u^2+4\pi^2=4\pi^2(k^2+1)\)}
+\lstep{1}{2}{\(\tanh(\pi x)=\sum_{n\ge0}\frac{2x/\pi}{x^2+(n+\frac12)^2}\) for real \(x\), all terms
+of the same sign as \(x\).}
+\lby{the Mittag-Leffler expansion \(\tanh z=\sum_{n\ge0}\frac{2z}{z^2+(n+\frac12)^2\pi^2}\)
+(e.g.\ Ahlfors, \emph{Complex Analysis}, 3rd ed., \S5.2.1, or differentiate
+\(\log\cosh\)); substitute \(z=\pi x\)}
+\lstep{1}{3}{\(\tanh(\pi k)=\sum_{n\ge0}\frac{2k/\pi}{k^2+(n+\frac12)^2}\) and
+\(\tanh(\pi k/2)=\sum_{n\ge0}\frac{4k/\pi}{k^2+(2n+1)^2}\).}
+\lby{$\langle1\rangle2$ with \(x=k\), and with \(x=k/2\) followed by multiplying numerator and
+denominator by \(4\)}
+\lstep{1}{4}{\(\int_{\mathbb R}\frac{\dd k}{(k^2+a^2)(k^2+b^2)}=\frac{\pi}{ab(a+b)}\) for \(a,b>0\).}
+\lby{partial fractions \(\frac{1}{(k^2+a^2)(k^2+b^2)}=\frac{1}{b^2-a^2}\bigl(\frac1{k^2+a^2}-\frac1{k^2+b^2}\bigr)\)
+and \(\int_{\mathbb R}\frac{\dd k}{k^2+a^2}=\frac\pi a\), giving
+\(\frac{\pi}{b^2-a^2}(\frac1a-\frac1b)=\frac{\pi}{ab(a+b)}\); the case \(a=b\) by continuity}
+\lstep{1}{5}{\((n+\frac12)(n+\frac32)=\frac14(2n+1)(2n+3)\) and \((2n+1)(2n+2)\) are the two
+denominators produced by $\langle1\rangle4$.}
+\lby{arithmetic}
+\lstep{1}{6}{\(\displaystyle\int_{\mathbb R}\frac{\tanh(\pi k)}{k(k^2+1)}\dd k
+=\sum_{n\ge0}\frac2\pi\cdot\frac{\pi}{(n+\frac12)\cdot1\cdot(n+\frac12+1)}
+=\sum_{n\ge0}\frac{8}{(2n+1)(2n+3)}=4\).}
+\lby{$\langle1\rangle3$: the integrand is the sum of the \emph{nonnegative} functions
+\(\frac{2/\pi}{(k^2+(n+\frac12)^2)(k^2+1)}\), so Tonelli allows termwise integration;
+$\langle1\rangle4$ with \(a=n+\frac12\), \(b=1\); $\langle1\rangle5$; and
+\(\frac{8}{(2n+1)(2n+3)}=4\bigl(\frac1{2n+1}-\frac1{2n+3}\bigr)\), whose partial sums telescope to
+\(4(1-\frac1{2N+3})\to4\)}
+\lstep{1}{7}{Hence \(\int_{\mathbb R}\frac{\tanh\frac u2}{u(u^2+4\pi^2)}\dd u
+=\frac{1}{4\pi^2}\cdot4=\frac1{\pi^2}\).}
+\lby{$\langle1\rangle1$ and $\langle1\rangle6$; numerically
+\(0.101321183642337771\dots=1/\pi^2\) to \(28\) digits (Table~\ref{tab:num})}
+\lstep{1}{8}{\(\int_{\mathbb R}\frac{\tanh(\pi k/2)}{k(k^2+1)}\dd k
+=\sum_{n\ge0}\frac4\pi\cdot\frac{\pi}{(2n+1)(1+2n+1)}=\sum_{n\ge0}\frac{4}{(2n+1)(2n+2)}
+=4\sum_{n\ge0}\Bigl(\frac1{2n+1}-\frac1{2n+2}\Bigr)=4\log2\).}
+\lby{$\langle1\rangle3$, Tonelli as in $\langle1\rangle5$, $\langle1\rangle4$ with \(a=2n+1\),
+\(b=1\); and the alternating harmonic series \(\sum_{m\ge1}(-1)^{m-1}/m=\log2\)}
+\lstep{1}{9}{Hence \(\int_{\mathbb R}\frac{\tanh\frac u4}{u(u^2+4\pi^2)}\dd u
+=\frac{4\log2}{4\pi^2}=\frac{\log2}{\pi^2}\).}
+\lby{$\langle1\rangle1$, $\langle1\rangle8$}
+\lqed{1}{10}\lby{$\langle1\rangle7$, $\langle1\rangle9$}
+
+\paragraph{Proof of Proposition~\ref{prop:gB}.}
+\lstep{1}{1}{\lsuffices\lprove the statement for \(r=1\); the general case is the orthogonal direct
+sum of \(r\) identical copies.}
+\lby{\(Q\), \(\Qt_\zeta\), \(D^{(1)}\) all act as \(X\otimes\one_{\mathbb C^r}\) on
+\(L^2(I)\otimes\mathbb C^r\); \(\Omega\) is additive over an orthogonal decomposition of \(H\)
+reducing \(Q\) and \(D^{(1)}\), and the optimal \(\ell\) may be taken block diagonal}
+\lstep{1}{2}{\ldefine \(\mathcal K:=L^2(\mathbb R^2,N\dd\kappa\dd\kappa')\) and, for a Hilbert--Schmidt
+\(\ell\) with kernel \(\ell(\kappa,\kappa')\) in the \(\kappa\)-representation \eqref{eq:Qdiag},
+\(\norm\ell_N^2:=\iint|\ell(\kappa,\kappa')|^2N(\kappa,\kappa')\dd\kappa\dd\kappa'\).  Then for every
+finite-rank self-adjoint \(\ell\),
+\[
+ \Omega(\ell)=2\langle\ell,D^{(1)}\rangle_{\mathrm{HS}}-\tfrac12\norm\ell_N^2 .
+\]}
+\lproof
+\lstep{2}{1}{\(\Tr(D^{(1)}\ell)=\iint D^{(1)}(\kappa,\kappa')\overline{\ell(\kappa,\kappa')}
+\dd\kappa\dd\kappa'=\langle\ell,D^{(1)}\rangle_{\mathrm{HS}}\).}
+\lby{\(D^{(1)}\) is Hilbert--Schmidt (Lemma~\ref{lem:standing}(d)) and \(\ell\) is finite rank, so the
+trace is the Hilbert--Schmidt pairing; \(\ell=\ell^*\) means
+\(\ell(\kappa',\kappa)=\overline{\ell(\kappa,\kappa')}\), and
+\(\Tr(D^{(1)}\ell)=\iint D^{(1)}(\kappa,\kappa')\ell(\kappa',\kappa)\dd\kappa\dd\kappa'\)}
+\lstep{2}{2}{\(\Tr\bigl(Q\ell(1-Q)\ell\bigr)
+=\iint q_\kappa(1-q_{\kappa'})|\ell(\kappa,\kappa')|^2\dd\kappa\dd\kappa'
+=\tfrac12\norm\ell_N^2\).}
+\lby{in the \(\kappa\)-representation \(Q\) is multiplication by \(q_\kappa\) (\eqref{eq:Qdiag}), so the
+kernel of \(Q\ell(1-Q)\ell\) is \(q_\kappa\ell(\kappa,\kappa')(1-q_{\kappa'})\ell(\kappa',\kappa'')\);
+taking \(\kappa''=\kappa\) and integrating gives the stated double integral, and symmetrizing
+\(\kappa\leftrightarrow\kappa'\) turns \(q_\kappa(1-q_{\kappa'})\) into \(\frac12N(\kappa,\kappa')\)}
+\lqed{2}{3}\lby{$\langle2\rangle1$, $\langle2\rangle2$ and \eqref{eq:Omega}}
+\lstep{1}{3}{\ldefine \(\ell_*(\kappa,\kappa'):=2D^{(1)}(\kappa,\kappa')/N(\kappa,\kappa')\).  Then
+\(\ell_*\) is a hermitian kernel, \(\norm{\ell_*}_N^2=4\iint|D^{(1)}|^2/N<\infty\), and
+\(\ell_*\in\mathcal K\).}
+\lby{\(D^{(1)}\) is real and symmetric by Theorem~2.1 of \texttt{kernel\_identity.tex} (the closed form
+\((q_\kappa-q_{\kappa'})v/[u(u^2+4\pi^2)]\) is invariant under \(\kappa\leftrightarrow\kappa'\)),
+and \(N\) is symmetric and \(>0\); finiteness of the integral is $\langle1\rangle6$ below}
+\lstep{1}{4}{For every closed subspace \(V\subset\mathcal K\) of hermitian kernels,
+\(\sup_{\ell\in V}\Omega(\ell)=\frac12\norm{\ell_*}_N^2-\frac12\operatorname{dist}_N(\ell_*,V)^2\).}
+\lby{Remark~\ref{rem:square}, whose identity \eqref{eq:square} is an algebraic completion of the
+square valid verbatim in \(\mathcal K\): \(2\langle\ell,D^{(1)}\rangle_{\mathrm{HS}}
+=\langle\ell,\ell_*\rangle_N\) because \(\ell_*N=2D^{(1)}\)}
+\lstep{1}{5}{The self-adjoint finite-rank operators are \(\norm\cdot_N\)-dense in the hermitian part of
+\(\mathcal K\); hence \(\operatorname{dist}_N(\ell_*,\{\text{finite rank}\})=0\) and
+\(g_B=\frac12\norm{\ell_*}_N^2=2\iint|D^{(1)}|^2/N\).}
+\lproof
+\lstep{2}{1}{\(0<N\le1\) pointwise, so \(\norm\cdot_N\le\norm\cdot_{\mathrm{HS}}\) and every
+Hilbert--Schmidt kernel lies in \(\mathcal K\).}
+\lby{\eqref{eq:NWuv}: \(N=\cosh\frac u2/(\cosh\frac v2+\cosh\frac u2)\in(0,1]\)}
+\lstep{2}{2}{\(C_c(\mathbb R^2)\) is dense in \(\mathcal K=L^2(N\dd\kappa\dd\kappa')\), and the
+hermitian elements of \(C_c\) are dense in the hermitian part.}
+\lby{\(N\dd\kappa\dd\kappa'\) is a \(\sigma\)-finite regular Borel measure on \(\mathbb R^2\), and
+\(C_c(X)\) is dense in \(L^p(\mu)\) for such measures, \(1\le p<\infty\) (Rudin,
+\emph{Real and Complex Analysis}, 3rd ed., Thm.~3.14); for a hermitian \(\ell\in\mathcal K\) and
+\(f\in C_c\) with \(\norm{\ell-f}_N<\eps\), the hermitian part
+\(\frac12(f(\kappa,\kappa')+\overline{f(\kappa',\kappa)})\) is in \(C_c\) and is at least as close,
+since \(N\) is symmetric}
+\lstep{2}{3}{Every \(f\in C_c(\mathbb R^2)\) is a Hilbert--Schmidt kernel and is the
+\(\norm\cdot_{\mathrm{HS}}\)-limit of finite-rank operators; the hermitian parts of those converge
+too.}
+\lby{\(f\) is bounded with compact support, so \(\iint|f|^2<\infty\); the finite-rank operators are
+\(\norm\cdot_{\mathrm{HS}}\)-dense in \(\Stwo\) (truncate the singular-value expansion), and
+\(\ell\mapsto\frac12(\ell+\ell^*)\) is an \(\norm\cdot_{\mathrm{HS}}\)-contraction}
+\lstep{2}{4}{Combining $\langle2\rangle1$--$\langle2\rangle3$: finite-rank hermitian operators are
+\(\norm\cdot_N\)-dense.}
+\lby{\(\norm\cdot_N\le\norm\cdot_{\mathrm{HS}}\) transports the Hilbert--Schmidt approximation of
+$\langle2\rangle3$ to \(\norm\cdot_N\)}
+\lqed{2}{5}\lby{$\langle1\rangle4$ with \(V=\overline{\{\text{finite rank}\}}=\mathcal K_{\mathrm{herm}}\),
+$\langle2\rangle4$, and \(\frac12\norm{\ell_*}_N^2=\frac12\cdot4\iint|D^{(1)}|^2/N\)}
+\lstep{1}{6}{\(\displaystyle\iint\frac{|D^{(1)}|^2}{N}\dd\kappa\dd\kappa'
+=\frac13\int_{\mathbb R}\frac{\tanh\frac u2}{u(u^2+4\pi^2)}\dd u=\frac1{3\pi^2}\).}
+\lproof
+\lstep{2}{1}{\(\dfrac{|D^{(1)}|^2}{N}=\dfrac{(q_\kappa-q_{\kappa'})^2}{N}\cdot
+\dfrac{v^2}{u^2(u^2+4\pi^2)^2}
+=\dfrac{\sinh^2\frac u2}{\cosh\frac u2\,\bigl(\cosh\frac v2+\cosh\frac u2\bigr)}\cdot
+\dfrac{v^2}{u^2(u^2+4\pi^2)^2}\).}
+\lby{Theorem~2.1 of \texttt{kernel\_identity.tex} and the two identities of \eqref{eq:NWuv}}
+\lstep{2}{2}{\(\dd\kappa\dd\kappa'=\frac12\dd u\dd v\), and by Tonelli (nonnegative integrand)
+\[
+ \iint\frac{|D^{(1)}|^2}{N}=\frac12\int\dd u\,\frac{\sinh^2\frac u2}{\cosh\frac u2\,u^2(u^2+4\pi^2)^2}
+ \,V(u)
+ =\frac12\cdot\frac23\int\dd u\,\frac{\tanh\frac u2}{u(u^2+4\pi^2)} .
+\]}
+\lby{the linear change of variables \(u=\kappa-\kappa'\), \(v=\kappa+\kappa'\) has Jacobian
+\(\frac12\); Lemma~\ref{lem:V}; and
+\(\frac{\sinh^2\frac u2}{\cosh\frac u2u^2(u^2+4\pi^2)^2}\cdot\frac{2u(u^2+4\pi^2)}{3\sinh\frac u2}
+=\frac23\frac{\tanh\frac u2}{u(u^2+4\pi^2)}\)}
+\lqed{2}{3}\lby{$\langle2\rangle2$ and Lemma~\ref{lem:U}}
+\lqed{1}{7}
+\lby{$\langle1\rangle5$, $\langle1\rangle6$: \(g_B=2\cdot\frac1{3\pi^2}=\frac2{3\pi^2}\) for \(r=1\),
+hence \(\frac{2r}{3\pi^2}\) in general by $\langle1\rangle1$; and \(g_B/8=r/(12\pi^2)\)}
+
+\begin{verdictok}
+Theorem~\ref{thm:lower} together with Proposition~\ref{prop:gB} proves, unconditionally, that
+\(\liminf_{\zeta\to0}\Phi(\zeta)/\zeta^2\ge r/(12\pi^2)=0.00844343\,r\).  This is the half of
+Note~5's Corollary~4.2 (and of item~(ii) of Note~7 \S8) that concerns the lower bound; it also
+supplies the missing justification for the interchange ``\(\lim_n\)'' \(\leftrightarrow\)
+``\(\partial_\zeta^2\)'' in that direction, by never interchanging anything: a single compression is
+used, and the supremum over compressions is evaluated by a density argument in the weighted space
+\(\mathcal K\).
+\end{verdictok}
+
+\section{The upper bound}\label{sec:upper}
+
+\subsection{The Hellinger affinity of two quasi-free states}
+
+\begin{lemma}[Closed form and the fidelity bound]\label{lem:hell}
+Let \(\mathfrak k\) be finite dimensional, \(0<Q_1,Q_2<1\), \(\rho_i=\rho_{Q_i}\),
+\(S_i=Q_i^{1/2}\), \(C_i=(1-Q_i)^{1/2}\).  Then
+\begin{equation}\label{eq:hellclosed}
+ \Hell(Q_1,Q_2):=\Tr\bigl(\rho_1^{1/2}\rho_2^{1/2}\bigr)
+ =\det\bigl(S_1S_2+C_1C_2\bigr)>0,
+ \qquad
+ \Fid(\omega_{Q_1},\omega_{Q_2})\ \ge\ \Hell(Q_1,Q_2).
+\end{equation}
+Moreover \(A:=S_1S_2+C_1C_2\) satisfies
+\begin{equation}\label{eq:ReA}
+ \operatorname{Re}A:=\tfrac12(A+A^*)=\one-\tfrac12\Theta,\qquad
+ \Theta:=(S_1-S_2)^2+(C_1-C_2)^2\ \ge0 .
+\end{equation}
+\end{lemma}
+
+\lstep{1}{1}{\(\rho_i=\det(1-Q_i)\,\Gamma(G_i)\) with \(G_i=Q_i(1-Q_i)^{-1}>0\), and
+\(\rho_i^{1/2}=\det(1-Q_i)^{1/2}\Gamma(G_i^{1/2})\).}
+\lby{Note~5, eqs.~(8)--(9): \(\Gamma(X)\Gamma(Y)=\Gamma(XY)\), \(\Gamma(X)^*=\Gamma(X^*)\),
+\(\Gamma(X)^{1/2}=\Gamma(X^{1/2})\) for \(X\ge0\), \(\Tr\Gamma(X)=\det(1+X)\)}
+\lstep{1}{2}{\(\Tr(\rho_1^{1/2}\rho_2^{1/2})
+=\det[(1-Q_1)(1-Q_2)]^{1/2}\det\bigl(1+G_1^{1/2}G_2^{1/2}\bigr)\).}
+\lby{$\langle1\rangle1$, \(\Gamma(G_1^{1/2})\Gamma(G_2^{1/2})=\Gamma(G_1^{1/2}G_2^{1/2})\) and
+\(\Tr\Gamma(X)=\det(1+X)\)}
+\lstep{1}{3}{\(\det[(1-Q_1)(1-Q_2)]^{1/2}\det(1+G_1^{1/2}G_2^{1/2})=\det(C_1C_2+S_1S_2)\).}
+\lby{\(\det C_1\det C_2\det(1+G_1^{1/2}G_2^{1/2})=\det\bigl(C_1(1+G_1^{1/2}G_2^{1/2})C_2\bigr)
+=\det(C_1C_2+C_1G_1^{1/2}G_2^{1/2}C_2)\), and \(C_1G_1^{1/2}=S_1\), \(G_2^{1/2}C_2=S_2\) because
+\(G^{1/2}=Q^{1/2}(1-Q)^{-1/2}\) with commuting factors}
+\lstep{1}{4}{\(\det(C_1C_2+S_1S_2)>0\).}
+\lby{\(G_1^{1/2}G_2^{1/2}\) has the same spectrum as \(G_2^{1/4}G_1^{1/2}G_2^{1/4}\ge0\), so all its
+eigenvalues are \(\ge0\) and \(\det(1+G_1^{1/2}G_2^{1/2})>0\); the prefactor in $\langle1\rangle2$ is
+positive}
+\lstep{1}{5}{\(\Fid(\omega_{Q_1},\omega_{Q_2})=\norm{\rho_1^{1/2}\rho_2^{1/2}}_1
+\ge|\Tr(\rho_1^{1/2}\rho_2^{1/2})|=\Hell\).}
+\lby{\(|\Tr X|\le\norm X_1\) for any \(X\), and $\langle1\rangle4$ (so the modulus may be dropped);
+equivalently, \(\Hell=\ip{\xi_{\omega_1}}{\xi_{\omega_2}}\) is the overlap of the two \emph{natural-cone}
+vector representatives, and \(\Fid\) is the supremum over \emph{all} pairs of representatives
+(Uhlmann box, \S\ref{sec:compress})}
+\lstep{1}{6}{\eqref{eq:ReA} holds.}
+\lby{\(A+A^*=S_1S_2+S_2S_1+C_1C_2+C_2C_1\) and
+\(\Theta=S_1^2+S_2^2+C_1^2+C_2^2-(S_1S_2+S_2S_1)-(C_1C_2+C_2C_1)=2\one-(A+A^*)\), using
+\(S_i^2+C_i^2=Q_i+(1-Q_i)=\one\)}
+\lqed{1}{7}\lby{$\langle1\rangle2$--$\langle1\rangle6$}
+
+\begin{citedbox}{Ostrowski--Taussky inequality}
+Let \(A\) be a complex \(m\times m\) matrix whose Hermitian part
+\(\operatorname{Re}A=\frac12(A+A^*)\) is positive definite.  Then
+\[
+ \det(\operatorname{Re}A)\ \le\ |\det A| .
+\]
+\emph{Locators:} A.~Ostrowski, O.~Taussky, ``On the variation of the determinant of a positive
+definite matrix'', Nederl.\ Akad.\ Wetensch.\ Proc.\ \textbf{54} (1951) 383--385; textbook form:
+R.~A.~Horn, C.~R.~Johnson, \emph{Matrix Analysis}, 2nd ed., Cambridge 2013, Problem~7.8.P16 (and
+Thm.~7.8.19 for the related Fan--Hoffman/Ostrowski--Taussky family).  \emph{Use here:} with
+\(A=S_1S_2+C_1C_2\) and \(\operatorname{Re}A=\one-\frac12\Theta\), it gives
+\(\Hell=\det A\ge\det(\one-\frac12\Theta)\) whenever \(\Theta<2\).  \emph{Verdict:} standard; the two
+sources are books (\texttt{NOT OBTAINED} as PDFs).  We verified the inequality numerically in the
+present application (script \texttt{scratchpad/p2d.py}: \(\det\operatorname{Re}A=0.99593714\le
+|\det A|=0.99643765\) for a random \(4\)-mode pair at \(\eps=0.02\); and the identity
+\eqref{eq:ReA} to \(4\cdot10^{-16}\) whenever \(0\le Q_2\le1\)).
+\end{citedbox}
+
+\subsection{The Powers--St\o rmer functional and the master upper bound}
+
+\begin{definition}\label{def:hn}
+Fix an increasing sequence \(P_1\le P_2\le\cdots\) of finite-rank projections on \(H\) with
+\(P_n\uparrow\one\) strongly.  On \(P_nH\) put \(S_n=(P_nQP_n)^{1/2}\),
+\(\widetilde S_n=(P_n\Qt_\zeta P_n)^{1/2}\), \(C_n=(P_n(1-Q)P_n)^{1/2}\),
+\(\widetilde C_n=(P_n(1-\Qt_\zeta)P_n)^{1/2}\), and
+\begin{equation}\label{eq:hn}
+ \Theta_n(\zeta):=(S_n-\widetilde S_n)^2+(C_n-\widetilde C_n)^2\ \ge0,
+ \qquad
+ h_n(\zeta):=\tfrac12\Tr\Theta_n(\zeta)
+ =\tfrac12\bigl[\norm{S_n-\widetilde S_n}_2^2+\norm{C_n-\widetilde C_n}_2^2\bigr].
+\end{equation}
+We also write \(\tau(\zeta):=\norm{\delta_\zeta}_1=\frac r{2\pi}\log(1+\zeta)\).
+\end{definition}
+
+\begin{citedbox}{Powers--St\o rmer 1970, Lemma 4.1}
+For positive operators (matrices) \(S,T\),
+\(\norm{S^{1/2}-T^{1/2}}_2^2\le\norm{S-T}_1\).
+\emph{Locator:} R.~T.~Powers, E.~St\o rmer, ``Free states of the canonical anticommutation
+relations'', Commun.\ Math.\ Phys.\ \textbf{16} (1970) 1--33, Lemma~4.1 (p.~13);
+\texttt{refs/PowersStormer70.pdf}.
+
+\begin{center}\includegraphics[width=.86\textwidth]{shots/R3_PS70_lem41.png}\end{center}
+
+\emph{Use here:} to bound \(h_n\le\tau\) uniformly in \(n\), giving the unconditional bound
+Theorem~\ref{thm:upper}(i); also (in Note~4, \S8) to establish quasi-equivalence of \(\omega\) and
+\(\widetilde\omega_\zeta\).  \emph{Verdict:} hypotheses (positivity, trace-class difference) are
+satisfied, since \(P_n\delta_\zeta P_n\) is trace class with
+\(\norm{P_n\delta_\zeta P_n}_1\le\norm{\delta_\zeta}_1\).
+\end{citedbox}
+
+\begin{theorem}[Upper bound]\label{thm:upper}
+Let \(\zeta>0\) be small enough that \(\tau(\zeta)=\frac r{2\pi}\log(1+\zeta)<1\).  Then
+\begin{equation}\label{eq:upper-master}
+ \Phi(\zeta)\ \le\ \frac{\sup_n h_n(\zeta)}{1-\tau(\zeta)}\ \le\ \frac{\tau(\zeta)}{1-\tau(\zeta)}
+ \;=\;\frac{r}{2\pi}\,\zeta+O(\zeta^2).
+\end{equation}
+In particular \(\Phi(\zeta)=O(\zeta)\) unconditionally.  If in addition
+Lemma~\ref{lem:H} holds, then \(\limsup_{\zeta\to0}\Phi(\zeta)/\zeta^2\le h_2=\frac{r\log2}{6\pi^2}\).
+\end{theorem}
+
+\lstep{1}{1}{\(\Phi(\zeta)=\sup_n\Phi_{P_n}(\zeta)\).}
+\lby{Note~5, Thm.~3.1 (\texttt{citedbox} in \S\ref{sec:compress}); the sequence is nondecreasing and
+converges to \(\Phi\)}
+\lstep{1}{2}{\(\Phi_{P_n}(\zeta)\le-\log\det A_n\), \(A_n:=S_n\widetilde S_n+C_n\widetilde C_n\).}
+\lby{Lemma~\ref{lem:hell} applied on \(\mathfrak k=P_nH\), where \(0<P_nQP_n,P_n\Qt_\zeta P_n<1\)
+(Definition~\ref{def:PhiP})}
+\lstep{1}{3}{\(\norm{\Theta_n(\zeta)}\le2\tau(\zeta)<2\); in particular
+\(\operatorname{Re}A_n=\one-\frac12\Theta_n>0\).}
+\lproof
+\lstep{2}{1}{\(\norm{X^{1/2}-Y^{1/2}}\le\norm{X-Y}^{1/2}\) for \(X,Y\ge0\).}
+\lby{\(t\mapsto\sqrt t\) is operator monotone with \(f(0)=0\), and for such \(f\),
+\(\norm{f(X)-f(Y)}\le f(\norm{X-Y})\): R.~Bhatia, \emph{Matrix Analysis}, GTM 169, Springer 1997,
+Thm.~X.1.1 (and X.1.3)}
+\lstep{2}{2}{\(\norm{S_n-\widetilde S_n}^2\le\norm{P_nQP_n-P_n\Qt_\zeta P_n}
+=\norm{P_n\delta_\zeta P_n}\le\norm{\delta_\zeta}\le\tau(\zeta)\), and likewise for
+\(C_n-\widetilde C_n\).}
+\lby{$\langle2\rangle1$; \(\norm{P_nXP_n}\le\norm X\); \(\norm X\le\norm X_1\); and
+\((1-Q)-(1-\Qt_\zeta)=-\delta_\zeta\)}
+\lstep{2}{3}{\(\norm{\Theta_n}\le\norm{(S_n-\widetilde S_n)^2}+\norm{(C_n-\widetilde C_n)^2}\le2\tau\).}
+\lby{triangle inequality and $\langle2\rangle2$}
+\lqed{2}{4}\lby{$\langle2\rangle3$ and \eqref{eq:ReA}}
+\lstep{1}{4}{\(-\log\det A_n\le-\Tr\log\bigl(\one-\tfrac12\Theta_n\bigr)\).}
+\lby{the Ostrowski--Taussky box with \(A=A_n\), whose Hermitian part is
+\(\one-\frac12\Theta_n>0\) by $\langle1\rangle3$: \(\det(\one-\frac12\Theta_n)\le|\det A_n|=\det A_n\)
+(positive by Lemma~\ref{lem:hell}), and \(-\log\) reverses}
+\lstep{1}{5}{\(-\Tr\log(\one-\tfrac12\Theta_n)\le\dfrac{\frac12\Tr\Theta_n}{1-\frac12\norm{\Theta_n}}
+\le\dfrac{h_n(\zeta)}{1-\tau(\zeta)}\).}
+\lby{for \(0\le t\le t_{\max}<1\), \(-\log(1-t)=\int_0^t\frac{\dd s}{1-s}\le\frac t{1-t_{\max}}\);
+apply this to each eigenvalue \(t=\theta_j/2\le\norm{\Theta_n}/2\le\tau\) of \(\frac12\Theta_n\) and
+sum; then use \eqref{eq:hn} and $\langle1\rangle3$}
+\lstep{1}{6}{\(h_n(\zeta)\le\tau(\zeta)\) for every \(n\).}
+\lby{Powers--St\o rmer box applied twice, to \((P_nQP_n,P_n\Qt_\zeta P_n)\) and to
+\((P_n(1-Q)P_n,P_n(1-\Qt_\zeta)P_n)\):
+\(\Tr\Theta_n\le2\norm{P_n\delta_\zeta P_n}_1\le2\norm{\delta_\zeta}_1=2\tau\), and
+\(h_n=\frac12\Tr\Theta_n\)}
+\lstep{1}{7}{\eqref{eq:upper-master} follows, and \(\tau/(1-\tau)=\frac r{2\pi}\zeta+O(\zeta^2)\).}
+\lby{$\langle1\rangle1$--$\langle1\rangle6$; \(\log(1+\zeta)=\zeta+O(\zeta^2)\)}
+\lstep{1}{8}{The conditional statement.}
+\lby{$\langle1\rangle1$--$\langle1\rangle5$ give \(\Phi(\zeta)\le\sup_nh_n(\zeta)/(1-\tau(\zeta))\);
+Lemma~\ref{lem:H} says \(\limsup_{\zeta\to0}\zeta^{-2}\sup_nh_n(\zeta)\le h_2\), and
+\(\tau(\zeta)\to0\)}
+\lqed{1}{9}\lby{$\langle1\rangle7$, $\langle1\rangle8$}
+
+\subsection{The second-order coefficient of the Hellinger bound}
+
+It is convenient to substitute \(q_i=\cos^2\theta_i\), \(1-q_i=\sin^2\theta_i\),
+\(\theta_i\in(0,\tfrac\pi2)\); then
+\begin{equation}\label{eq:theta}
+ \sqrt{q_i}=\cos\theta_i,\quad\sqrt{1-q_i}=\sin\theta_i,\qquad
+ W_{ik}=\bigl(\cos\theta_i\sin\theta_k+\cos\theta_k\sin\theta_i\bigr)^2=\sin^2(\theta_i+\theta_k).
+\end{equation}
+In the modular variables \(q_\kappa=(1+e^\kappa)^{-1}\) this is \(\theta_\kappa=\arctan(e^{\kappa/2})\).
+
+\begin{proposition}[Hellinger second variation]\label{prop:hell2}
+Let \(\mathfrak k\) be finite dimensional, \(0<Q_1<1\), \(D=D^*\), and \(Q_2=Q_1+\eps D\).  Then, with
+\(\Psi(\eps):=-\log\Hell(Q_1,Q_1+\eps D)\),
+\begin{equation}\label{eq:hell2}
+ \Psi(\eps)=\frac{\eps^2}{2}\sum_{i,k}\frac{|D_{ik}|^2}{W_{ik}}+O(\eps^3),
+ \qquad W_{ik}=\Bigl(\sqrt{q_i(1-q_k)}+\sqrt{q_k(1-q_i)}\Bigr)^2 .
+\end{equation}
+Since \(N_{ik}\le W_{ik}\le2N_{ik}\), the coefficient in \eqref{eq:hell2} lies between
+\(\frac14\sum|D_{ik}|^2/N_{ik}=\frac18g_B\) and \(\frac12\sum|D_{ik}|^2/N_{ik}=\frac14g_B\).
+\end{proposition}
+
+\lstep{1}{1}{\ldefine \(S_j=Q_j^{1/2}\), \(C_j=(1-Q_j)^{1/2}\), \(A=S_1S_2+C_1C_2\),
+\(X=\one-A\).  Then \(\Psi=-\Tr\log(\one-X)=\Tr X+\tfrac12\Tr X^2+O(\eps^3)\).}
+\lby{Lemma~\ref{lem:hell} (\(\Hell=\det A\)) and \(\norm X=O(\eps)\) by
+$\langle1\rangle3$ of Theorem~\ref{thm:upper}, so the logarithmic series converges}
+\lstep{1}{2}{Write \(S_2=S_1+\eps\sigma_1+\eps^2\sigma_2+O(\eps^3)\),
+\(C_2=C_1+\eps\gamma_1+\eps^2\gamma_2+O(\eps^3)\).  In the eigenbasis of \(Q_1\),
+\[
+ (\sigma_1)_{ik}=\frac{D_{ik}}{\cos\theta_i+\cos\theta_k},\quad
+ (\gamma_1)_{ik}=\frac{-D_{ik}}{\sin\theta_i+\sin\theta_k},\quad
+ (\sigma_2)_{ii}=-\frac{(\sigma_1^2)_{ii}}{2\cos\theta_i},\quad
+ (\gamma_2)_{ii}=-\frac{(\gamma_1^2)_{ii}}{2\sin\theta_i}.
+\]}
+\lby{squaring: \(S_2^2=Q_1+\eps D\) gives at order \(\eps\) \(S_1\sigma_1+\sigma_1S_1=D\) and at
+order \(\eps^2\) \(S_1\sigma_2+\sigma_2S_1+\sigma_1^2=0\); the analogous equations for \(C\) with
+\(-D\) in place of \(D\); solving entrywise with \((S_1)_{ii}=\cos\theta_i\),
+\((C_1)_{ii}=\sin\theta_i\) (\eqref{eq:theta}); \(\eps\mapsto S_2,C_2\) are smooth because
+\(Q_2\) stays in \((0,1)\) for small \(\eps\)}
+\lstep{1}{3}{\(X=-\eps(S_1\sigma_1+C_1\gamma_1)-\eps^2(S_1\sigma_2+C_1\gamma_2)+O(\eps^3)\), and
+\(\Tr(S_1\sigma_1+C_1\gamma_1)=0\).}
+\lby{\(X=\one-S_1S_2-C_1C_2=S_1^2+C_1^2-S_1S_2-C_1C_2=-S_1(S_2-S_1)-C_1(C_2-C_1)\); and
+\(\Tr(S_1\sigma_1)=\sum_i\cos\theta_i\frac{D_{ii}}{2\cos\theta_i}=\frac12\Tr D
+=-\Tr(C_1\gamma_1)\)}
+\lstep{1}{4}{\(\Tr X=\dfrac{\eps^2}2\displaystyle\sum_{ik}|D_{ik}|^2
+\Bigl[\dfrac1{(\cos\theta_i+\cos\theta_k)^2}+\dfrac1{(\sin\theta_i+\sin\theta_k)^2}\Bigr]+O(\eps^3)\).}
+\lby{\(\Tr(S_1\sigma_2)=\sum_i\cos\theta_i(\sigma_2)_{ii}=-\frac12\Tr(\sigma_1^2)
+=-\frac12\sum_{ik}|D_{ik}|^2/(\cos\theta_i+\cos\theta_k)^2\) by $\langle1\rangle2$ and
+\((\sigma_1)_{ki}=\overline{(\sigma_1)_{ik}}\); likewise for \(\gamma\); then $\langle1\rangle3$}
+\lstep{1}{5}{\(\Tr X^2=\eps^2\sum_{ik}|D_{ik}|^2m_{ik}m_{ki}+O(\eps^3)\) with
+\(m_{ik}:=\dfrac{\cos\theta_i}{\cos\theta_i+\cos\theta_k}-\dfrac{\sin\theta_i}{\sin\theta_i+\sin\theta_k}\).}
+\lby{$\langle1\rangle3$: \((S_1\sigma_1+C_1\gamma_1)_{ik}=D_{ik}m_{ik}\), and
+\(\Tr X^2=\eps^2\sum_{ik}D_{ik}m_{ik}D_{ki}m_{ki}\)}
+\lstep{1}{6}{\lpick \(\Sigma=\frac{\theta_i+\theta_k}2\), \(\Delta=\frac{\theta_i-\theta_k}2\).  Then
+\[
+ \frac1{(\cos\theta_i+\cos\theta_k)^2}+\frac1{(\sin\theta_i+\sin\theta_k)^2}
+ =\frac{1}{\cos^2\!\Delta\,\sin^2 2\Sigma},\qquad
+ m_{ik}=-\frac{\tan\Delta}{\sin2\Sigma},\qquad m_{ki}=+\frac{\tan\Delta}{\sin2\Sigma}.
+\]}
+\lproof
+\lstep{2}{1}{\(\cos\theta_i+\cos\theta_k=2\cos\Sigma\cos\Delta\),
+\(\sin\theta_i+\sin\theta_k=2\sin\Sigma\cos\Delta\).}
+\lby{the sum-to-product formulas}
+\lstep{2}{2}{\(\frac1{4\cos^2\Sigma\cos^2\Delta}+\frac1{4\sin^2\Sigma\cos^2\Delta}
+=\frac1{4\cos^2\Delta}\cdot\frac1{\sin^2\Sigma\cos^2\Sigma}=\frac{1}{\cos^2\Delta\,\sin^22\Sigma}\).}
+\lby{$\langle2\rangle1$ and \(\sin2\Sigma=2\sin\Sigma\cos\Sigma\)}
+\lstep{2}{3}{\(m_{ik}=\dfrac{\cos\theta_i\sin\Sigma-\sin\theta_i\cos\Sigma}{2\sin\Sigma\cos\Sigma\cos\Delta}
+=\dfrac{\sin(\Sigma-\theta_i)}{\sin2\Sigma\,\cos\Delta}=-\dfrac{\sin\Delta}{\sin2\Sigma\cos\Delta}\),
+and \(m_{ki}\) is the same with \(\Delta\to-\Delta\).}
+\lby{$\langle2\rangle1$, the addition theorem, and \(\Sigma-\theta_i=-\Delta\),
+\(\Sigma-\theta_k=+\Delta\)}
+\lqed{2}{4}\lby{$\langle2\rangle2$, $\langle2\rangle3$}
+\lstep{1}{7}{\(\dfrac1{(\cos\theta_i+\cos\theta_k)^2}+\dfrac1{(\sin\theta_i+\sin\theta_k)^2}
++m_{ik}m_{ki}=\dfrac1{\sin^2 2\Sigma}=\dfrac1{W_{ik}}\).}
+\lby{$\langle1\rangle6$: the sum is
+\(\frac1{\sin^22\Sigma}\bigl[\frac1{\cos^2\Delta}-\tan^2\Delta\bigr]
+=\frac1{\sin^22\Sigma}\cdot\frac{1-\sin^2\Delta}{\cos^2\Delta}=\frac1{\sin^22\Sigma}\);
+and \(\sin2\Sigma=\sin(\theta_i+\theta_k)\), so \(\sin^22\Sigma=W_{ik}\) by \eqref{eq:theta}}
+\lqed{1}{8}
+\lby{$\langle1\rangle1$, $\langle1\rangle4$, $\langle1\rangle5$, $\langle1\rangle7$:
+\(\Psi=\Tr X+\frac12\Tr X^2+O(\eps^3)
+=\frac{\eps^2}2\sum_{ik}|D_{ik}|^2\bigl[\frac1{(\cos\theta_i+\cos\theta_k)^2}
++\frac1{(\sin\theta_i+\sin\theta_k)^2}+m_{ik}m_{ki}\bigr]+O(\eps^3)\); the bracket is \(1/W_{ik}\)}
+
+\begin{proposition}[Value of the Hellinger coefficient]\label{prop:h2}
+\begin{equation}\label{eq:h2}
+ h_2:=\frac12\iint_{\mathbb R^2}\frac{|D^{(1)}(\kappa,\kappa')|^2}{W(\kappa,\kappa')}\dd\kappa\dd\kappa'
+ \cdot r
+ =\frac r6\int_{\mathbb R}\frac{\tanh\frac u4}{u(u^2+4\pi^2)}\dd u
+ =\frac{r\log2}{6\pi^2}=2\log2\cdot\frac{g_B}{8}=1.386294\ldots\times\frac{g_B}{8}.
+\end{equation}
+\end{proposition}
+
+\lstep{1}{1}{\(\dfrac{|D^{(1)}|^2}{W}
+=\dfrac{\sinh^2\frac u2}{(1+\cosh\frac u2)(\cosh\frac v2+\cosh\frac u2)}\cdot
+\dfrac{v^2}{u^2(u^2+4\pi^2)^2}\).}
+\lby{Theorem~2.1 of \texttt{kernel\_identity.tex} and the identities \eqref{eq:NWuv} for
+\((q_\kappa-q_{\kappa'})^2\) and \(W\)}
+\lstep{1}{2}{\(\displaystyle\iint\frac{|D^{(1)}|^2}{W}\dd\kappa\dd\kappa'
+=\frac12\int\dd u\frac{\sinh^2\frac u2}{(1+\cosh\frac u2)u^2(u^2+4\pi^2)^2}V(u)
+=\frac13\int\dd u\frac{\tanh\frac u4}{u(u^2+4\pi^2)}\).}
+\lby{$\langle1\rangle1$, \(\dd\kappa\dd\kappa'=\frac12\dd u\dd v\), Tonelli, Lemma~\ref{lem:V}, and
+\(\frac{\sinh^2\frac u2}{1+\cosh\frac u2}\cdot\frac{1}{\sinh\frac u2}
+=\frac{\sinh\frac u2}{1+\cosh\frac u2}=\tanh\frac u4\)}
+\lstep{1}{3}{\(h_2=\frac r2\cdot\frac13\cdot\frac{\log2}{\pi^2}=\frac{r\log2}{6\pi^2}\), and
+\(h_2/(g_B/8)=\frac{\log2}{6\pi^2}\cdot12\pi^2=2\log2\).}
+\lby{$\langle1\rangle2$, Lemma~\ref{lem:U} (second integral), Proposition~\ref{prop:gB}}
+\lqed{1}{4}\lby{$\langle1\rangle1$--$\langle1\rangle3$}
+
+\subsection{The remaining gap, stated precisely}
+
+\begin{lemma}[\textsc{gap}: uniformity of the Hellinger expansion in the compression]\label{lem:H}
+With \(\Psi_n(\zeta):=-\log\Hell\bigl(P_nQP_n,P_n\Qt_\zeta P_n\bigr)\) (an increasing sequence in
+\(n\), by data processing for the Petz--R\'enyi divergence \(D_{1/2}=2\Psi\)),
+\[
+ \limsup_{\zeta\downarrow0}\ \frac{1}{\zeta^2}\ \sup_{n}\ \Psi_n(\zeta)\ \le\ h_2
+ =\frac{r\log2}{6\pi^2}.
+\]
+\textbf{This is not proved here.}  What \emph{is} proved is: (i) for each fixed \(n\),
+\(\lim_{\zeta\to0}\Psi_n(\zeta)/\zeta^2=\frac12\sum_{ik}|(P_nD^{(1)}P_n)_{ik}|^2/W^{(n)}_{ik}\)
+(Proposition~\ref{prop:hell2}, the eigenvalues \(q^{(n)}_i\) and hence \(W^{(n)}\) being those of
+\(P_nQP_n\)); (ii) the corresponding continuum integral is finite and equals \(h_2\)
+(Proposition~\ref{prop:h2}); (iii) \(\sup_n\Psi_n(\zeta)\le\tau(\zeta)/(1-\tau(\zeta))=O(\zeta)\)
+uniformly (Theorem~\ref{thm:upper}).  Missing is exactly the interchange
+\(\sup_n\lim_\zeta\;\leftrightarrow\;\lim_\zeta\sup_n\).
+\end{lemma}
+
+\begin{verdictgap}
+Corollary~4.2 of Note~5 states \emph{``The second-order coefficient of \(-\log\Fid(\zeta)\) is
+finite: it is given by (11) with \(D\) the first-order defect \(\partial_s\delta_s|_{s=0}\)''} and
+concludes \(-\log\Fid(\zeta)=f_2\zeta^2[1+O(\log^{-2}(1/\zeta))]\).  The first clause is an
+assertion about the \emph{compression limit} of second-order coefficients, whereas what is needed is
+the second-order behaviour of the limit; the note supplies no uniformity.  Theorem~\ref{thm:lower}
+here proves the inequality ``\(\ge\)'' unconditionally, and Theorem~\ref{thm:upper} proves
+\(\Phi=O(\zeta)\) unconditionally and \(\limsup\Phi/\zeta^2\le2\log2\,f_2\) modulo
+Lemma~\ref{lem:H}.  The claimed \emph{equality} \(\lim\Phi/\zeta^2=f_2\) is therefore still open,
+and so is the remainder \(O(\zeta^2\log^{-2}(1/\zeta))\); see \S\ref{sec:remainder}.  We emphasise
+that the gap is not a formality: the interchange fails at the naive order \(\zeta^3\) (the true
+correction is \(\Theta(\zeta^2\log^{-2}(1/\zeta))\), \emph{not} \(O(\zeta^3)\)), precisely because
+the ultraviolet modes \(\kappa>\kappa_*(\zeta)\approx2\log(1/\zeta)\) are populated by
+\(\frac2{15}\zeta^2\kappa^{-3}\) in \(\widetilde\omega_\zeta\) while empty
+(\(q_\kappa\sim e^{-\kappa}\)) in \(\omega\), so that in those modes the expansion parameter is
+\(\zeta/q_\kappa\gg1\) and \emph{no} finite order of perturbation theory is uniform.
+\end{verdictgap}
+
+\begin{problem}[Sharp upper bound]\label{prob:sharp}
+Prove \(\limsup_{\zeta\to0}\Phi(\zeta)/\zeta^2\le g_B/8\).  Two routes suggest themselves.
+\begin{enumerate}[label=(\alph*),leftmargin=2em]
+\item \emph{Uniform remainder.}  Show that
+\(\Phi_{P_n}(\zeta)\le\frac{\zeta^2}8g_B+R(\zeta)\) with \(R\) independent of \(n\) and
+\(R(\zeta)=o(\zeta^2)\).  By Note~5's tail analysis the optimal \(R\) is
+\(\Theta(\zeta^2\log^{-2}(1/\zeta))\).  The difficulty is that \(g_B^{(n)}\le g_B\) (which follows
+from Lemma~\ref{lem:legendre} and the argument of Theorem~\ref{thm:lower}) must be combined with a
+third-order bound whose constant degenerates like \(\min\operatorname{spec}(Q_{P_n})^{-1}\).
+\item \emph{Trial vector.}  Since \(\Fid=\sup|\ip{\xi_\omega}{\xi_{\widetilde\omega}}|\) over vector
+representatives, \emph{any} explicit representative of \(\widetilde\omega_\zeta\) in the GNS space of
+\(\omega\) gives an upper bound for \(\Phi\).  The natural-cone representative gives \(h_2\)
+(a factor \(2\log2\) too large); a Bogoliubov-rotated representative, chosen mode by mode so as to
+diagonalise \(\Qt_\zeta\) relative to \(Q\), should give \(g_B/8\).  Concretely: find
+\(U'\in\cM'\) unitary with \(|\ip{\xi_\omega}{U'\xi_{\widetilde\omega}}|\ge e^{-g_B\zeta^2/8-o(\zeta^2)}\).
+\end{enumerate}
+\end{problem}
+
+\section{The remainder: what can be said}\label{sec:remainder}
+
+\subsection{A quantitative ultraviolet tail for the Fisher form}
+
+\begin{proposition}[Cutoff error of \(g_B\)]\label{prop:tailgB}
+Let \(E_\Lambda:=\one_{[-\Lambda,\Lambda]}(K)\) be the spectral projection of the one-particle modular
+Hamiltonian \(K=\log\frac{1-Q}Q\) (multiplication by \(\one_{[-\Lambda,\Lambda]}(\kappa)\) in the
+\(\kappa\)-representation), and
+\[
+ g_B^{(\Lambda)}:=\sup\bigl\{\Omega(\ell):\ \ell=\ell^*\ \text{finite rank},\ \ell=E_\Lambda\ell E_\Lambda\bigr\}.
+\]
+Then, for \(\Lambda\ge2\pi\),
+\begin{equation}\label{eq:tailgB}
+ 0\ \le\ g_B-g_B^{(\Lambda)}\ \le\ \frac{2r}{3\Lambda^2}\;+\;C\,r\,\Lambda^{2}e^{-\Lambda/2}
+ \;=\;\frac{2r}{3\Lambda^2}\bigl(1+o(1)\bigr),
+\end{equation}
+with an absolute constant \(C\).  Moreover every finite-rank \(P\le E_\Lambda\) satisfies
+\(\operatorname{spec}(P Q P|_{PH})\subset[\tfrac12e^{-\Lambda},1-\tfrac12e^{-\Lambda}]\).
+\end{proposition}
+
+\lstep{1}{1}{\(g_B-g_B^{(\Lambda)}=\frac12\operatorname{dist}_N(\ell_*,V_\Lambda)^2\) where
+\(V_\Lambda\) is the \(\norm\cdot_N\)-closure of \(\{\ell=E_\Lambda\ell E_\Lambda\ \text{finite rank},
+\ \ell=\ell^*\}\); and \(V_\Lambda\) contains every hermitian kernel supported in
+\(B_\Lambda:=[-\Lambda,\Lambda]^2\) with finite \(\norm\cdot_N\).}
+\lby{Remark~\ref{rem:square} / step $\langle1\rangle4$ of Proposition~\ref{prop:gB}, and the density
+argument of its step $\langle1\rangle5$ carried out inside \(L^2(B_\Lambda,N)\) (multiplication by
+\(\one_{B_\Lambda}\) is exactly compression by \(E_\Lambda\) in the \(\kappa\)-representation)}
+\lstep{1}{2}{\(\operatorname{dist}_N(\ell_*,V_\Lambda)^2\le\norm{\ell_*\one_{B_\Lambda^c}}_N^2
+=4\iint_{B_\Lambda^c}\frac{|D^{(1)}|^2}{N}\), so
+\(g_B-g_B^{(\Lambda)}\le 2r\iint_{B_\Lambda^c}\frac{|D^{(1)}|^2}{N}\).}
+\lby{$\langle1\rangle1$ with the competitor \(\one_{B_\Lambda}\ell_*\in V_\Lambda\); \(\ell_*=2D^{(1)}/N\)}
+\lstep{1}{3}{In \((u,v)\) coordinates \(B_\Lambda^c=\{|u|+|v|>2\Lambda\}\), and
+\(B_\Lambda^c\subset\{|u|>\Lambda\}\cup\{|v|>\Lambda\}\).}
+\lby{\(\max(|\kappa|,|\kappa'|)=\frac{|u|+|v|}2\) since \(\kappa=\frac{v+u}2\),
+\(\kappa'=\frac{v-u}2\); and \(|u|+|v|>2\Lambda\) forces \(|u|>\Lambda\) or \(|v|>\Lambda\)}
+\lstep{1}{4}{\(2\iint_{|u|>\Lambda}\frac{|D^{(1)}|^2}{N}=\frac23\int_{|u|>\Lambda}
+\frac{\tanh\frac u2}{u(u^2+4\pi^2)}\dd u\le\frac43\int_\Lambda^\infty\frac{\dd u}{u^3}
+=\frac{2}{3\Lambda^2}\).}
+\lby{step $\langle1\rangle6$ of Proposition~\ref{prop:gB} restricted to \(|u|>\Lambda\) (the
+\(v\)-integration is unrestricted there, which only increases the bound), \(\tanh\frac u2\le1\),
+\(u^2+4\pi^2\ge u^2\), and evenness}
+\lstep{1}{5}{\(2\iint_{|v|>\Lambda}\frac{|D^{(1)}|^2}{N}\le C\Lambda^2e^{-\Lambda/2}\).}
+\lby{by $\langle2\rangle1$ of $\langle1\rangle6$ of Proposition~\ref{prop:gB} the integrand is
+\(\frac{\sinh^2\frac u2}{\cosh\frac u2(\cosh\frac v2+\cosh\frac u2)}\frac{v^2}{u^2(u^2+4\pi^2)^2}\);
+using \(\cosh\frac v2+\cosh\frac u2\ge\max(\cosh\frac v2,\cosh\frac u2)\) and
+\(\frac{\sinh^2\frac u2}{\cosh^2\frac u2}\le1\), it is bounded by
+\(\frac{v^2}{u^2(u^2+4\pi^2)^2}\cdot\frac{2\cosh\frac u2}{e^{|v|/2}}\wedge\ldots\); integrating
+\(v^2e^{-|v|/2}\) over \(|v|>\Lambda\) gives \(O(\Lambda^2e^{-\Lambda/2})\) times the convergent
+\(u\)-integral \(\int\frac{\sinh^2\frac u2}{\cosh^2\frac u2u^2(u^2+4\pi^2)^2}\dd u<\infty\)}
+\lstep{1}{6}{The spectral statement.}
+\lby{for \(f\in PH\subset E_\Lambda H\), \(\ip fQf=\int_{-\Lambda}^{\Lambda}q_\kappa|\hat f(\kappa)|^2
+\dd\kappa\in[q_\Lambda,q_{-\Lambda}]\) and \(q_\Lambda=(1+e^\Lambda)^{-1}\ge\frac12e^{-\Lambda}\),
+\(q_{-\Lambda}=1-q_\Lambda\)}
+\lqed{1}{7}\lby{$\langle1\rangle2$--$\langle1\rangle6$}
+
+\begin{remark}[Consistency with the numerics of Note~5]
+Note~5 fits \(f_2(\kappa_{\max})=f_2-0.066\,\kappa_{\max}^{-2}\), i.e.\
+\(g_B-g_B^{(\kappa_{\max})}\approx0.53\,\kappa_{\max}^{-2}\) at \(r=1\).  The rigorous bound
+\eqref{eq:tailgB} gives \(\le0.667\,\Lambda^{-2}\): the same power, and a constant \(26\%\) above the
+observed one, as it must be (the bound discards \(\tanh\frac u2\le1\) and
+\(u^2+4\pi^2\ge u^2\)).  This is an independent confirmation of the \(\kappa_{\max}^{-2}\) law
+reported there.
+\end{remark}
+
+\subsection{From the cutoff estimate to the \texorpdfstring{\(\log^{-2}\)}{log^-2} rate}
+
+\begin{problem}[Quantitative lower bound with the conjectured rate]\label{prob:rate}
+Prove: there are \(C,\zeta_0>0\) such that for every \(\Lambda\ge2\pi\) and every finite-rank
+\(P\le E_\Lambda\),
+\begin{equation}\label{eq:cubic}
+ \Bigl|\Phi_P(\zeta)-\frac{\zeta^2}{8}g_B^{(P)}\Bigr|\ \le\ C\,e^{\Lambda}\,\zeta^{3}
+ \qquad(0<\zeta<\zeta_0\,e^{-\Lambda}\ \text{say}).
+\end{equation}
+\emph{Consequence.}  Granting \eqref{eq:cubic}, choose \(\Lambda=\Lambda(\zeta):=
+\log\frac1\zeta-2\log\log\frac1\zeta\), so that \(e^{\Lambda}\zeta^3=\zeta^2\log^{-2}(1/\zeta)\) and,
+by Proposition~\ref{prop:tailgB}, \(g_B^{(\Lambda)}\ge g_B-\frac{2r}{3\Lambda^2}
+=g_B-O(\log^{-2}(1/\zeta))\).  Taking \(P\le E_{\Lambda(\zeta)}\) with
+\(g_B^{(P)}\ge g_B^{(\Lambda)}-\zeta^2\) and using \(\Phi\ge\Phi_P\) gives
+\begin{equation}\label{eq:rate}
+ \Phi(\zeta)\ \ge\ \frac{g_B}{8}\zeta^2\Bigl(1-\frac{C'}{\log^2(1/\zeta)}\Bigr)
+ \;=\;f_2\zeta^2\bigl(1+O(\log^{-2}(1/\zeta))\bigr),
+\end{equation}
+which is the lower half of Note~5's Corollary~4.2 with its stated rate.  The exponent \(e^\Lambda\)
+in \eqref{eq:cubic} is the natural one: the third derivative of the finite-dimensional fidelity
+determinant is controlled by \(\min\operatorname{spec}(Q_P)^{-1}\le2e^{\Lambda}\)
+(Proposition~\ref{prop:tailgB}); any bound \(Ce^{c\Lambda}\zeta^3\) with \(c\le1\) suffices.
+\end{problem}
+
+\subsection{Why the upper half is genuinely harder: the occupation tail}
+
+Note~5, Proposition~4.1 (proved there only as a sketch) asserts the exact ultraviolet law
+\(\Qt_\zeta(\kappa,\kappa)-q_\kappa=\frac2{15}\zeta^2\kappa^{-3}+O(\kappa^{-5})\).  Assuming it, the
+modes with \(\kappa>\kappa_*(\zeta)\), \(\kappa_*\) defined by
+\(\frac2{15}\zeta^2\kappa_*^{-3}=e^{-\kappa_*}\) (so \(\kappa_*=2\log\frac1\zeta+O(\log\log\frac1\zeta)\)),
+are \emph{empty} in \(\omega\) but carry occupation \(\frac2{15}\zeta^2\kappa^{-3}\) in
+\(\widetilde\omega_\zeta\).  For a single mode with \(q\approx0\), \(\tilde q=\eta\ll1\),
+\[
+ -\log\bigl(\sqrt{q\tilde q}+\sqrt{(1-q)(1-\tilde q)}\bigr)\ \approx\ \tfrac12\eta ,
+\]
+so these modes contribute (particles and holes together)
+\(\;2\cdot\frac12\int_{\kappa_*}^\infty\frac2{15}\frac{\zeta^2}{\kappa^3}\dd\kappa
+=\frac{\zeta^2}{15\kappa_*^2}\approx\frac{\zeta^2}{60\log^2(1/\zeta)}\)
+to \(\Phi\) --- a genuine \(\Theta(\zeta^2\log^{-2}(1/\zeta))\) excess over \(f_2\zeta^2\), invisible
+to every finite order of perturbation theory.  (Note~5 \S4 writes
+\(\frac{\zeta^2}{30\kappa_*^2}\) for one chirality of the tail and
+\(\frac{\zeta^2}{15\kappa_c^2}\) when both particles and holes are counted; the two are consistent.)
+
+\begin{verdictgap}
+Two caveats on this heuristic, both of which must be removed before \eqref{eq:rate} can be upgraded
+to a two-sided statement.  (i) Proposition~4.1 of Note~5 is proved by a corner-expansion
+\emph{sketch}: the interchange of the \(n\)-integration with the Taylor expansion of \(P(m)\) at
+\(m=0^-\), and the claim that \(P\) decays exponentially, are not justified there; the sign is fixed
+\emph{a posteriori} by ``the sign is the one required by \(\Qt_s\ge0\)''.  (ii) The single-mode
+estimate above treats the ultraviolet block as diagonal, whereas the defect couples it to the
+infrared: agent V4 found that the analytic tail correction \(\zeta^2/(15\kappa_c^2)\) used to correct
+the numerics of Note~5 is off by \(12\%\) to \(56\%\) at \(\eps=10^{-8}\)
+(\(\kappa_c=18.4\)) for small \(\zeta\), precisely because \(\kappa_c<\kappa_*(\zeta)\) there
+(\(\kappa_*(1/120)\approx20.7\)) and the diagonal approximation is not yet valid.  The ultraviolet
+block is therefore exactly where both the numerics and the proof are unfinished.
+\end{verdictgap}
+
+\section{Numerical confirmation of every closed form}\label{sec:num}
+
+All entries were computed with \texttt{mpmath} at \(30\) digits (script
+\texttt{scratchpad/p2\_check.py}, \texttt{p2b.py}, \texttt{p2c.py}) or in double precision on random
+\(4\)-mode quasi-free pairs (\texttt{scratchpad/p2d.py}).
+
+\begin{table}[h]\centering\footnotesize
+\begin{tabular}{p{0.40\textwidth}p{0.24\textwidth}p{0.28\textwidth}}\toprule
+Quantity & Closed form & Numerical\\\midrule
+\(\int_{\mathbb R}\frac{w^2\dd w}{\cosh w+\cosh a}\), \(a=0.3,1.7,5\) & \(\frac{2a(a^2+\pi^2)}{3\sinh a}\) & agrees to \(\ge26\) digits\\
+\(\int_{\mathbb R}\frac{\tanh(u/2)}{u(u^2+4\pi^2)}\dd u\) & \(1/\pi^2=0.1013211836\) & \(0.10132118364233777144\)\\
+\(\int_{\mathbb R}\frac{\tanh(u/4)}{u(u^2+4\pi^2)}\dd u\) & \(\log2/\pi^2=0.0702304928\) & \(0.07023049277268287641\)\\
+\(g_B\) (\(r=1\)), one-particle & \(2/(3\pi^2)=0.0675474558\) & \(0.06754745576155851430\)\\
+\(f_2=g_B/8\) & \(1/(12\pi^2)=0.0084434320\) & \(0.00844343197019481429\)\\
+\(h_2\) (\(r=1\)) & \(\log2/(6\pi^2)=0.0117050821\) & \(0.01170508212878047940\)\\
+\(h_2/f_2\) & \(2\log2=1.3862944\) & \(1.38629436111989061883\)\\
+\(N,W,(q_\kappa-q_{\kappa'})^2\) vs.\ \eqref{eq:NWuv} & --- & \(\le10^{-30}\) at three test points\\
+\(\Hell=\det(S_1S_2+C_1C_2)\) & Lemma~\ref{lem:hell} & \(0.9999917409539822\) vs.\ \(\dots819\)\\
+\(\Fid\ge\Hell\) & Lemma~\ref{lem:hell} & \(0.99999401987\ge0.99999174095\)\\
+\(-\log\Fid/\eps^2\to g_B/8\) & \eqref{eq:bures} & \(6.1988,6.0199,5.9801\to5.96196\)\\
+\(-\log\Hell/\eps^2\to\frac12\sum|D|^2/W\) & Prop.~\ref{prop:hell2} & \(8.4886,8.3001,8.2591\to8.24048\)\\
+\(\operatorname{Re}(S_1S_2+C_1C_2)=\one-\frac12\Theta\) & \eqref{eq:ReA} & \(4\cdot10^{-16}\)\\
+\(\det\operatorname{Re}A\le|\det A|\) & Ostrowski--Taussky & \(0.99593714\le0.99643765\)\\
+\(\sup_\ell\Omega(\ell)=2\sum|D|^2/N\) & Lemma~\ref{lem:legendre} & \(47.695645279147\) vs.\ \(\dots65\)\\
+\bottomrule\end{tabular}
+\caption{Numerical checks.  The last five rows use a random self-adjoint \(4\times4\) \(D\) and a
+random \(Q_1\) with spectrum in \((0,1)\).}\label{tab:num}
+\end{table}
+
+\paragraph{Comparison with the numerics of Note~5.}
+Note~5 reports \(\Phi(1/15)=3.517(3)\times10^{-5}\) and, at \(\zeta=1/120\),
+\(\Phi/\zeta^2=0.008376\), with the extrapolation \(f_2=0.008444(10)\); Note~7 predicts
+\(f_2=1/(12\pi^2)=0.00844343\).  Our two rigorous bounds bracket the limit (per component) as
+\[
+ 0.00844343\ \le\ \liminf_{\zeta\to0}\frac{\Phi(\zeta)}{\zeta^2}
+ \ \le\ \limsup_{\zeta\to0}\frac{\Phi(\zeta)}{\zeta^2}\ \le\ 0.01170508
+ \qquad\text{(the upper one modulo Lemma~\ref{lem:H})},
+\]
+and the measured value \(0.008376\) at \(\zeta=1/120\) sits just \emph{below} the rigorous lower
+bound \(0.00844343\), by \(0.8\%\).  This is consistent and instructive: the numerical \(\Phi\) is
+computed from a \emph{sub-compression} (Note~5, \S6), hence is a lower bound for \(\Phi\), and the
+observed deficit \(f_2-\Phi(\zeta)/\zeta^2\approx0.0082\zeta\) at \(\zeta=1/120\) is
+\(6.8\times10^{-5}\), i.e.\ the same \(0.8\%\).  The rigorous lower bound therefore \emph{certifies}
+that the numerical values of Note~5 are, as claimed, lower bounds, and it excludes any limit below
+\(1/(12\pi^2)\).
+
+\section{Summary, verdicts, and the residual list}\label{sec:summary}
+
+\begin{theorem}[What is proved]\label{thm:summary}
+For the \(r\)-component free chiral fermion, with \(\Phi(\zeta)=-\log\Fid_{\cF_r(I)}(\omega,\widetilde\omega_\zeta)\):
+\begin{enumerate}[label=(\alph*),leftmargin=2em]
+\item \(\displaystyle\liminf_{\zeta\downarrow0}\frac{\Phi(\zeta)}{\zeta^2}\ \ge\ \frac{g_B}{8}
+ =\frac{r}{12\pi^2}=0.00844343\,r\) \hfill(Theorems~\ref{thm:lower}, Prop.~\ref{prop:gB});
+\item \(\displaystyle\Phi(\zeta)\ \le\ \frac{\frac r{2\pi}\log(1+\zeta)}{1-\frac r{2\pi}\log(1+\zeta)}\)
+ for \(\frac r{2\pi}\log(1+\zeta)<1\) \hfill(Theorem~\ref{thm:upper}(i));
+\item modulo Lemma~\ref{lem:H}, \(\displaystyle\limsup_{\zeta\downarrow0}\frac{\Phi(\zeta)}{\zeta^2}
+ \le h_2=\frac{r\log2}{6\pi^2}=2\log2\cdot\frac{g_B}{8}\) \hfill(Theorem~\ref{thm:upper}(ii),
+ Prop.~\ref{prop:h2});
+\item \(0\le g_B-g_B^{(\Lambda)}\le\frac{2r}{3\Lambda^2}(1+o(1))\) \hfill(Prop.~\ref{prop:tailgB}).
+\end{enumerate}
+In particular \(\Phi(\zeta)\asymp\zeta^2\) as \(\zeta\to0\) (conditionally on Lemma~\ref{lem:H}), with
+the constant pinned to the interval \([f_2,\,2\log2\,f_2]=[1,1.3863]\cdot f_2\).
+\end{theorem}
+
+\begin{verdictok}
+The chain
+\emph{data processing} \(\to\) \emph{finite-dimensional analyticity} \(\to\) \emph{Legendre form of
+the SLD information} \(\to\) \emph{density in \(L^2(N\dd\kappa\dd\kappa')\)}
+proves the lower bound with no interchange of limits whatsoever, and the closed evaluation
+\(g_B=2r/(3\pi^2)\) is now completely proved: Lemma~\ref{lem:V} (the \(v\)-integral, previously
+``verified numerically'' in Note~7) and Lemma~\ref{lem:U} (the two \(u\)-integrals) are given
+elementary proofs, and the kernel identity is imported from \texttt{rigor/kernel\_identity.tex}.
+Consequently Theorem~A of Note~7 (\(g_B=2r/(3\pi^2)\), \(g_{\mathrm{KM}}=r/6\)) is, on the
+\(g_B\) side, an unconditional theorem \emph{about the quantum Fisher information}, and
+Theorem~\ref{thm:lower} converts one half of it into a statement about \(\Phi\) itself.
+\end{verdictok}
+
+\begin{verdictgap}
+Three items remain, in decreasing order of importance.
+\begin{enumerate}[label=(\arabic*),leftmargin=2em]
+\item \textbf{Lemma~\ref{lem:H}} (or, better, Problem~\ref{prob:sharp}): the sharp upper bound.
+ Without it the value of \(\lim\Phi/\zeta^2\) is only known to lie in
+ \([f_2,2\log2\,f_2]\), and even the \emph{existence} of the limit is open.  Note that the natural
+ cone (Hellinger) bound cannot give the sharp constant: its weight \(1/W\) differs pointwise from
+ the SLD weight \(1/N\) except on the diagonal \(\kappa=\kappa'\).
+\item \textbf{Problem~\ref{prob:rate}}: a cubic remainder uniform in the modular cutoff, which would
+ give the lower half \(\Phi\ge f_2\zeta^2(1-C\log^{-2}(1/\zeta))\) of Note~5's Corollary~4.2.
+\item \textbf{Proposition~4.1 of Note~5} (the \(\frac2{15}\zeta^2\kappa^{-3}\) tail) is proved there
+ only as a sketch; it is not used in any of (a)--(d) above, but it is what fixes the
+ \emph{expected} size \(\Theta(\zeta^2\log^{-2}(1/\zeta))\) of the remainder, and it is the input to
+ the tail correction of the Note~5 numerics that agent V4 found to be quantitatively unreliable at
+ the cutoffs actually used.
+\end{enumerate}
+\end{verdictgap}
+
+\paragraph{Scripts.}
+\texttt{scratchpad/p2\_check.py} (closed-form integrals, \(V(u)\)),
+\texttt{scratchpad/p2c.py} (weight identities \eqref{eq:NWuv} and the \(1\)-dimensional reductions of
+\(g_B\) and \(h_2\)),
+\texttt{scratchpad/p2d.py} (many-body checks: \(\Hell=\det(S_1S_2+C_1C_2)\), \(\Fid\ge\Hell\), the two
+second-order coefficients, \eqref{eq:ReA}, Ostrowski--Taussky, the Legendre formula).
+
+\begin{thebibliography}{99}\footnotesize
+\bibitem{Bhatia} R.~Bhatia, \emph{Matrix Analysis}, GTM 169, Springer 1997 (Thm.~X.1.1).
+\bibitem{HornJohnson} R.~A.~Horn, C.~R.~Johnson, \emph{Matrix Analysis}, 2nd ed., Cambridge 2013
+ (Problem 7.8.P16: Ostrowski--Taussky).
+\bibitem{Hubner} M.~H\"ubner, Explicit computation of the Bures distance for density matrices,
+ \emph{Phys.\ Lett.\ A} \textbf{163} (1992) 239--242.
+\bibitem{OT} A.~Ostrowski, O.~Taussky, On the variation of the determinant of a positive definite
+ matrix, \emph{Nederl.\ Akad.\ Wetensch.\ Proc.} \textbf{54} (1951) 383--385.
+\bibitem{Petz96} D.~Petz, Monotone metrics on matrix spaces, \emph{Linear Algebra Appl.}
+ \textbf{244} (1996) 81--96.
+\bibitem{PS70} R.~T.~Powers, E.~St\o rmer, Free states of the canonical anticommutation relations,
+ \emph{Commun.\ Math.\ Phys.} \textbf{16} (1970) 1--33 (Lemma 4.1).
+\bibitem{Rudin} W.~Rudin, \emph{Real and Complex Analysis}, 3rd ed., McGraw--Hill 1987 (Thm.~3.14).
+\bibitem{Uhlmann76} A.~Uhlmann, The ``transition probability'' in the state space of a
+ \(*\)-algebra, \emph{Rep.\ Math.\ Phys.} \textbf{9} (1976) 273--279.
+\bibitem{Alberti83} P.~M.~Alberti, A note on the transition probability over \(C^*\)-algebras,
+ \emph{Lett.\ Math.\ Phys.} \textbf{7} (1983) 25--32.
+\bibitem{N4} \emph{Continuum Petz recovery for adjacent intervals in the free chiral fermion}
+ (Note~4, \texttt{cft\_cmi/continuum\_petz\_free\_fermion.tex}); Thm.~7.1, Lemma~10.1.
+\bibitem{N5} \emph{Fidelity of the recovered quasi-free state} (Note~5,
+ \texttt{cft\_cmi/fidelity\_recovered\_quasifree.tex}); Lemma~1.1, Thm.~2.1, Prop.~2.3, Thm.~3.1,
+ Prop.~4.1, Cor.~4.2.
+\bibitem{N7} \emph{Derivation of the universal recovery coefficients} (Note~7,
+ \texttt{cft\_cmi/universality\_normalization.tex}); Lemma~5.1, Thm.~A, \S8 item (ii).
+\bibitem{P3} \emph{The kernel identity: a complete analytic proof}
+ (\texttt{cft\_cmi/rigor/kernel\_identity.tex}); Thm.~2.1.
+\end{thebibliography}
+
+
+\section*{Orchestrator's note (2026-09-05, after the referee report V7)}
+\begin{verdictok}
+\textbf{Referee verdict (V7, \texttt{referee\_quadratic\_limit.tex}).} Theorem~4.2 (\(\liminf_{\zeta\to0}\Phi/\zeta^2\ge g_B/8\)) is verified as unconditional: the data-processing step for the root fidelity under restriction to a subalgebra, the two-sided real-analyticity of \(\Phi_P\) with \(\Phi_P(0)=\Phi_P'(0)=0\), the Legendre form of the SLD metric in the single convention \(-\log F=\varepsilon^2g_B/8\), the restriction to \(X=d\Gamma(\ell)\) as a sub-supremum, the Wick reduction with the sign of the cross contraction, and the density argument (\(N\in(0,1)\) gives \(\|\cdot\|_N\le\|\cdot\|_{\rm HS}\)) were each re-derived.  Proposition~5.1 with Lemmas~5.2--5.3, Theorem~6.4 and Propositions~6.5--6.6 were re-derived and matched to 25--31 digits; the many-body identities were checked on exact Fock-space states.
+\end{verdictok}
+\begin{verdictbreak}
+\textbf{Error in the proof of Proposition~7.1, step \(\langle1\rangle5\) (repaired).} The bound \(2\iint_{|v|>\Lambda}|D^{(1)}|^2/N\le C\Lambda^2e^{-\Lambda/2}\) is false: the \(u\)-integration is unrestricted and the left side is \(\Theta(\Lambda^{-2})\) (numerically \(2.62\times10^{-4}\) at \(\Lambda=40\), \(1.56\times10^{-5}\) at \(\Lambda=160\)); the justification drops a factor \(\cosh(u/2)\) between the pointwise bound and the ``convergent \(u\)-integral''.  Repair: intersect the region with \(\{|u|\le\Lambda\}\), where the same pointwise bound applies; the remaining term is \(\Theta(\Lambda^{-4})\) with constant \(\approx13.5\).  The displayed inequality \(0\le g_B-g_B^{(\Lambda)}\le\frac{2r}{3\Lambda^2}(1+o(1))\) survives the repair, and the exact asymptotics is \(g_B-g_B^{(\Lambda)}=0.513\,r\,\Lambda^{-2}\), which agrees with the fitted \(0.53\,\kappa_{\max}^{-2}\) of Note~5 to \(3\%\).  Theorems~4.2 and 6.4 and Propositions~5.1, 6.5, 6.6 are unaffected.
+\end{verdictbreak}
+\textbf{Further corrections noted by the referee.} The explanation in Section~7.3 of the value \(\Phi/\zeta^2=0.008376\) at \(\zeta=1/120\) is circular (\(-0.0082\zeta\) is the fit of that deficit itself), and the substitution \(\kappa_*\approx2\log(1/\zeta)\) is off by \(4.7\) at \(\zeta=1/120\) (\(\kappa_*=20.7\) versus \(9.57\)), so the predicted UV excess there is \(+1.8\%\) of \(f_2\), not \(+8.6\%\); the value is nevertheless consistent with the theorem, since a \(\liminf\) constrains no finite \(\zeta\) and the tabulated values are sub-compression lower bounds.  Minor: a spurious factor \(2\) in \(\|D^{(1)}\|_2^2\) (Lemma~2.3(d), \(\langle2\rangle1\)); the title should not call the conditional \(2\log2\cdot g_B/8\) bound rigorous; Proposition~7.1 \(\langle1\rangle2\) states \(\le\) where \(=\) holds; the equality half of Proposition~3.3 is imported without proof (true, verified numerically; used only in Problem~6.8).
+
+
+\subsection*{Screenshots for the cited results (added by the orchestrator)}
+The cited boxes of this document reuse results already documented with screenshots in \texttt{cited\_R3.tex}; the relevant images are reproduced here for completeness.  Uhlmann's transition probability and its monotonicity (Uhlmann 1976, definition and monotonicity statement); Alberti--Uhlmann 2002, Theorem~2 (variational and supremum formulas); Powers--St\o rmer 1970, Lemma~4.1; the Bures metric as one quarter of the SLD Fisher information (Petz--Ghinea, Thm~2.1; Jen\v cov\'a, eq.~(4)).
+\begin{center}
+\includegraphics[width=0.48\textwidth]{shots/R3_Uh76_def.png}\hfill
+\includegraphics[width=0.48\textwidth]{shots/R3_Uh76_mono.png}\\[4pt]
+\includegraphics[width=0.48\textwidth]{shots/R3_AU02_thm2.png}\hfill
+\includegraphics[width=0.48\textwidth]{shots/R3_PS70_lem41.png}\\[4pt]
+\includegraphics[width=0.48\textwidth]{shots/R3_PetzGhinea_thm21.png}\hfill
+\includegraphics[width=0.48\textwidth]{shots/R3_Jencova_eq4.png}
+\end{center}
+The Ostrowski--Taussky inequality \(\det(\operatorname{Re}A)\le|\det A|\) for accretive \(A\) (Ostrowski--Taussky 1951) is stated as Lemma~3.1 of Nasiri--Furuichi, arXiv:2001.00683 (downloaded to \texttt{refs/OstrowskiTaussky\_via\_2001.00683.pdf}), together with its reverse for sector matrices:
+\begin{center}\includegraphics[width=0.8\textwidth]{shots/P2_OstrowskiTaussky_2001.00683_p5.png}\end{center}
+
+
+\paragraph{Status update (2026-09-08).} The sharp upper bound left open here (Lemma~6.7 / Problem~6.8, and the conditional \(2\log2\cdot g_B/8\) statement) is now proved by a different route in \texttt{rigor/uhlmann\_upper\_bound.tex} (Theorems~8.1--8.2, refereed): \(\limsup_{\zeta\to0}\Phi/\zeta^2\le g_B/8\), hence with Theorem~4.2 above \(\lim_{\zeta\to0}\Phi/\zeta^2=g_B/8\).  The statements of this document about the upper bound are superseded; Problem~7.2 (the rate) remains open.
+\end{document}

@@ -1,0 +1,102 @@
+% !TeX root = main.tex
+\label{app:conventions}
+Every constant quoted in this paper depends on the following choices, which are
+fixed once and used everywhere.
+
+\paragraph{Fourier transform and the Hardy projection.}
+\begin{equation}\label{eq:fourier}
+ \widehat f(k)=\int_{\mathbb R}f(x)e^{-ikx}\,dx,
+ \qquad
+ f(x)=\frac1{2\pi}\int_{\mathbb R}\widehat f(k)e^{ikx}\,dk .
+\end{equation}
+With this convention the positive-energy subspace for the light-ray coordinate
+used here is $\{k<0\}$, so $P_+=\mathbf1_{\{k<0\}}$ and $P_-=1-P_+$; the
+distributional kernel of $P_+$ is \eqref{eq:hardy}.  (In
+\cite{RigorUB} and in the Bogoliubov numerics the opposite labelling
+$P_+=\mathbf1_{\{k>0\}}$ is used for the same object after $x\to-x$; the
+Hilbert--Schmidt norms and determinants quoted are unaffected.)
+
+\paragraph{Half-density push-forward.}
+For an increasing $C^{1,1}$ diffeomorphism $\varphi$,
+\begin{equation}\label{eq:pushforward}
+ (W_\varphi f)(y)=f\bigl(\varphi^{-1}(y)\bigr)
+ \bigl((\varphi^{-1})'(y)\bigr)^{1/2}
+ =\frac{f(\varphi^{-1}(y))}{\sqrt{\varphi'(\varphi^{-1}(y))}} ,
+\end{equation}
+which is unitary on $L^2(\mathbb R)$ and isometric between the corresponding
+interval subspaces.  We write $u(x)=x-\varphi(x)$ for the displacement, so
+$\varphi'=1-u'$.  The recovery flow inside $D$ is
+$\varphi=h_s$ of \eqref{eq:hs}, with generator $-x^2/L\cdot\partial_x$, i.e.\
+$u_s(x)=sx^2/(L+sx)$ on $[0,L]$; the total first-order field is
+$g_{\rm tot}=0$ on $(-a,0)$, $g_{\rm tot}(x)=-x^2/L$ on $(0,L)$, and free on
+$I'=(-\infty,-a]\cup[L,\infty)$.
+
+\paragraph{Modular frame.}
+For the interval $I=(-a,L)$,
+\begin{equation}\label{eq:modframe}
+ \xi(x)=\log\frac{x+a}{L-x},
+ \qquad
+ \beta(x)=\frac{dx}{d\xi}=\frac{(x+a)(L-x)}{a+L},
+ \qquad
+ \beta_0=\beta(0)=\frac{aL}{a+L},
+\end{equation}
+and the modular modes are \eqref{eq:modes}, normalized by
+$\int_{\mathbb R}d\kappa\,|\psi_\kappa\rangle\langle\psi_\kappa|=1$ on $L^2(I)$,
+with $Q\psi_\kappa=q_\kappa\psi_\kappa$, $q_\kappa=(1+e^\kappa)^{-1}$; thus
+$\kappa$ is the one-particle modular Hamiltonian $K=\log\frac{1-Q}Q$, and
+$\kappa\to+\infty$ labels the nearly empty modes.  Modular translation is
+$\xi\mapsto\xi-2\pi t$, corresponding to the KMS asymmetry
+$\widehat W(-k)=e^{2\pi k}\widehat W(k)$ of the thermal spectral density at
+inverse temperature $2\pi$.  A symbol $X$ with bounded kernel on $I\times I$ has
+modular kernel
+\begin{equation}\label{eq:modkernel}
+ X(\kappa,\kappa')
+ =\frac1{(2\pi)^2}\iint d\xi\,d\xi'\,
+ e^{-i\kappa\xi/2\pi}\,\widetilde X(\xi,\xi')\,e^{i\kappa'\xi'/2\pi},
+ \qquad
+ \widetilde X(\xi,\xi')=\sqrt{\beta(x)\beta(y)}\,X(x,y),
+\end{equation}
+and $\Tr X=\int d\kappa\,X(\kappa,\kappa)$ when $X$ is trace class.
+
+\paragraph{Stress tensor.}
+The generator normalization is
+\begin{equation}\label{eq:TT}
+ \langle T(x)T(y)\rangle=\frac{c_{\rm cft}}{8\pi^2}\,(x-y-i0)^{-4},
+\end{equation}
+i.e.\ $T$ is normalized so that its smeared version generates the M\"obius flow
+with unit coefficient.  This is the convention in which the two quadratic forms of
+the recovery curve come out as
+\begin{equation}\label{eq:constants}
+ \boxed{\;
+ g_B=\frac{2c_{\rm cft}}{3\pi^2},\qquad
+ g_{\mathrm{KM}}=\frac{c_{\rm cft}}6,\qquad
+ f_2=\frac{g_B}8=\frac{c_{\rm cft}}{12\pi^2},\qquad
+ s_2=\frac{g_{\mathrm{KM}}}2=\frac{c_{\rm cft}}{12},\qquad
+ \frac{s_2}{f_2}=\pi^2 .\;}
+\end{equation}
+The metric normalizations behind the factors $\frac18$ and $\frac12$ are those of
+\cref{def:gB}:
+$-\log\Fid=\frac{\zeta^2}8g_B+o(\zeta^2)$ and $D=\frac{\zeta^2}2g_{\mathrm{KM}}+o(\zeta^2)$ per
+unit of the deformation parameter, the parameter being $\zeta$.
+
+\paragraph{Cross-ratio variables.}
+Four variables occur, all M\"obius invariants of the same configuration:
+\begin{equation}\label{eq:variables}
+ \eta=\frac{b(a+b+c)}{(a+b)(b+c)},\quad
+ z=\frac1\eta-1=\frac{ac}{b(a+b+c)},\quad
+ \eta_{\rm V}=1-\eta=\frac z{1+z},\quad
+ \zeta=\frac{as}{a+L} .
+\end{equation}
+$\eta$ is the cross ratio of Note~1, in which the Longo--Xu conditional mutual
+information is $-\frac r6\log\eta$; $\eta_{\rm V}$ is the cross ratio of
+\cite{VWZ}, the complement of $\eta$; $\zeta$ is the recovery variable, with
+$1+\zeta$ the cross ratio of $J_s$ inside $I$.  For the ordinary Petz map
+$\zeta=2z$, for the rotated map $\zeta_t=z(1+e^{-2\pi t})$, and for the pure
+geometric compression $\zeta=z$.
+
+\paragraph{Central charge versus interval length.}
+The letter $c$ denotes the length of the third interval $C$ throughout
+\crefrange{sec:setting}{sec:petz}; where the central charge appears it is written
+$c_{\rm cft}$, and $c_{\rm cft}=r$ for the net of $r$ complex chiral fermions.  In
+\cref{prop:twobranch} the pair $(c,\bar c)$ denotes the two central charges of a
+two-dimensional CFT, the interval lengths being written $L_A,L_B,L_C$ there.

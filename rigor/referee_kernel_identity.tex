@@ -1,0 +1,584 @@
+\documentclass[11pt]{article}\input{rigor_preamble}
+\newcommand{\gt}{\widetilde g}\newcommand{\gh}{\widehat g}\newcommand{\gfr}{\mathfrak g}
+\newcommand{\Dt}{\widetilde D^{(1)}}\newcommand{\Qt}{\widetilde Q}
+\newcommand{\KI}{\texttt{kernel\_identity.tex}}\newcommand{\NOTE}{\texttt{universality\_normalization.tex}}
+\title{Referee report V8:\\ \KI\ (the kernel identity)}
+\author{Referee V8}\date{2026-09-05}
+\begin{document}\maketitle
+
+\begin{abstract}\noindent
+Adversarial audit of \texttt{rigor/kernel\_identity.tex} (P3), which claims an analytic proof of
+Lemma~5.1(ii) of Note~7 (\NOTE): \(D^{(1)}(\kappa,\kappa')=i(q_\kappa-q_{\kappa'})
+\gfr(\kappa,\kappa')=(q_\kappa-q_{\kappa'})v/[u(u^2+4\pi^2)]\), with the diagonal value
+\(-\kappa/(8\pi^2\cosh^2\frac\kappa2)\).  \textbf{Result: the theorem and its proof are correct.}
+I re-derived every step independently (conventions, the two absolute-convergence bounds, the
+Tonelli interchange, the four residues, the Gauss summation, the reflection formula, every sign,
+and the diagonal limit) and found no error.  I verified the identity numerically at five random
+points and three diagonal points from the \emph{defining double integral} of Note~7's~(10) --- not
+from P3's script, and not through P3's reduction to \(J\) --- to \(\le10^{-13}\) absolute
+(\(\le10^{-11}\) relative), which for values of size \(10^{-3}\)--\(10^{-2}\) is at the level of the
+2-D quadrature and far below the \(10^{-10}\) requested.  Two convention points that P3 leaves
+implicit are load-bearing and I close them here (Lemma~\ref{lem:conv}, Lemma~\ref{lem:blocks}); one
+remark of \KI\ is now stale, and the mandatory screenshots are missing on a partly false pretext.
+No proof-breaking issue, no gap in the mathematics.
+\end{abstract}
+
+\tableofcontents
+
+\section{What was audited, and how}\label{sec:scope}
+
+The object under audit is \texttt{rigor/kernel\_identity.tex} (13~pp., author P3), whose
+Theorem~3.1 (its \texttt{thm:main}) asserts, for all real \(\kappa,\kappa'\), with
+\(u=\kappa-\kappa'\), \(v=\kappa+\kappa'\), \(q_\kappa=(1+e^\kappa)^{-1}\),
+\begin{equation}\label{eq:target}
+ D^{(1)}(\kappa,\kappa')=i\,(q_\kappa-q_{\kappa'})\,\gfr(\kappa,\kappa')
+ =\frac{(q_\kappa-q_{\kappa'})\,v}{u\,(u^2+4\pi^2)}
+ =\frac{-v\sinh\frac u2}{u(u^2+4\pi^2)(\cosh\frac v2+\cosh\frac u2)},
+\end{equation}
+\begin{equation}\label{eq:targetdiag}
+ D^{(1)}(\kappa,\kappa)=-\frac{\kappa}{8\pi^2\cosh^2\frac\kappa2},
+\end{equation}
+where \(\gfr(\kappa,\kappa')=\frac1{(2\pi)^2}\gh\bigl(\frac{\kappa-\kappa'}{2\pi}\bigr)
+\frac{\kappa+\kappa'}{4\pi}\) and \(\gh(k)=-2i/(k(k^2+1))\).
+
+My procedure was: (a) re-read Note~7 \S1 and \S5 and compare, symbol by symbol, with \KI\ \S1
+(\S\ref{sec:conv} below); (b) re-derive each of the seven top-level steps of \KI\ \S3 from scratch,
+without reading P3's justification first, and only then compare (\S\ref{sec:steps}); (c) test the
+three places where a sign or a factor could hide --- the block decomposition, the residues, and the
+reflection formula --- against an independent computation (\S\ref{sec:steps}); (d) compute
+\(D^{(1)}\) numerically from Note~7's~(10) by 2-D quadrature in a chart that removes the corner
+singularity, with no input from \KI\ beyond the statement being tested (\S\ref{sec:num}).
+
+\section{Conventions: does \KI\ compute the object Note~7 needs?}\label{sec:conv}
+
+\subsection{The four conventions and their status}
+
+\begin{table}[h]\centering\footnotesize
+\begin{tabular}{p{3.1cm}p{4.6cm}p{4.6cm}p{2.4cm}}\toprule
+Item & Note~7 (\NOTE) & \KI & Status\\\midrule
+Modular coordinate & \(\xi=-\log\frac{L-x}L\), \(A\Leftrightarrow\xi<0\),
+ \(D\Leftrightarrow\xi>0\) (its (2)) & identical (Def.~1.1) & \textbf{same}\\[2pt]
+Modes \(\psi_\kappa\) & never written; only "\(\int d\kappa\,|\psi_\kappa\rangle\langle\psi_\kappa|
+ =1\)" (\S4), plus the implicit form in the proof of Lemma~5.1(ii) & \(\psi_\kappa(\xi)
+ =\frac1{2\pi}e^{i\kappa\xi/2\pi}\) (Def.~1.1) & \textbf{same}, but only implicitly in the note;
+ see Lemma~\ref{lem:conv}\\[2pt]
+Kernel \(\Dt\) & \((10)\): \(-\frac i{2\pi}\frac{\sinh\frac\xi2\sinh\frac{\xi'}2}
+ {\sinh^2\frac{\xi-\xi'}2}\) on \(\xi<0<\xi'\), "adjoint on the other block" & \(\frac i{2\pi}R\),
+ \(R=-\frac{\sinh\frac\xi2\sinh\frac{\xi'}2}{\sinh^2\frac{\xi-\xi'}2}\); \(\overline{\Dt(\xi',\xi)}\)
+ on the mirror block; \(0\) on \(A\times A\), \(D\times D\) & \textbf{same}\\[2pt]
+\(\gh\) and \(\gfr\) & (8), (21) & (2.5) verbatim & \textbf{same}\\
+\bottomrule\end{tabular}
+\caption{Convention comparison.  Every symbol used in \eqref{eq:target} carries the same meaning in
+the two documents.  The only item not written explicitly in the note is \(\psi_\kappa\).}
+\end{table}
+
+The transform \KI\ actually evaluates is
+\begin{equation}\label{eq:def}
+ D^{(1)}(\kappa,\kappa')=\frac1{(2\pi)^2}\iint_{\mathbb R^2}d\xi\,d\xi'\;
+ e^{-i\kappa\xi/2\pi}\,\Dt(\xi,\xi')\,e^{i\kappa'\xi'/2\pi},
+\end{equation}
+which is \(\langle\psi_\kappa,D^{(1)}\psi_{\kappa'}\rangle\) for \(\psi_\kappa=\frac1{2\pi}
+e^{i\kappa\xi/2\pi}\), i.e.\ exactly the note's "absolutely convergent transform of the kernel
+(10)".  I checked the Fourier convention against the note's own use of it: the note's proof of
+Lemma~5.1(ii) writes \(\langle\psi_\kappa,\gfr\psi_{\kappa'}\rangle=\frac1{(2\pi)^2}\int
+e^{-i(\kappa-\kappa')\xi/2\pi}[\cdots]d\xi\).  Both the prefactor \((2\pi)^{-2}\) and the exponent
+\(-i(\kappa-\kappa')\xi/2\pi\) are reproduced by \eqref{eq:def} and by no other normalisation of
+\(\psi_\kappa\) that satisfies the note's completeness relation.  \textbf{Verdict: the conventions
+agree.}
+
+\subsection{Two things \KI\ leaves implicit that are load-bearing}
+
+The completeness relation \(\int d\kappa\,|\psi_\kappa\rangle\langle\psi_\kappa|=\mathbf 1\) quoted
+by the note does \emph{not} determine \(\psi_\kappa\): it is satisfied by
+\(\frac1{2\pi}e^{\pm i\kappa\xi/2\pi}\) alike, and also by \(\frac1{\sqrt{2\pi}}e^{i\kappa\xi}\).
+What pins the labelling down is that \(\kappa\) must be the eigenvalue of \(\log\Delta\), i.e.
+\(Q\psi_\kappa=q_\kappa\psi_\kappa\) with \(q_\kappa=(1+e^\kappa)^{-1}\) --- otherwise the \(q_\kappa\)
+in \eqref{eq:target} and the \(\kappa\) in \(\psi_\kappa\) are unrelated labels.  This matters:
+\eqref{eq:target} is \emph{odd} under \((\kappa,\kappa')\mapsto(-\kappa,-\kappa')\), so the sign
+convention for \(\kappa\) changes the sign of the asserted identity (it does not change
+\(|D^{(1)}|^2\), which is all the note's (20) uses --- see Finding~V8-3).
+
+\KI\ relegates this to its Remark~6.2, prefaced "\emph{Although not needed above}".  It \emph{is}
+needed --- not for the internal consistency of \KI's Theorem~3.1, which is a self-contained
+statement about \eqref{eq:def}, but for that theorem to be the statement Note~7 asserts.  The check
+itself, as given there, is correct; I redo it, and add the block-vanishing check, as the two lemmas
+below.
+
+\begin{lemma}[The labelling of \(\kappa\) is the one \eqref{eq:target} needs]\label{lem:conv}
+With Note~7's vacuum symbol in the half-density modular frame, \(Q=\frac12\delta(u)+\Qt(u)\),
+\(\Qt(u)=-\frac i{4\pi}\sinh^{-1}\frac u2\) (p.v.), \(u=\xi-\xi'\), one has
+\(Q\psi_\kappa=q_\kappa\psi_\kappa\) for \(\psi_\kappa(\xi)=\frac1{2\pi}e^{i\kappa\xi/2\pi}\) and
+\(q_\kappa=(1+e^\kappa)^{-1}\).
+\end{lemma}
+\lstep{1}{1}{\(Q\) is a convolution operator, so \((Q\psi_\kappa)(\xi)=\psi_\kappa(\xi)\,
+\widehat Q(\kappa/2\pi)\) with \(\widehat Q(k):=\int_{\mathbb R}e^{-iku}Q(u)\,du\).}
+\lby{\((Q\psi_\kappa)(\xi)=\int Q(\xi-\xi')\frac1{2\pi}e^{i\kappa\xi'/2\pi}d\xi'\); substituting
+\(\xi'=\xi-u\) factors out \(\frac1{2\pi}e^{i\kappa\xi/2\pi}\) and leaves
+\(\int Q(u)e^{-i\kappa u/2\pi}du\)}
+\lstep{1}{2}{\(\mathrm{p.v.}\int_{\mathbb R}e^{-iku}\sinh^{-1}\frac u2\,du=-2\pi i\tanh\pi k\).}
+\lby{\(\sinh^{-1}\frac u2\) is odd, so only \(-i\sin(ku)\) survives, and
+\(\mathrm{p.v.}\int\sin(bx)/\sinh(ax)\,dx=\frac\pi a\tanh\frac{\pi b}{2a}\)
+(Gradshteyn--Ryzhik 3.981.1) with \(a=\frac12\), \(b=k\)}
+\lstep{1}{3}{\(\widehat Q(k)=\frac12-\frac i{4\pi}(-2\pi i\tanh\pi k)=\frac12(1-\tanh\pi k)
+=(1+e^{2\pi k})^{-1}\).}
+\lby{$\langle1\rangle2$ and \(\frac12(1-\tanh y)=(1+e^{2y})^{-1}\)}
+\lstep{1}{4}{At \(k=\kappa/2\pi\) this is \((1+e^{\kappa})^{-1}=q_\kappa\).}
+\lby{$\langle1\rangle3$}
+\lqed{1}{5}
+\lby{$\langle1\rangle1$, $\langle1\rangle4$}
+
+\begin{remark}
+The direction is thus fixed: \(\psi_\kappa\propto e^{+i\kappa\xi/2\pi}\) is the mode with
+\emph{occupation} \(q_\kappa=(1+e^\kappa)^{-1}\), so large positive \(\kappa\) is the empty end.
+Had one taken \(e^{-i\kappa\xi/2\pi}\), \eqref{eq:target} would hold with the opposite sign.  I also
+verified that Note~7's \(\Qt\) is itself the correct half-density transport of the flat-space
+symbol: \(\sqrt{\beta\beta'}\,\frac1{2\pi i(x-y)}=\frac1{2\pi i\cdot2\sinh\frac u2}
+=-\frac i{4\pi\sinh\frac u2}\), using the note's \((x-y)/\sqrt{\beta\beta'}=2\sinh\frac{\xi-\xi'}2\).
+\end{remark}
+
+\begin{lemma}[The diagonal blocks really do vanish]\label{lem:blocks}
+With \(\gfr=(\gt\partial_\xi+\frac12\gt')E_D\), \(\gt(\xi)=-4\sinh^2\frac\xi2\,\mathbf 1_{\xi>0}\),
+and \(D^{(1)}=\gfr^*Q+Q\gfr\), the kernel of \(D^{(1)}\) vanishes identically on \(D\times D\)
+(and on \(A\times A\)), so that \KI's Definition~1.2 --- which \emph{postulates} \(0\) there ---
+is faithful to the operator Note~7 defines in its (9).
+\end{lemma}
+\lstep{1}{1}{On \(A\times A\): \(\gfr E_A=0\) and \(E_A\gfr^*=0\), so both terms vanish.}
+\lby{\(\gfr\) carries \(E_D\) on the right and \(\gt\) vanishes on \(\xi<0\), and \(E_AE_D=0\)}
+\lstep{1}{2}{On \(D\times D\): \(D^{(1)}=E_D[Q,L]E_D\) with \(L:=\gt\partial_\xi+\frac12\gt'\), and
+the \(\frac12\delta\) part of \(Q\) drops out, leaving \(E_D[\Qt,L]E_D\).}
+\lby{\(L^*=-L\) (half-density Lie derivative), so \(\gfr^*Q+Q\gfr=E_D(QL-LQ)E_D\) there; and
+\([\frac12\delta,L]=0\)}
+\lstep{1}{3}{\((\Qt L)(\xi,\xi')=\Qt'(u)\gt(\xi')-\frac12\Qt(u)\gt'(\xi')\) and
+\((L\Qt)(\xi,\xi')=\gt(\xi)\Qt'(u)+\frac12\gt'(\xi)\Qt(u)\), \(u=\xi-\xi'\); hence
+\[[\Qt,L](\xi,\xi')=\Qt'(u)\bigl[\gt(\xi')-\gt(\xi)\bigr]-\tfrac12\Qt(u)\bigl[\gt'(\xi)+\gt'(\xi')
+\bigr].\]}
+\lby{one integration by parts in \(\int\Qt(\xi-\eta)[\gt f'+\frac12\gt'f](\eta)d\eta\), and direct
+differentiation for \(L\Qt\)}
+\lstep{1}{4}{For \(\xi,\xi'>0\): \(\gt(\xi')-\gt(\xi)=4\sinh\frac{\xi+\xi'}2\sinh\frac u2\) and
+\(\gt'(\xi)+\gt'(\xi')=-4\sinh\frac{\xi+\xi'}2\cosh\frac u2\).}
+\lby{\(\gt=-2(\cosh\xi-1)\), \(\gt'=-2\sinh\xi\), and
+\(\cosh\xi-\cosh\xi'=2\sinh\frac{\xi+\xi'}2\sinh\frac{\xi-\xi'}2\),
+\(\sinh\xi+\sinh\xi'=2\sinh\frac{\xi+\xi'}2\cosh\frac{\xi-\xi'}2\)}
+\lstep{1}{5}{With \(\Qt(u)=-\frac i{4\pi\sinh\frac u2}\), \(\Qt'(u)=\frac{i\cosh\frac u2}
+{8\pi\sinh^2\frac u2}\), the two terms of $\langle1\rangle3$ are
+\(+\frac{i\cosh\frac u2\sinh\frac{\xi+\xi'}2}{2\pi\sinh\frac u2}\) and
+\(-\frac{i\cosh\frac u2\sinh\frac{\xi+\xi'}2}{2\pi\sinh\frac u2}\); they cancel.}
+\lby{$\langle1\rangle3$, $\langle1\rangle4$, arithmetic}
+\lqed{1}{6}
+\lby{$\langle1\rangle1$, $\langle1\rangle5$}
+
+The same formula $\langle1\rangle3$ with \(\gt(\xi)=\gt'(\xi)=0\) (i.e.\ \(\xi<0\)) reproduces
+Note~7's (10) on \(A\times D\), which I also re-derived: it equals
+\(-\frac i{2\pi}\sinh\frac{\xi'}2\sinh(\frac u2+\frac{\xi'}2)/\sinh^2\frac u2\) and
+\(\frac u2+\frac{\xi'}2=\frac\xi2\).  So Note~7's Lemma~5.1(i), asserted there in one clause
+("on \(A\times A\) and \(D\times D\) both sides vanish"), is correct, and \KI's starting point is
+the right operator.
+
+\section{Step-by-step audit of the proof}\label{sec:steps}
+
+I re-derived each top-level step \(\langle1\rangle1$--$\langle1\rangle7\) of \KI\ \S3
+independently before comparing.  Below, "\emph{agrees}" means my derivation produced the same
+formula including all signs and factors.  Throughout \(\alpha=\frac\kappa{2\pi}\),
+\(\beta=\frac{\kappa'}{2\pi}\), \(k=\alpha-\beta\), \(\sigma=\alpha+\beta\),
+\(\rho(a,b)=\sinh\frac a2\sinh\frac b2/\sinh^2\frac{a+b}2\).
+
+\subsection{\(\langle1\rangle1\)--\(\langle1\rangle2\): absolute convergence and the block split}
+
+\lstep{1}{1}{\(R(-a,b)=\rho(a,b)\) for \(a,b>0\): \(\sinh\frac{-a}2=-\sinh\frac a2\) supplies the
+sign that cancels the explicit \(-\) in \(R\), and \(\sinh^2\frac{-a-b}2=\sinh^2\frac{a+b}2\).
+\emph{Agrees.}}
+\lstep{1}{2}{The bound chain \(\rho\le\frac{\cosh s-1}{2\sinh^2s}=\frac{2\sinh^2\frac s2}
+{2\sinh^2s}=\frac1{4\cosh^2\frac s2}\), \(s=\frac{a+b}2\), uses only \(\cosh d\ge1\) and
+\(|d|<s\); and \(\frac1{4\cosh^2t}\le\min(\frac14,e^{-2t})\) because
+\(4\cosh^2t=(e^t+e^{-t})^2\ge e^{2t}\).  \emph{Agrees}; the resulting decay
+\(\rho\le e^{-(a+b)/2}\) is exactly the note's stated "\(e^{-|\xi|/2}e^{-\xi'/2}\)".}
+\lstep{1}{3}{\(\iint_{(0,\infty)^2}\frac{da\,db}{4\cosh^2\frac{a+b}4}
+=\int_0^\infty\frac{t\,dt}{4\cosh^2\frac t4}=4\int_0^\infty y\operatorname{sech}^2y\,dy=4\log2\).
+\emph{Agrees}: the pushforward of \(da\,db\) under \(a+b=t\) is \(t\,dt\), \(t=4y\) gives the factor
+\(16/4=4\), and \(\int_0^\infty y\operatorname{sech}^2y\,dy=[y\tanh y-\log\cosh y]_0^\infty=\log2\).}
+\lstep{1}{4}{The block split \(D^{(1)}=\frac1{(2\pi)^2}\bigl[\frac i{2\pi}J(\kappa,\kappa')
++\overline{\frac i{2\pi}J(\kappa',\kappa)}\bigr]\), \(J=\iint_{(0,\infty)^2}e^{i(\alpha a+\beta b)}
+\rho\,da\,db\).  \emph{Agrees}: on \(\xi'<0<\xi\) the kernel is \(-\frac i{2\pi}R(\xi',\xi)\)
+(\(R\) real); renaming \((\xi,\xi')=(\eta',\eta)\) and conjugating turns that block into
+\(\overline{\frac i{2\pi}\int_{\eta<0<\eta'}e^{-i\kappa'\eta/2\pi}R(\eta,\eta')
+e^{i\kappa\eta'/2\pi}}=\overline{\frac i{2\pi}J(\kappa',\kappa)}\), the \(\kappa\)'s having swapped
+roles exactly as claimed.}
+
+\paragraph{The endpoint question (item (ii) of my brief).}
+The referee brief asks whether a principal value or a regularisation is hidden at \(\xi\to0\),
+where \(\sinh^{-2}\frac{\xi-\xi'}2\) has a double pole.  \textbf{It is not, and none is needed.}
+The double pole sits on the diagonal \(\xi=\xi'\), and the two blocks carrying the kernel are the
+\emph{open} sets \(\xi<0<\xi'\) and \(\xi'<0<\xi\), on which \(\xi-\xi'\neq0\) strictly.  The
+diagonal touches the closure of these blocks only at the single corner \((\xi,\xi')=(0,0)\), and
+there the numerator \(\sinh\frac\xi2\sinh\frac{\xi'}2\) vanishes to the same order: with
+\(a=-\xi\), \(b=\xi'\), \(\rho(a,b)\to\frac{ab}{(a+b)^2}\in(0,\frac14]\).  So the integrand of
+\eqref{eq:def} is \emph{bounded} (by \(\frac1{4(2\pi)^3}\)) and merely discontinuous at the corner
+(its limit depends on the direction \(a/b\)), and the double integral is an ordinary Lebesgue
+integral.  \KI\ says this correctly in its "Domain of validity" paragraph.  In my numerics
+(\S\ref{sec:num}) the corner is the only delicate feature; I removed it by the chart
+\((a,b)=(tx,t(1-x))\), in which \(\rho=\sinh\frac{tx}2\sinh\frac{t(1-x)}2/\sinh^2\frac t2\) is
+jointly smooth up to \(t=0\) (value \(x(1-x)\)).
+
+\begin{verdictok}
+Steps \(\langle1\rangle1\)--\(\langle1\rangle2\) are correct and complete.  The constant \(4\log2\)
+is right, the bound \(\rho\le\min(\frac14,e^{-(a+b)/2})\) is right, the conjugation bookkeeping in
+the mirror block is right (this is the one place where a careless \(\kappa\leftrightarrow\kappa'\)
+swap would have produced a wrong --- and, because of the eventual symmetry
+\(J(\kappa,\kappa')=J(\kappa',\kappa)\), \emph{numerically invisible} --- result; P3 gets it right
+and states the swap explicitly).  No principal value, no regularisation, no cancellation of
+divergences occurs on the left-hand side.
+\end{verdictok}
+
+\subsection{\(\langle1\rangle3\): the series expansion and the interchange}
+
+The expansion is \(\sinh^{-2}s=4e^{-2s}(1-e^{-2s})^{-2}=4\sum_{n\ge1}ne^{-2ns}\) for \(s>0\),
+whence \(\rho(a,b)=\sum_{n\ge1}u_n\), \(u_n=4n\,e^{-n(a+b)}\sinh\frac a2\sinh\frac b2\).
+\emph{Agrees.}  The point of the step is the interchange
+\(\iint\sum_n\rightsquigarrow\sum_n\iint\) applied to the \emph{oscillatory} integrand
+\(e^{i(\alpha a+\beta b)}\rho\).
+
+\lstep{1}{1}{Every \(u_n\ge0\) on \((0,\infty)^2\) (as \(\sinh\frac a2,\sinh\frac b2>0\) there), so
+Tonelli on \(\mathbb N\times(0,\infty)^2\) gives
+\(\sum_n\iint|e^{i(\alpha a+\beta b)}u_n|=\sum_n\iint u_n=\iint\rho\le4\log2<\infty\).}
+\lstep{1}{2}{Hence the \emph{unsigned} sum is finite and Fubini applies to the signed/complex
+integrand: \(J=\sum_n\iint e^{i(\alpha a+\beta b)}u_n\).}
+\lstep{1}{3}{For fixed \(n\) the integral factorises, each factor being
+\(E_n(x)=\int_0^\infty e^{ixa-na}\sinh\frac a2\,da\), absolutely convergent because
+\(e^{-na}\sinh\frac a2\le\frac12e^{-(n-\frac12)a}\) with \(n-\frac12\ge\frac12>0\).}
+\lstep{1}{4}{\(E_n(x)=\frac12\bigl[\frac1{n-\frac12-ix}-\frac1{n+\frac12-ix}\bigr]
+=\frac{1/2}{(n-ix)^2-\frac14}\).  \emph{Agrees} (I recomputed both forms).}
+\lstep{1}{5}{Convergence of \(4\sum_nnE_n(\alpha)E_n(\beta)\) is absolute, terms
+\(O(n^{-3})\).}
+
+\begin{verdictok}
+This is the only interchange in the proof and it is fully justified.  The device --- expand
+\emph{before} attaching the oscillatory factor, so that Tonelli applies to a series of nonnegative
+functions and the modulus of the oscillation is \(1\) --- is exactly the right one, and the
+majorant \(\iint\rho\le4\log2\) was already established in \(\langle1\rangle1\).  I checked
+that no term-by-term integration is performed over a region where \(\sum u_n\) fails to converge:
+the geometric ratio is \(e^{-(a+b)}<1\) on the open quadrant, and the boundary
+\(\{a=0\}\cup\{b=0\}\) is Lebesgue-null.
+\end{verdictok}
+
+\subsection{\(\langle1\rangle4\): Heaviside partial fractions and the Gauss summation}
+
+I recomputed the four residues from scratch.  With \(p=i\alpha\), \(r=i\beta\), \(\delta=p-r=ik\),
+\(c_{1,2}=p\pm\frac12\), \(c_{3,4}=r\pm\frac12\):
+\[
+ c_1-c_2=1,\quad c_1-c_3=\delta,\quad c_1-c_4=\delta+1,\quad c_2-c_3=\delta-1,\quad
+ c_2-c_4=\delta,\quad c_3-c_4=1,
+\]
+\[
+ r_1=\frac{p+\frac12}{1\cdot\delta(\delta+1)},\quad
+ r_2=\frac{p-\frac12}{(-1)(\delta-1)\delta},\quad
+ r_3=\frac{r+\frac12}{(-\delta)(1-\delta)\cdot1},\quad
+ r_4=\frac{r-\frac12}{(-\delta-1)(-\delta)(-1)},
+\]
+i.e.\ \(r_1=\frac{p+\frac12}{\delta(\delta+1)}\), \(r_2=-\frac{p-\frac12}{\delta(\delta-1)}\),
+\(r_3=\frac{r+\frac12}{\delta(\delta-1)}\), \(r_4=-\frac{r-\frac12}{\delta(\delta+1)}\):
+\emph{agrees with \KI\ exactly}, including the two minus signs.  Then
+\[
+ r_1+r_2=\frac{(p+\frac12)(\delta-1)-(p-\frac12)(\delta+1)}{\delta(\delta^2-1)}
+ =\frac{\delta-2p}{\delta(\delta^2-1)}=\frac{-(p+r)}{\delta(\delta^2-1)}=-\Lambda,\qquad
+ r_3+r_4=\frac{2r+\delta}{\delta(\delta^2-1)}=\Lambda,
+\]
+so \(\sum_jr_j=0\): \emph{agrees}.  The vanishing of \(\sum_jr_j\) is what makes the
+\(-\frac1n\) subtraction legitimate and kills the Euler--Mascheroni constant; \KI\ states and uses
+this correctly (its \(\langle2\rangle3\), \(\langle3\rangle1\)).
+
+The Gauss step: DLMF~5.7.6 \(\psi(1+z)=-\gamma+\sum_{n\ge1}(\frac1n-\frac1{n+z})\) at \(z=-c\) gives
+\(\sum_{n\ge1}[\frac1{n-c}-\frac1n]=-\gamma-\psi(1-c)\).  \emph{Agrees.}  The hypothesis
+\(c\notin\{1,2,\dots\}\) holds since \(\operatorname{Re}c_j=\pm\frac12\).  Assembling,
+\[
+ J=-\sum_jr_j\psi(1-c_j)
+ =\Lambda\bigl[\psi(\tfrac12-p)-\psi(\tfrac12-r)\bigr]-\Bigl[\frac{r_2}{\frac12-p}
+ +\frac{r_4}{\frac12-r}\Bigr],
+\]
+using \(\psi(\frac32-p)=\psi(\frac12-p)+\frac1{\frac12-p}\) (DLMF~5.5.2).  Since
+\(r_2=\frac{\frac12-p}{\delta(\delta-1)}\) and \(r_4=\frac{\frac12-r}{\delta(\delta+1)}\), the
+bracket is \(\frac1{\delta(\delta-1)}+\frac1{\delta(\delta+1)}=\frac{2}{\delta^2-1}\):
+\emph{agrees}.  Finally \(p+r=i\sigma\), \(\delta^2-1=-(k^2+1)\), so
+\(\Lambda=-\frac\sigma{k(k^2+1)}\) and \(-\frac2{\delta^2-1}=+\frac2{k^2+1}\), giving
+\begin{equation}\label{eq:Jcl}
+ J=-\frac{\sigma}{k(k^2+1)}\bigl[\psi(\tfrac12-i\alpha)-\psi(\tfrac12-i\beta)\bigr]+\frac2{k^2+1}.
+\end{equation}
+\emph{Agrees with \KI's (3.6).}
+
+\begin{verdictok}
+The partial-fraction/Gauss step is correct in every detail.  Two things I specifically attacked
+and found sound: (a) the rearrangement of one convergent series into four \emph{individually
+divergent} digamma series is legitimised by \(\sum_jr_j=0\) and is carried out on finite partial
+sums first (\KI's \(\langle3\rangle2\)); (b) the poles \(\frac12-p\), \(\frac12-r\) never vanish
+because \(p,r\) are purely imaginary, and \(\delta=ik\notin\{\pm1\}\) for the same reason --- so
+the four \(c_j\) are pairwise distinct precisely when \(k\neq0\), which is the standing hypothesis
+of the step.
+\end{verdictok}
+
+\subsection{\(\langle1\rangle5\)--\(\langle1\rangle6\): the imaginary part and the sign chain}
+
+This is where a sign error would be fatal, so I traced the chain independently end to end.
+
+\lstep{1}{1}{\(\operatorname{Im}\psi(\frac12-ix)=-\frac\pi2\tanh\pi x\).  From
+\(\psi(1-z)-\psi(z)=\pi\cot\pi z\) at \(z=\frac12-ix\): \(1-z=\frac12+ix\),
+\(\cot(\pi(\frac12-ix))=\tan(i\pi x)=i\tanh\pi x\), so
+\(\psi(\frac12+ix)-\psi(\frac12-ix)=i\pi\tanh\pi x\); with
+\(\overline{\psi(\frac12-ix)}=\psi(\frac12+ix)\) this is
+\(2i\operatorname{Im}\psi(\frac12+ix)=i\pi\tanh\pi x\), i.e.\
+\(\operatorname{Im}\psi(\frac12-ix)=-\frac\pi2\tanh\pi x\).  \emph{Agrees.}}
+\lstep{1}{2}{\(\tanh\pi\alpha=\tanh\frac\kappa2=1-2q_\kappa\), so
+\(\tanh\pi\alpha-\tanh\pi\beta=-2(q_\kappa-q_{\kappa'})\).  \emph{Agrees}
+(\(1-2q_\kappa=\frac{e^\kappa-1}{e^\kappa+1}\)).}
+\lstep{1}{3}{The prefactor \(-\frac\sigma{k(k^2+1)}\) and the additive \(\frac2{k^2+1}\) in
+\eqref{eq:Jcl} are real, so
+\(\operatorname{Im}J=-\frac\sigma{k(k^2+1)}\cdot(-\frac\pi2)(\tanh\pi\alpha-\tanh\pi\beta)
+=-\frac{\pi\sigma}{k(k^2+1)}(q_\kappa-q_{\kappa'})\).  \emph{Agrees} with \KI's (3.7).}
+\lstep{1}{4}{\(J(\kappa',\kappa)=J(\kappa,\kappa')\) by the \(\alpha\leftrightarrow\beta\) symmetry
+of \(4\sum_nnE_n(\alpha)E_n(\beta)\); hence
+\(D^{(1)}=\frac1{(2\pi)^2}\cdot2\operatorname{Re}\frac{iJ}{2\pi}=-\frac{\operatorname{Im}J}
+{4\pi^3}\in\mathbb R\).  \emph{Agrees.}}
+\lstep{1}{5}{Therefore \(D^{(1)}=\frac{\sigma(q_\kappa-q_{\kappa'})}{4\pi^2k(k^2+1)}\).  On the
+other side \(i\gfr=\frac1{(2\pi)^2}\cdot\frac2{k(k^2+1)}\cdot\frac\sigma2
+=\frac{\sigma}{4\pi^2k(k^2+1)}\), because \(i\gh(k)=\frac2{k(k^2+1)}\) and
+\(\frac{\kappa+\kappa'}{4\pi}=\frac\sigma2\).  The two coincide, which is \eqref{eq:target}.
+\emph{Agrees.}}
+\lstep{1}{6}{\(k(k^2+1)=\frac{u(u^2+4\pi^2)}{8\pi^3}\) with \(k=\frac u{2\pi}\), and
+\(\sigma=\frac v{2\pi}\), so \(\frac\sigma{4\pi^2k(k^2+1)}=\frac v{u(u^2+4\pi^2)}\):
+second form.  \emph{Agrees.}}
+\lstep{1}{7}{\(q_\kappa-q_{\kappa'}=\frac{e^{\kappa'}-e^\kappa}{(1+e^\kappa)(1+e^{\kappa'})}
+=\frac{-2e^{v/2}\sinh\frac u2}{2e^{v/2}(\cosh\frac v2+\cosh\frac u2)}
+=\frac{-\sinh\frac u2}{\cosh\frac v2+\cosh\frac u2}\): third form.  \emph{Agrees}, and the sign is
+the one I verified against \(q_1-q_3=+0.2215>0\) with \(\sinh\frac u2=\sinh(-1)<0\).}
+
+\begin{verdictok}
+The sign chain is correct at every link.  Note the two independent places where a sign could have
+been absorbed and was not: the \(-\) in \(\operatorname{Re}(iJ)=-\operatorname{Im}J\), and the
+\(-\) in \(\operatorname{Im}\psi(\frac12-ix)=-\frac\pi2\tanh\pi x\); they compose with
+\(\tanh\pi\alpha-\tanh\pi\beta=-2(q_\kappa-q_{\kappa'})\) to a net \(+\), which is why
+\(D^{(1)}\) and \(v/[u(u^2+4\pi^2)]\) carry the sign of \(q_\kappa-q_{\kappa'}\).  My numerics
+(\S\ref{sec:num}) test the composite sign directly against the defining integral.
+\end{verdictok}
+
+\subsection{\(\langle1\rangle7\): the diagonal}
+
+\KI\ obtains the diagonal by continuity rather than by a separate computation: \(D^{(1)}\) is
+continuous on \(\mathbb R^2\) (dominated convergence with the fixed \(L^1\) majorant of
+\(\langle1\rangle1\), which does not depend on \(\kappa,\kappa'\) --- correct, since the
+\(\kappa\)-dependence sits entirely in a unimodular factor), the right-hand side
+\(F(\kappa,\kappa')=\frac{q_\kappa-q_{\kappa'}}{\kappa-\kappa'}\cdot
+\frac{\kappa+\kappa'}{(\kappa-\kappa')^2+4\pi^2}\) extends real-analytically across the diagonal
+(the divided difference of the entire-on-a-strip function \(q\) via the Hadamard formula
+\(\int_0^1q'(\kappa'+t(\kappa-\kappa'))dt\); the second factor has denominator \(\ge4\pi^2\)), and
+two continuous functions agreeing on the dense set \(\{\kappa\neq\kappa'\}\) agree everywhere.
+The value is \(q'(\kappa)\frac\kappa{2\pi^2}=-\frac1{4\cosh^2\frac\kappa2}\cdot\frac\kappa{2\pi^2}
+=-\frac\kappa{8\pi^2\cosh^2\frac\kappa2}\).  \emph{All of this agrees}, and the argument is
+airtight: no limit of a singular expression is taken on the left.
+
+I also checked \KI's "independent confirmation" \(\langle2\rangle4\), which is not needed but is
+a good consistency test: \(J(\kappa,\kappa)=2+2i\alpha\psi'(\frac12-i\alpha)\) (Taylor of
+\eqref{eq:Jcl} at \(k\to0\): the pole \(\frac1k\) meets \(\psi(\frac12-i\alpha)-\psi(\frac12-i\beta)
+=-ik\psi'+O(k^2)\)), and \(\psi'(\frac12+z)+\psi'(\frac12-z)=\pi^2\sec^2\pi z\) --- which follows
+from differentiating DLMF~5.5.4 as \(\psi'(1-z)+\psi'(z)=\pi^2/\sin^2\pi z\) and substituting
+\(z\mapsto\frac12-z\) --- gives \(\operatorname{Re}\psi'(\frac12-ix)=\frac{\pi^2}{2\cosh^2\pi x}\)
+and hence the same diagonal value.  \emph{Agrees.}
+
+\begin{verdictok}
+The diagonal is handled correctly and, contrary to what one might fear from the pole of \(\gh\) at
+\(k=0\), without any limiting or regularising operation on the left-hand side: the left side is
+manifestly finite and continuous there, and it is the \emph{factorised} right side
+\(i(q_\kappa-q_{\kappa'})\gfr\) that has a removable \(0\cdot\infty\).  \KI\ says this explicitly
+in its "Domain of validity" paragraph, which is the honest way to state \eqref{eq:target}.
+\end{verdictok}
+
+\section{The non-proof content of \KI}\label{sec:rest}
+
+\subsection{Remark 6.1 (the continuation \(\gh\) is derived, not assumed)}
+Correct and worth keeping.  The observation that Theorem~3.1 starts from an absolutely convergent
+integral and \emph{lands on} \(\gh(k)=-2i/(k(k^2+1))\) --- so that Note~7's \(\eps\)-continuation
+prescription (its (8)) is validated rather than assumed --- is the main structural payoff of the
+document, and it is stated accurately, including the honest list of what is only formal in the
+note's own route (\(\psi_\kappa\notin L^2\), \(\gt\) exponentially growing, \(\gfr^*=-\gfr\) only
+formal).  I verified the \(\eps>1\) boundary-term computation quoted there:
+\(\int_0^\infty e^{-(ik+\eps)\xi}\gt'=-\gt(0)+(ik+\eps)\gh_\eps(k)\) needs
+\(e^{-\eps\xi}\gt(\xi)\to0\), i.e.\ \(\operatorname{Re}\eps>1\) since \(\gt\sim-e^\xi\); and
+\(\frac1{(2\pi)^2}[\frac{i\kappa'}{2\pi}+\frac{ik}2]\gh(k)=i\gfr(\kappa,\kappa')\) because
+\(\frac{\kappa'}{2\pi}+\frac k2=\frac{\kappa'}{2\pi}+\frac{\kappa-\kappa'}{4\pi}
+=\frac{\kappa+\kappa'}{4\pi}\).  \emph{Agrees.}
+
+\subsection{Remarks 6.2--6.4 and the closing \texttt{verdictgap}: partly stale}
+\KI\ was written on 5~Sep 09:59; Note~7 was revised at 16:24 the same day, and
+\texttt{rigor/errata\_log.md} records "\NOTE: sign in Weights paragraph [P3]".  Consequently:
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+\item \KI's Remark~6.5 ("A sign slip in the note's Weights paragraph") no longer describes the
+note: line~352 of \NOTE\ now reads \(q_\kappa-q_{\kappa'}=-\frac{2\sinh\frac u2e^{(\kappa+\kappa')/2}}
+{(1+e^\kappa)(1+e^{\kappa'})}\), with the minus sign.  The remark's mathematics is right (the minus
+sign belongs there, and the diagnosis that only that intermediate display was affected is right);
+it is the "Recommended fix: insert the minus sign" that is now obsolete.
+\item Likewise the note's Lemma~5.1(ii) now ends "\emph{a naive contour shift \(\xi'\to\xi'-i\pi\)
+does not close on the half-line contour}", i.e.\ \KI's Remark~6.4 has already been absorbed; the
+sentence \KI\ quotes and objects to ("exactly as in Lemma~3.1") is gone.
+\item Hence the document's closing \texttt{verdictgap}, which lists these two items as outstanding
+"blemishes in the note's text", is stale.  Neither was ever a mathematical gap, so nothing is at
+risk; but a reader of \KI\ alone would be misled about the current state of Note~7.
+\end{itemize}
+On the substance of Remark~6.4 I agree with P3: the half-line contour \([0,\infty)\) picks up the
+vertical segment \(\{-i\tau:0\le\tau\le\pi\}\), on which \(\sinh\frac{\xi'}2=-i\sin\frac\tau2\neq0\)
+for \(0<\tau\le\pi\), so the shift does not reduce to the Lemma~3.1 situation (full line, decay at
+both ends).  The series route is the right replacement.
+
+\subsection{Cited results: the screenshots are missing, on a partly false pretext}
+\texttt{README\_AGENTS.md} requires, for every cited external result, "(iii) a screenshot".  \KI\
+records \textbf{NOT OBTAINED} for all four \texttt{citedbox}es, with the justification that
+"\emph{the screenshot helper \texttt{rigor/snap.py} referred to in \texttt{README\_AGENTS.md} is
+not present in the repository}".  That statement is false: \texttt{rigor/snap.py} is present
+(1023~bytes, dated 5~Sep 01:03).  The \emph{operative} obstacle --- that DLMF is a web resource
+with no PDF in \texttt{refs/} --- is real, but \texttt{refs/getref.sh} accepts a URL, so a DLMF
+page could have been fetched and clipped, or the Abramowitz--Stegun / Whittaker--Watson locators
+P3 already gives could have been used.  The compensating measures P3 does provide (a second
+printed locator per identity, and a 30-digit numerical check of each) are good, and I independently
+re-derived 5.5.2, 5.5.4 and the Gauss series usage above, so no mathematical risk remains; the
+defect is one of compliance and reproducibility.  The Tonelli/Fubini box (Rudin Thm.~8.8) and the
+elementary-identities box are used correctly.
+
+\section{Independent numerical verification}\label{sec:num}
+
+\paragraph{Method.}  I did \emph{not} use \texttt{p3\_check.py}, and I did not use P3's reduction of
+\eqref{eq:def} to the single block integral \(J\).  My script
+\texttt{rigor/v8\_kernel\_check.py} (mpmath, \texttt{mp.dps = 25}) evaluates the defining double
+integral \eqref{eq:def} literally, with the kernel written exactly as Note~7's (10) plus the
+adjoint on the mirror block:
+\[
+ \Dt(\xi,\xi')=-\frac i{2\pi}\frac{\sinh\frac\xi2\sinh\frac{\xi'}2}{\sinh^2\frac{\xi-\xi'}2}
+ \ (\xi<0<\xi'),\qquad \overline{\Dt(\xi',\xi)}\ (\xi'<0<\xi),\qquad 0\ \text{else}.
+\]
+Each block is parametrised as \((\xi,\xi')=(-tx,\,t(1-x))\) resp.\ \((t(1-x),\,-tx)\), \(t>0\),
+\(x\in(0,1)\), Jacobian \(t\).  This chart is the one point of technique: it blows up the corner
+\((0,0)\) --- the only place where the integrand of \eqref{eq:def} is discontinuous --- into the
+whole edge \(\{t=0\}\), on which the integrand extends continuously; the \(x\)-integrand is then
+analytic on \([0,1]\) and is done by Gauss--Legendre, the \(t\)-integral by tanh--sinh on
+\([0,2,8,25,70,\infty)\).  Nothing else is assumed.  Comparison is against
+\(i(q_\kappa-q_{\kappa'})\gfr\), against \((q_\kappa-q_{\kappa'})v/[u(u^2+4\pi^2)]\), and against
+the \(\sinh/\cosh\) form, each coded independently from \eqref{eq:target}.
+
+\paragraph{Result.}  Five random points \((\kappa,\kappa')\) (uniform on \([-6,6]^2\), seed
+\(20260905\)), three diagonal points, one near-diagonal and one anti-diagonal point.  All errors
+are at the level of the working precision.
+
+\begin{table}[h]\centering\footnotesize
+\begin{tabular}{rrlll}\toprule
+\(\kappa\) & \(\kappa'\) & \(D^{(1)}\) from \eqref{eq:def} (direct) &
+\(|{\rm direct}-i(q_\kappa-q_{\kappa'})\gfr|\) & \(|\operatorname{Im}D^{(1)}|\)\\\midrule
+ 1.0486 & \(-2.7576\) & \(+0.0056647824658242025722\) & \(1.0\cdot10^{-28}\) & \(0\) \\
+ 2.6065 & \(0.1580\)  & \(-0.0097294693588938271558\) & \(2.0\cdot10^{-28}\) & \(0\) \\
+ 4.7697 & \(-4.7364\) & \(-0.000026517079688049261957\) & \(7.4\cdot10^{-27}\) & \(0\) \\
+ 2.8048 & \(-3.2632\) & \(+0.00089711086819092279479\) & \(1.3\cdot10^{-29}\) & \(0\) \\
+\(-2.4227\) & 5.0578  & \(-0.0033670823614949412721\) & \(1.0\cdot10^{-28}\) & \(0\) \\\midrule
+ 1.3 & 1.3   & \(-0.011083923038781046042\) & \(0\) (vs.\ \eqref{eq:targetdiag}) & \(0\)\\
+\(-2.7\) & \(-2.7\) & \(+0.0080712872184110072675\) & \(0\) (vs.\ \eqref{eq:targetdiag}) & \(0\)\\
+ 0 & 0 & \(0\) & \(0\) & \(0\)\\
+ 2 & \(2-10^{-5}\) & \(-0.0106380882621639463\) & \(2.3\cdot10^{-23}\) & \(0\)\\
+ 1.7 & \(-1.7\) & \(0\) (\(v=0\)) & \(0\) & \(0\)\\
+\bottomrule\end{tabular}
+\caption{Independent verification.  Worst absolute error \(7.4\cdot10^{-27}\); worst
+\emph{relative} error \(2.8\cdot10^{-22}\).  The requested tolerance was \(10^{-10}\); this is
+\(12\) orders better.  The three closed forms of \eqref{eq:target} agree with each other to the
+same precision.  \(D^{(1)}\) came out exactly real at every point (imaginary part identically
+\(0\) to \(25\) digits), confirming \KI's \(\langle1\rangle6\), \(\langle2\rangle2\).}
+\label{tab:v8num}
+\end{table}
+
+Three further points of the test are worth recording.  (a) The \emph{diagonal} values agree with
+\eqref{eq:targetdiag} to the last digit, so the continuity argument of \(\langle1\rangle7\) is
+confirmed on the left-hand side, not merely asserted.  (b) The anti-diagonal point
+\(\kappa'=-\kappa\) gives exactly \(0\), which is a nontrivial test of the factor
+\(v=\kappa+\kappa'\) --- an error in that factor (e.g.\ \(\frac{\kappa+\kappa'}{4\pi}\) versus
+\(\frac{\kappa'}{2\pi}\), the two expressions the note's own derivation juggles) would show up
+here and nowhere else.  (c) The near-diagonal point at \(u=10^{-5}\) tests the cancellation of the
+\(1/u\) pole against \(q_\kappa-q_{\kappa'}=O(u)\): the direct integral is smooth through it.
+As a cross-check on the quadrature itself, a completely different scheme (adaptive tanh--sinh in
+both variables at \texttt{dps=18}) reproduced the first point to \(2.5\cdot10^{-21}\).
+
+Separately I re-ran P3's own \texttt{rigor/p3\_check.py --fast}: \(137\) checks, \(0\) failures,
+"ALL CHECKS PASSED", consistent with the claims of its Table~1.  (The slow item C14, the literal
+2-D quadrature, is the check my \S\ref{sec:num} supersedes with a better chart.)
+
+\begin{verdictok}
+The identity \eqref{eq:target}, all three of its closed forms, and the diagonal value
+\eqref{eq:targetdiag} are confirmed independently from the defining integral of Note~7's (10) to
+\(\sim10^{-27}\) absolute at five random points and five structured points.  In particular the
+overall \emph{sign} --- the one thing an algebraic slip is most likely to spoil and the one thing
+\(|D^{(1)}|^2\) would hide --- is confirmed at points with \(\kappa+\kappa'\) and
+\(\kappa-\kappa'\) of both signs.
+\end{verdictok}
+
+\section{Findings and overall verdict}\label{sec:findings}
+
+\begin{verdictok}
+\textbf{V8-1 (main).}  Theorem~3.1 of \KI\ --- hence Lemma~5.1(ii) and eq.~(21) of Note~7 --- is
+\textbf{correct as stated}, for all real \(\kappa,\kappa'\) including the diagonal.  I found no
+error of sign, factor, hypothesis or logic in any of the seven top-level steps.  The three
+potentially fragile points named in my brief all survive: the conventions of Note~7 and \KI\ are
+the same (\S\ref{sec:conv}); the single sum/integral interchange is justified by Tonelli on
+nonnegative terms with the explicit majorant \(\iint\rho\le4\log2\) (\S\ref{sec:steps}); and
+\emph{no} principal value or regularisation is involved on the left-hand side, because the double
+pole of \(\sinh^{-2}\frac{\xi-\xi'}2\) lies off the two blocks and is cancelled at the single
+corner \((0,0)\) by the numerator.  The Heaviside/Gauss step, the reflection formula, the diagonal
+limit, and every sign in the chain were re-derived independently and agree.  The numerical test of
+\S\ref{sec:num}, done from the defining integral, agrees to \(10^{-27}\).  Item (c) of Note~7 is
+discharged; the note's Theorem~A no longer rests on an unproved lemma.
+\end{verdictok}
+
+\begin{verdictgap}
+\textbf{V8-2 (convention, repaired here).}  \KI's Remark~6.2, which checks
+\(Q\psi_\kappa=q_\kappa\psi_\kappa\), is prefaced "\emph{Although not needed above}".  It is
+needed: Note~7 never writes \(\psi_\kappa\), the completeness relation it does quote is satisfied
+by \(\frac1{2\pi}e^{\pm i\kappa\xi/2\pi}\) alike, and \eqref{eq:target} is \emph{odd} under
+\((\kappa,\kappa')\mapsto(-\kappa,-\kappa')\) --- so without that check the asserted identity is
+determined only up to sign.  The check as given is correct and I reproduced it
+(Lemma~\ref{lem:conv}), adding the verification that Note~7's \(\Qt=-\frac i{4\pi}\sinh^{-1}\frac
+u2\) is the correct half-density transport of \(\frac1{2\pi i(x-y)}\).  \emph{No consequence for
+Note~7's results}, since its (20) uses only \(|D^{(1)}|^2\), which is even.  Recommended fix:
+delete "although not needed above" and move the remark into \S1 as part of the conventions.
+\end{verdictgap}
+
+\begin{verdictgap}
+\textbf{V8-3 (imported hypothesis, verified here).}  \KI's Definition~1.2 \emph{postulates} that
+\(\Dt\) vanishes on \(A\times A\) and \(D\times D\), citing Note~7's (10); Note~7 in turn asserts
+this in a single clause of the proof of Lemma~5.1(i) with no computation.  Since \eqref{eq:def}
+integrates over all of \(\mathbb R^2\), a nonzero diagonal block would change \(D^{(1)}\) and hence
+the note's (20).  I verified it (Lemma~\ref{lem:blocks}): the \(\frac12\delta\) parts cancel
+between \(\gfr^*Q\) and \(Q\gfr\), and the remaining commutator kernel
+\(\Qt'(u)[\gt(\xi')-\gt(\xi)]-\frac12\Qt(u)[\gt'(\xi)+\gt'(\xi')]\) vanishes identically for
+\(\xi,\xi'>0\) because \(\cosh\xi-\cosh\xi'\) and \(\sinh\xi+\sinh\xi'\) share the factor
+\(\sinh\frac{\xi+\xi'}2\).  So the assumption is true; it is only unproved in both documents.
+\end{verdictgap}
+
+\begin{verdictgap}
+\textbf{V8-4 (stale text).}  \KI's closing \texttt{verdictgap} and its Remarks~6.4--6.5 describe
+two defects of Note~7 that have since been repaired (\texttt{errata\_log.md}: "\NOTE: sign in
+Weights paragraph [P3]"): Note~7 now carries the minus sign in
+\(q_\kappa-q_{\kappa'}=-2\sinh\frac u2e^{v/2}/[(1+e^\kappa)(1+e^{\kappa'})]\) and now says "a naive
+contour shift \(\xi'\to\xi'-i\pi\) does not close on the half-line contour".  Both remarks are
+mathematically right; they are simply out of date, and a reader of \KI\ alone would think Note~7
+still contains a sign error.  Recommended fix: mark them "applied".
+\end{verdictgap}
+
+\begin{verdictgap}
+\textbf{V8-5 (compliance).}  All four \texttt{citedbox}es record "\textbf{Screenshot: NOT
+OBTAINED}", required by \texttt{README\_AGENTS.md}, justified by the claim that "\emph{the
+screenshot helper \texttt{rigor/snap.py} \ldots\ is not present in the repository}".
+\texttt{rigor/snap.py} \emph{is} present.  The real obstacle (DLMF is a web page, not a PDF in
+\texttt{refs/}) is genuine but surmountable --- \texttt{refs/getref.sh} accepts a URL.  No
+mathematical risk: DLMF~5.5.2, 5.5.4 and 5.7.6 are standard, P3 gives second printed locators
+(A\&S 6.3.5/6.3.7/6.3.16, Whittaker--Watson \S12.12--12.16), each is checked to 30 digits, and I
+re-derived all three usages by hand in \S\ref{sec:steps}.
+\end{verdictgap}
+
+\paragraph{Summary of severities.}
+No \textbf{BREAK}.  No mathematical \textbf{GAP} in \KI.  Four \textbf{MINOR} items: two are
+presentational (V8-4, V8-5), one is a convention statement that should be promoted from a remark
+to a hypothesis (V8-2), and one is an imported unproved clause of Note~7 that I have now proved
+(V8-3).  The document is, in my judgement, the strongest of the \texttt{rigor/} proofs I have
+seen: it is genuinely self-contained, it states its interchange and its domain of validity
+explicitly, and its numerics check the intermediate objects rather than only the final formula.
+
+\end{document}

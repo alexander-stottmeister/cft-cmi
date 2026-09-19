@@ -1,0 +1,6 @@
+# s=0.1 kind=first coarse mesh (0.5,0.5,0.5) Lam=(8.0,4.0) N=31 (nA,nB,nC)=(16,7,8)  zeta=0.03333 f2 zeta^2=9.381591e-06
+# coarse: g_Q(d_c)/ref=0.835858   min_F g_Q/ref=8.397643   min/g(d_c)=10.046734 [optimal] 73s
+#  r   N'     g_{Q_N'}(delta_c)/ref    g_{Q_N'}(delta_opt embedded)/ref    ratio opt/comp
+   1    31   0.835858   8.397643   10.046734
+   2    62   0.912525   480161.677916   526189.968681
+   4   124   0.956550   3092853.747543   3233341.351609

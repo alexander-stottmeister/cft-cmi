@@ -1,0 +1,1024 @@
+\documentclass[11pt]{article}\input{rigor_preamble}
+\usepackage{tabularx}
+\newcommand{\Om}{\Omega}
+\newcommand{\Hil}{\mathcal H}
+\newcommand{\Diff}{\mathrm{Diff}_+}
+\newcommand{\Vect}{\mathrm{Vect}}
+\newcommand{\ip}[2]{\langle #1,#2\rangle}
+\newcommand{\norm}[1]{\lVert #1\rVert}
+\newcommand{\abs}[1]{\lvert #1\rvert}
+\newcommand{\gtot}{g_{\mathrm{tot}}}
+\newcommand{\ktil}{\widetilde k}
+\newcommand{\Hfin}{\Hil^{\mathrm{fin}}}
+\newcommand{\U}{\mathcal U}
+\newcommand{\one}{\mathbf 1}
+\newcommand{\Ad}{\operatorname{Ad}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\Exp}{\operatorname{Exp}}
+\newcommand{\BV}{\mathrm{BV}}
+
+\title{\color{navy}\bfseries Implementing the $C^{1,1}$ piecewise-M\"obius map\\[0.3em]
+\large Hypotheses (H1)--(H3) of Phase~2 for positive-energy representations of $\Diff(S^1)$:
+what is proved, for which nets, and the exact missing estimate}
+\author{Track QB (problem O5)}\date{2026-09-08}
+
+\begin{document}\maketitle
+\vspace{-1.2em}
+
+\begin{abstract}\noindent
+The Phase-1 upper bound and the conditional Theorem~B rest on three hypotheses (H1)--(H3): that the
+$C^{1,1}$ piecewise-M\"obius compression map $\ktil_s$ (identity on $A=(-a,0)$, $x\mapsto Lx/(L+sx)$ on $D=(0,L)$,
+smoothly extended outside $I$) is implemented by unitaries $U_s$ in a positive-energy representation of
+$\Diff(S^1)$, that $s\mapsto U_s\Om$ is differentiable with tangent vector $iT(\gtot)\Om\in\Hil$, and that the
+recovered state has the corresponding first-order expansion.  We prove all three for \emph{every} diffeomorphism
+covariant conformal net, with arbitrary central charge (Theorem~\ref{thm:main}).  The route is Route~A:
+$\gtot$ is $C^1$ and piecewise smooth with a single jump of $\gtot''$, so $\hat G_n=\frac J{2\pi(in)^3}+O(n^{-4})$,
+$\norm\gtot_{3/2}=\sum\abs{\hat G_n}(1+\abs n^{3/2})<\infty$, and Carpi--Weiner's theorem makes $T(\gtot)$
+essentially self-adjoint on the finite-energy domain; $U_s:=e^{is\overline{T(\gtot)}}$ then implements $\ktil_s$ by
+a Trotter/localisation argument (CW05 Prop.~5.4) on $\cA(A)$ and $\cA(D)$, and by an approximation argument with
+additivity and semicontinuity (CDIT Prop.~4.1) on every interval.  The restriction $s>3$ in CDIT's extension theorem
+is a restriction on the \emph{group-level} statement and is not needed for a one-parameter flow.  Sharp facts:
+$\gtot\in H^{5/2-\eps}\setminus H^{5/2}$, $\ktil_s\in D^\sigma$ exactly for $\sigma<5/2$;
+$\norm{T(\gtot)\Om}^2=\frac c{12}\norm\gtot^2_{\dot H^{3/2}}$ is a Weil--Petersson norm, finite with margin, whereas
+a merely Lipschitz field would already fail; and $\norm{\gtot'}_{3/2}=\infty$, so $T(\gtot)\Om\notin D(L_0)$
+(logarithmically) and Nelson's commutator theorem is unavailable --- neither is needed.  Beyond (H1)--(H3) the natural route is closed rather than
+open: the form energy bound $\abs{\ip\psi{T(f)\psi}}\le C\norm f_\beta\norm{(1+L_0)^{1/2}\psi}^2$ holds exactly for
+$\beta\ge1$ (true at $\beta=1$, false below), while $\norm{\gtot'}_\beta<\infty$ needs $\beta<1$ and
+$\norm{\gtot'}_1=\infty$ logarithmically, so the commutator route to $D(L_0)$-invariance and to the fixed-$s$ energy
+statement fails by one logarithm; Route~B (a Schwarzian energy bound) is the remaining source.  The tangent vector
+also lies in the $T$-subspace $\Hil_T$ (hypothesis (H2$'$)), by the same energy bound applied to $\Om$.  All regularity claims are verified numerically
+(\texttt{rigor/qb\_regularity.py}).
+\end{abstract}
+
+\tableofcontents
+
+
+\section{Conventions and the objects to be implemented}\label{sec:conv}
+
+\textbf{(C1) Coordinates.}  $S^1=\{z\in\mathbb C:\abs z=1\}$, $z=e^{i\theta}$, $\theta\in(-\pi,\pi]$.  The Cayley map
+$\theta\mapsto x=\tan(\theta/2)$ identifies $S^1\setminus\{-1\}$ with $\mathbb R$; the point $z=-1$ is ``$x=\infty$''.
+A real vector field is written $g(x)\partial_x$ on the line and $G(\theta)\partial_\theta$ on the circle, with
+\begin{equation}\label{eq:field-transf}
+ G(\theta)=\frac{dx}{d\theta}^{-1}g(x)\Big|_{x=\tan(\theta/2)}=2\cos^2(\theta/2)\,g(\tan(\theta/2))=\frac{2\,g(x)}{1+x^2}.
+\end{equation}
+$\Vect(S^1)$ is the space of smooth real vector fields, identified with $C^\infty(S^1,\mathbb R)$ through $G\mapsto G\partial_\theta$.
+
+\textbf{(C2) Fourier conventions.}  $G(\theta)=\sum_{n\in\mathbb Z}\hat G_ne^{in\theta}$,
+$\hat G_n=\frac1{2\pi}\int_{-\pi}^{\pi}G(\theta)e^{-in\theta}\dd\theta$; $G$ real $\iff\hat G_{-n}=\overline{\hat G_n}$.
+Integration by parts on the circle gives $\widehat{(G')}_n=in\hat G_n$ with no boundary term.
+
+\textbf{(C3) Function classes.}  For a real $f\in L^1(S^1)$,
+\begin{equation}\label{eq:norms}
+ \norm f_{3/2}:=\sum_{n\in\mathbb Z}\abs{\hat f_n}\bigl(1+\abs n^{3/2}\bigr),\qquad
+ \norm f_{H^s}:=\Bigl(\sum_{n}(1+n^2)^s\abs{\hat f_n}^2\Bigr)^{1/2},
+\end{equation}
+$\mathcal S^{3/2}(S^1):=\{f\ \text{real}:\norm f_{3/2}<\infty\}$ (a Banach space), $H^s(S^1)$ the Sobolev space, and for $s>3/2$
+$D^s(S^1):=\{\gamma\in\mathrm{Diff}^1_+(S^1):\tilde\gamma-\iota\in H^s(S^1)\}$, $\tilde\gamma$ a lift and $\iota$ the identity
+(CDIT \S2.2--2.3, screenshots in \S\ref{sec:cited}).  By Cauchy--Schwarz,
+\begin{equation}\label{eq:embed}
+ \norm f_{3/2}\le C_s\norm f_{H^s}\quad\text{for every }s>2,\qquad
+ C_s^2=\sum_n\frac{(1+\abs n^{3/2})^2}{(1+n^2)^{s}}<\infty\iff s>2,
+\end{equation}
+so $H^s\hookrightarrow\mathcal S^{3/2}$ exactly for $s>2$; this is the reason why the group-level results of CDIT, which
+need $D^s$ with $s>3$, are not the only route: $\mathcal S^{3/2}$ is much larger than $H^3$.
+
+\textbf{(C4) Nets.}  $(\cA,U,\Om)$ is a conformal (= diffeomorphism covariant) net on $S^1$ in the sense of
+CDIT \S4 (quoted in \S\ref{sec:cited}): a M\"obius covariant net with the extra axiom (10) that $U$ extends to a
+projective unitary representation of $\Diff(S^1)$ with $U(\gamma)\cA(I)U(\gamma)^*=\cA(\gamma I)$ and
+$U(\gamma)x U(\gamma)^*=x$ for $x\in\cA(I)$, $\gamma\in\Diff(I')$.  We use throughout the two properties that
+are \emph{automatic} for every M\"obius covariant net (CDIT \S4, items (8),(9), citing [GF93, Thm~2.19(ii)], [FJ96, \S3]):
+\begin{align}
+ &\text{(Add)\quad}\{I_\alpha\}\ \text{a covering of }I\ \Longrightarrow\ \cA(I)\subseteq\textstyle\bigvee_\alpha\cA(I_\alpha);
+ \label{eq:add}\\
+ &\text{(Sem)\quad}I_n\downarrow,\ I=\bigl(\textstyle\bigcap_nI_n\bigr)^\circ\ \Longrightarrow\ \cA(I)=\textstyle\bigwedge_n\cA(I_n).
+ \label{eq:sem}
+\end{align}
+\textbf{Standing assumptions.}  Throughout, $(\cA,U,\Om)$ satisfies the axioms (1)--(10) of CDIT \S4 \emph{as
+stated there}, including the separability of $\Hil$, which is part of their definition of a M\"obius covariant net
+and is used (via CDIT Prop.~3.14) in Lemma~\ref{lem:dirsum}.  Neither \emph{strong} additivity nor finiteness of the
+$L_0$-multiplicities nor rationality is assumed anywhere below.
+Since $U|_{\mathrm{PSL}(2,\mathbb R)}$ is a true (not projective) representation, $e^{2\pi iL_0}=\one$ and therefore
+$\mathrm{sp}(L_0)\subseteq\mathbb Z_{\ge0}$ and $L_0$ is diagonalisable; $\Hfin:=$ the algebraic span of the
+$L_0$-eigenvectors is dense and is a core for $L_0$.
+
+\textbf{(C5) Stress--energy tensor.}  $L_n$ ($n\in\mathbb Z$) are the Virasoro generators of the projective representation
+$U|_{\Diff}$, $[L_m,L_n]=(m-n)L_{m+n}+\frac c{12}m(m^2-1)\delta_{m+n,0}$, and for $f$ with $\norm f_{3/2}<\infty$
+\begin{equation}\label{eq:Tdef}
+ T(f):=\sum_{n\in\mathbb Z}\hat f_n L_n\quad\text{on }\Hfin .
+\end{equation}
+For smooth real $f$, $U(\Exp(f))=e^{iT(f)}$ up to a \emph{scalar} phase (Lemma~\ref{lem:phase}), $\Exp$ the
+exponential map of $\Diff(S^1)$
+(CDIT \S2.1, quoted in \S\ref{sec:cited}).  We write $\Exp(sg)$ for the time-$s$ flow of the field $g$ also when $g$
+is only $C^{1,1}$, in which case the flow exists and is unique by Picard--Lindel\"of.
+
+\textbf{(C6) The geometry.}  $L>0$, $a>0$; $A=(-a,0)$, $D=(0,L)$, $I=(-a,L)$, and
+\begin{equation}\label{eq:ks}
+ k_s(x)=x\ \ (x\in(-a,0]),\qquad k_s(x)=h_s(x):=\frac{Lx}{L+sx}\ \ (x\in[0,L)),\qquad s\ge0\ \text{small}.
+\end{equation}
+$h_s$ is the M\"obius transformation of $S^1$ generated by the field $m(x):=-x^2/L$, i.e.\ $h_s=\Exp(s\,m)$;
+$m$ is a \emph{globally smooth} field on $S^1$ ($m=-\frac1L K$ with $K$ the special-conformal generator of
+$\mathfrak{sl}(2,\mathbb R)$), and in the circle coordinate
+$M(\theta)=2m(x)/(1+x^2)=-\frac2L\sin^2(\theta/2)$.
+
+\textbf{(C7) The hypotheses.}  With $\gtot$ the first-order field of $\ktil_s$ (Definition~\ref{def:gtot}):
+\begin{itemize}[leftmargin=1.3em]
+\item[(H1)] for small $s$ there are unitaries $U_s$ with $U_s\cA(J)U_s^*=\cA(\ktil_s(J))$ for every interval $J$;
+\item[(H2)] $U_s\Om=\Om+is\,T(\gtot)\Om+o(s)$ in norm, with $T(\gtot)\Om\in\Hil$;
+\item[(H2$'$)] $T(\gtot)\Om\in\Hil_T:=\overline{\{T(f)\Om:f\in\Vect(S^1)\}}$ (required by QR1 for the
+optimisation over extensions inside $\Hil_T$);
+\item[(H2$'$)] $T(\gtot)\Om\in\Hil_T:=\overline{\{T(f)\Om:f\in\Vect(S^1)\}}$ (the clause added by referee QR1:
+the optimisation over extensions in the Uhlmann upper bound takes place inside $\Hil_T$);
+\item[(H3)] $\omega_s(X)=\omega(X)+s\varphi(X)+o(s)$ with $\varphi(X)=i\omega([T(\gtot),X])$ for $X$ in a
+$*$-strongly dense subalgebra of $\cA(I)$, and $\omega_s(X^2)\to\omega(X^2)$, where $\omega_s:=\omega\circ\Ad U_s|_{\cA(I)}$.
+\end{itemize}
+
+\section{Regularity of $\ktil_s$ and of the field $\gtot$}\label{sec:reg}
+
+\begin{definition}[the extension class and the field]\label{def:gtot}
+Let $\mathcal E$ be the set of real functions $\gtot$ on $S^1$ (vector fields, cf.\ \eqref{eq:field-transf}) such that
+\begin{enumerate}[leftmargin=2.2em,label=\textup{(E\arabic*)}]
+\item $\gtot(x)=0$ for $x\in(-a,0]$;
+\item $\gtot(x)=m(x)=-x^2/L$ for $x\in[0,L]$;
+\item $\gtot$ is $C^\infty$ on $S^1\setminus\{0\}$, continuous on $S^1$, and $\gtot'$ extends continuously to $S^1$
+      (equivalently: $\gtot$ is $C^1$ on $S^1$ and piecewise smooth in the sense of CDIT Prop.~2.3).
+\end{enumerate}
+Two representatives:
+\textup{(i)} \emph{compactly supported}: $\gtot=m\cdot\chi_{[0,\infty)}\cdot\rho$ with $\rho\in C^\infty$, $\rho=1$ on $[0,L]$,
+$\rho=0$ on $[M,\infty)$ for some $M>L$; this $\ktil_s$ fixes the point at infinity.
+\textup{(ii)} \emph{moving the point at infinity}: $\gtot=m$ on the arc $[0,\infty]$ through $x=\infty$ and down to some
+$q<-a$, cut off smoothly on $(q,-a)$; here $\ktil_s(\infty)=L/s\ne\infty$.
+Both lie in $\mathcal E$; every statement below uses only \textup{(E1)--(E3)}.  We put $\ktil_s:=\Exp(s\gtot)$,
+the time-$s$ flow of $\gtot$, and write $G$ for the circle representative \eqref{eq:field-transf} of $\gtot$.
+\end{definition}
+
+\begin{proposition}[the flow is the compression map]\label{prop:flow}
+Let $\gtot\in\mathcal E$.  For every $s\ge0$ the flow $\ktil_s=\Exp(s\gtot)$ exists, is unique, and is an
+orientation preserving homeomorphism of $S^1$ with $\ktil_{s+t}=\ktil_s\circ\ktil_t$; moreover
+$\ktil_s|_{I}=k_s|_{I}$ for all $s\ge 0$, and $\ktil_s$ is a $C^{1,1}$ diffeomorphism which is $C^\infty$ on
+$S^1\setminus\{0\}$ with $\ktil_s''(0^-)=0$, $\ktil_s''(0^+)=-2s/L$.
+\end{proposition}
+\lstep{1}{1}{$\gtot$ is Lipschitz on $S^1$, hence the flow exists, is unique and is a one-parameter group of homeomorphisms.}
+\lby{(E3) gives $\gtot\in C^1(S^1)$, so $\gtot$ is Lipschitz; Picard--Lindel\"of with uniqueness, plus the standard
+group property of autonomous flows on a compact manifold}
+\lstep{1}{2}{$\ktil_s(x)=x$ for $x\in(-a,0]$.}
+\lby{(E1): $x\mapsto x$ solves $\dot x=\gtot(x)$ with that initial condition, and solutions are unique by $\langle1\rangle1$}
+\lstep{1}{3}{$\ktil_s(x)=h_s(x)$ for $x\in[0,L]$, $s\ge0$.}
+\lby{(E2) and $h_s([0,L])=[0,L/(1+s)]\subseteq[0,L]$ for $s\ge0$: the curve $t\mapsto h_t(x)$ stays in $[0,L]$, where
+$\gtot=m$, and solves $\dot y=m(y)$; uniqueness as in $\langle1\rangle1$}
+\lstep{1}{4}{Regularity and the second derivative at $0$.}
+\lby{$\langle1\rangle2$, $\langle1\rangle3$: on $(-a,0]$, $\ktil_s=\mathrm{id}$, so all derivatives at $0^-$ are those of
+the identity; on $[0,L]$, $\ktil_s=h_s$ with $h_s'(x)=L^2/(L+sx)^2$, $h_s''(x)=-2sL^2/(L+sx)^3$, so
+$h_s'(0)=1=\ktil_s'(0^-)$ and $h_s''(0^+)=-2s/L$; away from $0$ the flow of a smooth field is smooth, and
+$\ktil_s'$ is Lipschitz because $\ktil_s''$ is bounded and has one jump}
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$}
+
+\begin{theorem}[regularity of the first-order field]\label{thm:reg}
+Let $\gtot\in\mathcal E$ with circle representative $G$, and let
+$J:=G''(0^+)-G''(0^-)=-1/L$ be the jump of $G''$ at $\theta=0$.  Then
+\begin{enumerate}[leftmargin=2.2em,label=\textup{(\alph*)}]
+\item $G\in C^{1,1}(S^1)$, $G$ is $C^\infty$ on $S^1\setminus\{0\}$, $G''\in\BV(S^1)$ with a single jump, at $\theta=0$;
+\item $(in)^3\hat G_n\to J/2\pi$, i.e.\ $\abs{\hat G_n}=\frac{\abs J}{2\pi\abs n^3}\bigl(1+O(\abs n^{-1})\bigr)$;
+\item $\norm G_{3/2}<\infty$, i.e.\ $G\in\mathcal S^{3/2}(S^1)$;
+\item $\norm{G'}_{3/2}=\infty$; precisely $\sum_{\abs n\le N}\abs{n}\abs{\hat G_n}(1+\abs n^{3/2})=\frac{2\abs J}{\pi}\sqrt N+O(\log N)$;
+\item $G\in H^{s}(S^1)$ for every $s<5/2$ and $G\notin H^{5/2}(S^1)$ (logarithmic divergence); consequently
+      $\ktil_s\in D^{\sigma}(S^1)$ for $3/2<\sigma<5/2$ and $\ktil_s\notin D^{5/2}(S^1)$, in particular $\ktil_s\notin D^3(S^1)$;
+\item in any positive-energy representation with central charge $c$,
+      $\norm{T(G)\Om}^2=\frac c{12}\sum_{n\ge2}n(n^2-1)\abs{\hat G_n}^2<\infty$, and this is finite iff
+      $G$ lies in the homogeneous Sobolev space $\dot H^{3/2}(S^1)$ (the Weil--Petersson class);
+\item $T(G)\Om\in D(L_0^{1/2})\setminus D(L_0)$: $\norm{L_0^{1/2}T(G)\Om}^2<\infty$ while
+      $\sum_{2\le n\le N}n^2\cdot n(n^2-1)\abs{\hat G_n}^2=\frac{J^2}{4\pi^2}\log N+O(1)$.
+\end{enumerate}
+\end{theorem}
+\lstep{1}{1}{(a).}
+\lby{Proposition~\ref{prop:flow} for the singular point; explicitly, near $\theta=0$ one has
+$x=\tan(\theta/2)=\frac\theta2+\frac{\theta^3}{24}+O(\theta^5)$ and $2\cos^2(\theta/2)=2-\frac{\theta^2}2+O(\theta^4)$,
+so by \eqref{eq:field-transf} and (E2), $G(\theta)=-\frac{\theta^2}{2L}+O(\theta^4)$ for $\theta\downarrow0$ and
+$G\equiv0$ for $\theta\in(\theta_{-a},0]$ by (E1); hence $G(0)=G'(0)=0$, $G''(0^-)=0$, $G''(0^+)=-1/L$;
+(E3) gives smoothness elsewhere, so $G''$ is piecewise smooth with one jump, hence of bounded variation}
+\lstep{1}{2}{(b).}
+\lby{as a distribution $G'''=\{G'''\}+J\delta_0$ with $\{G'''\}\in\BV\subseteq L^1$; taking the $n$-th Fourier
+coefficient of both sides and using $\widehat{(G')}_n=in\hat G_n$ three times gives
+$(in)^3\hat G_n=\frac1{2\pi}\bigl(\int\{G'''\}e^{-in\theta}\dd\theta+J\bigr)$, and the integral tends to $0$
+by Riemann--Lebesgue; it is $O(1/n)$ because $\{G'''\}\in\BV$ (Katznelson, \S I.4, as used in CW05 Lemma 5.3)}
+\lstep{1}{3}{(c).}
+\lby{two independent routes: (i) CDIT Prop.~2.3 (\S\ref{sec:cited}) applies verbatim because $G$ is piecewise smooth
+and $C^1$ on all of $S^1$ by $\langle1\rangle1$; (ii) directly from $\langle1\rangle2$:
+$\sum_n\abs{\hat G_n}(1+\abs n^{3/2})\le C\sum_n\abs n^{-3}\abs n^{3/2}=C\sum_n\abs n^{-3/2}<\infty$}
+\lstep{1}{4}{(d).}
+\lby{$\widehat{(G')}_n=in\hat G_n$, so by $\langle1\rangle2$ $\abs{\widehat{(G')}_n}=\frac{\abs J}{2\pi n^2}(1+O(n^{-1}))$ and
+$\sum_{\abs n\le N}\abs{\widehat{(G')}_n}(1+\abs n^{3/2})=2\sum_{n\le N}\frac{\abs J}{2\pi}n^{-1/2}+O(\log N)
+=\frac{\abs J}\pi\cdot2\sqrt N+O(\log N)$, using $\sum_{n\le N}n^{-1/2}=2\sqrt N+O(1)$}
+\lstep{1}{5}{(e).}
+\lby{$\sum_n(1+n^2)^s\abs{\hat G_n}^2\asymp\sum_n n^{2s-6}$ by $\langle1\rangle2$, which converges iff $2s-6<-1$,
+i.e.\ $s<5/2$, and diverges logarithmically at $s=5/2$; $\ktil_s-\iota$ has the same regularity as $\gtot$ by
+Proposition~\ref{prop:flow} (its second derivative has one jump), whence the statement about $D^\sigma$}
+\lstep{1}{6}{(f) and (g).}
+\lby{$L_n\Om=0$ for $n\ge-1$ (positivity of energy and $L_0\Om=0$), so $T(G)\Om=\sum_{n\ge2}\hat G_{-n}L_{-n}\Om$
+with mutually orthogonal terms ($L_{-n}\Om$ has $L_0$-eigenvalue $n$), and
+$\norm{L_{-n}\Om}^2=\ip\Om{[L_n,L_{-n}]\Om}=\frac c{12}n(n^2-1)$; then $\abs{\hat G_{-n}}=\abs{\hat G_n}$,
+and $\sum n(n^2-1)\abs{\hat G_n}^2\asymp\sum_n n^3\abs{\hat G_n}^2=\norm G_{\dot H^{3/2}}^2$;
+inserting $\langle1\rangle2$ gives $\sum n^{-3}<\infty$ for (f), $\sum n\cdot n^{-3}<\infty$ for the first part of (g)
+and $\sum n^2\cdot n^{-3}=\sum n^{-1}$, with coefficient $(\abs J/2\pi)^2$, for the second}
+\lqed{1}{7}\lby{$\langle1\rangle1$--$\langle1\rangle6$}
+
+\begin{remark}[sharpness: why $C^{1,1}$ and not merely Lipschitz]\label{rem:sharp}
+By Theorem~\ref{thm:reg}(f), $T(\gtot)\Om\in\Hil$ iff $\gtot\in\dot H^{3/2}(S^1)$, and
+$\norm{T(\gtot)\Om}^2=\frac c{12}\norm{\gtot}^2_{\dot H^{3/2},\mathrm{Vir}}$ is (a multiple of) the Weil--Petersson
+form on $\Vect(S^1)$.  A field with a \emph{corner} (i.e.\ $\gtot$ Lipschitz but $\gtot'$ discontinuous) has
+$\abs{\hat G_n}\asymp\abs n^{-2}$ and hence $\sum n^3\abs{\hat G_n}^2\asymp\sum n^{-1}=\infty$: the tangent vector
+would not exist.  This is exactly Gap~2 of \texttt{lemma\_second\_variation.tex}.  The field of the
+zero-collar map is one degree better: $C^1$ with a jump of the second derivative, giving $\abs{\hat G_n}\asymp\abs n^{-3}$
+and $\sum n^3\abs{\hat G_n}^2\asymp\sum n^{-3}<\infty$ with room to spare.  The margin is exactly one derivative,
+and it is consumed again at the next order: by (g), the first energy moment of $T(\gtot)\Om$ is finite but the
+second is logarithmically infinite.
+\end{remark}
+
+\begin{verdictok}
+Theorem~\ref{thm:reg} is confirmed numerically by \texttt{rigor/qb\_regularity.py} (representative (i) with
+$L=1$, $M=3$, $N=2^{22}$ grid points, FFT).  (b): $n^3\abs{\hat G_n}=0.159155$ at $n=2048$ and $n=8192$ versus
+$\abs J/2\pi=0.1591549$ (6 digits).  (c): $\norm G_{3/2}$ partial sums $18.7040$ at $\abs n\le2^{18}$, increments
+consistent with the predicted tail $\frac{2\abs J}\pi N^{-1/2}$.  (d): partial sums $481.6$, $644.6$ at
+$N=2^{16},2^{18}$; the increment $162.97$ matches the predicted $\frac{2\abs J}\pi(\sqrt{4N}-\sqrt N)=162.97$
+to five digits.  The script prints the \emph{two-sided} sums $S_p:=\sum_{n\ne0}\abs n^p\abs n(n^2-1)\abs{\hat G_n}^2
+$, which are twice the one-sided sums $\sum_{n\ge2}$ of Theorem~\ref{thm:reg}(f),(g); the conversion is
+$\norm{L_0^{p/2}T(\gtot)\Om}^2=\frac c{12}\cdot\frac{S_p}2=\frac c{24}S_p$.  (f): $S_0=4.076764$ (converged at
+$\abs n\le2^{10}$), i.e.\ $\norm{T(\gtot)\Om}^2=\frac c{24}\cdot4.076764=0.169865\,c$.  (g): $S_1=38.945685$,
+i.e.\ $\norm{L_0^{1/2}T(\gtot)\Om}^2=0.041667\,c\cdot38.945685/2=1.622737\,c$; $S_2$ grows by $0.1405$ per factor
+$16$ in the cutoff, matching the two-sided prediction $\frac{J^2}{2\pi^2}\log16=0.14049$ (one-sided:
+$\frac{J^2}{4\pi^2}\log16$).
+(e): the $H^s$ sums converge for $s=2,2.4$, diverge logarithmically at $s=2.5$ and as a power for $s=2.6$.
+\end{verdictok}
+
+\section{Cited results}\label{sec:cited}
+
+Every statement used below is transcribed with its exact locator and a screenshot in \texttt{rigor/shots/}.
+Paraphrases are marked.  Files: \texttt{refs/P1\_CarpiWeiner\_math-0407190.pdf} (arXiv version of
+S.~Carpi, M.~Weiner, CMP \textbf{258} (2005) 203; below CW05) and \texttt{refs/CDIT\_1808.02384.pdf}
+(S.~Carpi, S.~Del Vecchio, S.~Iovieno, Y.~Tanimoto, AHP \textbf{22} (2021) 2091; below CDIT).
+
+\begin{citedbox}{CDIT, Proposition 2.2 (= CW05 Prop.~4.2, Thm.~4.4, Prop.~4.5), p.~5--6}
+\emph{Verbatim.} ``If $f:S^1\to\mathbb C$ is continuous and such that $\sum_{n\in\mathbb Z}|\hat f_n|(1+|n|^{3/2})<\infty$
+then (1) the operator $T(f)=\sum_n L_n\hat f_n$ on the domain $\Hil^{\mathrm{fin}}(c,h)$ is well defined \dots
+(3) $T(f)$ is closable and $\overline{T(f)}=(T(f)^+)^*$ \dots In particular, if $\hat f_n=\overline{\hat f_{-n}}$
+for all $n$ (i.e.\ if $f$ is a real-valued function), then $T(f)$ is essentially self-adjoint on
+$\Hil^{\mathrm{fin}}(c,h)$. (4) For every $\xi\in D(L_0)$ we have the following energy bounds
+$\|T(f)\xi\|\le r\|f\|_{3/2}\|(1+L_0)\xi\|$, where $r$ is a function of the central charge $c$ only.
+Consequently, $D(L_0)\subset D(T(f))$. (5) If $\{f_n\}$ is a sequence of continuous real functions on $S^1$ in
+$\mathcal S^{3/2}(S^1)$ and $\|f-f_n\|_{3/2}$ converges to $0$ \dots then $T(f_n)\to T(f)$ in the strong resolvent sense.''
+\\[2pt]
+\includegraphics[width=\linewidth]{shots/QB_CDIT_prop22a.png}\\
+\includegraphics[width=\linewidth]{shots/QB_CDIT_prop22b.png}
+\\[2pt]
+\emph{Use.}  (1),(3) define $T(\gtot)$ and make it essentially self-adjoint on $\Hfin$ (this is the whole of step A1
+below and it needs \emph{no} regularity beyond $\norm{\gtot}_{3/2}<\infty$); (4) gives $\Om\in D(T(\gtot))$ and (H2);
+(5) is the engine of the approximation argument for (H1).
+\emph{Verdict on the usage.}  Hypotheses satisfied by Theorem~\ref{thm:reg}(c).  One caveat: the statement is for the
+irreducible representation $\Hil(c,h)$; see Lemma~\ref{lem:dirsum}.
+\end{citedbox}
+
+\begin{citedbox}{CW05, Theorem 4.4, p.~13 and Proposition 4.5, p.~14 (the originals)}
+\emph{Verbatim.} ``If $a_n\in\mathbb C$ $(n\in\mathbb Z)$ is such that $\sum_{n}|a_n||n|^{3/2}<\infty$ then $A$ is
+closable and $\overline A=(A^+)^*$ \dots In particular, if $a_n=\overline{a_{-n}}$ for all $n\in\mathbb Z$, then $A$
+is essentially self-adjoint on $D^{\mathrm{fin}}$.''  And: ``For every continuous real function $f$ on $S^1$ of finite
+$\|\cdot\|_{3/2}$ norm and for every $v\in D(L_0)$ we have $\|T(f)v\|\le r\|f\|_{3/2}\|(1+L_0)v\|$ \dots
+if $\|f_n-f\|_{3/2}$ converges to zero \dots then $T(f_n)\to T(f)$ in the strong resolvent sense.  In particular,
+$e^{iT(f_n)}\to e^{iT(f)}$ strongly.''\\[2pt]
+\includegraphics[width=\linewidth]{shots/QB_CW_thm44.png}\\
+\includegraphics[width=\linewidth]{shots/QB_CW_prop45.png}
+\\[2pt]
+\emph{Use.}  The last sentence (``in particular $e^{iT(f_n)}\to e^{iT(f)}$ strongly'') is what we use in
+Theorem~\ref{thm:H1}; it is stated in CW05 but not in CDIT's Prop.~2.2(5).  \emph{Verdict.} Correct as used;
+strong resolvent convergence gives $e^{itT(f_n)}\to e^{itT(f)}$ strongly, uniformly for $t$ in compacts
+(Reed--Simon I, Thm.~VIII.21), which is the form we need.
+\end{citedbox}
+
+\begin{citedbox}{CW05, Lemma 4.6, p.~14 (support-preserving smooth approximation)}
+\emph{Verbatim.} ``Let $I\subset S^1$, $I\ne\emptyset$ be an open interval (or even the whole circle).  If $f$ is a
+real continuous function of finite $\|\cdot\|_{3/2}$ norm with support contained in $I$, then there exists a sequence
+$f_k$ of real smooth functions with support still in $I$ such that $\lim_k\|f_k-f\|_{3/2}=0$.''
+The proof is by convolution: $\|\phi_k*f-f\|_{3/2}\le\sum_n|(\hat\phi_{k,n}-1)\hat f_n|(1+|n|^{3/2})\to0$ by
+dominated convergence.\\[2pt]
+\includegraphics[width=\linewidth]{shots/QB_CW_lem46.png}
+\\[2pt]
+\emph{Use.}  Localisation of $T(\gtot-m)$ in $\cA(D')$ and of $T(\gtot)$ in $\cA(A')$ (Theorem~\ref{thm:H1}).
+\emph{Verdict: caveat.}  ``support contained in $I$'' must be read as ``$\supp f$ a \emph{compact} subset of $I$'':
+the mollification $\phi_k*f$ has support in an $\eps_k$-neighbourhood of $\supp f$.  In our application (as in CW05's
+own Prop.~5.4) the relevant $f$ vanishes on an open arc $I_0$ but its support is the \emph{closed} complementary arc
+$\overline{I_0'}$, so the approximants are supported in slightly larger intervals and one concludes with the
+semicontinuity axiom \eqref{eq:sem}.  We spell this out in step $\langle2\rangle$ of Theorem~\ref{thm:H1}.
+\end{citedbox}
+
+\begin{citedbox}{CDIT, Proposition 2.3, p.~6 and CW05, Lemma 5.3, p.~17 (piecewise smooth fields)}
+\emph{Verbatim (CDIT).} ``If a real-valued function $f$ on the circle is piecewise smooth and once continuously
+differentiable on the whole $S^1$, then $f\in\mathcal S^{3/2}(S^1)$.''  \emph{Verbatim (CW05, the proof for the
+four-arc piecewise-M\"obius field).}  ``By direct calculation not only $f$, but also its derivative is continuous.
+Its second derivative is of course still smooth on each of the four open intervals, and at the endpoints it has only
+finite `jumps'.  Therefore it is a function of bounded variation, and hence there is a constant $M>0$ such that the
+absolut value of its Fourier coefficient associated to any integer $n$ is bounded by $\frac M{|n|}$ \dots which in
+turn implies that $|\hat f_n|\le\frac M{|n|^3}$ for all $n\in\mathbb Z$.''\\[2pt]
+\includegraphics[width=\linewidth]{shots/QB_CDIT_prop23.png}\\
+\includegraphics[width=\linewidth]{shots/QB_CW_lem53.png}
+\\[2pt]
+\emph{Use.}  Theorem~\ref{thm:reg}(c) --- our $\gtot$ is precisely of this type, with two arcs instead of four.
+\emph{Verdict: verified}, and our Theorem~\ref{thm:reg}(b) sharpens the $O(|n|^{-3})$ to the exact constant $|J|/2\pi$.
+\end{citedbox}
+
+\begin{citedbox}{CW05, Proposition 5.4, p.~17 (the adjoint action of $e^{itT(f)}$ for non-smooth $f$)}
+\emph{Verbatim.}  ``For all $t\in\mathbb R$ the adjoint actions of $e^{itT(f)}$ and $e^{it\widetilde T(f)}$ restricted to
+the algebra $\cA(I_{(p,ip)})$ coincide with that of $e^{itT(g_p)}=e^{it\widetilde T(g_p)}$ \dots  \emph{Proof.} The
+continuous real function $f-g_p$ is zero on $I_{(p,ip)}$.  Since its $\|\cdot\|_{3/2}$ norm is finite, we can consider
+the operator $T(f-g_p)$ which then by Lemma 4.6 and Proposition 4.5 is affiliated to $\cA(I'_{(p,ip)})$.  On the common
+core of the finite-energy vectors $T(f)=T(f-g_p)+T(g_p)$.  Then, since $T(f-g_p)$ is affiliated to the commutant of
+$\cA(I_{(p,ip)})$ and $\Ad(e^{itT(g_p)})(\cA(I_{(p,ip)}))=\cA(I_{(p,ip)})$ for all $t$, by a simple use of the Trotter
+product-formula \dots''\\[2pt]
+\includegraphics[width=\linewidth]{shots/QB_CW_prop54.png}
+\\[2pt]
+\emph{Use.}  This is the template for Theorem~\ref{thm:H1}: our field is $\gtot=m$ on $D$ and $\gtot=0$ on $A$, so
+$\gtot-m$ vanishes on $D$ and $\gtot-0$ vanishes on $A$; CW05's argument then determines $\Ad U_s$ on $\cA(D)$ and on
+$\cA(A)$ completely.  \emph{Verdict: verified}, with the support caveat recorded in the box for Lemma 4.6, and with
+one addition: CW05 need the conclusion only on the four quarter-arcs, whereas (H1) is a statement for \emph{every}
+interval, including those straddling the singular point; that case is handled by Theorem~\ref{thm:H1}$\langle3\rangle$
+(the CDIT Prop.~4.1 argument), not by Prop.~5.4.
+\end{citedbox}
+
+\begin{citedbox}{CDIT, \S4 p.~22: the net axioms; (8) additivity and (9) semicontinuity are automatic}
+\emph{Verbatim.}  ``With these assumptions, the following automatically hold [GF93, Theorem 2.19(ii)][FJ96, Section 3]
+\dots (8) Additivity: if $\{I_\alpha\}_{\alpha\in A}$ is a covering of $I\in\mathcal I$, with $I_\alpha\in\mathcal I$
+for every $\alpha$, then $\cA(I)\subset\bigvee_\alpha\cA(I_\alpha)$. (9) Semicontinuity: if $I_n\in\mathcal I$ is a
+decreasing family of intervals and $I=(\bigcap_nI_n)^\circ$ then $\cA(I)=\bigwedge_n\cA(I_n)$.''  Axiom (10) is
+diffeomorphism covariance, including $U(\gamma)xU(\gamma)^*=x$ for $x\in\cA(I)$, $\gamma\in\Diff(I')$.\\[2pt]
+\includegraphics[width=\linewidth]{shots/QB_CDIT_netaxioms.png}
+\\[2pt]
+\emph{Use.}  \eqref{eq:add} and \eqref{eq:sem} in Theorem~\ref{thm:H1}.  \emph{Verdict: verified};
+note that these are consequences of M\"obius covariance alone --- no strong additivity, no finite multiplicities.
+\end{citedbox}
+
+\begin{citedbox}{CDIT, Proposition 4.1, p.~23 (the approximation argument for net covariance)}
+\emph{Verbatim.}  ``A conformal net $(\cA,U,\Om)$ is $D^s(S^1)$-covariant for every $s>3$.  \emph{Proof.} Let
+$\{\gamma_n\}$ be a sequence of diffeomorphisms in $\Diff(S^1)$ converging to $\gamma\in D^s(S^1)$ \dots
+$U(\gamma_n)\cA(I)U(\gamma_n)^*=\cA(\gamma_nI)\subset\cA(\bigcup_{k=m}^n\gamma_kI)$, where we used isotony \dots
+$U(\gamma_n)xU(\gamma_n)^*\in\cA(\bigcup_{k=m}^n\gamma_kI)=\bigvee_{k=m}^\infty\cA(\gamma_kI)$, by additivity.
+By Proposition 3.6 it follows that $U(\gamma)xU(\gamma)^*=\lim_nU(\gamma_n)xU(\gamma_n)^*$ (convergence in the strong
+operator topology) is in $\bigvee_{k=m}^\infty\cA(\gamma_k\cdot I)$ for any $m$, hence we have by upper semicontinuity
+that $U(\gamma)\cA(I)U(\gamma)^*\subset\bigcap_m\cA(\bigcup_{k=m}^\infty\gamma_kI)=\cA(\gamma I)$.  The other inclusion
+follows by applying $\Ad U(\gamma^{-1})$.''\\[2pt]
+\includegraphics[width=\linewidth]{shots/QB_CDIT_prop41.png}
+\\[2pt]
+\emph{Use.}  Theorem~\ref{thm:H1} step $\langle3\rangle$ runs this argument verbatim with $U(\gamma_n)$ replaced by
+$e^{isT(g_n)}$ and with ``Proposition 3.6'' (which requires $s>3$) replaced by CW05 Prop.~4.5.
+\emph{Verdict: verified}; the restriction $s>3$ enters only through the existence of the limit unitary $U(\gamma)$,
+which for a one-parameter flow we get for free from Stone's theorem.
+\end{citedbox}
+
+\begin{citedbox}{CDIT, Corollary 3.6, p.~13 and Outlook, p.~24 (what is known at group level)}
+\emph{Verbatim.}  ``Let $U=U^{(c,h)}$ be the irreducible unitary projective representation of $\Diff(S^1)$ with central
+charge $c$ and lowest weight $h$.  Then $U$ extends to a strongly continuous irreducible unitary projective
+representation of $D^s(S^1)$, $s>3$.''  Outlook: ``For all positive integers $n$ and some $h$, the irreducible unitary
+representation $U^{(n,h)}$ can be extended to $D^s(S^1)$, $s>2$ [DIT19].  It would be interesting to better understand
+to what extent the regularity of the diffeomorphisms can be weakened \dots''  Introduction, p.~2: ``For some special
+representations appearing in Fock space, further extensions have been done first to $C^3$-diffeomorphisms [Vro13], then
+to $D^s(S^1)$, $s>2$ [DIT19].  The arguments depend on realizing these representations in some specific conformal field
+theory, and it is open whether the results are valid for general representations.''\\[2pt]
+\includegraphics[width=\linewidth]{shots/QB_CDIT_cor36.png}\\
+\includegraphics[width=\linewidth]{shots/QB_CDIT_outlook.png}\\
+\includegraphics[width=\linewidth]{shots/QB_CDIT_fock.png}
+\\[2pt]
+\emph{Use.}  \S\ref{sec:classes}: since $\ktil_s\in D^\sigma$ exactly for $\sigma<5/2$ (Theorem~\ref{thm:reg}(e)),
+the $s>3$ theorem does \emph{not} apply, while the $s>2$ result for Fock representations with integer central charge
+does.  \emph{Verdict: verified}; note ``positive integers $n$'' means integer central charge $c=n$.
+\end{citedbox}
+
+\begin{citedbox}{CDIT, \S2.1 p.~5: $U(\Exp(f))=e^{iT(f)}$ and the Schwarzian covariance (from FH05)}
+\emph{Verbatim.}  ``\dots there is an irreducible, unitary, strongly continuous multiplier representation $U$ of
+$\widetilde{\Diff}(S^1)$ \dots such that $q(U(\Exp(f)))=q(e^{iT(f)})$ for all $f\in\Vect(S^1)$'' ($q$ = quotient by
+phases).  ``Proposition 2.1.  The stress-energy tensor $T$ on $\Hil(c,h)$ transforms according to
+$U(\gamma)T(f)U(\gamma)^*=T(\mathring\gamma_*(f))+\frac c{24\pi}\int_0^{2\pi}\{\mathring\gamma,z\}|_{z=e^{i\theta}}
+f(e^{i\theta})e^{2i\theta}\dd\theta$ on vectors in $\Hil^{\mathrm{fin}}(c,h)$'' [FH05, Prop.~5.1, Prop.~3.1].\\[2pt]
+\includegraphics[width=\linewidth]{shots/QB_CDIT_prop21.png}
+\\[2pt]
+\emph{Use.}  The first identity is used for the \emph{smooth} approximants $g_n$ only.  The second gives the energy of
+the transformed vacuum, Proposition~\ref{prop:energy}.  \emph{Verdict: verified.}
+\end{citedbox}
+
+\section{Route A: $U_s=e^{is T(\gtot)}$}\label{sec:routeA}
+
+Throughout this section $(\cA,U,\Om)$ is an arbitrary conformal net (C4) with central charge $c>0$ and
+$\gtot\in\mathcal E$ (Definition~\ref{def:gtot}).  No further hypothesis is imposed.
+
+\begin{citedbox}{CDIT, Proposition 3.14 / \S4 p.~23 (decomposition into irreducibles)}
+\emph{Verbatim.}  ``A positive energy representation $U$ of $\Diff(S^1)$ is equivalent to a direct sum of irreducible
+representations, see Proposition 3.14.  Every irreducible component $U_j$ in the decomposition has the same value of
+the central charge $c$ and if $h_j$ is the lowest weight of $U_j$, $h_j-h_k\in\mathbb Z$ for every $j,k$.''\\[2pt]
+\includegraphics[width=\linewidth]{shots/QB_CDIT_dirsum.png}
+\\[2pt]
+\emph{Use.}  Lemma~\ref{lem:dirsum}.  \emph{Verdict: verified}; the crucial point for us is that $c$ is the same for
+all components, so the constant $r=r(c)$ in the energy bound is uniform in $j$.
+\end{citedbox}
+
+\begin{lemma}[the Carpi--Weiner package holds in the vacuum representation of any conformal net]\label{lem:dirsum}
+Let $f$ be real with $\norm f_{3/2}<\infty$.  In the vacuum representation of a conformal net with central charge $c$:
+$T(f)=\sum_n\hat f_nL_n$ is well defined and essentially self-adjoint on $\Hfin$;
+$\norm{T(f)\xi}\le r(c)\norm f_{3/2}\norm{(1+L_0)\xi}$ for $\xi\in D(L_0)$, so $D(L_0)\subseteq D(\overline{T(f)})$;
+and $\norm{f_k-f}_{3/2}\to0$ implies $e^{it\overline{T(f_k)}}\to e^{it\overline{T(f)}}$ strongly, uniformly for $t$ in compacts.
+\end{lemma}
+\lstep{1}{1}{$U|_{\Diff}$ is a positive energy projective representation and decomposes as $\bigoplus_jU_j$ with all
+$U_j$ irreducible of the same central charge $c$; correspondingly $\Hil=\bigoplus_j\Hil_j$, $L_n=\bigoplus_jL_n^{(j)}$.}
+\lby{CDIT Prop.~3.14 (citedbox above); positivity of energy is axiom (4), and $L_0$ is diagonalisable by (C4)}
+\lstep{1}{2}{Each of the four assertions holds on each $\Hil_j$ with the \emph{same} constant $r(c)$.}
+\lby{CDIT Prop.~2.2(1),(3),(4),(5) and CW05 Prop.~4.5 (citedboxes in \S\ref{sec:cited}), applicable because
+$\Hil_j=\Hil(c,h_j)$ is irreducible; $r$ depends only on $c$, which is common to all $j$ by $\langle1\rangle1$}
+\lstep{1}{3}{The energy bound and the strong resolvent convergence pass to the direct sum.}
+\lby{$\norm{T(f)\xi}^2=\sum_j\norm{T(f)\xi_j}^2\le r^2\norm f^2_{3/2}\sum_j\norm{(1+L_0)\xi_j}^2$; for the
+convergence, $\norm{(T(f_k)-T(f))\xi}\le r\norm{f_k-f}_{3/2}\norm{(1+L_0)\xi}\to0$ for every $\xi\in D(L_0)$, and
+$D(L_0)$ is a common core, so Reed--Simon I, Thm.~VIII.25(a) gives strong resolvent convergence and
+Thm.~VIII.21 the uniform-on-compacts strong convergence of the unitary groups}
+\lstep{1}{4}{Essential self-adjointness on $\Hfin$.}
+\lby{$T(f)$ is e.s.a.\ on $\bigoplus_j^{\mathrm{alg}}\Hil_j^{\mathrm{fin}}$ by $\langle1\rangle2$ (for a direct sum
+of symmetric operators, $\mathrm{Ran}(T\pm i)$ is dense in each summand, hence in the algebraic direct sum, hence in
+$\Hil$); since $\bigoplus_j^{\mathrm{alg}}\Hil_j^{\mathrm{fin}}\subseteq\Hfin\subseteq D(T(f))$ and $T(f)$ is symmetric
+on $\Hfin$, the closure from $\Hfin$ is a symmetric extension of a self-adjoint operator, hence equals it}
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$}
+
+
+\begin{citedbox}{Fewster--Hollands 2005, Proposition 5.1, p.~27 (global phases; the multiplier depends only on $c$)}
+\emph{Verbatim.}  ``There is a global smooth section $g\mapsto(g,U^{(c,h)}(g))$ of $\widehat G$ such that
+$g\mapsto U^{(c,h)}(g)$ is a strongly continuous unitary multiplier representation of $G$ leaving $\Hil^\infty$
+invariant and obeying $U^{(c,h)}(g)U^{(c,h)}(g')=e^{ic\widetilde B(g,g')}U^{(c,h)}(gg')$ $(g,g'\in G)$.  Moreover, if
+$\mathbf f\in\mathrm{Vect}_{\mathbb R}(S^1)$ is the vector field corresponding to $f$ then $D(\Theta(f))$ consists
+precisely of those $\psi\in\Hil$ for which $s\mapsto U^{(c,h)}(\exp s\mathbf f)\psi$ is differentiable, and we have
+$\frac{d}{ds}U^{(c,h)}(\exp s\mathbf f)\psi|_{s=0}=i\Theta(f)\psi$.''  Here $G=\widetilde{\Diff}(S^1)$ and
+$\widetilde B$ is the (scalar) Bott cocycle, eq.~(3.11) p.~9.\\[2pt]
+\includegraphics[width=\linewidth]{shots/QB_FH05_prop51.png}
+\\[2pt]
+\emph{Use.}  Lemma~\ref{lem:phase}: the multiplier $e^{ic\widetilde B}$ and the generator $\Theta(f)=T(f)$ are the
+\emph{same} for all irreducible summands of a positive-energy representation, because $c$ is.
+\emph{Verdict: verified}; this is the statement CDIT \S2.1 quotes for the irreducible case, in the form we need.
+\end{citedbox}
+
+\begin{lemma}[the phase in $U(\Exp(tf))=e^{itT(f)}$ is scalar]\label{lem:phase}
+Let $(\cA,U,\Om)$ be a conformal net and let $f$ be a real smooth vector field with $\supp f\subseteq I_f$ for some
+\emph{proper} interval $I_f\subsetneq S^1$.  Then there is a continuous $\alpha_f:\mathbb R\to\mathbb R$,
+$\alpha_f(0)=0$, with
+\begin{equation}\label{eq:scalarphase}
+ U(\Exp(tf))=e^{i\alpha_f(t)}\,e^{it\overline{T(f)}}\qquad(t\in\mathbb R),
+\end{equation}
+the phase being a \emph{scalar}.  In particular $\Ad U(\Exp(tf))=\Ad e^{it\overline{T(f)}}$ on $\cB(\Hil)$.
+\end{lemma}
+\lstep{1}{1}{$\Hil=\bigoplus_j\Hil(c,h_j)$ with all $U$-invariant summands and one common $c$; on each summand
+Fewster--Hollands Prop.~5.1 provides $U^{(c,h_j)}$ with the multiplier $e^{ic\widetilde B}$ and generators
+$T_j(f)$, so $\widetilde U:=\bigoplus_jU^{(c,h_j)}$ satisfies
+$\widetilde U(\Exp(tf))=e^{i\beta_f(t)}e^{it\overline{T(f)}}$ with $\beta_f$ a scalar depending only on $c$ and $f$.}
+\lby{CDIT Prop.~3.14 (citedbox) for the decomposition and the common $c$; FH05 Prop.~5.1 (citedbox) on each
+summand; the multiplier $e^{ic\widetilde B(g,g')}$ and hence its restriction to the one-parameter subgroup
+$t\mapsto\Exp(tf)$ is a scalar function of $(c,g,g')$ only, identical on all summands}
+\lstep{1}{2}{$U(g)|_{\Hil_j}=z_j(g)\,U^{(c,h_j)}(g)$ for phases $z_j(g)\in\mathbb T$, and $w_j:=z_j/z_1$ is a
+continuous character of $G=\widetilde\Diff(S^1)$.}
+\lby{both $U|_{\Hil_j}$ and $U^{(c,h_j)}$ are projective unitary representations of the connected group $G$ on
+$\Hil_j$ with the same generators $L^{(j)}_n$, hence define the same map $G\to\mathcal{PU}(\Hil_j)$ and differ by a
+phase; $U$ is a \emph{projective} representation, i.e.\ its multiplier $\sigma(g,g')$ is a scalar on $\Hil$, so
+dividing the two multiplier equations gives $w_j(g)w_j(g')=w_j(gg')$}
+\lstep{1}{3}{$w_j(\Exp(tf))=1$ for all $j$ and all $t$, when $\supp f$ is contained in a proper interval $I_f$.}
+\lby{$\Exp(tf)$ lies in the subgroup $\Diff(I_f)=\{\gamma:\gamma|_{I_f'}=\mathrm{id}\}$, which is simple, hence
+perfect (Mather--Thurston--Epstein; cited by CDIT p.~13 as [Mil84, Remark~1.7] for $\Diff(S^1)$, and the same
+statement holds for the compactly supported diffeomorphism group of $\mathbb R\cong I_f$), so it has no non-trivial
+homomorphism into the abelian group $\mathbb T$; the canonical lift of $\Diff(I_f)$ to $G$ along the path
+$s\mapsto\Exp(sf)$ is again perfect}
+\lstep{1}{4}{\lqed}
+\lby{$\langle1\rangle1$--$\langle1\rangle3$: $U(\Exp(tf))=z_1(\Exp(tf))\widetilde U(\Exp(tf))
+=z_1(\Exp(tf))e^{i\beta_f(t)}e^{it\overline{T(f)}}$, a scalar multiple of $e^{it\overline{T(f)}}$}
+
+\begin{remark}\label{rem:phase-general}
+For a field $f$ that is \emph{not} supported in a proper interval, $\langle1\rangle3$ must be replaced by the
+perfectness of the Witt algebra: with $e_n=ie^{in\theta}\partial_\theta$ one has $e_n=-\frac1n[e_0,e_n]$ $(n\ne0)$
+and $e_0=\frac12[e_1,e_{-1}]$, so a Lie-algebra character of $\Vect(S^1)$ vanishes, which kills the diagonal
+operator $\bigoplus_j\mu_j$ left over in $\langle1\rangle2$.  We do not need this: \emph{both} uses of
+\eqref{eq:scalarphase} below involve fields supported in a proper interval, because $\gtot$ vanishes on the open
+arc $A_0\supseteq A$, so $\supp\gtot\subseteq A_0'\subsetneq S^1$ and CW05 Lemma~4.6 may be applied with
+$I=$ any proper interval containing $A_0'$.
+\end{remark}
+
+\begin{verdictgap}
+This lemma repairs the one write-up gap found by the referee (QR2, \S``Ingredient 6''): CDIT \S2.1 states
+$q(U(\Exp f))=q(e^{iT(f)})$ only on the \emph{irreducible} $\Hil(c,h)$, and on a reducible representation the naive
+summand-by-summand reading gives a block-diagonal unitary $Z_t=\bigoplus_je^{i\alpha_jt}$, not a scalar --- which
+would break the localisation step, since the projections onto the $\Hil_j$ are not local.  The residual reliance on
+the literature is the simplicity of $\Diff(I)$ ($\langle1\rangle3$), which we cite but have not re-verified.
+\end{verdictgap}
+
+
+\begin{lemma}[locality of implementers, and (H2')]\label{lem:loc-HT}
+Let $(\cA,U,\Om)$ be a conformal net and, for an interval $K$, put $\Diff(K):=\{\gamma\in\Diff(S^1):\gamma|_{K'}=\mathrm{id}\}$.
+\begin{enumerate}[leftmargin=2.2em,label=\textup{(\roman*)}]
+\item $U(\Diff(K))\subseteq\cA(K)$; and if a smooth real field $\phi$ vanishes on $K'$ then $\Exp(t\phi)\in\Diff(K)$
+      for all $t$, so $e^{itT(\phi)}\in\cA(K)$.
+\item \textup{(H2')} With $\Hil_T:=\overline{\{T(f)\Om:f\in\Vect(S^1)\}}$ one has $T(\gtot)\Om\in\Hil_T$; indeed
+      $T(f_n)\Om\to\overline{T(\gtot)}\Om$ in norm for \emph{every} sequence of smooth real $f_n$ with
+      $\norm{f_n-\gtot}_{3/2}\to0$.
+\end{enumerate}
+\end{lemma}
+\lstep{1}{1}{(i).}
+\lby{if $\gamma\in\Diff(K)$ then $\gamma\in\Diff\bigl((K')'\bigr)$, so axiom (10) (second clause, with the interval
+$K'$) gives $U(\gamma)xU(\gamma)^*=x$ for all $x\in\cA(K')$, i.e.\ $U(\gamma)\in\cA(K')'=\cA(K)$ by Haag duality
+(axiom (7)); if $\phi=0$ on $K'$ then every point of $K'$ is a fixed point of the flow of $\phi$ (uniqueness of
+solutions), so $\Exp(t\phi)|_{K'}=\mathrm{id}$; finally $e^{itT(\phi)}=U(\Exp(t\phi))$ up to a scalar phase by
+Lemma~\ref{lem:phase}, and scalars lie in $\cA(K)$}
+\lstep{1}{2}{$T(f_n)\Om-\overline{T(\gtot)}\Om=T(f_n-\gtot)\Om$ and
+$\norm{T(f_n-\gtot)\Om}\le r(c)\norm{f_n-\gtot}_{3/2}\norm{(1+L_0)\Om}=r(c)\norm{f_n-\gtot}_{3/2}$.}
+\lby{$\Om\in\Hfin\subseteq D(L_0)$ with $L_0\Om=0$; on $\Hfin$ the three series $T(f_n)$, $T(\gtot)$, $T(f_n-\gtot)$
+converge strongly and $T$ is linear in the field (Lemma~\ref{lem:dirsum}, from CDIT Prop.~2.2(1)); the estimate is
+the energy bound of Lemma~\ref{lem:dirsum} applied to the real field $f_n-\gtot$, which satisfies
+$\norm{f_n-\gtot}_{3/2}<\infty$}
+\lstep{1}{3}{(ii).}
+\lby{$\langle1\rangle2$ gives $\norm{T(f_n)\Om-\overline{T(\gtot)}\Om}\to0$; such $f_n$ exist by CW05 Lemma~4.6,
+and each $T(f_n)\Om\in\Hil_T$, which is closed}
+\lqed{1}{4}\lby{$\langle1\rangle1$, $\langle1\rangle3$}
+
+\begin{remark}\label{rem:HT}
+(H2') is the extra clause required by the referee of the Theorem~B document (QR1): the $T$-subspace $\Hil_T$ is
+invariant under $\Delta^{it}$ and $J$, and the optimisation over extensions in the Uhlmann upper bound is performed
+inside $\Hil_T$, so the tangent vector must lie there.  Note that the convergence in (ii) is stronger than
+membership in $\Hil_T$: the approximating sequence may be prescribed, and by Lemma~\ref{lem:loc-HT}(i) it may in
+addition be chosen with $f_n$ supported in any fixed proper interval containing $\supp\gtot\subseteq A_0'$.
+\end{remark}
+
+\begin{definition}\label{def:Us}
+$U_s:=e^{is\overline{T(\gtot)}}$, $s\in\mathbb R$; by Lemma~\ref{lem:dirsum} and Theorem~\ref{thm:reg}(c) this is a
+strongly continuous one-parameter unitary group (Stone).  Let $A_0$ be the interior of $\{\gtot=0\}$; by (E1),
+$A\subseteq A_0$.
+\end{definition}
+
+\begin{theorem}[(H1) for every conformal net, any $c$]\label{thm:H1}
+For every $s\in\mathbb R$:
+\begin{enumerate}[leftmargin=2.2em,label=\textup{(\roman*)}]
+\item $U_s\in\cA(A_0)'=\cA(A_0')$; in particular $\Ad U_s|_{\cA(K)}=\mathrm{id}$ for every interval $K\subseteq A_0$,
+      hence for $K=A$;
+\item $\Ad U_s|_{\cA(D)}=\Ad U(h_s)|_{\cA(D)}$ for $0\le s$, where $U(h_s)$ is the M\"obius unitary of $h_s=\Exp(sm)$;
+\item $U_s\cA(J)U_s^*=\cA(\ktil_sJ)$ for \emph{every} interval $J\subseteq S^1$, including intervals containing the
+      singular point $0$.
+\end{enumerate}
+Consequently \textup{(H1)} holds, and $\omega_s=\omega\circ\Ad U_s|_{\cA(I)}$ depends only on $k_s|_I$.
+\end{theorem}
+\lstep{1}{1}{$\gtot-m$ and $\gtot$ are real and in $\mathcal S^{3/2}(S^1)$, and
+$\overline{T(\gtot)}=\overline{T(\gtot-m)+T(m)}$ with $\Hfin$ a common core.}
+\lby{Theorem~\ref{thm:reg}(c) for $\gtot$; $m$ is smooth, so $\norm m_{3/2}<\infty$ and
+$\norm{\gtot-m}_{3/2}<\infty$; the operator identity $T(\gtot)=T(\gtot-m)+T(m)$ holds on $\Hfin$ term by term
+(the three sums converge strongly there by Lemma~\ref{lem:dirsum}), and each of the three operators is e.s.a.\ on
+$\Hfin$ by Lemma~\ref{lem:dirsum}}
+\lstep{1}{2}{\lassume $\phi$ real with $\norm\phi_{3/2}<\infty$ and $\phi=0$ on an open interval $I_0$.
+\lprove $e^{it\overline{T(\phi)}}\in\cA(I_0)'$ for all $t$.}
+\lproof
+\lstep{2}{1}{$\supp\phi\subseteq\overline{I_0'}$; for $\eps>0$ let $I_\eps\supset\overline{I_0'}$ be the open interval
+obtained by enlarging $I_0'$ by $\eps$ at both ends.  There are real $\phi_k\in C^\infty(S^1)$ with
+$\supp\phi_k\subseteq I_\eps$ and $\norm{\phi_k-\phi}_{3/2}\to0$.}
+\lby{CW05 Lemma 4.6 (citedbox; the mollification $\varrho_k*\phi$ has support in the $\eps$-enlargement of $\supp\phi$
+once $1/k<\eps$, and $\norm{\varrho_k*\phi-\phi}_{3/2}\le\sum_n\abs{\hat\varrho_{k,n}-1}\abs{\hat\phi_n}(1+\abs n^{3/2})\to0$
+by dominated convergence, $\abs{\hat\varrho_{k,n}}\le1$, $\hat\varrho_{k,n}\to1$)}
+\lstep{2}{2}{$e^{itT(\phi_k)}\in\cA(I_\eps)$ for all $t,k$.}\lby{Lemma~\ref{lem:loc-HT}(i) with $K=I_\eps$: $\phi_k$ is smooth and vanishes on $I_\eps'$, hence
+$\Exp(t\phi_k)\in\Diff(I_\eps)$ and $e^{itT(\phi_k)}\in\cA(I_\eps)$; the phase separating $e^{itT(\phi_k)}$ from
+$U(\Exp(t\phi_k))$ is scalar by Lemma~\ref{lem:phase} ($\supp\phi_k\subseteq\overline{I_\eps}$, a proper interval)
+and scalars lie in $\cA(I_\eps)$}
+\lstep{2}{3}{$e^{it\overline{T(\phi)}}\in\cA(I_\eps)$ for every $\eps>0$.}
+\lby{$\langle2\rangle1$, $\langle2\rangle2$, Lemma~\ref{lem:dirsum} (strong convergence $e^{itT(\phi_k)}\to
+e^{it\overline{T(\phi)}}$) and the fact that a von Neumann algebra is closed in the strong operator topology}
+\lqed{2}{4}
+\lby{$\bigcap_{\eps>0}\cA(I_\eps)=\cA(I_0')$ by semicontinuity \eqref{eq:sem} (the $I_\eps$ decrease to
+$\overline{I_0'}$, whose interior is $I_0'$), and $\cA(I_0')=\cA(I_0)'$ by Haag duality}
+
+\lstep{1}{3}{(i).}
+\lby{$\langle1\rangle2$ with $\phi=\gtot$ and $I_0=A_0$ ($\gtot=0$ on $A_0$ by definition of $A_0$), so
+$U_s\in\cA(A_0)'$; then $\cA(K)\subseteq\cA(A_0)$ for $K\subseteq A_0$ by isotony, so $U_s$ commutes with $\cA(K)$}
+\lstep{1}{4}{(ii).}
+\lproof
+\lstep{2}{1}{$U_s=\lim_{n\to\infty}\bigl(e^{i\frac sn\overline{T(\gtot-m)}}e^{i\frac snT(m)}\bigr)^n$ strongly.}
+\lby{Trotter's product formula in the form of Reed--Simon I, Thm.~VIII.31: $\overline{T(\gtot-m)}$ and
+$\overline{T(m)}$ are self-adjoint and their sum is essentially self-adjoint on
+$D(\overline{T(\gtot-m)})\cap D(\overline{T(m)})\supseteq\Hfin$, by $\langle1\rangle1$ and the argument of
+Lemma~\ref{lem:dirsum}$\langle1\rangle4$ (a symmetric extension of a self-adjoint operator is that operator)}
+\lstep{2}{2}{For $a>0$ and $x\in\cA(D)$: $\ \Ad\bigl(e^{ia\overline{T(\gtot-m)}}e^{iaT(m)}\bigr)(x)=\Ad U(h_a)(x)$.}
+\lby{$\gtot-m=0$ on $D$ by (E2), so $e^{ia\overline{T(\gtot-m)}}\in\cA(D)'$ by $\langle1\rangle2$;
+$e^{iaT(m)}=U(h_a)$ because $m$ is the M\"obius field with $\Exp(am)=h_a$ and $U|_{\mathrm{PSL}(2,\mathbb R)}$ is
+a \emph{true} unitary representation (axiom (3)) with generators $L_0,L_{\pm1}$;
+and $U(h_a)xU(h_a)^*\in\cA(h_aD)\subseteq\cA(D)$ for $a\ge0$ because $h_aD=(0,\tfrac L{1+a})\subseteq D$, so the outer
+conjugation by $e^{ia\overline{T(\gtot-m)}}$ acts trivially on it}
+\lstep{2}{3}{$\Ad\bigl(e^{i\frac sn\overline{T(\gtot-m)}}e^{i\frac snT(m)}\bigr)^n(x)=\Ad U(h_s)(x)$ for $x\in\cA(D)$, $s\ge0$.}
+\lby{iterate $\langle2\rangle2$ $n$ times with $a=s/n$, legitimate because at each step the image stays in
+$\cA(h_{ka/1}D)\subseteq\cA(D)$; then $U(h_{s/n})^n=U(h_s)$, $h_{s/n}^{\,n}=h_s$ being the M\"obius flow and $U|_{\mathrm{PSL}(2,\mathbb R)}$ a
+true representation}
+\lqed{2}{4}
+\lby{$\langle2\rangle1$ and $\langle2\rangle3$: if $V_n\to V$ strongly with all $V_n,V$ unitary, then
+$V_nxV_n^*\to VxV^*$ strongly, and the left-hand side is constant $=U(h_s)xU(h_s)^*$}
+\lstep{1}{5}{There are real $g_n\in C^\infty(S^1)$ with $\norm{g_n-\gtot}_{3/2}\to0$; put
+$\varphi_n^{(s)}:=\Exp(sg_n)\in\Diff(S^1)$.  Then $U(\varphi^{(s)}_n)=e^{isT(g_n)}\to U_s$ strongly and
+$\varphi^{(s)}_n\to\ktil_s$ uniformly on $S^1$.}
+\lby{CW05 Lemma 4.6 with $I=S^1$ for the approximants; Lemma~\ref{lem:dirsum} for the strong convergence;
+Lemma~\ref{lem:phase} for $U(\Exp(sg_n))=e^{isT(g_n)}$ up to a scalar phase (the $g_n$ may be chosen
+supported in a fixed proper interval containing $\supp\gtot\subseteq A_0'$, by CW05 Lemma 4.6); and Gronwall's inequality for the flows:
+$\norm{g_n-\gtot}_\infty\le\sum_n\abs{\hat g_{n,k}-\hat G_k}\le\norm{g_n-\gtot}_{3/2}\to0$ and $\gtot$ is Lipschitz
+with constant $\Lambda$, so $\abs{\varphi^{(s)}_n(x)-\ktil_s(x)}\le\norm{g_n-\gtot}_\infty\,\frac{e^{\Lambda\abs s}-1}\Lambda$}
+\lstep{1}{6}{(iii).}
+\lby{the argument of CDIT Prop.~4.1 (citedbox), verbatim, with $U(\gamma_n)$ replaced by $U(\varphi^{(s)}_n)$ and
+their Prop.~3.6 replaced by $\langle1\rangle5$: for $x\in\cA(J)$ and $m\le n$,
+$U(\varphi_n^{(s)})xU(\varphi_n^{(s)})^*\in\cA(\varphi^{(s)}_nJ)\subseteq
+\cA\bigl(\bigcup_{k\ge m}\varphi^{(s)}_kJ\bigr)=\bigvee_{k\ge m}\cA(\varphi^{(s)}_kJ)$ by isotony and additivity
+\eqref{eq:add} (for $m$ large the union is an interval, all its members being contained in a small neighbourhood of
+$\ktil_sJ$ and each containing $\varphi_m^{(s)}J$-neighbours by uniform convergence); the strong limit
+$U_sxU_s^*$ lies in the same von Neumann algebra for every $m$; and
+$\bigcap_m\cA\bigl(\bigcup_{k\ge m}\varphi^{(s)}_kJ\bigr)=\cA(\ktil_sJ)$ by semicontinuity \eqref{eq:sem}, because
+$\bigl(\bigcap_m\overline{\bigcup_{k\ge m}\varphi^{(s)}_kJ}\bigr)^\circ=\ktil_sJ$ by $\langle1\rangle5$ and the fact
+that $\ktil_s$ is a homeomorphism.  The reverse inclusion follows by applying the same to $U_s^*=U_{-s}$, whose flow
+is $\ktil_s^{-1}$}
+\lstep{1}{7}{$\omega_s$ depends only on $k_s|_I$.}
+\lby{let $\gtot,\widehat\gtot\in\mathcal E$ agree on $I$ and let $\widehat U_s$ be the group built from
+$\widehat\gtot$.  Then $\gtot-\widehat\gtot=0$ on $I$, so $e^{it\overline{T(\gtot-\widehat\gtot)}}\in\cA(I)'$ by
+$\langle1\rangle2$.  For $x\in\cA(I)$ and $s\ge0$, $\Ad\widehat U_a(x)\in\cA(\ktil_aI)\subseteq\cA(I)$ by (iii) and
+$\ktil_aI=(-a,\tfrac L{1+a})\subseteq I$; hence
+$\Ad\bigl(e^{ia\overline{T(\gtot-\widehat\gtot)}}\widehat U_a\bigr)(x)=\Ad\widehat U_a(x)$, and iterating $n$ times
+with $a=s/n$ and using Trotter as in $\langle1\rangle4$ gives $\Ad U_s|_{\cA(I)}=\Ad\widehat U_s|_{\cA(I)}$}
+\lqed{1}{8}\lby{$\langle1\rangle3$, $\langle1\rangle4$, $\langle1\rangle6$, $\langle1\rangle7$}
+
+\begin{verdictok}
+(H1) holds for \emph{every} conformal net, with no restriction on the central charge, no strong additivity and no
+finiteness of $L_0$-multiplicities.  The proof is a combination of two published arguments applied to a field that
+neither paper treats: CW05 Prop.~5.4 (Trotter plus localisation of $T$ on a non-smooth field, our
+$\langle1\rangle2$--$\langle1\rangle4$) and CDIT Prop.~4.1 (approximation plus additivity and semicontinuity, our
+$\langle1\rangle5$--$\langle1\rangle6$).  What replaces CDIT's hypothesis $s>3$ is that $\ktil_s$ is a
+\emph{one-parameter flow}: the limit unitary is produced by Stone's theorem from the essentially self-adjoint
+$T(\gtot)$ (CW05 Thm.~4.4, which needs only $\norm{\gtot}_{3/2}<\infty$), not by extending the representation to a
+group of non-smooth diffeomorphisms.
+\end{verdictok}
+
+\begin{theorem}[(H2) and (H3)]\label{thm:H23}
+Let $U_s$ be as in Definition~\ref{def:Us} and $\omega_s:=\omega\circ\Ad U_s|_{\cA(I)}$.  Then
+\begin{enumerate}[leftmargin=2.2em,label=\textup{(\roman*)}]
+\item $T(\gtot)\Om\in\Hil$ with $\norm{T(\gtot)\Om}^2=\frac c{12}\sum_{n\ge2}n(n^2-1)\abs{\hat G_n}^2$, and
+      $U_s\Om=\Om+is\,T(\gtot)\Om+o(s)$ in norm;
+\item for \emph{every} $X\in\cA(I)$ (not merely on a dense subalgebra),
+      $\omega_s(X)=\omega(X)+s\varphi(X)+o(s)$ with
+      $\varphi(X)=i\bigl(\ip{T(\gtot)\Om}{X\Om}-\ip\Om{XT(\gtot)\Om}\bigr)=i\,\omega([T(\gtot),X])$,
+      the $o(s)$ being uniform on bounded subsets of $\cA(I)$; and $\omega_s(X^2)\to\omega(X^2)$.
+\end{enumerate}
+\end{theorem}
+\lstep{1}{1}{$\Om\in D(L_0)\subseteq D(\overline{T(\gtot)})$ and the norm formula.}
+\lby{$L_0\Om=0$; the energy bound of Lemma~\ref{lem:dirsum} with $\norm{\gtot}_{3/2}<\infty$
+(Theorem~\ref{thm:reg}(c)); the norm formula is Theorem~\ref{thm:reg}(f)}
+\lstep{1}{2}{For a self-adjoint $T$ and $\xi\in D(T)$, $\norm{e^{isT}\xi-\xi-isT\xi}=o(s)$.}
+\lby{spectral theorem: $\norm{e^{isT}\xi-\xi-isT\xi}^2=s^2\int\bigl\lvert\frac{e^{is\lambda}-1}s-i\lambda\bigr\rvert^2
+\dd\mu_\xi(\lambda)$; the integrand tends to $0$ pointwise and is dominated by $4\lambda^2\in L^1(\mu_\xi)$ since
+$\xi\in D(T)$, so the integral is $o(1)$ by dominated convergence}
+\lstep{1}{3}{(i).}\lby{$\langle1\rangle1$, $\langle1\rangle2$}
+\lstep{1}{4}{(ii).}
+\lby{write $\xi_s:=U_s^*\Om=\Om-isT(\gtot)\Om+r_s$ with $\norm{r_s}=o(s)$ (by $\langle1\rangle2$ applied to $-s$);
+then $\omega_s(X)=\ip{\xi_s}{X\xi_s}$ and expanding the sesquilinear form gives
+$\omega(X)+is\ip{T(\gtot)\Om}{X\Om}-is\ip\Om{XT(\gtot)\Om}+R$, where
+$\abs R\le\norm X\bigl(2\norm{r_s}(\norm\Om+s\norm{T(\gtot)\Om})+\norm{r_s}^2+s^2\norm{T(\gtot)\Om}^2\bigr)=\norm X\,o(s)$;
+$\omega_s(X^2)\to\omega(X^2)$ because $s\mapsto\xi_s$ is norm continuous and $X^2$ is bounded}
+\lqed{1}{5}\lby{$\langle1\rangle3$, $\langle1\rangle4$}
+
+\begin{verdictok}
+(H2) and (H3) hold for every conformal net, any $c$, and (H3) holds on all of $\cA(I)$ rather than on a dense
+subalgebra --- the point being that $U_s$ is a genuine one-parameter group with $\Om$ in the domain of its generator,
+so no smearing or core argument is needed.  Both statements use only $\norm{\gtot}_{3/2}<\infty$ and
+$\gtot\in\dot H^{3/2}$, and both hypotheses are strictly satisfied, with margin, by Theorem~\ref{thm:reg}.
+\end{verdictok}
+
+
+\begin{proposition}[the second-order energy obstruction, and why it does not matter]\label{prop:energy}
+\begin{enumerate}[leftmargin=2.2em,label=\textup{(\roman*)}]
+\item $T(\gtot)\Om\in D(L_0^{1/2})\setminus D(L_0)$, the divergence of $\norm{L_0T(\gtot)\Om}^2$ being logarithmic
+      with coefficient $\frac c{12}\cdot\frac{J^2}{4\pi^2}$ (Theorem~\ref{thm:reg}(g)).  Equivalently:
+      $\overline{T(\gtot)}$ does not map $\Hfin$ into $D(L_0)$, and $T(\gtot')$ is not even defined on $\Om$
+      ($\norm{T(\gtot')\Om}^2=\frac c{12}\sum n(n^2-1)\abs{n\hat G_n}^2=\infty$).
+\item The exponent $3/2$ in the energy bound $\norm{T(f)\xi}\le r\norm f_{3/2}\norm{(1+L_0)\xi}$ cannot be lowered:
+      testing on $\xi=\Om$ with $f=2\cos(n\theta)$ gives $\norm{T(f)\Om}=\bigl(\frac c{12}n(n^2-1)\bigr)^{1/2}\asymp n^{3/2}$
+      while $\norm f_\beta\asymp n^\beta$, forcing $\beta\ge3/2$.  Hence the failure $\norm{\gtot'}_{3/2}=\infty$ is not
+      an artifact of a suboptimal estimate.
+\item Consequently Nelson's commutator theorem (Reed--Simon II, Thm.~X.37) with $N=1+L_0$ is \emph{not} available for
+      $T(\gtot)$: its hypothesis (ii) is a form bound on $[N,T(\gtot)]=[L_0,T(\gtot)]=iT(\gtot')$, and $T(\gtot')$ does not exist as
+      a densely defined operator by (i).
+\item None of this is needed.  Essential self-adjointness of $T(\gtot)$ comes from CW05 Thm.~4.4, which requires only
+      $\norm{\gtot}_{3/2}<\infty$; and the second-order expansion of the fidelity needs only $\Om\in D(\overline{T(\gtot)})$,
+      since $\ip\Om{U_s\Om}=\int e^{is\lambda}\dd\mu_\Om(\lambda)$ is twice differentiable at $s=0$ as soon as
+      $\int\lambda^2\dd\mu_\Om=\norm{T(\gtot)\Om}^2<\infty$.
+\end{enumerate}
+\end{proposition}
+\lstep{1}{1}{(i).}\lby{Theorem~\ref{thm:reg}(b),(g); $\widehat{\gtot'}_n=in\hat G_n$ and
+$\sum n(n^2-1)n^2\abs{\hat G_n}^2\asymp\sum n^{-1}=\infty$}
+\lstep{1}{2}{(ii).}\lby{$\hat f_{\pm n}=1$ and all other coefficients $0$; then $T(f)\Om=L_{-n}\Om$
+(as $L_n\Om=0$), $\norm{L_{-n}\Om}^2=\frac c{12}n(n^2-1)$, $\norm{(1+L_0)\Om}=1$, and
+$\norm f_\beta=2(1+n^\beta)$}
+\lstep{1}{3}{(iii).}\lby{$\langle1\rangle1$: the series $\sum_n\widehat{\gtot'}_nL_n\Om$ diverges in norm, so
+$\Om\notin D(T(\gtot'))$ in the sense of \eqref{eq:Tdef}, while $\Om\in\Hfin$ would have to belong to any
+domain on which the commutator form is estimated}
+\lstep{1}{4}{(iv).}\lby{CW05 Thm.~4.4 (citedbox); for the last claim, $\mu_\Om$ is the spectral measure of
+$\overline{T(\gtot)}$ in $\Om$ and $\int\lambda^2\dd\mu_\Om=\norm{\overline{T(\gtot)}\Om}^2<\infty$ by
+Theorem~\ref{thm:H23}(i), so the characteristic function is $C^2$}
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$}
+
+\begin{citedbox}{CW05, Lemma 4.1, p.~11 (the mode-wise energy bound)}
+\emph{Verbatim.}  ``There exists a constant $r>0$ independent from $k,v_k,n$ (but dependent on the value of the
+central charge $c$) such that $\|L_nv_k\|^2\le r^2\bigl(k^2+k|n|^2+|n|^3\bigr)\|v_k\|^2$, where $v_k$ is an
+eigenvector of $L_0$ with eigenvalue $k$ and $n\in\mathbb Z$.''\\[2pt]
+\includegraphics[width=\linewidth]{shots/QB_CW_lem41.png}
+\\[2pt]
+\emph{Use.}  Proposition~\ref{prop:form}$\langle1\rangle4$ (the endpoint form bound $\beta=1$).
+\emph{Verdict: verified}; this is also the source of the $\norm\cdot_{3/2}$ energy bound, via
+$\sqrt{1+\abs n^3}\le1+\abs n^{3/2}$.
+\end{citedbox}
+
+\begin{proposition}[the form bound: exact threshold $\beta=1$, and the commutator route is closed]\label{prop:form}
+For real $f$ put $\norm f_\beta:=\sum_n\abs{\hat f_n}(1+\abs n^\beta)$ and consider
+\begin{equation}\label{eq:missing}
+ \bigl\lvert\ip\psi{T(f)\psi}\bigr\rvert\ \le\ C_\beta\,\norm f_\beta\,\norm{(1+L_0)^{1/2}\psi}^2
+ \qquad(\psi\in\Hfin,\ f\ \text{real}).
+\end{equation}
+Then: \textup{(i)} \eqref{eq:missing} \emph{holds} for $\beta=1$ with $C_1=3r(c)$, hence for every $\beta\ge1$;
+\textup{(ii)} \eqref{eq:missing} is \emph{false} for every $\beta<1$;
+\textup{(iii)} $\norm{\gtot'}_\beta<\infty$ iff $\beta<1$, and $\norm{\gtot'}_1=\infty$ logarithmically.
+Consequently the route ``form bound $\Rightarrow$ Nelson's commutator theorem $\Rightarrow$ $U_s$ preserves
+$D(L_0)$ and $\ip{U_s^*\Om}{L_0U_s^*\Om}<\infty$ for fixed $s$'' is \textbf{closed on this scale}, by exactly one
+logarithm --- the same logarithm as in Theorem~\ref{thm:reg}(g).
+\end{proposition}
+\lstep{1}{1}{\ldefine $f:=2\cos(n\theta)$ (i.e.\ $\hat f_{\pm n}=1$), $e_n:=\norm{L_{-n}\Om}^{-1}L_{-n}\Om$ and
+$\psi_t:=\Om+te_n$, $t>0$.  Then $\ip{\psi_t}{T(f)\psi_t}=2t\norm{L_{-n}\Om}$ and
+$\norm{(1+L_0)^{1/2}\psi_t}^2=1+(1+n)t^2$.}
+\lby{$T(f)=L_n+L_{-n}$; $T(f)\Om=L_{-n}\Om=\norm{L_{-n}\Om}e_n$ (as $L_n\Om=0$, $n\ge2$), and
+$L_ne_n=\norm{L_{-n}\Om}^{-1}[L_n,L_{-n}]\Om=\norm{L_{-n}\Om}\Om$ using $[L_n,L_{-n}]=2nL_0+\frac c{12}n(n^2-1)$,
+$L_0\Om=0$ and $\norm{L_{-n}\Om}^2=\frac c{12}n(n^2-1)$; $L_{-n}e_n$ has energy $2n$ and is orthogonal to $\Om,e_n$;
+finally $L_0\Om=0$, $L_0e_n=ne_n$}
+\lstep{1}{2}{$\displaystyle\sup_{t>0}\frac{\ip{\psi_t}{T(f)\psi_t}}{\norm{(1+L_0)^{1/2}\psi_t}^2}
+=\frac{\norm{L_{-n}\Om}}{\sqrt{1+n}}=\Bigl(\frac c{12}\Bigr)^{1/2}\frac{\sqrt{n(n^2-1)}}{\sqrt{1+n}}\sim
+\Bigl(\frac c{12}\Bigr)^{1/2}n.$}
+\lby{$\max_{t>0}\frac{2tB}{1+At^2}=B/\sqrt A$ at $t=A^{-1/2}$, with $A=1+n$, $B=\norm{L_{-n}\Om}$}
+\lstep{1}{3}{(ii).}
+\lby{$\norm f_\beta=2(1+n^\beta)$, so \eqref{eq:missing} would give
+$(c/12)^{1/2}n(1+o(1))\le2C_\beta(1+n^\beta)$ for all $n$, forcing $\beta\ge1$}
+\lstep{1}{4}{(i).}
+\lby{CW05 Lemma 4.1 (citedbox): $\norm{L_nv_k}\le r(k^2+k\abs n^2+\abs n^3)^{1/2}\norm{v_k}$ for an
+$L_0$-eigenvector $v_k$; the elementary inequality
+$(k^2+k\abs n^2+\abs n^3)^{1/2}\le3\abs n(1+k)^{1/2}(1+k+\abs n)^{1/2}$ (check $k=0$, $k\asymp\abs n$, $k\gg\abs n$);
+then, decomposing $\psi=\sum_k\psi_k$ into $L_0$-eigenvectors and using
+$\abs{\ip\psi{L_n\psi}}\le\sum_k\norm{\psi_{k+n}}\norm{L_n\psi_k}$ and Cauchy--Schwarz,
+$\abs{\ip\psi{L_n\psi}}\le3r\abs n\norm{(1+L_0)^{1/2}\psi}^2$; multiply by $\abs{\hat f_n}$ and sum}
+\lstep{1}{5}{(iii).}
+\lby{Theorem~\ref{thm:reg}(b): $\abs{\widehat{\gtot'}_n}=\abs n\abs{\hat G_n}\sim\frac{\abs J}{2\pi n^2}$, so the
+summand of $\norm{\gtot'}_\beta$ is $\sim\frac{\abs J}{2\pi}\abs n^{\beta-2}$, summable iff $\beta<1$, and
+logarithmically divergent at $\beta=1$}
+\lqed{1}{6}\lby{$\langle1\rangle3$--$\langle1\rangle5$}
+
+\begin{verdictbreak}
+This corrects the first version of this document (and is the referee's BREAK, QR2 \S``Ingredient 8''), which claimed
+that ``the window $\frac12\le\beta<1$ is open'' and that \eqref{eq:missing} with $\beta<1$ is ``the single missing
+analytic estimate''.  Both statements are wrong: the earlier restriction $\beta\ge1/2$ came from evaluating the
+quotient at the single unnormalised vector $\Om+e_n$, whereas a bound with a constant must dominate the supremum
+over the family $\Om+te_n$, which is larger by $\sqrt n$.  On the scale $\norm\cdot_\beta$ the form bound holds
+exactly for $\beta\ge1$ and fails for $\beta<1$; since $\norm{\gtot'}_1=\infty$, there is no room at all, and the
+commutator route to $D(L_0)$-invariance is \emph{closed}, not open.  Anything of that kind must use a genuinely
+different norm on the right-hand side ($L^2$-based, or $f$-positivity/QEI), or give up on the fixed-$s$ energy
+statement and use Route~B (\S\ref{sec:routeB}) instead.  Theorem~\ref{thm:main} and (H1)--(H3) are unaffected: they
+never use \eqref{eq:missing}.
+\end{verdictbreak}
+
+\begin{verdictgap}
+What remains open after this correction: (a) the fixed-$s$ statement $\ip{U_s^*\Om}{L_0U_s^*\Om}<\infty$ of Note~6,
+Conjecture~3.2 --- established here only to second order in $s$ (Theorem~\ref{thm:reg}(g)), with Route~B (B2) the
+remaining route; (b) the group-level extension of $U$ to $D^\sigma(S^1)$ for $2<\sigma\le3$ and general $c$
+(CDIT's Cor.~3.6 needs $\sigma>3$; $\ktil_s\in D^\sigma$ only for $\sigma<5/2$), which would be needed to implement
+piecewise-M\"obius maps that are \emph{not} the time-$s$ map of a single flow, e.g.\ a composition with two
+different touching points.  Neither is needed for (H1)--(H3).
+\end{verdictgap}
+
+\section{The classes of nets for which (H1)--(H3) are proved}\label{sec:classes}
+
+\begin{theorem}[main]\label{thm:main}
+Let $(\cA,U,\Om)$ be any conformal (diffeomorphism covariant, M\"obius covariant) net on $S^1$ with central charge
+$c>0$, and let $\gtot\in\mathcal E$, $\ktil_s=\Exp(s\gtot)$, $U_s=e^{is\overline{T(\gtot)}}$.  Then \textup{(H1)},
+\textup{(H2)}, \textup{(H2$'$)} and \textup{(H3)} of the Phase-2 brief hold, with $\varphi(X)=i\omega([T(\gtot),X])$ for all
+$X\in\cA(I)$ and $T(\gtot)\Om\in\Hil$.  No strong additivity, no finiteness of $L_0$-multiplicities, no
+rationality and no restriction on $c$ is used.
+\end{theorem}
+\lstep{1}{1}{}\lby{Theorem~\ref{thm:H1} for (H1), Theorem~\ref{thm:H23} for (H2),(H3) and Lemma~\ref{lem:loc-HT}(ii) for (H2$'$); the hypotheses of both are
+Theorem~\ref{thm:reg}(c),(f) on $\gtot$ and the axioms (1)--(10) of (C4)}
+\lqed{1}{2}\lby{$\langle1\rangle1$}
+
+The external inputs are exactly three, all with screenshots in \S\ref{sec:cited}:
+\begin{enumerate}[leftmargin=1.6em,label=\textup{(X\arabic*)}]
+\item CW05 Thm.~4.4 / CDIT Prop.~2.2(3): essential self-adjointness of $T(f)$ on $\Hfin$ for real $f$ with
+      $\norm f_{3/2}<\infty$;
+\item CW05 Prop.~4.5 / CDIT Prop.~2.2(4),(5): the energy bound and $e^{iT(f_k)}\to e^{iT(f)}$ strongly, plus
+      CW05 Lemma~4.6 (support-preserving smooth approximation);
+\item the net axioms, in particular the automatic additivity and semicontinuity, Haag duality, and
+      $U(\Exp(f))=e^{iT(f)}$ mod phase for smooth $f$.
+\end{enumerate}
+Everything else is proved above.  We now record the sub-classes for which independent or stronger statements exist.
+
+\paragraph{(a) Free Dirac/Majorana fermion ($c=\frac12,1$): independent proof.}
+$U_s=\Gamma(W_s)$ with $W_s$ the one-particle push-forward of $\ktil_s$ (half-density transformation), implementable
+by Shale--Stinespring because $P_-W_sP_+$ is Hilbert--Schmidt; this is proved with an explicit bound in
+\texttt{rigor/uhlmann\_upper\_bound.tex}, Prop.~``Explicit Hilbert--Schmidt bound'' and the citedbox
+``Shale--Stinespring 1965''.  That argument needs \emph{much} less than $C^{1,1}$ (essentially
+$\ktil_s\in H^{3/2}$, the Weil--Petersson class), does not use the Virasoro energy bounds at all, and is
+consistent with Theorem~\ref{thm:main}: both implement the \emph{same} geometric automorphism of $\cA(I)$ (the
+identity on $\cA(A)$, the M\"obius map $h_s$ on $\cA(D)$, cf.\ Theorem~\ref{thm:H1}(i),(ii)), hence give the same
+state $\omega_s$; they may of course differ by a unitary in the commutant of $\cA(I)$.
+
+\paragraph{(b) Fock representations with integer central charge: a stronger, group-level statement.}
+By CDIT's Outlook (citing DIT19), $U^{(n,h)}$ extends to $D^\sigma(S^1)$ for $\sigma>2$ and all positive integers $n$.
+Since $\ktil_s\in D^\sigma$ for every $\sigma<5/2$ (Theorem~\ref{thm:reg}(e)), one obtains for these representations a
+unitary $U(\ktil_s)$ \emph{as a value of a group representation}, hence also for arbitrary compositions and for
+piecewise-M\"obius maps with several touching points, which Theorem~\ref{thm:main} does not give.  For $c$ integer
+this closes item (c) of the gap box above.  It does \emph{not} extend to general $c$ (CDIT, Introduction: ``it is
+open whether the results are valid for general representations'').
+
+\paragraph{(c) Tensor products and subrepresentations.}
+If $U=U_1\otimes U_2$ then $T(f)=T_1(f)\otimes\one+\one\otimes T_2(f)$ on the algebraic tensor product of the
+finite-energy spaces, $\norm{\gtot}_{3/2}$ is unchanged, and $e^{isT(\gtot)}=e^{isT_1(\gtot)}\otimes e^{isT_2(\gtot)}$,
+so (H1)--(H3) tensorise; the same for finite or countable direct sums (Lemma~\ref{lem:dirsum}) and for a conformal
+subnet $\cB\subseteq\cA$ with the \emph{same} stress-energy tensor (restriction of $U_s$ to $\overline{\cB\Om}$).
+This is subsumed by Theorem~\ref{thm:main} but is worth recording because it is what makes the $c$-linearity of
+$\norm{T(\gtot)\Om}^2$ manifest.
+
+\begin{remark}[coset constructions]\label{rem:coset}
+For a coset $\cA_{\mathrm{coset}}=\cA_{\mathrm{sub}}'\cap\cA_{\mathrm{amb}}$ with
+$T_{\mathrm{coset}}=T_{\mathrm{amb}}-T_{\mathrm{sub}}$, one would like
+$U^{\mathrm{coset}}_s=U^{\mathrm{amb}}_sU^{\mathrm{sub},*}_s$.  This requires
+$\overline{T_{\mathrm{amb}}(\gtot)-T_{\mathrm{sub}}(\gtot)}$ to generate the product group, i.e.\ a Trotter argument
+plus the commutation $[T_{\mathrm{sub}}(\gtot),T_{\mathrm{coset}}(\gtot)]=0$ on a common core, which we have not
+verified for non-smooth $\gtot$.  \emph{This is moot}: Theorem~\ref{thm:main} covers all conformal nets, including
+all coset and all $c<1$ Virasoro nets, directly.
+\end{remark}
+
+\section{Route B: energy compactness as a fallback}\label{sec:routeB}
+
+Route B (Note~6; strategy note \S3) proposes: take smooth $\varphi_n\to\ktil_s$ with $\sup_nE(\varphi_n)<\infty$,
+$E(\gamma):=\ip{U(\gamma)^*\Om}{L_0U(\gamma)^*\Om}$, and extract a norm-convergent subsequence of
+$U(\varphi_n)^*\Om$ from the compactness of $\{\psi:\norm\psi\le1,\ \ip\psi{L_0\psi}\le E\}$ in a net with
+finite $L_0$-multiplicities.  Three comments.
+
+\textbf{(B1) The compactness statement needs the norm bound and finite multiplicities.}  The set
+$\{\psi:\norm\psi\le1,\ \ip\psi{L_0\psi}\le E\}$ is norm compact iff each spectral subspace of $L_0$ is
+finite-dimensional (then it is a subset of $\{\sum_k\psi_k:\sum_k k\norm{\psi_k}^2\le E,\ \sum\norm{\psi_k}^2\le1\}$,
+whose tails are uniformly small); without the norm bound $\norm\psi\le1$ the set is unbounded (the kernel of $L_0$),
+and without finite multiplicities it contains an orthonormal sequence in $\ker(L_0-1)$.  This is the correction
+recorded in the strategy note (V5) and it is confirmed here.
+
+\textbf{(B2) The uniform energy bound is available in principle and is a Schwarzian integral.}  For smooth $\gamma$,
+$E(\gamma)=\beta(\gamma,1)=\frac c{24\pi}\int_{S^1}\{\mathring\gamma,z\}\,iz\dd z$ by CDIT Prop.~2.1 with $f=1$ and
+$\ip\Om{T(f)\Om}=0$.  For a $C^{1,1}$ map the Schwarzian $\{\gamma,\theta\}=\gamma'''/\gamma'-\frac32(\gamma''/\gamma')^2$
+is a finite measure: its singular part is $J_\gamma\,\delta_{\theta_0}/\gamma'(\theta_0)$ with
+$J_{\ktil_s}=-2s/L$ (Proposition~\ref{prop:flow}), so the integral converges and $E(\ktil_s)<\infty$ formally.
+\begin{verdictgap}
+What is missing for a \emph{proof} of (B2) is the convergence $\beta(\varphi_n,1)\to\beta(\ktil_s,1)$, i.e.\ the
+weak-$*$ convergence of the Schwarzian measures of the approximants; this holds for mollifications by a standard
+argument, but we have not written it out.  Note that Route~B is only needed if one wants
+$\ip{U_s^*\Om}{L_0U_s^*\Om}<\infty$ for fixed $s$ (gap item (b) of \S\ref{sec:routeA}); by
+Theorem~\ref{thm:H1} it is \emph{not} needed for (H1).
+\end{verdictgap}
+
+\textbf{(B3) Route B is strictly weaker than Route A here.}  Even when it works it produces a limit \emph{vector}
+$\Psi$ and hence a state, but no one-parameter group and no tangent vector; (H2) and (H3) would have to be redone.
+Since Route~A closes for all conformal nets (Theorem~\ref{thm:main}), Route~B is now only of interest as a source of
+the energy bound (B2).
+
+
+\section{Summary: verdicts and the exact gap}\label{sec:summary}
+
+\begin{center}\small
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.31\textwidth} >{\raggedright\arraybackslash}X c}\toprule
+Step & Status & Verdict\\\midrule
+$\gtot$ piecewise smooth, $C^{1,1}$, one jump of $\gtot''$ at $0$, $\abs{\hat G_n}\sim\frac{\abs J}{2\pi\abs n^3}$
+ & proved (Thm.~\ref{thm:reg}(a),(b)); numerics to 6 digits & ok\\
+$\norm{\gtot}_{3/2}<\infty$ (Carpi--Weiner class $\mathcal S^{3/2}$)
+ & proved twice (CDIT Prop.~2.3; direct decay); numerically $18.704$ & ok\\
+$\norm{\gtot'}_{3/2}=\infty$, $=\frac{2\abs J}\pi\sqrt N+O(\log N)$ truncated
+ & proved (Thm.~\ref{thm:reg}(d)); numerics match to 5 digits & ok (obstruction)\\
+$\gtot\in H^{5/2-\eps}\setminus H^{5/2}$, $\ktil_s\in D^\sigma$ iff $\sigma<5/2$
+ & proved (Thm.~\ref{thm:reg}(e)) --- so CDIT's $\sigma>3$ theorem does not apply & ok\\
+$T(\gtot)$ e.s.a.\ on $\Hfin$; $U_s=e^{is\overline{T(\gtot)}}$
+ & CW05 Thm.~4.4 + Lemma~\ref{lem:dirsum} (direct sums, uniform $r(c)$) & ok\\
+(H1) $\Ad U_s|_{\cA(A)}=\mathrm{id}$, $\Ad U_s|_{\cA(D)}=\Ad U(h_s)$
+ & proved for all conformal nets (Thm.~\ref{thm:H1}(i),(ii)), CW05 Prop.~5.4 method & ok\\
+(H1) $U_s\cA(J)U_s^*=\cA(\ktil_sJ)$, all intervals $J$
+ & proved for all conformal nets (Thm.~\ref{thm:H1}(iii)), CDIT Prop.~4.1 method & ok\\
+(H2) $U_s\Om=\Om+isT(\gtot)\Om+o(s)$, $T(\gtot)\Om\in\Hil$
+ & proved; $\norm{T(\gtot)\Om}^2=\frac c{12}\norm{\gtot}^2_{\dot H^{3/2}}$ (Weil--Petersson) & ok\\
+(H2$'$) $T(\gtot)\Om\in\Hil_T=\overline{\{T(f)\Om\}}$
+ & proved: $T(f_n)\Om\to T(\gtot)\Om$ for every smooth $f_n\to\gtot$ in $\norm\cdot_{3/2}$ (Lem.~\ref{lem:loc-HT}(ii)) & ok\\
+(H3) first-order expansion of $\omega_s$
+ & proved on all of $\cA(I)$, not just a dense subalgebra & ok\\
+$T(\gtot)\Om\in D(L_0)$ (finite-energy tangent vector)
+ & \textbf{false}: logarithmic divergence (Thm.~\ref{thm:reg}(g)) & break\\
+$\ip{U_s^*\Om}{L_0U_s^*\Om}<\infty$ for fixed $s$ (Note~6, Conj.~3.2)
+ & only to second order in $s$; the commutator route is closed, so needs (B2) & gap\\
+$U$ extends to $D^\sigma(S^1)$, $2<\sigma\le3$, general $c$
+ & open (CDIT); known for integer $c$ in Fock space (DIT19), not needed here & gap\\
+Form estimate \eqref{eq:missing}: exact threshold
+ & holds iff $\beta\ge1$ (Prop.~\ref{prop:form}); $\norm{\gtot'}_1=\infty$, so the route is closed & break\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\paragraph{Answer to the question of the brief.}
+\emph{For which class of nets are (H1)--(H3) proved?}  For \emph{every} diffeomorphism covariant conformal net on
+$S^1$, with arbitrary central charge --- Theorem~\ref{thm:main}.  The three external inputs (X1)--(X3) are all
+published results with screenshots; the only work done here is (i) the verification that $\gtot$ lies in
+$\mathcal S^{3/2}\cap\dot H^{3/2}$ with the sharp constants, and (ii) the observation that the
+$D^s$, $s>3$ restriction of CDIT is a restriction of the \emph{group-level} statement and is bypassed for a
+one-parameter flow by Stone's theorem applied to the essentially self-adjoint $T(\gtot)$ of Carpi--Weiner.
+
+\emph{Which step is not covered by existing theorems for general $c$?}  None of (H1)--(H3).  What is not covered is
+the strictly stronger statement that $U$ extends to a representation of a group of non-smooth diffeomorphisms
+containing $\ktil_s$ ($D^\sigma$, $2<\sigma\le3$, general $c$; known for integer $c$ in Fock space), and the
+fixed-$s$ energy statement.  For the latter there is no ``missing estimate'' to be found on the scale
+$\norm\cdot_\beta$: the form bound \eqref{eq:missing} holds exactly for $\beta\ge1$ and
+$\norm{\gtot'}_1=\infty$ logarithmically (Proposition~\ref{prop:form}), so that route is closed and only Route~B
+(\S\ref{sec:routeB}) or a different norm can supply it.  Equivalently,
+in one line: $\norm{\gtot}_{3/2}<\infty$ but $\norm{\gtot'}_{3/2}=\infty$, and the first fact is all that
+(H1)--(H3) need.
+
+
+
+\section{Corrections after the referee report (QR2)}\label{sec:corrections}
+
+The referee report \texttt{rigor/referee\_implementation\_C11.tex} confirms Theorem~\ref{thm:main} for all
+diffeomorphism covariant nets subject to repairs.  All of them are applied above; here is the list.
+
+\begin{enumerate}[leftmargin=1.8em,label=\textup{(R\arabic*)}]
+\item \emph{The phase (GAP).}  ``$U(\Exp f)=e^{iT(f)}$ up to a phase'' is stated by CDIT \S2.1 only on the
+irreducible $\Hil(c,h)$; on a reducible positive-energy representation the summand-by-summand reading gives a
+block-diagonal unitary $\bigoplus_je^{i\alpha_jt}$, and the localisation step needs a \emph{scalar}.  Repaired by
+Lemma~\ref{lem:phase}, proved from Fewster--Hollands Prop.~5.1 (new citedbox and screenshot
+\texttt{shots/QB\_FH05\_prop51.png}: the multiplier is $e^{ic\widetilde B}$ and the generator is $\Theta(f)$, both
+depending only on $c$, which is common to all summands by CDIT Prop.~3.14) together with the perfectness of
+$\Diff(I)$; both places where the identity is used involve fields supported in a proper interval
+(Remark~\ref{rem:phase-general}).  Theorem~\ref{thm:H1} steps $\langle2\rangle2$ and $\langle1\rangle5$ now cite
+Lemma~\ref{lem:phase}.
+\item \emph{The form bound (BREAK).}  The claim ``the window $\tfrac12\le\beta<1$ is open'' was wrong: optimising
+over $\psi_t=\Om+t\norm{L_{-n}\Om}^{-1}L_{-n}\Om$ gives a supremum $\sim(c/12)^{1/2}n$, forcing $\beta\ge1$, and
+$\beta=1$ holds by CW05 Lemma~4.1.  The old Remark~5.2 is replaced by Proposition~\ref{prop:form} (exact threshold
+$\beta=1$, three-line proof of the endpoint, new citedbox for CW05 Lemma~4.1) and by a \texttt{verdictbreak}; the
+summary table row and the abstract now say that the Nelson/commutator route to $D(L_0)$-invariance and to
+$\ip{U_s^*\Om}{L_0U_s^*\Om}<\infty$ is \textbf{closed}, missing by the single logarithm
+$\norm{\gtot'}_1=\infty$.
+\item \emph{Factor $4$ (MINOR).}  Proposition~\ref{prop:energy}(ii): $\norm{T(f)\Om}=(\frac c{12}n(n^2-1))^{1/2}$,
+not $\frac c3$; the conclusion $\beta\ge3/2$ for the \emph{operator} bound is unaffected.
+\item \emph{Sign (MINOR).}  $[L_0,T(g)]=+iT(g')$ (from $[L_0,L_n]=-nL_n$ and $\widehat{(g')}_n=in\hat g_n$);
+corrected in Proposition~\ref{prop:energy}(iii).  Only the modulus was ever used.
+\item \emph{Standing assumptions (MINOR).}  Separability of $\Hil$ and the CDIT \S4 axioms (1)--(10) are now stated
+explicitly in (C4); separability enters through CDIT Prop.~3.14 in Lemma~\ref{lem:dirsum}.
+\item \emph{Numerics box (MINOR).}  The script prints two-sided sums $S_p=\sum_{n\ne0}$, the theorem states
+one-sided sums $\sum_{n\ge2}$; the conversion $\norm{L_0^{p/2}T(\gtot)\Om}^2=\frac c{24}S_p$ is now written out, and
+the two-sided prediction $\frac{J^2}{2\pi^2}\log16$ is labelled as such.
+\item \emph{M\"obius unitaries (MINOR).}  In Theorem~\ref{thm:H1}$\langle2\rangle2$--$\langle2\rangle3$,
+$e^{iaT(m)}=U(h_a)$ \emph{exactly}, since $U|_{\mathrm{PSL}(2,\mathbb R)}$ is a true representation; the phrase
+``up to a phase'' is removed there.  In \S\ref{sec:classes}(a) the unsupported clause about the relative commutant
+of $\cA(I)$ is replaced by the correct statement that the two constructions implement the same geometric
+automorphism of $\cA(I)$.
+\end{enumerate}
+
+\begin{enumerate}[leftmargin=1.8em,label=\textup{(R\arabic*)},start=8]
+\item \emph{(H2$'$) and the locality clause (referee QR1).}  The Theorem~B document needs the tangent vector to lie
+in the $T$-subspace $\Hil_T=\overline{\{T(f)\Om:f\ \text{smooth}\}}$, because the optimisation over extensions is
+carried out there.  Lemma~\ref{lem:loc-HT}(ii) proves this in two lines from the Carpi--Weiner energy bound applied
+to $\Om$: $\norm{T(f_n)\Om-\overline{T(\gtot)}\Om}=\norm{T(f_n-\gtot)\Om}\le r(c)\norm{f_n-\gtot}_{3/2}\to0$, so
+(H2$'$) holds and the approximating sequence may even be prescribed.  In the same lemma the locality clause used in
+Theorem~\ref{thm:H1}$\langle2\rangle2$ is restated in the well-posed form $U(\Diff(K))\subseteq\cA(K)$ with
+$\Diff(K)=\{\gamma:\gamma|_{K'}=\mathrm{id}\}$ (QR1 found the ``$\supp\phi\subseteq K$'' phrasing ill-posed);
+(H2$'$) has been added to the hypothesis list (C7) and to Theorem~\ref{thm:main}.
+\end{enumerate}
+
+Nothing in Theorem~\ref{thm:main}, Theorem~\ref{thm:H1}, Theorem~\ref{thm:H23} or Theorem~\ref{thm:reg} changes:
+(R1) supplies a missing citation, (R2)--(R7) correct statements that those theorems do not use.
+
+\begin{thebibliography}{99}
+
+\bibitem{CW05} S.~Carpi, M.~Weiner, \emph{On the uniqueness of diffeomorphism symmetry in conformal field theory},
+Commun.\ Math.\ Phys.\ \textbf{258} (2005) 203, arXiv:math/0407190.  Local copy
+\texttt{refs/P1\_CarpiWeiner\_math-0407190.pdf}.  Used: Prop.~4.2 (p.~11), Thm.~4.4 (p.~13), Prop.~4.5 (p.~14),
+Lemma~4.6 (p.~14), Lemma~5.3 (p.~17), Prop.~5.4 (p.~17).
+\bibitem{CDIT} S.~Carpi, S.~Del Vecchio, S.~Iovieno, Y.~Tanimoto, \emph{Positive energy representations of Sobolev
+diffeomorphism groups of the circle}, Ann.\ Henri Poincar\'e \textbf{22} (2021) 2091, arXiv:1808.02384.  Local copy
+\texttt{refs/CDIT\_1808.02384.pdf}.  Used: \S2.1 p.~5, Prop.~2.1 p.~5, Prop.~2.2 pp.~5--6, Prop.~2.3 p.~6,
+Cor.~3.6 p.~13, Prop.~3.14 (quoted p.~23), \S4 axioms p.~22, Prop.~4.1 p.~23, Outlook p.~24.
+\bibitem{DIT19} S.~Del Vecchio, S.~Iovieno, Y.~Tanimoto, \emph{Solitons and nonsmooth diffeomorphisms in conformal
+nets}, Commun.\ Math.\ Phys.\ \textbf{375} (2020) 391, arXiv:1811.04501.  \textbf{NOT OBTAINED}; used only through
+CDIT's Outlook and Introduction, which are quoted and screenshotted.
+\bibitem{FH05} C.~J.~Fewster, S.~Hollands, \emph{Quantum energy inequalities in two-dimensional conformal field
+theory}, Rev.\ Math.\ Phys.\ \textbf{17} (2005) 577, arXiv:math-ph/0412028.  Local copy
+\texttt{refs/FewsterHollands05\_math-ph-0412028.pdf}.  Used for the Schwarzian covariance of $T$ (their Prop.~3.1,
+via CDIT Prop.~2.1) and for the global phase assignment, Prop.~5.1 p.~27 with eq.~(5.7)--(5.8) (Lemma~\ref{lem:phase}).
+\bibitem{QR2} Referee report on this document, \texttt{rigor/referee\_implementation\_C11.tex} (agent QR2, 2026-09-08);
+its BREAK and GAP are addressed in \S\ref{sec:corrections}.
+\bibitem{RS1} M.~Reed, B.~Simon, \emph{Methods of Modern Mathematical Physics I, II}.  \textbf{NOT OBTAINED} as a
+file; the statements used are standard: Thm.~VIII.21 (strong resolvent convergence and unitary groups),
+Thm.~VIII.25(a) (convergence on a common core), Thm.~VIII.31 (Trotter product formula), Thm.~X.37 (Nelson's
+commutator theorem).
+\bibitem{Kat} Y.~Katznelson, \emph{An Introduction to Harmonic Analysis}, \S I.4 (Fourier coefficients of BV
+functions).  \textbf{NOT OBTAINED}; cited as CW05 cite it, and our Theorem~\ref{thm:reg}(b) proves the sharp form
+directly by three integrations by parts.
+\bibitem{Notes} Companion documents in \texttt{cft\_cmi/rigor/}: \texttt{uhlmann\_upper\_bound.tex} (free-fermion
+implementer, Shale--Stinespring), \texttt{lemma\_second\_variation.tex} (Gap~2 and Prop.~``The implementer is a
+strongly continuous group, for $\eps>0$''), \texttt{collar\_and\_invariant\_formula.tex}; and
+\texttt{cft\_cmi/continuum\_petz\_free\_fermion.tex} \S5, \texttt{open\_problems\_plan.tex} \S O5,
+\texttt{strategy\_open\_problems.tex} \S3.
+\end{thebibliography}
+\end{document}

@@ -1,0 +1,490 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[margin=0.92in,headheight=14pt]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{bm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{booktabs,tabularx,array}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,decorations.pathreplacing}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+\definecolor{navy}{HTML}{17365D}
+\definecolor{teal}{HTML}{117A8B}
+\definecolor{ink}{HTML}{2C3138}
+\definecolor{lightblue}{HTML}{EEF5FA}
+\definecolor{lightgray}{HTML}{F4F5F7}
+\definecolor{softgreen}{HTML}{EEF7F2}
+\definecolor{greenframe}{HTML}{3C735B}
+\definecolor{warm}{HTML}{FFF7E8}
+\definecolor{warmframe}{HTML}{A86E20}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=navy,
+  citecolor=teal,
+  urlcolor=teal,
+  pdftitle={Fidelity of the Recovered Quasi-free State: Determinant Representation and Cross-Ratio Expansion},
+  pdfauthor={Technical research note}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}Fidelity of the recovered state}
+\fancyhead[R]{\small\color{ink}Free chiral fermion}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newtheoremstyle{accent}
+  {8pt}{8pt}{\itshape}{}
+  {\color{navy}\bfseries}{.}{0.5em}{}
+\theoremstyle{accent}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\cM}{\mathfrak{M}}
+\newcommand{\cN}{\mathfrak{N}}
+\newcommand{\cR}{\mathcal{R}}
+\newcommand{\CAR}{\operatorname{CAR}}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\Ad}{\operatorname{Ad}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\Ran}{\operatorname{Ran}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\pv}{\operatorname{pv}}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\one}{\mathbf{1}}
+\newcommand{\Sone}{\mathfrak{S}_1}
+\newcommand{\Stwo}{\mathfrak{S}_2}
+\newcommand{\Fid}{\operatorname{F}}
+\newcommand{\MI}{\operatorname{MI}}
+\newcommand{\CMI}{I}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\ip}[2]{\left\langle #1,#2\right\rangle}
+
+\newtcolorbox{mainbox}{
+  enhanced,
+  colback=lightblue,
+  colframe=navy,
+  boxrule=0.85pt,
+  arc=2mm,
+  left=5mm,right=5mm,top=3.8mm,bottom=3.8mm,
+  title={\bfseries Main result},
+  coltitle=white,
+  colbacktitle=navy,
+  attach boxed title to top left={xshift=4mm,yshift=-2mm}
+}
+
+\newtcolorbox{proofbox}[1][]{
+  enhanced,
+  breakable,
+  colback=softgreen,
+  colframe=greenframe,
+  boxrule=0.65pt,
+  arc=1.5mm,
+  left=4mm,right=4mm,top=2.8mm,bottom=2.8mm,
+  title={\bfseries #1},
+  coltitle=white,
+  colbacktitle=greenframe
+}
+
+\newtcolorbox{caveatbox}{
+  enhanced,
+  breakable,
+  colback=warm,
+  colframe=warmframe,
+  boxrule=0.65pt,
+  arc=1.5mm,
+  left=4mm,right=4mm,top=2.8mm,bottom=2.8mm,
+  title={\bfseries Precise scope},
+  coltitle=white,
+  colbacktitle=warmframe
+}
+
+\setlist[itemize]{leftmargin=1.5em,itemsep=2.5pt,topsep=4pt}
+\setlist[enumerate]{leftmargin=1.8em,itemsep=3pt,topsep=4pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5.2pt}
+\allowdisplaybreaks
+\emergencystretch=2em
+\raggedbottom
+
+\title{\vspace{-1.55cm}\color{navy}\bfseries
+Fidelity of the Recovered Quasi-free State\\[0.25em]
+\Large for the Free-Fermion Zero-Collar Petz Channel\\[0.5em]
+\large Determinant representation, modular-mode analysis of the covariance defect,\\
+and the small-cross-ratio law}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-1.55em}
+
+%%% ABSTRACT AND MAIN BOX ARE FILLED IN AT THE END (see marker below)
+\begin{abstract}
+The preceding note constructed, for the free chiral fermion, a normal zero-collar Petz recovery channel for three adjacent intervals and bounded its fidelity by the Longo--Xu conditional mutual information.  Here the fidelity and the relative entropy between the vacuum and the recovered quasi-free state are computed.  Both are functions of a single cross ratio \(\zeta\).  We give a rigorous determinant representation as a monotone limit of finite-dimensional quasi-free formulas, prove that in the modular eigenbasis of the interval the recovered state populates the nearly empty modes with the algebraic density \(\frac2{15}\zeta^2\kappa^{-3}\) (so that the Bures expansion is quadratic but not smooth beyond second order), and evaluate the fidelity numerically with controlled compressions.  The result is \(-\log\Fid=f_2\zeta^2[1+O(\log^{-2}(1/\zeta))]\) with \(f_2=0.008444(1)\) per fermion component; for the free Dirac fermion this is \(0.0676\,c\,\eta^2\) in the variables of Vardhan, Wei and Zou, within \(4\%\) of their lattice value \(0.070\,c\,\eta^2\).  The relative entropy has coefficient \(s_2=0.0837(5)\), about ten times the fidelity coefficient, and converges much more slowly in the ultraviolet, which explains a larger lattice discrepancy.  Finally, because every rotated Petz map of a half-sided modular inclusion is geometric, the whole rotation family collapses onto the same function of \(\zeta\); for a single chirality the ordinary Petz map is not optimal and the best rotated map is the pure geometric compression of \(ABC\) onto \(AB\); for a two-dimensional CFT the two chiralities see opposite rotations, so the family is even in the rotation parameter with its optimum at \(\lambda=0\), as observed on the lattice, and the observed dependence on the rotation parameter is a crossover effect.
+\end{abstract}
+
+\begin{mainbox}
+Let \(\zeta=\frac{as}{a+L}\) (\(=2z=\frac{2\eta}{1-\eta}\) for the ordinary Petz map) and \(\Phi(\zeta)=-\log\Fid_{\cF_r(I)}(\omega,\widetilde\omega_s)\).  Then, per chiral fermion component,
+\[
+ \Phi(\zeta)=f_2\,\zeta^2\bigl[1+O(\log^{-2}(1/\zeta))\bigr],\qquad
+ \boxed{f_2=0.008444(1)},
+\]
+\[
+ D(\omega\Vert\widetilde\omega_s)=s_2\,\zeta^2+\dots,\qquad \boxed{s_2=0.0837(5)},
+\]
+with \(\Phi(1/15)=3.517(3)\times10^{-5}\) as a reference value.  The recovered symbol obeys the exact ultraviolet law
+\[
+ \boxed{\;\widetilde Q_s(\kappa,\kappa)-q_\kappa=\frac{2}{15}\,\frac{\zeta^2}{\kappa^3}+O(\kappa^{-5})\;}
+\]
+in the modular eigenbasis, and every rotated Petz map satisfies \(-\log\Fid(\omega,\widetilde\omega_t)=\Phi\bigl(z(1+e^{-2\pi t})\bigr)\) per chirality (for a two-dimensional CFT the two chiralities enter with \(t\) and \(-t\)).  In the variables of Vardhan--Wei--Zou the free Dirac fermion has \(-\log F^{(0)}=0.0676\,c\,\eta^2\) (lattice: \(0.070\,c\,\eta^2\)) and \(D=0.67\,c\,\eta^2\) (lattice: \(\approx0.56\,c\,\eta^2\), ultraviolet-biased).
+\end{mainbox}
+
+
+\tableofcontents
+\clearpage
+
+\section{Setting and the quantity to be computed}\label{sec:setting}
+
+We continue the note \emph{Continuum Petz recovery for adjacent intervals in the free chiral fermion}, whose notation we keep.  Thus
+\[
+ A=(-a,0),\qquad D=BC=(0,L),\qquad I=ABC=(-a,L),\qquad L=b+c,
+\]
+\(H_I=L^2(I;\mathbb C^r)=H_A\oplus H_D\), \(Q:=Q_I=E_IP_+E_I\) is the vacuum symbol (the interval length \(c\) of the preceding notes is not to be confused with the central charge, also written \(c\) from Section~\ref{sec:rotated} on), and for \(s>0\)
+\begin{equation}\label{eq:Qt-def}
+ \widetilde Q_s=W_s^*Q_{J_s}W_s,\qquad W_s=1_{H_A}\oplus V_s,\qquad J_s=\Bigl(-a,\frac{L}{1+s}\Bigr),
+\end{equation}
+is the symbol of the recovered quasi-free state \(\widetilde\omega_s=\omega_{J_s}\circ\beta_s=\omega\circ\overline\beta_s\).  The covariance defect is block off-diagonal,
+\begin{equation}\label{eq:defect-recall}
+ \delta_s:=Q-\widetilde Q_s=\begin{pmatrix}0&\Delta_s\\ \Delta_s^*&0\end{pmatrix},
+ \qquad
+ \Delta_s(-u,v)=\frac{i}{2\pi}R_s(u,v),\qquad
+ R_s(u,v)=\frac{suv}{(u+v)\bigl(L(u+v)+suv\bigr)},
+\end{equation}
+and its exact trace norm is \(\|\delta_s\|_1=\frac r{2\pi}\log(1+\zeta)\), where throughout
+\begin{equation}\label{eq:zeta}
+ \boxed{\;\zeta:=\frac{as}{a+L}\;}
+\end{equation}
+For the ordinary Petz map \(s=2c/b\) and \(\zeta=2z=2\,\frac{ac}{b(a+b+c)}\); for the rotated map \(s_t=\frac cb(1+e^{-2\pi t})\) one has \(\zeta=z(1+e^{-2\pi t})\).
+
+The quantities to be computed are the root fidelity and the Araki relative entropy of the two normal states on the type-III factor \(\cF_r(I)\),
+\begin{equation}\label{eq:targets}
+ \Fid(\zeta):=\Fid_{\cF_r(I)}\bigl(\omega,\widetilde\omega_s\bigr),
+ \qquad
+ \mathcal D(\zeta):=D_{\cF_r(I)}\bigl(\omega\,\Vert\,\widetilde\omega_s\bigr),
+\end{equation}
+where \(\Fid(\varphi,\psi)=\sup|\langle\xi_\varphi,\xi_\psi\rangle|\) over vector representatives in a standard form (Uhlmann; in a fixed standard form \(\Fid(\omega_\psi,\omega)=\sup_{u'\in U(\cM')}|\langle\Omega,u'\psi\rangle|\), Alberti--Uhlmann 2002, Thm.~2(3)), equivalently \(\Fid(\varphi,\psi)=\inf_{x>0}\frac12(\varphi(x)+\psi(x^{-1}))\) (Alberti--Uhlmann 2002, Thm.~2, in the arithmetic-mean form of Uhlmann 2011, eq.~(29)).  Root fidelity is monotone nondecreasing under unital completely positive maps and \(\Fid(\varphi,\psi)=1\) iff \(\varphi=\psi\).
+
+\subsection{Reduction to one cross-ratio variable}
+
+\begin{lemma}[M\"obius reduction]\label{lem:mobius}
+\(\Fid\) and \(\mathcal D\) in \eqref{eq:targets} depend on \((a,L,s)\) only through \(\zeta\).  More precisely, \(1+\zeta\) is the cross ratio of the four points \(-a<0<\frac{L}{1+s}<L\),
+\[
+ \frac{\bigl(\frac{L}{1+s}+a\bigr)(L-0)}{\bigl(\frac{L}{1+s}-0\bigr)(L+a)}=1+\frac{as}{a+L}.
+\]
+\end{lemma}
+
+\begin{proof}
+Let \(g\) be a M\"obius transformation of the line with \(g(I)\) bounded.  Its half-density action \(U(g)\) on \(L^2(\mathbb R;\mathbb C^r)\) commutes with \(P_+\), the induced Bogoliubov automorphism preserves the vacuum, and it carries \(\cF_r(X)\) onto \(\cF_r(g(X))\).  The one-parameter family \(h_s\) is the parabolic subgroup fixing the touching point \(0\) with \(h_s'(0)=1\); its conjugate \(g\circ h_s\circ g^{-1}\) is the parabolic subgroup fixing \(g(0)\), i.e.\ the Borchers translations of the half-sided modular inclusion \(\cF_r(g(B))\subset\cF_r(g(D))\).  Hence \(\operatorname{Ad}U(g)\) intertwines the construction of \(\widetilde\omega_s\) for \((A,D,h_s)\) with the construction for \((g(A),g(D),g h_s g^{-1})\), and both fidelity and relative entropy are invariant under a common automorphism.  The transformed configuration is again determined by four points, and the only invariant of four ordered points on the line is the cross ratio displayed above.
+\end{proof}
+
+Note that the trace norm \(\frac r{2\pi}\log(1+\zeta)\) is consistent with the lemma.  In the small-cross-ratio regime one has \(\zeta\approx2z\approx2x\) for the ordinary Petz map, where \(x=ac/((a+b)(b+c))\) is the Vardhan--Wei--Zou variable.
+
+\section{Quasi-free fidelity and relative entropy in finite dimensions}\label{sec:finite}
+
+Let \(\mathfrak h\) be a finite-dimensional Hilbert space, \(\Lambda\mathfrak h\) its fermionic Fock space, and for a contraction \(X\) on \(\mathfrak h\) let \(\Gamma(X)=\bigoplus_n X^{\wedge n}\) be the Fock functor, so that
+\begin{equation}\label{eq:fock-functor}
+ \Gamma(X)\Gamma(Y)=\Gamma(XY),\quad \Gamma(X)^*=\Gamma(X^*),\quad \Gamma(X)^{1/2}=\Gamma(X^{1/2})\ (X\ge0),\quad \Tr\Gamma(X)=\det(1+X).
+\end{equation}
+For \(0<Q<1\) the gauge-invariant quasi-free state \(\omega_Q\), \(\omega_Q(a^*(f)a(g))=\langle g,Qf\rangle\), has the density matrix
+\begin{equation}\label{eq:rho-Q}
+ \rho_Q=\det(1-Q)\,\Gamma(G_Q),\qquad G_Q:=Q(1-Q)^{-1},
+\end{equation}
+since \(\Gamma(G)=\exp(a^*(\log G)a)\) is the Gibbs operator of the one-particle Hamiltonian \(-\log G\) and \(\Tr\Gamma(G)=\det(1+G)=\det(1-Q)^{-1}\).
+
+\begin{theorem}[Root fidelity of quasi-free states]\label{thm:finite-fidelity}
+For \(0<Q_1,Q_2<1\) on finite-dimensional \(\mathfrak h\), with \(G_i=Q_i(1-Q_i)^{-1}\),
+\begin{equation}\label{eq:finite-fidelity}
+ \boxed{\;
+ \Fid(\omega_{Q_1},\omega_{Q_2})
+ =\det\bigl[(1-Q_1)(1-Q_2)\bigr]^{1/2}\,
+  \det\Bigl[1+\bigl(G_1^{1/2}G_2G_1^{1/2}\bigr)^{1/2}\Bigr].\;}
+\end{equation}
+Equivalently, if \(S_i=Q_i^{1/2}\), \(C_i=(1-Q_i)^{1/2}\) and \(U\) is the unitary in the polar decomposition \(G_1^{1/2}G_2^{1/2}=U\,|G_1^{1/2}G_2^{1/2}|\), then
+\begin{equation}\label{eq:finite-fidelity-2}
+ \Fid(\omega_{Q_1},\omega_{Q_2})=\frac{\det\bigl(S_1S_2+C_1UC_2\bigr)}{\det U}.
+\end{equation}
+If \([Q_1,Q_2]=0\) then \(U=1\) and \(\Fid=\prod_j\bigl(\sqrt{q_jq_j'}+\sqrt{(1-q_j)(1-q_j')}\bigr)\) over the joint eigenvalues.
+\end{theorem}
+
+\begin{proof}
+By \eqref{eq:fock-functor}--\eqref{eq:rho-Q}, \(\rho_1^{1/2}=\det(1-Q_1)^{1/2}\Gamma(G_1^{1/2})\), hence
+\(\rho_1^{1/2}\rho_2\rho_1^{1/2}=\det(1-Q_1)\det(1-Q_2)\,\Gamma(T)\) with \(T=G_1^{1/2}G_2G_1^{1/2}\ge0\).  Taking the square root and the trace with \eqref{eq:fock-functor} gives \eqref{eq:finite-fidelity}.  For \eqref{eq:finite-fidelity-2}, put \(X=G_1^{1/2}G_2^{1/2}=U|X|\); then \(T=XX^*=U|X|^2U^*\), so \(\det(1+T^{1/2})=\det(1+|X|)=\det(U^*(U+X))=\det(U+X)/\det U\), and \(C_1(U+X)C_2=C_1UC_2+S_1S_2\) because \(C_1XC_2=S_1S_2\).
+\end{proof}
+
+\begin{proposition}[Relative entropy]\label{prop:finite-relent}
+For \(0<Q_1,Q_2<1\),
+\begin{equation}\label{eq:finite-relent}
+ S(\omega_{Q_1}\Vert\omega_{Q_2})
+ =\Tr\Bigl[Q_1(\log Q_1-\log Q_2)+(1-Q_1)\bigl(\log(1-Q_1)-\log(1-Q_2)\bigr)\Bigr].
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+\(\log\rho_Q=\log\det(1-Q)+a^*(\log G_Q)a\) and \(\Tr[\rho_{Q_1}a^*Xa]=\Tr(Q_1X)\); insert \(\log G=\log Q-\log(1-Q)\) and \(\log\det(1-Q)=\Tr\log(1-Q)\).
+\end{proof}
+
+\begin{proposition}[Second order: quantum Fisher and Kubo--Mori forms]\label{prop:second-order}
+Let \(Q_2=Q_1+\eps D\) with \(D=D^*\), and write \(D_{ik}\) for the matrix of \(D\) in an eigenbasis of \(Q_1\) with eigenvalues \(q_i\).  Then, as \(\eps\to0\),
+\begin{align}
+ -\log\Fid(\omega_{Q_1},\omega_{Q_1+\eps D})
+ &=\frac{\eps^2}{4}\sum_{i,k}\frac{|D_{ik}|^2}{q_i(1-q_k)+q_k(1-q_i)}+O(\eps^3),
+ \label{eq:qfi}\\
+ S(\omega_{Q_1}\Vert\omega_{Q_1+\eps D})
+ &=\frac{\eps^2}{2}\sum_{i,k}|D_{ik}|^2\Bigl[\ell(q_i,q_k)+\ell(1-q_i,1-q_k)\Bigr]+O(\eps^3),
+ \label{eq:kubo-mori}
+\end{align}
+where \(\ell(p,q):=\frac{\log p-\log q}{p-q}\) and \(\ell(p,p)=\frac1p\).
+In the modular variables \(q_i=(1+e^{\kappa_i})^{-1}\) the fidelity weight reads
+\begin{equation}\label{eq:qfi-weight}
+ \frac{1}{q_i(1-q_k)+q_k(1-q_i)}
+ =1+\frac{\cosh\frac{\kappa_i+\kappa_k}{2}}{\cosh\frac{\kappa_i-\kappa_k}{2}},
+\end{equation}
+which grows like \(e^{\min(|\kappa_i|,|\kappa_k|)}\) when \(\kappa_i,\kappa_k\to\pm\infty\) with the same sign.
+\end{proposition}
+
+\begin{proof}
+For \eqref{eq:qfi} expand \eqref{eq:finite-fidelity}.  With \(c_i=1-q_i\), \(g_i=q_i/c_i\), one has \(G_2=G_1+\eps G'+\eps^2G''\), \(G'=(1-Q_1)^{-1}D(1-Q_1)^{-1}\), \(G''=(1-Q_1)^{-1}D(1-Q_1)^{-1}D(1-Q_1)^{-1}\), and \(T^{1/2}=G_1+\eps T_1+\eps^2T_2\) with \((T_1)_{ik}=\sqrt{g_ig_k}\,D_{ik}/(c_ic_k(g_i+g_k))\) and \(g_iT_2+T_2g_i=G_1^{1/2}G''G_1^{1/2}-T_1^2\) entrywise.
+  The first-order terms cancel identically (\(\Fid\le1\) with equality at \(\eps=0\)); collecting the second-order terms of \(\tfrac12\log\det(1-Q_2)+\log\det(1+T^{1/2})\) gives
+\begin{align*}
+ &\sum_{i,k}\frac{|D_{ik}|^2}{c_ic_k}\Bigl\{\frac14-\frac{\tfrac12(q_ic_k^2+q_kc_i^2)+q_iq_kc_ic_k}{2(q_ic_k+q_kc_i)^2}\Bigr\}
+ =-\frac14\sum_{i,k}\frac{|D_{ik}|^2}{q_ic_k+q_kc_i},
+\end{align*}
+after the identity \((q_ic_k+q_kc_i)^2-(q_ic_k^2+q_kc_i^2)-2q_iq_kc_ic_k=-c_ic_k(q_ic_k+q_kc_i)\).  For \eqref{eq:kubo-mori} write \eqref{eq:finite-relent} as the sum of the Bregman divergences of \(f(X)=\Tr X\log X\) at \((Q_1,Q_2)\) and \((1-Q_1,1-Q_2)\) (the linear terms \(\Tr(Q_1-Q_2)\) cancel between the two), and use the corollary of the Daleckii--Krein formula \(\partial^2f(Q)[D,D]=\sum_{ik}|D_{ik}|^2\ell(q_i,q_k)\).  Formula \eqref{eq:qfi-weight} is elementary algebra.  In the commuting case both expansions reduce to the classical Fisher information \(\sum_id_i^2/(q_i(1-q_i))\) with the familiar factors \(\tfrac18\) and \(\tfrac12\).
+\end{proof}
+
+\begin{remark}
+The weight \eqref{eq:qfi-weight} is the reason the continuum problem is delicate: matrix elements of the defect between two nearly empty (or two nearly filled) modular modes are amplified exponentially.  Whether the second-order coefficient is finite therefore depends on the decay of the defect in the modular eigenbasis, which is analysed in Section~\ref{sec:modular}.
+\end{remark}
+
+\section{Determinant representation on the type-III algebra}\label{sec:infinite}
+
+Both \(\omega\) and \(\widetilde\omega_s\) are faithful normal states on \(\cF_r(I)\): \(\ker Q=\ker(1-Q)=\{0\}\) because a Hardy-space function vanishing on an interval vanishes identically, and \(\widetilde Q_s=W_s^*Q_{J_s}W_s\) with \(W_s\) isometric inherits both properties.  The continuum quantities \eqref{eq:targets} are obtained from the finite-dimensional formulas of Section~\ref{sec:finite} by a monotone limit.
+
+\begin{theorem}[Determinant representation]\label{thm:det-rep}
+Let \(P_1\le P_2\le\cdots\) be finite-rank projections on \(H_I\) with \(P_n\uparrow1\) strongly, and put \(Q_n=P_nQP_n\), \(\widetilde Q_n=P_n\widetilde Q_sP_n\), regarded as operators on \(P_nH_I\).  Then \(0<Q_n,\widetilde Q_n<1\), and
+\begin{align}
+ \Fid_{\cF_r(I)}(\omega,\widetilde\omega_s)
+ &=\lim_{n\to\infty}\ \det\bigl[(1-Q_n)(1-\widetilde Q_n)\bigr]^{1/2}
+   \det\Bigl[1+\bigl(G_n^{1/2}\widetilde G_nG_n^{1/2}\bigr)^{1/2}\Bigr],
+ \label{eq:det-rep-F}\\
+ D_{\cF_r(I)}(\omega\Vert\widetilde\omega_s)
+ &=\lim_{n\to\infty}\ \Tr\Bigl[Q_n(\log Q_n-\log\widetilde Q_n)+(1-Q_n)\bigl(\log(1-Q_n)-\log(1-\widetilde Q_n)\bigr)\Bigr],
+ \label{eq:det-rep-S}
+\end{align}
+where \(G_n=Q_n(1-Q_n)^{-1}\), \(\widetilde G_n=\widetilde Q_n(1-\widetilde Q_n)^{-1}\).  The sequence in \eqref{eq:det-rep-F} is nonincreasing and the sequence in \eqref{eq:det-rep-S} is nondecreasing; in particular every term of \eqref{eq:det-rep-F} is a rigorous upper bound for the fidelity and every term of \eqref{eq:det-rep-S} a rigorous lower bound for the relative entropy.
+\end{theorem}
+
+\begin{proof}
+Let \(M_n=\pi_\omega(\CAR(P_nH_I))''\), a finite-dimensional factor.  The restriction of a gauge-invariant quasi-free state with symbol \(X\) to \(\CAR(P_nH_I)\) is the quasi-free state with symbol \(P_nXP_n\), and \(\ker P_nXP_n\cap P_nH_I=\{0\}\) whenever \(\ker X=\{0\}\) because \(\langle f,Xf\rangle=0\) forces \(X^{1/2}f=0\).  Hence \(\omega|_{M_n}\), \(\widetilde\omega_s|_{M_n}\) are the faithful quasi-free states with symbols \(Q_n\), \(\widetilde Q_n\), and Theorem~\ref{thm:finite-fidelity}, Proposition~\ref{prop:finite-relent} give the terms on the right of \eqref{eq:det-rep-F}--\eqref{eq:det-rep-S}.  The algebras \(M_n\) increase and their union is strongly dense in \(\cF_r(I)\) since \(\bigcup_n\CAR(P_nH_I)\) is norm dense in \(\CAR(H_I)\).  Fidelity is nonincreasing along increasing subalgebras and continuous from below (the lemma on fidelity proved in the preceding note); Araki relative entropy is nondecreasing along increasing subalgebras and \(D_M(\varphi\Vert\psi)=\lim_nD_{M_n}(\varphi|_{M_n}\Vert\psi|_{M_n})\) for an increasing sequence with strongly dense union (Araki's martingale convergence: Araki~\cite{Araki77}, Theorem~3.9(2) together with Theorem~3.8(2)(\(\gamma\)), for an increasing sequence of approximately finite subalgebras with \((\bigcup_nM_n)''=M\); our \(M_n\) are finite-dimensional).
+\end{proof}
+
+\begin{remark}[The ordinary Petz map is a compression]
+Since \(\overline\beta_s\) is a normal \(*\)-isomorphism of \(\cF_r(I)\) onto \(\cF_r(J_s)\) and \(\widetilde\omega_s=\omega\circ\overline\beta_s\), one also has
+\(\Fid_{\cF_r(I)}(\omega,\widetilde\omega_s)=\Fid_{\cF_r(J_s)}(\omega\circ\overline\beta_s^{-1},\omega)\): the fidelity between the vacuum on the smaller interval \(J_s\subset AB\) and the vacuum of \(ABC\) pulled through the compression.  Nothing is gained analytically, but it explains why the result is a function of the single cross ratio \(1+\zeta\) of \(J_s\) and \(I\).
+\end{remark}
+
+\subsection{The box compression used in the numerics}\label{sec:box}
+
+In the modular coordinate \(\xi=\log\frac{x+a}{L-x}\), with the half-density identification \(f\mapsto\beta^{1/2}f\), \(\beta(x)=\frac{(x+a)(L-x)}{a+L}\), the vacuum symbol is the translation-invariant kernel
+\begin{equation}\label{eq:thermal-kernel}
+ \widetilde{Q}(\xi,\xi')=\tfrac12\delta(\xi-\xi')-\frac{i}{4\pi}\,\frac{1}{\sinh\frac{\xi-\xi'}{2}},
+ \qquad
+ \widehat q(\kappa)=\frac1{1+e^{\kappa}},
+\end{equation}
+because \((x-y)/\sqrt{\beta(x)\beta(y)}=2\sinh\frac{\xi-\xi'}2\); this is the KMS form of the vacuum for the modular flow \cite{CasiniHuerta,LongoXu}.  The defect becomes an explicit kernel \(\widetilde D_s(\xi,\xi')=\sqrt{\beta\beta'}\,\delta_s(x,y)\), supported on \(\{\xi<\xi_0<\xi'\}\cup\{\xi'<\xi_0<\xi\}\), \(\xi_0=\log(a/L)\), decaying like \(e^{-|\xi-\xi_0|/2}\) in each variable.
+
+For Theorem~\ref{thm:det-rep} we use the finite-dimensional subspaces
+\[
+ \mathfrak h_N=\operatorname{span}\bigl\{e_j=\Lambda^{-1/2}e^{ik_j\xi}\,\mathbf 1_{[\xi_0-\Lambda/2,\,\xi_0+\Lambda/2]}:\ k_j=2\pi j/\Lambda,\ |k_j|\le\kappa_{\max}/2\pi\bigr\}\subset L^2(I),
+\]
+an orthonormal family of box modes in the modular coordinate, nested in \(\kappa_{\max}\) at fixed \(\Lambda\).  Translation invariance of \eqref{eq:thermal-kernel} gives the compressed vacuum symbol in closed form, as one-dimensional integrals,
+\begin{align}
+ (Q_N)_{jj}&=\frac12-\frac{1}{2\pi\Lambda}\int_0^\Lambda\frac{(\Lambda-t)\sin(k_jt)}{\sinh(t/2)}\,dt,\label{eq:Qbox}\\
+ (Q_N)_{jl}&=-\frac{(-1)^{j-l}}{2\pi\Lambda\,(k_j-k_l)}\int_0^\Lambda\frac{\cos(k_jt)-\cos(k_lt)}{\sinh(t/2)}\,dt\qquad(j\ne l),\notag
+\end{align}
+while \(\widehat D_{jl}=\langle e_j,\widetilde D_se_l\rangle\) is computed by quadrature on a mesh graded towards the corner.  Both matrices are expressed in the absolute basis \(e^{ik_j\xi}\) on the box centred at \(\xi_0\), i.e.\ the centred formula \eqref{eq:Qbox} is conjugated by \(\operatorname{diag}(e^{-ik_j\xi_0})\); this phase was omitted in a first version of the code, a \(5\times10^{-5}\) relative effect on \(\Phi\) (audit \texttt{rigor/check\_note5\_numerics.tex}).  Then \(\widetilde Q_N=Q_N-\widehat D\) is exactly the compression of \(\widetilde Q_s\), and every value \(-\log\Fid_N\) (resp.\ \(S_N\)) reported below is a rigorous lower bound for \(-\log\Fid\) (resp.\ \(S\)); the bounds for different \(\kappa_{\max}\) are not monotone, because the spectral sub-compression of Section~\ref{sec:numerics} selects subspaces that are not nested.  As \(\Lambda\to\infty\) the diagonal of \eqref{eq:Qbox} tends to \(\widehat q(2\pi k_j)\); the sharp box edge enlarges the diagonal elements of the high modes by \(\approx(\pi\Lambda k_j)^{-1}\), but the eigenvalues of \(Q_N\) still reach \(e^{-\kappa_{\max}}\) (numerically \(2.8\times10^{-13}\) at \(\Lambda=60\)), so double precision is insufficient for Theorem~\ref{thm:finite-fidelity}; the evaluation therefore uses the spectral sub-compression with 40-digit arithmetic described in Section~\ref{sec:numerics}.
+
+\begin{remark}[A trap]
+Replacing \(Q_N\) by its \(\Lambda\to\infty\) limit \(\operatorname{diag}(\widehat q(2\pi k_j))\) while keeping the compressed defect \(\widehat D\) does \emph{not} define a pair of quasi-free states: the resulting \(\operatorname{diag}(\widehat q)-\widehat D\) acquires negative eigenvalues of order \(10^{-11}\) once \(\kappa_{\max}\gtrsim24\), because the infrared--ultraviolet couplings \(\widehat D_{jl}\) decay only like \(\kappa^{-2}\) (kink of the defect at the touching point) and are no longer compensated by the box-edge occupation (an independent recomputation did not reproduce eigenvalues this negative and finds a minimum of \(+2.2\times10^{-13}\) at the parameters it checked, \texttt{rigor/check\_note5\_numerics.tex}; the point of the remark, that this replacement is not a compression and need not yield a valid pair of quasi-free states, is unaffected).  Positivity of \(\widetilde Q_s\) on the line rests on the exact interplay between the defect and the vacuum symbol; any approximation must treat both consistently, as the compression does.
+\end{remark}
+
+\section{The defect in the modular eigenbasis}\label{sec:modular}
+
+\subsection{Modular modes and the thermal form of the vacuum}
+
+The eigenfunctions of \(Q=E_IP_+E_I\) are the Casini--Huerta modes
+\begin{equation}\label{eq:modes}
+ \psi_\kappa(x)=\frac{1}{2\pi}\,\beta(x)^{-1/2}e^{i\kappa\xi(x)/2\pi},
+ \qquad
+ \xi(x)=\log\frac{x+a}{L-x},\qquad \beta(x)=\frac{(x+a)(L-x)}{a+L}=\frac{dx}{d\xi},
+\end{equation}
+normalized so that \(\int_{\mathbb R}d\kappa\,|\psi_\kappa\rangle\langle\psi_\kappa|=1\) on \(L^2(I)\), with
+\begin{equation}\label{eq:fermi}
+ Q\psi_\kappa=q_\kappa\psi_\kappa,\qquad q_\kappa=\frac1{1+e^{\kappa}},
+\end{equation}
+so that \(\kappa\) is the one-particle modular Hamiltonian, \(K=\log\frac{1-Q}{Q}\), and \(\kappa\to+\infty\) labels the nearly empty modes.  The sign convention in \eqref{eq:modes} is fixed below by positivity of \(\widetilde Q_s\).  For a symbol \(X\) with bounded kernel on \(I\times I\), the function
+\begin{equation}\label{eq:mode-kernel}
+ X(\kappa,\kappa'):=\langle\psi_\kappa,X\psi_{\kappa'}\rangle
+ =\frac{1}{(2\pi)^2}\iint d\xi\,d\xi'\,e^{-i\kappa\xi/2\pi}\,\widetilde X(\xi,\xi')\,e^{i\kappa'\xi'/2\pi},
+ \quad \widetilde X(\xi,\xi')=\sqrt{\beta(x)\beta(y)}\,X(x,y),
+\end{equation}
+is continuous and bounded (since \(\beta^{-1/2}\in L^1(I)\)), and \(\Tr X=\int d\kappa\,X(\kappa,\kappa)\) when \(X\) is trace class.  Thus \(X(\kappa,\kappa)\) is the occupation density per unit modular energy.
+
+\subsection{The defect kernel and the exact ultraviolet tail}
+
+For the defect \eqref{eq:defect-recall} one has \(\delta_s(\kappa,\kappa')=\frac{i}{2\pi}\bigl[J(\kappa,\kappa')-\overline{J(\kappa',\kappa)}\bigr]\) with
+\begin{equation}\label{eq:J-def}
+ J(\kappa,\kappa')=\frac{1}{(2\pi)^2}\int_{-\infty}^{\xi_0}\!d\xi\int_{\xi_0}^{\infty}\!d\xi'\,
+ \sqrt{\beta(x)\beta(y)}\,R_s(-x,y)\,e^{-i\kappa\xi/2\pi}e^{i\kappa'\xi'/2\pi},
+ \qquad \xi_0=\log\frac aL,
+\end{equation}
+and in particular the occupation excess of the recovered state is
+\begin{equation}\label{eq:occupation}
+ \widetilde Q_s(\kappa,\kappa)-q_\kappa=-\delta_s(\kappa,\kappa)=\frac1\pi\,\operatorname{Im}J(\kappa,\kappa).
+\end{equation}
+The integrand of \eqref{eq:J-def} is real-analytic except at the corner \((\xi_0,\xi_0)\), where \(R_s\) is bounded but direction dependent; this corner controls the large-\(\kappa\) behaviour.
+
+\begin{proposition}[Exact ultraviolet tail]\label{prop:tail}
+Let \(\beta_0=\beta(0)=\frac{aL}{a+L}\).  As \(\kappa\to+\infty\),
+\begin{equation}\label{eq:tail}
+ \boxed{\;
+ \widetilde Q_s(\kappa,\kappa)-q_\kappa
+ =\frac{2}{15}\,\frac{s^2\beta_0^2}{L^2}\,\frac1{\kappa^3}+O(\kappa^{-5})
+ =\frac{2}{15}\,\frac{\zeta^2}{\kappa^3}+O(\kappa^{-5}),\;}
+\end{equation}
+with \(\zeta=as/(a+L)\) as in \eqref{eq:zeta}.  In particular the recovered state populates the nearly empty modular modes with an occupation density decaying only algebraically, while the vacuum occupation \(q_\kappa\sim e^{-\kappa}\) is exponentially small; by particle--hole symmetry the same holds for holes in the nearly filled modes \(\kappa\to-\infty\).  The first-order (in \(s\)) part of the defect does not contribute to \eqref{eq:tail}: its diagonal decays like \(e^{-\kappa}\) up to powers.
+\end{proposition}
+
+\begin{proof}[Proof sketch]
+Write \(p=\xi_0-\xi>0\), \(p'=\xi'-\xi_0>0\), \(m=\xi-\xi'=-(p+p')<0\), \(n=\tfrac12(\xi+\xi')-\xi_0\).  Then \(J(\kappa,\kappa)=(2\pi)^{-2}\int_{-\infty}^0dm\,e^{-i\kappa m/2\pi}P(m)\) with the diagonal profile \(P(m)=\int dn\,\widetilde F(\xi,\xi')\), \(\widetilde F=\sqrt{\beta\beta'}R_s(-x,y)\), integrated over \(|n|<|m|/2\).  Since \(\widetilde F\) is analytic away from the corner and \(P(m)\) decays exponentially as \(m\to-\infty\), the large-\(\kappa\) asymptotics of \(J(\kappa,\kappa)\) is governed by the Taylor expansion \(P(m)=\sum_{k\ge1}c_k|m|^k\) at \(m=0^-\): \(\int_0^\infty t^ke^{i\kappa t/2\pi}dt=k!\,i^{k+1}(2\pi/\kappa)^{k+1}\), so \emph{odd} \(k\) contribute only to \(\operatorname{Re}J\) and \emph{even} \(k\) only to \(\operatorname{Im}J\).  Expanding \(x(\xi)\) and \(\beta\) around the corner, \(u=-x=\beta_0p-\tfrac12\beta_0\beta_0'p^2+\dots\), \(v=y=\beta_0p'+\tfrac12\beta_0\beta_0'p'^2+\dots\), \(\sqrt{\beta\beta'}=\beta_0(1+\tfrac12\beta_0'(p'-p)+\dots)\), \(\beta_0'=\frac{L-a}{a+L}\), and \(R_s=\frac sL g-\frac{s^2}{L^2}\frac{u^2v^2}{(u+v)^3}+\dots\) with \(g(u,v)=\frac{uv}{(u+v)^2}\) homogeneous of degree \(0\), one finds
+\[
+ P(m)=\frac{s\beta_0}{L}\,\frac{|m|}{6}\;+\;0\cdot m^2\Big|_{O(s)}\;-\;\frac{s^2\beta_0^2}{L^2}\,\frac{m^2}{30}+O(|m|^3).
+\]
+The vanishing of the \(O(s)\) coefficient of \(m^2\) is the cancellation between the Jacobian term \(\tfrac12\beta_0'(p'-p)g\) and the coordinate correction \(-\tfrac12\beta_0'p^2\partial_pg+\tfrac12\beta_0'p'^2\partial_{p'}g=\tfrac12\beta_0'\frac{pp'(p-p')}{(p+p')^2}\); it reflects M\"obius covariance (\(\beta_0'\) is not a conformal invariant).  The \(m^2\) coefficient of the \(O(s^2)\) term is \(\int_{-1/2}^{1/2}(\tfrac14-n^2)^2dn=\tfrac1{30}\).  Inserting \(c_2=-\frac{s^2\beta_0^2}{30L^2}\) gives \(\operatorname{Im}J=4\pi|c_2|\kappa^{-3}+O(\kappa^{-5})\) and \eqref{eq:tail}; the sign is the one required by \(\widetilde Q_s\ge0\).  Finally \(\beta_0/L=a/(a+L)\), so \(s\beta_0/L=\zeta\).
+\end{proof}
+\begin{remark}[Status of the proof]The argument above is a sketch.  It is superseded by \texttt{rigor/tail\_bound.tex} (Theorem~4.2), which proves from the exact closed form of the first-order kernel that the second-order tail \(\Sigma(\kappa_c)\) beyond the window satisfies \(|\Sigma(\kappa_c)-\zeta^2/(15\kappa_c^2)|\le0.46\,\zeta^2\kappa_c^{-3}+0.051\,\zeta(1+\kappa_c)e^{-\kappa_c}\), re-derives \(c_2=-\zeta^2/30\), and proves the unconditional full-tail bound \(0\le\Phi-\Phi_W\le0.173\,\zeta^2/\kappa_c+0.88\,\zeta^2/\kappa_c^2\) for \(\kappa_c\ge\max\{10,\,2\log(1/\zeta)+2\log(1+\kappa_c)+3\}\) (Bures-angle triangle inequality with an intermediate product state and a canonical-purification bound controlled by positivity alone).  The tail correction of Section~\ref{sec:numerics} is therefore a best estimate.  Certified statements (\texttt{rigor/certified\_numerics.tex}, refereed): the compressed vacuum symbol \(Q_N\) is enclosed to \(5.6\times10^{-18}\) per entry by ball arithmetic; the windowed value obeys the a priori bracket \(\Phi_W\le\Phi^{\rm box}\le1.20\,\Phi_W\); and with the weighted Sylvester identity in place of the false unweighted square-root bound, the 60-digit evaluation gives enclosure widths \(0.71\%\) (\(\zeta=1/120\)) to \(1.01\%\) (\(\zeta=8/15\)) for the box value at \(\kappa_c=25.3\).  Not yet certified: the two-dimensional quadrature of \(\widehat D\) and the box cutoff beyond \(\kappa_{\max}\), so these enclosures refer to the compressed problem; the \(\log^{-2}(1/\zeta)\) rate claimed in Corollary~\ref{cor:structure} is not reachable by this route (the tail bound needs \(\kappa_c>2\log(1/\zeta)\), a cubic remainder bound of the compressed curve needs \(\kappa_c<\log(1/\zeta)\)), and should be regarded as heuristic.\end{remark}
+
+The tail \eqref{eq:tail} was confirmed numerically by direct quadrature of \eqref{eq:J-def} on a mesh graded towards the corner: for \(a=1\), \(L=2\), \(s=0.2\) the ratio of the computed density to \(\frac2{15}\zeta^2\kappa^{-3}\) is \(1.11,\,1.05,\,1.024,\,1.010\) at \(\kappa=20,30,40,60\) (values re-evaluated in the verification), approaching \(1\) from above, and the density scales as \(s^2\) between \(s=0.1\) and \(s=0.2\) (ratio \(4.000\)).  For the first-order kernel \(\frac sLg\) alone the diagonal drops from \(2.4\times10^{-4}\) at \(\kappa=4\) to \(5.7\times10^{-9}\) at \(\kappa=16\), i.e.\ like \(e^{-0.9\kappa}\), and is below the quadrature floor beyond.
+
+\begin{corollary}[Structure of the small-\(\zeta\) expansion]\label{cor:structure}
+The second-order coefficient of \(-\log\Fid(\zeta)\) is finite: it is given by \eqref{eq:qfi} with \(D\) the first-order defect \(\partial_s\delta_s|_{s=0}\), whose modular matrix decays exponentially so that the weight \eqref{eq:qfi-weight} is harmless.  \emph{Corrected statement (2026-09-09, \texttt{rigor/rate\_of\_remainder.tex}, refereed).}  The expansion proceeds in integer powers, \(-\log\Fid(\zeta)=f_2\zeta^2\,[1+c_3\zeta+c_4\zeta^2+O(\zeta^3)]\) with \(c_3=-0.99(1)\) and \(c_4=+0.9(1)\) per fermion component; the remainder after the quadratic term is negative and of order \(\zeta^3\).  An earlier version of this corollary claimed a \(\log^{-2}(1/\zeta)\) correction from the saturated ultraviolet modes above \(\kappa_*(\zeta)\); that term double-counted a contribution already contained in \(\frac{\zeta^2}8\,(g_B-g_B^{(\kappa_*)})\), and it is refuted by the global bound \(-\log\Fid\le-\frac12\log(1-2f_2\zeta^2)=f_2\zeta^2(1+f_2\zeta^2+O(\zeta^4))\), obtained from the Uhlmann--Bogoliubov construction with the flow extension (for which \(\|V_s\|_2^2\le s^2\|P_-DP_+\|_2^2\) exactly and \(\det(1-V_s^*V_s)\) is even in \(s\)), which admits no cubic term, together with the numerically established \(c_3<0\).  The collar-regularized states \(\widetilde\omega_{\eps}\) do not show this: for \(\eps>0\) the defect kernel is smooth up to the edges of the two-interval region and all modular matrix elements decay exponentially, so the collar acts as a UV regulator of the recovery problem.
+  The estimate of the remainder is heuristic (mode by mode); finiteness of the second-order coefficient uses in addition the exponential decay of the off-diagonal first-order matrix elements, which holds because the first-order modular kernel is even under \((p,p')\to(-p,-p')\) (\texttt{rigor/check\_note5\_theory.tex}); \texttt{rigor/quadratic\_limit.tex} proves unconditionally \(\liminf_{\zeta\to0}\Phi/\zeta^2\ge g_B/8\) and \(\Phi(\zeta)\le\tau/(1-\tau)\) with \(\tau=\frac r{2\pi}\log(1+\zeta)\), and \texttt{rigor/uhlmann\_upper\_bound.tex} proves \(\limsup\Phi/\zeta^2\le g_B/8\) through Uhlmann's inequality with a Bogoliubov extension of the compression map; hence \(\lim_{\zeta\to0}\Phi/\zeta^2=g_B/8\) is a theorem, while the remainder is \(c_3f_2\zeta^3+O(\zeta^4)\) with \(c_3=-0.99(1)\) (\texttt{rigor/rate\_of\_remainder.tex}); the \(\log^{-2}\) rate stated in an earlier version was wrong.
+\end{corollary}
+
+\section{All rotated Petz maps at once}\label{sec:rotated}
+
+The preceding note showed that for the half-sided modular inclusion \(\cF_r(B)\subset\cF_r(D)\) every rotated Petz map is geometric, \(\alpha_t^{D\to B}=\gamma_{s_t}\) with \(s_t=\lambda(1+e^{-2\pi t})\), \(\lambda=c/b\), and that the collar maps tensorize and glue to \(\overline\beta_{s_t}\).  Combined with Lemma~\ref{lem:mobius} this has a consequence that is exact and independent of all numerics.
+
+\begin{corollary}[Collapse of the rotation family]\label{cor:collapse}
+Let \(\Phi(\zeta):=-\log\Fid_{\cF_r(I)}(\omega,\widetilde\omega_s)\) with \(\zeta=as/(a+L)\).  For every modular rotation parameter \(t\in\mathbb R\), the recovered state \(\widetilde\omega_t=\omega\circ\overline\beta_{s_t}\) of the rotated Petz map satisfies
+\begin{equation}\label{eq:collapse}
+ -\log\Fid(\omega,\widetilde\omega_t)=\Phi\bigl(\zeta_t\bigr),\qquad
+ \zeta_t=z\,(1+e^{-2\pi t}),\qquad z=\frac{ac}{b(a+b+c)}=\frac{1}{\eta}-1\quad(\eta\text{ the cross ratio of Note~1}),
+\end{equation}
+and likewise for the relative entropy.  In particular the whole one-parameter family is a single function of one variable, the ordinary Petz map (\(t=0\)) sits at \(\zeta_0=2z\), the family is monotone in \(t\) for a single chirality, and its best member is the limit \(t\to+\infty\) (in the convention of the preceding note), where \(\zeta_t\downarrow z\) and the recovery map becomes the pure geometric compression \(\overline\beta_\lambda\) of \(ABC\) onto \(AB\).  For a single chirality and small \(z\) the ordinary Petz map is therefore worse than the optimal rotation by a factor \(4\) in \(-\log\Fid\); for a two-dimensional CFT, whose two chiralities see opposite rotations, see the paragraph below.  For the modular average with the density \(p(t)=\pi/(1+\cosh2\pi t)\) the Faulkner--Hollands--Swingle--Wang bound is weaker than for the best fixed \(t\); whether the averaged channel itself is worse is not decided by \(\int p(t)\Phi(\zeta_t)\,dt\), which by concavity of the root fidelity is only an upper bound on its error.
+\end{corollary}
+
+\begin{proof}
+\(\widetilde\omega_t\) is the recovered state of the geometric map with parameter \(s=s_t\); the fidelity depends only on the cross ratio \(1+\zeta\) by Lemma~\ref{lem:mobius}; and \(as_t/(a+L)=\frac{ac}{b(a+b+c)}(1+e^{-2\pi t})\).  Monotonicity of \(\Phi\) in \(\zeta\) is proved in the verification document \texttt{rigor/check\_note5\_theory.tex}; it is also visible in Table~\ref{tab:scan}.
+\end{proof}
+
+\begin{remark}[Optimality beyond the rotated family (added 2026-09-15)]
+The geometric compression is the best member of the rotated family, but not the best recovery channel: every normal recovery channel's recovered symbol lies in the quasi-free feasible set, so the second-order problem over all channels is the convex programme of \texttt{rigor/optimality\_all\_channels.tex}; composing the compression with a Bogoliubov rotation inside \(B\) lowers the second-order functional by a factor \(1-\theta\), \(\theta=0.384\pm0.003\) numerically (\texttt{numerics/optimality\_all/F3\_RESULTS.md}, 2026-09-15; the smaller \(\theta\ge0.30\) of \texttt{rigor/sdp\_dual\_certificate.tex} is a taper-suppressed lower bound), and the Uhlmann bound with an optimised purification on the exterior of \(ABC\) shows that the exact fidelity follows (\texttt{rigor/exact\_fidelity\_upper\_half.tex}): \(E_{\rm rec}\le(1-\theta_{\rm fr})f_2z^2(1+o(1))\le0.616f_2z^2(1+o(1))\) per chirality, \(\theta_{\rm fr}\ge0.38\) numerically.  ``Optimal'' in this note therefore always means ``optimal within the rotated family''.
+\end{remark}
+
+\paragraph{Translation to the lattice study of Vardhan--Wei--Zou.}
+Vardhan, Wei and Zou~\cite{VardhanWeiZou} study the same configuration on the lattice, with the recovery channel
+\[
+ P^{(\lambda)}_{B\to BC}(\cdot)=\rho_{BC}^{1/2-i\lambda/2}\rho_B^{-1/2+i\lambda/2}(\cdot)\rho_B^{-1/2-i\lambda/2}\rho_{BC}^{1/2+i\lambda/2},
+\]
+so that \(\lambda=2t\), the root fidelity \(F=\|\sqrt\rho\sqrt\sigma\|_1\) as here, and the cross ratio
+\(\eta_{\mathrm V}:=\frac{L_AL_C}{(L_A+L_B)(L_B+L_C)}=x=1-\eta\) (their cross ratio is the complement of ours), for which \(z=\eta_{\mathrm V}/(1-\eta_{\mathrm V})\).  In their variables the single-chirality collapse \eqref{eq:collapse} must be combined with a second fact: the Bisognano--Wichmann boost of a two-dimensional CFT dilates the two light-ray coordinates oppositely, so the rotated Petz map with parameter \(t\) acts as \(t\) on one chirality and as \(-t\) on the other.  Hence, with \(z=\eta_{\mathrm V}/(1-\eta_{\mathrm V})\),
+\begin{equation}\label{eq:collapse-vwz}
+ -\log F^{(\lambda)}(\eta_{\mathrm V})=\Phi_{c}\bigl(z(1+e^{-\pi\lambda})\bigr)+\Phi_{\bar c}\bigl(z(1+e^{\pi\lambda})\bigr),\qquad
+ -\log F^{(0)}(\eta_{\mathrm V})=2\,\Phi\Bigl(\frac{2\eta_{\mathrm V}}{1-\eta_{\mathrm V}}\Bigr)=8f_2\,\eta_{\mathrm V}^2+O(\eta_{\mathrm V}^3),
+\end{equation}
+for \(c=\bar c\), where \(f_2\) is the coefficient of \(\zeta^2\) in \(\Phi\) per chiral component (the factor \(2\) is the two chiralities of the free Dirac fermion; a chiral Majorana fermion is half a component).  The \(\lambda\)-dependence is even, with its minimum at \(\lambda=0\), in agreement with the observation of \cite{VardhanWeiZou} that the fidelity is largest at \(\lambda=0\) (real lattice states satisfy \(F^{(\lambda)}=F^{(-\lambda)}\) exactly); at small \(\eta_{\mathrm V}\) it equals \(f_2\eta_{\mathrm V}^2[2+4\cosh\pi\lambda+2\cosh2\pi\lambda]\), and with \(f_2=c/(12\pi^2)\) (Note~7) the apparent exponents of \(-\log F^{(\lambda)}\) reported in \cite{VardhanWeiZou}, \(p\approx2.0,1.9,1.7,1.2\) at \(\lambda=0,0.5,1,1.5\), are reproduced by a lattice implementation of the Gaussian rotated Petz map with ball arithmetic (\texttt{numerics/lattice}, up to \(72\) sites against their \(L_A,L_B\le8\)): \(1.99,1.91,1.64,1.15\) on \(\eta_{\mathrm V}\le0.1\), strongly window dependent; the ratio of the lattice value to the two-branch formula is constant in \(\eta_{\mathrm V}\) and equals \(1-0.15/L\), while a single-branch law is off by factors \(22\)--\(5000\).  The branch with the larger \(\zeta\) probes the crossover region of \(\Phi\), where the lattice indicates \(\Phi\sim\zeta^{1.1}\) for \(\zeta\gtrsim1\), far flatter than the last tabulated interval; an earlier version quoted continuum exponents obtained by extrapolating \(\Phi\) beyond \(\zeta=0.53\), which is not reliable.  The collapse onto a single function of one variable is a statement about one chirality; on a lattice it can be tested with a chiral (or parity-broken) model.
+
+\section{Numerical results}\label{sec:numerics}
+
+All computations use \(r=1\), \(a=1\), \(L=2\) (so \(\zeta=s/3\)); by Lemma~\ref{lem:mobius} this is no restriction, (the M\"obius-equivalent configuration \((a,L,s)=(2,1,0.1)\) reproduces \(\Phi\) exactly, but only because \(\widehat D_{(2,1,0.1)}=\overline{\widehat D_{(1,2,0.2)}}\) identically, so this carries no independent information).  The defect matrix \(\widehat D\) is obtained by Gauss--Legendre product quadrature (12 nodes per panel; panels of width \(0.5\) in \(\log|\xi-\xi_0|\) down to \(10^{-12}\) near the corner, where the kernel is a smooth function of the log-ratio, and of width \(0.25\) in \(\xi\) elsewhere); 16 nodes change the matrix by \(3\times10^{-11}\) relative.  The compressed vacuum symbol \(Q_N\) is computed from \eqref{eq:Qbox} with the exact \(t\to0\) limit \(2\Lambda k_j\) of the diagonal integrand (omitting it produces an \(O(h)\) error of \(0.2\%\) in \(\Phi\)).
+
+\paragraph{Sub-compression and tail correction.}
+The eigenvalues of \(Q_N\) reach \(e^{-\kappa_{\max}}\), which double precision cannot resolve.  We therefore compress once more onto the spectral subspace \(\{\eps<Q_N<1-\eps\}\), a genuine compression (so \(\Phi_{\mathrm{sub}}\le\Phi\)), and evaluate Theorem~\ref{thm:finite-fidelity} there with 40-digit arithmetic.  The discarded modes have \(|\kappa|>\kappa_c=\log(1/\eps)\) and carry the occupation \eqref{eq:tail}, contributing \(\frac12\Tr(\text{excess})=\zeta^2/(15\kappa_c^2)\) to \(-\log\Fid\) (particles and holes).  With \(\eps=10^{-8}\) (\(\kappa_c=18.4\)) and \(\eps=10^{-11}\) (\(\kappa_c=25.3\), which requires \(Q_N\) itself in high precision) the corrected values of \(\Phi(1/15)\) agree to \(1.4\times10^{-4}\), while the raw values differ by \(1.2\%\).  This agreement is partly a cancellation: the asymptotic tail formula is accurate only for \(\kappa_c\) well above \(\kappa_*(\zeta)\), and for \(\zeta=1/120\) one has \(\kappa_*\approx20.7>\kappa_c=18.4\); the audit \texttt{rigor/check\_note5\_numerics.tex} estimates the error of the correction at 12\% (\(\zeta=1/15\)) to 56\% (\(\zeta=1/120\)), i.e.\ a realistic uncertainty of \(0.3\)--\(1\%\) on the corrected \(\Phi\) at small \(\zeta\).  For the relative entropy the occupation tail is not the dominant remainder: the Kubo--Mori weight of an infrared--ultraviolet pair grows like \(|\kappa_i-\kappa_k|\), so the sub-compressed values converge like \(1/\kappa_c\) (the same law as \(s_2(\kappa_{\max})\) below), and we extrapolate linearly in \(1/\kappa_c\) from the two values \(\kappa_c=18.4,\,25.3\); at \(\zeta=1/120\) this raises \(S\) by \(16\%\) over the raw value at \(\kappa_c=25.3\) and lands within \(2\%\) of \(s_2\zeta^2\), the remaining difference being the expected \(O(\zeta)\) correction, cf.\ \(\Phi/\zeta^2\approx f_2-0.0082\,\zeta\) in Table~\ref{tab:scan}.
+
+\paragraph{Convergence.}
+Table~\ref{tab:convergence} lists \(\Phi(1/15)\) for eight combinations of box length \(\Lambda\) and mode cutoff \(\kappa_{\max}\).  The spread is \(\pm0.06\%\), giving \(\Phi(1/15)=3.517(3)\times10^{-5}\).  The second-order coefficients extracted from the first-order kernel (Proposition~\ref{prop:second-order}) converge more slowly, Table~\ref{tab:second-order}: the increments follow \(f_2(\kappa_{\max})=f_2-0.066\,\kappa_{\max}^{-2}\) and \(s_2(\kappa_{\max})=s_2-0.29\,\kappa_{\max}^{-1}\) (Table~\ref{tab:second-order}, corrected basis, spectral windows \(\eps=10^{-8},10^{-11},10^{-14}\)): the tail-corrected \(f_2\) is stable to \(10^{-4}\) relative for \(\kappa_c\ge25\) and independent of \(\Lambda\) and \(\kappa_{\max}\), giving \(f_2=0.008444(1)\); the sub-compressed \(s_2\) approaches its limit as \(\kappa_c^{-1}\) and two-point extrapolations give \(0.0841\) and \(0.0833\), i.e.\ \(s_2=0.0837(5)\).  The slower law for \(s_2\) is the linear growth of the Kubo--Mori weight \(\ell(q_i,q_k)\approx|\kappa_i-\kappa_k|/\max(q_i,q_k)\) for infrared--ultraviolet pairs.  The exact Fermi-weight (``line'') evaluation of the same sums agrees with the compression to six digits at \(\kappa_{\max}=30\) but becomes unusable when \(e^{\kappa_{\max}}\) amplifies the \(\xi\)-truncation and quadrature errors of \(\widehat D\); the rule \(\kappa_{\max}\lesssim\Lambda/2-5\) was respected for all quoted line values.
+
+\paragraph{The function \(\Phi\).}
+Table~\ref{tab:scan} gives \(\Phi(\zeta)\) and the relative entropy over \(0.008\le\zeta\le0.53\).  The ratio \(\Phi/\zeta^2\) rises towards \(f_2\) as \(\zeta\to0\) and has dropped by a third at \(\zeta=0.53\); the relative entropy stays close to \(\pi^2\approx9.87\) times \(\Phi\); and the ratio \(-2\log\Fid/I_\omega(A{:}C|B)\) grows linearly, \(\approx0.20\zeta\), so the CMI bound is never close to saturation.
+
+\paragraph{Large cross ratios.} For \(\zeta\ge1\) the tail formula \eqref{eq:tail} is invalid (the fitted window exponent \(p\) in \(\Phi_{\rm sub}(\kappa_c)=\Phi_\infty-b\kappa_c^{-p}\) drifts from \(2.5\) to \(1.2\) between \(\zeta=1\) and \(\zeta=17\)) and the systematics is entirely the window, the box dependence being \(\lesssim10^{-3}\).  Windows up to \(\kappa_c=43.8\) and a free-exponent extrapolation give the certified brackets of Table~\ref{tab:largezeta}: \(\Phi(1.07)=4.410(20)\times10^{-3}\), \(\Phi(2.13)=1.0797(50)\times10^{-2}\), \(\Phi(4.27)=2.241(14)\times10^{-2}\), \(\Phi(8.53)=3.974(72)\times10^{-2}\), \(\Phi(17.1)=6.41(43)\times10^{-2}\); the local exponent \(d\log\Phi/d\log\zeta\) decreases from \(1.29\) to \(0.69\), consistent with the lattice (\texttt{numerics/lattice}).  This supplies the large-\(\zeta\) input needed for the two-branch comparison of Corollary~\ref{cor:collapse} and for the large-cross-ratio law (Note~6, P3).
+\input{fidelity_table_largezeta}
+
+
+\input{fidelity_tables}
+
+
+\section{Discussion}\label{sec:discussion}
+
+\subsection{Comparison with the lattice results of Vardhan--Wei--Zou}
+
+With the conversions of Section~\ref{sec:rotated}, our second-order coefficient per chiral complex fermion translates into
+\begin{equation}\label{eq:vwz-compare}
+ -\log F^{(0)}_{\mathrm{Dirac}}(\eta)=8f_2\,\eta^2+O(\eta^3)=0.0676(1)\,\eta^2,
+ \qquad
+ D_{\mathrm{Dirac}}(\rho_{ABC}\Vert\widetilde\rho_{ABC})=8s_2\,\eta^2+\dots=0.667(4)\,\eta^2,
+\end{equation}
+for the full free Dirac fermion (\(c=1\)), to be compared with the universal lattice fits of \cite{VardhanWeiZou}: \(-\log F^{(0)}=f_2^{\mathrm{VWZ}}c\,\eta^2\) with \(f_2^{\mathrm{VWZ}}\approx0.070\), and \(D=d_1c\,\eta^2\) with \(d_1\approx0.56\) (inferred from their \(\sqrt{\tfrac{\log2}{2}d_1}\approx0.44\)).  The fidelity coefficients agree to \(4\%\); the relative-entropy coefficients differ by about \(20\%\).  Both differences have the same sign and a natural common explanation in the ultraviolet convergence found in Section~\ref{sec:numerics}: the Bures coefficient approaches its limit like \(\kappa_{\max}^{-2}\) and the Kubo--Mori coefficient only like \(\kappa_{\max}^{-1}\), because the Kubo--Mori weight for an infrared--ultraviolet pair of modular modes grows linearly in the modular energy while the Bures weight stays bounded.  On a lattice the modular energy of a subregion of \(L\) sites is cut off at \(\kappa_{\max}\sim\log L\), and \(s_2(\kappa_{\max})=s_2-0.29/\kappa_{\max}\) predicts a substantial downward bias of \(d_1\) at accessible sizes, whereas the fidelity is only mildly affected.  In addition, the lattice fits assume even powers of \(\eta\), while the exact reduction \(\zeta=2\eta/(1-\eta)\) produces an \(\eta^3\) term of relative size \(2\eta\).  We therefore regard the agreement as confirming both the universality claim of \cite{VardhanWeiZou} at the level of \(f_2\) and the continuum value \(f_2=0.008444(1)\) per chiral complex fermion, equivalently \(0.0676(1)\,c\,\eta^2\) for the free fermion.  Whether \(f_2/c\) is the same for interacting CFTs is not decided by a free-field computation; the collapse \eqref{eq:collapse-vwz}, however, holds for every chiral conformal net (in its two-branch form for every two-dimensional one), since it only uses the half-sided modular geometry of \(\cF(B)\subset\cF(BC)\).
+
+\subsection{The recovery bounds are far from saturated}
+
+The Faulkner--Hollands--Swingle--Wang inequality gives \(-2\int p(t)\log\Fid(\omega,\widetilde\omega_t)\,dt\le I_\omega(A:C\mid B)=\frac r6\log(1+z)\).  For the ordinary Petz map the ratio \((-2\log\Fid)/I_\omega(A{:}C|B)\) computed in Section~\ref{sec:numerics} is \(\approx0.20\,\zeta\) for small \(\zeta\) and only \(0.078\) at \(\zeta=0.53\); in the small-\(z\) regime it is \(48f_2z\approx0.41z=0.20\zeta\) per component.  The linear-in-CMI bound is thus loose by a full power of the cross ratio, exactly as observed on the lattice \cite{VardhanWeiZou}, and the recovery error is genuinely quadratic in the conditional mutual information for the free fermion: \(-\log\Fid\simeq\frac{144f_2}{r}\,I_\omega(A{:}C|B)^2=\frac{12}{\pi^2r}\,I_\omega(A{:}C|B)^2\) for the ordinary Petz map, with \(f_2\) the per-component coefficient.  By Corollary~\ref{cor:collapse}, for a single chirality the optimal rotation improves this by a further factor \(4\); for a two-dimensional CFT the two chiralities see opposite rotations and the ordinary Petz map is the best member of the family.
+
+\subsection{Structure of the expansion and the role of the collar}
+
+Corollary~\ref{cor:structure} shows that \(\Phi(\zeta)=f_2\zeta^2[1+O(\log^{-2}(1/\zeta))]\): the leading coefficient is finite, but the map \(s\mapsto\widetilde\omega_s\) is not smooth at \(s=0\) in the Bures sense beyond second order, because the recovered state carries the algebraic occupation tail \eqref{eq:tail} in the modular modes of the touching interval.  The tail is an \(O(s^2)\) effect of the exact kernel \(R_s\) and is invisible to first-order perturbation theory and to any regularization that smooths the touching point; in particular the collar-regularized recovered states of the preceding notes have exponentially decaying modular matrix elements and analytic Bures expansions, so the collar acts as an ultraviolet regulator of the recovery problem, and the \(\log^{-2}\) corrections are a genuine zero-collar phenomenon.  This also sharpens a puzzle noted in \cite{VardhanWeiZou}: their OPE analysis suggested that \(F\to1\) faster than any power of \(\eta\), while the lattice shows \(\eta^2\).  In the free fermion the \(\eta^2\) law is produced by the Bures metric of the first-order defect, an infrared quantity, whereas the non-analytic remainder comes from the ultraviolet corner; neither is captured by a local operator expansion at the touching point.
+
+\section{Summary and open problems}\label{sec:summary}
+
+For the free chiral fermion the fidelity between the vacuum and the state recovered by the zero-collar Petz channel is now a computable function of one cross ratio, \(\Phi(\zeta)=-\log\Fid\), with
+\begin{itemize}
+\item a rigorous determinant representation as a monotone limit of finite-dimensional quasi-free formulas (Theorem~\ref{thm:det-rep}), and numerically controlled values of \(\Phi\) and of the relative entropy over two decades of \(\zeta\) (Section~\ref{sec:numerics});
+\item the exact small-cross-ratio law \(\Phi(\zeta)=f_2\zeta^2[1+O(\log^{-2}(1/\zeta))]\), \(f_2=0.008444(1)\) per component, together with the ultraviolet occupation tail \(\frac2{15}\zeta^2\kappa^{-3}\) (Proposition~\ref{prop:tail}) that makes the fourth-order coefficient infinite;
+\item the exact collapse of the whole rotated family onto \(\Phi\) (Corollary~\ref{cor:collapse}), which identifies the geometric compression of \(ABC\) onto \(AB\) as the best member and predicts the lattice \(\lambda\)-dependence of \cite{VardhanWeiZou}.
+\end{itemize}
+Open problems: (i) a closed form for \(f_2\), for which the modular-flow representation \(\sum_{ik}|D_{ik}|^2/N_{ik}=\int dt\,\mathrm{sech}(\pi t)\,\Tr[\widehat D e^{iKt}\widehat De^{-iKt}]/2\), \(\widehat D=(Q(1-Q))^{-1/4}D(Q(1-Q))^{-1/4}\), combined with the geometric modular flow and the analytic continuation of the kernel to \(\operatorname{Im}\xi=\pm\pi/2\), is the natural starting point; (ii) the large-\(\zeta\) asymptotics of \(\Phi\), which should reproduce the \(-\frac c9\log(1-\eta)\) behaviour reported in \cite{VardhanWeiZou}; (iii) whether \(f_2/c\) is universal beyond free fields, which requires the fidelity of two non-quasi-free states of a conformal net and is where the operator-algebraic formulation of the preceding notes should be tested next; (iv) an optimality statement: the geometric compression is the best rotated Petz map, but it is not known whether any channel \(B\to BC\) does better than \(\Phi(z)\).
+
+\input{fidelity_bib}
+\end{document}

@@ -1,0 +1,848 @@
+\documentclass[11pt]{article}
+\input{rigor_preamble}
+\providecommand{\one}{\mathbf 1}\providecommand{\CAR}{\mathrm{CAR}}\providecommand{\Ran}{\operatorname{Ran}}\providecommand{\dist}{\operatorname{dist}}\providecommand{\norm}[1]{\lVert #1\rVert}
+\title{The ultraviolet tail of the recovery fidelity:\\
+a rigorous bound, certified error bars, and the rate}
+\author{Agent PT (Phase 1, problem O4)}
+\date{2026-09-08}
+\begin{document}
+\maketitle
+\tableofcontents
+\section{Setting, notation, and what is proved}\label{sec:setting}
+
+\paragraph{Conventions.}  We keep the notation of Note~5 (\texttt{fidelity\_recovered\_quasifree.tex}).
+$r=1$ fermion component throughout (all quantities are proportional to $r$; restore it by multiplying
+$\Phi$, $\tau_\pm$, $g_B$ by $r$).  $I=ABC=(-a,L)$, $A=(-a,0)$, $D=BC=(0,L)$, $H=L^2(I)$,
+$Q=E_IP_+E_I$ the vacuum symbol, $\widetilde Q=\widetilde Q_s$ the symbol of the zero-collar recovered
+state, $\delta=Q-\widetilde Q$ the defect, $\zeta=as/(a+L)$ the cross ratio variable,
+\[
+ \Fid(\zeta)=\Fid_{\cF(I)}(\omega,\widetilde\omega_s),\qquad \Phi(\zeta)=-\log\Fid(\zeta).
+\]
+In the modular ($\kappa$-)representation, $Q$ is the multiplication operator $q_\kappa=(1+e^\kappa)^{-1}$
+on $L^2(\mathbb R,\dd\kappa)$ (Note~5, (\texttt{modes})--(\texttt{fermi})); $K=\log\frac{1-Q}{Q}$ is
+multiplication by $\kappa$.  For $\kappa_c>0$ put
+\[
+ E:=\one_{[-\kappa_c,\kappa_c]}(K),\quad E^\perp=1-E,\quad E^+=\one_{(\kappa_c,\infty)}(K),\quad
+ E^-=\one_{(-\infty,-\kappa_c)}(K),
+\]
+so that $\eps:=e^{-\kappa_c}$ is (up to $1+O(\eps)$) the spectral cut of Note~5, \S6:
+$\{\eps<Q<1-\eps\}=\one_{(-\kappa_c,\kappa_c)}(K)$ exactly, with $\eps=(1+e^{\kappa_c})^{-1}$.
+We write $h(t):=\sqrt{t(1-t)}$ for $t\in[0,1]$, and for a symbol $0\le X\le1$
+\[
+ \Theta_X:=\begin{pmatrix}X^{1/2}\\ (1-X)^{1/2}\end{pmatrix}:H\to H\oplus H,
+ \qquad
+ \mathbb X:=\Theta_X\Theta_X^*=\begin{pmatrix}X&h(X)\\ h(X)&1-X\end{pmatrix}.
+\]
+$\|\cdot\|_1,\|\cdot\|_2,\|\cdot\|$ are the trace, Hilbert--Schmidt and operator norms.
+
+\paragraph{The window quantities.}  $\Phi_W(\zeta):=-\log\Fid\bigl(\omega_{EQE},\omega_{E\widetilde QE}\bigr)$
+computed inside $EH$ --- the ``spectral-window compression'' of Note~5, \S6, in the exact continuum
+(the box is treated separately in \S\ref{sec:box}).  The two ultraviolet occupation tails of the
+recovered state are
+\begin{equation}\label{eq:taudef}
+ \tau_+:=\Tr\bigl[E^+\widetilde QE^+\bigr]=\int_{\kappa_c}^{\infty}\widetilde Q(\kappa,\kappa)\dd\kappa,
+ \qquad
+ \tau_-:=\Tr\bigl[E^-(1-\widetilde Q)E^-\bigr],
+\end{equation}
+and the corresponding vacuum tails $\nu_\pm$, $\nu_+=\int_{\kappa_c}^\infty q_\kappa\dd\kappa
+=\log(1+e^{-\kappa_c})\le\eps$, $\nu_-=\nu_+$.  Put $\tau:=\tau_++\tau_-$, $\nu:=\nu_++\nu_-\le2\eps$.
+
+\paragraph{What is proved.}  Three statements, in decreasing order of strength.
+\begin{enumerate}[label=(\Alph*),leftmargin=2.2em]
+\item \emph{A structural tail bound with no kernel estimates} (Theorem~\ref{thm:main}, \S\ref{sec:tail}):
+ \[
+  0\ \le\ \Phi(\zeta)-\Phi_W(\zeta)\ \le\ \Psi\bigl(\Phi_W,\ \Phi_\partial\bigr),\qquad
+  \Phi_\partial\le\frac{5\tau+\nu}{2\,(1-5\tau-\nu)},
+ \]
+ with $\Psi$ the explicit triangle-inequality function \eqref{eq:Psi}; to leading order
+ $\Phi-\Phi_W\le2\sqrt{\Phi_W\,\Phi_\partial}+\Phi_\partial$.  Only positivity of $\widetilde Q$,
+ operator concavity of $h$, and the definition of $\tau_\pm$ enter.
+\item \emph{An occupation-tail estimate with a controlled remainder}
+ (Theorem~\ref{thm:tau}, \S\ref{sec:delta}): for $0<\zeta\le1$ and $\kappa_c\ge8$,
+ \[
+  \Bigl|\tau_\pm-\nu_\pm-\frac{\zeta^2}{15\,\kappa_c^{2}}\Bigr|
+  \ \le\ \frac{C_2\,\zeta^{2}}{\kappa_c^{3}}\ +\ C_1\,\zeta\,\kappa_c\,e^{-\kappa_c},
+ \]
+ with $C_1\le0.051$ and $C_2\le0.46$ (both certified numerically in \S\ref{sec:num}; the analytic
+ argument gives the shape and finiteness of the constants, their numerical values are evaluated).
+\item \emph{Consequences} (\S\ref{sec:tail}, \S\ref{sec:rate}): $\Phi-\Phi_W\le C\,\zeta^2/\kappa_c$
+ with an explicit $C$ --- one power of $\kappa_c$ short of the conjectured
+ $\zeta^2/(15\kappa_c^2)$, the loss being the cross term of the Bures triangle inequality; and,
+ \emph{conditionally on} the finite-dimensional cubic estimate of \texttt{quadratic\_limit.tex},
+ Problem~7.2, the rate $\Phi=f_2\zeta^2\bigl[1+O(\log^{-1}(1/\zeta))\bigr]$ --- one logarithm short of
+ Note~5, Cor.~4.2.
+\end{enumerate}
+Sections~\ref{sec:box}--\ref{sec:bars} turn (A)+(B) into certified error bars for the tabulated values,
+and \S\ref{sec:num} verifies every inequality on the free-fermion data.
+\section{The window state and the exact factorisation of the fidelity}\label{sec:window}
+
+\paragraph{Standing finite-dimensional convention.}  All determinant and trace identities below are
+first proved on a finite-dimensional subspace and then transported to $\cF(I)$ by the monotone limit
+of Note~5, Theorem~3.1.  Fix once and for all an increasing sequence of finite-rank projections
+$P_n\uparrow1$ on $H\cong L^2(\mathbb R,\dd\kappa)$ with $[P_n,E]=0$ (take an orthonormal basis of
+$L^2([-\kappa_c,\kappa_c])$ and one of $L^2(\{|\kappa|>\kappa_c\})$ and let $P_n$ project onto the
+first $n$ vectors of each).  Every symbol $X$ below is replaced by $P_nXP_n$ on $P_nH$; all bounds
+proved are uniform in $n$, and $\Fid$, $\Phi$, $\Phi_W$ are the (monotone) limits.  We suppress the
+index $n$.
+
+\begin{definition}\label{def:Qpp}
+$\displaystyle Q'':=Q-E\delta E=\bigl(E\widetilde QE\bigr)\oplus\bigl(E^\perp QE^\perp\bigr)$,
+and $\rho'':=\omega_{Q''}$, $\rho:=\omega_Q$, $\sigma:=\omega_{\widetilde Q}$.
+\end{definition}
+
+\begin{lemma}[the window state]\label{lem:factor}
+$0\le Q''\le1$ with $\ker Q''=\ker(1-Q'')=\{0\}$, $Q''$ commutes with $E$, and
+\[
+ \Fid(\rho,\rho'')=\Fid\bigl(\omega_{EQE},\omega_{E\widetilde QE}\bigr)=e^{-\Phi_W}.
+\]
+\end{lemma}
+\lstep{1}{1}{$EQE^\perp=0$, hence $Q=(EQE)\oplus(E^\perp QE^\perp)$ and
+$Q-E\delta E=(EQE-E\delta E)\oplus(E^\perp QE^\perp)=(E\widetilde QE)\oplus(E^\perp QE^\perp)$.}
+\lby{$E$ is a spectral projection of $K=\log\frac{1-Q}Q$, so $[E,Q]=0$; and
+$\delta=Q-\widetilde Q$ by (\texttt{defect-recall})}
+\lstep{1}{2}{$0\le E\widetilde QE\le1$ and $0\le E^\perp QE^\perp\le1$, with trivial kernels and
+co-kernels on $EH$, $E^\perp H$ respectively.}
+\lby{$0\le\widetilde Q\le1$ and $0\le Q\le1$, so their compressions are between $0$ and $1$;
+$\langle f,\widetilde Qf\rangle=0$ forces $\widetilde Q^{1/2}f=0$ and $\ker\widetilde Q=\{0\}$
+(Note~5, \S3), same for $1-\widetilde Q$ and for $Q$}
+\lstep{1}{3}{Under the canonical isomorphism $\Lambda(EH\oplus E^\perp H)\cong\Lambda(EH)\otimes
+\Lambda(E^\perp H)$ one has $\rho=\omega_{EQE}\otimes\omega_{E^\perp QE^\perp}$ and
+$\rho''=\omega_{E\widetilde QE}\otimes\omega_{E^\perp QE^\perp}$.}
+\lby{$\rho_X=\det(1-X)\,\Gamma(G_X)$ with $G_X=X(1-X)^{-1}$ (Note~5, (\texttt{rho-Q})), and
+$\Gamma(G_1\oplus G_2)=\Gamma(G_1)\otimes\Gamma(G_2)$, $\det(1-X_1\oplus X_2)=\det(1-X_1)\det(1-X_2)$,
+by (\texttt{fock-functor}); both $Q$ and $Q''$ are block diagonal by $\langle1\rangle1$}
+\lstep{1}{4}{$\Fid(\rho,\rho'')=\Fid(\omega_{EQE},\omega_{E\widetilde QE})\cdot
+\Fid(\omega_{E^\perp QE^\perp},\omega_{E^\perp QE^\perp})=\Fid(\omega_{EQE},\omega_{E\widetilde QE})$.}
+\lby{multiplicativity of the root fidelity on tensor products,
+$\Fid(\rho_1\otimes\rho_2,\sigma_1\otimes\sigma_2)=\Fid(\rho_1,\sigma_1)\Fid(\rho_2,\sigma_2)$
+(immediate from $\Fid=\Tr|\sqrt{\rho}\sqrt\sigma|$ and $\sqrt{\rho_1\otimes\rho_2}=
+\sqrt{\rho_1}\otimes\sqrt{\rho_2}$), together with $\Fid(\varphi,\varphi)=1$}
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$ and the definition of $\Phi_W$}
+
+\begin{remark}
+This is the precise sense in which the numerically computed ``sub-compressed'' value is a fidelity of
+a genuine pair of states on the whole algebra and not merely a compression: $\Phi_W=-\log\Fid(\rho,\rho'')$,
+with the \emph{same} $\rho$ on the left.  In particular $\Phi_W\le\Phi$ is not needed as an input; it
+follows from Theorem~\ref{thm:main} below, and independently from monotonicity of $\Fid$ under the
+conditional expectation onto $\cF(EH)$.
+\end{remark}
+\section{Bures angle, and a purification lower bound for the fidelity}\label{sec:triangle}
+
+\begin{citedbox}{Bures angle is a metric (Nielsen--Chuang 2000, Thm.~9.9 / Bengtsson--\.Zyczkowski 2006, \S9.4)}
+For states $\rho,\sigma$ put $A(\rho,\sigma):=\arccos\Fid(\rho,\sigma)\in[0,\pi/2]$.  Then $A$ is a
+metric on the state space of any von Neumann algebra; in particular the triangle inequality
+$A(\rho,\sigma)\le A(\rho,\rho'')+A(\rho'',\sigma)$ holds.  (For matrix algebras this is
+Nielsen--Chuang, Theorem~9.9, p.~413, ``the angle $\arccos F$ is a metric''; the general case follows
+because $\Fid$ on a von Neumann algebra is the infimum of the fidelities of the finite-dimensional
+restrictions and $\arccos$ is monotone --- or directly from Alberti--Uhlmann's transition probability.
+\emph{Usage here}: with $\rho''$ of Definition~\ref{def:Qpp}.  \emph{Verdict}: hypotheses (normal
+states on a von Neumann algebra) are satisfied; we use it only through the finite-dimensional
+compressions, where it is the matrix statement.)
+\end{citedbox}
+
+\begin{lemma}[purification lower bound]\label{lem:purif}
+Let $0\le X,Y\le1$ on a finite-dimensional $\mathfrak h$ and put
+\[
+ N(X,Y):=X^{1/2}(1-Y)^{1/2}-(1-X)^{1/2}Y^{1/2}.
+\]
+Then $\|N(X,Y)\|\le1$ and
+\begin{equation}\label{eq:purif}
+ \Fid(\omega_X,\omega_Y)\ \ge\ \bigl|\det\bigl(X^{1/2}Y^{1/2}+(1-X)^{1/2}(1-Y)^{1/2}\bigr)\bigr|
+ =\det\bigl(1-N^*N\bigr)^{1/2},
+\end{equation}
+and consequently, whenever $\|N\|_2<1$,
+\begin{equation}\label{eq:purif2}
+ -\log\Fid(\omega_X,\omega_Y)\ \le\ -\tfrac12\log\det(1-N^*N)\ \le\ \frac{\|N\|_2^2}{2\bigl(1-\|N\|_2^2\bigr)}.
+\end{equation}
+Moreover
+\begin{equation}\label{eq:Nsplit}
+ \|N(X,Y)\|_2^2=\tfrac12\|\mathbb X-\mathbb Y\|_2^2=\|X-Y\|_2^2+\|h(X)-h(Y)\|_2^2 .
+\end{equation}
+\end{lemma}
+\lstep{1}{1}{$\Theta_X$ is an isometry $\mathfrak h\to\mathfrak h\oplus\mathfrak h$ with
+$\Theta_X\Theta_X^*=\mathbb X$ a projection of rank $n=\dim\mathfrak h$, and
+$\Theta_X^\perp:=\binom{-(1-X)^{1/2}}{X^{1/2}}$ is an isometry with
+$\Theta_X^\perp\Theta_X^{\perp*}=1-\mathbb X$.}
+\lby{$\Theta_X^*\Theta_X=X+(1-X)=1$; $\Theta_X^{\perp*}\Theta_X^\perp=1$;
+$\Theta_X^{\perp*}\Theta_X=-(1-X)^{1/2}X^{1/2}+X^{1/2}(1-X)^{1/2}=0$ (both factors are functions of $X$,
+hence commute); so the two ranges are orthogonal and together span $\mathfrak h\oplus\mathfrak h$}
+\lstep{1}{2}{Let $\Psi_X\in\Lambda(\mathfrak h\oplus\mathfrak h)$ be a unit vector spanning
+$\Lambda^{n}(\Ran\mathbb X)$ (a Slater determinant).  Then $\Psi_X$ is the pure gauge-invariant
+quasi-free state with symbol $\mathbb X$, and $\langle\Psi_X,\Psi_Y\rangle=\det(\Theta_X^*\Theta_Y)$
+up to a phase.}
+\lby{a Slater determinant $a^*(f_1)\cdots a^*(f_n)|0\rangle$ has two-point function
+$\langle a^*(g)a(f)\rangle=\langle f,\mathbb Xg\rangle$ with $\mathbb X$ the projection onto
+$\mathrm{span}(f_i)$; and $\langle a^*(f_1)\cdots a^*(f_n)\Omega,a^*(g_1)\cdots a^*(g_n)\Omega\rangle
+=\det[\langle f_i,g_j\rangle]$, applied to $f_i=\Theta_Xe_i$, $g_j=\Theta_Ye_j$ for an orthonormal
+basis $(e_i)$ of $\mathfrak h$}
+\lstep{1}{3}{The restriction of the state $\Psi_X$ to $\CAR(\mathfrak h\oplus0)$ is $\omega_X$.}
+\lby{the restriction of a gauge-invariant quasi-free state to the CAR algebra of a subspace is the
+quasi-free state with the compressed symbol (Note~5, proof of Theorem~3.1), and
+$\mathbb X_{11}=X$}
+\lstep{1}{4}{$\Fid(\omega_X,\omega_Y)\ge|\langle\Psi_X,\Psi_Y\rangle|$.}
+\lby{$\langle1\rangle3$ and monotonicity of the root fidelity under the (unital, completely positive)
+restriction map, together with $\Fid=|\langle\cdot,\cdot\rangle|$ for two pure states}
+\lstep{1}{5}{$|\det(\Theta_X^*\Theta_Y)|^2=\det(\Theta_Y^*\mathbb X\Theta_Y)
+=\det(1-\Theta_Y^*(1-\mathbb X)\Theta_Y)=\det(1-N^*N)$, and
+$\Theta_X^*\Theta_Y=X^{1/2}Y^{1/2}+(1-X)^{1/2}(1-Y)^{1/2}$,
+$\Theta_X^{\perp*}\Theta_Y=N(X,Y)$.}
+\lby{$\det(M^*M)=|\det M|^2$; $\Theta_Y^*\Theta_Y=1$; $\langle1\rangle1$; matrix multiplication}
+\lstep{1}{6}{$-\tfrac12\log\det(1-N^*N)=-\tfrac12\sum_j\log(1-n_j^2)\le
+\tfrac12\frac{\sum_jn_j^2}{1-\max_jn_j^2}\le\frac{\|N\|_2^2}{2(1-\|N\|_2^2)}$, where $n_j$ are the
+singular values of $N$.}
+\lby{$-\log(1-x)\le x/(1-x)$ for $0\le x<1$, applied with $x=n_j^2\le\max_jn_j^2=\|N\|^2\le\|N\|_2^2$}
+\lstep{1}{7}{$\|N\|_2^2=\Tr[\Theta_Y^*(1-\mathbb X)\Theta_Y]=\Tr[(1-\mathbb X)\mathbb Y]
+=\tfrac12\|\mathbb X-\mathbb Y\|_2^2=\|X-Y\|_2^2+\|h(X)-h(Y)\|_2^2$.}
+\lby{$\Tr[\mathbb X]=\Tr[\mathbb Y]=n$, hence
+$\|\mathbb X-\mathbb Y\|_2^2=\Tr[\mathbb X+\mathbb Y-2\mathbb X\mathbb Y]=2\Tr[(1-\mathbb X)\mathbb Y]$;
+and the block form of $\mathbb X-\mathbb Y$ has diagonal blocks $\pm(X-Y)$ and off-diagonal blocks
+$h(X)-h(Y)$}
+\lqed{1}{8}\lby{$\langle1\rangle4$--$\langle1\rangle7$}
+
+\begin{remark}[sharpness]
+\eqref{eq:purif} is the ``canonical purification'' (thermofield-double) bound; by Note~5,
+Theorem~2.1 it is an equality exactly when the unitary $U$ of the polar decomposition of
+$G_X^{1/2}G_Y^{1/2}$ is $1$, in particular whenever $[X,Y]=0$.  It is the finite-dimensional analogue
+of the Bogoliubov-extension bound of \texttt{uhlmann\_upper\_bound.tex}; here it is applied not to
+$(\rho,\sigma)$ --- for which it is not sharp at second order --- but to the pair $(\rho'',\sigma)$,
+whose symbols differ only in the ultraviolet, where they \emph{almost} commute.
+\end{remark}
+\section{The discarded block: reduction to the occupation tails}\label{sec:delta}
+
+Throughout this section $X:=\widetilde Q$, $Y:=Q''$ of Definition~\ref{def:Qpp}, and we use the block
+notation $X_{11}=EXE$, $X_{12}=EXE^\perp$, $X_{22}=E^\perp XE^\perp$, $Q_{22}=E^\perp QE^\perp$, all on
+the finite-dimensional space $P_nH$ of \S\ref{sec:window} (so $X_{11}>0$ is invertible).
+Recall $\tau_\pm$, $\nu_\pm$ from \eqref{eq:taudef} and $\tau=\tau_++\tau_-$, $\nu=\nu_++\nu_-$.
+
+\begin{theorem}[the discarded block is controlled by the occupation tails]\label{thm:block}
+\begin{equation}\label{eq:block}
+ \bigl\|N(\widetilde Q,Q'')\bigr\|_2^{2}\ \le\ 5\,\tau+\nu .
+\end{equation}
+No property of the defect kernel is used: only $0\le\widetilde Q\le1$, $[Q,E]=0$ and the definitions.
+\end{theorem}
+\lstep{1}{1}{\ldefine $S:=h(X_{11})$, $R:=Eh(X)E|_{EH}$, $R':=E^\perp h(X)E^\perp|_{E^\perp H}$.
+Then
+\[
+ \|N(X,Y)\|_2^2=\underbrace{2\Tr[S^2]-2\Tr[SR]}_{(\mathrm I)}
+ +\underbrace{\Tr\bigl[X_{22}(1-Q_{22})\bigr]+\Tr\bigl[Q_{22}(1-X_{22})\bigr]-2\Tr[R'h(Q_{22})]}_{(\mathrm{II})}.
+\]}
+\lproof
+\lstep{2}{1}{$\|N(X,Y)\|_2^2=\Tr[X+Y-2XY]-2\Tr[h(X)h(Y)]$.}
+\lby{\eqref{eq:Nsplit}: $\|X-Y\|_2^2+\|h(X)-h(Y)\|_2^2
+=\Tr[X^2+Y^2-2XY]+\Tr[h(X)^2+h(Y)^2-2h(X)h(Y)]$ and $h(Z)^2=Z-Z^2$ for $0\le Z\le1$}
+\lstep{2}{2}{$Y=X_{11}\oplus Q_{22}$, hence $h(Y)=h(X_{11})\oplus h(Q_{22})=S\oplus h(Q_{22})$,
+$\Tr[XY]=\Tr[X_{11}^2]+\Tr[X_{22}Q_{22}]$ and $\Tr[h(X)h(Y)]=\Tr[RS]+\Tr[R'h(Q_{22})]$.}
+\lby{Lemma~\ref{lem:factor}$\langle1\rangle1$ and Definition~\ref{def:Qpp}; functional calculus
+respects a direct sum; $\Tr[AB]=\sum_{\alpha}\Tr[E^\alpha AE^\alpha B]$ when $B$ is block diagonal
+($E^\alpha\in\{E,E^\perp\}$)}
+\lstep{2}{3}{$\Tr[X]+\Tr[Y]-2\Tr[XY]
+=2\bigl(\Tr X_{11}-\Tr X_{11}^2\bigr)+\Tr[X_{22}(1-Q_{22})]+\Tr[Q_{22}(1-X_{22})]$ and
+$\Tr X_{11}-\Tr X_{11}^2=\Tr[S^2]$.}
+\lby{$\Tr X=\Tr X_{11}+\Tr X_{22}$, $\Tr Y=\Tr X_{11}+\Tr Q_{22}$, $\langle2\rangle2$, and
+$S^2=X_{11}(1-X_{11})$}
+\lqed{2}{4}\lby{$\langle2\rangle1$--$\langle2\rangle3$}
+\lstep{1}{2}{$0\le R\le S$.}
+\lby{$h(t)=\sqrt{t(1-t)}=t\,\#\,(1-t)$ is operator concave on $[0,1]$ (the geometric mean
+$(a,b)\mapsto a\#b$ is jointly operator concave, Kubo--Ando 1980, Thm.~3.5; equivalently
+$h$ is a nonnegative operator monotone-type function of the form $\sqrt{t}\sqrt{1-t}$, and
+operator concavity of $t\mapsto\sqrt{t(1-t)}$ on $[0,1]$ is classical), so Jensen's operator
+inequality for an isometry (Hansen--Pedersen 2003, Thm.~2.1) gives $V^*h(X)V\le h(V^*XV)$ with
+$V:EH\hookrightarrow H$; and $h\ge0$ gives $R\ge0$}
+\lstep{1}{3}{$(\mathrm I)\le2\bigl(\Tr[S^2]-\Tr[R^2]\bigr)$.}
+\lby{$\Tr[SR]-\Tr[R^2]=\Tr[(S-R)R]\ge0$, the trace of a product of two positive semi-definite
+operators being nonnegative, using $\langle1\rangle2$}
+\lstep{1}{4}{$\Tr[S^2]-\Tr[R^2]=\|X_{12}\|_2^2+\|E^\perp h(X)E\|_2^2$.}
+\lproof
+\lstep{2}{1}{$\Tr[R^2]=\Tr[Eh(X)^2E]-\|E^\perp h(X)E\|_2^2$.}
+\lby{$\Tr[(Eh(X)E)^2]=\Tr[Eh(X)(E+E^\perp)h(X)E]-\Tr[Eh(X)E^\perp h(X)E]$}
+\lstep{2}{2}{$\Tr[Eh(X)^2E]=\Tr[EX(1-X)E]=\Tr X_{11}-\Tr X_{11}^2-\|X_{12}\|_2^2=\Tr[S^2]-\|X_{12}\|_2^2$.}
+\lby{$h(X)^2=X-X^2$ and $(X^2)_{11}=X_{11}^2+X_{12}X_{12}^*$}
+\lqed{2}{3}\lby{$\langle2\rangle1$, $\langle2\rangle2$}
+\lstep{1}{5}{$\|E^\perp h(X)E\|_2^2\le\Tr[E^\perp X(1-X)E^\perp]\le\tau_++\tau_-=\tau$.}
+\lby{$\|E^\perp h(X)E\|_2^2\le\|E^\perp h(X)\|_2^2=\Tr[E^\perp h(X)^2E^\perp]$; then
+$0\le X(1-X)\le X$ and $0\le X(1-X)\le1-X$, applied on $E^+$ and on $E^-$ respectively, and
+$\Tr[E^+XE^+]=\tau_+$, $\Tr[E^-(1-X)E^-]=\tau_-$}
+\lstep{1}{6}{$\|X_{12}\|_2^2\le\tau$.}
+\lproof
+\lstep{2}{1}{$\|EXE^+\|_2^2\le\|X_{11}\|\cdot\Tr[E^+XE^+]\le\tau_+$.}
+\lby{$X\ge0$ with $X_{11}>0$ gives the Schur complement inequality
+$(EXE^+)^*X_{11}^{-1}(EXE^+)\le E^+XE^+$; $X_{11}\le\|X_{11}\|$ gives
+$X_{11}^{-1}\ge\|X_{11}\|^{-1}$, hence $(EXE^+)^*(EXE^+)\le\|X_{11}\|(EXE^+)^*X_{11}^{-1}(EXE^+)$;
+take traces and use $\|X_{11}\|\le1$}
+\lstep{2}{2}{$\|EXE^-\|_2^2=\|E(1-X)E^-\|_2^2\le\|(1-X)_{11}\|\Tr[E^-(1-X)E^-]\le\tau_-$.}
+\lby{$EXE^-=-E(1-X)E^-$ since $E\one E^-=0$; then $\langle2\rangle1$ with $X$ replaced by $1-X\ge0$}
+\lqed{2}{3}\lby{$\|X_{12}\|_2^2=\|EXE^+\|_2^2+\|EXE^-\|_2^2$ and $\langle2\rangle1$, $\langle2\rangle2$}
+\lstep{1}{7}{$(\mathrm{II})\le\tau+\nu$.}
+\lby{$-2\Tr[R'h(Q_{22})]\le0$ ($R'\ge0$, $h(Q_{22})\ge0$);
+$\Tr[X_{22}(1-Q_{22})]\le\Tr[E^+XE^+]+\Tr[E^-(1-Q)E^-]=\tau_++\nu_-$ and
+$\Tr[Q_{22}(1-X_{22})]\le\Tr[E^+QE^+]+\Tr[E^-(1-X)E^-]=\nu_++\tau_-$, using
+$\Tr[AB]\le\|B\|\Tr A$ for $A\ge0$, $B\ge0$ on each of $E^+$, $E^-$ separately ($Q_{22}$ commutes
+with $E^\pm$)}
+\lqed{1}{8}\lby{$(\mathrm I)+(\mathrm{II})\le2(\|X_{12}\|_2^2+\|E^\perp h(X)E\|_2^2)+\tau+\nu
+\le2(\tau+\tau)+\tau+\nu=5\tau+\nu$, by $\langle1\rangle1$, $\langle1\rangle3$--$\langle1\rangle7$}
+
+\begin{verdictok}
+\eqref{eq:block} is proved from positivity alone.  Its content is that the entire ultraviolet error of
+the window compression --- including the infrared--ultraviolet off-diagonal couplings $E\delta E^\perp$,
+which decay only like $\kappa^{-2}$ and were the source of the ``trap'' remark of Note~5, \S3.1 --- is
+bounded by the ultraviolet \emph{occupation} $\tau$ of the recovered state, which is exactly the
+quantity Note~5's Proposition~4.1 computes.  The constant $5$ is not optimal (numerically the true
+ratio $\|N\|_2^2/(5\tau+\nu)$ is $\approx0.1$, \S\ref{sec:num}).
+\end{verdictok}
+\subsection{The occupation tail of the recovered state}\label{sec:occ}
+
+We now bound $\tau_\pm$.  Recall from \texttt{check\_note5\_theory.tex}, Prop.~6.1 (closed form) and
+\S6.2, the exact representation of the diagonal of the defect in the modular basis: with
+$S_p=\sinh\frac p2$, $M=\frac{p+p'}2$,
+\begin{equation}\label{eq:Fclosed}
+ \widetilde F(p,p')=\frac{\zeta S_pS_{p'}}{\sinh M\,\bigl(\sinh M+2\zeta S_pS_{p'}\bigr)},\qquad
+ \widetilde Q(\kappa,\kappa)-q_\kappa=\frac1\pi\operatorname{Im}J(\kappa,\kappa),
+\end{equation}
+\begin{equation}\label{eq:Jdiag}
+ J(\kappa,\kappa)=\frac1{(2\pi)^2}\int_0^\infty e^{i\kappa t/2\pi}\,t\,g(t)\dd t,
+ \qquad
+ g(t):=\int_0^1\widetilde F\bigl(t\sigma,t(1-\sigma)\bigr)\dd\sigma\ \in\mathbb R .
+\end{equation}
+Split $g=\zeta g^{(1)}+g^{(2)}$ along the expansion of \eqref{eq:Fclosed} in its own denominator:
+\begin{equation}\label{eq:gsplit}
+ g^{(1)}(t)=\frac{t\cosh\frac t2-2\sinh\frac t2}{2t\sinh^2\frac t2},
+ \qquad
+ g^{(2)}(t)=-\int_0^1\frac{2\zeta^2S_{t\sigma}^2S_{t(1-\sigma)}^2}
+ {\sinh^2\frac t2\bigl(\sinh\frac t2+2\zeta S_{t\sigma}S_{t(1-\sigma)}\bigr)}\dd\sigma .
+\end{equation}
+
+\begin{theorem}[occupation tail with a controlled remainder]\label{thm:tau}
+For every $\zeta\in(0,1]$ and $\kappa_c>0$,
+\begin{equation}\label{eq:phsym}
+ \tau_+=\tau_-=\nu_++\Sigma(\kappa_c),\qquad
+ \Sigma(\kappa_c):=\int_{\kappa_c}^\infty\bigl[\widetilde Q(\kappa,\kappa)-q_\kappa\bigr]\dd\kappa,
+\end{equation}
+and
+\begin{equation}\label{eq:taubound}
+ \Bigl|\Sigma(\kappa_c)-\frac{\zeta^2}{15\,\kappa_c^{2}}\Bigr|
+ \ \le\ \frac{C_2\,\zeta^{2}}{\kappa_c^{3}}\ +\ C_1\,\zeta\,(1+\kappa_c)\,e^{-\kappa_c},
+ \qquad C_2=4\pi A_3,\quad C_1=\frac{A_1}{4\pi^2},
+\end{equation}
+where $A_3:=\sup_{0<\zeta\le1}\zeta^{-2}\|(g^{(2)})'''\|_{L^1(0,\infty)}$ and
+$A_1:=\sup_{\kappa_c>0}\bigl|\widehat{g^{(1)}}(\kappa_c/2\pi)\bigr|\,(1+\kappa_c)^{-1}e^{\kappa_c}$
+are finite; numerically $A_3\le0.036$ and $A_1\le2.0$, i.e.
+\[
+ \boxed{\ C_2\le0.46,\qquad C_1\le0.051\ }
+\]
+(\S\ref{sec:num}).  Consequently, with $\nu_+=\log(1+e^{-\kappa_c})\le e^{-\kappa_c}$,
+\begin{equation}\label{eq:taunu}
+ 5\tau+\nu\ =\ 12\,\nu_++10\,\Sigma(\kappa_c)
+ \ \le\ \frac{2\zeta^2}{3\kappa_c^2}+\frac{4.6\,\zeta^2}{\kappa_c^3}
+ +\bigl(12+0.51\,\zeta(1+\kappa_c)\bigr)e^{-\kappa_c}.
+\end{equation}
+\end{theorem}
+\lstep{1}{1}{$g$ is real-valued, real-analytic on $[0,\infty)$ with $g(0)=\frac\zeta6$, and
+$|g(t)|+|g'(t)|+|g''(t)|+|g'''(t)|\le C_\zeta e^{-t/2}$ for $t\ge1$.}
+\lby{$\widetilde F$ in \eqref{eq:Fclosed} is real and, for $p,p'\ge0$ and $\zeta>0$, its denominator is
+$\ge\sinh^2M>0$; the integrand of \eqref{eq:Jdiag} is jointly analytic in $(t,\sigma)$ for
+$|t|<2\pi$ (the only zeros of $\sinh\frac t2$ in that disc are at $t=0$, and there numerator and
+denominator vanish to the same order, see $\langle1\rangle5$), so $g$ is analytic near $0$;
+for large $t$, $S_{t\sigma}S_{t(1-\sigma)}/\sinh^2\frac t2=O(e^{-t/2})$ uniformly in $\sigma$;
+differentiation under the $\sigma$-integral is legitimate by dominated convergence}
+\lstep{1}{2}{$\displaystyle\Sigma(\kappa_c)=\frac1{2\pi^2}\operatorname{Re}\int_0^\infty g(t)\,
+e^{i\lambda t}\dd t$, $\lambda:=\frac{\kappa_c}{2\pi}$.}
+\lproof
+\lstep{2}{1}{For $\eta>0$, $\int_{\kappa_c}^\infty e^{-\eta\kappa}e^{i\kappa t/2\pi}\dd\kappa
+=\dfrac{e^{-\eta\kappa_c}e^{i\kappa_ct/2\pi}}{\eta-it/2\pi}\xrightarrow[\eta\downarrow0]{}
+\dfrac{2\pi i\,e^{i\kappa_ct/2\pi}}{t}$ for each $t>0$, with modulus $\le2\pi/t$ uniformly in $\eta$.}
+\lby{elementary integration; $|\eta-it/2\pi|\ge t/2\pi$}
+\lstep{2}{2}{$\displaystyle\lim_{\eta\downarrow0}\int_{\kappa_c}^\infty e^{-\eta\kappa}J(\kappa,\kappa)\dd\kappa
+=\frac1{(2\pi)^2}\int_0^\infty\frac{2\pi i\,e^{i\kappa_ct/2\pi}}{t}\,t\,g(t)\dd t
+=\frac i{2\pi}\int_0^\infty g(t)e^{i\lambda t}\dd t$.}
+\lby{Fubini (the double integral is absolutely convergent for $\eta>0$ because $|tg(t)|\le C_\zeta te^{-t/2}$
+near $\infty$ and $|tg(t)|\le C$ near $0$), then dominated convergence with the majorant
+$2\pi|g(t)|\in L^1$ from $\langle2\rangle1$ and $\langle1\rangle1$}
+\lstep{2}{3}{$\Sigma(\kappa_c)=\frac1\pi\lim_{\eta\downarrow0}\int_{\kappa_c}^\infty e^{-\eta\kappa}
+\operatorname{Im}J(\kappa,\kappa)\dd\kappa
+=\frac1\pi\operatorname{Im}\Bigl[\frac i{2\pi}\int_0^\infty ge^{i\lambda t}\dd t\Bigr]
+=\frac1{2\pi^2}\operatorname{Re}\int_0^\infty ge^{i\lambda t}\dd t$.}
+\lby{\eqref{eq:Fclosed}; $\kappa\mapsto\widetilde Q(\kappa,\kappa)-q_\kappa\ge-q_\kappa$ is integrable on
+$(\kappa_c,\infty)$ --- $\widetilde Q(\kappa,\kappa)\ge0$ and
+$\int^\infty\widetilde Q(\kappa,\kappa)\dd\kappa<\infty$ because $\widetilde Q-Q$ is trace class
+(Note~4: $\|\delta_s\|_1=\frac1{2\pi}\log(1+\zeta)$) --- so monotone/dominated convergence applies
+to the Abel limit; and $\operatorname{Im}(iz)=\operatorname{Re}z$ for real $\lambda$-integrals of a
+real $g$}
+\lqed{2}{4}\lby{$\langle2\rangle1$--$\langle2\rangle3$}
+
+\lstep{1}{3}{$\widetilde Q(-\kappa,-\kappa)-q_{-\kappa}=-\bigl[\widetilde Q(\kappa,\kappa)-q_\kappa\bigr]$,
+hence $\tau_-=\tau_+$ and $\tau_+=\nu_++\Sigma(\kappa_c)$, which is \eqref{eq:phsym}.}
+\lby{$g$ real and \eqref{eq:Jdiag} give $\operatorname{Im}J(-\kappa,-\kappa)=-\operatorname{Im}J(\kappa,\kappa)$;
+therefore $1-\widetilde Q(-\kappa,-\kappa)=1-q_{-\kappa}+[\widetilde Q(\kappa,\kappa)-q_\kappa]
+=q_\kappa+[\widetilde Q(\kappa,\kappa)-q_\kappa]=\widetilde Q(\kappa,\kappa)$; integrate over
+$\kappa>\kappa_c$ and use $\nu_+=\int_{\kappa_c}^\infty q_\kappa\dd\kappa$}
+\lstep{1}{4}{(First order.)  $g^{(1)}$ is even, and
+$\operatorname{Re}\int_0^\infty g^{(1)}e^{i\lambda t}\dd t=\tfrac12\widehat{g^{(1)}}(\lambda)$ with
+$\widehat{g^{(1)}}(\lambda)=\int_{\mathbb R}g^{(1)}(t)e^{i\lambda t}\dd t$; moreover $g^{(1)}$ is
+meromorphic on $\mathbb C$ with double poles exactly at $t\in2\pi i\mathbb Z\setminus\{0\}$ and
+$O(e^{-|\operatorname{Re}t|/2})$ decay in the strip $|\operatorname{Im}t|\le2\pi-\eta$, so
+$|\widehat{g^{(1)}}(\lambda)|\le A_1(1+2\pi\lambda)e^{-2\pi\lambda}$ with $A_1<\infty$.}
+\lby{\texttt{check\_note5\_theory.tex}, Prop.~6.4: $P^{(1)}(-t)=tg^{(1)}(t)\zeta$ is odd with double
+poles at $2\pi i\mathbb Z\setminus\{0\}$; hence $g^{(1)}=P^{(1)}/(\zeta t)$ is even and has the same
+poles (the simple pole of $1/t$ cancels the triple zero of the numerator at $t=0$, cf.\
+$\langle1\rangle5$); $\operatorname{Re}\int_0^\infty g^{(1)}e^{i\lambda t}=\int_0^\infty g^{(1)}\cos\lambda t
+=\frac12\int_{\mathbb R}g^{(1)}\cos\lambda t$ by evenness; shifting the contour to
+$\operatorname{Im}t=2\pi-\eta$ and letting $\eta\downarrow0$ gives the factor $e^{-2\pi\lambda}$, a double
+pole producing the extra factor $(1+2\pi\lambda)$}
+\lstep{1}{5}{(Second order.)  $g^{(2)}$ is real-analytic on $[0,\infty)$ with $g^{(2)}(0)=0$ and
+$(g^{(2)})'(0)=-\zeta^2/30$.}
+\lproof
+\lstep{2}{1}{$\dfrac{2\zeta^2S_{t\sigma}^2S_{t(1-\sigma)}^2}{\sinh^2\frac t2
+\bigl(\sinh\frac t2+2\zeta S_{t\sigma}S_{t(1-\sigma)}\bigr)}
+=\zeta^2\sigma^2(1-\sigma)^2\,t\,\bigl(1+O(t)\bigr)$ as $t\to0$, uniformly in $\sigma\in[0,1]$.}
+\lby{$S_x=\frac x2(1+O(x^2))$, so the numerator is
+$2\zeta^2\frac{t^4}{16}\sigma^2(1-\sigma)^2(1+O(t^2))$ and the denominator is
+$\frac{t^2}4\cdot\frac t2(1+O(t))=\frac{t^3}8(1+O(t))$}
+\lstep{2}{2}{$g^{(2)}(t)=-\zeta^2t\int_0^1\sigma^2(1-\sigma)^2\dd\sigma+O(t^2)=-\frac{\zeta^2}{30}t+O(t^2)$.}
+\lby{$\langle2\rangle1$, $\int_0^1\sigma^2(1-\sigma)^2\dd\sigma=\frac1{30}$, and dominated convergence}
+\lqed{2}{3}\lby{$\langle2\rangle1$, $\langle2\rangle2$ and analyticity from $\langle1\rangle1$}
+\lstep{1}{6}{$\displaystyle\operatorname{Re}\int_0^\infty g^{(2)}e^{i\lambda t}\dd t
+=-\frac{(g^{(2)})'(0)}{\lambda^2}-\frac1{\lambda^3}\operatorname{Im}\!\int_0^\infty(g^{(2)})'''e^{i\lambda t}\dd t
+=\frac{\zeta^2}{30\lambda^2}-\frac1{\lambda^3}\operatorname{Im}\!\int_0^\infty(g^{(2)})'''e^{i\lambda t}\dd t.$}
+\lproof
+\lstep{2}{1}{Three integrations by parts:
+$\int_0^\infty ue^{i\lambda t}\dd t=\frac{iu(0)}\lambda-\frac{u'(0)}{\lambda^2}
+-\frac{iu''(0)}{\lambda^3}+\frac1{(i\lambda)^3}\int_0^\infty u'''e^{i\lambda t}\dd t$
+for $u\in C^3[0,\infty)$ with $u,u',u''\to0$ at $\infty$ and $u'''\in L^1$.}
+\lby{$\int_0^\infty u^{(k)}e^{i\lambda t}=-\frac{u^{(k)}(0)}{i\lambda}-\frac1{i\lambda}
+\int_0^\infty u^{(k+1)}e^{i\lambda t}$, iterated three times; the boundary terms at $\infty$ vanish by
+$\langle1\rangle1$}
+\lstep{2}{2}{With $u=g^{(2)}$ real: $u(0)=0$ and $u''(0)\in\mathbb R$, so
+$\operatorname{Re}\bigl[\frac{iu(0)}\lambda-\frac{iu''(0)}{\lambda^3}\bigr]=0$ and
+$\operatorname{Re}\frac1{(i\lambda)^3}\int u'''e^{i\lambda t}
+=\operatorname{Re}\frac{i}{\lambda^3}\int u'''e^{i\lambda t}
+=-\frac1{\lambda^3}\operatorname{Im}\int u'''e^{i\lambda t}$.}
+\lby{$\langle1\rangle5$ ($u(0)=0$), $u$ real-valued so $u''(0)$ real, and $(i)^{-3}=i$}
+\lqed{2}{3}\lby{$\langle2\rangle1$, $\langle2\rangle2$, $(g^{(2)})'(0)=-\zeta^2/30$}
+\lstep{1}{7}{$\bigl|\operatorname{Im}\int_0^\infty(g^{(2)})'''e^{i\lambda t}\dd t\bigr|
+\le\|(g^{(2)})'''\|_{L^1(0,\infty)}\le A_3\zeta^2$, and $A_3<\infty$.}
+\lby{$|e^{i\lambda t}|=1$; finiteness of $A_3$ from $\langle1\rangle1$ (analyticity at $0$ and
+$O(e^{-t/2})$ decay), and the fact that every $t$-derivative of the integrand of \eqref{eq:gsplit}
+carries the prefactor $\zeta^2$ and a denominator bounded below by $\sinh^3\frac t2$, so that
+$\zeta^{-2}\|(g^{(2)})'''\|_1$ is bounded uniformly for $\zeta\in(0,1]$}
+\lstep{1}{8}{Assembling: with $\lambda=\kappa_c/2\pi$,
+\[
+ \Sigma(\kappa_c)=\frac1{2\pi^2}\Bigl[\frac{\zeta}2\widehat{g^{(1)}}(\lambda)
+ +\frac{\zeta^2}{30\lambda^2}-\frac1{\lambda^3}\operatorname{Im}\!\int_0^\infty(g^{(2)})'''e^{i\lambda t}\Bigr],
+ \quad\frac1{2\pi^2}\cdot\frac{\zeta^2}{30\lambda^2}=\frac{\zeta^2}{15\kappa_c^2},
+\]
+and the two remainders are bounded by $\frac1{2\pi^2}\frac{(2\pi)^3}{\kappa_c^3}A_3\zeta^2
+=\frac{4\pi A_3\zeta^2}{\kappa_c^3}$ and
+$\frac{\zeta}{4\pi^2}A_1(1+\kappa_c)e^{-\kappa_c}$, which is \eqref{eq:taubound}.}
+\lby{$\langle1\rangle2$, $\langle1\rangle4$, $\langle1\rangle6$, $\langle1\rangle7$;
+$\frac1{2\pi^2}\frac{\zeta^2}{30}\frac{4\pi^2}{\kappa_c^2}=\frac{\zeta^2}{15\kappa_c^2}$}
+\lqed{1}{9}\lby{$\langle1\rangle3$ for \eqref{eq:phsym}, $\langle1\rangle8$ for \eqref{eq:taubound};
+\eqref{eq:taunu} follows from $\tau=2\tau_+$, $\nu=2\nu_+$, so $5\tau+\nu=12\nu_++10\Sigma$,
+and $\frac{10\zeta^2}{15\kappa_c^2}=\frac{2\zeta^2}{3\kappa_c^2}$}
+
+\begin{verdictgap}
+The \emph{shape} of \eqref{eq:taubound} --- leading term $\zeta^2/(15\kappa_c^2)$, correction
+$O(\zeta^2\kappa_c^{-3})$, first-order contribution exponentially small --- is proved.  The two
+constants $A_1,A_3$ are proved finite but their numerical values ($A_3\le0.036$, $A_1\le2.0$) are
+obtained by numerical evaluation of an explicit one-dimensional integral (\S\ref{sec:num}), not by a
+closed-form estimate; a fully hand-checkable bound would require differentiating \eqref{eq:gsplit}
+three times and estimating each of the resulting terms, which we have not done.  This is the only
+non-symbolic input to Theorem~\ref{thm:main}.  Note that Theorem~\ref{thm:tau} also \emph{proves}
+Note~5, Proposition~4.1 in its integrated form (the pointwise statement $\frac2{15}\zeta^2\kappa^{-3}
++O(\kappa^{-5})$ is not needed anywhere below) and re-derives the exact coefficient
+$c_2=-\zeta^2/30$ of \texttt{check\_note5\_theory.tex} independently, from the closed form
+\eqref{eq:Fclosed}.
+\end{verdictgap}
+
+\section{The tail bound}\label{sec:tail}
+
+\begin{theorem}[ultraviolet tail bound]\label{thm:main}
+Let $\kappa_c>0$, $\zeta\in(0,1]$, and put
+\[
+ \mathcal T:=5\tau+\nu=12\nu_++10\Sigma(\kappa_c),\qquad
+ \Phi_\partial:=\frac{\mathcal T}{2(1-\mathcal T)}\quad(\text{assume }\mathcal T<1).
+\]
+Then $\Phi_W\le\Phi$ and, provided $y:=2e^{2\Phi_\partial}\sqrt{\Phi\,\Phi_\partial}<1$,
+\begin{equation}\label{eq:Psi}
+ 0\ \le\ \Phi(\zeta)-\Phi_W(\zeta)\ \le\ \Phi_\partial+\frac{y}{1-y}
+ \qquad\Bigl(\ =\ 2\sqrt{\Phi\,\Phi_\partial}+\Phi_\partial+O\bigl((\Phi+\Phi_\partial)^{3/2}\bigr)\Bigr).
+\end{equation}
+With Theorem~\ref{thm:tau}, $\mathcal T\le\frac{2\zeta^2}{3\kappa_c^2}+\frac{4.6\zeta^2}{\kappa_c^3}
++\bigl(12+0.51\zeta(1+\kappa_c)\bigr)e^{-\kappa_c}$.
+\end{theorem}
+\lstep{1}{1}{$\Phi_W\le\Phi$.}
+\lby{the restriction of $\rho=\omega_Q$ (resp.\ $\sigma=\omega_{\widetilde Q}$) to
+$\cF(EH)\subset\cF(I)$ is $\omega_{EQE}$ (resp.\ $\omega_{E\widetilde QE}$), and root fidelity is
+nondecreasing under restriction to a subalgebra}
+\lstep{1}{2}{$-\log\Fid(\rho'',\sigma)\le\Phi_\partial$.}
+\lby{Lemma~\ref{lem:purif} applied to $X=\widetilde Q$, $Y=Q''$, i.e.\ \eqref{eq:purif2}, together
+with Theorem~\ref{thm:block} ($\|N\|_2^2\le5\tau+\nu=\mathcal T$) and the monotonicity of
+$x\mapsto x/(2(1-x))$; uniform in the finite-dimensional approximation of \S\ref{sec:window},
+hence valid in the limit}
+\lstep{1}{3}{$e^{-\Phi}=\Fid(\rho,\sigma)\ge\cos\bigl(A(\rho,\rho'')+A(\rho'',\sigma)\bigr)
+=e^{-\Phi_W}\Fid(\rho'',\sigma)-\sqrt{1-e^{-2\Phi_W}}\sqrt{1-\Fid(\rho'',\sigma)^2}$,
+whenever the sum of angles is $\le\pi/2$.}
+\lby{the Bures angle triangle inequality (cited box, \S\ref{sec:triangle}),
+$\cos$ decreasing on $[0,\pi/2]$, the addition theorem, and Lemma~\ref{lem:factor}
+($\Fid(\rho,\rho'')=e^{-\Phi_W}$)}
+\lstep{1}{4}{$\sqrt{1-e^{-2\Phi_W}}\sqrt{1-\Fid(\rho'',\sigma)^2}\le
+2e^{\Phi_\partial}\sqrt{\Phi_W\Phi_\partial}\le2e^{\Phi_\partial}\sqrt{\Phi\,\Phi_\partial}$.}
+\lby{$1-e^{-2x}\le2x$ for $x\ge0$ applied to $x=\Phi_W$, and
+$1-e^{-2z}\le2z\,$ with $z=-\log\Fid(\rho'',\sigma)\le\Phi_\partial$ after writing
+$1-\Fid^2=1-e^{-2z}\le2z\le2\Phi_\partial$; the factor $e^{\Phi_\partial}$ absorbs the crude step
+$\sqrt{2\Phi_W}\sqrt{2\Phi_\partial}\le2e^{\Phi_\partial}\sqrt{\Phi_W\Phi_\partial}$; then
+$\langle1\rangle1$}
+\lstep{1}{5}{$e^{-\Phi}\ge e^{-\Phi_W}\bigl(e^{-\Phi_\partial}-y'\bigr)$ with
+$y':=2e^{\Phi_\partial}\sqrt{\Phi\Phi_\partial}$, hence
+$\Phi-\Phi_W\le-\log(e^{-\Phi_\partial}-y')=\Phi_\partial-\log(1-y'e^{\Phi_\partial})$
+and $y'e^{\Phi_\partial}=y$.}
+\lby{$\langle1\rangle3$, $\langle1\rangle4$ and $\Fid(\rho'',\sigma)\ge e^{-\Phi_\partial}$}
+\lqed{1}{6}\lby{$-\log(1-u)\le u/(1-u)$ with $u=y<1$, which gives \eqref{eq:Psi};
+$\langle1\rangle1$ gives the left inequality}
+
+\begin{corollary}[explicit decay in $\kappa_c$]\label{cor:rate}
+Suppose $\Phi(\zeta)\le f\zeta^2$ and $\kappa_c\ge\kappa_\dagger(\zeta):=2\log\frac1\zeta+2\log(1+\kappa_c)+3$
+(so that $12e^{-\kappa_c}\le0.6\,\zeta^2\kappa_c^{-2}$) and $\kappa_c\ge10$.  Then
+\[
+ \mathcal T\le\frac{1.75\,\zeta^2}{\kappa_c^{2}},\qquad
+ \Phi-\Phi_W\ \le\ \frac{2\sqrt{0.875\,f}\;\zeta^{2}}{\kappa_c}\,\bigl(1+O(\zeta^2)\bigr)
+ \ +\ \frac{0.875\,\zeta^2}{\kappa_c^2}\bigl(1+O(\zeta^2)\bigr).
+\]
+For the free fermion one may take $f=0.0085$ (Note~5, Table~3, all tabulated $\Phi/\zeta^2\le0.00838$,
+and $\lim_{\zeta\to0}\Phi/\zeta^2=1/(12\pi^2)=0.008444$ by \texttt{uhlmann\_upper\_bound.tex} +
+\texttt{quadratic\_limit.tex}), giving
+\begin{equation}\label{eq:final}
+ \Phi(\zeta)-\Phi_W(\zeta)\ \le\ \frac{0.173\,\zeta^2}{\kappa_c}\;+\;\frac{0.88\,\zeta^2}{\kappa_c^2}.
+\end{equation}
+\end{corollary}
+\lstep{1}{1}{$\mathcal T\le\frac{\zeta^2}{\kappa_c^2}\bigl(\frac23+\frac{4.6}{\kappa_c}\bigr)+0.6\frac{\zeta^2}{\kappa_c^2}
++0.51\zeta(1+\kappa_c)e^{-\kappa_c}\le\frac{1.75\zeta^2}{\kappa_c^2}$ for $\kappa_c\ge10$.}
+\lby{Theorem~\ref{thm:tau} \eqref{eq:taunu}; the hypothesis on $\kappa_\dagger$ gives
+$e^{-\kappa_c}\le e^{-3}\zeta^2(1+\kappa_c)^{-2}$, so $12e^{-\kappa_c}\le0.6\zeta^2\kappa_c^{-2}$ and
+$0.51\zeta(1+\kappa_c)e^{-\kappa_c}\le0.51e^{-3}\zeta^3(1+\kappa_c)^{-1}\le0.003\zeta^2\kappa_c^{-2}$;
+$\frac23+0.46+0.6+0.003\le1.75$}
+\lstep{1}{2}{$\Phi_\partial\le\frac{\mathcal T}{2(1-\mathcal T)}\le\frac{0.875\zeta^2}{\kappa_c^2}(1+O(\zeta^2))$.}
+\lby{$\langle1\rangle1$ and $\mathcal T\le1.75\zeta^2/100\le0.0175$}
+\lqed{1}{3}\lby{Theorem~\ref{thm:main}, $\langle1\rangle2$, $\Phi\le f\zeta^2$, and
+$2\sqrt{\Phi\Phi_\partial}\le2\sqrt{f\zeta^2\cdot0.875\zeta^2\kappa_c^{-2}}
+=2\sqrt{0.875f}\,\zeta^2/\kappa_c$; with $f=0.0085$, $2\sqrt{0.875\cdot0.0085}=0.1725$}
+
+\begin{verdictgap}
+Proved: an unconditional tail bound $\Phi-\Phi_W\le C\zeta^2/\kappa_c$ with the explicit constant
+$C=0.173$ (plus a $0.88\zeta^2\kappa_c^{-2}$ term), valid once the window reaches
+$\kappa_c\ge2\log(1/\zeta)+2\log\kappa_c+3$.  \emph{Not} proved: the conjectured
+$\Phi-\Phi_W\le C\zeta^2\kappa_c^{-2}$ of \texttt{open\_problems\_plan.tex}, \S2.1.  Two losses
+separate them.  (i) The Bures triangle inequality contributes the cross term
+$2\sqrt{\Phi\Phi_\partial}\sim\zeta^2/\kappa_c$, which is intrinsic to any metric argument: the true
+$\Phi-\Phi_W$ is quadratic in the discarded perturbation, a metric triangle inequality is linear in
+it.  (ii) The constant $5$ of Theorem~\ref{thm:block} inflates $\Phi_\partial$ by about an order of
+magnitude over its true value $\approx\Sigma\approx\zeta^2/(15\kappa_c^2)$ (\S\ref{sec:num}).
+Removing (i) would need a genuinely second-order (Fisher-metric) argument comparing $\rho''$ and
+$\sigma$ \emph{relative to} $\rho$, e.g.\ a two-sided Bogoliubov extension in which the window and its
+complement are treated by a single global purification; we did not find one.
+\end{verdictgap}
+\section{The box cutoff}\label{sec:box}
+
+The numerics of Note~5, \S6 uses \emph{two} compressions: first onto the box modes
+$\mathfrak h_N\subset L^2(I)$ ($\Lambda$, $\kappa_{\max}$; Note~5, \S3.1), then onto the spectral
+window $\{\eps<Q_N<1-\eps\}$ of the \emph{compressed} vacuum symbol $Q_N$.  Two consequences.
+
+\paragraph{(a) All tabulated values are lower bounds.}  Both compressions are compressions onto
+finite-dimensional subspaces of $H$, so for the resulting projection $P_{\rm sub}$ of rank
+$n_{\rm sub}$, Note~5, Theorem~3.1 gives $\Phi_{P_{\rm sub}}\le\Phi$ unconditionally.  This is
+independent of everything in this note and is the only part of the error bar that is a theorem
+without qualifications (up to the arithmetic of \S\ref{sec:bars}).
+
+\paragraph{(b) The upper bound is \emph{not} directly the one of Theorem~\ref{thm:main}.}
+Theorem~\ref{thm:main} bounds $\Phi-\Phi_W$ where $\Phi_W$ is the compression to the spectral window
+$E=\one_{[-\kappa_c,\kappa_c]}(K)$ of the \emph{exact continuum} $K$.  The computed quantity is the
+compression to $P_{\rm sub}\subset\mathfrak h_N$, and $P_{\rm sub}\ne E$: the box replaces the
+continuous modular spectrum by $N$ discrete modes with $|\kappa_j|\le\kappa_{\max}$ and distorts the
+occupations near the box edge by $\approx(\pi\Lambda k_j)^{-1}$ (Note~5, \S3.1).  We have \emph{no}
+bound on $\Phi_E-\Phi_{P_{\rm sub}}$.  Empirically it is small: Note~5, Table~1 varies
+$(\Lambda,\kappa_{\max})$ over nine combinations at $\zeta=1/15$ with a spread of $\pm0.06\,\%$ in
+$\Phi_{\rm sub}$, and $\Lambda=120$ changes the $\kappa_c=18.4$ value by $-3\times10^{-5}$ relative
+(\texttt{numerics/README.md}).  Everything below that uses the upper half of the bar is therefore
+labelled ``certified modulo the box discretisation''.
+
+\paragraph{(c) When the window is the whole box.}
+At $\eps=10^{-14}$ ($\kappa_c=32.2$) and $\Lambda=60$, $\kappa_{\max}=30$ one has
+$n_{\rm sub}=N=91$: the spectral window discards \emph{nothing}, and the residual truncation is the
+box itself, whose largest modular energy is $\kappa_{\max}^{\rm eff}=29.6$ (the largest $|\kappa_j|$
+actually realised).  In this regime the correct second-order tail is not the window one
+$\zeta^2/(15\kappa_c^2)=0.0667\,\zeta^2\kappa_c^{-2}$ but the \emph{box} one obtained from the exact
+cutoff asymptotics of the Bures--Fisher form,
+\begin{equation}\label{eq:boxtail}
+ g_B-g_B^{(\Lambda)}=0.513\,r\,\Lambda^{-2}\quad(\texttt{referee\_quadratic\_limit.tex}, \S7)
+ \ \Longrightarrow\
+ f_2-f_2^{(\kappa_{\max})}=\frac{0.513}{8\,\kappa_{\max}^2}=\frac{0.0641}{\kappa_{\max}^2},
+\end{equation}
+i.e.\ $0.0641\,\zeta^2\kappa_{\max}^{-2}$, $4\,\%$ below the window value.  At
+$\kappa_{\max}^{\rm eff}=29.6$, $\zeta=1/15$ this is $3.25\times10^{-7}$ (against
+$3.61\times10^{-7}$ for the window formula at $\kappa_c=32.2$), and
+$\Phi_{\rm sub}+{\rm tail}=3.48658\times10^{-5}+3.25\times10^{-7}=3.5191\times10^{-5}$,
+consistent with the $\eps=10^{-8}$ and $10^{-11}$ corrected values ($3.5193$, $3.5199$) to
+$2\times10^{-4}$ relative.  The ``$+$tail'' column printed in
+\texttt{numerics/results\_hp14.txt} uses $\kappa_c$ and is therefore $1.2\times10^{-3}$ relative too
+small; the corrected recipe is $\kappa_{\rm eff}=\min(\kappa_c,\kappa_{\max}^{\rm eff})$ with the
+coefficient $1/15$ for a window-limited and $0.0641$ for a box-limited run.
+
+\section{Certified error bars}\label{sec:bars}
+
+\paragraph{Arithmetic.}  The evaluation of Note~5, Theorem~2.1 inside the window is done in
+$40$-digit arithmetic (\texttt{fidelity\_flint.py}), so the arithmetic error is negligible; the
+inputs are not exact.  Write $Q_N^{\rm c}$, $\widehat D^{\rm c}$ for the computed matrices and
+$\eta:=\max\{\|Q_N-Q_N^{\rm c}\|_1,\|\widehat D-\widehat D^{\rm c}\|_1\}$.  By Lemma~\ref{lem:purif}
+and Powers--St\o rmer ($\|A^{1/2}-B^{1/2}\|_2^2\le\|A-B\|_1$ for $A,B\ge0$),
+$\|N(X,X')\|_2^2\le\|X-X'\|_2^2+4\|X-X'\|_1\le5\|X-X'\|_1$, so the Bures angle moves by at most
+$\arcsin\sqrt{5\eta}$ under either perturbation and
+\begin{equation}\label{eq:arith}
+ \bigl|\Phi_{\rm sub}-\Phi_{\rm sub}^{\rm c}\bigr|
+ \ \le\ \sqrt{2\Phi}\cdot2\sqrt{5\eta}\,(1+o(1))+5\eta .
+\end{equation}
+With the quoted quadrature accuracies ($3\times10^{-11}$ relative on $\widehat D$, Note~5 \S6;
+$\Lambda$-trapezoid with $4\times10^5$ nodes for $Q_N$) a conservative $\eta=10^{-9}$ gives
+$|\Phi_{\rm sub}-\Phi^{\rm c}_{\rm sub}|\le2\sqrt{2\cdot3.5\times10^{-5}}\sqrt{5\times10^{-9}}
+=1.2\times10^{-6}$ at $\zeta=1/15$ --- i.e.\ $3\,\%$, and it is again the cross term that dominates.
+An honest quadrature audit (interval arithmetic on $\widehat D$ and $Q_N$) would reduce $\eta$ to
+$\sim10^{-13}$ and this term to $0.4\,\%$; that audit has \emph{not} been carried out here, and this
+is the second-largest gap in the certification.
+
+\paragraph{The bar.}  Combining (a), (b), \eqref{eq:final} and \eqref{eq:arith}: with
+$\kappa_{\rm eff}=\min(\kappa_c,\kappa_{\max}^{\rm eff})$,
+\begin{equation}\label{eq:bar}
+ \Phi^{\rm c}_{\rm sub}-\eta_{\rm num}\ \le\ \Phi(\zeta)\ \le\
+ \Phi^{\rm c}_{\rm sub}+\eta_{\rm num}+\frac{0.173\,\zeta^2}{\kappa_{\rm eff}}
+ +\frac{0.88\,\zeta^2}{\kappa_{\rm eff}^2}\quad(\text{upper half: modulo the box, \S\ref{sec:box}b}).
+\end{equation}
+Table~\ref{tab:bars} lists the resulting intervals together with the \emph{extrapolated} best value
+$\Phi^{\rm c}_{\rm sub}+\Sigma$, $\Sigma$ the proved leading tail of Theorem~\ref{thm:tau}
+(coefficient $1/15$ or $0.0641$ according to \S\ref{sec:box}c), whose own proved uncertainty is
+$C_2\zeta^2\kappa_{\rm eff}^{-3}\le0.46\,\zeta^2\kappa_{\rm eff}^{-3}$ ($=0.6\,\%$ of $\Sigma$ at
+$\kappa_{\rm eff}=29.6$) --- but which is an estimate of $\Phi-\Phi_W$ only to the extent that the
+cross term of Theorem~\ref{thm:main} is not saturated.
+
+\begin{table}[ht]\centering\small
+\caption{Certified bar \eqref{eq:bar} (units $10^{-5}$) from the raw sub-compressed values of
+\texttt{results\_A2.txt} ($\kappa_c=18.4$), \texttt{results\_hp2.txt} ($25.3$) and
+\texttt{results\_hp14.txt} ($32.2$); $\Phi^{\rm c}_{\rm sub}$ is the largest of the three (all are
+lower bounds).  $\eta_{\rm num}$ is omitted from the printed interval (add $\pm3\,\%$).
+``best'' $=\Phi^{\rm c}_{\rm sub}+\Sigma$ is extrapolated, not certified.}\label{tab:bars}
+\begin{tabular}{r r c r r}\toprule
+$\zeta$ & $10^5\Phi^{\rm c}_{\rm sub}$ & certified interval & $10^5\,$best & width/$\Phi$\\\midrule
+$1/120$ & 0.05765 & $[0.0576,\ 0.1052]$ & 0.05816 & $82\%$\\
+$1/60$  & 0.22871 & $[0.2287,\ 0.4190]$ & 0.23074 & $83\%$\\
+$1/30$  & 0.90005 & $[0.9000,\ 1.6609]$ & 0.90817 & $85\%$\\
+$1/15$  & 3.48658 & $[3.4866,\ 6.5309]$ & 3.51910 & $87\%$\\
+$2/15$  & 13.1093 & $[13.109,\ 25.285]$ & 13.2393 & $93\%$\\
+$4/15$  & 46.5158 & $[46.516,\ 104.92]$ & 47.2564 & $126\%$\\
+$8/15$  & 151.488 & $[151.49,\ 385.09]$ & 154.450 & $154\%$\\
+\bottomrule\end{tabular}\end{table}
+
+\begin{verdictgap}
+The certified bar is a factor $1.8$--$2.5$ wide, i.e.\ far weaker than the heuristic $0.3$--$1\,\%$ of
+Note~5 and than the $2\times10^{-4}$ mutual consistency of the three windows.  Two things must improve
+before the tabulated digits can be called certified: the cross term of Theorem~\ref{thm:main}
+(\S\ref{sec:tail}, verdict) and an interval-arithmetic audit of $\widehat D$ and $Q_N$.  What
+\emph{is} now proved and was not before: (i) the tabulated values are lower bounds with a quantified
+arithmetic margin; (ii) the correction added to them, $\zeta^2/(15\kappa_c^2)$ (resp.\
+$0.0641\zeta^2\kappa_{\max}^{-2}$), is the exact leading ultraviolet occupation tail, with a proved
+relative error $\le0.6\,\%$ at $\kappa_{\rm eff}\simeq30$ --- Note~5's heuristic ``12--56\,\% off''
+estimate of the correction was too pessimistic for the \emph{occupation}, and the true uncertainty of
+the corrected value lies in the step from the occupation to the fidelity, not in the occupation.
+\end{verdictgap}
+\section{The rate}\label{sec:rate}
+
+The rate $\Phi=f_2\zeta^2[1+O(\log^{-2}(1/\zeta))]$ of Note~5, Cor.~4.2, was to follow by combining
+(i) the tail bound, (ii) the cutoff error of the Bures--Fisher form
+(\texttt{quadratic\_limit.tex}, Prop.~7.1: $0\le g_B-g_B^{(\kappa_c)}\le\frac{2r}{3\kappa_c^2}(1+o(1))$,
+exactly $0.513\,r\kappa_c^{-2}$), and (iii) a finite-dimensional cubic estimate
+(\texttt{quadratic\_limit.tex}, Problem~7.2):
+\begin{equation}\label{eq:cubic}
+ \Bigl|\Phi_P(\zeta)-\tfrac{\zeta^2}8g_B^{(P)}\Bigr|\le C\,e^{c\,\kappa_c}\,\zeta^3
+ \qquad(P\le E=\one_{[-\kappa_c,\kappa_c]}(K)),
+\end{equation}
+with $c=1$ the value suggested there by $\min\operatorname{spec}(Q_P)^{-1}\le2e^{\kappa_c}$.
+
+\begin{proposition}[what the tail bound does and does not give]\label{prop:rate}
+Assume \eqref{eq:cubic} for some $c>0$.
+\begin{enumerate}[label=(\alph*),leftmargin=2em]
+\item If $c<\tfrac12$, then choosing $\kappa_c=\theta\log\frac1\zeta$ with any
+ $2<\theta<\tfrac1c$ gives
+ \[
+  \Phi(\zeta)=f_2\,\zeta^2\Bigl[1+O\bigl(\log^{-1}(1/\zeta)\bigr)\Bigr],\qquad f_2=\frac{g_B}8=\frac1{12\pi^2}.
+ \]
+\item If $c\ge\tfrac12$ --- in particular for the natural value $c=1$ --- the two constraints on
+ $\kappa_c$ are incompatible and \emph{no} rate follows from Theorem~\ref{thm:main}
+ together with \eqref{eq:cubic}.
+\end{enumerate}
+\end{proposition}
+\lstep{1}{1}{Theorem~\ref{thm:main} forces $\kappa_c>2\log\frac1\zeta$ asymptotically: the term
+$\nu\le2e^{-\kappa_c}$ of $\mathcal T$ contributes $\Phi_\partial\ge\tfrac12\nu_+$ and hence, through the
+cross term, at least $2\sqrt{\Phi\cdot\tfrac12\nu_+}\approx\sqrt{2f}\,\zeta e^{-\kappa_c/2}$ to the
+bound, which is $o(\zeta^2)$ only if $e^{-\kappa_c/2}=o(\zeta)$.}
+\lby{Theorem~\ref{thm:main} \eqref{eq:Psi} and Theorem~\ref{thm:tau} \eqref{eq:taunu};
+$\nu_+=\log(1+e^{-\kappa_c})$}
+\lstep{1}{2}{\eqref{eq:cubic} forces $\kappa_c<\frac1c\log\frac1\zeta$ asymptotically:
+$Ce^{c\kappa_c}\zeta^3=o(\zeta^2)$ iff $c\kappa_c-\log\frac1\zeta\to-\infty$.}
+\lby{elementary}
+\lstep{1}{3}{\lcase $c<\frac12$: pick $\theta\in(2,1/c)$, $\kappa_c=\theta\log\frac1\zeta$.  Then
+$e^{-\kappa_c}=\zeta^\theta=o(\zeta^2)$, the hypothesis $\kappa_c\ge\kappa_\dagger(\zeta)$ of
+Corollary~\ref{cor:rate} holds for small $\zeta$, and
+\[
+ \Phi_W\le\Phi\le\Phi_W+\frac{0.173\zeta^2}{\kappa_c}+\frac{0.88\zeta^2}{\kappa_c^2},
+ \qquad
+ \Bigl|\Phi_W-\frac{\zeta^2}8g_B^{(\kappa_c)}\Bigr|\le C\zeta^{3-c\theta},
+ \qquad
+ 0\le g_B-g_B^{(\kappa_c)}\le\frac{0.52\,r}{\kappa_c^2},
+\]
+whence $|\Phi-f_2\zeta^2|\le\frac{0.173\zeta^2}{\theta\log(1/\zeta)}+O\bigl(\zeta^2\log^{-2}(1/\zeta)\bigr)
++C\zeta^{3-c\theta}$ and $3-c\theta>2$.}
+\lby{Theorem~\ref{thm:main}, Corollary~\ref{cor:rate}, \eqref{eq:cubic} applied to $P\uparrow E$
+(the supremum over $P\le E$ of $\Phi_P$ is $\Phi_W$, and $\sup_Pg_B^{(P)}=g_B^{(\kappa_c)}$ by
+definition), and \texttt{quadratic\_limit.tex}, Prop.~7.1}
+\lqed{1}{4}\lby{$\langle1\rangle1$, $\langle1\rangle2$: the intervals
+$(2\log\frac1\zeta,\infty)$ and $(0,\frac1c\log\frac1\zeta)$ are disjoint for $c\ge\frac12$ and
+$\zeta$ small; $\langle1\rangle3$ for (a)}
+
+\begin{verdictgap}
+The claimed $\log^{-2}$ rate is \emph{not} obtained; the best this route can give is $\log^{-1}$, and
+only under a strengthening of Problem~7.2 to an exponent $c<1/2$.  The obstruction is the same cross
+term as in \S\ref{sec:tail}: it converts the requirement ``the window must reach past
+$\kappa_*(\zeta)\approx2\log(1/\zeta)$, where the vacuum occupation drops below the recovered one''
+(which is genuine, cf.\ Note~5, Cor.~4.2) into a \emph{linear} rather than quadratic penalty.  A
+version of Theorem~\ref{thm:block} in which the vacuum tail $\nu$ enters through the Hellinger
+combination $\sum_{|\kappa|>\kappa_c}(\sqrt{\widetilde q_\kappa}-\sqrt{q_\kappa})^2$ instead of
+$\sum(q_\kappa+\widetilde q_\kappa)$ would remove the constraint $\kappa_c>2\log(1/\zeta)$ altogether;
+on the diagonal this is elementary, and the whole difficulty is the off-diagonal block $X_{12}$, for
+which the square root is not Lipschitz.  Note also that Note~5's own heuristic for the $\log^{-2}$
+rate estimates $\Phi-\Phi_{\kappa_*}$, not $\Phi-\Phi_{\kappa_c}$ for a free $\kappa_c$, so it is not
+in contradiction with (b).
+\end{verdictgap}
+\section{Numerical verification}\label{sec:num}
+
+Scripts: \texttt{numerics/pt\_checks.py} (the two constants and $\Sigma$),
+\texttt{numerics/pt\_block.py} (Theorem~\ref{thm:block} on the free-fermion data),
+\texttt{numerics/pt\_lemmas.py}, \texttt{numerics/pt\_lem3.py} (Lemmas~\ref{lem:factor},
+\ref{lem:purif}), \texttt{numerics/pt\_bars.py} (Table~\ref{tab:bars}),
+\texttt{rigor/pt\_tailconst.py} ($A_3$).  Interpreter:
+the project venv (numpy/mpmath/python-flint).
+
+\paragraph{(1) Lemma~\ref{lem:purif} (purification bound).}  $40$ random non-commuting pairs
+$0.02\le X,Y\le0.98$ on $\mathbb C^3$, $40$-digit arithmetic: $\max\Fid_{\rm purif}/\Fid_{\rm exact}
+=1.000$ (never exceeded; $\Fid_{\rm exact}$ from Note~5, Theorem~2.1), typical ratio $0.70$--$0.88$.
+$30$ perturbative pairs ($\|Y-X\|\sim10^{-3}$) on $\mathbb C^4$:
+$\max\Phi_{\rm exact}/\Phi_{\rm purif}=0.960$, i.e.\ the bound is tight to $4\,\%$ exactly in the
+regime in which it is used.  \emph{(A double-precision version of the same test reports spurious
+violations once $\min\operatorname{spec}\lesssim10^{-9}$; the check must be done in extended
+precision.)}
+
+\paragraph{(2) Lemma~\ref{lem:factor} (factorisation).}  Random $8\times8$ diagonal $Q$ and
+$\widetilde Q=Q-\delta$ with a $5{+}3$ block split:
+$-\log\Fid(\rho,\rho'')$ and $\Phi_W$ agree to $5\times10^{-9}$ relative (double precision).
+
+\paragraph{(3) The constants of Theorem~\ref{thm:tau}.}  $\widehat{g^{(1)}}(\kappa_c/2\pi)$ divided by
+$(1+\kappa_c)e^{-\kappa_c}$ equals $1.9954,\,1.9994,\,2.0000,\,2.0000,\,1.9997$ at
+$\kappa_c=6,8,12,18.4,25.3$ (beyond that the double-precision floor is reached): $A_1=2$ exactly, so
+$C_1=1/(2\pi^2)=0.05066$.  This reproduces the independent quadrature of
+\texttt{check\_note5\_theory.tex}, \S6.4, which finds
+$\widetilde Q^{(1)}(\kappa,\kappa)-q_\kappa=0.00337737\,\kappa e^{-\kappa}$ at $\zeta=1/15$:
+$0.00337737\times15=0.050661=1/(2\pi^2)$.  For $A_3$: $\zeta^{-2}\|(g^{(2)})'''\|_{L^1}
+=0.0355,\,0.0326,\,0.0275,\,0.0214$ at $\zeta=0.05,0.2,0.5,1$ (monotone decreasing in $\zeta$), so
+$A_3\le0.036$ and $C_2=4\pi A_3\le0.46$.
+
+\paragraph{(4) The tail $\Sigma(\kappa_c)$.}  Exact evaluation of
+$\Sigma=\frac1{2\pi^2}\int_0^\infty g\cos(\lambda t)\dd t$ (period-by-period Gauss--Legendre):
+
+\begin{center}\small\begin{tabular}{r rrr rrr}\toprule
+& \multicolumn{3}{c}{$\Sigma(\kappa_c)/\bigl[\zeta^2/(15\kappa_c^2)\bigr]$}
+& \multicolumn{3}{c}{$\bigl[\Sigma-\zeta^2/(15\kappa_c^2)\bigr]\kappa_c^3/\zeta^2$ (bound: $\le0.46$)}\\
+$\zeta$ & $\kappa_c{=}18.4$ & $25.3$ & $32.2$ & $18.4$ & $25.3$ & $32.2$\\\midrule
+$1/15$ & 1.0631 & 1.0306 & 1.0184 & 0.0774 & 0.0515 & 0.0394\\
+$0.2$  & 1.0608 & 1.0298 & 1.0179 & 0.0745 & 0.0503 & 0.0385\\
+$1.0$  & 1.0224 & 1.0114 & 1.0069 & 0.0274 & 0.0192 & 0.0149\\\bottomrule
+\end{tabular}\end{center}
+The proved remainder bound $0.46\,\zeta^2\kappa_c^{-3}$ holds with a factor $6$--$30$ to spare, and
+the measured remainder decays faster than $\kappa_c^{-3}$ (consistent with the next term being
+$O(\kappa_c^{-4})$).
+
+\paragraph{(5) Theorem~\ref{thm:block} on the free-fermion data.}  $\widehat D$ from
+\texttt{Dhat\_exact\_s0.2\_*} ($\zeta=1/15$), $Q_N$ from \texttt{compression\_box.py}, everything
+transported to the eigenbasis of $Q_N$ (so $E$ is a coordinate projection):
+
+\begin{center}\small\begin{tabular}{ll r rrr rr}\toprule
+$(\Lambda,\kappa_{\max})$ & $\kappa_c$ & $n_{\rm out}$ & $\tau_+$ & $\tau_-$ & $\nu$
+& $\|N\|_2^2$ & $\|N\|_2^2/(5\tau+\nu)$\\\midrule
+$(60,30)$  & 18.4 & 30  & 5.743e$-$7 & 5.743e$-$7 & 2.27e$-$8 & 2.215e$-$6 & 0.384\\
+$(60,30)$  & 25.3 & 10  & 1.327e$-$7 & 1.327e$-$7 & 2.26e$-$11& 5.279e$-$7 & 0.398\\
+$(120,45)$ & 18.4 & 156 & 7.941e$-$7 & 7.498e$-$7 & 6.65e$-$8 & 3.092e$-$6 & 0.397\\
+$(120,45)$ & 25.3 & 114 & 3.087e$-$7 & 2.644e$-$7 & 7.35e$-$11& 1.328e$-$6 & 0.463\\
+$(120,45)$ & 32.2 & 71  & 1.119e$-$7 & 7.477e$-$8 & 5.95e$-$14& 5.649e$-$7 & 0.605\\\bottomrule
+\end{tabular}\end{center}
+\eqref{eq:block} holds throughout with a factor $1.7$--$2.6$ to spare.  Two further checks:
+(i) $\tau_+=\tau_-$ to all displayed digits at $\Lambda=60$ (the exact particle--hole symmetry
+$\langle1\rangle3$ of Theorem~\ref{thm:tau}); the $6\,\%$ asymmetry at $\Lambda=120$ is a box-edge
+artefact.  (ii) The box occupation tail is the \emph{difference} of two continuum tails: at
+$\kappa_c=18.4$, $\Lambda=60$, $\kappa_{\max}^{\rm eff}=29.6$ one measures
+$\tau_+-\nu_+=5.63\times10^{-7}$ against
+$\Sigma(18.4)-\Sigma(29.6)=9.31\times10^{-7}-3.45\times10^{-7}=5.86\times10^{-7}$ ($4\,\%$, box-edge),
+confirming both Theorem~\ref{thm:tau} and \S\ref{sec:box}c.
+Finally $\|X_{12}\|_2^2=1.02,\,0.48,\,0.21$ ($\times10^{-6}$) and $\|E^\perp h(X)E\|_2^2
+=5.1,\,1.8,\,0.65$ ($\times10^{-7}$) at $\kappa_c=18.4,25.3,32.2$ ($\Lambda=120$), i.e.\ both decay
+like $\kappa_c^{-2.5}$, \emph{not} faster than the diagonal tail --- which is why the alternative
+route through the block-diagonal intermediate state $\omega_{X_{11}\oplus X_{22}}$ (for which the
+diagonal part of $\Phi-\Phi_W$ carries \emph{no} cross term) does not improve the exponent either.
+
+\paragraph{(6) The assembled bound.}  At $\zeta=1/15$, $\kappa_c=32.2$: \eqref{eq:final} gives
+$\Phi-\Phi_W\le2.77\times10^{-5}$, while the measured difference between the $\kappa_c=32.2$ and the
+$\kappa_c=18.4$ values is $5.5\times10^{-7}$ and the predicted total remainder is
+$\Sigma=3.3\times10^{-7}$: the certified bound is a factor $\approx80$ above the truth, entirely
+because of the cross term ($2\sqrt{\Phi\Phi_\partial}$ with the proved $\Phi_\partial$; using the
+\emph{measured} $\|N\|_2^2$ instead would give $9\times10^{-6}$, still a factor $27$).
+\section{Summary of findings}\label{sec:findings}
+
+\begin{enumerate}[leftmargin=1.6em]
+\item \textbf{Proved (unconditional).}  $\Phi-\Phi_W\le0.173\,\zeta^2\kappa_c^{-1}+0.88\,\zeta^2\kappa_c^{-2}$
+for $\kappa_c\ge\max\{10,\ 2\log\frac1\zeta+2\log(1+\kappa_c)+3\}$ (Theorem~\ref{thm:main},
+Corollary~\ref{cor:rate}).  The route is: an exact factorisation making $\Phi_W$ the Bures distance to
+an explicit third state (Lemma~\ref{lem:factor}); a canonical-purification lower bound for the
+fidelity (Lemma~\ref{lem:purif}); and a block estimate (Theorem~\ref{thm:block}) which bounds the
+\emph{entire} discarded block --- diagonal, off-diagonal and infrared--ultraviolet --- by the
+ultraviolet occupation $\tau$, using nothing but $\widetilde Q\ge0$, operator concavity of
+$\sqrt{t(1-t)}$ and a Schur complement.
+\item \textbf{Proved.}  The occupation tail: $\tau_+=\tau_-$ exactly, and
+$\bigl|\int_{\kappa_c}^\infty(\widetilde Q(\kappa,\kappa)-q_\kappa)\dd\kappa-\frac{\zeta^2}{15\kappa_c^2}\bigr|
+\le0.46\,\zeta^2\kappa_c^{-3}+0.051\,\zeta(1+\kappa_c)e^{-\kappa_c}$ (Theorem~\ref{thm:tau}).  This
+upgrades Note~5, Proposition~4.1 (a sketch with an uncontrolled remainder and a sign fixed a
+posteriori) to a theorem in the only form in which it is used, and re-derives $c_2=-\zeta^2/30$ from
+the closed form.
+\item \textbf{Not proved.}  The conjectured $\Phi-\Phi_W\le C\zeta^2\kappa_c^{-2}$: the Bures triangle
+inequality contributes an irreducible cross term $2\sqrt{\Phi\,\Phi_\partial}=\Theta(\zeta^2/\kappa_c)$.
+\item \textbf{Not proved, and now known to fail on this route.}  The rate.  With
+Problem~7.2 in its stated form ($Ce^{\kappa_c}\zeta^3$) the two requirements
+$\kappa_c>2\log\frac1\zeta$ (from the tail bound) and $\kappa_c<\log\frac1\zeta$ (from the cubic
+estimate) are incompatible; a strengthening to $Ce^{c\kappa_c}\zeta^3$ with $c<\frac12$ yields
+$\Phi=f_2\zeta^2[1+O(\log^{-1}(1/\zeta))]$ --- still one logarithm short of Note~5, Cor.~4.2
+(Proposition~\ref{prop:rate}).
+\item \textbf{Certified numerics.}  Table~\ref{tab:bars}: the tabulated $\Phi_{\rm sub}$ are rigorous
+lower bounds (up to an arithmetic margin of $\approx3\,\%$, dominated again by a cross term and
+removable by an interval-arithmetic audit of $\widehat D$ and $Q_N$); the certified upper bound is a
+factor $1.8$--$2.5$ above, and is in addition conditional on the box discretisation
+(\S\ref{sec:box}b).  The \emph{correction} $\zeta^2/(15\kappa_c^2)$ that Note~5 adds is now proved
+correct to $0.6\,\%$ at $\kappa_c\simeq30$; what is not proved is that the correction to $\Phi$ equals
+the correction to the occupation.
+\item \textbf{Correction to the numerics.}  For runs in which the spectral window contains all box
+modes ($\eps=10^{-14}$, $\Lambda=60$, $\kappa_{\max}=30$) the tail must be computed with
+$\kappa_{\rm eff}=\kappa_{\max}^{\rm eff}=29.6$ and the \emph{box} coefficient
+$0.0641=0.513/8$ (\S\ref{sec:box}c), not with $\kappa_c=32.2$ and $1/15$; the printed
+``$+$tail'' column of \texttt{results\_hp14.txt} is $1.2\times10^{-3}$ relative too small.
+\end{enumerate}
+
+\paragraph{Where to attack next.}  The single obstruction to both the $\kappa_c^{-2}$ tail and the
+rate is the same: a bound on $\|\sqrt{\widetilde Q}-\sqrt{X_{11}\oplus X_{22}}\|_2$ (equivalently, on
+the Bures angle between $\omega_{\widetilde Q}$ and its pinching) that is \emph{quadratic} in the
+off-diagonal block $X_{12}$ rather than governed by $\|X_{12}\|_1^{1/2}$.  On the diagonal the
+required inequality is the elementary Hellinger one; the square root's failure to be Lipschitz at the
+edge of the spectrum is the whole difficulty, and the Schur-complement constraint
+$X_{12}^*X_{11}^{-1}X_{12}\le X_{22}$ used in Theorem~\ref{thm:block}$\langle1\rangle6$ is probably the
+right tool for it.
+\end{document}

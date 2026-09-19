@@ -1,0 +1,3 @@
+# CIRC L=256 a=2.0 Lg=1.0 |D|=63 xi range [0.712,4.810] (xi0=0.693)
+CIRC L=256 taper=smooth(0.3, 0.42) Delta= 0.00 r=63 theta=0.28958 cg=1700 193s
+CIRC L=256 taper=smooth(0.3, 0.42) Delta= 0.25 r=62 theta=0.13543 cg=1600 192s

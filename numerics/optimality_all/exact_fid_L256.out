@@ -1,0 +1,2 @@
+L=256 dps=60 theta=0.28908 eps_*/s=-1.0008 |u|^2=0.007387
+selftest: brute force -logF = 0.109773246392   formula = 0.109773246392

@@ -1,0 +1,10 @@
+  kappa= 25.00: -Dhat_diag/dkappa =  9.8879e-06  q=1.38e-11
+  kappa= 25.00: -Dhat_diag/dkappa =  3.5774e-05  q=1.38e-11
+  kappa= 25.00: -Dhat_diag/dkappa =  1.1202e-04  q=1.38e-11
+  kappa= 25.00: -Dhat_diag/dkappa =  2.8256e-04  q=1.38e-11
+  kappa= 25.00: -Dhat_diag/dkappa =  5.6159e-04  q=1.38e-11
+exact_s3.2_Lam60_k30: N=91 n_sub=61 kc=18.4 (14s) zeta=1.06667 -logF_sub=4.230173e-03 +tail=4.453712e-03 [0.003914 zeta^2]  S_sub=2.744086e-02 +tail=2.788794e-02 [0.024511 zeta^2]  S/(-logF)=6.262  -2logF/CMI=0.12503  qt in (1.4e-08,1.4e-08)
+exact_s6.4_Lam60_k30: N=91 n_sub=61 kc=18.4 (14s) zeta=2.13333 -logF_sub=1.012172e-02 +tail=1.101587e-02 [0.002420 zeta^2]  S_sub=5.896424e-02 +tail=6.075256e-02 [0.013349 zeta^2]  S/(-logF)=5.515  -2logF/CMI=0.18210  qt in (1.4e-08,1.4e-08)
+exact_s12.8_Lam60_k30: N=91 n_sub=61 kc=18.4 (14s) zeta=4.26667 -logF_sub=2.010066e-02 +tail=2.367730e-02 [0.001301 zeta^2]  S_sub=1.046907e-01 +tail=1.118440e-01 [0.006144 zeta^2]  S/(-logF)=4.724  -2logF/CMI=0.24878  qt in (1.5e-08,1.5e-08)
+exact_s25.6_Lam60_k30: N=91 n_sub=61 kc=18.4 (15s) zeta=8.53333 -logF_sub=3.342959e-02 +tail=4.773613e-02 [0.000656 zeta^2]  S_sub=1.576484e-01 +tail=1.862615e-01 [0.002558 zeta^2]  S/(-logF)=3.902  -2logF/CMI=0.34479  qt in (1.5e-08,1.5e-08)
+exact_s51.2_Lam60_k30: N=91 n_sub=61 kc=18.4 (14s) zeta=17.06667 -logF_sub=4.779122e-02 +tail=1.050174e-01 [0.000361 zeta^2]  S_sub=2.085567e-01 +tail=3.230091e-01 [0.001109 zeta^2]  S/(-logF)=3.076  -2logF/CMI=0.55890  qt in (1.5e-08,1.5e-08)

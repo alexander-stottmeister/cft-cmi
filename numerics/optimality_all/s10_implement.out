@@ -1,0 +1,3 @@
+L=256: theta=0.28908  cos^2(G=R_a)=0.12495   |P^perp eps*G_* P|_2/s=0.0608  |eps*G_*|_op/s=0.4822  |P^perp R_a P|_2/|R_a|_2=0.3816
+L=384: theta=0.29202  cos^2(G=R_a)=0.12415   |P^perp eps*G_* P|_2/s=0.0625  |eps*G_*|_op/s=0.4722  |P^perp R_a P|_2/|R_a|_2=0.3793
+L=512: theta=0.29459  cos^2(G=R_a)=0.12334   |P^perp eps*G_* P|_2/s=0.0638  |eps*G_*|_op/s=0.4862  |P^perp R_a P|_2/|R_a|_2=0.3790

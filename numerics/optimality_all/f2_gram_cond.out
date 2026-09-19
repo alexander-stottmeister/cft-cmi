@@ -1,0 +1,6 @@
+# condition number of the tangent-problem Gram Ghat (3|D|^2 real coordinates), circle model
+#  L   cap     n      rank(>1e-14 max)  lam_max      lam_min(>0)   cond
+   64 1e+04    675      539 5.0000e+03 1.9984e-15 2.5020e+18
+   64 1e+06    675      514 5.0000e+05 1.8867e-14 2.6501e+19
+   64 1e+10    675      424 5.0000e+09 2.1095e-13 2.3703e+22
+   96 1e+10   1587      882 5.0000e+09 1.9913e-17 2.5109e+26

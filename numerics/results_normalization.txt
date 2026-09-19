@@ -1,0 +1,20 @@
+== (1) thermal weight-2 spectral density: W(u) = C/sinh^4((u-i0)/2), C = c/(128 pi^2), c=1
+  k=-1.30: contour-shift value 0.0463935576451   formula (c/24pi) k(k^2+1)/(e^{2pi k}-1) = 0.0463935576451
+  k=-0.40: contour-shift value 0.00669641837983   formula (c/24pi) k(k^2+1)/(e^{2pi k}-1) = 0.00669641837983
+  k=+0.25: contour-shift value 0.000924545831842   formula (c/24pi) k(k^2+1)/(e^{2pi k}-1) = 0.000924545831842
+  k=+1.00: contour-shift value 4.96281346481e-5   formula (c/24pi) k(k^2+1)/(e^{2pi k}-1) = 4.96281346481e-5
+  |Gamma(2+ik)|^2 check at k=0.7: 0.735826249802  vs pi k(1+k^2)/sinh(pi k) = 0.735826249802
+== (2) auxiliary integral int w^2/(cosh w + cosh u) dw = 2u(u^2+pi^2)/(3 sinh u)
+  u=0.5: 6.47329083848  vs  6.47329083848
+  u=2.0: 5.09884687817  vs  5.09884687817
+  u=5.0: 1.56640142341  vs  1.56640142341
+== (3) the Bures and KM integrals
+  int_0^inf tanh(pi k)/(k(k^2+1)) dk = 2.0  (claim: 2)
+  g_B = (c/6pi^2)*2*I = 0.0675474557615585   2c/(3pi^2) = 0.0675474557615585   f2 = g_B/8 = 0.00844343197019481  1/(12pi^2) = 0.00844343197019481
+  g_KM = 0.166666666666667  c/6 = 0.166666666666667   s2 = g_KM/2 = 0.0833333333333333
+== (4) kernel identity: modular matrix elements of the exact first-order defect vs (q-q') * regularized generator
+  (k,k')=(1.0,3.0): |D_kernel|=0.010189678  |(q-q')h_reg|=0.010189678   ratio=1.0  phase ratio=(0.0 + 1.0j)
+  (k,k')=(2.5,-1.0): |D_kernel|=0.0054283542  |(q-q')h_reg|=0.0054283542   ratio=1.0  phase ratio=(0.0 + 1.0j)
+  (k,k')=(4.0,4.5): |D_kernel|=0.0029950235  |(q-q')h_reg|=0.0029950235   ratio=1.0  phase ratio=(0.0 + 1.0j)
+  (k,k')=(-3.0,0.7000000000000455): |D_kernel|=0.0072576736  |(q-q')h_reg|=0.0072576736   ratio=1.0  phase ratio=(0.0 + 1.0j)
+done

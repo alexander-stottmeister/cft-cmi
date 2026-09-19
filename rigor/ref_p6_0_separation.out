@@ -1,0 +1,33 @@
+/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/rigor/ref_p6_0_separation.py:24: RuntimeWarning: divide by zero encountered in divide
+  eD = (Lk / Lkm1) * ((T - Lkm1) / (T - Lk))  # e^{Delta_k}, k=2..n-1 (last one meaningless)
+/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/rigor/ref_p6_0_separation.py:24: RuntimeWarning: invalid value encountered in divide
+  eD = (Lk / Lkm1) * ((T - Lkm1) / (T - Lk))  # e^{Delta_k}, k=2..n-1 (last one meaningless)
+n = 6 intervals, corner pair (k, k+1) = (2, 3)
+
+  (A) only zeta_2, zeta_3 <= eps
+    eps=0.3     min e^{Delta_2} = 1          Delta=0.000  1/eps=3.33333   zetas=[2.5392e-01 2.6640e-01 1.1448e+05 4.0954e-01]
+    eps=0.1     min e^{Delta_2} = 1.56       Delta=0.444  1/eps=10        zetas=[9.9998e-02 9.9894e-02 3.7891e+05 6.4763e+00]
+    eps=0.03    min e^{Delta_2} = 8.847      Delta=2.180  1/eps=33.3333   zetas=[2.9956e-02 2.4435e-02 1.3097e+04 9.5271e-10]
+    eps=0.01    min e^{Delta_2} = 3.964      Delta=1.377  1/eps=100       zetas=[9.9999e-03 9.9939e-03 3.1993e+06 1.9247e+01]
+    eps=0.003   min e^{Delta_2} = 60.69      Delta=4.106  1/eps=333.333   zetas=[2.9989e-03 2.9980e-03 1.5653e+05 2.4116e+00]
+
+  (B) ALL corners weak: zeta_j <= eps for j = 2..5
+    eps=0.3     min e^{Delta_2} = 6.75       Delta=1.910  1/eps=3.33333   zetas=[0.2993 0.2912 0.2201 0.    ]
+    eps=0.1     min e^{Delta_2} = 20.05      Delta=2.998  1/eps=10        zetas=[0.1    0.1    0.0995 0.0989]
+    eps=0.03    min e^{Delta_2} = 66.68      Delta=4.200  1/eps=33.3333   zetas=[0.03   0.03   0.0299 0.0299]
+    eps=0.01    min e^{Delta_2} = 200        Delta=5.298  1/eps=100       zetas=[0.01 0.01 0.01 0.01]
+    eps=0.003   min e^{Delta_2} = 666.7      Delta=6.502  1/eps=333.333   zetas=[0.003 0.003 0.003 0.003]
+
+  (B) with n = 8, pair (3,4), all corners weak
+    eps=0.1     min e^{Delta_3} = 20.05      Delta=2.998  1/eps=10        zetas=[0.0508 0.1    0.1    0.0999 0.0994 0.0992]
+    eps=0.03    min e^{Delta_3} = 66.68      Delta=4.200  1/eps=33.3333   zetas=[0.0197 0.03   0.03   0.03   0.03   0.0298]
+    eps=0.01    min e^{Delta_3} = 200        Delta=5.298  1/eps=100       zetas=[0.0013 0.01   0.01   0.0099 0.0098 0.01  ]
+
+explicit chain for (A), eps = 0.01:
+   lengths (normalised) = [7.8926e+05 1.9540e+06 2.4488e+04 1.0000e+00 4.2612e+22 3.7563e+06]
+   zeta_k = [9.99874e-03 9.14913e-03 5.53549e+06 1.14511e-32]   e^{Delta_2} = 3.4757
+<stdin>:9: RuntimeWarning: divide by zero encountered in divide
+<stdin>:9: RuntimeWarning: invalid value encountered in divide
+
+(B) optimum, n=6, eps=0.01:  lengths/l_1 = [1.00000e+00 1.98363e+02 2.40844e+04 3.70118e+04 4.70506e+02 2.36992e+00]
+    zeta = [0.01 0.01 0.01 0.01]   e^{Delta_2} = 200.005   2/eps = 200   ratios l_{k+1}/l_k = [1.9836e+02 1.2142e+02 1.5368e+00 1.2712e-02 5.0370e-03]

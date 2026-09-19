@@ -1,0 +1,3 @@
+MIMIC L=256 a=2.0 Lg=1.0 capR=1.0 extra=0 N=153 nA=90 xi=[-6.41,5.81] gQ/(f2z^2)=0.93934 theta=0.35830 cg=400 9s
+MIMIC L=256 a=1.0 Lg=2.0 capR=1.0 extra=0 N=153 nA=63 xi=[-5.81,6.41] gQ/(f2z^2)=0.93934 theta=0.36392 cg=550 13s
+MIMIC L=256 a=1.0 Lg=1.0 capR=1.0 extra=0 N=126 nA=63 xi=[-5.40,5.40] gQ/(f2z^2)=0.93523 theta=0.35825 cg=400 8s

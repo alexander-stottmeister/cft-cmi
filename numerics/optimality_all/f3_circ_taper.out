@@ -1,0 +1,8 @@
+L=256 a=2.0 Lg=1.0 taper=smooth(0.2, 0.32) cap=1e+10 alpha=3.0 |D|=63 |u|^2=0.007385 theta=0.27762 cg=1625 55s
+L=256 a=2.0 Lg=1.0 taper=smooth(0.3, 0.42) cap=1e+10 alpha=3.0 |D|=63 |u|^2=0.007387 theta=0.28958 cg=1700 69s
+L=256 a=2.0 Lg=1.0 taper=smooth(0.35, 0.47) cap=1e+10 alpha=3.0 |D|=63 |u|^2=0.007733 theta=0.36178 cg=1650 114s
+L=256 a=2.0 Lg=1.0 taper=smooth(0.42, 0.49) cap=1e+10 alpha=3.0 |D|=63 |u|^2=0.027306 theta=0.72688 cg=1175 107s
+L=256 a=2.0 Lg=1.0 taper=smooth(0.46, 0.499) cap=1e+10 alpha=3.0 |D|=63 |u|^2=0.626909 theta=0.54681 cg=2025 185s
+L=256 a=2.0 Lg=1.0 taper=none cap=1e+10 alpha=3.0 |D|=63 |u|^2=0.014889 theta=0.17175 cg=625 80s
+L=256 a=2.0 Lg=1.0 taper=none cap=1e+06 alpha=3.0 |D|=63 |u|^2=0.014888 theta=0.17176 cg=625 82s
+L=384 a=2.0 Lg=1.0 taper=smooth(0.2, 0.32) cap=1e+10 alpha=3.0 |D|=95 |u|^2=0.007412 theta=0.28517 cg=1875 618s

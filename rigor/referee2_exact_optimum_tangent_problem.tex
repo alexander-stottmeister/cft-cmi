@@ -1,0 +1,358 @@
+\documentclass[11pt]{article}\input{rigor_preamble}
+\newcommand{\hh}{\mathfrak h}
+\newcommand{\Herm}{\operatorname{Herm}}
+\newcommand{\SLD}{\mathcal S_Q}
+\newcommand{\Aop}{\mathbb A}
+\newcommand{\Stwo}{\mathfrak S_2}
+\DeclareMathOperator{\ran}{ran}
+\DeclareMathOperator{\dist}{dist}
+\title{Second referee report: \texttt{rigor/exact\_optimum\_tangent\_problem.tex}\\
+\large (Phase 5, final review: verification of the repairs R1--R15, of the new
+Rem.~4.8/Def.~4.9/Prop.~4.10/Rem.~4.11, and of the endpoint condition (e))}
+\author{Referee REF-P5-3 (Opus)}\date{2026-09-15}
+\begin{document}\maketitle
+\begin{abstract}
+Re-review of F1's \texttt{exact\_optimum\_tangent\_problem.tex} (25\,pp, 1494 lines,
+2026-09-15) after the repairs R1--R15 of
+\texttt{referee\_exact\_optimum\_tangent\_problem.tex} and the author's further correction
+$\mathcal E(\zeta):=2b(\delta_*,\Aop(\zeta,0,0))$.  \textbf{All fifteen repairs are
+applied}; the numbering is unchanged and the document compiles (25\,pp).  Three of them
+(R7, R10, R11) are applied in a form that leaves new gaps.  The headline findings are:
+(N1) the reduction of the admissible cone to the two model directions
+$\zeta_0,\zeta_\infty$ (Prop.~4.10(4)) is \emph{asserted}, proved only inside the class of
+vector-field generators, and the gap is \emph{not declared}; (N2) Rem.~4.11 and \S7 quote
+F2's \emph{total discrete} $\mathcal E(\zeta_0)$ and attribute its divergence to the corner
+term, contradicting F2's own decomposition (total $\sim h^{-0.97}$ from a scheme-dependent
+viscosity term; corner $\sim h^{-0.60}$); (N3) ``$\mathcal E(\zeta_0)=+\infty$'' is
+incompatible with the domain conventions of Def.~3.1(3), (27) and Def.~4.9 as
+written.  The mathematics of the amendment is otherwise correct: $\mathcal E(\zeta_\infty)
+=2\lambda(1-\theta)g_Q(\dot\delta)$ is recomputed and confirmed, the normalisations of
+Def.~4.9 are verified numerically, and \S6 is consistent with F3.
+\end{abstract}
+
+\section{Scope and method}\label{sec:scope}
+The document under review was read in full (1494 lines) against
+\texttt{referee\_exact\_optimum\_tangent\_problem.tex} \S10--\S12 (undeclared assumptions;
+verdict table; repairs R1--R15), \texttt{PHASE5\_F1\_SUMMARY.md},
+\texttt{numerics/optimality\_all/F2\_RESULTS.md} (T4, T5) and \texttt{f2\_t5\_endpoint.out},
+\texttt{F3\_RESULTS.md}, and \texttt{PHASE5\_STATUS.md}.  Labels and numbers were taken from
+the current \texttt{.aux}: the numbering is \emph{unchanged} (Thm.~3.11, Def.~4.1,
+Lem.~4.2, Prop.~4.3, Thm.~4.4, Cor.~4.5, Prop.~4.6, Rem.~4.7 all keep their numbers) and
+the new material is appended as \S4.2 (Rem.~4.8, Def.~4.9, Prop.~4.10, Rem.~4.11); no
+cross-reference in \S5--\S7 was broken.  The document compiles clean
+(\texttt{pdflatex -halt-on-error}, 25 pages).  I did not edit it, nor the first referee
+report.
+
+Independent recomputations (\texttt{numpy}, random $9\times9$ models,
+$Q=(1+e^{H})^{-1}$, $\dim\hh_A=4$, $\dim\hh_D=5$): the normalisation chain
+$b(\delta,\eta)=\frac14\Tr(t_\delta\eta)$, $\frac{\dd}{\dd\sigma}g_Q=2b$, the factor $4$ of
+Def.~4.9, the derivative formula \eqref{eq:dd} and the identity
+$\Aop(\zeta,0,0)=-[Q,\zeta]$ for bounded anti-self-adjoint $\zeta$ all reproduce to
+$\le2\cdot10^{-16}$ relative (finite differences $10^{-9}$).  The $h$-ladders of F2~T5 were
+re-read from \texttt{f2\_t5\_endpoint.out} and the convergence exponents recomputed.
+
+Throughout, $\overline L$ is the $b$-closure of the bounded anti-self-adjoint class
+\eqref{eq:dd}, $\mathcal C_\zeta=\{\Aop(\zeta,0,0)\}$ the cone of admissible isometry
+generators, and
+\begin{equation}\label{eq:dd}
+ \tfrac{\dd}{\dd\sigma}g_Q\bigl(\delta_*+\sigma\eta\bigr)\big|_{0}=2b(\delta_*,\eta)
+ =\tfrac12\Tr(t_*\eta),\qquad
+ \mathcal E(\zeta)=2b\bigl(\delta_*,\Aop(\zeta,0,0)\bigr) .
+\end{equation}
+\section{The fifteen repairs, one by one}\label{sec:repairs}
+\newcommand{\vA}{\textsc{applied}}
+\newcommand{\vAd}{\textsc{applied, defect}}
+\newcommand{\vN}{\textsc{not applied}}
+{\small\begin{tabular}{@{}llp{9.5cm}@{}}
+\hline
+ & Verdict & Where, and what I checked\\ \hline
+R1 & \vA & Rem.~1.2 now reads ``$\SLD(t)=\frac12\delta$ (equivalently $2\SLD(t)=\delta$)'';
+ Lem.~1.1 gives $\Tr(t_\delta\delta)=4g_Q$, $V(t_\delta)=2g_Q$, $b=\frac14\Tr$ --- all four
+ recomputed\\
+R2 & \vA & \texttt{errata\_log.md} has the dated S10~(C4) entry (l.~218); Rem.~1.2 carries
+ the erratum and the instruction that numerics name their normalisation (F2 T2 does)\\
+R3 & \vA & Lem.~2.2(1) says ``the \emph{polar} $V$''; (4) gives
+ $\dim\ker(1-N)\le\dim\ker X$ for \emph{some} co-isometric factor; abstract and \S7 item~1
+ both corrected\\
+R4 & \vA & Prop.~3.4 statement: ``as sesquilinear forms on $C_c^\infty(A)\oplus C_c^\infty(D)$''
+ \emph{and} the closing sentence naming H1 as what upgrades it to the $g_Q$-norm\\
+R5 & \vA & Thm.~3.11 defines $\langle\sigma g,g\rangle:=\Re\langle\zeta^*g,g\rangle$ on
+ $\operatorname{dom}\zeta^*$ and explains in the statement why $\frac12(\zeta+\zeta^*)$ is
+ not well posed\\
+R6 & \vA & Def.~3.1(1): ``$C_0$-\emph{semigroup} of \emph{isometries}'', with the r\^ole
+ (Lumer--Phillips in Thm.~3.11(1)) and the alternative (weak differentiability of
+ $s\mapsto U_s^*g$) named\\
+R7 & \vAd & Thm.~3.11(3) is now the \emph{inclusion} with ``anti-symmetric \emph{and} an
+ isometry generator'', ``(indeed unitary)'' deleted, and Rem.~4.8 gives the $T=0$
+ counterexample $+\lambda D_\chi|_D$ and the two caveats.  Defect: proof step
+ $\langle1\rangle4$ still justifies ``$\mathcal G$ is an isometry generator whenever
+ $\zeta$ is'' by ``$\mathcal G$ and $\zeta$ agree on $C_c^\infty(D)$'' --- a non sequitur
+ unless $C_c^\infty(D)$ is a core for $\zeta$ (\S\ref{sec:new}, N4)\\
+R8 & \vA & after Def.~3.16: ``H2 is \emph{not} a regularity assumption \dots\ the lower
+ bound in disguise'', repeated in \S7\\
+R9 & \vA & Rem.~3.18 carries ``(provided $\Delta_z(t)\ge0$)'' inside (18)\\
+R10 & \vAd & Lem.~4.2's last clause is restricted to $\overline L$ and the counterexample
+ $2\lambda(1-\theta)g_Q(\dot\delta)>0$ is stated; Prop.~4.3 restricts to $\overline L$;
+ Thm.~4.4(d) is now (a)\,\&\,(e).  The author's improvement --- $\mathcal E$ through
+ $\Aop(\zeta,0,0)$ rather than $-2b(\delta_*,[Q,\zeta])$ --- is correct and necessary
+ (point (5) below).  Defects: the \emph{completeness} of (e) is not established
+ (N1) and the reduction is quoted without its proviso in \S7 and in the verdict box\\
+R11 & \vAd & Def.~4.9 defines $M_*,\tau_*$ through $b(\delta_*,\cdot)$ on
+ $\mathfrak D$, reads (a) as a form inequality, and allows
+ $\lambda_{\min}=-\infty$; Def.~4.1 keeps the caveat.  Defects: $\mathfrak D$ is not shown
+ to be a linear subspace (needed for the polarisation and for ``form on $\mathfrak D$''),
+ and the $+\infty$ extension used in Rem.~4.11 is not part of the definition (N3)\\
+R12 & \vA & \S6.3: Rem.~6.4 (\texttt{rem:twonum}) says the old diagnosis is \emph{refuted},
+ gives $\theta=0.384\pm0.003$, $1-\theta=0.616\pm0.003$, the taper mechanism, and the
+ exclusion of $3/\pi^2$, $1/3$, $1-2/\pi$; the closed-form box is rewritten\\
+R13 & \vA & Def.~3.1(2): ``$N_1$ is a \emph{bounded} operator'', with the reason
+ ($(1-sN_1)^{1/2}$, Lem.~3.2) and the statement that singular positive \emph{forms} occur
+ only where no scaled family is built (Thm.~3.11, condition (e))\\
+R14 & \vA & Cor.~4.5 ``Strictness (R14)'' requires one $\psi\in\mathfrak D$ with $\Delta<0$
+ \emph{and} $g_Q(d)<\infty$, and names $\sup_\psi\Delta^2/g_Q(d)$; \S5 asks for it against
+ grid and cap, plus $\|\mathrm{AntiHerm}((t_*Q)_{DD})\|$ as the rigidity arbiter\\
+R15 & \vA & \S4 preamble defines $\delta_*:=\dot\delta-\Pi_{\overline L}\dot\delta$ with
+ the normal equation ``by construction'', and keeps the minimiser reading as conditional\\
+\hline
+\end{tabular}}
+
+\noindent All fifteen are present.  The three marked \textsc{defect} are not regressions of
+the repair itself but new gaps opened by the way it was completed; they are the subject of
+\S\ref{sec:new}.
+\section{The eight mandated points}\label{sec:points}
+\paragraph{(1) Thm.~3.11(3) as an inclusion, and Rem.~4.8.}  Correct and well made.  The
+absorption identity (2) gives $\Aop(\zeta,N_1,Y_1)=\Aop(\mathcal G,N_1-2\sigma,Y_1)$ with
+$-2\sigma\ge0$; only the forward inclusion is claimed, the right-hand side carries ``and an
+isometry generator'', and Rem.~4.8 supplies the reason it may not be dropped:
+$\mathcal G=+\lambda D_\chi|_D$ is anti-symmetric with flow $x\mapsto x/(1-s\lambda x)$
+leaving $D$, boundary form $+\frac\lambda2|g(1)|^2>0$, and would give
+$\delta^{(1)}=(1-\lambda)\dot\delta$, hence $T=0$; the resolution (the family is a
+contraction, $\|Q_{AC}\|_2^2=O(s)$, H1 fails at order $s$, not $s^2$) is correct and is the
+right explanation of why admissibility is not a technicality.  Caveat (ii) --- singular
+$N_1$'s are not in the $g_Q$-closure of the bounded ones,
+$\|Q_{AD}N_1^{(n)}\|_2^2\to\infty$ for $N_1^{(n)}=\lambda n\mathbf 1_{(1-1/n,1)}$ --- is the
+correct structural reason why (e) cannot be obtained as a limit of (a).  One defect in the
+proof of (3), see N4.
+
+\paragraph{(2) Def.~4.9 and the meaning of Thm.~4.4(a).}  The definitions
+$\langle\psi,M_*\psi\rangle:=4b(\delta_*,\Aop(0,|\psi\rangle\langle\psi|,0))$,
+$\langle\psi,\tau_*\psi\rangle:=-4b(\delta_*,\Aop(0,0,|\psi\rangle\langle\psi|))$ are
+intrinsic, finite on $\mathfrak D$ by Cauchy--Schwarz, and agree with \eqref{eq:dd} and
+Def.~4.1 when $t_*$ is trace class: I verified both identities numerically to
+$2\cdot10^{-16}$, and with them the derivative formula
+$\frac12[\Tr(N_1M_*)-\Tr(Y_1\tau_*)]=2b(\delta_*,\Aop(0,N_1,Y_1))$ (finite differences,
+$10^{-9}$).  So the factor $4$ is right and (a) \emph{is} meaningful as a form inequality,
+with $\lambda_{\min}$ an infimum over $\mathfrak D\cap\{\|\psi\|=1\}$ possibly $-\infty$, as
+R11 demanded.  Two gaps remain.  (i) $\mathfrak D$ is defined as a set of \emph{vectors}
+$\psi$ through the quadratic condition $\Aop(0,|\psi\rangle\langle\psi|,0)\in\mathfrak F$;
+$N_1\mapsto\Aop(0,N_1,0)$ is linear, so $\{N_1:\Aop(0,N_1,0)\in\mathfrak F\}$ is a subspace,
+but it does not follow that $\psi,\varphi\in\mathfrak D\Rightarrow\psi+\varphi\in\mathfrak D$,
+and the polarisation announced in Def.~4.9 (``extends $M_*,\tau_*$ to $\Tr(N_1M_*)$ for
+finite-rank $N_1$ with range in $\mathfrak D$'') needs exactly that.  (ii) The extension
+``by monotone limits to bounded $N_1\ge0$'' does not reach the objects (e) is evaluated on:
+$-2\sigma_{\zeta_0}=\delta_0\otimes\delta_0$ is not bounded and $\delta_0\notin\hh_D$.  See
+N3.
+
+\paragraph{(3) Thm.~4.4(e) and Prop.~4.10: is the reduction to $\zeta_0,\zeta_\infty$
+proved?}  \textbf{No.  It is asserted, and the gap is not declared.}  Condition (e)
+quantifies over \emph{every} admissible isometry generator, i.e.\ over the generators of
+$C_0$-semigroups of isometries of $L^2(D)$ (Def.~3.1(1)).  Prop.~4.10(4) opens with
+``consider the vector-field generators $\zeta_v:=-D_v$ with $v$ inward'' and then states
+``modulo $\overline L$ the cone is generated by $\zeta_0$ and $\zeta_\infty$'' --- for
+\emph{the} cone, not for the vector-field subcone.  The proof, step $\langle1\rangle3$,
+establishes only three things about vector fields: $\zeta_0$ generates the shift with
+boundary form $-\frac12|g(0)|^2$ at $y=0$; $\zeta_\infty$ has $w(0)=w'(0)=0$ so its boundary
+form sits at $y=+\infty$; and a field vanishing at $y=0$ with a complete interior flow has
+zero boundary form.  Nothing in it covers a generator that is not a first-order
+differential operator, and such generators exist in the admissible class: by the
+Cooper--Wold structure theorem every $C_0$-semigroup of isometries is a unitary group
+$\oplus$ a shift semigroup of some multiplicity, and $L^2(D)\cong L^2(0,\infty)\otimes
+\ell^2$ carries shift semigroups of infinite multiplicity, whose ``boundary form''
+$-2\sigma$ has infinite rank and is not a point mass --- these are the isometries with
+infinite-dimensional co-kernel the brief asks about (the elementary $f\mapsto\sqrt2f(2y)$
+is unitary and \emph{is} a flow, so it is not the sharp example; the shift of multiplicity
+$>1$ is).  A second, even simpler family escapes both arguments: unbounded
+\emph{skew-adjoint} $\zeta=\mathrm im(y)$, $m$ real and unbounded, generating the unitary
+group $(U_sg)(y)=e^{\mathrm ism(y)}g(y)$.  Here $\sigma=0$, so (28) would give
+$\mathcal E=0$ --- but (28) is derived from the cyclicity rearrangement, which
+Prop.~4.10(2),(3) themselves say requires $\zeta$ \emph{bounded}; and the other available
+argument, $\mathcal E\equiv0$ on $\overline L$, applies only if
+$[Q,\mathrm im]\in\overline L$, i.e.\ only if $\zeta$ is $b$-approximable by bounded
+generators --- which is precisely what Rem.~4.8(ii) warns may fail.  So for this family
+$\mathcal E(\zeta)$ is neither computed nor signed.  Prop.~4.10(6) is correctly hedged
+(``on the model cone''), and \S7 says ``reduces, on the model cone, to the single
+number''; but the conclusion drawn in Rem.~4.11, in \S7 ``Conditional'' item~3 and in the
+final \texttt{verdictgap} box is the unhedged one (``(a) and (e) both hold'', ``together
+with the endpoint number $\mathcal E(\zeta_0)\ge0$''), and the reduction appears in no list
+of hypotheses (H1, H2), in no ``numerical input'' item and in no open-problem list.  This is
+the most serious finding: N1.
+
+\paragraph{(4) $\mathcal E(\zeta_\infty)=2\lambda(1-\theta)g_Q(\dot\delta)$.}  Recomputed
+from scratch and \textbf{correct}.  Rem.~3.13 gives, for $\psi=\lambda\chi|_D$,
+$\Aop_{AD}=\lambda Q_{AD}D_\chi=\lambda\dot\delta_{AD}$ and
+$\Aop_{DD}=\lambda[Q_{DD},D_\chi]=0=\lambda\dot\delta_{DD}$ (Lem.~3.3), i.e.\
+$\Aop(\zeta_\infty,0,0)=\lambda\dot\delta$ exactly; then
+$\mathcal E(\zeta_\infty)=2\lambda b(\delta_*,\dot\delta)
+=2\lambda b(\delta_*,\delta_*+\Pi_{\overline L}\dot\delta)=2\lambda g_Q(\delta_*)
+=2\lambda(1-\theta)g_Q(\dot\delta)$, the middle step being the normal equation of R15 and
+the last the definition of $\theta$ through Cor.~3.10.  The sign of the admissible
+direction ($\lambda>0$ inward at $x=1$) is the one used.  F2's cross-check confirms it:
+$\mathcal E(\zeta_\infty)/g_Q(\dot\delta)=2(1-\theta_h)$ to $10^{-15}$ at all four meshes
+($1.372655,1.315277,1.281325,1.261091$ against $\theta_h=0.31367\ldots0.36945$).  This is
+the one part of (e) that is genuinely \emph{proved}, as the document claims.
+
+\paragraph{(5) The boundary-form identity $\mathcal E=\frac12\Tr((-2\sigma_\zeta)M_*)$.}
+The algebra is right --- with $b=\frac14\Tr(t_*\cdot)$ and Def.~4.9's factor $4$ one gets
+$2b(\delta_*,\Aop(0,N_1,0))=\frac12\Tr(N_1M_*)$, so (28) is just the absorption
+identity with $N_1'=-2\sigma_\zeta$ --- and the author's correction is \emph{necessary and
+correct}: $\Aop_{DD}$ contains $\zeta^*$, not $-\zeta$, so replacing $\zeta^*$ by $-\zeta$
+deletes exactly the boundary term.  I confirm $\Aop(\zeta,0,0)=-[Q,\zeta]$ for bounded
+anti-self-adjoint $\zeta$ (exact numerically), hence the commutator form is legitimate
+precisely where it is useless.  Rigour is however \emph{conditional} and the proviso is
+stated only once: ``whenever the absorption identity applies with $N_1':=-2\sigma_\zeta$ in
+the form domain of $M_*$''.  For $\zeta_0$ that proviso \emph{fails} (F2: the corner term
+diverges), so the boxed (31), which carries the identity without the proviso
+and calls the result ``the single scalar inequality'', is not rigorous as written: N3.
+
+\paragraph{(6) Rem.~4.11 on F2's T5 numbers.}  The numbers are transcribed correctly
+($+34.1,+66.9,+131.3,+258.0$; corner $+10.3,+16.1,+24.7,+37.2$; centred $0$; forward the
+negative) and the status line is honest (``Conclusion (numerical, not proved)'', and \S7
+lists them under ``Numerical input (not proved here)'').  Two objections.  (i) The
+attribution is wrong: the document says $\mathcal E(\zeta_0)$ diverges ``driven by the
+corner term $\frac12M_*(0,0)/h\sim h^{-0.6}$'', whereas \texttt{F2\_RESULTS.md} T5 states
+that the tabulated total is $\frac12[M_*(0,0)+h\Tr((-\Delta)M_*)+M_*(Y_{\max},Y_{\max})]$
+and is dominated by the $O(h)$ \emph{upwind viscosity} term, ``a discretisation artefact
+\dots\ scheme-dependent'', the corner term alone being the continuum $\mathcal E(\zeta_0)$.
+The two rates differ: I recomputed the ladder ratios as $1.960,1.963,1.965$ (total,
+$\sim h^{-0.97}$) against $1.562,1.533,1.508$ (corner, $\sim h^{-0.60}$), so the corner term
+cannot be what drives the total, and the quoted ``large and increasing margin'' is a margin
+of the scheme-dependent quantity: N2.  (ii) The interpretation ``$+\infty$ is an allowed
+value on directions outside its form domain'' is not what Def.~4.9 says (both forms are
+\emph{finite} on $\mathfrak D$; no $+\infty$ extension is defined, and one is legitimate
+only after $M_*\ge0$, i.e.\ after (a), has been granted), and it collides with Def.~3.1(3)
+and with the hypothesis $\Aop(\zeta,0,0)\in\mathfrak F$ of (27): a direction with
+$\mathcal E=+\infty$ is not an admissible datum at all, so the correct reading is ``(e) is
+vacuous at $\zeta_0$'', not ``(e) holds at $\zeta_0$ with a large margin'': N3.
+
+\paragraph{(7) \S6 against F3.}  Consistent.  Rem.~6.4 declares the old diagnosis
+\emph{refuted}, gives $\theta=0.384\pm0.003$ and $1-\theta=0.616\pm0.003$ with the measured
+order $h^{0.77}$ and the two-frame agreement $3\cdot10^{-4}$, labels S10's $0.300\pm0.005$ a
+taper-suppressed \emph{lower bound} with the mechanism ($0.2896\to0.36$ and beyond at
+$L=256$ when the taper is relaxed --- F3 reports $0.3618$ for the window $(0.35,0.47)$),
+keeps the one surviving kernel statement, and excludes $3/\pi^2$, $1/3$, $1-2/\pi$.  The
+box is explicit that $\theta<1$ is \emph{not} proved (only that $\theta=1$ would force
+$[Q,d]\in\overline{\{[Q,\mathcal G]\}}$) and that $\theta>0$ rests on a numerical
+non-vanishing.  Two minor slips: $1-2/\pi=0.36338$ is $6.9\sigma$ low, not ``$6\sigma$'';
+and (36) writes $\min_{\mathcal G}$ over anti-self-adjoint $\mathcal G$
+supported in $\{y>0\}$ \emph{without} the boundedness of Cor.~3.10 and without the passage
+to $\overline L$ that R15 introduced --- it should be an infimum over the class of
+Cor.~3.10 (or over $\overline L$), since the whole point of R15 is that the minimiser need
+not exist.
+
+\paragraph{(8) Regressions, renumbering, honesty of \S7.}  No renumbering: every label of
+the refereed version keeps its number and the new items are 4.8--4.11 (checked in the
+\texttt{.aux}); \S5, \S6 and \S7 reference them correctly; the document compiles at 25\,pp.
+\S7 separates ``Proved here, unconditionally'', ``Numerical input (not proved here)'' and
+``Conditional'' correctly, states H1 and H2 with their r\^oles and the H2 disclaimer of R8,
+and the ``To be supplied'' paragraph is accurate.  But item~5 of the \emph{proved} list
+opens with ``$(\zeta_*,0,0)$ is the global optimum of the tangent problem
+$\iff M_*\ge0$ and $M_*\ge\tau_*$'' --- verbatim the statement R10 refuted --- and only
+corrects it two sentences later (``Global optimality \dots\ is (a) \emph{and} the endpoint
+condition (e)'').  A reader of the summary alone is told the false theorem first: N5.
+\section{New failures}\label{sec:new}
+\begin{enumerate}[leftmargin=2.4em,itemsep=1pt,label=\textbf{N\arabic*.}]
+\item \textbf{(\textsc{fails})} \emph{The two-direction reduction of condition (e) is not
+ proved and not declared} (Prop.~4.10(4); point (3)).  Proved only for vector-field
+ generators; shift semigroups of multiplicity $>1$ (Cooper--Wold) and unbounded skew-adjoint
+ $\zeta$ outside $\overline L$ are admissible, escape both available arguments, and carry
+ an unsigned $\mathcal E$.  Consequence: ``(e) holds'' in Rem.~4.11, \S7 and the
+ \texttt{verdictgap} box is supported only for the model cone; $\kappa_{\rm opt}=1-\theta$
+ is conditional on one more, currently unnamed, hypothesis.
+\item \textbf{(\textsc{fails})} \emph{Rem.~4.11 and \S7 misattribute F2's divergence}
+ (point (6)).  The tabulated $\mathcal E(\zeta_0)$ is the \emph{total discrete} value, which
+ F2 identifies as dominated by a scheme-dependent $O(h)$ upwind-viscosity term
+ ($\sim h^{-0.97}$); the continuum quantity is the corner term ($\sim h^{-0.60}$).
+ ``Driven by the corner term'' is false, and the ``large and increasing margin'' is quoted
+ from the artefact-carrying number.  (The sign conclusion is unaffected: all three pieces
+ are positive at every $h$, $Y$, $Y_{\max}$.)
+\item \textbf{(\textsc{stands with repair})} \emph{``$\mathcal E(\zeta_0)=+\infty$'' is
+ outside the domain conventions} (points (2), (5), (6)).  (27) admits only $\zeta$ with
+ $\Aop(\zeta,0,0)\in\mathfrak F$ and Def.~3.1(3) only data with $\delta^{(1)}\in\mathfrak F$;
+ Def.~4.9 defines $M_*$ as a \emph{finite} form on $\mathfrak D$ and extends it only to
+ bounded $N_1\ge0$, whereas $-2\sigma_{\zeta_0}=\delta_0\otimes\delta_0$ is neither.  The
+ boxed (31) therefore asserts a finite ``single number'' for an object the document's own
+ numerics say is $+\infty$.  Also: $\mathfrak D$ is not shown to be a linear subspace,
+ which the polarisation in Def.~4.9 requires.
+\item \textbf{(\textsc{stands with repair})} \emph{Thm.~3.11(3), proof step
+ $\langle1\rangle4$}: ``$\mathcal G$ is an isometry generator whenever $\zeta$ is, because
+ $\mathcal G$ and $\zeta$ agree on $C_c^\infty(D)$'' is a non sequitur --- agreement on a
+ subspace makes $\mathcal G$ an isometry generator only if that subspace is a core for
+ $\zeta$, which is not assumed (and Rem.~4.8(i) says $\sigma$ is invisible there).  For
+ $\zeta_0$ it happens to be true; in general the correct statement is that
+ $\overline{\mathcal G|_{C_c^\infty(D)}}$ is an isometry generator \emph{when} $C_c^\infty(D)$
+ is a core for $\zeta$.  The inclusion (3) survives either way if the right-hand side is
+ read with ``$\mathcal G$ the anti-symmetric part of an admissible $\zeta$''.
+\item \textbf{(\textsc{stands with repair})} \emph{\S7 states the refuted equivalence
+ first} (point (8)): item~5 of the \emph{proved} list opens with ``global optimum
+ $\iff M_*\ge0$ and $M_*\ge\tau_*$'' and corrects itself only afterwards.
+\item \textbf{Minor slips.}  (i) Thm.~4.4, proof step $\langle1\rangle4$: the derivative
+ along $\mathcal C_\zeta$ is $\mathcal E(\zeta)$, not $\frac12\mathcal E(\zeta)$
+ (\eqref{eq:dd}; sign-neutral, verified numerically).  (ii) Lem.~4.2, step
+ $\langle1\rangle6$ writes $\Aop(\mathcal G,0,0)=[Q,\mathcal G]$; the correct sign is
+ $[\mathcal G,Q]=-[Q,\mathcal G]$ (Prop.~4.3 $\langle1\rangle1$ and Lem.~6.1 have it right;
+ harmless because $L$ is a linear space).  (iii) Prop.~4.10(2$'$) quotes the commutator
+ form's numerical range as ``$-8\cdot10^{-6}$ to $-1\cdot10^{-2}$''; the
+ $h$-ladder of \texttt{f2\_t5\_endpoint.out} gives $-9.1\cdot10^{-6}$, $+1.9\cdot10^{-4}$,
+ $-9.9\cdot10^{-3}$, $+7.4\cdot10^{-2}$, and other rungs reach $-6.3$ --- i.e.\ the
+ expression is not merely small noise, it is $O(1)$ on the finer scans.  (iv) $1-2/\pi$ is
+ $6.9\sigma$, not $6\sigma$, below $0.384\pm0.003$.  (v) (36) writes $\min$ over
+ anti-self-adjoint $\mathcal G$ without boundedness; it should be $\inf$ over the class of
+ Cor.~3.10 (R15).
+\end{enumerate}
+
+\section{Required repairs}\label{sec:req}
+\begin{enumerate}[leftmargin=2.6em,itemsep=1pt,label=\textbf{S\arabic*.}]
+\item \textbf{(N1)} Restrict Prop.~4.10(4) explicitly to $\zeta_v=-D_v$, $v\in C^{1,1}(\overline D)$
+ inward, and add a named hypothesis --- H3, ``every admissible isometry generator is,
+ modulo $\overline L$ and up to positive combinations, one of the two model directions''
+ --- to Def.~3.1 or \S7, with the two counterexample families (multiplicity-$>1$ shifts;
+ unbounded skew-adjoint $\zeta\notin\overline L$) named as what it excludes.  Every
+ statement of the form ``(e) holds'' (Rem.~4.11, \S7 Numerical input item~3, \S7
+ Conditional item~3, the \texttt{verdictgap} box) must then read ``(e) holds on the model
+ cone'' and $\kappa_{\rm opt}=1-\theta$ must be declared conditional on H1, H2 \emph{and} H3.
+\item \textbf{(N2)} In Rem.~4.11 and \S7 give F2's decomposition
+ $\mathcal E^{\rm disc}(\zeta_0)=\frac12[M_*(0,0)+h\Tr((-\Delta)M_*)+M_*(Y_{\max},Y_{\max})]$,
+ say that the tabulated total is dominated by the scheme-dependent viscosity term
+ ($h^{-0.97}$) and that the continuum quantity is the corner term ($h^{-0.60}$), and quote
+ the margin from the corner row.  Delete ``driven by the corner term''.
+\item \textbf{(N3)} State (27) and (31) in $[-\infty,+\infty]$: define
+ $\mathcal E(\zeta):=+\infty$ when $\Aop(\zeta,0,0)\notin\mathfrak F$, note that such
+ $\zeta$ give no feasible first-order datum (Def.~3.1(3)) so that (e) is \emph{vacuous}
+ there, and say that the $+\infty$ extension of the form $M_*$ is legitimate once (a)
+ holds.  Add to Def.~4.9 that $\mathfrak D$ is to be read as a linear subspace (or restrict
+ the polarisation claim to $\psi,\varphi$ with $\psi\pm\varphi\in\mathfrak D$).
+\item \textbf{(N4)} Replace the justification in Thm.~3.11(3) $\langle1\rangle4$ by the
+ core hypothesis, or define $\mathcal G$ on the right-hand side as ``the anti-symmetric part
+ of an admissible $\zeta$''.
+\item \textbf{(N5)} Rewrite \S7 item~5's first clause: the equivalence with (a) holds for
+ the directions $\Aop(0,N_1,Y_1)$ only.
+\item \textbf{(N6)} The five minor slips: the factor in Thm.~4.4 $\langle1\rangle4$; the
+ sign in Lem.~4.2 $\langle1\rangle6$; the commutator-noise range in Prop.~4.10(2$'$)
+ (quote the four ladder values and the $O(1)$ outliers); $6.9\sigma$; $\min\to\inf$ over
+ the bounded class in (36).
+\end{enumerate}
+
+\section{Verdict}\label{sec:verdict}
+R1--R15 are \textbf{all applied}, most of them well; the correction of $\mathcal E$ to
+$2b(\delta_*,\Aop(\zeta,0,0))$ is correct, necessary and properly argued, and
+$\mathcal E(\zeta_\infty)=2\lambda(1-\theta)g_Q(\dot\delta)>0$ is proved.  The document is
+\textsc{accepted with required repairs}: no result of \S2, \S3, \S4.1 or \S6 is in doubt,
+but the \emph{completeness} of the optimality criterion is overstated.  Precisely: (a) is
+now a meaningful form inequality, (e) is the right extra condition, its moving-endpoint
+half is proved, and its junction half is evaluated numerically --- but the step from ``(e)
+on $\{\zeta_0,\zeta_\infty\}$'' to ``(e)'' is an undeclared hypothesis (N1), and the
+numerical margin quoted for the junction half is the scheme-dependent total rather than the
+continuum corner term (N2).  With S1--S3 carried out, the Phase-5 conclusion
+$\kappa_{\rm opt}=1-\theta=0.616\pm0.003$ stands as what it is: numerical, conditional on
+H1, H2 and the cone hypothesis H3.
+\end{document}

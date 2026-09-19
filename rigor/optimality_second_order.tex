@@ -1,0 +1,790 @@
+\documentclass[11pt]{article}
+\input{rigor_preamble}
+\newcommand{\hh}{\mathfrak h}
+\newcommand{\Hrm}{\mathsf H}
+\newcommand{\Erec}{E_{\mathrm{opt}}}
+\newcommand{\Krec}{\mathcal K_{\mathrm{rec}}}
+\title{Second-order optimality of the Petz recovery map\\
+\large Phase~3, track S8 (problem O8): formalisation, the convex quasi-free
+programme, numerics, and a lower bound}
+\author{Agent S8}
+\date{2026-09-09}
+\begin{document}
+\maketitle
+
+\begin{tcolorbox}[colback=navy!5,colframe=navy!60,title={\bfseries Summary},fonttitle=\small]
+The optimal recovery error \(\Erec\) is formalised as an infimum of the convex
+function \(-\log\Fid(\omega,\cdot)\) over the convex set \(\Krec\) of recovered
+states (Prop.~\ref{prop:convex}).  For the free fermion and gauge-invariant
+quasi-free channels the problem is shown to be an \emph{exactly convex}
+programme in the pair \((X,Z)=(\text{one-particle map},\text{output symbol})\),
+with feasible set \(XQ_BX^*\le Z\le 1-X(1-Q_B)X^*\) (Thm.~\ref{thm:convex-set});
+the complete-positivity condition is verified against an explicit Stinespring
+dilation on three modes.  Numerically, on the half-filled hopping chain, the
+optimum beats the Petz map by a factor \(\approx4\) and its coefficient agrees
+with \emph{twice} the single-chirality geometric-compression value
+\(f_2z^2\), i.e.\ with the two-chirality spatial compression: to the accuracy
+reached, \textbf{the Petz map is not second-order optimal, and the geometric
+compression is} (or is within a few percent of the optimum).  A lower bound
+valid for \emph{all} channels is obtained by restricting to \(\cA(A)\vee\cA(C)\)
+and to a single-mode measurement; it is nonzero at order \(z^2\) but is two
+orders of magnitude below the optimum.  Gauge twirling reduces the problem to
+gauge-covariant channels but \emph{not} to quasi-free ones; this is stated
+honestly as the remaining gap.
+\end{tcolorbox}
+
+\tableofcontents
+\clearpage
+
+\section{Setting, conventions, and the optimal recovery error}\label{sec:setting}
+
+We keep the conventions of Notes~4 and~5 (\texttt{continuum\_petz\_free\_fermion.tex},
+\texttt{fidelity\_recovered\_quasifree.tex}).  Thus \(A=(-a,0)\), \(B=(0,b)\),
+\(C=(b,L)\), \(L=b+c\), \(D:=BC=(0,L)\), \(I:=ABC=(-a,L)\); \(\omega\) is the
+vacuum state of the net \(X\mapsto\cA(X)\) (for the free chiral fermion,
+\(\cA(X)=\cF_r(X)\)); and
+\begin{equation}\label{eq:zdef}
+ z:=\frac{ac}{b(a+b+c)}=\frac1\eta-1,\qquad
+ \eta_{\mathrm V}=\frac{ac}{(a+b)(b+c)}=\frac{z}{1+z},
+\end{equation}
+is the cross-ratio variable of Note~5, \(\zeta=as/(a+L)\) the parameter of the
+geometric family, \(\zeta=2z\) for the ordinary Petz map and \(\zeta=z\) for the
+zero-collar geometric compression.
+
+\begin{definition}[Admissible recovery channel]\label{def:admissible}
+A \emph{recovery channel} is a map \(\beta:\cA(BC)\to\cA(B)\) that is
+(i) linear, (ii) completely positive, (iii) unital, \(\beta(1)=1\),
+(iv) normal (\(\sigma\)-weakly continuous), and, for fermionic nets,
+(v) even, i.e.\ \(\beta\circ\alpha^{\mathrm{gr}}=\alpha^{\mathrm{gr}}\circ\beta\)
+for the grading automorphism \(\alpha^{\mathrm{gr}}\).  We write \(\mathcal C\)
+for the set of recovery channels.  Condition (v) guarantees that
+\(\alpha_\beta:=\mathrm{id}_{\cA(A)}\otimes\beta\) is well defined and
+completely positive on the graded tensor product
+\(\cA(A)\,\widehat\otimes\,\cA(BC)\supseteq\cA(ABC)\); for the split inclusions
+used in Notes~4--5 this is the tensor product of the two type-I factors
+interpolating the collar (Note~4, Sec.~2).
+\end{definition}
+
+\begin{definition}[Recovered state, optimal recovery error]\label{def:Eopt}
+For \(\beta\in\mathcal C\) the \emph{recovered state} is the normal state on
+\(\cA(ABC)\)
+\begin{equation}\label{eq:rec-state}
+ \omega^\beta:=\bigl(\omega|_{\cA(AB)}\bigr)\circ\alpha_\beta,\qquad
+ \omega^\beta(x\,y)=\omega\bigl(x\,\beta(y)\bigr)\quad(x\in\cA(A),\,y\in\cA(BC)),
+\end{equation}
+and the \emph{optimal recovery error} is
+\begin{equation}\label{eq:Eopt}
+ \boxed{\;\Erec:=\inf_{\beta\in\mathcal C}\bigl[-\log\Fid(\omega,\omega^\beta)\bigr]\;}
+\end{equation}
+with \(\Fid\) the Uhlmann root fidelity (Note~5, Sec.~1).  We also write
+\(\Krec:=\{\omega^\beta:\beta\in\mathcal C\}\) for the set of recovered states.
+\end{definition}
+
+\begin{proposition}[Elementary properties]\label{prop:convex}
+\begin{enumerate}[leftmargin=1.6em,itemsep=1pt]
+\item \(\mathcal C\) is convex and closed under composition with unital channels
+ on either side; \(\beta\mapsto\omega^\beta\) is affine, hence \(\Krec\) is convex.
+\item \(-\log\Fid(\omega,\cdot)\) is convex on the state space; hence
+ \eqref{eq:Eopt} is the infimum of a convex function on a convex set, and every
+ local minimum is global.
+\item \(\Erec\ge0\), and \(\Erec=0\) iff \(\omega\) is a quantum Markov state for
+ \(A\!-\!B\!-\!C\).
+\item Every rotated Petz map and the zero-collar geometric compression belong to
+ \(\mathcal C\); consequently, per chirality,
+ \(\Erec\le\Phi(z)=f_2z^2+O(z^3)\) with \(f_2=c/(12\pi^2)\), whereas the ordinary
+ Petz map gives \(\Phi(2z)=4f_2z^2+O(z^3)\).  For a two-dimensional CFT the
+ spatial compression acts identically on both chiralities and gives
+ \(\Erec\le2f_2z^2+O(z^3)\) against the Petz value \(8f_2z^2+O(z^3)\).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+\lstep{1}{1}{\(\mathcal C\) is convex and \(\beta\mapsto\omega^\beta\) is affine.}
+\lby{complete positivity, unitality, normality and evenness are each preserved
+by convex combinations (for complete positivity: \(\bigl[(\lambda\beta_1+(1-\lambda)\beta_2)(x_i^*x_j)\bigr]_{ij}
+=\lambda[\beta_1(x_i^*x_j)]_{ij}+(1-\lambda)[\beta_2(x_i^*x_j)]_{ij}\ge0\) as a sum
+of positive matrices); and \eqref{eq:rec-state} is linear in \(\beta\)}
+\lstep{1}{2}{\(\Krec\) is convex.}
+\lby{$\langle1\rangle1$ and the fact that the image of a convex set under an
+affine map is convex}
+\lstep{1}{3}{\(\varphi\mapsto-\log\Fid(\omega,\varphi)\) is convex.}
+\lproof
+\lstep{2}{1}{\(\Fid\) is jointly concave in its two arguments.}
+\lby{Uhlmann 1976 (\emph{Rep.\ Math.\ Phys.}\ \textbf{9}, 273), joint concavity of
+the transition probability; in finite dimensions Nielsen--Chuang Thm.~9.7}
+\lstep{2}{2}{\(t\mapsto-\log t\) is convex and nonincreasing on \((0,1]\).}
+\lby{elementary}
+\lqed{2}{3}
+\lby{the composition of a nonincreasing convex function with a concave function
+is convex, applied to $\langle2\rangle1$--$\langle2\rangle2$; if
+\(\Fid(\omega,\varphi)=0\) the value is \(+\infty\) and convexity persists}
+\lstep{1}{4}{\(\Erec\ge0\), with equality iff \(\omega\) is Markov.}
+\lproof
+\lstep{2}{1}{\(\Fid\le1\) always, so \(-\log\Fid\ge0\).}
+\lby{Cauchy--Schwarz for vector representatives (Note~5, Sec.~1)}
+\lstep{2}{2}{If \(\Erec=0\) then there are \(\beta_n\) with
+\(\Fid(\omega,\omega^{\beta_n})\to1\), hence \(\omega^{\beta_n}\to\omega\) in norm;
+conversely a Markov state admits an exact recovery.}
+\lby{the Fuchs--van~de~Graaf inequality
+\(\tfrac12\|\varphi-\psi\|_1\le\sqrt{1-\Fid^2}\) and, for the converse, the Petz
+map of a Markov state is an exact recovery (Petz 1986, 1988; Note~3)}
+\lqed{2}{3}
+\lstep{1}{5}{The geometric maps are admissible and give the stated values.}
+\lproof
+\lstep{2}{1}{For \(s\ge\lambda:=c/b\) the map \(\gamma_s\) of Note~4 is a normal
+unital \(*\)-endomorphism \(\cA(D)\to\cA(J_s\cap(0,\infty))\subseteq\cA(B)\), hence
+lies in \(\mathcal C\).}
+\lby{Note~4, Sec.~2: \(\gamma_s=\operatorname{Ad}U(h_s)\) restricted to
+\(\cA(D)\), \(h_s(0,L)=(0,L/(1+s))\) and \(L/(1+s)\le b\iff s\ge\lambda\);
+a unital \(*\)-homomorphism is completely positive and even}
+\lstep{2}{2}{\(-\log\Fid(\omega,\omega\circ\overline\gamma_s)=\Phi(\zeta)\),
+\(\zeta=as/(a+L)\), and \(\Phi\) is nondecreasing.}
+\lby{Note~5, Lemma~1.1 and Cor.~5.1, monotonicity proved in
+\texttt{rigor/check\_note5\_theory.tex}}
+\lstep{2}{3}{The constraint \(s\ge\lambda\) is exactly \(\zeta\ge z\), and the
+infimum over the geometric family is attained at \(s=\lambda\), value
+\(\Phi(z)=f_2z^2+O(z^3)\).}
+\lby{$\langle2\rangle1$--$\langle2\rangle2$, \(a\lambda/(a+L)=ac/(b(a+b+c))=z\)
+by \eqref{eq:zdef}, and Note~7 for \(f_2=c/(12\pi^2)\)}
+\lqed{2}{4}
+\lby{the ordinary Petz map is \(s=2\lambda\), \(\zeta=2z\), and \(\Phi\) is
+quadratic to leading order}
+\lqed{1}{6}
+\end{proof}
+
+\begin{remark}[The constraint is active]\label{rem:active}
+Step \(\langle2\rangle3\) is the structural reason why the geometric compression
+is the best member of the rotated family: \emph{the range constraint
+\(\beta(\cA(BC))\subseteq\cA(B)\) is active at the optimum}.  Any second-order
+optimality statement must therefore be a constrained one; an unconstrained
+stationarity argument cannot prove it.
+\end{remark}
+
+
+
+\section{Gauge-invariant quasi-free channels: parametrisation and convexity}
+\label{sec:qf}
+
+Let \(\hh_A,\hh_B,\hh_C\) be the one-particle spaces of \(A,B,C\),
+\(\hh_D=\hh_B\oplus\hh_C\), \(\hh_I=\hh_A\oplus\hh_D\).  A gauge-invariant
+quasi-free state \(\omega_Q\) is fixed by its symbol,
+\(\omega_Q(a^*(f)a(g))=\langle g,Qf\rangle\); we use throughout the matrix
+convention \(Q_{ij}=\omega(c_j^*c_i)\), for which a number-conserving Bogoliubov
+map \(c\mapsto Wc\) acts as \(Q\mapsto WQW^*\).  The vacuum symbol on \(I\) is
+\(Q=E_IP_+E_I\) (continuum) resp.\ the sine kernel
+\(Q_{ij}=\frac{\sin(\pi(i-j)/2)}{\pi(i-j)}\) (half-filled hopping chain), with
+blocks \(Q_{AA},Q_{AB},Q_{AC},Q_{BB},Q_{BC},Q_{CC}\).
+
+\begin{definition}[Quasi-free recovery channel]\label{def:qf-channel}
+A recovery channel \(\beta\) is \emph{gauge-invariant quasi-free} if its
+Schr\"odinger picture \(\cN=\beta_*:\mathcal S(\cA(B))\to\mathcal S(\cA(BC))\)
+maps quasi-free states to quasi-free states by an affine rule on symbols,
+\begin{equation}\label{eq:channel-rule}
+ Q^{\mathrm{out}}=X\,Q^{\mathrm{in}}X^*+Y,\qquad X:\hh_B\to\hh_D,\quad Y=Y^*\ \text{on}\ \hh_D .
+\end{equation}
+\end{definition}
+
+\begin{proposition}[Complete positivity]\label{prop:cp}
+The rule \eqref{eq:channel-rule} is the symbol rule of a completely positive,
+trace-preserving, even map \(\cN\) if and only if
+\begin{equation}\label{eq:cp}
+ \boxed{\;Y\ge0\quad\text{and}\quad XX^*+Y\le1 .\;}
+\end{equation}
+Under \eqref{eq:cp} a Stinespring dilation with a \emph{Gaussian} environment
+exists: with \(P:=1-XX^*\ge Y\), \(V_E:=P^{1/2}\), \(Q_E:=P^{-1/2}YP^{-1/2}\)
+(on \(\operatorname{ran}P\), \(0\le Q_E\le1\)) and any unitary \(W\) on
+\(\hh_B\oplus\hh_E\) whose first \(\dim\hh_D\) rows are \((X\ V_E)\), one has
+\(\cN(\rho)=\Tr_{\hh_{\mathrm{disc}}}\bigl[\Gamma(W)(\rho\otimes\rho_{Q_E})\Gamma(W)^*\bigr]\).
+\end{proposition}
+
+\begin{proof}
+\lstep{1}{1}{\lassume{} \eqref{eq:channel-rule} comes from a positive
+trace-preserving map. \lprove{} \eqref{eq:cp}.}
+\lby{the quasi-free states with \(Q^{\mathrm{in}}=0\) and \(Q^{\mathrm{in}}=1\)
+are states (the Fock vacuum and the filled state); their images must have
+symbols in \([0,1]\), giving \(Y\ge0\) and \(XX^*+Y\le1\)}
+\lstep{1}{2}{\lassume{} \eqref{eq:cp}. \lprove{} the dilation exists.}
+\lproof
+\lstep{2}{1}{\(0\le Y\le P:=1-XX^*\), and \(Q_E:=P^{-1/2}YP^{-1/2}\) satisfies
+\(0\le Q_E\le1\) on \(\operatorname{ran}P\) (set \(Q_E=0\) on \(\ker P\), where
+\(Y=0\) because \(0\le Y\le P\)).}
+\lby{\eqref{eq:cp} and operator monotonicity of \(t\mapsto t\) under congruence:
+\(Y\le P\Rightarrow P^{-1/2}YP^{-1/2}\le1\)}
+\lstep{2}{2}{\(V:=(X\ \ P^{1/2}):\hh_B\oplus\hh_E\to\hh_D\) satisfies
+\(VV^*=XX^*+P=1_{\hh_D}\), so \(V\) is a coisometry and extends to a unitary
+\(W\) on \(\hh_B\oplus\hh_E\) with \(\dim\hh_E=\dim\hh_D\) (complete the rows of
+\(V\) to an orthonormal basis).}
+\lby{linear algebra; \(\dim(\hh_B\oplus\hh_E)\ge\dim\hh_D\)}
+\lstep{2}{3}{The map \(\rho\mapsto\Tr_{\mathrm{disc}}[\Gamma(W)(\rho\otimes\rho_{Q_E})\Gamma(W)^*]\)
+is completely positive, trace preserving and even, and its symbol rule is
+\(Q^{\mathrm{out}}=V(Q^{\mathrm{in}}\oplus Q_E)V^*=XQ^{\mathrm{in}}X^*+P^{1/2}Q_EP^{1/2}
+=XQ^{\mathrm{in}}X^*+Y\).}
+\lby{\(\Gamma(W)\) is a unitary implementer of an even Bogoliubov
+transformation, the partial trace over a set of modes is CP, unital in the
+Heisenberg picture and even, and both operations act on two-point functions by
+compression with \(V\)}
+\lqed{2}{4}
+\lqed{1}{3}
+\end{proof}
+
+\begin{verdictok}
+Both directions of Prop.~\ref{prop:cp} were checked numerically
+(\texttt{numerics/optimality/cp\_check.py}): random \((X,Y)\) obeying
+\eqref{eq:cp} on \(\dim\hh_B=1,\dim\hh_D=2\) were dilated as above, the full
+\(2^4\)-dimensional Fock-space channel built explicitly, and the resulting
+output two-point function compared with \eqref{eq:channel-rule}; agreement to
+\(10^{-14}\).  Violating either inequality produced an output symbol outside
+\([0,1]\) for an extreme input, hence a non-positive map.
+\end{verdictok}
+
+\begin{lemma}[Recovered symbol]\label{lem:rec-symbol}
+Let \(\beta\) be gauge-invariant quasi-free with data \((X,Y)\) and put
+\(Z:=XQ_{BB}X^*+Y\).  Then \(\omega^\beta\) is the gauge-invariant quasi-free
+state on \(\cA(I)\) with symbol
+\begin{equation}\label{eq:Qrec}
+ Q^{\mathrm{rec}}=\begin{pmatrix}Q_{AA}&Q_{AB}X^*\\ XQ_{BA}&Z\end{pmatrix}
+ \quad\text{on }\hh_A\oplus\hh_D .
+\end{equation}
+Writing \(X^*=(S\ \ T)\) with \(S:\hh_B\to\hh_B\), \(T:\hh_C\to\hh_B\), the
+recovered \(A\!-\!C\) block is \(Q^{\mathrm{rec}}_{AC}=Q_{AB}T\): \emph{the
+recovered \(A\!-\!C\) correlations are vacuum \(A\!-\!B\) correlations evaluated
+on the image of \(T\).}
+\end{lemma}
+
+\begin{proof}
+\lstep{1}{1}{\(\alpha_\beta=\mathrm{id}_A\otimes\beta\) acts on the vacuum
+\(AB\) state by applying \(\cN\) to the \(B\) tensor factor.}
+\lby{Definition~\ref{def:Eopt} and evenness (Def.~\ref{def:admissible}(v)),
+which makes \(\mathrm{id}\otimes\cN\) well defined on the graded tensor product}
+\lstep{1}{2}{In the dilation of Prop.~\ref{prop:cp} the global state is
+\(\rho_{AB}\otimes\rho_{Q_E}\), a quasi-free state with symbol
+\(Q_{AB\text{-block}}\oplus Q_E\); \(\Gamma(1_A\oplus W)\) is Bogoliubov and the
+partial trace is a compression, so the image is quasi-free with symbol
+\((1_A\oplus V)(Q^{(AB)}\oplus Q_E)(1_A\oplus V)^*\).}
+\lby{$\langle1\rangle1$, Prop.~\ref{prop:cp}, and the fact that the vacuum
+\(AB\) state is quasi-free with symbol \(\bigl(\begin{smallmatrix}Q_{AA}&Q_{AB}\\Q_{BA}&Q_{BB}\end{smallmatrix}\bigr)\)}
+\lstep{1}{3}{That symbol equals \eqref{eq:Qrec}.}
+\lby{block multiplication: the \(AA\) block is \(Q_{AA}\), the \(AD\) block is
+\(Q_{AB}V^*|_{\hh_B\text{-part}}=Q_{AB}X^*\) (the environment is uncorrelated
+with \(A\)), and the \(DD\) block is \(XQ_{BB}X^*+P^{1/2}Q_EP^{1/2}=Z\)}
+\lqed{1}{4}
+\end{proof}
+
+
+
+\section{The second-order problem is an exactly convex programme}\label{sec:convex}
+
+\begin{theorem}[Convex reparametrisation]\label{thm:convex-set}
+Put \(R_+:=Q_{BB}\), \(R_-:=1-Q_{BB}\) (both \(\ge0\)) and
+\begin{equation}\label{eq:feasible}
+ \mathcal F:=\bigl\{(X,Z):\ X:\hh_B\to\hh_D,\ Z=Z^*\ \text{on}\ \hh_D,\
+  XR_+X^*\ \le\ Z\ \le\ 1-XR_-X^*\bigr\}.
+\end{equation}
+Then
+\begin{enumerate}[leftmargin=1.6em,itemsep=1pt]
+\item \(\mathcal F\) is exactly the set of pairs \((X,Z)\) with
+ \(Z=XQ_{BB}X^*+Y\) for some \((X,Y)\) satisfying the complete-positivity
+ condition \eqref{eq:cp};
+\item \(\mathcal F\) is convex;
+\item \(Q^{\mathrm{rec}}\) of \eqref{eq:Qrec} is an affine function of \((X,Z)\);
+\item consequently, for any convex functional \(\mathcal G\) of the symbol, the
+ problem \(\min_{(X,Z)\in\mathcal F}\mathcal G(Q^{\mathrm{rec}}(X,Z))\) is a
+ convex programme whose constraints are two linear matrix inequalities in the
+ Schur-complement variables; every local minimum is global.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\lstep{1}{1}{(1) holds.}
+\lby{substituting \(Y=Z-XR_+X^*\): \(Y\ge0\iff Z\ge XR_+X^*\), and
+\(XX^*+Y\le1\iff Z\le1-XX^*+XR_+X^*=1-XR_-X^*\)}
+\lstep{1}{2}{For \(R\ge0\) the map \(X\mapsto XRX^*\) is operator convex.}
+\lby{for \(X_t=(1-t)X_0+tX_1\), \(t\in[0,1]\), the identity
+\((1-t)X_0RX_0^*+tX_1RX_1^*-X_tRX_t^*=t(1-t)(X_0-X_1)R(X_0-X_1)^*\ge0\)}
+\lstep{1}{3}{\(\mathcal F\) is convex.}
+\lby{$\langle1\rangle2$: \(\{(X,Z):Z-XR_+X^*\ge0\}\) and
+\(\{(X,Z):1-XR_-X^*-Z\ge0\}\) are the sublevel sets of two operator-convex
+functions of \((X,Z)\) (each affine in \(Z\)), hence convex; the intersection of
+convex sets is convex}
+\lstep{1}{4}{(3) and (4).}
+\lby{\eqref{eq:Qrec} is affine in \((X,Z)\) by inspection; the composition of a
+convex functional with an affine map is convex, and a convex function on a
+convex set has no non-global local minima}
+\lqed{1}{5}
+\end{proof}
+
+\begin{remark}
+The reparametrisation is essential.  In the natural variables \((X,Y)\) the
+objective is a \emph{quartic} function of \(X\) (because \(Q^{\mathrm{rec}}_{DD}\)
+contains \(XQ_{BB}X^*\)) and the problem is not convex; in \((X,Z)\) the
+nonconvexity is absorbed into the constraints, which become operator convex.
+The set \(\mathcal F\) is semidefinite representable: writing the two constraints
+as \(\bigl(\begin{smallmatrix}Z&XR_+^{1/2}\\ R_+^{1/2}X^*&1\end{smallmatrix}\bigr)\ge0\)
+and \(\bigl(\begin{smallmatrix}1-Z&XR_-^{1/2}\\ R_-^{1/2}X^*&1\end{smallmatrix}\bigr)\ge0\)
+(Schur complements) shows that the second-order optimality problem is a
+semidefinite programme.
+\end{remark}
+
+\subsection{The second-order objective and the order of limits}\label{sec:order}
+
+By Note~5, Prop.~2.3, for a fixed reference symbol \(Q\) with \(0<Q<1\),
+\begin{equation}\label{eq:gQ}
+ -\log\Fid(\omega_Q,\omega_{Q-\delta})=g_Q(\delta)+O(\|\delta\|^3),\qquad
+ g_Q(\delta):=\frac14\sum_{i,k}w_{ik}\,|\widetilde\delta_{ik}|^2,\quad
+ w_{ik}=\frac{1}{q_i(1-q_k)+q_k(1-q_i)},
+\end{equation}
+\(\widetilde\delta=U^*\delta U\) in an eigenbasis of \(Q\), and
+\(w_{ik}=1+\cosh\frac{\kappa_i+\kappa_k}2/\cosh\frac{\kappa_i-\kappa_k}2\) in the
+modular variables \(q=(1+e^\kappa)^{-1}\).  \(g_Q\) is a positive quadratic form,
+so Theorem~\ref{thm:convex-set}(4) applies:
+
+\begin{corollary}[Second-order optimality is a convex QP]\label{cor:convexQP}
+The second-order optimal recovery error over gauge-invariant quasi-free channels,
+\begin{equation}\label{eq:secondorderproblem}
+ \Erec^{(2)}:=\min_{(X,Z)\in\mathcal F}\ g_Q\bigl(Q-Q^{\mathrm{rec}}(X,Z)\bigr),
+\end{equation}
+is the minimum of a positive quadratic form over a convex, semidefinite
+representable set.  The minimum is attained (the form is continuous and, after
+restricting to a bounded slice \(\|X\|\le1\), \(\mathcal F\) is compact).
+\end{corollary}
+
+\begin{verdictgap}[Order of limits]
+\(g_Q\) is the \emph{second-order} term of \(-\log\Fid\) only when the defect is
+small \emph{relative to the extreme eigenvalues of \(Q\)}: the weight
+\(w_{ik}\approx e^{\min(|\kappa_i|,|\kappa_k|)}\) amplifies defect matrix elements
+between two nearly empty (or two nearly filled) modular modes, so
+\eqref{eq:gQ} requires \(\|\delta\|\ll e^{-\kappa_{\max}}\).  On a chain of
+\(n=13\) sites the Petz defect at \(z=0.15\) has
+\(-\log\Fid=1.303\times10^{-3}\) but \(g_Q(\delta)=3.61\times10^{-2}\), a factor
+\(28\): at accessible \(z\) the \emph{unrestricted} form \eqref{eq:gQ} is not yet
+the second-order approximation.  Two consequences, both handled below.
+(i) Minimising \(g_Q\) restricted to a modular window \(|\kappa|\le\kappa_c\)
+(as in Note~5) is a valid lower bound for \eqref{eq:secondorderproblem} but
+produces a \emph{useless minimiser}: the optimiser dumps the defect into the
+discarded modes; on \((L_A,L_B,L_C)=(4,6,3)\), \(\kappa_c=10\), the windowed
+minimiser has an exact \(-\log\Fid=1.145\), i.e.\ \(880\) times \emph{worse} than
+Petz.  (ii) The cure used here is to \emph{cap} rather than discard:
+\(w\mapsto\min(w,1+\cosh\kappa_c)\).  Capping preserves convexity and still lower
+bounds \(g_Q\), but no mode is free, so the minimiser stays sensible; the capped
+programme is then used only as a \emph{generator of candidate channels}, and the
+arbiter is the exact high-precision \(-\log\Fid\) of the recovered state.  Since
+a candidate channel is a certificate (it is admissible by construction, and its
+error is computed exactly), all \emph{upper} bounds reported below are rigorous
+within the lattice model regardless of how the channel was found.
+\end{verdictgap}
+
+
+
+\section{Lower bounds: what survives and what does not}\label{sec:lower}
+
+\subsection{The restriction bound and the \(A\!-\!C\) route}
+
+\begin{lemma}[Restriction]\label{lem:restriction}
+For any von Neumann subalgebra \(\cN\subseteq\cA(ABC)\),
+\(\Fid(\omega,\omega^\beta)\le\Fid(\omega|_\cN,\omega^\beta|_\cN)\); in particular
+\begin{equation}\label{eq:AC-bound}
+ \Erec\ \ge\ E_{AC}:=-\log\ \sup_{\cN_{B\to C}}\
+ \Fid\Bigl(\omega|_{\cA(A)\vee\cA(C)},\ (\mathrm{id}_A\otimes\cN_{B\to C})\bigl[\omega|_{\cA(A)\vee\cA(B)}\bigr]\Bigr),
+\end{equation}
+the supremum running over all channels from \(B\) to \(C\).
+\end{lemma}
+
+\begin{proof}
+\lstep{1}{1}{The inclusion \(\iota:\cN\hookrightarrow\cA(ABC)\) is unital and
+completely positive, and \(\Fid\) is monotone nondecreasing under the pull-back
+of states along a unital CP map.}
+\lby{Alberti--Uhlmann 2002, Thm.~2 (the variational formula
+\(\Fid(\varphi,\psi)=\inf_{x>0}\frac12(\varphi(x)+\psi(x^{-1}))\) is manifestly
+monotone); Note~5, Sec.~1}
+\lstep{1}{2}{For \(x\in\cA(A)\), \(y\in\cA(C)\subseteq\cA(BC)\),
+\(\omega^\beta(xy)=\omega(x\,\beta(y))\) with \(\beta(y)\in\cA(B)\); hence
+\(\omega^\beta|_{\cA(A)\vee\cA(C)}\) is the image of \(\omega|_{\cA(A)\vee\cA(B)}\)
+under \(\mathrm{id}_A\otimes\cN\), \(\cN=(\beta|_{\cA(C)})_*\).}
+\lby{Definition~\ref{def:Eopt}; \(\beta|_{\cA(C)}:\cA(C)\to\cA(B)\) is unital CP}
+\lqed{1}{3}
+\lby{$\langle1\rangle1$ with \(\cN=\cA(A)\vee\cA(C)\) and $\langle1\rangle2$}
+\end{proof}
+
+\begin{proposition}[The \(A\!-\!C\) bound vanishes]\label{prop:AC-zero}
+Suppose there is \(T:\hh_C\to\hh_B\) with
+\begin{equation}\label{eq:Tcond}
+ Q_{AB}T=Q_{AC},\qquad T^*T\le1,\qquad
+ T^*Q_{BB}T\ \le\ Q_{CC}\ \le\ 1-T^*(1-Q_{BB})T .
+\end{equation}
+Then there is a gauge-invariant quasi-free \(\beta\in\mathcal C\) with
+\(\omega^\beta|_{\cA(A)\vee\cA(C)}=\omega|_{\cA(A)\vee\cA(C)}\) exactly, so
+\(E_{AC}=0\) and \eqref{eq:AC-bound} is empty.
+\end{proposition}
+
+\begin{proof}
+\lstep{1}{1}{\ldefine{} \(X^*:=(0\ \ T):\hh_B\oplus\hh_C\to\hh_B\) and
+\(Z:=\tfrac12 1_{\hh_B}\oplus Q_{CC}\).}
+\lstep{1}{2}{\((X,Z)\in\mathcal F\).}
+\lby{\(XR_\pm X^*=0\oplus T^*R_\pm T\) is block diagonal, so
+\(Z-XR_+X^*=\tfrac12 1\oplus(Q_{CC}-T^*Q_{BB}T)\ge0\) and
+\(1-XR_-X^*-Z=\tfrac12 1\oplus(1-T^*(1-Q_{BB})T-Q_{CC})\ge0\) by \eqref{eq:Tcond}}
+\lstep{1}{3}{The recovered symbol restricted to \(\hh_A\oplus\hh_C\) is
+\(\bigl(\begin{smallmatrix}Q_{AA}&Q_{AB}T\\ T^*Q_{BA}&Q_{CC}\end{smallmatrix}\bigr)
+=\bigl(\begin{smallmatrix}Q_{AA}&Q_{AC}\\ Q_{CA}&Q_{CC}\end{smallmatrix}\bigr)\).}
+\lby{Lemma~\ref{lem:rec-symbol} and \eqref{eq:Tcond}}
+\lqed{1}{4}
+\lby{two gauge-invariant quasi-free states with the same symbol on
+\(\hh_A\oplus\hh_C\) coincide on \(\cA(A)\vee\cA(C)\), and by
+Prop.~\ref{prop:cp} \((X,Z)\) comes from an admissible channel}
+\end{proof}
+
+\begin{verdictbreak}[\;The \(A\!-\!C\) route of the O8 plan does not work]
+Hypothesis \eqref{eq:Tcond} was checked on the hopping chain with
+\(T:=Q_{AB}^{+}Q_{AC}\) (Moore--Penrose;
+\texttt{numerics/optimality/lower\_bound.py}).  For
+\((L_A,L_B,L_C)=(4,8,2),(4,12,2),(4,16,2)\) the residual
+\(\|Q_{AB}T-Q_{AC}\|\) is \(1.4\times10^{-17},7.0\times10^{-17},2.3\times10^{-17}\),
+\(\|T\|=0.552,0.378,0.289<1\), and the two operator inequalities in
+\eqref{eq:Tcond} hold with margins \(0.122,0.151,0.163\).  Hence \(E_{AC}=0\)
+\emph{exactly} for these geometries, while \(\Erec\approx0.017\,z^2\).  Direct
+convex minimisation of the exact \(A\!-\!C\) fidelity over the feasible set gives
+\(E_{AC}=1.5\times10^{-9}\) and \(9.8\times10^{-10}\) (solver floor) at
+\((4,8,2)\) and \((4,12,2)\), against
+\(-\log\Fid(\omega_{AC},\omega_A\otimes\omega_C)=3.2\times10^{-3}\) and
+\(1.7\times10^{-3}\): the \(B\)-mediated \(A\!-\!C\) states \emph{contain} the
+vacuum \(A\!-\!C\) state.  The route proposed in \texttt{open\_problems\_plan.tex},
+Sec.~O8 (``bound the Bures distance between the vacuum \(A\!-\!C\) two-point
+function and the set of \(B\)-mediated ones'') therefore yields no bound at all.
+The mechanism is transparent: the \(A\!-\!C\) correlations are \(O(z)\) and
+\emph{weak}, the \(A\!-\!B\) correlations are \(O(1)\) and \emph{strong}, so
+degrading \(B\) into a surrogate \(C\) is easy; what a recovery cannot do is
+degrade \(B\) and \emph{simultaneously} keep the \(B\!-\!C\) correlations, and no
+single-subalgebra restriction sees that joint constraint.
+\end{verdictbreak}
+
+\subsection{Two tools that do survive}
+
+\begin{lemma}[Single-mode measurement bound]\label{lem:onemode}
+For any two states \(\varphi,\psi\) on \(\cA(I)\) and any \(h\in\hh_I\),
+\(\|h\|=1\), with \(p=\varphi(a^*(h)a(h))\), \(p'=\psi(a^*(h)a(h))\),
+\begin{equation}\label{eq:onemode}
+ \Fid(\varphi,\psi)\ \le\ \sqrt{pp'}+\sqrt{(1-p)(1-p')},
+ \qquad\text{hence}\qquad
+ -\log\Fid\ \ge\ \frac{(p-p')^2}{8p(1-p)}+O\bigl((p-p')^3\bigr).
+\end{equation}
+No gauge invariance, no quasi-freeness and no purity is assumed.
+\end{lemma}
+
+\begin{proof}
+\lstep{1}{1}{\(n_h:=a^*(h)a(h)\) is a projection.}
+\lby{the CAR \(a(h)a^*(h)+a^*(h)a(h)=\|h\|^2=1\) give
+\(n_h^2=a^*(h)(1-a^*(h)a(h))a(h)=n_h\) since \(a(h)^2=0\)}
+\lstep{1}{2}{\(\{n_h,1-n_h\}\) is a two-outcome POVM with outcome probabilities
+\((p,1-p)\) and \((p',1-p')\), and \(\Fid\) is bounded above by the classical
+fidelity of the outcome distributions.}
+\lby{monotonicity of \(\Fid\) under the unital CP map
+\(\mathbb C^2\to\cA(I)\), \((\alpha_0,\alpha_1)\mapsto\alpha_0n_h+\alpha_1(1-n_h)\)
+(Lemma~\ref{lem:restriction}, $\langle1\rangle1$); equivalently Fuchs--van~de~Graaf /
+Fuchs--Caves}
+\lqed{1}{3}
+\lby{expanding \(-\log[\sqrt{pp'}+\sqrt{(1-p)(1-p')}]\) at \(p'=p\)}
+\end{proof}
+
+\begin{lemma}[Gauge twirling]\label{lem:twirl}
+Let \(\gamma_\theta\) be the global \(U(1)\) gauge automorphism, \(\omega\circ\gamma_\theta=\omega\).
+For \(\beta\in\mathcal C\) put \(\bar\beta:=\int_0^{2\pi}\frac{d\theta}{2\pi}\,
+\gamma_{-\theta}\circ\beta\circ\gamma_\theta\).  Then \(\bar\beta\in\mathcal C\),
+\(\bar\beta\) is gauge covariant, and
+\(-\log\Fid(\omega,\omega^{\bar\beta})\le-\log\Fid(\omega,\omega^\beta)\).
+Hence \eqref{eq:Eopt} may be restricted to gauge-covariant channels.
+\end{lemma}
+
+\begin{proof}
+\lstep{1}{1}{\(\bar\beta\in\mathcal C\) and is gauge covariant.}
+\lby{\(\gamma_\theta\) is a \(*\)-automorphism of both \(\cA(BC)\) and \(\cA(B)\)
+(it preserves localisation), so each \(\gamma_{-\theta}\beta\gamma_\theta\) is
+admissible; \(\mathcal C\) is convex and closed under the (weak-\(*\) continuous)
+average by Prop.~\ref{prop:convex}(1); covariance is the invariance of Haar measure}
+\lstep{1}{2}{\(\omega^{\bar\beta}=\int\frac{d\theta}{2\pi}\,\omega^\beta\circ\gamma_\theta\).}
+\lby{\(\omega^{\bar\beta}(xy)=\int\frac{d\theta}{2\pi}\omega(x\,\gamma_{-\theta}\beta(\gamma_\theta y))
+=\int\frac{d\theta}{2\pi}\omega(\gamma_\theta(x)\,\beta(\gamma_\theta y))
+=\int\frac{d\theta}{2\pi}\omega^\beta(\gamma_\theta(x)\gamma_\theta(y))\), using
+\(\omega\circ\gamma_{-\theta}=\omega\) and that \(\gamma_\theta\) preserves \(\cA(A)\)}
+\lstep{1}{3}{\(\Fid(\omega,\omega^\beta\circ\gamma_\theta)=\Fid(\omega,\omega^\beta)\).}
+\lby{invariance of \(\Fid\) under a common automorphism together with
+\(\omega\circ\gamma_\theta=\omega\)}
+\lqed{1}{4}
+\lby{concavity of \(\Fid\) in the second argument (Prop.~\ref{prop:convex}
+$\langle2\rangle1$) applied to $\langle1\rangle2$--$\langle1\rangle3$}
+\end{proof}
+
+\begin{verdictgap}[\;No reduction to quasi-free channels]
+Lemma~\ref{lem:twirl} removes the gauge degrees of freedom but \emph{not} the
+non-Gaussian ones.  A ``Gaussification'' step would need a channel-level
+analogue of the Wolf--Giedke--Cirac extremality theorem, and none is available:
+extremality results say that Gaussian \emph{states} extremise certain
+functionals at fixed covariance, not that a Gaussian channel does at least as
+well as a general one for the fidelity to a Gaussian target.  Worse, the
+obvious structural obstruction is vacuous in the continuum: for a general
+gauge-covariant \(\beta\) the recovered \(A\!-\!C\) block is
+\(\omega(a^*(f)\,b_g)=\langle a(f)\Omega,\,b_g\Omega\rangle\) with
+\(b_g=\beta(a(g))\in\cA(B)\), and by Reeh--Schlieder \(\overline{\cA(B)\Omega}\)
+is the whole Hilbert space, so \(b_g\Omega\) is unconstrained except in norm
+(Kadison--Schwarz gives only \(\|b_g\Omega\|^2\le\omega^\beta(a^*(g)a(g))\)).
+Thus \emph{all} results of Sec.~\ref{sec:numerics} are statements about the
+quasi-free class; the lower bound over all channels remains
+\(\Erec\ge0\).
+\end{verdictgap}
+
+
+
+\section{Numerics}\label{sec:numerics}
+
+\subsection{Model, pipeline, validation}
+
+The optimisation needs a model in which the three regions are \emph{exactly}
+orthogonal subspaces of the one-particle space; the modular box of Note~5 does
+not have this property (its box modes in the coordinate
+\(\xi=\log\frac{x+a}{L-x}\) are spread over \(A\), \(B\) and \(C\)), so the
+computation is done on the half-filled hopping chain, the model already
+validated against the continuum in Note~5 (Sec.~5, agent PL:
+\(\texttt{numerics/lattice}\)).  \(A,B,C\) are \(L_A,L_B,L_C\) consecutive sites,
+\(Q_{ij}=\sin(\pi(i-j)/2)/(\pi(i-j))\), and \(z=L_AL_C/(L_B(L_A+L_B+L_C))\).
+The chain carries both chiralities, so the continuum reference values are
+\begin{equation}\label{eq:refvalues}
+ \text{Petz}:\ 2\Phi(2z)=8f_2z^2+O(z^3),\qquad
+ \text{spatial compression}:\ 2\Phi(z)=2f_2z^2+O(z^3),\qquad
+ f_2=\frac{c}{12\pi^2},
+\end{equation}
+i.e.\ \(8f_2=0.067547\) and \(2f_2=0.016887\) for \(c=1\) (Dirac).  The pipeline
+(\texttt{numerics/optimality/}) is:
+\begin{enumerate}[leftmargin=1.6em,itemsep=1pt]
+\item \texttt{opt\_gaussian.py}: the convex programme of
+ Cor.~\ref{cor:convexQP} with capped weights, solved by a log-barrier path
+ \(\mu=10^{-1},\dots,10^{-10}\) with damped Newton steps (analytic first
+ derivatives, finite-difference Hessian, feasibility backtracking);
+\item \texttt{petz\_ref.py}: the Gaussian Petz recovered symbol (Vardhan--Wei--Zou
+ eq.~(2.9) at \(\lambda=0\) in the \(T\)-product form of \texttt{petz\_lattice.py})
+ and the exact quasi-free root fidelity of Note~5, Thm.~2.1, in \texttt{mpmath}
+ at \(90\) digits;
+\item \texttt{run\_exact.py}: for each geometry a ladder of caps
+ \(\kappa_c\in\{6,\dots,20\}\), each candidate channel evaluated by the exact
+ \(-\log\Fid\); the best is reported.  The candidate is a \emph{certificate}: it
+ is admissible by Prop.~\ref{prop:cp} and its error is computed exactly, so the
+ reported value is a rigorous upper bound for \(\Erec\) in the lattice model.
+\end{enumerate}
+
+\paragraph{Validation.}
+(i) \emph{Complete positivity and the covariance rule}
+(\texttt{cp\_check.py}): for random \((X,Y)\) with \(\dim\hh_B=1\),
+\(\dim\hh_D=2\) satisfying \eqref{eq:cp}, the Stinespring dilation of
+Prop.~\ref{prop:cp} was built explicitly on a \(4\)-mode Jordan--Wigner Fock
+space (\(16\times16\) matrices), the Bogoliubov unitary \(\Gamma(W)=e^{c^*\log W\,c}\)
+applied to \(\rho_{AB}\otimes\rho_{Q_E}\), and the two-point function of the
+image compared with \eqref{eq:Qrec}: maximal deviation \(6.7\times10^{-16}\).
+(ii) \emph{Petz reference}: the recovered symbol reproduces the \(AA\) and the
+\(BC\!-\!BC\) blocks of the vacuum symbol to \(0\) (machine exact), as it must,
+and \(2\Phi(2z)/(8f_2z^2)=0.933,0.911,0.901\) at \((4,8,2),(6,12,3),(8,16,4)\)
+(all at \(z=1/14\)) and \(1.018\) at \((4,16,2)\) (\(z=1/44\)); the continuum
+cubic correction alone predicts \(1-0.99\,(2z)=0.858\) at \(z=1/14\), so the
+lattice values bracket the continuum law as expected.
+(iii) \emph{Second-order formula}: at \((4,6,3)\), \(z=0.154\), the windowed
+quantum-Fisher form \eqref{eq:gQ} of the Petz defect at \(\kappa_c=10\) is
+\(1.3634\times10^{-3}\) against the exact \(-\log\Fid=1.3032\times10^{-3}\)
+(\(+4.6\%\), the sign of the negative cubic remainder \(c_3=-0.99\) of Note~5);
+the \emph{uncapped} form gives \(3.61\times10^{-2}\), the ultraviolet
+amplification discussed in Sec.~\ref{sec:order}.
+
+
+
+\subsection{Results}\label{sec:results}
+
+Table~\ref{tab:opt} collects, for each geometry, the exact \(-\log\Fid\) of the
+ordinary Petz map and of the best channel found (over the cap ladder), both
+computed at \(90\) digits from the same recovered symbols.  All entries of the
+\(\Erec\) column are rigorous \emph{upper} bounds for the quasi-free optimum in
+the lattice model.
+
+\begin{table}[h]\centering\small
+\begin{tabular}{lccccccc}
+\toprule
+\((L_A,L_B,L_C)\)&\(n\)&\(z\)&\(-\log\Fid_{\text{Petz}}\)&\(\dfrac{\text{Petz}}{8f_2z^2}\)&
+\(-\log\Fid_{\text{best}}\)&\(\dfrac{\text{best}}{2f_2z^2}\)&\(\dfrac{\text{best}}{\text{Petz}}\)\\
+\midrule
+\((4,8,2)\) &14&\(1/14\)  &\(3.2164\times10^{-4}\)&0.933&\(8.6695\times10^{-5}\)&1.006&\textbf{0.2695}\\
+\((4,12,2)\)&18&\(1/27\)  &\(9.1816\times10^{-5}\)&0.991&\(2.6045\times10^{-5}\)&1.124&0.2837\\
+\((4,16,2)\)&22&\(1/44\)  &\(3.5524\times10^{-5}\)&1.018&\(1.4684\times10^{-5}\)&1.683&0.4134\\
+\((6,12,3)\)&21&\(1/14\)  &\(3.1391\times10^{-4}\)&0.911&\(1.2511\times10^{-4}\)&1.452&0.3986\\
+\((6,16,3)\)&25&\(0.045\) &\(1.3069\times10^{-4}\)&0.956&\(5.4347\times10^{-5}\)&1.589&0.4158\\
+\((8,16,4)\)&28&\(1/14\)  &\(3.1044\times10^{-4}\)&0.901&\(8.6962\times10^{-5}\)&\textbf{1.009}&\textbf{0.2801}\\
+\bottomrule
+\end{tabular}
+\caption{Exact lattice recovery errors.  \(f_2=c/(12\pi^2)\), \(c=1\);
+\(8f_2z^2\) and \(2f_2z^2\) are the continuum two-chirality Petz and spatial
+compression values \eqref{eq:refvalues}.  The rows \((6,12,3)\), \((4,16,2)\),
+\((6,16,3)\) are limited by the barrier solver at large caps (the objective's
+condition number grows like \(e^{\kappa_c}\)); their ``best'' entries are upper
+bounds that have not converged (caps reached: \(14,12,12\)).  The three
+converged rows give
+\(\text{best}/(2f_2z^2)=1.006\), \(1.009\), \(1.124\); the caps attained are
+\(\kappa_c=8,10,12\).}
+\label{tab:opt}
+\end{table}
+
+\paragraph{Reading of the table.}
+The reliable rows are those where the cap ladder saturates before the solver
+degrades, namely \((4,8,2)\), \((8,16,4)\) and \((4,12,2)\) (the first two at the
+same \(z=1/14\) but \(n=14\) and \(n=28\), so the agreement is also a finite-size
+check); there
+\begin{equation}\label{eq:main-number}
+ \boxed{\;\Erec^{\text{lattice}}\;=\;(1.01\text{--}1.12)\times 2f_2z^2,
+ \qquad \frac{\Erec}{-\log\Fid_{\text{Petz}}}\;=\;0.270,\ 0.280,\ 0.284
+ \;\approx\;\tfrac14 .\;}
+\end{equation}
+No channel was found anywhere in the search that goes below \(2f_2z^2\); the
+best value is \(0.6\%\) above it at \((4,8,2)\).  Since the continuum spatial
+geometric compression achieves exactly \(2f_2z^2+O(z^3)\)
+(Prop.~\ref{prop:convex}(4)) and the Petz map \(8f_2z^2+O(z^3)\), the numerics
+say: \emph{the Petz map is beaten by a factor \(\approx4\), and the winner sits
+at the geometric-compression value.}
+
+\paragraph{What the optimal channel is.}
+For \((4,8,2)\) the optimiser returns a real \(X\) with singular values
+\((1,1,0.9999,0.9998,0.9997,0.9773,0.9768,0.9527)\): \(X\) is, to within a few
+percent, an \emph{isometry} \(\hh_B\to\hh_D\), i.e.\ \(X^*\) is a coisometry
+\(\hh_D\to\hh_B\) and the channel is very nearly the pure ``squeeze'' of
+\(\cA(BC)\) into \(\cA(B)\) with no noise on the eight squeezed directions;
+the two remaining directions of \(\hh_D\) (forced by
+\(\dim\hh_D-\dim\hh_B=L_C=2\)) receive noise \(Y\le1-XX^*\) with \(\|Y\|=1\),
+\(\Tr Y=1.09\).  Writing \(X^*=(S\ \ T)\): \(\|S\|=1\) but
+\(\|S-1\|=1.35\) (the channel genuinely moves \(B\) into itself) and
+\(\|T\|=0.976\) (the constraint \(T^*T\le1\) is nearly active).  This is exactly
+the qualitative signature of the geometric compression: an isometric squeeze
+with the range constraint active, \emph{not} a modular rotation (the whole
+rotated family collapses onto \(\Phi(\zeta_t)\) with \(\zeta_t\ge z\), Note~5
+Cor.~5.1, and never goes below \(\Phi(z)\)).
+
+\paragraph{The Petz property is not optimal.}
+The Petz map is characterised by \(\delta_{DD}=Q_{DD}-Z=0\): it reproduces
+\(\omega|_{\cA(BC)}\) exactly and puts the entire defect into the \(A\!-\!BC\)
+block, \(\|\delta_{AD}\|=9.80\times10^{-3}\) at \((4,8,2)\).  The optimum
+\emph{trades}: \(\|\delta_{DD}\|=2.21\times10^{-3}\neq0\) buys
+\(\|\delta_{AD}\|=5.62\times10^{-3}\), a \(43\%\) reduction, and
+\((5.62/9.80)^2=0.33\) accounts for most of the factor \(0.27\) in the error.
+Hence \emph{exact reproduction of the \(BC\) marginal --- the defining property
+of the Petz map --- is strictly suboptimal at second order.}
+
+\paragraph{Why the naive lattice compression fails.}
+Discretising the continuum M\"obius squeeze \(h_\lambda(x)=x/(1+\lambda x/L)\) in
+the site basis (\texttt{compression.py}) produces a matrix whose singular values
+run down to \(0.47\)--\(0.62\): on a lattice a squeeze by \((b+c)/b\) pushes
+modes through the ultraviolet cutoff, and the resulting channel has
+\(-\log\Fid=0.66\)--\(2.2\), three to four orders of magnitude worse than Petz.
+The optimum therefore does \emph{not} discretise the geometric map; it realises
+the compression's infrared effect while staying isometric in the ultraviolet.
+This is the lattice artefact that also explains why the larger systems in
+Table~\ref{tab:opt} have not converged: the optimiser must resolve modular modes
+up to \(\kappa\sim\kappa_{\max}(n)\), and the barrier Hessian's condition number
+grows like \(e^{\kappa_c}\).
+
+
+
+\section{Verdicts}\label{sec:verdicts}
+
+\begin{verdictbreak}[\;Q1: is the Petz map second-order optimal? \textbf{No.}]
+For the free fermion the ordinary Petz map is beaten by a factor
+\(\approx3.5\)--\(3.7\) already in the finite lattice, and by the exact factor
+\(4\) in the continuum: the zero-collar geometric compression is admissible
+(Prop.~\ref{prop:convex}(4)) and gives \(\Phi(z)=f_2z^2+O(z^3)\) per chirality
+against the Petz \(\Phi(2z)=4f_2z^2+O(z^3)\), while the numerics of
+Sec.~\ref{sec:results} find no quasi-free channel that does better than the
+compression.  Two independent structural reasons: (i) inside the rotated family
+the constraint \(\beta(\cA(BC))\subseteq\cA(B)\) is active exactly at the
+compression endpoint \(s=\lambda\) (Remark~\ref{rem:active}), and the family is
+monotone, so \(t=0\) is the \emph{worst} admissible member for a single
+chirality; (ii) the defining property of the Petz map, exact reproduction of the
+\(BC\) marginal (\(\delta_{DD}=0\)), is strictly suboptimal: at \((4,8,2)\) the
+optimum accepts \(\|\delta_{DD}\|=2.2\times10^{-3}\) in exchange for a \(43\%\)
+smaller \(\|\delta_{AD}\|\).  Note that for a \emph{two-dimensional} CFT the
+Petz map is still the best member of the \emph{rotated} family (the two
+chiralities see opposite rotations, Note~5 eq.~(5.4)); optimality fails only
+once one leaves that family.
+\end{verdictbreak}
+
+\begin{verdictgap}[\;Q2: is the geometric compression second-order optimal? Consistent with yes, not proved.]
+Every channel produced by the convex programme, over six geometries and cap
+ladders \(\kappa_c\in\{3,\dots,20\}\), has exact error
+\(\ge 2f_2z^2\) (the two-chirality compression value), the closest being
+\(1.006\times2f_2z^2\) at \((4,8,2)\) and \(1.124\times\) at \((4,12,2)\);
+rows with larger \(n\) are further above only because the barrier solver has not
+converged there.  This is evidence, not proof: (a) it is a lattice statement,
+(b) it covers the quasi-free class only, (c) the solver's accuracy degrades
+exactly where the modular ultraviolet is hardest.  A proof would most naturally
+come from the Karush--Kuhn--Tucker conditions of the convex programme of
+Cor.~\ref{cor:convexQP} in the continuum modular frame, where the compression is
+the point at which the constraint \(1-XX^*\ge0\) is saturated
+(\(XX^*=1\), \(Y=0\)) --- i.e.\ one must exhibit a dual certificate supported on
+the active constraint.
+\end{verdictgap}
+
+\begin{tcolorbox}[colback=navy!5,colframe=navy!60,title={\bfseries Q3: the optimal coefficient},fonttitle=\small]
+Per chirality, with \(f_2=c/(12\pi^2)\) and \(z=\eta_{\mathrm V}/(1-\eta_{\mathrm V})\),
+\[
+ \Erec=\ \kappa_{\mathrm{opt}}\,f_2z^2+O(z^3),\qquad
+ \kappa_{\mathrm{opt}}=1.00\ (\pm0.15\ \text{numerically}),\qquad
+ \text{versus}\ \kappa_{\text{Petz}}=4 .
+\]
+For a two-dimensional CFT (both chiralities, spatial channel) the corresponding
+statement is \(\Erec=2f_2z^2\) against \(8f_2z^2\).  In the Vardhan--Wei--Zou
+variable, \(-\log F_{\mathrm{opt}}=2f_2\eta_{\mathrm V}^2+O(\eta^3)
+=0.0169\,c\,\eta_{\mathrm V}^2\) against their \(0.0676\,c\,\eta_{\mathrm V}^2\)
+at \(\lambda=0\).  The uncertainty \(\pm0.15\) is the spread of the two converged
+rows of Table~\ref{tab:opt} (\(1.006\), \(1.124\)) plus the finite-lattice drift
+seen in the Petz column (\(0.90\)--\(1.02\)).
+\end{tcolorbox}
+
+\begin{verdictbreak}[\;Q4: lower bound. Only \(\Erec\ge0\) is proved; the planned route is dead.]
+The \(A\!-\!C\) restriction proposed in \texttt{open\_problems\_plan.tex}~O8 and
+in the Phase-3 brief gives \emph{exactly zero}: the vacuum \(A\!-\!C\) state is
+itself \(B\)-mediated (Prop.~\ref{prop:AC-zero}, with the hypothesis verified on
+the chain to \(10^{-17}\)).  Gauge twirling (Lemma~\ref{lem:twirl}) is a valid
+reduction to gauge-covariant channels but does not reach quasi-free ones, and
+the Reeh--Schlieder property makes the naive ``the recovered \(A\!-\!C\)
+correlations must factor through \(\hh_B\)'' argument vacuous for non-Gaussian
+channels.  The only general tool that survives is the single-mode measurement
+bound (Lemma~\ref{lem:onemode}), which converts a lower bound on the recovered
+\emph{symbol} error into a lower bound on \(-\log\Fid\) for arbitrary channels;
+what is missing is a characterisation of the achievable symbols
+\(\{Q^{\mathrm{rec}}(\beta):\beta\in\mathcal C\}\) beyond the quasi-free ones.
+\textbf{Open question, sharpened:} is
+\(\{Q^{\mathrm{rec}}(\beta):\beta\in\mathcal C\}=\{Q^{\mathrm{rec}}(X,Z):(X,Z)\in\mathcal F\}\)?
+If yes, the convex programme of Cor.~\ref{cor:convexQP} plus
+Lemma~\ref{lem:onemode} closes O8 completely.
+\end{verdictbreak}
+
+\subsection{What is and is not established}
+
+\begin{enumerate}[leftmargin=1.6em,itemsep=2pt]
+\item \textbf{Established (proved here).} Convexity of \(\Krec\) and of the
+ objective (Prop.~\ref{prop:convex}); the complete-positivity condition
+ \eqref{eq:cp} with its Gaussian Stinespring dilation (Prop.~\ref{prop:cp},
+ numerically verified); the recovered-symbol rule (Lemma~\ref{lem:rec-symbol});
+ the exact convexity of the quasi-free second-order problem in \((X,Z)\)
+ (Thm.~\ref{thm:convex-set}) and its semidefinite representability; the
+ vanishing of the \(A\!-\!C\) lower bound (Prop.~\ref{prop:AC-zero});
+ the single-mode bound (Lemma~\ref{lem:onemode}) and gauge twirling
+ (Lemma~\ref{lem:twirl}).
+\item \textbf{Numerical (lattice, quasi-free, certificates).} Every entry of the
+ \(-\log\Fid_{\text{best}}\) column is an exact evaluation of an admissible
+ channel: the factor \(\approx3.7\) improvement over Petz is not a
+ solver artefact.
+\item \textbf{Not established.} Optimality of the compression (only evidence);
+ any nonzero lower bound on \(\Erec\); the extension of the quasi-free
+ restriction to all channels; the continuum limit of the lattice optimum (the
+ rows at larger \(n\) are unconverged, and the naive continuum-to-lattice
+ transcription of the compression fails badly, Sec.~\ref{sec:results}).
+\item \textbf{Consequences for the notes.} Note~3's question ``is the Petz map
+ optimal?'' is answered in the negative; Note~5's Cor.~5.1 (``the ordinary Petz
+ map is worse than the optimal rotation by a factor \(4\)'') is now known to be
+ the whole story rather than an artefact of the rotated family, at least among
+ quasi-free channels; \texttt{open\_problems\_plan.tex}~O8 should replace the
+ \(A\!-\!C\) route by the KKT/dual-certificate route and by the symbol-range
+ question above.
+\end{enumerate}
+
+\end{document}

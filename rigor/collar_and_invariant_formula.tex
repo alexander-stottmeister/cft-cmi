@@ -1,0 +1,416 @@
+\documentclass[11pt]{article}
+\input{rigor_preamble}
+\newcommand{\Wh}{\widehat W}
+\newcommand{\gh}{\widehat{\widetilde g}}
+\newcommand{\gt}{\widetilde g}
+\newcommand{\Om}{\Omega}
+\newcommand{\gB}{g_{\mathrm B}}
+\newcommand{\gKM}{g_{\mathrm{KM}}}
+\newcommand{\Mel}{\mathsf M}
+\title{An $x$-space (Mellin) check of the invariant formula of Note~7,\\
+and the status of the collar limit}
+\author{Agent P4b, rigor audit of \texttt{cft\_cmi/}}
+\date{2026-09-05}
+\begin{document}\maketitle
+
+\begin{abstract}
+Note~7 (\texttt{universality\_normalization.tex}) computes $\gB=2c/3\pi^2$ and $\gKM=c/6$ by
+passing to the modular chart $\xi=-\log\frac{L-x}{L}$, in which the two-point function of the
+stress tensor becomes the thermal density $W(u)=\frac{c}{128\pi^2}\sinh^{-4}\frac{u-i0}2$ and its
+Fourier transform is $\Wh(k)=\frac{c}{24\pi}\frac{k(k^2+1)}{e^{2\pi k}-1}$.  This document redoes the
+whole evaluation \emph{without ever writing down the thermal form}: everything is done in the affine
+coordinate $u=L-x>0$, in which the modular group of $(\cA(I),\Om)$ acts by dilation and the Mellin
+transform is the diagonalising transform.  The vacuum kernel $\frac{c}{8\pi^2}(u'-u-i0)^{-4}$
+and the vector field $g(x)=-x^2/L$ are the only inputs.  Section~\ref{sec:mellin} proves the
+Mellin/dilation identity and evaluates the two Mellin transforms in closed form;
+Section~\ref{sec:num} confirms them numerically (\texttt{rigor/p4\_invariant.py}) and reassembles
+$\gB,\gKM$ from purely $x$-space data, agreeing with Note~7 to $10^{-11}$.
+Section~\ref{sec:collar} states, briefly, what is and is not proved about the collar limit and about
+the geometric modular action on $T$.
+\end{abstract}
+
+\section{Conventions and the two $x$-space inputs}\label{sec:conv}
+
+\paragraph{Configuration.} $A=(-\infty,0)$, $D=(0,L)$, $I=ABC=(-\infty,L)$, as in Note~7,
+\S1 of that note.  Throughout we use
+\begin{equation}\label{eq:u}
+ u:=L-x\in(0,\infty)\quad\text{for }x\in I,\qquad x=L-u .
+\end{equation}
+By homogeneity every quantity below is independent of $L$; \emph{all displayed formulas and all
+numerics take $L=1$}.
+
+\paragraph{Input 1 (two-point function).} In the generator normalisation of Note~7, eq.~(TT),
+\begin{equation}\label{eq:TT}
+ \langle\Om,T(x)T(y)\Om\rangle=\frac{c}{8\pi^2}\frac1{(x-y-i0)^4},
+\end{equation}
+and $T$ is a weight-$2$ density: under $x\mapsto\xi$ the connected two-point function transforms with
+$\beta^2\beta'^2$, $\beta=dx/d\xi$.  In the coordinate \eqref{eq:u} one has $x-y=u'-u$, so the
+\emph{$x$-space kernel} of the audit is
+\begin{equation}\label{eq:Kxu}
+ K(u,u')=\frac{c}{8\pi^2}\frac1{(u'-u-i0)^4}.
+\end{equation}
+
+\paragraph{Input 2 (tangent vector field).} $g=f=-x^2/L$ on $[0,L]$, $g=0$ on $A$
+(Note~7, eq.~(f) and the paragraph after eq.~(gtilde)).  In the coordinate \eqref{eq:u}, with $L=1$,
+\begin{equation}\label{eq:gu}
+ g(u)=-(1-u)^2\quad (0<u<1),\qquad g(u)=0\quad(u>1).
+\end{equation}
+
+\paragraph{Modular data (Bisognano--Wichmann).} $\Delta^{it}$ of $(\cA(I),\Om)$ is the dilation about
+the endpoint $L$; in the coordinate \eqref{eq:u} it is the \emph{scaling}
+\begin{equation}\label{eq:dil}
+ \delta_t:\ u\longmapsto e^{2\pi t}u ,
+\end{equation}
+and $J$ implements $x\mapsto2L-x$, i.e.\ $u\mapsto-u$.  The sign in \eqref{eq:dil} is the one
+Note~7 fixes ($\xi\mapsto\xi-2\pi t$ under $\xi=-\log u$); see the convention audit in
+\S\ref{sec:signs}.
+
+\section{The Mellin transform diagonalises the modular group}\label{sec:mellin}
+
+\begin{definition}\label{def:mellin}
+For $F:(0,\infty)\to\mathbb C$ measurable put $\Mel[F](\sigma):=\int_0^\infty u^{\sigma-1}F(u)\,du$ on the
+maximal open strip $\alpha<\operatorname{Re}\sigma<\beta$ on which the integral converges absolutely
+(its \emph{fundamental strip}).  Write, for $k\in\mathbb R$,
+\begin{equation}\label{eq:defs}
+ \gh(k):=\Mel[g](ik-1)=\int_0^\infty u^{ik-2}g(u)\,du,\qquad
+ \Wh(k):=\Mel[\kappa](2+ik)=\int_0^\infty u^{1+ik}\kappa(u)\,du,
+\end{equation}
+where $\kappa(r):=K(r,1)=\frac{c}{8\pi^2}(1-r-i0)^{-4}$ is the profile of \eqref{eq:Kxu}.
+\end{definition}
+
+The offsets $-1$ and $+2$ in \eqref{eq:defs} are exactly the two weight-$2$ density factors:
+$T(g)=\int_0^\infty T(u)g(u)\,du$ and $K$ is homogeneous of degree $-4$.
+
+\begin{lemma}[Mellin diagonalises the dilation]\label{lem:diag}
+Let $\delta_t^*F:=F(e^{-2\pi t}\,\cdot\,)$.  If $\sigma$ lies in the fundamental strip of $F$ then it lies
+in that of $\delta_t^*F$ and
+\begin{equation}\label{eq:diag}
+ \Mel[\delta_t^*F](\sigma)=e^{2\pi t\sigma}\,\Mel[F](\sigma);
+\end{equation}
+in particular on the critical line $\sigma=ik$ the dilation acts by the \emph{pure phase} $e^{2\pi ikt}$,
+so $\{u^{ik}\}_{k\in\mathbb R}$ are the (generalised) eigenfunctions of \eqref{eq:dil}.
+\end{lemma}
+\lstep{1}{1}{$\int_0^\infty u^{\sigma-1}F(e^{-2\pi t}u)\,du=e^{2\pi t\sigma}\int_0^\infty v^{\sigma-1}F(v)\,dv$
+for every $\sigma$ with $\operatorname{Re}\sigma$ in the strip of $F$.}
+\lproof
+\lstep{2}{1}{Substitute $v=e^{-2\pi t}u$, i.e.\ $u=e^{2\pi t}v$, $du=e^{2\pi t}dv$; the map is a
+$C^\infty$ bijection of $(0,\infty)$ onto itself with positive Jacobian.}
+\lby{the change-of-variables theorem for Lebesgue integrals on $(0,\infty)$}
+\lstep{2}{2}{$u^{\sigma-1}du=(e^{2\pi t}v)^{\sigma-1}e^{2\pi t}dv=e^{2\pi t\sigma}v^{\sigma-1}dv$.}
+\lby{$\langle2\rangle1$ and $e^{2\pi t(\sigma-1)}e^{2\pi t}=e^{2\pi t\sigma}$}
+\lstep{2}{3}{The absolute integral is finite, and equals $e^{2\pi t\operatorname{Re}\sigma}\int v^{\operatorname{Re}\sigma-1}|F|dv<\infty$.}
+\lby{$\langle2\rangle2$ with $\sigma$ replaced by $\operatorname{Re}\sigma$, and the hypothesis that
+$\operatorname{Re}\sigma$ is in the strip of $F$}
+\lqed{2}{4}
+\lby{$\langle2\rangle2$, $\langle2\rangle3$}
+\lstep{1}{2}{Q.E.D.}
+\lby{$\langle1\rangle1$ with $\sigma=ik$, where $e^{2\pi t\sigma}=e^{2\pi ikt}$ has modulus $1$}
+
+\begin{remark}
+Lemma~\ref{lem:diag} is the \emph{whole} content of ``pass to the modular frame'': the substitution
+$\xi=-\log u$ turns \eqref{eq:dil} into a translation and $\Mel$ into the Fourier transform.  Nothing
+below uses $\xi$; the point of this document is that the two closed forms of Note~7 are Mellin
+transforms of $x$-space objects, computable without ever writing $\sinh$.
+\end{remark}
+
+\subsection{The spectral density of the tangent vector, in $x$-space}\label{sec:parseval}
+
+\begin{proposition}[Mellin--Barnes form of the modular correlation]\label{prop:parseval}
+Let $F(t):=\langle T(g)\Om,\Delta^{it}T(g)\Om\rangle$, computed from \eqref{eq:Kxu} and the
+geometric action \eqref{eq:dil} of $\Delta^{it}$ on the weight-$2$ field.  Then, \emph{formally},
+\begin{equation}\label{eq:barnes}
+ F(t)=\frac1{2\pi}\int_{\mathbb R}\Wh(k)\,\gh(-k)\gh(k)\,e^{2\pi ikt}\,dk
+     =\frac1{2\pi}\int_{\mathbb R}\Wh(k)\,|\gh(k)|^2\,e^{2\pi ikt}\,dk ,
+\end{equation}
+i.e.\ the spectral measure of $T(g)\Om$ for $\log\Delta$ is
+$d\mu(\log\lambda)=\frac1{2\pi}\Wh(k)|\gh(k)|^2dk$ at $\log\lambda=2\pi k$ --- Note~7, eq.~(mu), with
+the same sign.  ``Formally'' is made precise in Remark~\ref{rem:strips}.
+\end{proposition}
+\lstep{1}{1}{$\Delta^{it}T(u)\Delta^{-it}=e^{4\pi t}\,T(e^{2\pi t}u)$.}
+\lby{$T$ is a weight-$2$ density and $\Delta^{it}$ implements the dilation $\delta_t$ of \eqref{eq:dil},
+whose Schwarzian vanishes (a dilation is M\"obius); the Jacobian factor is $(d\delta_t/du)^2=e^{4\pi t}$}
+\lstep{1}{2}{$F(t)=e^{4\pi t}\displaystyle\int_0^\infty\!\!\int_0^\infty g(u)g(u')\,K(u,e^{2\pi t}u')\,du\,du'$.}
+\lby{$\langle1\rangle1$, $\Delta^{it}\Om=\Om$, bilinearity of $T(g)=\int_0^\infty T(u)g(u)du$, and \eqref{eq:Kxu}}
+\lstep{1}{3}{$K(u,u')=u'^{-4}\kappa(u/u')$ with $\kappa$ as in Definition~\ref{def:mellin}, and the
+fundamental strip of $\kappa$ is $0<\operatorname{Re}\sigma<4$.}
+\lproof
+\lstep{2}{1}{$K(\lambda u,\lambda u')=\lambda^{-4}K(u,u')$ for $\lambda>0$, hence $K(u,u')=u'^{-4}K(u/u',1)$.}
+\lby{\eqref{eq:Kxu}: $(\lambda u'-\lambda u-i0)^{-4}=\lambda^{-4}(u'-u-i0)^{-4}$, the $i0$ being unaffected by $\lambda>0$}
+\lstep{2}{2}{$\kappa(r)\to\frac{c}{8\pi^2}$ as $r\downarrow0$ and $\kappa(r)=O(r^{-4})$ as $r\to\infty$;
+the singularity at $r=1$ is integrated as the distributional boundary value from $\operatorname{Im}r>0$.}
+\lby{inspection of $\frac{c}{8\pi^2}(1-r-i0)^{-4}$}
+\lqed{2}{3}\lby{$\langle2\rangle1$, $\langle2\rangle2$ and Definition~\ref{def:mellin}}
+\lstep{1}{4}{$\kappa(r)=\frac1{2\pi i}\int_{\operatorname{Re}\sigma=2}\Mel[\kappa](\sigma)\,r^{-\sigma}\,d\sigma$.}
+\lby{Mellin inversion on the line $\operatorname{Re}\sigma=2$, which lies inside the strip
+$0<\operatorname{Re}\sigma<4$ of $\langle1\rangle3$}
+\lstep{1}{5}{Substituting $\langle1\rangle3$ and $\langle1\rangle4$ into $\langle1\rangle2$ and interchanging
+the $\sigma$-integral with the $(u,u')$-integrals,
+\[ F(t)=e^{-4\pi t}\frac1{2\pi i}\int_{\operatorname{Re}\sigma=2}\!\!\Mel[\kappa](\sigma)\,e^{2\pi t\sigma}
+ \Bigl[\int_0^\infty\! g(u)u^{-\sigma}du\Bigr]\Bigl[\int_0^\infty\! g(u')u'^{\sigma-4}du'\Bigr]d\sigma .\]}
+\lby{$\langle1\rangle2$--$\langle1\rangle4$, $K(u,e^{2\pi t}u')=e^{-8\pi t}u'^{-4}\kappa(e^{-2\pi t}u/u')$
+and $(e^{-2\pi t}u/u')^{-\sigma}=e^{2\pi t\sigma}(u/u')^{-\sigma}$; the interchange is the formal step,
+see Remark~\ref{rem:strips}}
+\lstep{1}{6}{On $\sigma=2+ik$: $e^{-4\pi t}e^{2\pi t\sigma}=e^{2\pi ikt}$,
+$\Mel[\kappa](\sigma)=\Wh(k)$, $\int g\,u^{-\sigma}du=\Mel[g](-1-ik)=\gh(-k)$,
+$\int g\,u'^{\sigma-4}du'=\Mel[g](ik-1)=\gh(k)$, and $\frac{d\sigma}{2\pi i}=\frac{dk}{2\pi}$.}
+\lby{\eqref{eq:defs} and $\sigma-4=ik-2=(ik-1)-1$, $-\sigma=-2-ik=(-1-ik)-1$}
+\lstep{1}{7}{Q.E.D.}
+\lby{$\langle1\rangle5$, $\langle1\rangle6$, and $\gh(-k)=\overline{\gh(k)}$ because $g$ is real-valued}
+
+\begin{remark}[Where the formula is only a prescription --- an $x$-space diagnosis]\label{rem:strips}
+The interchange in $\langle1\rangle5$ is \emph{not} justified: $g(u)\to-1$ as $u\downarrow0$, so
+$\int_0^1 g(u)u^{-\sigma}du$ converges only for $\operatorname{Re}\sigma<1$ while
+$\int_0^1 g(u)u^{\sigma-4}du$ converges only for $\operatorname{Re}\sigma>3$.  The two fundamental strips
+are \emph{disjoint}, so there is no contour on which \eqref{eq:barnes} converges absolutely, and $\gh$
+in \eqref{eq:defs} exists only by analytic continuation (Proposition~\ref{prop:ghat}).  This is exactly
+Note~7's own caveat and finding [V5] --- but note the $x$-space diagnosis is sharper: the obstruction is
+located at $u=0$, i.e.\ at $x=L$, and it is nothing but $g(L)=-L\neq0$, the statement that the
+deformation moves the endpoint of $I$.  Had $g$ vanished to second order at $x=L$ (i.e.\ $g=O(u^2)$),
+the two strips would have been $\operatorname{Re}\sigma<3$ and $\operatorname{Re}\sigma>1$, overlapping in
+$1<\operatorname{Re}\sigma<3\ni2$, and \eqref{eq:barnes} would be an absolutely convergent identity.
+So the failure is a statement about the \emph{tangent field}, not about the $\xi$-chart.
+\end{remark}
+
+\subsection{The two Mellin transforms in closed form}
+
+\begin{proposition}[$x$-space derivation of $\Wh$]\label{prop:What}
+For $k\in\mathbb R\setminus\{0\}$,
+\begin{equation}\label{eq:Whatx}
+ \Wh(k)=\frac{c}{8\pi^2}\int_0^\infty\frac{u^{1+ik}}{(1-u-i0)^4}\,du
+ =\frac{c}{24\pi}\,\frac{k(k^2+1)}{e^{2\pi k}-1},\qquad \Wh(-k)=e^{2\pi k}\Wh(k),\quad\Wh\ge0 .
+\end{equation}
+No thermal/$\sinh$ representation is used.
+\end{proposition}
+\lstep{1}{1}{$(1-u-i0)^{-4}=(u-1+i0)^{-4}$ as boundary values of holomorphic functions on
+$\{\operatorname{Im}u>0\}$.}
+\lby{$-(1-u-i0)=u-1+i0$ and $(-z)^{-4}=z^{-4}$ for every $z\neq0$, the exponent being an even integer,
+so no branch is involved}
+\lstep{1}{2}{$\Wh(k)=\frac{c}{8\pi^2}\int_0^\infty u^{s-1}(u+z)^{-a}du$ with $s=2+ik$, $a=4$,
+$z=e^{i\pi}$ (i.e.\ $z=-1$ reached from $\operatorname{Im}z>0$).}
+\lby{$\langle1\rangle1$, $u-1+i0=u+z$ with $z=-1+i0=e^{i\pi}$, and $u^{1+ik}=u^{s-1}$}
+\lstep{1}{3}{$\int_0^\infty u^{s-1}(u+z)^{-a}du=z^{s-a}B(s,a-s)$ whenever
+$0<\operatorname{Re}s<\operatorname{Re}a$ and $|\arg z|<\pi$.}
+\lby{Gradshteyn--Ryzhik 3.194.3 (equivalently: substitute $u=z\frac{w}{1-w}$ and use Euler's Beta
+integral); the hypotheses hold, $\operatorname{Re}s=2\in(0,4)$ and $\arg z=\pi^-$}
+\lstep{1}{4}{$z^{s-a}=e^{i\pi(ik-2)}=e^{-\pi k}$.}
+\lby{$\langle1\rangle3$ with $s-a=ik-2$ and $e^{-2\pi i}=1$}
+\lstep{1}{5}{$B(s,a-s)=B(2+ik,2-ik)=\frac{|\Gamma(2+ik)|^2}{\Gamma(4)}=\frac{|\Gamma(2+ik)|^2}{6}$.}
+\lby{$B(p,q)=\Gamma(p)\Gamma(q)/\Gamma(p+q)$ and $\overline{\Gamma(2+ik)}=\Gamma(2-ik)$ for real $k$}
+\lstep{1}{6}{$|\Gamma(2+ik)|^2=\dfrac{\pi k(k^2+1)}{\sinh\pi k}$.}
+\lby{$\Gamma(2+ik)=(1+ik)(ik)\Gamma(ik)$, $|\Gamma(ik)|^2=\frac{\pi}{k\sinh\pi k}$ (reflection formula),
+and $|1+ik|^2|ik|^2=(1+k^2)k^2$}
+\lstep{1}{7}{$\Wh(k)=\frac{c}{8\pi^2}\cdot e^{-\pi k}\cdot\frac{\pi k(k^2+1)}{6\sinh\pi k}
+ =\frac{c}{48\pi}k(k^2+1)\frac{e^{-\pi k}}{\sinh\pi k}=\frac{c}{24\pi}\frac{k(k^2+1)}{e^{2\pi k}-1}$.}
+\lby{$\langle1\rangle2$--$\langle1\rangle6$ and $\frac{e^{-\pi k}}{\sinh\pi k}=\frac{2}{e^{2\pi k}-1}$}
+\lstep{1}{8}{Q.E.D.}
+\lby{$\langle1\rangle7$; the KMS relation follows from $\frac{1}{e^{-2\pi k}-1}=-\frac{e^{2\pi k}}{e^{2\pi k}-1}$
+together with the odd factor $k$, and $\Wh\ge0$ because $k$ and $e^{2\pi k}-1$ have the same sign}
+
+\begin{proposition}[$x$-space derivation of $\gh$]\label{prop:ghat}
+With $g$ as in \eqref{eq:gu}, the regularised Mellin transform
+$\gh_\eps(k):=\int_0^\infty u^{ik-2+\eps}g(u)\,du$ converges absolutely for $\eps>1$, equals
+\begin{equation}\label{eq:gheps}
+ \gh_\eps(k)=\frac{-2}{(ik+\eps-1)(ik+\eps)(ik+\eps+1)},
+\end{equation}
+a rational function of $\eps$, and its unique rational continuation to $\eps=0$ is
+\begin{equation}\label{eq:ghx}
+ \gh(k)=\frac{-2}{(ik-1)(ik)(ik+1)}=\frac{-2i}{k(k^2+1)},\qquad |\gh(k)|^2=\frac{4}{k^2(k^2+1)^2}.
+\end{equation}
+\end{proposition}
+\lstep{1}{1}{$\gh_\eps(k)=-\int_0^1u^{(ik-1+\eps)-1}(1-u)^{3-1}du$, absolutely convergent iff $\eps>1$.}
+\lby{\eqref{eq:gu}: $g=-(1-u)^2$ on $(0,1)$ and $0$ on $(1,\infty)$; near $u=0$ the integrand is
+$-u^{\eps-2}(1+O(u))$, integrable iff $\eps>1$}
+\lstep{1}{2}{$\gh_\eps(k)=-B(ik-1+\eps,3)=-\frac{\Gamma(ik-1+\eps)\,\Gamma(3)}{\Gamma(ik+2+\eps)}
+ =\frac{-2}{(ik+\eps-1)(ik+\eps)(ik+\eps+1)}$.}
+\lby{$\langle1\rangle1$, Euler's Beta integral (valid since $\operatorname{Re}(ik-1+\eps)>0$ and $3>0$),
+and $\Gamma(w+3)=(w+2)(w+1)w\,\Gamma(w)$ with $w=ik-1+\eps$}
+\lstep{1}{3}{$1/\gh_\eps(k)$ is a cubic polynomial in $\eps$; hence $\gh_\eps$ has a unique rational
+continuation, determined by any four values $\eps_1,\dots,\eps_4>1$.}
+\lby{$\langle1\rangle2$; a polynomial of degree $\le3$ is determined by four points}
+\lstep{1}{4}{Q.E.D.}
+\lby{$\langle1\rangle2$ at $\eps=0$: $(ik-1)(ik)(ik+1)=ik\,(i^2k^2-1)=-ik(k^2+1)$, so
+$\gh(k)=\frac{-2}{-ik(k^2+1)}=\frac{2}{ik(k^2+1)}=\frac{-2i}{k(k^2+1)}$}
+
+\begin{proposition}[A numerically stable contour for $k<0$]\label{prop:res}
+For $k<0$ and $-\pi<\phi<0$,
+\begin{equation}\label{eq:resshift}
+ \int_0^\infty\!\frac{u^{1+ik}}{(u-1+i0)^4}du
+ =\int_{0}^{\infty e^{i\phi}}\!\frac{u^{1+ik}}{(u-1)^4}du\;-\;\frac{\pi}{3}k(k^2+1),
+\end{equation}
+the ray integral being $O(e^{-|k\phi|})$.  Hence
+$\Wh(k)=\frac{c}{8\pi^2}\bigl[\text{ray}\bigr]-\frac{c}{24\pi}k(k^2+1)$ and the second term already
+gives the exact $k\to-\infty$ limit of \eqref{eq:Whatx}.
+\end{proposition}
+\lstep{1}{1}{$u\mapsto u^{1+ik}(u-1)^{-4}$ is holomorphic on $\mathbb C\setminus((-\infty,0]\cup\{1\})$,
+with a pole of order $4$ at $u=1$.}
+\lby{principal branch of $u^{1+ik}=e^{(1+ik)\log u}$}
+\lstep{1}{2}{$\operatorname{Res}_{u=1}u^{1+ik}(u-1)^{-4}=\frac1{3!}\frac{d^3}{du^3}u^{1+ik}\Big|_{u=1}
+ =\frac16(1+ik)(ik)(ik-1)=-\frac i6k(k^2+1)$.}
+\lby{the residue formula for a pole of order $4$, and $(1+ik)(ik-1)=-(1+k^2)$}
+\lstep{1}{3}{Rotating the contour from the real axis indented \emph{above} $u=1$ down to the ray
+$\arg u=\phi<0$ sweeps $u=1$ in the \emph{clockwise} sense, contributing $-2\pi i\operatorname{Res}$.}
+\lby{$\langle1\rangle1$, Cauchy's theorem on the closed contour ``out above the pole, back below it'',
+and the vanishing of the arcs at $0$ and $\infty$: the integrand is $O(|u|^{1})$ at $0$ and
+$O(|u|^{-3})$ at $\infty$, uniformly for $\arg u\in[\phi,0]$}
+\lstep{1}{4}{$-2\pi i\cdot\bigl(-\frac i6k(k^2+1)\bigr)=-\frac\pi3k(k^2+1)$.}
+\lby{$\langle1\rangle2$ and $i\cdot i=-1$}
+\lstep{1}{5}{Q.E.D.}
+\lby{$\langle1\rangle3$, $\langle1\rangle4$; on the ray, $|u^{ik}|=e^{-k\phi}=e^{-|k||\phi|}$ for $k<0,\phi<0$}
+
+\section{Numerical verification and reassembly of the metrics}\label{sec:num}
+
+The script \texttt{rigor/p4\_invariant.py} (output \texttt{rigor/p4\_invariant.out}) implements
+\emph{only} the $x$-space objects of Section~\ref{sec:conv}: the kernel $(1-u-i0)^{-4}$ (realised by a
+ray in $\operatorname{Im}u>0$, or by Proposition~\ref{prop:res} for $k<0$) and the vector field
+$g(u)=-(1-u)^2\mathbf 1_{(0,1)}$ (regularised by $u^{\eps}$ and continued by cubic interpolation of
+$1/\gh_\eps$ through $\eps\in\{1.5,2,2.5,3\}$, as in Proposition~\ref{prop:ghat}$\langle1\rangle3$).
+The weights are Note~7's, eqs.\ (gB-int),(gKM-int):
+\begin{equation}\label{eq:weights}
+ \gB=\frac1\pi\int_{\mathbb R}\Wh|\gh|^2\,w_{\mathrm B}\,dk,\quad
+ w_{\mathrm B}=\frac{(e^{2\pi k}-1)^2}{e^{2\pi k}+1};\qquad
+ \gKM=\frac1{2\pi}\int_{\mathbb R}\Wh|\gh|^2\,w_{\mathrm{KM}}\,dk,\quad
+ w_{\mathrm{KM}}=(e^{2\pi k}-1)\,2\pi k .
+\end{equation}
+Both integrands are even, so the quadrature is performed on $k<0$, where Proposition~\ref{prop:res}
+makes $\Wh$ cancellation-free and the weights are $O(1)$ and $O(|k|)$; the tail is mapped by $k=-8/t$,
+$t\in(0,1]$, on which both integrands are analytic at $t=0$.  Verbatim output:
+
+{\scriptsize\begin{verbatim}
+==========================================================================
+(1) x-space Mellin transform of  (c/8pi^2)(u'-u-i0)^{-4}  vs  What(k)
+    What(k) = (c/24pi) k(k^2+1)/(e^{2pi k}-1)      [c = 1]
+==========================================================================
+      k       Mellin (x-space), Re           Im           note What(k)    rel.err
+  -1.70          0.087709651057917     9.53e-39      0.087709651057917   1.09e-37
+  -0.50          0.008663712935352          0.0      0.008663712935352   0.00e+00
+   0.30        0.00077639170997702    -2.38e-39    0.00077639170997702   3.07e-36
+   1.00         4.9628134648063e-5          0.0     4.9628134648063e-5   1.21e-31
+   2.50         3.6227235732388e-8    -5.96e-40     3.6227235732388e-8   3.68e-29
+
+    KMS asymmetry  What(-k) = e^{2 pi k} What(k), from x-space only:
+      k= 0.3  What(-k)=  0.00511336390923  e^(2pik)What(k)=  0.00511336390923  rel=3.07e-36
+      k= 1.0  What(-k)=   0.0265754519833  e^(2pik)What(k)=   0.0265754519833  rel=0.00e+00
+      k= 2.5  What(-k)=    0.240390314856  e^(2pik)What(k)=    0.240390314856  rel=3.69e-29
+
+    Mellin diagonalises the dilation:  M[F(e^{-2pi t}.)](ik)/M[F](ik) = e^{2 pi i k t}?
+      k= 0.70 t=0.31  ratio=(0.2058626088 + 0.9785809043j)   e^(2pi i k t)=(0.2058626088 + 0.9785809043j)   err=7.40e-32
+      k=-1.30 t=0.50  ratio=(-0.5877852523 + 0.8090169944j)   e^(2pi i k t)=(-0.5877852523 + 0.8090169944j)   err=4.41e-31
+
+==========================================================================
+(2) x-space ghat by eps-continuation of the Mellin integral, vs -2i/(k(k^2+1))
+==========================================================================
+      k                       x-space ghat                  note ghat    rel.err
+  -1.70 (7.32614362535e-17 + 0.302434598518j)    (0.0 + 0.302434598518j)   9.30e-16
+  -0.50        (-4.16768185127e-15 + 3.2j)               (0.0 + 3.2j)   1.30e-15
+   0.30 (9.85329731257e-15 - 6.11620795107j)     (0.0 - 6.11620795107j)   1.87e-15
+   1.00        (-4.24020003027e-16 - 1.0j)               (0.0 - 1.0j)   9.67e-16
+   2.50 (2.00152597199e-16 - 0.110344827586j)    (0.0 - 0.110344827586j)   1.86e-15
+
+==========================================================================
+(3) metrics assembled from the x-space ingredients (c = 1)
+==========================================================================
+    g_B  (x-space) =    0.0675474557603   2c/(3 pi^2) =    0.0675474557616   rel = 1.93e-11
+    g_KM (x-space) =     0.166666666665   c/6         =     0.166666666667   rel = 8.22e-12
+    f_2 = g_B/8    =   0.00844343197003   c/(12 pi^2) =   0.00844343197019
+    s_2 = g_KM/2   =    0.0833333333326   c/12        =    0.0833333333333
+    s_2/f_2        =       9.8696044012   pi^2 = 9.86960440109
+    [152 integrand evaluations, 45.3 s]
+\end{verbatim}
+}
+
+\begin{verdictok}
+\textbf{The invariant formula of Note~7 is confirmed by an independent $x$-space computation.}
+The Mellin transform of the $x$-space kernel $\frac{c}{8\pi^2}(u'-u-i0)^{-4}$ with the two weight-$2$
+density factors reproduces $\Wh(k)=\frac{c}{24\pi}\frac{k(k^2+1)}{e^{2\pi k}-1}$ to $10^{-29}$ or
+better at $k=-1.7,-0.5,0.3,1.0,2.5$ and to $10^{-23}$ at $k$ down to $-300$
+(Proposition~\ref{prop:What}: the agreement is in fact \emph{exact}, both sides being
+$\frac{c}{8\pi^2}e^{i\pi(ik-2)}B(2+ik,2-ik)$).  The KMS asymmetry $\Wh(-k)=e^{2\pi k}\Wh(k)$ is
+verified directly on the $x$-space transform, so the thermal character at inverse temperature $2\pi$ is
+a \emph{consequence} of \eqref{eq:TT} plus the dilation \eqref{eq:dil}, not an extra input.  The
+Mellin transform diagonalises the dilation to the phase $e^{2\pi ikt}$ to $10^{-31}$.  The $x$-space
+$\gh$, obtained by $\eps$-regularisation and cubic continuation, matches $-2i/(k(k^2+1))$ to
+$2\times10^{-15}$.  Reassembling \eqref{eq:weights} from these $x$-space ingredients alone gives
+\[ \gB=0.0675474557603\,c\ \ (\text{exact }\tfrac{2c}{3\pi^2}=0.0675474557616\,c;\ \text{rel. }1.9\times10^{-11}),\qquad
+   \gKM=0.166666666665\,c\ \ (\text{rel. }8.2\times10^{-12}),\]
+hence $f_2=c/12\pi^2$, $s_2=c/12$, $s_2/f_2=\pi^2$ to eleven digits.  No sign, factor of $2\pi$, or
+density weight is misplaced in Note~7 \S3.
+\end{verdictok}
+
+\subsection{Convention audit}\label{sec:signs}
+Three conventions were checked independently, and all three are as Note~7 states.
+\begin{enumerate}[leftmargin=1.6em]
+\item \emph{Sign of the dilation.}  Proposition~\ref{prop:parseval}$\langle1\rangle6$ produces
+$e^{+2\pi ikt}$ in \eqref{eq:barnes} from $\Delta^{it}:u\mapsto e^{2\pi t}u$.  With
+$\langle T(g)\Om,\Delta^{it}T(g)\Om\rangle=\int\lambda^{it}d\mu(\lambda)$ and $\log\lambda=2\pi k$ this
+is Note~7's eq.~(mu) with the \emph{upper} sign, i.e.\ the note's $\xi\mapsto\xi-2\pi t$.  The sign is
+not cosmetic and is in fact forced: the opposite choice replaces $\Wh(k)$ by $\Wh(-k)$ in
+\eqref{eq:weights}, i.e.\ multiplies both integrands by $e^{2\pi k}$ (by the KMS relation of
+Proposition~\ref{prop:What}), so that $\Wh|\gh|^2w_{\mathrm B}\sim\frac{c}{6\pi}e^{2\pi k}k^{-3}$ and
+$\Wh|\gh|^2w_{\mathrm{KM}}\sim\frac{c}{3}e^{2\pi k}k^{-2}$ as $k\to+\infty$ and \emph{both integrals
+diverge}.  Finiteness of $\gB$ and $\gKM$ therefore selects Note~7's sign independently of
+Bisognano--Wichmann; this is a stronger statement than the note's parenthetical, which only observes
+that the KMS asymmetry alone would not fix it.
+\item \emph{The factor $2\pi$ in $k$.}  $k$ is conjugate to $\xi=-\log u$, and $\log\Delta$ generates
+$u\mapsto e^{2\pi t}u$; hence $\log\lambda=2\pi k$, which is where every $2\pi$ in \eqref{eq:weights}
+comes from.  The reassembly above is sensitive to this at first order and confirms it.
+\item \emph{Density weights.}  The offsets $ik-1$ (for $g$) and $2+ik$ (for $\kappa$) in
+\eqref{eq:defs} are forced: $T(g)=\int T(u)g(u)du$ pairs a weight-$2$ field with a weight-$(-1)$
+field, and $K$ is homogeneous of degree $-4$; $(-1)+(-1)+(-4)+2=-4$ closes
+Proposition~\ref{prop:parseval}$\langle1\rangle6$.  A wrong offset by one unit would change
+$\gh$ to $-2/((ik)(ik+1)(ik+2))$ and destroy both integrals.
+\end{enumerate}
+
+\section{Status: the collar limit and the geometric modular action on $T$}\label{sec:collar}
+
+This section is deliberately short: it records what the audit has \emph{proved} elsewhere and what the
+present $x$-space calculation does \emph{not} prove.  Nothing here is new; it is a status list.
+
+\paragraph{(a) What is proved about the collar.}
+In \texttt{rigor/lemma\_second\_variation.tex}, the proposition
+(``Data processing and monotone convergence of $\gB$'', \S9 of that file, labelled
+\texttt{prop:mono}; the task brief calls it Prop.~10.2 --- the section numbering there is $9$, not $10$)
+proves: for an increasing net $\cM_1\subseteq\cM_2\subseteq\cdots$ with
+$(\bigcup_n\cM_n)''=\cM$ one has $\gB^{(n)}\uparrow\gB$, where $\gB^{(n)}$ is the Bures form of the
+restricted data.  Applied to $\cM_\eps=\cA(A_\eps)\vee\cA(D)$ as $\eps\downarrow0$ this gives
+$\gB^{(\eps)}\uparrow\gB(\varphi)$, with $\gB(\varphi)$ the zero-collar Bures form defined
+variationally on $\cA(I)$.  \emph{The collar limit of the metric is therefore settled, and
+monotonically} (\texttt{lemma\_second\_variation.tex}, Gap~3 discussion).  For $\eps>0$,
+Proposition ``\texttt{prop:F-implement}'' of the same file gives the strongly continuous unitary
+implementation and hence the full second-order expansion.  Note~4
+(\texttt{continuum\_petz\_free\_fermion.tex}) supplies, for the free fermion, the convergent kernel
+computation that the $\eps>0$ statements are checked against.
+
+\paragraph{(b) What is not proved.}
+\begin{enumerate}[leftmargin=1.6em]
+\item \textbf{Identification of $\gB(\varphi)$ with the spectral integral.}  This is Gap~2 of
+\texttt{lemma\_second\_variation.tex}: at zero collar $T(g)\Om\notin\cH$ (Note~7, \S3.2), the vector
+hypothesis (V) of the lower-bound theorem fails, and \eqref{eq:barnes} is a prescription, not an
+identity.  Remark~\ref{rem:strips} above localises the failure sharply in $x$-space: the two Mellin
+strips are disjoint \emph{because} $g(L)\neq0$.  The present document does \emph{not} close this gap;
+it only shows that the gap is a property of the tangent field at the moving endpoint and not an
+artefact of the $\xi$-chart, and that the prescription is internally consistent
+(Section~\ref{sec:num}).
+\item \textbf{Exchange of the collar limit with the second-order Taylor expansion.}  Monotone
+convergence of $\gB^{(\eps)}$ is convergence of the \emph{coefficient}; that
+$\lim_{\eps\to0}\lim_{s\to0}s^{-2}(\cdot)=\lim_{s\to0}\lim_{\eps\to0}s^{-2}(\cdot)$ is not proved.
+Corollary~6.1 of Note~7 (``rigorous for the free fermion'') should be read as a statement about the
+two metrics, not about $\lim\Phi/\zeta^2$ (finding [V5]).
+\item \textbf{Geometric modular action on $T$.}  Step $\langle1\rangle1$ of
+Proposition~\ref{prop:parseval} --- $\Delta^{it}T(u)\Delta^{-it}=e^{4\pi t}T(e^{2\pi t}u)$ --- is used
+as an input.  For a conformal net with a stress tensor it follows from Bisognano--Wichmann for the
+half-line together with the covariance of $T$ under the M\"obius group, both standard; but it is a
+statement about the \emph{point-localised} field, hence about a quadratic form on a common invariant
+domain, and the audit has not checked the domain bookkeeping (that $T(g)\Om$ and $\Delta^{it}T(g)\Om$
+lie in a common form domain on which $\langle1\rangle2$'s Fubini is legitimate).  For $g$ smooth and
+compactly supported inside $I$ this is unproblematic; for the zero-collar $g$ of \eqref{eq:gu} it is
+part of item~1.  The absence of a Schwarzian in $\langle1\rangle1$, on the other hand, is safe: a
+dilation is M\"obius, so its Schwarzian vanishes identically, and in any case a $c$-number drops out of
+connected two-point functions.
+\end{enumerate}
+
+\paragraph{(c) Net effect on Theorem~B of Note~7.}  Unchanged by this document.  Theorem~B remains
+conditional exactly on Note~7's Lemma~3.2 / Gap~2; what Section~\ref{sec:num} adds is that
+\emph{if} the prescription is legitimate, the arithmetic and every convention entering it are correct,
+verified by a computation that shares no step with the note's beyond \eqref{eq:TT} and $g=-x^2/L$.
+
+\end{document}

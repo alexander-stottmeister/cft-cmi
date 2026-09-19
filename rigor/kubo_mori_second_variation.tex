@@ -1,0 +1,901 @@
+\documentclass[11pt]{article}
+\input{rigor_preamble}
+\newcommand{\Hil}{\mathcal H}\newcommand{\Om}{\Omega}
+\newcommand{\ip}[2]{\langle#1,#2\rangle}\newcommand{\norm}[1]{\lVert#1\rVert}
+\newcommand{\Msa}{\cM_{\mathrm{sa}}}\newcommand{\Mpsa}{\cM'_{\mathrm{sa}}}
+\newcommand{\gKM}{g_{\mathrm{KM}}}\newcommand{\gB}{g_{\mathrm B}}
+\newcommand{\one}{\mathbf 1}\newcommand{\dist}{\operatorname{dist}}
+\title{The Kubo--Mori second variation of Araki relative entropy\\ along a unitary orbit of a von Neumann algebra}
+\author{Agent QK (Phase~2, problem O2)}
+\date{2026-09-08}
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{What is proved here}\label{sec:overview}
+
+Note~7 (\texttt{universality\_normalization.tex}) needs, for the Kubo--Mori half of its Theorem~B, a
+type-III second-variation lemma
+\begin{equation}\label{eq:target}
+ D(\omega\Vert\omega_s)=\tfrac{s^2}{2}\gKM+o(s^2),\qquad
+ \gKM=\int_{(0,\infty)}(\lambda-1)\log\lambda\dd\mu(\lambda),
+\end{equation}
+$\mu$ the spectral measure of the tangent vector with respect to the modular operator $\Delta$.
+\texttt{rigor/lemma\_second\_variation.tex} proves the Bures half in complete generality and records
+\eqref{eq:target} as its \emph{Gap~1}: proved in finite dimensions only.  This document closes Gap~1 for
+\emph{unitary orbits} $\omega_s=\omega\circ\operatorname{Ad}e^{isA}$, $A=A^*\in\cM$.
+
+The engine is an \emph{exact} formula (Theorem~\ref{thm:exact}) valid for every von Neumann algebra:
+with $u_s=e^{isA}$, $w_s:=(u_s-\one)\Om$ and
+\begin{equation}\label{eq:hdef}
+ h(\lambda):=\lambda-1-\log\lambda\ \ge0\qquad(\lambda>0),\qquad h(1)=0,
+\end{equation}
+one has, with no hypothesis and with both sides in $[0,\infty]$,
+\begin{equation}\label{eq:exact}
+ \boxed{\;D(\omega\Vert\omega_s)=\ip{w_s}{h(\Delta)w_s}=\norm{h(\Delta)^{1/2}(e^{isA}-\one)\Om}^2 .\;}
+\end{equation}
+Relative entropy along a unitary orbit is thus \emph{exactly} the closed quadratic form of the positive
+operator $h(\Delta)$ evaluated on the chord $w_s$ of the orbit, and the whole problem becomes the
+second-order expansion of one nonnegative closed form.  Two consequences:
+
+\begin{enumerate}[leftmargin=1.8em]
+\item[(L)] \textbf{Lower bound, no hypothesis.}  $w_s/s\to iA\Om$ in norm and a nonnegative closed quadratic
+ form is lower semicontinuous, so
+ \(\liminf_{s\to0}s^{-2}D(\omega\Vert\omega_s)\ge\ip{A\Om}{h(\Delta)A\Om}=\tfrac12\gKM\in[0,\infty]\)
+ (Theorem~\ref{thm:lower}).  No martingale/monotonicity argument and no domain hypothesis are needed.
+\item[(U)] \textbf{Upper bound, under a modular-analyticity hypothesis.}  The large-$\lambda$ tail of $h$ is
+ controlled for free by the exact sum rule $\int(\lambda-1)\dd\nu_s=0$ (Lemma~\ref{lem:sumrule}); only the
+ small-$\lambda$ tail, where $h(\lambda)\sim-\log\lambda$, needs an input.  If $A$ is analytic for the modular
+ group $\sigma^\omega$ in a strip $\lvert\operatorname{Im}z\rvert\le\eps/2$ of \emph{any} width $\eps>0$, then
+ $\limsup_{s\to0}s^{-2}D\le\tfrac12\gKM<\infty$ (Theorem~\ref{thm:upper}).
+\end{enumerate}
+
+\begin{center}\small
+\begin{tabular}{@{}p{0.50\textwidth}p{0.44\textwidth}@{}}\toprule
+\textbf{Statement} & \textbf{Status}\\\midrule
+$D(\omega\Vert\omega_s)=\norm{h(\Delta)^{1/2}(u_s-\one)\Om}^2$, exact, any $\cM$ &
+ \textbf{proved} (Thm~\ref{thm:exact}); numerically exact to $10^{-12}$\\
+$\gKM=-2\ip{A\Om}{\log\Delta\,A\Om}=2\int h\dd\mu$ &
+ \textbf{proved} (Lemma~\ref{lem:kms})\\
+$\liminf_s s^{-2}D\ge\frac12\gKM$, $A=A^*\in\cM$, no further hypothesis &
+ \textbf{proved} (Thm~\ref{thm:lower})\\
+$\limsup_s s^{-2}D\le\frac12\gKM$ under $(\mathrm U_\eps)$ / $(\mathrm A_\eps)$ &
+ \textbf{proved} (Thm~\ref{thm:upper})\\
+$\limsup_s s^{-2}D\le\frac12\gKM$ under $\gKM<\infty$ alone &
+ \textbf{open} (Section~\ref{sec:open}, Gap~QK1)\\
+Unbounded $A$ affiliated with $\cM$ or with $\cB(\Hil)$ &
+ \textbf{open} (Section~\ref{sec:open}, Gap~QK2); this is the case of Note~7\\
+Kosaki's variational expression as the source of the upper bound &
+ \textbf{not used}; see Section~\ref{sec:kosaki} for why it degrades to $\tfrac14\gB$\\\bottomrule
+\end{tabular}
+\end{center}
+
+The application to Note~7 is therefore \emph{partial}: the recovery curve of Note~7 has
+$A=T(g)$ unbounded and only affiliated with a larger algebra, so Theorem~\ref{thm:main} does not apply to it
+verbatim; what is gained is that the type-III obstruction is now isolated in a single, purely analytic
+statement (uniform integrability of $\log_-$, Section~\ref{sec:open}) rather than in the whole lemma.
+
+\section{Setting, conventions, hypotheses}\label{sec:setting}
+
+\textbf{Inner products} are conjugate-linear in the \emph{first} variable, as in Note~7 and in
+\texttt{lemma\_second\_variation.tex}.  For an antiunitary $J$ with $J^2=\one$,
+$\ip{J\xi}{J\zeta}=\ip{\zeta}{\xi}$.
+
+\textbf{Standard form.}  $\cM\subseteq\cB(\Hil)$ is a von Neumann algebra with a cyclic and separating unit
+vector $\Om$; $\omega:=\ip{\Om}{\cdot\,\Om}$ is a faithful normal state.  $S=\overline{S_0}$ is the closure of
+$S_0:X\Om\mapsto X^*\Om$ ($X\in\cM$), $S=J\Delta^{1/2}$ its polar decomposition, $J\cM J=\cM'$,
+$J\Delta J=\Delta^{-1}$, $J\Om=\Om$, $\Delta\Om=\Om$, and
+\begin{equation}\label{eq:Jf}
+ Jf(\Delta)J=\overline f(\Delta^{-1})\qquad\text{for bounded Borel }f .
+\end{equation}
+Locator: O.~Bratteli, D.~W.~Robinson, \emph{Operator Algebras and Quantum Statistical Mechanics~1},
+2nd ed., Prop.~2.5.9 and Thm.~2.5.14.  The modular group is
+$\sigma_t(x)=\Delta^{it}x\Delta^{-it}$, so that
+\begin{equation}\label{eq:sigmaOm}
+ \Delta^{it}x\Om=\sigma_t(x)\Om\qquad(x\in\cM,\ t\in\mathbb R).
+\end{equation}
+
+\textbf{Relative modular operators.}  For $\Phi,\Psi\in\Hil$ with $\Psi$ cyclic and separating,
+$S_{\Phi,\Psi}$ is the closure of $x\Psi\mapsto x^*\Phi$ ($x\in\cM$) and
+$\Delta_{\Phi,\Psi}:=S_{\Phi,\Psi}^*S_{\Phi,\Psi}$.  We write $\Delta=\Delta_{\Om,\Om}$.
+
+\textbf{The curve.}  Fix $A=A^*\in\cM$ (\emph{bounded}, in $\cM$) and set
+\begin{equation}\label{eq:curve}
+ u_s:=e^{isA}\in\cU(\cM),\qquad \omega_s:=\omega\circ\operatorname{Ad}u_s,\quad\text{i.e.}\quad
+ \omega_s(X)=\omega(u_sXu_s^*)=\ip{\xi_s}{X\xi_s},\quad \xi_s:=u_s^*\Om .
+\end{equation}
+$\omega_s$ is a faithful normal state, $\xi_s$ is cyclic and separating, and $s\mapsto\xi_s$ is
+real-analytic in norm.  The tangent data of \texttt{lemma\_second\_variation.tex},
+$\dot\xi_0=-iA\Om$, $a=A\Om$, $\varphi(X)=i\omega([A,X])$, are the ones of this curve
+(\emph{ibid.}, Lemma ``Differentiability and the tangent functional'').
+
+\textbf{The spectral measure of the tangent.}  $\mu:=\ip{A\Om}{E_\Delta(\cdot)A\Om}$, a finite positive
+Borel measure on $(0,\infty)$ with total mass $\norm{A\Om}^2$.  Throughout,
+$\nu_s:=\ip{w_s}{E_\Delta(\cdot)w_s}$ with $w_s:=(u_s-\one)\Om$, and $\sigma_s:=s^{-2}\nu_s$.
+
+\textbf{Hypotheses.}  Two conditions occur; $(\mathrm A_\eps)\Rightarrow(\mathrm U_\eps)$
+(Lemma~\ref{lem:AtoU}) and $(\mathrm U_\eps)\Rightarrow\gKM<\infty$ (Lemma~\ref{lem:UKM}).
+\begin{itemize}[leftmargin=2.2em]
+\item[$(\mathrm U_\eps)$] There are $\eps\in(0,1]$, $C<\infty$, $s_0>0$ with
+ $w_s\in D(\Delta^{-\eps/2})$ and $\norm{\Delta^{-\eps/2}w_s}\le C\lvert s\rvert$ for $0<\lvert s\rvert<s_0$.
+\item[$(\mathrm A_\eps)$] $A$ is analytic for $\sigma^\omega$ in the strip
+ $\lvert\operatorname{Im}z\rvert\le\eps/2$: there is a bounded $\cM$-valued function $z\mapsto\sigma_z(A)$,
+ analytic in the interior and continuous on the closure of the strip, with $\sigma_t(A)$ the modular flow on
+ the real axis; put $M_\eps:=\sup_{\lvert\operatorname{Im}z\rvert\le\eps/2}\norm{\sigma_z(A)}<\infty$.
+\end{itemize}
+$(\mathrm A_\eps)$ holds for a $\sigma$-strongly$^*$ dense set of $A\in\Msa$ --- indeed the entire analytic
+elements $A_\delta=\sqrt{\delta/\pi}\int e^{-\delta t^2}\sigma_t(A)\dd t$ are entire and converge
+$\sigma$-strongly$^*$ to $A$ as $\delta\to\infty$ (Bratteli--Robinson, Prop.~2.5.22) --- but it is
+\emph{not} automatic: an $A\in\Msa$ need not lie in $D(\sigma_{iy})$ for any $y\ne0$.
+
+\textbf{Relative entropy.}  For normal states $\psi,\phi$ of $\cM$ with vector representatives
+$\Psi,\Phi$ in the standard form, Araki's relative entropy is
+\begin{equation}\label{eq:araki-def}
+ D(\psi\Vert\phi)=S(\psi\Vert\phi):=-\ip{\Psi}{(\log\Delta_{\Phi,\Psi})\Psi}
+ =-\int_{(0,\infty)}\log\lambda\dd\ip{\Psi}{E_{\Delta_{\Phi,\Psi}}(\lambda)\Psi},
+\end{equation}
+the integral being well defined in $(-\infty,+\infty]$ because $\log\lambda\le\lambda-1$ makes the positive
+part of $-\log$ the only possibly infinite one; see Lemma~\ref{lem:welldef}.  In finite dimensions
+\eqref{eq:araki-def} is $\Tr[\rho_\psi(\log\rho_\psi-\log\rho_\phi)]$ (checked in
+Lemma~\ref{lem:findim-conv}).
+
+\section{The exact formula}\label{sec:exact}
+
+\begin{lemma}[Antilinear adjoints and the unitary covariance of $\Delta_{\Phi,\Psi}$]\label{lem:cov}
+Let $\Psi$ be cyclic and separating for $\cM$, $\Phi\in\Hil$, $u\in\cU(\cM)$.  Then
+$S_{u\Phi,\Psi}=S_{\Phi,\Psi}u^*$ and
+\begin{equation}\label{eq:cov}
+ \Delta_{u\Phi,\Psi}=u\,\Delta_{\Phi,\Psi}\,u^* .
+\end{equation}
+In particular $\Delta_{u\Om,\Om}=u\Delta u^*$ and $\log\Delta_{u\Om,\Om}=u(\log\Delta)u^*$.
+\end{lemma}
+\lstep{1}{1}{For a densely defined antilinear $T$ and a bounded linear $B$ one has $(TB)^*=B^*T^*$, with
+$T^*$ defined by $\ip{T^*\eta}{\zeta}=\ip{T\zeta}{\eta}$ ($\zeta\in D(T)$).}
+\lby{$\ip{(TB)^*\eta}{\zeta}=\ip{TB\zeta}{\eta}=\ip{T^*\eta}{B\zeta}=\ip{B^*T^*\eta}{\zeta}$, first for
+$\zeta\in D(TB)=B^{-1}D(T)$ and $\eta\in D(T^*)$; the convention for the adjoint of an antilinear operator is
+that of Bratteli--Robinson~1, \S2.5.2}
+\lstep{1}{2}{On the common core $\cM\Psi$, $S_{\Phi,\Psi}u^*(x\Psi)=x^*u\Phi=S_{u\Phi,\Psi}(x\Psi)$.}
+\lby{$u^*x\Psi=(u^*x)\Psi$ with $u^*x\in\cM$, so $S_{\Phi,\Psi}(u^*x\Psi)=(u^*x)^*\Phi=x^*u\Phi$; the right
+side is the definition of $S_{u\Phi,\Psi}$ on $x\Psi$}
+\lstep{1}{3}{$\cM\Psi$ is a core for $S_{\Phi,\Psi}u^*$, hence $S_{u\Phi,\Psi}=S_{\Phi,\Psi}u^*$ as closed
+operators.}
+\lby{$u$ is unitary and $u\cM\Psi=\cM\Psi$ (as $u\in\cM$ is invertible in $\cM$), so
+$D(S_{\Phi,\Psi}u^*)=u\,D(S_{\Phi,\Psi})$ contains $\cM\Psi$ as a core exactly when $\cM\Psi$ is a core for
+$S_{\Phi,\Psi}$, which is the definition of $S_{\Phi,\Psi}$; the operator $S_{\Phi,\Psi}u^*$ is closed
+because $u^*$ is a bounded bijection}
+\lstep{1}{4}{$\Delta_{u\Phi,\Psi}=(S_{\Phi,\Psi}u^*)^*(S_{\Phi,\Psi}u^*)=u\,S_{\Phi,\Psi}^*S_{\Phi,\Psi}\,u^*
+=u\Delta_{\Phi,\Psi}u^*$.}
+\lby{$\langle1\rangle3$, $\langle1\rangle1$ with $T=S_{\Phi,\Psi}$, $B=u^*$}
+\lstep{1}{5}{$\log(u\Delta_{\Phi,\Psi}u^*)=u(\log\Delta_{\Phi,\Psi})u^*$.}
+\lby{$u\,E(\cdot)\,u^*$ is the spectral resolution of $u\Delta_{\Phi,\Psi}u^*$ when $E$ is that of
+$\Delta_{\Phi,\Psi}$, and the Borel functional calculus commutes with unitary conjugation}
+\lqed{1}{6}\lby{$\langle1\rangle4$, $\langle1\rangle5$}
+
+\begin{verdictok}
+Verified numerically (\texttt{rigor/qk\_check.py}, identity (I1)): in the finite-dimensional standard form
+$\Hil=\mathfrak S_2(\mathbb C^n)$, $\Delta X=\rho X\rho^{-1}$, the two sides of \eqref{eq:exact} --- which
+rests on \eqref{eq:cov} --- agree to $10^{-12}$ (the accuracy of \texttt{scipy.linalg.logm}) for
+$n=3,5,7$, random $\rho$ with spectral spreads $1,2,3$, random $A=A^*$ and $s$ from $0.3$ down to $0.003$.
+\end{verdictok}
+
+\begin{lemma}[Araki's expression is well defined, and the $h$-form]\label{lem:welldef}
+Let $\Om$ be cyclic and separating, $\Phi$ a unit vector, $\nu:=\ip{\Om}{E_{\Delta_{\Phi,\Om}}(\cdot)\Om}$.
+Then $\nu$ is a probability measure with
+\begin{equation}\label{eq:massrule}
+ \int_{(0,\infty)}\lambda\dd\nu(\lambda)=\norm{\Phi}^2=1=\int\dd\nu,\qquad\text{hence}\qquad
+ \int(\lambda-1)\dd\nu=0 ,
+\end{equation}
+$\int(\log\lambda)_+\dd\nu<\infty$, and
+\begin{equation}\label{eq:Dh}
+ D(\omega\Vert\omega_\Phi)=-\int\log\lambda\dd\nu=\int h(\lambda)\dd\nu(\lambda)\in[0,\infty] .
+\end{equation}
+\end{lemma}
+\lstep{1}{1}{$\Om\in D(S_{\Phi,\Om})$ and $S_{\Phi,\Om}\Om=\Phi$; hence
+$\Om\in D(\Delta_{\Phi,\Om}^{1/2})$ and $\norm{\Delta_{\Phi,\Om}^{1/2}\Om}=\norm{\Phi}=1$.}
+\lby{$\Om=\one\cdot\Om$ with $\one\in\cM$, so $S_{\Phi,\Om}\Om=\one^*\Phi=\Phi$;
+$\Delta_{\Phi,\Om}^{1/2}=\lvert S_{\Phi,\Om}\rvert$ has the same domain and the same graph norm as
+$S_{\Phi,\Om}$, and $\norm{\lvert S\rvert\zeta}=\norm{S\zeta}$}
+\lstep{1}{2}{\eqref{eq:massrule}.}
+\lby{$\int\lambda\dd\nu=\norm{\Delta_{\Phi,\Om}^{1/2}\Om}^2=1$ by $\langle1\rangle1$;
+$\int\dd\nu=\norm\Om^2=1$; both are finite, so their difference is an absolutely convergent integral}
+\lstep{1}{3}{$\int(\log\lambda)_+\dd\nu\le\int(\lambda-1)_+\dd\nu\le\int_{\lambda>1}(\lambda-1)\dd\nu<\infty$,
+so $-\int\log\lambda\dd\nu$ is well defined in $(-\infty,+\infty]$.}
+\lby{$\log\lambda\le\lambda-1$ for $\lambda>0$, with both sides $\ge0$ exactly on $\lambda\ge1$;
+$\langle1\rangle2$}
+\lstep{1}{4}{$h\ge0$ on $(0,\infty)$, $h(1)=0$.}
+\lby{$h'(\lambda)=1-1/\lambda$ vanishes only at $\lambda=1$, is negative on $(0,1)$ and positive on
+$(1,\infty)$, so $h$ has a global minimum $h(1)=0$}
+\lstep{1}{5}{\eqref{eq:Dh}.}
+\lby{$\int h\dd\nu=\int(\lambda-1)\dd\nu-\int\log\lambda\dd\nu=-\int\log\lambda\dd\nu$ by
+$\langle1\rangle2$--$\langle1\rangle3$ (no $\infty-\infty$: the first integral converges absolutely, the
+second is well defined); the left side is $\ge0$ by $\langle1\rangle4$; the middle term is
+\eqref{eq:araki-def}}
+\lqed{1}{6}\lby{$\langle1\rangle1$--$\langle1\rangle5$}
+
+\begin{theorem}[Exact formula for the relative entropy along a unitary orbit]\label{thm:exact}
+Let $\cM$, $\Om$, $\omega$ be as in Section~\ref{sec:setting}, $A=A^*\in\cM$, $u_s=e^{isA}$,
+$\omega_s=\omega\circ\operatorname{Ad}u_s$, $w_s=(u_s-\one)\Om$, $h(\lambda)=\lambda-1-\log\lambda$.  Then
+\begin{equation}\label{eq:exact2}
+ D(\omega\Vert\omega_s)=\norm{h(\Delta)^{1/2}w_s}^2=\int_{(0,\infty)}h(\lambda)\dd\nu_s(\lambda)\in[0,\infty],
+ \qquad \nu_s=\ip{w_s}{E_\Delta(\cdot)w_s},
+\end{equation}
+with the convention that the right side is $+\infty$ if $w_s\notin D(h(\Delta)^{1/2})$.  Moreover the sum
+rule
+\begin{equation}\label{eq:sumrule}
+ \int(\lambda-1)\dd\nu_s(\lambda)=0
+\end{equation}
+holds exactly, for every $s$.
+\end{theorem}
+\lstep{1}{1}{$\Delta_{\xi_s,\Om}=u_s^*\Delta u_s$ with $\xi_s=u_s^*\Om$, and hence
+$\ip{\Om}{E_{\Delta_{\xi_s,\Om}}(B)\Om}=\norm{E_\Delta(B)v_s}^2$ for Borel $B$, where $v_s:=u_s\Om$.}
+\lby{Lemma~\ref{lem:cov} with $\Phi=\Psi=\Om$, $u=u_s^*$;
+$E_{u^*\Delta u}(B)=u^*E_\Delta(B)u$, so $\ip{\Om}{u_s^*E_\Delta(B)u_s\Om}=\norm{E_\Delta(B)u_s\Om}^2$}
+\lstep{1}{2}{$D(\omega\Vert\omega_s)=\int h\dd\rho_s$, where $\rho_s:=\ip{v_s}{E_\Delta(\cdot)v_s}$.}
+\lby{Lemma~\ref{lem:welldef} applied with $\Phi=\xi_s$ (a unit vector), whose measure $\nu$ is by
+$\langle1\rangle1$ exactly $\rho_s$; note $\omega_{\xi_s}=\omega_s$ by \eqref{eq:curve}}
+\lstep{1}{3}{$\int h\dd\rho_s=\int h\dd\nu_s$, i.e.\ $\norm{h(\Delta)^{1/2}v_s}=\norm{h(\Delta)^{1/2}w_s}$.}
+\lby{$v_s=\Om+w_s$ and $h(\Delta)^{1/2}\Om=h(1)^{1/2}\Om=0$ because $\Delta\Om=\Om$ and $h(1)=0$; since
+$\Om\in D(h(\Delta)^{1/2})$, $v_s\in D(h(\Delta)^{1/2})\Leftrightarrow w_s\in D(h(\Delta)^{1/2})$, and on
+that domain $h(\Delta)^{1/2}v_s=h(\Delta)^{1/2}w_s$; if the domain condition fails both sides are $+\infty$}
+\lstep{1}{4}{$\int\dd\nu_s=\norm{w_s}^2=2-2\operatorname{Re}\ip{\Om}{u_s\Om}$.}
+\lby{$\norm{(u_s-\one)\Om}^2=\norm{u_s\Om}^2+\norm\Om^2-2\operatorname{Re}\ip{\Om}{u_s\Om}$ and $u_s$ unitary}
+\lstep{1}{5}{$w_s\in D(\Delta^{1/2})$ and $\int\lambda\dd\nu_s=\norm{(u_s^*-\one)\Om}^2
+=2-2\operatorname{Re}\ip{\Om}{u_s^*\Om}$.}
+\lby{$w_s=x_s\Om$ with $x_s:=u_s-\one\in\cM$, so $w_s\in\cM\Om\subseteq D(S)=D(\Delta^{1/2})$ and
+$\Delta^{1/2}w_s=J\,S\,w_s=J\,x_s^*\Om$, whence
+$\norm{\Delta^{1/2}w_s}=\norm{x_s^*\Om}=\norm{(u_s^*-\one)\Om}$ ($J$ antiunitary)}
+\lstep{1}{6}{\eqref{eq:sumrule}.}
+\lby{$\ip{\Om}{u_s^*\Om}=\overline{\ip{\Om}{u_s\Om}}$ has the same real part as $\ip{\Om}{u_s\Om}$, so
+$\langle1\rangle4$ and $\langle1\rangle5$ give the same finite number}
+\lqed{1}{7}\lby{$\langle1\rangle2$, $\langle1\rangle3$, $\langle1\rangle6$}
+
+\begin{remark}[Reading of \eqref{eq:exact2}]
+Three features make \eqref{eq:exact2} the right starting point, and each fails for the fidelity.
+(i) It is an \emph{identity}, not a two-sided estimate: no variational formula is used, so no direction is
+lost.  (ii) The integrand $h\ge0$ vanishes exactly at the fixed point $\lambda=1$ of the modular flow, so
+$\Om$ drops out and the form is evaluated on the \emph{chord} $w_s$, which is $O(s)$; the expansion is
+therefore a statement about a fixed closed form on a norm-convergent family of vectors.  (iii) The sum rule
+\eqref{eq:sumrule} is an exact conservation law along the whole orbit, and it is precisely what makes the
+$\lambda\to\infty$ tail of $h$ uniformly integrable without any hypothesis
+(Lemma~\ref{lem:uppertail}).  The corresponding statement for $1-\Fid$ has no such closed form:
+$\Fid(\omega,\omega_s)$ is a supremum over $\cU(\cM')$ and is not a quadratic form of $w_s$.
+\end{remark}
+
+\begin{lemma}[The Kubo--Mori form as an $h$-integral]\label{lem:kms}
+Let $a:=A\Om$ with $A=A^*\in\cM$ and $\mu=\ip a{E_\Delta(\cdot)a}$.  Then
+\begin{equation}\label{eq:kmssym}
+ \int f(\lambda)\dd\mu(\lambda)=\int f(\lambda^{-1})\,\lambda\dd\mu(\lambda)
+ \qquad\text{for every Borel }f\ge0,
+\end{equation}
+$\int\lambda\dd\mu=\int\dd\mu=\norm{A\Om}^2$, and, in $[0,\infty]$,
+\begin{equation}\label{eq:gKMthree}
+ \tfrac12\gKM:=\tfrac12\int(\lambda-1)\log\lambda\dd\mu=-\int\log\lambda\dd\mu
+ =\int h\dd\mu=\norm{h(\Delta)^{1/2}A\Om}^2 .
+\end{equation}
+\end{lemma}
+\lstep{1}{1}{$a\in D(\Delta^{1/2})$ and $J\Delta^{1/2}a=a$.}
+\lby{$a=A\Om\in\cM\Om\subseteq D(S)$ and $Sa=A^*\Om=A\Om=a$ since $A=A^*$; $S=J\Delta^{1/2}$}
+\lstep{1}{2}{\eqref{eq:kmssym}.}
+\lby{Put $\alpha:=\Delta^{1/2}a$, so $a=J\alpha$ by $\langle1\rangle1$ and $J^2=\one$.  For real bounded
+Borel $f$, \eqref{eq:Jf} gives $\ip{J\alpha}{f(\Delta)J\alpha}=\ip{J\alpha}{Jf(\Delta^{-1})\alpha}
+=\ip{f(\Delta^{-1})\alpha}{\alpha}=\ip{\alpha}{f(\Delta^{-1})\alpha}$ (real spectral values), i.e.\
+$\int f\dd\mu=\int f(\lambda^{-1})\lambda\dd\mu$; monotone convergence extends this from bounded $f\ge0$ to
+all Borel $f\ge0$}
+\lstep{1}{3}{$\int\lambda\dd\mu=\int\dd\mu=\norm a^2$.}
+\lby{$\langle1\rangle2$ with $f\equiv1$ gives $\int\dd\mu=\int\lambda\dd\mu$; the left side is $\norm a^2$}
+\lstep{1}{4}{$-\int\log\lambda\dd\mu=\int\lambda\log\lambda\dd\mu$ in $[0,\infty]$, and hence
+$\int(\lambda-1)\log\lambda\dd\mu=-2\int\log\lambda\dd\mu$.}
+\lby{$\langle1\rangle2$ with $f_\pm(\lambda)=(\mp\log\lambda)_+$: $f_+(\lambda^{-1})=(\log\lambda)_+$, so
+$\int(-\log\lambda)_+\dd\mu=\int(\log\lambda)_+\lambda\dd\mu$ and symmetrically; adding the two identities
+with signs gives $-\int\log\dd\mu=\int\lambda\log\lambda\dd\mu$ whenever one side is finite, and $+\infty=
++\infty$ otherwise (the finiteness of $\int(\log\lambda)_+\dd\mu\le\int(\lambda-1)_+\dd\mu<\infty$ by
+$\langle1\rangle3$ rules out $\infty-\infty$); then
+$\int(\lambda-1)\log\lambda=\int\lambda\log\lambda-\int\log\lambda=-2\int\log\lambda$}
+\lstep{1}{5}{$\int h\dd\mu=-\int\log\lambda\dd\mu$.}
+\lby{$\int(\lambda-1)\dd\mu=0$ by $\langle1\rangle3$ and both terms finite; as in
+Lemma~\ref{lem:welldef}\,$\langle1\rangle5$}
+\lqed{1}{6}\lby{$\langle1\rangle4$, $\langle1\rangle5$, and
+$\int h\dd\mu=\norm{h(\Delta)^{1/2}a}^2$ by the spectral theorem}
+
+\begin{verdictok}
+Identity \eqref{eq:gKMthree} and the symmetry \eqref{eq:kmssym} are verified in
+\texttt{rigor/qk\_check.py} (checks (I3),(I4)) to relative accuracy $<10^{-15}$ against the
+finite-dimensional expression $\gKM=\sum_{ij}\lvert d\rho_{ij}\rvert^2\ell(p_i,p_j)$ of
+\texttt{lemma\_second\_variation.tex}, Prop.~``Identification of the two metrics'', for $n=3,5,7$.
+The sum rule \eqref{eq:sumrule} is verified to $10^{-16}$ absolute (check (I2)).
+\end{verdictok}
+
+\section{The lower bound: no hypothesis}\label{sec:lower}
+
+\begin{theorem}[Lower bound]\label{thm:lower}
+For every von Neumann algebra $\cM$ with cyclic and separating unit vector $\Om$ and every $A=A^*\in\cM$,
+\begin{equation}\label{eq:lower}
+ \liminf_{s\to0}\ \frac{D(\omega\Vert\omega_s)}{s^2}\ \ge\ \norm{h(\Delta)^{1/2}A\Om}^2=\tfrac12\gKM
+ \qquad\text{in }[0,\infty] .
+\end{equation}
+No hypothesis beyond $A=A^*\in\cM$ is used; in particular \eqref{eq:lower} is informative
+($=+\infty$) also when $\gKM=\infty$.
+\end{theorem}
+\lstep{1}{1}{\ldefine $q(v):=\norm{h(\Delta)^{1/2}v}^2\in[0,\infty]$ for $v\in\Hil$
+($q(v)=+\infty$ off $D(h(\Delta)^{1/2})$), and $h_N:=\min(h,N)$ for $N\in\mathbb N$.
+Then $q(v)=\sup_N\ip{v}{h_N(\Delta)v}$.}
+\lby{$0\le h_N\uparrow h$ pointwise on $(0,\infty)$, and the monotone convergence theorem applied to the
+finite spectral measure $\ip v{E_\Delta(\cdot)v}$: $\int h_N\dd\ip v{E_\Delta v}\uparrow\int h
+\dd\ip v{E_\Delta v}$, the last integral being $\norm{h(\Delta)^{1/2}v}^2$ or $+\infty$ according to
+whether $v\in D(h(\Delta)^{1/2})$}
+\lstep{1}{2}{$q$ is lower semicontinuous on $\Hil$: $v_n\to v$ in norm $\Rightarrow$
+$q(v)\le\liminf_nq(v_n)$.}
+\lby{each $v\mapsto\ip v{h_N(\Delta)v}$ is norm-continuous ($h_N(\Delta)$ is bounded by $N$), and a
+pointwise supremum of continuous functions is lower semicontinuous; $\langle1\rangle1$}
+\lstep{1}{3}{$s^{-1}w_s\to iA\Om$ in norm as $s\to0$, $s\ne0$.}
+\lby{$\norm{(e^{isA}-\one)/s-iA}\le\lvert s\rvert\norm A^2/2$ in operator norm, by
+$e^{isA}-\one-isA=-\int_0^s(s-t)A^2e^{itA}\dd t$; apply to the unit vector $\Om$}
+\lstep{1}{4}{$s^{-2}D(\omega\Vert\omega_s)=q(s^{-1}w_s)$.}
+\lby{Theorem~\ref{thm:exact} and the homogeneity $q(cv)=\lvert c\rvert^2q(v)$}
+\lstep{1}{5}{$\liminf_{s\to0}q(s^{-1}w_s)\ge q(iA\Om)=q(A\Om)$.}
+\lby{$\langle1\rangle2$ with $\langle1\rangle3$ (applied to an arbitrary sequence $s_n\to0$ realising the
+$\liminf$); $q(iv)=q(v)$}
+\lqed{1}{6}\lby{$\langle1\rangle4$, $\langle1\rangle5$, and $q(A\Om)=\frac12\gKM$ by
+Lemma~\ref{lem:kms}}
+
+\begin{remark}[The martingale route gives the same bound and needs more]\label{rem:martingale}
+The route proposed in the brief --- restrict to an increasing net $\cM_1\subseteq\cM_2\subseteq\cdots$ of
+type~I subalgebras with $(\bigcup\cM_n)''=\cM$, use monotonicity of the Araki relative entropy
+(H.~Araki, \emph{Relative entropy for states of von Neumann algebras II}, Publ.\ RIMS \textbf{13} (1977)
+173--192, Theorem~3.9: $S_{\cN}(\psi\Vert\phi)\le S_{\cM}(\psi\Vert\phi)$ for $\cN\subseteq\cM$, with
+$S_{\cM_n}\uparrow S_{\cM}$ for an increasing net; see also F.~Hiai, arXiv:1805.02050, \S5), the
+finite-dimensional expansion of \texttt{lemma\_second\_variation.tex} on each $\cM_n$, and monotone
+convergence $\gKM^{(n)}\uparrow\gKM$ --- does reach \eqref{eq:lower}, but only for hyperfinite $\cM$,
+only after proving $\gKM^{(n)}\uparrow\gKM$ (Proposition~\ref{prop:varKM} below leaves the ``$\ge$'' half of
+that open in general), and only after a uniform-in-$n$ argument is \emph{avoided} by taking $\liminf_s$
+first --- exactly as in \texttt{lemma\_second\_variation.tex}, Remark ``Where the hyperfinite route stalls''.
+Theorem~\ref{thm:lower} bypasses all three points: lower semicontinuity of a closed form is the abstract
+content of ``restrict, expand, exhaust''.
+\end{remark}
+
+\begin{proposition}[Legendre form of the Kubo--Mori metric]\label{prop:varKM}
+Let $m(\lambda):=(\lambda-1)/\log\lambda$ (the logarithmic mean of $1$ and $\lambda$; $m(1)=1$), let
+$a=A\Om$, $\eta=i(\Delta-1)a$, $\varphi(K)=i\omega([A,K])$.  Define for $K\in\Msa$
+\begin{equation}\label{eq:varKM}
+ \operatorname{Var}^{\mathrm{KM}}_\omega(K):=\norm{m(\Delta)^{1/2}K\Om}^2-\omega(K)^2
+ \ \Bigl(=\int_0^1\omega\bigl(\sigma_{iu}(K)K\bigr)\dd u-\omega(K)^2\ \text{for analytic }K\Bigr).
+\end{equation}
+Then
+\begin{equation}\label{eq:varKMineq}
+ \gKM\ \ge\ \sup_{K\in\Msa}\bigl[\,2\varphi(K)-\operatorname{Var}^{\mathrm{KM}}_\omega(K)\,\bigr]
+ \ =\ \sup_{K\in\Msa,\ \omega(K)=0}\frac{\varphi(K)^2}{\norm{m(\Delta)^{1/2}K\Om}^2},
+\end{equation}
+with equality when $\cM$ is finite dimensional.  Consequently $\gKM^{(n)}\le\gKM^{(n+1)}\le\gKM$ along an
+increasing net of subalgebras, where $\gKM^{(n)}$ is the right-hand supremum over $(\cM_n)_{\mathrm{sa}}$.
+\end{proposition}
+\lstep{1}{1}{$\gKM=\norm{m(\Delta)^{-1/2}\eta}^2$ and $\varphi(K)=\ip{\eta}{K\Om}$.}
+\lby{$\eta=i(\Delta-1)a$ (this is Note~7, Lemma~3.1(2); it follows from $Fa=\Delta a$, which in turn follows
+from $Sa=a$, i.e.\ $J\Delta^{1/2}a=a$, so $Fa=\Delta^{1/2}Ja=\Delta^{1/2}\Delta^{1/2}a$), whence
+$\ip\eta{m(\Delta)^{-1}\eta}=\ip a{(\Delta-1)^2\frac{\log\Delta}{\Delta-1}a}
+=\int(\lambda-1)\log\lambda\dd\mu=\gKM$; the identity $\varphi(K)=\ip\eta{K\Om}$ is
+\texttt{lemma\_second\_variation.tex}, Lemma ``Differentiability and the tangent functional''}
+\lstep{1}{2}{For $K\in\Msa$ with $\omega(K)=0$:
+$2\varphi(K)\le\gKM+\norm{m(\Delta)^{1/2}K\Om}^2$.}
+\lby{Cauchy--Schwarz $\lvert\ip\eta{K\Om}\rvert=\lvert\ip{m(\Delta)^{-1/2}\eta}{m(\Delta)^{1/2}K\Om}\rvert
+\le\gKM^{1/2}\norm{m(\Delta)^{1/2}K\Om}$ (trivially true if $\gKM=\infty$ or
+$\norm{m(\Delta)^{1/2}K\Om}=\infty$), then $2xy\le x^2+y^2$}
+\lstep{1}{3}{The two suprema in \eqref{eq:varKMineq} agree, and the inequality holds.}
+\lby{$\varphi(\one)=0$ and $\operatorname{Var}^{\mathrm{KM}}$ is invariant under $K\mapsto K-\omega(K)\one$
+(the shift changes $\norm{m(\Delta)^{1/2}K\Om}^2$ by $2\omega(K)c+c^2$ with $m(\Delta)^{1/2}\Om=\Om$ and
+$\ip\Om{m(\Delta)^{1/2}K\Om}=\omega(K)$, exactly cancelling the change of $\omega(K)^2$), so one may assume
+$\omega(K)=0$; then optimise $2t\varphi(K)-t^2\norm{m(\Delta)^{1/2}K\Om}^2$ over $t\in\mathbb R$;
+$\langle1\rangle2$}
+\lstep{1}{4}{Equality in finite dimensions.}
+\lby{$\cM\Om=\Hil$, so $\{K\Om:K\in\Msa,\ \omega(K)=0\}$ is the real subspace
+$\{\zeta:S\zeta=\zeta,\ \ip\Om\zeta=0\}$, which contains $m(\Delta)^{-1}\eta$ --- indeed
+$S(m(\Delta)^{-1}\eta)=m(\Delta)^{-1}\eta$ because $\eta=i(\Delta-1)a$ with $Sa=a$ gives
+$S\eta=-i(\Delta^{-1}-1)\cdot$\dots (a two-line spectral computation using
+$Sf(\Delta)\zeta=\overline f(\Delta^{-1})S\zeta$ and $m(\lambda^{-1})=m(\lambda)/\lambda$), and
+$\ip\Om\eta=i\ip\Om{(\Delta-1)a}=0$ --- and for that $K$ the Cauchy--Schwarz step
+$\langle1\rangle2$ is an equality}
+\lqed{1}{5}\lby{$\langle1\rangle3$, $\langle1\rangle4$; monotonicity of the supremum in the algebra}
+
+\begin{verdictgap}
+Proposition~\ref{prop:varKM} proves the \emph{easy} half of the Legendre duality in complete generality;
+the reverse inequality $\gKM\le\sup_K[\cdots]$ is proved here only in finite dimensions
+($\langle1\rangle4$ uses $\cM\Om=\Hil$, i.e.\ $\cM'\Om$ dense is not enough: one needs
+$m(\Delta)^{-1}\eta\in\overline{\Msa\Om}$ and, for the supremum to be attained by \emph{bounded} $K$, an
+approximation argument in the $m(\Delta)$-weighted norm).  This is the precise reason why the martingale
+route of Remark~\ref{rem:martingale} does not close in general: without the reverse inequality one gets
+$\sup_n\gKM^{(n)}\le\gKM$ but not equality.  Theorem~\ref{thm:lower} does not use
+Proposition~\ref{prop:varKM} at all.
+\end{verdictgap}
+
+\section{The upper bound}\label{sec:upper}
+
+Throughout this section $\sigma_s:=s^{-2}\nu_s$ (a finite positive measure on $(0,\infty)$),
+$\mu=\ip{A\Om}{E_\Delta(\cdot)A\Om}$, $m:=\norm{A\Om}^2$.  By Theorem~\ref{thm:exact},
+$s^{-2}D(\omega\Vert\omega_s)=\int h\dd\sigma_s$; by Lemma~\ref{lem:kms}, $\tfrac12\gKM=\int h\dd\mu$.
+The task is to pass to the limit in $\int h\dd\sigma_s$ with $h$ unbounded at both ends.
+
+\begin{lemma}[Bounded test functions]\label{lem:setwise}
+For every bounded Borel $f$ on $(0,\infty)$, $\int f\dd\sigma_s\to\int f\dd\mu$ as $s\to0$.  In particular
+$\sigma_s(B)\to\mu(B)$ for every Borel $B$, $\int\dd\sigma_s\to m$ and $\int\lambda\dd\sigma_s\to m$.
+\end{lemma}
+\lstep{1}{1}{$\lvert\ip{\zeta}{f(\Delta)\zeta}-\ip{\chi}{f(\Delta)\chi}\rvert
+\le\norm f_\infty\norm{\zeta-\chi}(\norm\zeta+\norm\chi)$.}
+\lby{$\ip\zeta{T\zeta}-\ip\chi{T\chi}=\ip{\zeta-\chi}{T\zeta}+\ip{\chi}{T(\zeta-\chi)}$ with
+$T=f(\Delta)$, $\norm T\le\norm f_\infty$}
+\lstep{1}{2}{$\int f\dd\sigma_s=\ip{s^{-1}w_s}{f(\Delta)s^{-1}w_s}\to\ip{iA\Om}{f(\Delta)iA\Om}=\int f\dd\mu$.}
+\lby{$\langle1\rangle1$ and $s^{-1}w_s\to iA\Om$ in norm (Theorem~\ref{thm:lower}\,$\langle1\rangle3$)}
+\lstep{1}{3}{$\int\lambda\dd\sigma_s=\int\dd\sigma_s\to m$.}
+\lby{the sum rule \eqref{eq:sumrule} for the first equality; $\langle1\rangle2$ with $f\equiv1$ for the
+limit}
+\lqed{1}{4}\lby{$\langle1\rangle2$, $\langle1\rangle3$}
+
+\begin{lemma}[The large-$\lambda$ tail is uniformly integrable, with no hypothesis]\label{lem:uppertail}
+For every $N\ge1$,
+\begin{equation}\label{eq:uppertail}
+ \limsup_{s\to0}\int_{(N,\infty)}h\dd\sigma_s\ \le\ \int_{(N,\infty)}\lambda\dd\mu(\lambda)
+ \xrightarrow[N\to\infty]{}0 .
+\end{equation}
+\end{lemma}
+\lstep{1}{1}{$0\le h(\lambda)\le\lambda$ for $\lambda\ge1$.}
+\lby{$h(\lambda)=\lambda-(1+\log\lambda)$ and $1+\log\lambda\ge0$ for $\lambda\ge e^{-1}$;
+$h\ge0$ by Lemma~\ref{lem:welldef}\,$\langle1\rangle4$}
+\lstep{1}{2}{$\displaystyle\int_{(N,\infty)}\lambda\dd\sigma_s=\int\lambda\dd\sigma_s
+ -\int\lambda\one_{(0,N]}\dd\sigma_s\ \longrightarrow\ m-\int\lambda\one_{(0,N]}\dd\mu
+ =\int_{(N,\infty)}\lambda\dd\mu$ .}
+\lby{Lemma~\ref{lem:setwise}, once for $\int\lambda\dd\sigma_s\to m$ and once for the bounded Borel
+function $\lambda\one_{(0,N]}(\lambda)$; and $\int\lambda\dd\mu=m$ by Lemma~\ref{lem:kms}\,$\langle1\rangle3$}
+\lstep{1}{3}{$\int_{(N,\infty)}\lambda\dd\mu\to0$ as $N\to\infty$.}
+\lby{$\int\lambda\dd\mu=m<\infty$ and dominated convergence}
+\lqed{1}{4}\lby{$\langle1\rangle1$, $\langle1\rangle2$, $\langle1\rangle3$}
+
+\begin{remark}
+Lemma~\ref{lem:uppertail} is the whole reason the second variation of the relative entropy is
+\emph{not} harder than that of the fidelity on the ultraviolet side: the exact sum rule
+\eqref{eq:sumrule} --- itself nothing but $\norm{(u_s-\one)\Om}=\norm{(u_s^*-\one)\Om}$, i.e.\ the
+$S$-invariance of the orbit --- pins the first moment of $\sigma_s$ to its mass, and moment convergence plus
+setwise convergence is exactly uniform integrability.  Nothing analogous is available for
+$-\log\lambda$ at $\lambda\to0$: by the reflected sum rule of Lemma~\ref{lem:reflect} the small-$\lambda$
+behaviour of $\sigma_s$ is the $\lambda\log\lambda$ behaviour of $\sigma_{-s}$ at $\lambda\to\infty$, one
+logarithm beyond what the sum rule controls.
+\end{remark}
+
+\begin{lemma}[Reflected sum rule]\label{lem:reflect}
+$\Delta^{1/2}w_s=Jw_{-s}$, and for every Borel $g\ge0$
+\begin{equation}\label{eq:reflect}
+ \int g(\lambda)\dd\nu_s(\lambda)=\int \lambda\,g(\lambda^{-1})\dd\nu_{-s}(\lambda).
+\end{equation}
+\end{lemma}
+\lstep{1}{1}{$Sw_s=w_{-s}$, hence $\Delta^{1/2}w_s=Jw_{-s}$.}
+\lby{$w_s=x_s\Om$ with $x_s=u_s-\one\in\cM$ and $x_s^*=u_s^*-\one=u_{-s}-\one=x_{-s}$, so
+$Sw_s=x_s^*\Om=w_{-s}$; $S=J\Delta^{1/2}$ and $J^2=\one$}
+\lstep{1}{2}{\eqref{eq:reflect}.}
+\lby{with $f(\lambda):=g(\lambda)/\lambda$, $\int\lambda f(\lambda)\dd\nu_s
+=\ip{\Delta^{1/2}w_s}{f(\Delta)\Delta^{1/2}w_s}=\ip{Jw_{-s}}{f(\Delta)Jw_{-s}}
+=\ip{w_{-s}}{f(\Delta^{-1})w_{-s}}=\int f(\lambda^{-1})\dd\nu_{-s}$ by $\langle1\rangle1$ and
+\eqref{eq:Jf}; substituting $f$ back gives \eqref{eq:reflect}; monotone convergence extends from bounded
+$g$ to Borel $g\ge0$}
+\lqed{1}{3}\lby{$\langle1\rangle1$, $\langle1\rangle2$}
+
+\subsection{Modular analyticity implies the uniform bound}\label{sec:AtoU}
+
+\begin{lemma}[Analytic elements and $\Delta^{-\eps/2}$]\label{lem:analytic}
+Let $\eps>0$ and let $x\in\cM$ be \emph{$\eps/2$-analytic}: there is a function $z\mapsto\sigma_z(x)\in\cM$,
+bounded and continuous on the closed strip $S:=\{0\le\operatorname{Im}z\le\eps/2\}$, analytic in its
+interior, with $\sigma_t(x)=\Delta^{it}x\Delta^{-it}$ for $t\in\mathbb R$.  Then
+$x\Om\in D(\Delta^{-\eps/2})$ and
+\begin{equation}\label{eq:anal}
+ \Delta^{-\eps/2}x\Om=\sigma_{i\eps/2}(x)\,\Om,\qquad
+ \norm{\Delta^{-\eps/2}x\Om}\le\norm{\sigma_{i\eps/2}(x)} .
+\end{equation}
+\end{lemma}
+\lstep{1}{1}{\ldefine $\cD:=\bigcup_{n\ge1}E_\Delta([n^{-1},n])\Hil$.  $\cD$ is a core for $\Delta^{-\eps/2}$,
+and for $\zeta\in\cD$ the map $z\mapsto\Delta^{-i\bar z}\zeta$ is entire with
+$\norm{\Delta^{-i\bar z}\zeta}\le n^{\lvert\operatorname{Im}z\rvert}\norm\zeta$ on
+$E_\Delta([n^{-1},n])\Hil$.}
+\lby{$\cD$ is dense (as $E_\Delta([n^{-1},n])\to\one$ strongly, $\Delta$ having no kernel) and invariant
+under all $\Delta^{w}$, $w\in\mathbb C$, on which $\Delta^{w}$ acts boundedly by
+$\max(n,n^{-1})^{\lvert\operatorname{Re}w\rvert}$; a dense invariant subspace of bounded vectors is a core
+for every $\Delta^{r}$, $r\in\mathbb R$ (spectral theorem); entirety of $z\mapsto\Delta^{-i\bar z}\zeta$
+and the bound follow from
+$\norm{\Delta^{-i\bar z}\zeta}^2=\int_{[n^{-1},n]}\lambda^{2\operatorname{Im}z}
+\dd\ip{\zeta}{E_\Delta(\lambda)\zeta}\le n^{2\lvert\operatorname{Im}z\rvert}\norm\zeta^2$}
+\lstep{1}{2}{\lpick $\zeta\in E_\Delta([n^{-1},n])\Hil$.  The functions
+$\Phi(w):=\ip{\Delta^{-i\bar w}\zeta}{x\Om}$ and $\Psi(w):=\ip{\zeta}{\sigma_w(x)\Om}$ are analytic in the
+interior of $S$, bounded and continuous on $S$, and agree for $w\in\mathbb R$.}
+\lby{$\Phi$: analyticity and the bound from $\langle1\rangle1$ (the inner product is conjugate-linear in
+the first entry, so $w\mapsto\ip{\Delta^{-i\bar w}\zeta}{\cdot}$ is analytic, not antianalytic);
+$\Psi$: hypothesis on $x$, $\lvert\Psi\rvert\le\norm\zeta\sup_S\norm{\sigma_z(x)}$;
+for real $w=t$, $\Phi(t)=\ip{\Delta^{-it}\zeta}{x\Om}=\ip{\zeta}{\Delta^{it}x\Om}
+=\ip\zeta{\sigma_t(x)\Om}=\Psi(t)$, using \eqref{eq:sigmaOm}}
+\lstep{1}{3}{$\Phi=\Psi$ on $S$.}
+\lby{$\Phi-\Psi$ is analytic in the open strip, continuous and bounded on $S$, and vanishes on
+$\operatorname{Im}w=0$; the Schwarz reflection principle extends it analytically to
+$\{-\eps/2<\operatorname{Im}w<\eps/2\}$ by $\overline{(\Phi-\Psi)(\bar w)}$, and an analytic function on a
+domain vanishing on a line vanishes identically}
+\lstep{1}{4}{$\ip{\Delta^{-\eps/2}\zeta}{x\Om}=\ip{\zeta}{\sigma_{i\eps/2}(x)\Om}$ for all $\zeta\in\cD$.}
+\lby{$\langle1\rangle3$ at $w=i\eps/2$: $\Delta^{-i\overline{(i\eps/2)}}=\Delta^{-i(-i\eps/2)}
+=\Delta^{-\eps/2}$}
+\lstep{1}{5}{\eqref{eq:anal}.}
+\lby{$\Delta^{-\eps/2}$ is self-adjoint and $\cD$ is a core for it ($\langle1\rangle1$), so
+$\langle1\rangle4$ says precisely that $x\Om$ lies in the domain of the adjoint of
+$\Delta^{-\eps/2}\!\restriction_{\cD}$, i.e.\ in $D(\Delta^{-\eps/2})$, with the stated value;
+$\norm{\sigma_{i\eps/2}(x)\Om}\le\norm{\sigma_{i\eps/2}(x)}$ as $\norm\Om=1$}
+\lqed{1}{6}\lby{$\langle1\rangle5$}
+
+\begin{lemma}[$(\mathrm A_\eps)\Rightarrow(\mathrm U_\eps)$]\label{lem:AtoU}
+Assume $(\mathrm A_\eps)$ with $M_\eps=\sup_{\lvert\operatorname{Im}z\rvert\le\eps/2}\norm{\sigma_z(A)}$.
+Then $u_s=e^{isA}$ is $\eps/2$-analytic with $\sigma_z(u_s)=e^{is\sigma_z(A)}$, and
+\begin{equation}\label{eq:Ubound}
+ \norm{\Delta^{-\eps/2}w_s}\le\lvert s\rvert M_\eps e^{\lvert s\rvert M_\eps}\le2M_\eps\lvert s\rvert
+ \qquad\text{for }\lvert s\rvert M_\eps\le\log2 ,
+\end{equation}
+i.e.\ $(\mathrm U_\eps)$ holds with $C=2M_\eps$.
+\end{lemma}
+\lstep{1}{1}{$E(z):=\sum_{n\ge0}(is)^n\sigma_z(A)^n/n!$ converges in operator norm uniformly on
+$S=\{\lvert\operatorname{Im}z\rvert\le\eps/2\}$, is analytic in the interior and continuous on $S$, and
+$\norm{E(z)-\one}\le e^{\lvert s\rvert M_\eps}-1\le\lvert s\rvert M_\eps e^{\lvert s\rvert M_\eps}$.}
+\lby{$\norm{\sigma_z(A)^n}\le M_\eps^n$; a uniformly convergent series of analytic $\cM$-valued functions is
+analytic; $\norm{E(z)-\one}\le\sum_{n\ge1}\lvert s\rvert^nM_\eps^n/n!=e^{\lvert s\rvert M_\eps}-1$ and
+$e^t-1\le te^t$ for $t\ge0$}
+\lstep{1}{2}{$E(t)=\sigma_t(u_s)$ for $t\in\mathbb R$, hence $E(z)=\sigma_z(u_s)$ on $S$ and $u_s$ is
+$\eps/2$-analytic.}
+\lby{$\sigma_t$ is a norm-continuous $*$-automorphism, so
+$\sigma_t(e^{isA})=e^{is\sigma_t(A)}=E(t)$; $E$ is the analytic continuation, unique by
+$\langle1\rangle3$ of Lemma~\ref{lem:analytic}}
+\lstep{1}{3}{$\Delta^{-\eps/2}w_s=(\sigma_{i\eps/2}(u_s)-\one)\Om$ and \eqref{eq:Ubound}.}
+\lby{$w_s=(u_s-\one)\Om$; Lemma~\ref{lem:analytic} applied to $u_s$ and to $\one$ (for which
+$\sigma_z(\one)=\one$), by linearity; then $\langle1\rangle1$}
+\lqed{1}{4}\lby{$\langle1\rangle3$}
+
+\subsection{The small-$\lambda$ tail and the upper bound}\label{sec:lowtail}
+
+\begin{lemma}[$(\mathrm U_\eps)$ controls the small-$\lambda$ tail, uniformly in $s$]\label{lem:UKM}
+Assume $(\mathrm U_\eps)$ with constants $\eps\in(0,1]$, $C$, $s_0$.  Then
+\begin{enumerate}[leftmargin=1.8em]
+\item $A\Om\in D(\Delta^{-\eps/2})$ and $\norm{\Delta^{-\eps/2}A\Om}\le C$, i.e.\
+ $\int\lambda^{-\eps}\dd\mu\le C^2$;
+\item for every $N\ge e^{1/\eps}$ and every $0<\lvert s\rvert<s_0$,
+ \begin{equation}\label{eq:lowtail}
+  \int_{(0,1/N)}h\dd\sigma_s\ \le\ C^2\,\frac{\log N}{N^{\eps}},
+  \qquad \int_{(0,1/N)}h\dd\mu\ \le\ C^2\,\frac{\log N}{N^{\eps}} ;
+ \end{equation}
+\item $\gKM<\infty$; explicitly $\tfrac12\gKM\le C^2\eps^{-1}e^{-1}+\eps^{-1}\norm{A\Om}^2+\norm{A\Om}^2$.
+\end{enumerate}
+\end{lemma}
+\lstep{1}{1}{(1).}
+\lby{$v\mapsto\norm{\Delta^{-\eps/2}v}^2$ is a nonnegative closed quadratic form, hence lower
+semicontinuous (verbatim the argument of Theorem~\ref{thm:lower}\,$\langle1\rangle1$--$\langle1\rangle2$
+with $h$ replaced by $\lambda\mapsto\lambda^{-\eps}$); $s^{-1}w_s\to iA\Om$ in norm and
+$\norm{\Delta^{-\eps/2}s^{-1}w_s}\le C$ by $(\mathrm U_\eps)$}
+\lstep{1}{2}{$0\le h(\lambda)\le-\log\lambda$ for $0<\lambda\le1$.}
+\lby{$h(\lambda)=(\lambda-1)+(-\log\lambda)$ and $\lambda-1\le0$ there; $h\ge0$ by
+Lemma~\ref{lem:welldef}\,$\langle1\rangle4$}
+\lstep{1}{3}{$\phi(\lambda):=(-\log\lambda)\lambda^{\eps}$ is increasing on $(0,e^{-1/\eps})$ with maximum
+value $(e\eps)^{-1}$ at $\lambda=e^{-1/\eps}$; hence
+$-\log\lambda\le\phi(1/N)\lambda^{-\eps}=(\log N)N^{-\eps}\lambda^{-\eps}$ for
+$0<\lambda<1/N\le e^{-1/\eps}$.}
+\lby{$\phi'(\lambda)=\lambda^{\eps-1}(-1-\eps\log\lambda)$, positive exactly for
+$\lambda<e^{-1/\eps}$; $\phi(1/N)=(\log N)N^{-\eps}$}
+\lstep{1}{4}{(2).}
+\lby{$\int_{(0,1/N)}h\dd\sigma_s\le\int_{(0,1/N)}(-\log\lambda)\dd\sigma_s
+\le(\log N)N^{-\eps}\int\lambda^{-\eps}\dd\sigma_s
+=(\log N)N^{-\eps}s^{-2}\norm{\Delta^{-\eps/2}w_s}^2\le C^2(\log N)N^{-\eps}$ by
+$\langle1\rangle2$, $\langle1\rangle3$ and $(\mathrm U_\eps)$; the same chain with $\sigma_s$ replaced by
+$\mu$ and $(\mathrm U_\eps)$ by $\langle1\rangle1$}
+\lstep{1}{5}{(3).}
+\lby{$\tfrac12\gKM=\int h\dd\mu=\int_{(0,\lambda_*)}+\int_{[\lambda_*,1)}+\int_{[1,\infty)}$ with
+$\lambda_*=e^{-1/\eps}$: the first is $\le(e\eps)^{-1}\int\lambda^{-\eps}\dd\mu\le C^2(e\eps)^{-1}$ by
+$\langle1\rangle2$--$\langle1\rangle3$; on $[\lambda_*,1)$, $h\le-\log\lambda\le1/\eps$, giving
+$\le\eps^{-1}\mu((0,\infty))=\eps^{-1}\norm{A\Om}^2$; on $[1,\infty)$, $h\le\lambda$ by
+Lemma~\ref{lem:uppertail}\,$\langle1\rangle1$, giving $\le\int\lambda\dd\mu=\norm{A\Om}^2$}
+\lqed{1}{6}\lby{$\langle1\rangle1$, $\langle1\rangle4$, $\langle1\rangle5$}
+
+\begin{theorem}[Upper bound]\label{thm:upper}
+Assume $(\mathrm U_\eps)$ (in particular, assume $(\mathrm A_\eps)$; Lemma~\ref{lem:AtoU}).  Then
+\begin{equation}\label{eq:upper}
+ \limsup_{s\to0}\ \frac{D(\omega\Vert\omega_s)}{s^2}\ \le\ \tfrac12\gKM\ <\ \infty .
+\end{equation}
+\end{theorem}
+\lstep{1}{1}{\lpick $N\ge\max(e^{1/\eps},1)$.  For $0<\lvert s\rvert<s_0$,
+$\displaystyle\int h\dd\sigma_s=\int_{(0,1/N)}h\dd\sigma_s+\int_{[1/N,N]}h\dd\sigma_s
++\int_{(N,\infty)}h\dd\sigma_s$.}
+\lby{$\sigma_s$ is a positive measure on $(0,\infty)$ and $h\ge0$; the three sets partition
+$(0,\infty)$}
+\lstep{1}{2}{$\displaystyle\limsup_{s\to0}\int h\dd\sigma_s\le C^2\frac{\log N}{N^{\eps}}
++\int_{[1/N,N]}h\dd\mu+\int_{(N,\infty)}\lambda\dd\mu$.}
+\lby{first term: Lemma~\ref{lem:UKM}(2), a bound uniform in $s$; second term:
+$\lim_{s\to0}\int_{[1/N,N]}h\dd\sigma_s=\int_{[1/N,N]}h\dd\mu$ by Lemma~\ref{lem:setwise}, the function
+$h\one_{[1/N,N]}$ being bounded Borel; third term: Lemma~\ref{lem:uppertail};
+$\limsup$ of a sum is at most the sum of the $\limsup$s}
+\lstep{1}{3}{$\displaystyle\limsup_{s\to0}\int h\dd\sigma_s\le\int h\dd\mu=\tfrac12\gKM<\infty$.}
+\lby{$\int_{[1/N,N]}h\dd\mu\le\int h\dd\mu<\infty$ by Lemma~\ref{lem:UKM}(3); let $N\to\infty$ in
+$\langle1\rangle2$, using $(\log N)N^{-\eps}\to0$ and
+$\int_{(N,\infty)}\lambda\dd\mu\to0$ (Lemma~\ref{lem:uppertail}\,$\langle1\rangle3$)}
+\lqed{1}{4}\lby{$\langle1\rangle3$ and $s^{-2}D(\omega\Vert\omega_s)=\int h\dd\sigma_s$
+(Theorem~\ref{thm:exact})}
+
+\begin{theorem}[Kubo--Mori second variation in type III, unitary orbits]\label{thm:main}
+Let $\cM$ be a von Neumann algebra with cyclic and separating unit vector $\Om$, $\omega=\ip\Om{\cdot\,\Om}$,
+$\Delta$ the modular operator, $A=A^*\in\cM$, $\omega_s=\omega\circ\operatorname{Ad}e^{isA}$, and let
+$\mu$ be the spectral measure of $A\Om$ with respect to $\Delta$.  If $A$ satisfies $(\mathrm U_\eps)$ ---
+for instance if $A$ is analytic for the modular group in a strip of any positive width,
+$(\mathrm A_\eps)$ --- then $\gKM=\int(\lambda-1)\log\lambda\dd\mu<\infty$ and
+\begin{equation}\label{eq:main}
+ \boxed{\;D(\omega\Vert\omega_s)=\frac{s^2}{2}\,\gKM+o(s^2),\qquad s\to0 .\;}
+\end{equation}
+Without any hypothesis on $A$ beyond $A=A^*\in\cM$, the lower half
+$\liminf_{s\to0}s^{-2}D(\omega\Vert\omega_s)\ge\frac12\gKM$ holds in $[0,\infty]$.
+\end{theorem}
+\lstep{1}{1}{$\liminf_{s\to0}s^{-2}D\ge\frac12\gKM$.}\lby{Theorem~\ref{thm:lower}}
+\lstep{1}{2}{$\limsup_{s\to0}s^{-2}D\le\frac12\gKM<\infty$.}\lby{Theorem~\ref{thm:upper}}
+\lqed{1}{3}\lby{$\langle1\rangle1$, $\langle1\rangle2$: the limit exists and equals $\frac12\gKM$}
+
+\begin{verdictok}
+Theorem~\ref{thm:main} closes Gap~1 of \texttt{rigor/lemma\_second\_variation.tex}
+(``Kubo--Mori beyond finite dimensions'') for unitary orbits generated by a bounded, modularly analytic
+$A$.  The hypothesis is genuinely weaker than finite-dimensionality and does not restrict the type of
+$\cM$: it is satisfied on a $\sigma$-strongly$^*$ dense set of $A\in\Msa$ for every von Neumann algebra,
+in particular for the hyperfinite type~III$_1$ factor.  The limit statement is verified numerically in
+Section~\ref{sec:num} in finite dimensions (where $(\mathrm A_\eps)$ holds for all $A$ and all $\eps$) and,
+for the free-fermion recovery curve, at the level of the spectral integrals.
+\end{verdictok}
+
+\section{Cited results, and why Kosaki's expression cannot give the upper bound}\label{sec:kosaki}
+
+\begin{citedbox}{Hiai 2018 (arXiv:1805.02050), Theorem 3.5 --- extended Kosaki variational expression}
+For an operator convex $f$ on $(0,\infty)$ and $\rho,\sigma\in M^+_*$,
+\[
+ S_f(\rho\Vert\sigma)=\sup_{n\in\mathbb N}\ \sup_{x(\cdot)}
+ \Bigl\{f_n(0^+)\sigma(1)+f_n'(+\infty)\rho(1)
+ -\int_{[1/n,n]}\bigl\{\sigma((1-x(s))^*(1-x(s)))+s^{-1}\rho(x(s)x(s)^*)\bigr\}(1+s)\dd\nu_n(s)\Bigr\},
+\]
+the inner supremum over all $L$-valued step functions $x(\cdot)$, $L\subseteq M$ a strong$^*$-dense subspace
+containing $1$.  Locator: F.~Hiai, \emph{Quantum $f$-divergences in von Neumann algebras},
+arXiv:1805.02050v3, p.~10, Theorem~3.5; it extends H.~Kosaki, \emph{Relative entropy of states: a
+variational expression}, J.~Operator Theory \textbf{16} (1986) 335--348, Theorem~2.2, which is the case
+$f(t)=-\log t$ (relative entropy).  \textsc{Screenshot:}\\
+\includegraphics[width=\textwidth]{shots/QK_Hiai_Thm35.png}\\
+\textsc{Use here:} none, and this is the point.  \textsc{Verdict:} the expression is a \emph{supremum};
+inserting any trial step function $x(\cdot)$ therefore produces a \emph{lower} bound on
+$S_f(\rho\Vert\sigma)$.  The upper bound $\limsup_ss^{-2}D\le\frac12\gKM$ --- the half that
+\texttt{lemma\_second\_variation.tex} lists as Gap~1 --- is exactly the half a supremum formula cannot
+supply.  This confirms the warning in \texttt{open\_problems\_plan.tex}, \S O2 (``Kosaki's variational
+formula returns $\frac14\gB$, Araki~1977 gives only the wrong-direction bound'') and settles the question
+raised in the brief (``check the direction!''): the direction is wrong, for every trial function, and no
+choice of $x(\cdot)$ repairs it.  Theorem~\ref{thm:upper} avoids variational formulas altogether by using
+the exact identity \eqref{eq:exact2}.
+\end{citedbox}
+
+\begin{citedbox}{Hiai 2018, Theorem 4.1(iv),(v) --- monotonicity and martingale convergence}
+(iv) \emph{Monotonicity}: for a unital normal Schwarz map $\Phi:\cN\to\cM$,
+$S_f(\rho\circ\Phi\Vert\sigma\circ\Phi)\le S_f(\rho\Vert\sigma)$; in particular
+$S_f(\rho|_{\cN}\Vert\sigma|_{\cN})\le S_f(\rho\Vert\sigma)$ for a unital subalgebra $\cN\subseteq\cM$.
+(v) \emph{Martingale convergence}: if $\{\cM_\alpha\}$ is an increasing net of unital von Neumann
+subalgebras with $(\bigcup_\alpha\cM_\alpha)''=\cM$, then
+$S_f(\rho|_{\cM_\alpha}\Vert\sigma|_{\cM_\alpha})\nearrow S_f(\rho\Vert\sigma)$.
+Locator: arXiv:1805.02050v3, p.~12, Theorem~4.1; for $f(t)=-\log t$ this is
+H.~Araki, \emph{Relative entropy for states of von Neumann algebras II}, Publ.\ RIMS \textbf{13} (1977)
+173--192, Theorem~3.9 (monotonicity) together with the increasing-net statement.
+\textsc{Screenshot:}\\
+\includegraphics[width=\textwidth]{shots/QK_Hiai_Thm41.png}\\
+\textsc{Use here:} only in Remark~\ref{rem:martingale}, to record that the route
+``restrict $\to$ expand $\to$ exhaust'' yields the \emph{lower} bound (again the same half) and requires
+hyperfiniteness plus the unproved half of Proposition~\ref{prop:varKM}.  \textsc{Verdict:} statement and
+direction correct as used; note that (v) gives $S_{\cM_\alpha}\uparrow S_{\cM}$, i.e.\
+$S_{\cM_\alpha}\le S_{\cM}$, which after dividing by $s^2$ and taking $\liminf_{s\to0}$ gives
+$\liminf_ss^{-2}D_{\cM}\ge\frac12\gKM^{(\alpha)}$ --- a lower bound, never an upper one.
+\end{citedbox}
+
+\begin{remark}[Petz--Donald and the other supremum]
+The same sign obstruction affects the Petz--Donald formula
+$D(\varphi\Vert\psi)=\sup_{k\in\Msa}[\varphi(k)-\log\psi^{k}(1)]$ ($\psi^k$ Araki's perturbed functional):
+it too is a supremum.  Both variational formulas are \emph{lower}-bound machines, and both reproduce, for
+the natural trial elements $k=sK$ with $K\in\Msa$, the Legendre form of Proposition~\ref{prop:varKM}.
+The genuinely new ingredient of Theorem~\ref{thm:upper} is that along a unitary orbit no variational
+formula is needed: \eqref{eq:exact2} is an identity.
+\end{remark}
+
+\section{Numerical verification}\label{sec:num}
+
+All checks are in \texttt{rigor/qk\_check.py}, run with the project interpreter.  Standard form:
+$\Hil=\mathfrak S_2(\mathbb C^n)$, $\cM=$ left multiplications, $\Om=\rho^{1/2}$, $\Delta X=\rho X\rho^{-1}$,
+so $\Delta$ has eigenvalue $p_i/p_j$ on $\lvert i\rangle\langle j\rvert$; $\rho_s=e^{-isA}\rho e^{isA}$
+represents $\omega_s$.  Random $\rho$ (log-spectrum a GUE eigenvalue set scaled by ``spread''), random
+$A=A^*$, seed $20260908$.
+
+\begin{center}\small
+\begin{tabular}{@{}llp{0.44\textwidth}@{}}\toprule
+\textbf{Check} & \textbf{Result} & \textbf{Statement tested}\\\midrule
+(I1) & rel.\ $<10^{-12}$ & $\Tr[\rho(\log\rho-\log\rho_s)]=\ip{w_s}{h(\Delta)w_s}$,
+ Theorem~\ref{thm:exact} ($n=3,5,7$; $s=0.3\dots0.003$)\\
+(I2) & abs.\ $<10^{-16}$ & sum rule $\int(\lambda-1)\dd\nu_s=0$, \eqref{eq:sumrule}\\
+(I3) & rel.\ $<10^{-15}$ & $\gKM=-2\ip{A\Om}{\log\Delta A\Om}=\int(\lambda-1)\log\lambda\dd\mu
+ =2\int h\dd\mu=\sum_{ij}\lvert d\rho_{ij}\rvert^2\ell(p_i,p_j)$, Lemma~\ref{lem:kms}\\
+(I4) & rel.\ $<10^{-15}$ & KMS symmetry $\int f\dd\mu=\int f(\lambda^{-1})\lambda\dd\mu$, \eqref{eq:kmssym}\\
+(I5) & see below & $s^{-2}D\to\frac12\gKM$, Theorem~\ref{thm:main}\\
+(I6) & bounded & $s^{-2}\norm{\Delta^{-\eps/2}w_s}^2\to\norm{\Delta^{-\eps/2}A\Om}^2$, $\eps=\frac14,\frac12$
+ (hypothesis $(\mathrm U_\eps)$)\\
+(I7) & rel.\ $<10^{-15}$ & Legendre form $\gKM=2\varphi(K)-\operatorname{Var}^{\mathrm{KM}}_\omega(K)$ at
+ $K\Om=m(\Delta)^{-1}\eta$, and $K=K^*$ to $5\cdot10^{-15}$, Prop.~\ref{prop:varKM}\\
+(I8) & holds & the tail bound \eqref{eq:lowtail} on a spectrum $p_i\propto e^{-4i}$, $n=7$
+ ($\lambda\in[3.8\cdot10^{-11},2.6\cdot10^{10}]$)\\
+(I9) & rel.\ $<10^{-13}$ & free-fermion $\gKM=c/6$ from the first-order kernel\\\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{(I5), $n=7$, spread~$3$:} $s^{-2}D=76.04,\ 90.79,\ 92.18,\ 92.166,\ 92.117$ at
+$s=0.3,10^{-1},3\cdot10^{-2},10^{-2},3\cdot10^{-3}$, against $\frac12\gKM=92.0896$; the residual is
+$O(s)$.  On the stretched spectrum of (I8), $s^{-2}D=63.71,\ 66.43,\ 67.02,\ 67.198,\ 67.248$ at
+$s=10^{-1}\dots10^{-3}$ against $\frac12\gKM=67.2724$.
+
+\textbf{(I8), the two tails.}  With $\eps=\frac14$: $C^2=\sup_ss^{-2}\norm{\Delta^{-1/8}w_s}^2=5.85\cdot10^2$
+(and $\norm{\Delta^{-1/8}A\Om}^2=5.87\cdot10^2$, confirming Lemma~\ref{lem:UKM}(1)); the observed
+$\sup_s\int_{(0,1/N)}h\dd\sigma_s=63.3,\,63.0,\,63.0$ at $N=10,10^2,10^3$ stays below the proved bound
+$C^2(\log N)N^{-\eps}=7.6\cdot10^2,\,8.5\cdot10^2,\,7.2\cdot10^2$.  The bound is loose by an order of
+magnitude but uniform in $s$, which is all Theorem~\ref{thm:upper} uses.
+
+\textbf{(I9), the free fermion.}  Note~7, eq.~(3.27) writes the one-particle Kubo--Mori form of the
+recovery curve as
+$\gKM=\iint\dd\kappa\dd\kappa'\lvert D^{(1)}(\kappa,\kappa')\rvert^2
+[\ell(q_\kappa,q_{\kappa'})+\ell(1-q_\kappa,1-q_{\kappa'})]$
+with $q_\kappa=(1+e^{\kappa})^{-1}$ and the closed-form kernel of
+\texttt{rigor/kernel\_identity.tex}.  Because $\log q_\kappa-\log(1-q_\kappa)=-\kappa$, the bracket collapses
+and the integrand is elementary:
+\begin{equation}\label{eq:ff-integrand}
+ \lvert D^{(1)}\rvert^2\bigl[\ell(q_\kappa,q_{\kappa'})+\ell(1-q_\kappa,1-q_{\kappa'})\bigr]
+ =\frac{(\kappa+\kappa')^2\,(q_{\kappa'}-q_\kappa)}{(\kappa-\kappa')\bigl((\kappa-\kappa')^2+4\pi^2\bigr)^2}\ \ge0 .
+\end{equation}
+In the variables $\sigma=\kappa+\kappa'$, $u=\kappa-\kappa'$ ($\dd\kappa\dd\kappa'=\frac12\dd\sigma\dd u$) the
+$\sigma$-integral is exactly
+\begin{equation}\label{eq:Iu}
+ I(u):=\int_{\mathbb R}\sigma^2\Bigl[q\bigl(\tfrac{\sigma-u}2\bigr)-q\bigl(\tfrac{\sigma+u}2\bigr)\Bigr]\dd\sigma
+ =\tfrac23\,u\,(u^2+4\pi^2),
+\end{equation}
+proved by writing $Q(y):=q(y)-\one_{y<0}$ (odd, exponentially decaying), shifting only the $Q$-part, and
+using $\int_0^\infty y(1+e^y)^{-1}\dd y=\pi^2/12$; \eqref{eq:Iu} is verified numerically to relative
+$10^{-13}$ at $u=0.5,1,3,10,30$.  Hence
+\begin{equation}\label{eq:ff-result}
+ \gKM=\frac12\int_{\mathbb R}\frac{I(u)\dd u}{u(u^2+4\pi^2)^2}
+ =\frac13\int_{\mathbb R}\frac{\dd u}{u^2+4\pi^2}=\frac16 ,
+\end{equation}
+in exact agreement with Note~7, eqs.~(3.9)/(3.80) at $c=r=1$.
+
+\begin{verdictgap}
+A naive Gauss--Legendre evaluation of the double integral on a square box $\lvert\kappa\rvert\le L$
+converges to $0.1471$ at $L=30$ and only to $0.1611$ at $L=200$, i.e.\ it appears to miss $c/6$ by
+$3$--$12\%$.  This is a \emph{box artefact}, not an error in Note~7: by \eqref{eq:Iu} the $\sigma$-integral
+at fixed $u$ contains a term $\frac{16}{3}(u/2)^3/2$ coming from the interval
+$\lvert\sigma\rvert\le u$ alone, so the square box $\lvert\kappa\rvert\le L$
+truncates $u$ at $2L$ and cuts the $\sigma$-range to $2L-\lvert u\rvert$; the residual deficit is
+$O(1/L)$.  Any future numerical check of \eqref{eq:ff-result} should use the $(\sigma,u)$ chart.
+\end{verdictgap}
+
+\section{Unbounded generators affiliated with $\cM$}\label{sec:unbounded}
+
+\begin{proposition}\label{prop:unbounded}
+Let $A=A^*$ be a (possibly unbounded) self-adjoint operator \emph{affiliated with} $\cM$ with
+$\Om\in D(A)$, and let $\omega_s=\omega\circ\operatorname{Ad}e^{isA}$.  Then Theorem~\ref{thm:exact} (the
+exact formula and the sum rule), Lemma~\ref{lem:kms}, Lemma~\ref{lem:setwise},
+Lemma~\ref{lem:uppertail}, Lemma~\ref{lem:reflect}, Lemma~\ref{lem:UKM} and Theorems~\ref{thm:lower},
+\ref{thm:upper}, \ref{thm:main} hold verbatim, with $(\mathrm A_\eps)$ replaced by $(\mathrm U_\eps)$.
+\end{proposition}
+\lstep{1}{1}{$u_s=e^{isA}$ is a unitary \emph{in} $\cM$ and $x_s=u_s-\one\in\cM$.}
+\lby{$A$ affiliated with $\cM$ means all its spectral projections lie in $\cM$; hence
+$e^{isA}\in\cM$ by the Borel functional calculus}
+\lstep{1}{2}{Every step of Section~\ref{sec:exact} used only $u_s\in\cU(\cM)$, $x_s\in\cM$, never
+$\norm A<\infty$.}
+\lby{inspection: Lemma~\ref{lem:cov} needs $u\in\cU(\cM)$; Theorem~\ref{thm:exact}
+$\langle1\rangle5$ needs $x_s\in\cM$; Lemma~\ref{lem:kms} needs $A\Om\in D(S)$ with $SA\Om=A\Om$,
+which holds because $A\Om=\lim_nA_n\Om$ and $A_n\Om=SA_n\Om$ for the bounded truncations
+$A_n=AE_A([-n,n])\in\cM$, together with the closedness of $S$ and
+$\norm{A_n\Om-A\Om}\to0$ for $\Om\in D(A)$}
+\lstep{1}{3}{$s^{-1}w_s\to iA\Om$ in norm.}
+\lby{Stone's theorem: for $\Om\in D(A)$, $\lim_{s\to0}s^{-1}(e^{isA}-\one)\Om=iA\Om$ in norm}
+\lqed{1}{4}\lby{$\langle1\rangle1$--$\langle1\rangle3$; Theorem~\ref{thm:lower} used the boundedness of
+$A$ only in $\langle1\rangle3$, and Sections~\ref{sec:upper}--\ref{sec:lowtail} only through
+$(\mathrm U_\eps)$, Lemma~\ref{lem:setwise} and the sum rule}
+
+\section{What remains open}\label{sec:open}
+
+\begin{verdictgap}
+\textbf{Gap QK1 (the small-$\lambda$ tail).}  The upper bound is proved under $(\mathrm U_\eps)$, not under
+the natural finiteness hypothesis
+\[
+ (\mathrm{KM})\qquad \gKM<\infty\iff A\Om\in D(\lvert\log\Delta\rvert^{1/2})
+ \iff\int_{[1,\infty)}\lambda\log\lambda\dd\mu<\infty ,
+\]
+(the equivalences follow from Lemma~\ref{lem:kms}: $\int(\log\lambda)_+\dd\mu<\infty$ always, and
+$\int_{(0,1)}(-\log\lambda)\dd\mu=\int_{(1,\infty)}\lambda\log\lambda\dd\mu$).  What is missing is exactly
+\[
+ \lim_{N\to\infty}\ \limsup_{s\to0}\ \int_{(0,1/N)}(-\log\lambda)\dd\sigma_s=0,
+\]
+i.e.\ uniform integrability of $\log_-$ for the family $(\sigma_s)$, equivalently (Lemma~\ref{lem:reflect})
+$\lim_N\limsup_s s^{-2}\int_{(N,\infty)}\lambda\log\lambda\dd\nu_{-s}=0$.  Two remarks.  (a) The
+corresponding statement one logarithm lower, $\lim_N\limsup_ss^{-2}\int_{(N,\infty)}\lambda\dd\nu_s=0$, is
+\emph{true with no hypothesis} (Lemma~\ref{lem:uppertail}), because the sum rule pins the first moment; so
+the gap is exactly one logarithm wide.  (b) $(\mathrm{KM})$ alone cannot be enough by a soft argument:
+setwise convergence $\sigma_s\to\mu$ plus $\int h\dd\mu<\infty$ does not imply
+$\int h\dd\sigma_s\to\int h\dd\mu$ for a measure family, and we have not excluded that some
+$(\cM,\Om,A)$ realises a counterexample.  We do not know whether $(\mathrm{KM})\Rightarrow(\mathrm U_\eps)$
+fails; a decision either way would settle the lemma in the form stated in Note~7.
+\end{verdictgap}
+
+\begin{verdictgap}
+\textbf{Gap QK2 (generators not affiliated with $\cM$) --- this is the case of Note~7.}  The recovery curve
+of Note~7 has $A=T(g_{\rm tot})$, a smeared stress tensor whose test function does \emph{not} have support
+in $I$, so $A$ is affiliated with the global algebra but not with $\cA(I)=\cM$, and $e^{isA}\notin\cM$.
+Lemma~\ref{lem:cov} then fails: $\Delta_{u_s^*\Om,\Om}\neq u_s^*\Delta u_s$, the exact formula
+\eqref{eq:exact2} is lost, and with it both bounds.  This is the same obstruction that
+\texttt{lemma\_second\_variation.tex} circumvents on the Bures side by Alberti's inequality (which needs
+only the tangent \emph{functional} $\varphi$, not a generator inside $\cM$).  The natural repair is a
+\emph{gauge} statement: the tangent functional $\varphi(X)=i\omega([A,X])$ on $\cM$ determines
+$A\Om$ only modulo $\overline{\cM'_{\mathrm{sa}}\Om}$ (\emph{ibid.}, Corollary ``gauge''), and one would
+need $\gKM$ to be computed by \emph{some} representative affiliated with $\cM$.  For the Bures form this is
+exactly the content of $\frac14\gB=\dist(a,\overline{\cM'_{\mathrm{sa}}\Om})^2$; the Kubo--Mori analogue
+--- is $\inf\{\,\ip{a-b'}{h(\Delta)(a-b')}:b'\in\cM'_{\mathrm{sa}}\Om\,\}$ attained at a vector of the form
+$A_0\Om$, $A_0$ affiliated with $\cM$, and does it equal $\frac12\gKM$? --- is \emph{not} addressed here
+and is, in our view, the right next question for O2.
+\end{verdictgap}
+
+\begin{verdictgap}
+\textbf{Gap QK3 (reverse Legendre duality).}  Proposition~\ref{prop:varKM} proves
+$\gKM\ge\sup_K[2\varphi(K)-\operatorname{Var}^{\mathrm{KM}}_\omega(K)]$ in general and equality only in
+finite dimensions.  Equality in general would give an intrinsic, algebra-monotone definition of $\gKM$
+and would make the martingale route of Remark~\ref{rem:martingale} independent of the present proof.
+\end{verdictgap}
+
+\section{Summary}\label{sec:summary}
+
+\begin{center}\small
+\begin{tabular}{@{}p{0.56\textwidth}p{0.38\textwidth}@{}}\toprule
+\textbf{Claim} & \textbf{Status}\\\midrule
+$D(\omega\Vert\omega_s)=\norm{h(\Delta)^{1/2}(e^{isA}-\one)\Om}^2$, $h(\lambda)=\lambda-1-\log\lambda$,
+ exact, any $\cM$, $A=A^*$ affiliated with $\cM$, $\Om\in D(A)$
+ & \textbf{proved} (Thm~\ref{thm:exact}, Prop.~\ref{prop:unbounded})\\
+Sum rule $\int(\lambda-1)\dd\nu_s=0$ along the whole orbit & \textbf{proved} (Thm~\ref{thm:exact})\\
+$\gKM=-2\ip{A\Om}{\log\Delta\,A\Om}=2\int h\dd\mu$ & \textbf{proved} (Lemma~\ref{lem:kms})\\
+$\liminf_ss^{-2}D\ge\frac12\gKM$ in $[0,\infty]$, no hypothesis & \textbf{proved} (Thm~\ref{thm:lower})\\
+$D=\frac{s^2}2\gKM+o(s^2)$ under $(\mathrm U_\eps)$, e.g.\ $A$ modularly analytic in a strip of any
+ positive width & \textbf{proved} (Thm~\ref{thm:main})\\
+The same under $\gKM<\infty$ alone & \textbf{open} (Gap~QK1)\\
+The same for $A$ affiliated only with a larger algebra (Note~7's curve) & \textbf{open} (Gap~QK2)\\
+$\gKM=\sup_K[2\varphi(K)-\operatorname{Var}^{\mathrm{KM}}_\omega(K)]$ beyond finite dimensions
+ & \textbf{open} (Gap~QK3)\\
+Kosaki's / Petz--Donald's variational expressions give the upper bound & \textbf{refuted}: both are
+ suprema (Section~\ref{sec:kosaki})\\
+Free fermion: $\gKM=c/6$ from the first-order kernel, closed form & \textbf{proved} \eqref{eq:Iu},
+ \eqref{eq:ff-result}\\\bottomrule
+\end{tabular}
+\end{center}
+
+Consequence for Note~7.  Theorem~B's Kubo--Mori half is \emph{not} yet unconditional: Gap~QK2 is exactly the
+hypothesis (H2)/(H3) situation of the phase-2 brief, where the generator $T(g_{\rm tot})$ lives outside
+$\cA(I)$.  What has changed is (i) the lemma is now proved --- with a clean hypothesis and in full type
+generality --- whenever the deformation is implemented \emph{inside} the local algebra, (ii) the remaining
+obstruction is a single, purely measure-theoretic uniform-integrability statement, one logarithm beyond a
+sum rule that holds for free, and (iii) the two variational routes named in
+\texttt{open\_problems\_plan.tex}~\S O2 are now excluded on sign grounds, so effort should go to Gap~QK2
+(a gauge statement for the Kubo--Mori form) rather than to Kosaki-type formulas.
+
+\begin{thebibliography}{9}
+\bibitem{Araki76} H.~Araki, \emph{Relative entropy of states of von Neumann algebras}, Publ.\ RIMS
+ \textbf{11} (1976) 809--833. \texttt{refs/Araki76\_PRIMS11.pdf}.
+\bibitem{Araki77} H.~Araki, \emph{Relative entropy for states of von Neumann algebras II}, Publ.\ RIMS
+ \textbf{13} (1977) 173--192. \texttt{refs/Araki77\_PRIMS13.pdf}.
+\bibitem{BR1} O.~Bratteli, D.~W.~Robinson, \emph{Operator Algebras and Quantum Statistical Mechanics 1},
+ 2nd ed., Springer 1987 (Prop.~2.5.9, Thm.~2.5.14, Prop.~2.5.22).
+\bibitem{Hiai18} F.~Hiai, \emph{Quantum $f$-divergences in von Neumann algebras}, arXiv:1805.02050.
+ \texttt{refs/Hiai18\_1805.02050.pdf} (Thm.~3.5, Thm.~4.1).
+\bibitem{Kosaki86} H.~Kosaki, \emph{Relative entropy of states: a variational expression}, J.~Operator
+ Theory \textbf{16} (1986) 335--348.  \textbf{NOT OBTAINED} (not freely available; the statement used is
+ the one reproduced and extended in \cite{Hiai18}, Thm.~3.5, which cites it as [32, Theorem 2.2]).
+\bibitem{PG10} D.~Petz, C.~Ghinea, \emph{Introduction to quantum Fisher information}, arXiv:1008.2417.
+ \texttt{refs/PetzGhinea10\_1008.2417.pdf}.
+\bibitem{lsv} \texttt{rigor/lemma\_second\_variation.tex} (Bures half of the second-variation lemma;
+ Gap~1 is what the present document addresses).
+\bibitem{un} \texttt{universality\_normalization.tex} (Note~7), Lemma~3.1, Lemma~3.2, eqs.~(3.9), (3.27),
+ (3.80).
+\bibitem{ki} \texttt{rigor/kernel\_identity.tex} (closed form of $D^{(1)}$, refereed in
+ \texttt{rigor/referee\_kernel\_identity.tex}).
+\end{thebibliography}
+
+\end{document}

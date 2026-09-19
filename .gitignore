@@ -1,0 +1,127 @@
+# --- build artifacts -------------------------------------------------------
+__pycache__/
+*.pyc
+.DS_Store
+*.aux
+*.log
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.nav
+*.snm
+*.vrb
+
+# --- generated documents (rebuild with rigor/build_all.sh) -----------------
+*.pdf
+
+# --- numerical caches (regenerate with the scripts in numerics/) -----------
+*.npz
+*.pkl
+*.npy
+
+# --- third-party material, NOT redistributed -------------------------------
+# Source papers: restore with refs/restore.sh (see THIRD-PARTY.md)
+refs/*.pdf
+# Page excerpts of cited publications; documents compile without them
+rigor/shots/
+
+# --- transient tooling output ----------------------------------------------
+rigor/review_packet_*.md
+
+
+# --- companion private repository -------------------------------------------
+# The non-publishable material lives in a second git dir over the SAME work tree
+# (see PRIVATE.md, tracked only there).  Nothing moves; both repos see one tree.
+/.git-private/
+/PRIVATE.md
+/CHECKLIST.md
+
+# --- LaTeX hyperref .out files ---------------------------------------------
+# NOTE: *.out is NOT ignored globally: 97 files under numerics/ and rigor/ are
+# numerical results cited as evidence.  Only the hyperref outputs are listed.
+adjacent_interval_cmi_longo_xu.out
+cmi_as_quantum_markov_defect.out
+cmi_cft_research_program.out
+continuum_petz_free_fermion.out
+fidelity_bib.out
+fidelity_recovered_quasifree.out
+fidelity_table_largezeta.out
+fidelity_tables.out
+numerics/fidelity_table_largezeta.out
+open_problems_plan.out
+paper1/app_conventions.out
+paper1/app_proofs.out
+paper1/fidelity_tables.out
+paper1/main.out
+paper1/sec_2d_lattice.out
+paper1/sec_fidelity.out
+paper1/sec_intro.out
+paper1/sec_numerics.out
+paper1/sec_outlook.out
+paper1/sec_petz.out
+paper1/sec_quadratic.out
+paper1/sec_setting.out
+paper2/app_conventions.out
+paper2/main.out
+paper2/sec_boson.out
+paper2/sec_implementation.out
+paper2/sec_intro.out
+paper2/sec_kubo_mori.out
+paper2/sec_outlook.out
+paper2/sec_second_variation.out
+paper2/sec_setting.out
+paper2/sec_universality.out
+rigor/audit_dependencies.out
+rigor/certified_numerics.out
+rigor/check_note4.out
+rigor/check_note5_numerics.out
+rigor/check_note5_theory.out
+rigor/check_notes_1_2.out
+rigor/check_notes_6_7.out
+rigor/cited_R1.out
+rigor/cited_R2.out
+rigor/cited_R3.out
+rigor/cited_R4.out
+rigor/cited_results_all.out
+rigor/collar_and_invariant_formula.out
+rigor/exact_fidelity_upper_half.out
+rigor/exact_optimum_tangent_problem.out
+rigor/exterior_extension_numerics.out
+rigor/findings_entries.out
+rigor/findings_skeleton.out
+rigor/findings_tail.out
+rigor/findings.out
+rigor/implementation_C11.out
+rigor/kernel_identity.out
+rigor/kubo_mori_gauge_lemma.out
+rigor/kubo_mori_second_variation.out
+rigor/lamport_example.out
+rigor/lemma_second_variation.out
+rigor/network_corner_calculus.out
+rigor/optimality_all_channels.out
+rigor/optimality_second_order.out
+rigor/quadratic_limit.out
+rigor/rate_of_remainder.out
+rigor/referee_certified_numerics.out
+rigor/referee_exact_fidelity_upper_half.out
+rigor/referee_exact_optimum_tangent_problem.out
+rigor/referee_implementation_C11.out
+rigor/referee_kernel_identity.out
+rigor/referee_network_corner_calculus.out
+rigor/referee_quadratic_limit.out
+rigor/referee_rate_of_remainder.out
+rigor/referee_uhlmann_upper_bound.out
+rigor/referee_universality_theorem_B.out
+rigor/referee2_exact_optimum_tangent_problem.out
+rigor/referee3_exact_optimum_tangent_problem.out
+rigor/rigor_preamble.out
+rigor/sdp_certificate_numerics.out
+rigor/sdp_dual_certificate.out
+rigor/tail_bound.out
+rigor/uhlmann_upper_bound.out
+rigor/universality_theorem_B.out
+strategy_open_problems.out
+universality_normalization.out

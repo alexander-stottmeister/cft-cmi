@@ -1,0 +1,228 @@
+% sec_implementation.tex -- Source: rigor/implementation_C11.tex (QB, Thm 5.1) + referee QR2 repairs (Sec. 8).
+This section verifies (H1)--(H3) for every diffeomorphism covariant net.  The obstacle is that the
+compression map is only $C^{1,1}$: the theory of positive-energy representations of Sobolev diffeomorphism
+groups \cite{CDIT} covers $D^{\sigma}(S^{1})$ for $\sigma>3$ in general, and $\tilde k_{s}\notin D^{3}$.
+The resolution is that we do not need a group representation --- only one self-adjoint generator --- and
+the relevant norm for that is $\|\cdot\|_{3/2}$, which $g_{\rm tot}$ has.
+
+We work on the circle.  For a real $f$ on $S^{1}$ with Fourier coefficients $\hat f_{n}$ put
+$\|f\|_{\beta}:=\sum_{n}|\hat f_{n}|(1+|n|^{\beta})$, and let $\Hil_{\rm fin}$ be the space of finite-energy
+vectors.  We write $G$ for the circle representative of $g_{\rm tot}$ and
+$T(G)=\sum_{n}\hat G_{n}L_{-n}$ on $\Hil_{\rm fin}$.
+
+\subsection{Regularity of the first-order field}
+
+\begin{theorem}[regularity]\label{thm:reg}
+Let $G$ be the circle representative of $g_{\rm tot}$ and let $J_{\rm jump}:=G''(0^{+})-G''(0^{-})=-1/L$ be
+the jump of $G''$ at the touching point.  Then
+\begin{enumerate}[label=\textup{(\alph*)},leftmargin=2.4em]
+\item $G\in C^{1,1}(S^{1})$, $G$ is $C^{\infty}$ on $S^{1}\setminus\{0\}$, and $G''\in\BV(S^{1})$ with a
+ single jump, at $\theta=0$;
+\item $(in)^{3}\hat G_{n}\to J_{\rm jump}/2\pi$, i.e.\
+ $|\hat G_{n}|=\frac{|J_{\rm jump}|}{2\pi|n|^{3}}(1+O(|n|^{-1}))$;
+\item $\|G\|_{3/2}<\infty$;
+\item $\|G'\|_{3/2}=\infty$; precisely
+ $\sum_{|n|\le N}|n||\hat G_{n}|(1+|n|^{3/2})=\frac{2|J_{\rm jump}|}{\pi}\sqrt N+O(\log N)$;
+\item $G\in H^{\sigma}(S^{1})$ for every $\sigma<5/2$ and $G\notin H^{5/2}$ (logarithmically); hence
+ $\tilde k_{s}\in D^{\sigma}(S^{1})$ for $3/2<\sigma<5/2$ and $\tilde k_{s}\notin D^{3}(S^{1})$;
+\item in any positive-energy representation with central charge $c$,
+ $\|T(G)\Omega\|^{2}=\frac{c}{12}\sum_{n\ge2}n(n^{2}-1)|\hat G_{n}|^{2}<\infty$, finite exactly on the
+ homogeneous Sobolev (Weil--Petersson) space $\dot H^{3/2}(S^{1})$;
+\item $T(G)\Omega\in D(L_{0}^{1/2})\setminus D(L_{0})$, the divergence being logarithmic:
+ $\sum_{2\le n\le N}n^{2}\cdot n(n^{2}-1)|\hat G_{n}|^{2}=\frac{J_{\rm jump}^{2}}{4\pi^{2}}\log N+O(1)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+\cite[Thm.~2.3]{RigorC}.  (a) is a direct computation near $\theta=0$: with $x=\tan(\theta/2)$ one gets
+$G(\theta)=-\frac{\theta^{2}}{2L}+O(\theta^{4})$ for $\theta\downarrow0$ and $G\equiv0$ for $\theta\le0$, so
+$G(0)=G'(0)=G''(0^{-})=0$ and $G''(0^{+})=-1/L$.  (b) follows by writing the distributional third
+derivative as $G'''=\{G'''\}+J_{\rm jump}\delta_{0}$ with $\{G'''\}\in L^{1}$ and taking Fourier
+coefficients.  (c)--(e) are immediate consequences of (b).  (f) is the standard Virasoro computation
+$\|T(G)\Omega\|^{2}=\sum_{n,m}\overline{\hat G_{n}}\hat G_{m}\langle L_{-n}\Omega,L_{-m}\Omega\rangle$ with
+$\langle L_{-n}\Omega,L_{-n}\Omega\rangle=\frac{c}{12}n(n^{2}-1)$ for $n\ge2$, and (g) is the same sum with
+an extra $n^{2}$, which by (b) behaves like $\sum n^{-1}$.
+\end{proof}
+
+Item (g) is the exact location of the difficulty: the field is one logarithm short of the regularity that
+would make the Nelson commutator route available.  Items (c) and (f) are what we actually need.
+
+\subsection{The generator, its phase, and its localisation}
+
+\begin{lemma}[Carpi--Weiner package]\label{lem:CW}
+In the vacuum representation of any conformal net with central charge $c$, for real $f$ with
+$\|f\|_{3/2}<\infty$:
+\begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.4em]
+\item $T(f)$ is essentially self-adjoint on $\Hil_{\rm fin}$ \textup{(}\cite[Thm.~4.4]{CW};
+ \cite[Prop.~2.2(3)]{CDIT}\textup{)};
+\item the energy bound $\|T(f)\psi\|\le r(c)\,\|f\|_{3/2}\,\|(1+L_{0})\psi\|$ holds on $\Hil_{\rm fin}$, and
+ $\|f_{k}-f\|_{3/2}\to0$ implies $e^{iT(f_{k})}\to e^{iT(f)}$ strongly
+ \textup{(}\cite[Prop.~4.5]{CW}; \cite[Prop.~2.2(4),(5)]{CDIT}\textup{)};
+\item smooth approximants may be chosen support-preservingly: if $f$ vanishes on an open interval $I_{0}$
+ then there are real $f_{k}\in C^{\infty}(S^{1})$ with $\supp f_{k}$ inside any prescribed
+ $\varepsilon$-enlargement of $\overline{I_{0}'}$ and $\|f_{k}-f\|_{3/2}\to0$ \textup{(}\cite[Lemma
+ 4.6]{CW}\textup{)}.
+\end{enumerate}
+The passage from the irreducible $\Hil(c,h)$ to a general vacuum representation is by direct
+integral/decomposition, using separability of $\Hil$ and \cite[Prop.~3.14]{CDIT}.
+\end{lemma}
+
+\begin{lemma}[the phase is scalar]\label{lem:phase}
+For real smooth $f$, $U(\mathrm{Exp}(tf\partial))=e^{it\,\overline{T(f)}}$ up to a \emph{scalar} phase, not
+merely up to a block-diagonal unitary.
+\end{lemma}
+
+\begin{proof}[Proof sketch]
+\cite[Lemma 4.2]{RigorC}.  The identity $U(\mathrm{Exp} f)=e^{iT(f)}$ ``up to a phase'' is stated in
+\cite[\S2.1]{CDIT} on the irreducible $\Hil(c,h)$; read summand by summand on a reducible positive-energy
+representation it would only give $\bigoplus_{j}e^{i\alpha_{j}t}$, which is not enough for the localisation
+argument below.  Fewster--Hollands \cite[Prop.~5.1, eqs.~(5.7)--(5.8)]{FH05} show that the multiplier of
+the Virasoro group cocycle is $e^{ic\widetilde B}$ and the generator is $\Theta(f)$, both depending only on
+$c$, which is common to all summands by \cite[Prop.~3.14]{CDIT}; together with the perfectness of
+$\mathrm{Diff}(I)$ this makes the phase scalar.  Both places where the identity is used involve fields
+supported in a proper interval.
+\end{proof}
+
+\begin{lemma}[locality of implementers, and (H2$'$)]\label{lem:loc}
+Let $f$ be real with $\|f\|_{3/2}<\infty$.
+\begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.4em]
+\item If $f=0$ on an open interval $I_{0}$, then $e^{it\overline{T(f)}}\in\cA(I_{0})'$ for all $t$.
+\item $T(g_{\rm tot})\Omega\in\HT$, i.e.\ \textup{(H2$'$)} holds; indeed one may prescribe the
+ approximating sequence.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(i) By \Cref{lem:CW}(iii) choose real $f_{k}\in C^{\infty}$ with $\supp f_{k}$ in the
+$\varepsilon$-enlargement $I_{\varepsilon}$ of $\overline{I_{0}'}$ and $\|f_{k}-f\|_{3/2}\to0$.  For each
+$k$, $\mathrm{Exp}(tf_{k})\in\mathrm{Diff}(\overline{I_{\varepsilon}})$, so
+$e^{itT(f_{k})}=U(\mathrm{Exp}(tf_{k}))\in\cA(I_{\varepsilon})$ up to a scalar phase by \Cref{lem:phase} and
+\eqref{eq:H1loc}.  By \Cref{lem:CW}(ii) these converge strongly to $e^{it\overline{T(f)}}$, which therefore
+lies in $\cA(I_{\varepsilon})$; intersecting over $\varepsilon>0$ and using additivity gives
+$e^{it\overline{T(f)}}\in\cA(I_{0}')\subseteq\cA(I_{0})'$.
+(ii) $\Omega\in D(L_{0})$ with $L_{0}\Omega=0$, so the energy bound of \Cref{lem:CW}(ii) gives
+$\|T(f_{n})\Omega-\overline{T(g_{\rm tot})}\Omega\|=\|T(f_{n}-g_{\rm tot})\Omega\|
+\le r(c)\|f_{n}-g_{\rm tot}\|_{3/2}\to0$ for any smooth $f_{n}\to g_{\rm tot}$ in $\|\cdot\|_{3/2}$, which
+exists by \Cref{thm:reg}(c) and mollification.
+\end{proof}
+
+\subsection{Covariance and the implementation theorem}
+
+\begin{definition}\label{def:Us}
+$U_{s}:=e^{is\,\overline{T(g_{\rm tot})}}$, well defined by \Cref{thm:reg}(c) and \Cref{lem:CW}(i).
+\end{definition}
+
+\begin{theorem}[(H1) for every conformal net]\label{thm:H1}
+Let $A_{0}$ be an open arc on which $g_{\rm tot}$ vanishes and which contains $A$.  For every $s$:
+\begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.4em]
+\item $U_{s}\in\cA(A_{0})'=\cA(A_{0}')$; in particular $\Ad U_{s}$ is the identity on $\cA(K)$ for every
+ interval $K\subseteq A_{0}$, hence for $K=A$;
+\item $\Ad U_{s}|_{\cA(D)}=\Ad U(h_{s})|_{\cA(D)}$, where $U(h_{s})$ is the M\"obius unitary of
+ $h_{s}=\mathrm{Exp}(sm)$, $m$ the global M\"obius field agreeing with $g_{\rm tot}$ on $D$;
+\item $U_{s}\cA(K)U_{s}^{*}=\cA(\tilde k_{s}K)$ for \emph{every} interval $K\subseteq S^{1}$, including
+ those containing the touching point.
+\end{enumerate}
+Consequently \textup{(H1)} holds, and $\omega_{s}=\omega\circ\Ad U_{s}|_{\cA(I)}$ depends only on
+$k_{s}|_{I}$.
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+\cite[Thm.~4.7]{RigorC}.  (i) is \Cref{lem:loc}(i).  (ii) uses the \emph{Trotter split}
+$g_{\rm tot}=(g_{\rm tot}-m)+m$ --- \emph{not} $g_{A}+g_{D}$, which is inadmissible because
+$g_{\rm tot}(L)\neq0$ makes the truncations discontinuous.  Both summands have finite $\|\cdot\|_{3/2}$,
+$T(g_{\rm tot})=T(g_{\rm tot}-m)+T(m)$ on the common core $\Hil_{\rm fin}$, and
+$e^{iaT(m)}=U(h_{a})$ \emph{exactly}, the M\"obius subrepresentation being a true representation.  Trotter
+(Reed--Simon Thm.~VIII.31) then splits $U_{s}$ into a M\"obius factor and a factor localised away from $D$
+by \Cref{lem:loc}(i).  (iii) follows for intervals avoiding the touching point from (i)--(ii) plus
+localisation \cite[Prop.~5.4]{CW}, and is extended to arbitrary intervals by support-preserving
+approximation together with additivity and semicontinuity of the net, in the manner of
+\cite[Prop.~4.1]{CDIT}.
+\end{proof}
+
+\begin{theorem}[(H2) and (H3)]\label{thm:H23}
+With $U_{s}$ as in \Cref{def:Us} and $\omega_{s}=\omega\circ\Ad U_{s}|_{\cA(I)}$:
+\begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.4em]
+\item $T(g_{\rm tot})\Omega\in\Hil$ with
+ $\|T(g_{\rm tot})\Omega\|^{2}=\frac{c}{12}\sum_{n\ge2}n(n^{2}-1)|\hat G_{n}|^{2}$, and
+ $U_{s}\Omega=\Omega+is\,T(g_{\rm tot})\Omega+o(s)$ in norm;
+\item for \emph{every} $X\in\cA(I)$ --- not merely on a dense subalgebra ---
+ $\omega_{s}(X)=\omega(X)+s\varphi(X)+o(s)$ with $\varphi(X)=i\omega([T(g_{\rm tot}),X])$, the $o(s)$
+ uniform on bounded subsets of $\cA(I)$; and $\omega_{s}(X^{2})\to\omega(X^{2})$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(i) $\Omega\in D(L_{0})\subseteq D(\overline{T(g_{\rm tot})})$ by \Cref{lem:CW}(ii); the norm formula is
+\Cref{thm:reg}(f).  For self-adjoint $T$ and $\xi\in D(T)$ the spectral theorem gives
+$\|e^{isT}\xi-\xi-isT\xi\|^{2}=s^{2}\int|\frac{e^{is\lambda}-1}{s}-i\lambda|^{2}d\mu_{\xi}(\lambda)=o(s^{2})$
+by dominated convergence, the integrand being dominated by $4\lambda^{2}\in L^{1}(\mu_{\xi})$.
+(ii) Write $\xi_{s}:=U_{s}^{*}\Omega=\Omega-isT(g_{\rm tot})\Omega+r_{s}$ with $\|r_{s}\|=o(s)$.  Expanding
+$\omega_{s}(X)=\langle\xi_{s},X\xi_{s}\rangle$ gives
+$\omega(X)+is\langle T(g_{\rm tot})\Omega,X\Omega\rangle-is\langle\Omega,XT(g_{\rm tot})\Omega\rangle+R$
+with $|R|\le\|X\|\bigl(2\|r_{s}\|(1+s\|T(g_{\rm tot})\Omega\|)+\|r_{s}\|^{2}+s^{2}
+\|T(g_{\rm tot})\Omega\|^{2}\bigr)=\|X\|\,o(s)$; and $s\mapsto\xi_{s}$ is norm continuous.
+\end{proof}
+
+\begin{theorem}[implementation]\label{thm:impl}
+Let $(\cA,U,\Omega)$ be any diffeomorphism covariant conformal net on $S^{1}$ with central charge $c>0$
+acting on a separable Hilbert space, satisfying the axioms of \Cref{ss:standing}, and let
+$U_{s}=e^{is\overline{T(g_{\rm tot})}}$.  Then \textup{(H1)}, \textup{(H2)}, \textup{(H2$'$)} and
+\textup{(H3)} hold, with $\varphi(X)=i\omega([T(g_{\rm tot}),X])$ for all $X\in\cA(I)$ and
+$T(g_{\rm tot})\Omega\in\Hil$.  No strong additivity, no finiteness of $L_{0}$-multiplicities, no
+rationality and no restriction on $c$ is used.
+\end{theorem}
+
+\begin{proof}
+\Cref{thm:H1} gives (H1), \Cref{thm:H23} gives (H2) and (H3), \Cref{lem:loc}(ii) gives (H2$'$); the
+hypotheses of all three are \Cref{thm:reg}(c),(f) and the net axioms.
+\end{proof}
+
+The external inputs are exactly three: \cite[Thm.~4.4]{CW} (essential self-adjointness),
+\cite[Prop.~4.5, Lemma~4.6]{CW} (energy bound, strong convergence, support-preserving approximation), and
+the net axioms, including automatic additivity and semicontinuity, Haag duality (used only in
+\Cref{thm:H1}(i), through $\cA(A_{0})'=\cA(A_{0}')$) and $U(\mathrm{Exp}f)=e^{iT(f)}$ mod phase for smooth
+$f$.
+
+\subsection{What is not true, and does not need to be}
+
+\begin{proposition}[the second-order energy obstruction is real but harmless]\label{prop:energy}
+\begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.4em]
+\item $T(g_{\rm tot})\Omega\in D(L_{0}^{1/2})\setminus D(L_{0})$, the divergence of
+ $\|L_{0}T(g_{\rm tot})\Omega\|^{2}$ being logarithmic with coefficient
+ $\frac{c}{12}\cdot\frac{J_{\rm jump}^{2}}{4\pi^{2}}$; equivalently $T(g_{\rm tot}')$ is not even defined
+ on $\Omega$.
+\item The exponent $3/2$ in the \emph{operator} energy bound cannot be lowered: testing on $\xi=\Omega$
+ with $f=2\cos(n\theta)$ gives $\|T(f)\Omega\|=(\frac{c}{12}n(n^{2}-1))^{1/2}\asymp n^{3/2}$ while
+ $\|f\|_{\beta}\asymp n^{\beta}$, forcing $\beta\ge3/2$.
+\item Consequently Nelson's commutator theorem with $N=1+L_{0}$ is \emph{not} available: its hypothesis is
+ a bound on $[L_{0},T(g_{\rm tot})]=+i\,T(g_{\rm tot}')$, which does not exist.  For the \emph{form}
+ version $|\langle\psi,T(f)\psi\rangle|\le C\|f\|_{\beta}\|(1+L_{0})^{1/2}\psi\|^{2}$ the exact threshold is
+ $\beta=1$: optimising over $\psi_{t}=\Omega+t\|L_{-n}\Omega\|^{-1}L_{-n}\Omega$ gives a supremum
+ $\sim(c/12)^{1/2}n$, forcing $\beta\ge1$, and $\beta=1$ holds by \cite[Lemma~4.1]{CW}.  Hence the
+ commutator route to $D(L_{0})$-invariance is \textbf{closed}, missing by the single logarithm
+ $\|g_{\rm tot}'\|_{1}=\infty$.
+\item None of this is needed.  Essential self-adjointness comes from \cite[Thm.~4.4]{CW}, which requires
+ only $\|g_{\rm tot}\|_{3/2}<\infty$, and the second-order fidelity expansion needs only
+ $\Omega\in D(\overline{T(g_{\rm tot})})$.
+\end{enumerate}
+\end{proposition}
+
+\subsection{Sub-classes with independent or stronger statements}
+
+\emph{(a) Free Dirac/Majorana fermion.}  $U_{s}=\Gamma(W_{s})$ with $W_{s}$ the one-particle half-density
+push-forward, implementable by Shale--Stinespring \cite{SS} because $\Pi_{-}W_{s}\Pi_{+}$ is
+Hilbert--Schmidt \cite{RigorUB}.  That argument needs much less than $C^{1,1}$ --- essentially the
+Weil--Petersson class $H^{3/2}$ --- and no Virasoro energy bound.  It implements the \emph{same} geometric
+automorphism of $\cA(I)$ as \Cref{thm:H1}, hence the same $\omega_{s}$.
+
+\emph{(b) Fock representations with integer $c$.}  By \cite{DIT} (via the Outlook of \cite{CDIT}),
+$U^{(n,h)}$ extends to $D^{\sigma}(S^{1})$ for $\sigma>2$; since $\tilde k_{s}\in D^{\sigma}$ for all
+$\sigma<5/2$ by \Cref{thm:reg}(e), one obtains $U(\tilde k_{s})$ as a value of a \emph{group}
+representation, hence also for compositions and for piecewise-M\"obius maps with several touching points.
+This is strictly stronger than \Cref{thm:impl} for those models, and it is open for general $c$.
+
+\emph{(c) Tensor products, direct sums, subnets.}  (H1)--(H3) tensorise, since
+$T(f)=T_{1}(f)\otimes\one+\one\otimes T_{2}(f)$ and $\|g_{\rm tot}\|_{3/2}$ is unchanged; likewise for
+countable direct sums and for a conformal subnet with the same stress-energy tensor.  This is subsumed by
+\Cref{thm:impl}, but it is what makes the $c$-linearity of $\|T(g_{\rm tot})\Omega\|^{2}$ manifest, cf.\
+\Cref{cor:tensor}.

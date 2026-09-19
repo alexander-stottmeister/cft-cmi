@@ -1,0 +1,41 @@
+\begin{table}[ht]\centering\small
+\caption{Convergence of \(\Phi(1/15)\) (\(\eps=10^{-8}\), \(\kappa_c=18.4\)). Raw values are rigorous lower bounds; corrected values add \(\zeta^2/(15\kappa_c^2)=8.73\times10^{-7}\).}\label{tab:convergence}
+\begin{tabular}{rrrr r r}\toprule
+\(\Lambda\) & \(\kappa_{\max}\) & \(N\) & \(n_{\mathrm{sub}}\) & \(10^5\,\Phi_{\mathrm{sub}}\) & \(10^5\,(\Phi_{\mathrm{sub}}+\text{tail})\) \\\midrule
+60 & 30 & 91 & 61 & 3.43196 & 3.51928 \\
+60 & 45 & 137 & 61 & 3.42789 & 3.51521 \\
+60 & 60 & 183 & 63 & 3.43183 & 3.51915 \\
+80 & 45 & 183 & 81 & 3.43140 & 3.51872 \\
+80 & 60 & 243 & 81 & 3.42961 & 3.51693 \\
+120 & 45 & 273 & 117 & 3.42858 & 3.51591 \\
+120 & 60 & 365 & 119 & 3.43061 & 3.51793 \\
+120 & 90 & 547 & 119 & 3.42907 & 3.51639 \\
+240 & 60 & 729 & 231 & 3.42999 & 3.51731 \\
+\bottomrule\end{tabular}\end{table}
+\begin{table}[ht]\centering\small
+\caption{Second-order coefficients from the first-order kernel (corrected basis) in the spectral window \(\eps<w<1-\eps\) of the box compression, \(\kappa_c=\log(1/\eps)\). \(f_2^{\rm sub}\) and \(s_2^{\rm sub}\) are rigorous lower bounds; the tail \(\zeta^2/(15\kappa_c^2)\) is added to \(f_2\). Last row: \(f_2\) from the stable tail-corrected values at \(\kappa_c\ge25\); \(s_2\) from two-point \(1/\kappa_c\) extrapolations (\(0.0841\) from \(\kappa_c=18.4,25.3\); \(0.0833\) from \(25.3,32.2\)). Windows below \(10^{-14}\) are at the double-precision floor and omitted.}\label{tab:second-order}
+\begin{tabular}{r r r r r r r}\toprule
+\(\eps\) & \(\kappa_c\) & \(\Lambda\) & \(\kappa_{\max}\) & \(f_2^{\rm sub}\) & \(f_2^{\rm sub}+\)tail & \(s_2^{\rm sub}\) \\\midrule
+\(10^{-8}\) & 18.4 & 120 & 45 & 0.0082392 & 0.0084356 & 0.067167 \\
+\(10^{-8}\) & 18.4 & 120 & 90 & 0.0082403 & 0.0084367 & 0.067209 \\
+\(10^{-8}\) & 18.4 & 240 & 60 & 0.0082423 & 0.0084388 & 0.067289 \\
+\(10^{-11}\) & 25.3 & 120 & 45 & 0.0083408 & 0.0084447 & 0.071785 \\
+\(10^{-11}\) & 25.3 & 120 & 90 & 0.0083398 & 0.0084437 & 0.071731 \\
+\(10^{-11}\) & 25.3 & 240 & 60 & 0.0083393 & 0.0084432 & 0.071703 \\
+\(10^{-14}\) & 32.2 & 120 & 45 & 0.0083805 & 0.0084447 & 0.074268 \\
+\(10^{-14}\) & 32.2 & 120 & 90 & 0.0083800 & 0.0084441 & 0.074229 \\
+\(10^{-14}\) & 32.2 & 240 & 60 & 0.0083793 & 0.0084434 & 0.074177 \\
+\(\to0\) & \(\infty\) & & & & 0.008444(1) & 0.0837(5) \\
+\bottomrule\end{tabular}\end{table}
+\begin{table}[ht]\centering\small
+\caption{\(\Phi(\zeta)\) (tail-corrected) and relative entropy. A: \(\Lambda=60,\kappa_{\max}=30,\eps=10^{-8}\); B: \(\Lambda=120,\kappa_{\max}=45,\eps=10^{-8}\); C: \(\Lambda=60,\kappa_{\max}=30,\eps=10^{-11}\). \(S_\infty\) is the \(1/\kappa_c\) extrapolation of the sub-compressed relative entropy from \(\kappa_c=18.4\) (A) and \(25.3\) (C). Last column: \(-2\log\Fid/I_\omega(A{:}C|B)\).}\label{tab:scan}
+\begin{tabular}{r rrr r r r r}\toprule
+\(\zeta\) & \(\Phi\) (A) & \(\Phi\) (B) & \(\Phi\) (C) & \(\Phi/\zeta^2\) (C) & \(S_\infty\) & \(S_\infty/\zeta^2\) & ratio \\\midrule
+0.0083 & 5.8155e-07 & 5.8102e-07 & 5.8166e-07 & 0.00838 & 5.6944e-06 & 0.0821 & 0.0017 \\
+0.0167 & 2.3073e-06 & 2.3052e-06 & 2.3078e-06 & 0.00830 & 2.2400e-05 & 0.0806 & 0.0033 \\
+0.0333 & 9.0814e-06 & 9.0729e-06 & 9.0833e-06 & 0.00818 & 8.6918e-05 & 0.0782 & 0.0066 \\
+0.0667 & 3.5193e-05 & 3.5159e-05 & 3.5199e-05 & 0.00792 & 3.2971e-04 & 0.0742 & 0.0129 \\
+0.1333 & 1.3243e-04 & 1.3230e-04 & 1.3244e-04 & 0.00745 & 1.2035e-03 & 0.0677 & 0.0246 \\
+0.2667 & 4.7267e-04 & 4.7215e-04 & 4.7255e-04 & 0.00665 & 4.1151e-03 & 0.0579 & 0.0453 \\
+0.5333 & 1.5458e-03 & 1.5437e-03 & 1.5444e-03 & 0.00543 & 1.2665e-02 & 0.0445 & 0.0784 \\
+\bottomrule\end{tabular}\end{table}

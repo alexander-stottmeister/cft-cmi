@@ -1,0 +1,106 @@
+p1_bogoliubov.py -- Phase 1 (agent PN): Shale-Stinespring HS norm E(s)=||P_- W_s P_+||_2^2
+for the zero-collar recovery diffeomorphism of Note 5, extended to a diffeo of R.
+
+CONVENTIONS (fixed once, used everywhere)
+  Fourier:      fhat(k) = int_R f(x) e^{-i k x} dx,  f(x) = (1/2pi) int fhat(k) e^{ikx} dk
+  Projections:  P_+ = 1_{k>0}  (Hardy space of the UPPER half plane), P_- = 1_{k<0}
+  Push-forward of half-densities: (W_phi f)(y) = f(phi^{-1}(y)) ((phi^{-1})'(y))^{1/2},
+                phi an increasing C^{1,1} diffeo of R.  W_phi is unitary on L^2(R).
+  Displacement: u(x) := x - phi(x),  so phi' = 1 - u'.
+
+====================================================================================================
+(1) NORMALISATION AND VALIDATION
+====================================================================================================
+Identity used:  D := W* P_- W - P_-  has kernel K = (1/(2 pi i)) k(x,y),
+   k(x,y) = sqrt(phi'(x)phi'(y))/(phi(x)-phi(y)) - 1/(x-y),  k(x,x)=0.
+D = Q - P_- with Q = W* P_- W a projection, so Tr D^2 = Tr(Q P_+) + Tr(P_-(1-Q))
+   = ||P_- W P_+||_2^2 + ||P_+ W P_-||_2^2 = 2 E.   Hence   E = (1/2)||K||_2^2 ,
+   E = (1/(8 pi^2)) \iint k(x,y)^2 dx dy      <-- NOT ||K||_2^2 : the factor is 1/2.
+
+ (a) Moebius maps: max|k| on (-2.9,40)^2 for phi=(2x+1)/(x+3):  1.76e-10
+     (a Moebius map with a pole is not a diffeo of R; across the pole k = -2/(x-y),
+      which is why only pole-free Moebius maps -- affine on R, or any Moebius map of
+      the CIRCLE -- give E = 0.)   affine phi=1.7x+0.4:  E = 2.05e-27
+
+ (b) phi = x + eps*exp(-x^2/2):  first order  E = eps^2 (1/(48 pi^2)) int_0^inf k^3|etahat|^2 dk
+     = eps^2/(48 pi)   [Fourier convention fhat(k)=int f e^{-ikx}dx, P_+ = 1_{k>0}]
+     eps      E (double integral)   E (matrix of P_-WP_+)   eps^2/(48 pi)    quad/exact
+     0.02     2.65279701e-06        2.64233639e-06          2.65258238e-06   1.00008
+     0.05     1.65870281e-05        1.65216460e-05          1.65786399e-05   1.00051
+     0.1      6.64490227e-05        6.61874469e-05          6.63145596e-05   1.00203
+     (matrix column: Fourier basis of a box [-X,X), Richardson-extrapolated in 1/X from
+      X=50,100; it converges to the same value, confirming the factor 1/2 independently.)
+
+ (c) circle picture (Cayley x = C tan(th/2), C=2).  P_-(th,th') = (1/(2 pi i))/(2 sin((th-th')/2)),
+     kc = sqrt(psi'psi')/(2 sin(dpsi/2)) - 1/(2 sin(dth/2)),  E = (1/(8 pi^2)) \iint kc^2 dth dth'.
+     eps=0.1 : E(line) = 6.6449022714e-05   E(circle) = 6.6449022714e-05
+     eps=0.3 : E(line) = 6.0794547259e-04   E(circle) = 6.0794547259e-04
+
+ (d) first-order (quadratic) functional, three independent evaluations for eta=exp(-x^2/2):
+     real-space kernel  0.0066314560 | Fourier int k^3|etahat|^2 0.0066314560 | circle (1/12)sum(n^3-n)|etat_n|^2 0.0066314560
+     => Q[g] = (1/(48 pi^2)) int_0^inf k^3 |ghat|^2 dk = (1/12) sum_{n>=2}(n^3-n)|gt_n|^2 ,
+        gt = g * dtheta/dx the same vector field in the circle chart (Moebius invariant).
+
+====================================================================================================
+(2) THE FAMILY (Note 5: a=1, L=2, zeta = a s/(a+L) = s/3)
+====================================================================================================
+k~_s(x) = x on (-inf,0], = L x/(L+s x) on [0,L]; u_s = x - k~_s = s x^2/(L+s x) on [0,L],
+u_s(L)=sL/(1+s), u_s'(L)=s(2+s)/(1+s)^2.  The extension is FREE on I' = (-inf,-a] u [L,inf),
+i.e. on the single circle arc J' through infinity; it must match u_s,u_s' at L and vanish
+to first order at -a.  Parametrisation (circle chart): psi = th - delta, delta = cubic
+Hermite on J' matching (delta,delta') at both ends, minus lam*s*sum_i c_i sin^2(pi u)
+{cos,sin}(m pi u), u=(th-th_L)/|J'|, m=0..M; the c_i minimise the first-order functional.
+NOTE: the optimal extension moves the point at infinity (it is asymptotically affine on R,
+      NOT decaying to the identity).  Restricting to extensions with u -> 0 at |x| = inf
+      gives min 0.5 E/zeta^2 = 0.0678 (M=90, still falling slowly), a factor 8.0 too
+      large -- see section (4) and finding PN-2.
+
+====================================================================================================
+(3) E(s) = ||P_- W~_s P_+||_2^2  AND THE BOUND  Phi(zeta) <= -(1/2)log det(1-V*V) ~ (1/2)E
+====================================================================================================
+   s        zeta      E(s)            E/s^2      (1/2)E/zeta^2   Phi(zeta)       (1/2)E/Phi
+  0.075    0.025000  1.03827650e-05  0.001846   0.0083062       -               -
+  0.15     0.050000  4.12519254e-05  0.001833   0.0082504       -               -
+  0.3      0.100000  1.65669060e-04  0.001841   0.0082835       -               -
+  0.6      0.200000  6.77754952e-04  0.001883   0.0084719       -               -
+  0.025    0.008333  1.16560306e-06  0.001865   0.0083923       5.8154540e-07   1.00216
+  0.05     0.016667  4.63517160e-06  0.001854   0.0083433       2.3072940e-06   1.00446
+  0.1      0.033333  1.83985320e-05  0.001840   0.0082793       9.0813630e-06   1.01298
+  0.2      0.066667  7.33007868e-05  0.001833   0.0082463       3.5192790e-05   1.04142
+  0.4      0.133333  2.96805261e-04  0.001855   0.0083476       1.3243280e-04   1.12059
+  0.8      0.266667  1.21449385e-03  0.001898   0.0085394       4.7267500e-04   1.28470
+  (Phi from numerics/results_A2.txt, column A, -logF_sub+tail; zeta = s/3.)
+
+  the bound for NON-optimal extensions (lam scales the optimal correction; lam=0 is the
+  bare cubic-Hermite extension) -- (1/2)E/Phi must stay >= 1 for every one of them:
+     s      lam=0        lam=0.5      lam=1.0      lam=1.5   |  (1/2)E/Phi at lam=0 / 1
+   0.05    3.141462e-06 2.548365e-06 2.317586e-06 2.449631e-06|  1.3615 / 1.0045
+   0.2     5.222128e-05 4.180354e-05 3.665039e-05 3.684901e-05|  1.4839 / 1.0414
+   0.8     8.998963e-04 7.154740e-04 6.072469e-04 5.921791e-04|  1.9038 / 1.2847
+
+====================================================================================================
+(4) FIRST-ORDER FIELD g_tot AND THE SHARP CONSTANT
+====================================================================================================
+g_tot: phi = x + s g_tot + O(s^2);  g_tot = 0 on (-a,0), -x^2/L on (0,L), free on I'.
+Q[g] := (1/(48 pi^2)) int_0^inf k^3 |ghat(k)|^2 dk = lim_{s->0} E(s)/s^2 .
+Minimised over the extension (linear least squares, basis size M):
+     M      Q_min          9*Q_min (=Q of the zeta-normalised field)   4.5*Q_min
+     30     0.00188117     0.01693049                                 0.00846525
+     60     0.00187958     0.01691624                                 0.00845812
+     90     0.00187894     0.01691049                                 0.00845525
+     140    0.00187792     0.01690128                                 0.00845064
+     200    0.00187764     0.01689879                                 0.00844939
+     unoptimised (cubic-Hermite) extension:  Q = 0.00248322,  4.5*Q = 0.01117448
+
+     g_B/4 = 1/(6 pi^2)  = 0.01688686   <-> 9*Q_min  (the zeta-normalised first-order field)
+     g_B/8 = 1/(12 pi^2) = 0.00844343   <-> 4.5*Q_min = lim_{zeta->0} (1/2)E/zeta^2
+     Richardson (1/M) extrapolation from M=140,200:  Q_inf = 0.00187700, 9*Q_inf = 0.01689298,  4.5*Q_inf = 0.00844649  (g_B/8 = 0.00844343)
+
+  RESTRICTED class: extensions with u -> 0 at |x| = infinity, i.e. gt(pi)=gt'(pi)=0
+  (the circle field must vanish to second order at the point at infinity):
+     M=30   Q_min = 0.01522146   4.5*Q_min = 0.06849657   ratio to g_B/8 = 8.112
+     M=60   Q_min = 0.01512450   4.5*Q_min = 0.06806027   ratio to g_B/8 = 8.061
+     M=90   Q_min = 0.01506655   4.5*Q_min = 0.06779949   ratio to g_B/8 = 8.030
+
+  CONCLUSION: inf over extensions of (1/2)E/zeta^2 -> g_B/8 = 1/(12 pi^2) to ~0.1%,
+  Phi <= (1/2)E holds for every extension tested, and (1/2)E/Phi -> 1 from above as zeta -> 0.

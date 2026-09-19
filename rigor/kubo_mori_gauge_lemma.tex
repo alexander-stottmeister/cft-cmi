@@ -1,0 +1,869 @@
+\documentclass[11pt]{article}
+\input{rigor_preamble}
+\newcommand{\Hil}{\mathcal H}
+\newcommand{\ip}[2]{\langle#1,#2\rangle}\newcommand{\norm}[1]{\lVert#1\rVert}
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\gtot}{g_{\mathrm{tot}}}\newcommand{\ktil}{\tilde k}
+\newcommand{\gKM}{g_{\mathrm{KM}}}\newcommand{\gB}{g_{\mathrm B}}
+\newcommand{\Msa}{\cM_{\mathrm{sa}}}\newcommand{\Mpsa}{\cM'_{\mathrm{sa}}}
+\newcommand{\HT}{\mathcal H_T}\newcommand{\Om}{\Omega}\newcommand{\one}{\mathbf 1}
+\newcommand{\supp}{\operatorname{supp}}\newcommand{\Ad}{\operatorname{Ad}}
+\newcommand{\Diff}{\operatorname{Diff}}\newcommand{\Vect}{\operatorname{Vect}}
+\newcommand{\dist}{\operatorname{dist}}\newcommand{\Var}{\operatorname{Var}}
+\title{The Kubo--Mori gauge problem for the zero-collar recovery curve:\\
+an exact monotonicity bound, the local form of $\gKM$ on an interval,\\
+and the refutation of the gauge lemma in the form conjectured}
+\author{Agent RK (Phase~2b, track RK)}
+\date{2026-09-09}
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{What is proved here, and what is refuted}\label{sec:scope}
+
+The Phase-2b brief proposes the following route to $s_2=c/12$ for an arbitrary diffeomorphism covariant net.
+Let $\cM=\cA(I)$ and let $\omega_s=\omega\circ\Ad U_s|_{\cM}$ be the zero-collar recovery curve, implemented by
+$U_s=e^{is\overline{T(\gtot)}}$ with $\gtot$ \emph{not} supported in $I$, so that $U_s\notin\cM$ and
+$U_s\notin\cM'$ and the exact identity of \texttt{kubo\_mori\_second\_variation.tex} (QK) does not apply on
+$\cM$.  The route is:
+\begin{enumerate}[leftmargin=2.2em,label=(\alph*)]
+\item choose an interval $K\supseteq I$ that also carries the implementer, so that $U_s\in\cA(K)$ and $\Ad U_s$
+ is an \emph{automorphism} of $\cN:=\cA(K)$; then monotonicity of the Araki relative entropy under the
+ inclusion $\cM\subseteq\cN$ bounds $D_{\cM}$ by QK's exact expression on $\cN$;
+\item evaluate the right-hand side to second order (hypothesis $(\mathrm U_\eps)$ for $\cN$), obtaining
+ $\tfrac12\gKM^{(K)}(T(\hat g)\Om)$ for every admissible pair $(K,\hat g)$, $\hat g$ an extension of the
+ field beyond $I$;
+\item \textbf{gauge lemma}: $\inf_{K,\hat g}\gKM^{(K)}(T(\hat g)\Om)\overset?=c/6$.
+\end{enumerate}
+Steps (a) and (b) are carried out here and are correct.  Step (c) is \textbf{false}: the infimum exists, is
+\emph{attained in the limit} by an explicit one-parameter family, and equals
+\begin{equation}\label{eq:mainvalue}
+ \boxed{\ \inf_{K,\hat g}\ \gKM^{(K)}\bigl(T(\hat g)\Om\bigr)\;=\;\frac{11+5\sqrt5}{12}\,c\;=\;1.848\,c
+ \;=\;11.09\times\frac c6 .\ }
+\end{equation}
+The route therefore proves that the second variation is \emph{finite}, with the explicit constant
+\begin{equation}\label{eq:mainbound}
+ \limsup_{s\downarrow0}\ \frac{D\bigl(\omega_s\Vert\omega\bigr)}{s^2}\ \le\
+ \frac{11+5\sqrt5}{24}\,c\;=\;0.9242\,c
+ \qquad\text{(conditional on $(\mathrm U_\eps)$ for one $\cA(K)$)},
+\end{equation}
+but it cannot prove $s_2=c/12=0.0833\,c$.  The obstruction is identified exactly
+(Section~\ref{sec:gauge}): in the modular frame of \emph{any} interval $K\supsetneq I$ the Kubo--Mori form is
+the \emph{local} Sobolev functional
+\begin{equation}\label{eq:local}
+ \gKM^{(K)}\bigl(T(f)\Om\bigr)=\frac c{12}\int_{\mathbb R}\Bigl[\tilde f''(\xi)^2+\tilde f'(\xi)^2\Bigr]\dd\xi ,
+ \qquad \tilde f=\frac{f}{\beta_K},
+\end{equation}
+($\beta_K$ the modular Jacobian of $K$), and the \emph{fixed} part of the field --- $\gtot=-x^2$ on the
+compressed interval $D$, which no gauge choice may alter --- already costs $\ge11+5\sqrt5$ units of
+\eqref{eq:local}, whereas $c/6$ corresponds to $2$ units.  The value $c/6$ of Note~7 is the
+\emph{analytic continuation} of a divergent integral: in the modular frame of $I$ itself the field
+$\tilde\gtot(\xi)=-4\sinh^2(\xi/2)\one_{\xi>0}$ grows exponentially, $\int(\tilde\gtot''^2+\tilde\gtot'^2)=+\infty$,
+and the finite value $2$ is produced by the prescription $\hat{\tilde g}(k)=-2i/(k(k^2+1))$.  Any proof of
+$s_2=c/12$ must therefore renormalise that divergence; monotonicity onto a larger interval algebra never does.
+
+\begin{center}\small
+\begin{tabular}{@{}p{0.56\textwidth}p{0.38\textwidth}@{}}\toprule
+\textbf{Statement} & \textbf{Status}\\\midrule
+Admissible gauges: $U_s\in\cA(K)$, $\Ad U_s\in\operatorname{Aut}\cA(K)$, $\overline{T(\hat g)}$ affiliated
+ with $\cA(K)$, and $\omega\circ\Ad U_s|_{\cM}=\omega_s$ for every admissible $(K,\hat g)$
+ & \textbf{proved} (Prop.~\ref{prop:adm})\\
+$D_{\cM}(\omega_s\Vert\omega)\le\norm{h(\Delta_K)^{1/2}(U_{-s}-\one)\Om}^2$ exactly, all $s\ge0$, no hypothesis
+ & \textbf{proved} (Thm~\ref{thm:mono})\\
+$(\mathrm V_\eps)\Rightarrow(\mathrm U_\eps)$ for a one-parameter unitary group
+ & \textbf{proved} (Lemma~\ref{lem:VU})\\
+$(\mathrm A_\eps)$ (modular analyticity of the generator) \emph{fails} for every field compactly supported
+ in $K$ & \textbf{proved} (Prop.~\ref{prop:Afails})\\
+$(\mathrm V_\eps)$ at $\sigma=0$, i.e.\ $T(\hat g)\Om\in\bigcap_\eps D(\Delta_K^{-\eps/2})$
+ & \textbf{proved} (Lemma~\ref{lem:PW})\\
+$(\mathrm V_\eps)$ uniformly on the orbit & \textbf{open} (Gap~RK1)\\
+$\gKM^{(K)}(T(f)\Om)=\frac c{12}\int(\tilde f''^2+\tilde f'^2)$, $\supp f\subset\subset K$; the spectral measure
+ identification is a theorem here, not a prescription & \textbf{proved} (Thm~\ref{thm:spectral})\\
+$c$-linearity and net-independence of $\gKM^{(K)}$ on $\HT$ & \textbf{proved} (Cor.~\ref{cor:clin})\\
+$\inf_{K,\hat g}\gKM^{(K)}=\frac{11+5\sqrt5}{12}c$, not $\frac c6$ & \textbf{proved}
+ (Thm~\ref{thm:gauge}); \textbf{refutes} step (c)\\
+$\liminf s^{-2}D_{\cM}\ge\frac12\sup_{X}[2\varphi(X)-\Var^{\mathrm{KM}}_\omega(X)]\ \ge\frac12\gB=\frac c{3\pi^2}$
+ & \textbf{proved modulo} the perturbed-free-energy expansion (Thm~\ref{thm:lower})\\
+$s_2=c/12$ for a general net & \textbf{open}; the route of the brief is closed
+ (Section~\ref{sec:open})\\\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Setting, conventions, and the geometry}\label{sec:setting}
+
+\textbf{Inner products} are conjugate linear in the first variable.  $\Hil$ is the vacuum Hilbert space of a
+diffeomorphism covariant (conformal) net $(\cA,U,\Om)$ on $S^1=\mathbb R\cup\{\infty\}$ with central charge
+$c>0$, satisfying Haag duality (HD), Bisognano--Wichmann (BW) and Reeh--Schlieder (RS).  These are the
+standing assumptions (S2) of \texttt{universality\_theorem\_B.tex}, \S1.
+
+\textbf{Stress tensor, generator normalisation} (Note~7, \S1; \texttt{universality\_theorem\_B.tex} (S2)):
+$U(\exp(tf\partial_x))=e^{itT(f)}$ and
+\begin{equation}\label{eq:TT}
+ \ip{\Om}{T(x)T(y)\Om}=\frac{c}{8\pi^2}\frac1{(x-y-i0)^4},\qquad
+ \ip{T(f)\Om}{T(g)\Om}=\frac{c}{48\pi^2}\int_0^\infty p^3\overline{\hat f(p)}\hat g(p)\dd p
+\end{equation}
+for real $f,g$, with $\hat f(p)=\int f(x)e^{-ipx}\dd x$; $T(f)\Om=0$ for $f\in\operatorname{span}\{1,x,x^2\}$
+and $\ip{\Om}{T(f)\Om}=0$.
+
+\textbf{Geometry} (normal form $a=\infty$, $L=1$ of \texttt{universality\_theorem\_B.tex}, eq.~(2)):
+\begin{equation}\label{eq:geom}
+ A=(-\infty,0),\quad D=(0,1),\quad I=AD=(-\infty,1),\quad I'=(1,\infty),\quad \cM:=\cA(I),
+\end{equation}
+$\omega:=\ip{\Om}{\cdot\,\Om}$.  The compression to be recovered is $k_s(x)=x/(1+sx)$ on $D$, $k_s=\mathrm{id}$
+on $A$; its generating field is $m(x)=-x^2$.  By (BW), the modular group of $\cM$ is the dilation about
+$x=1$: with
+\begin{equation}\label{eq:frame}
+ \xi_K(x):=-\log\frac{R-x}{R}\ \ (K=(-\infty,R)),\qquad \beta_K(x):=\frac{\dd x}{\dd\xi_K}=R-x,
+\end{equation}
+$\Delta_K^{it}$ acts on $K$ as $\xi_K\mapsto\xi_K-2\pi t$ and $J_K$ implements $x\mapsto2R-x$.  For $K=I$,
+$R=1$.
+
+\textbf{The field and the implementer} (\texttt{implementation\_C11.tex}, Def.~2.1, Def.~4.6):
+$\gtot$ is real, $\gtot=0$ on $(-\infty,0]$, $\gtot=m=-x^2$ on $[0,1]$, $C^1$ on $S^1$ and $C^\infty$ off
+$\{0\}$, with $\norm\gtot_{3/2}=\sum_n\abs{\hat G_n}(1+\abs n^{3/2})<\infty$; $\ktil_s=\operatorname{Exp}(s\gtot)$;
+$U_s=e^{is\overline{T(\gtot)}}$ is a strongly continuous one-parameter unitary group (Stone), $\Om\in
+D(\overline{T(\gtot)})$, and $\omega_s:=\omega\circ\Ad U_s|_{\cM}$ depends only on $k_s|_I$
+(\emph{ibid.}, Thm.~4.7).  We write $a:=T(\gtot)\Om\in\HT$ and
+$\varphi(X):=i\omega([T(\gtot),X])=-2\operatorname{Im}\ip a{X\Om}$ for $X\in\Msa$.
+
+\textbf{Relative entropy} is Araki's, $D(\psi\Vert\phi)=-\ip{\Psi}{(\log\Delta_{\Phi,\Psi})\Psi}$ as in
+\texttt{kubo\_mori\_second\_variation.tex} \S2, and $h(\lambda):=\lambda-1-\log\lambda\ge0$.
+
+\section{The gauge class and the exact monotonicity bound}\label{sec:mono}
+
+\begin{definition}[admissible gauge]\label{def:adm}
+An \emph{admissible gauge} is a pair $(K,\hat g)$ where $K=(-\infty,R)$ with $R>1$, and $\hat g$ is a real
+vector field on $S^1$ with
+\begin{enumerate}[leftmargin=2.4em,label=\textup{(G\arabic*)}]
+\item $\hat g=\gtot$ on $\overline I=(-\infty,1]$, i.e.\ $\hat g(x)=0$ for $x\le0$ and $\hat g(x)=-x^2$ for
+ $0\le x\le1$;
+\item $\hat g=0$ on the open complement $K'=(R,\infty)$ (hence, by continuity, $\hat g(R)=0$ and
+ $\hat g(\infty)=0$);
+\item $\hat g$ is $C^1$ on $S^1$, $C^\infty$ off $\{0\}$, and $\norm{\hat g}_{3/2}<\infty$.
+\end{enumerate}
+We write $\hat U_s:=e^{is\overline{T(\hat g)}}$, $\hat k_s:=\operatorname{Exp}(s\hat g)$, $\cN:=\cA(K)$,
+$\Delta_K$ for the modular operator of $(\cN,\Om)$, and $\hat a:=T(\hat g)\Om$.  The pair $(K,\gtot)$ is
+admissible whenever $\supp\gtot\subseteq[0,R']$ with $R'<R$ --- e.g.\ the compactly supported representative
+$\supp\gtot=[0,2]$ of \texttt{universality\_theorem\_B.tex} with any $R>2$.
+\end{definition}
+
+\begin{proposition}[what an admissible gauge buys]\label{prop:adm}
+Let $(K,\hat g)$ be admissible.  Then
+\begin{enumerate}[leftmargin=2.2em,label=\textup{(\roman*)}]
+\item $\hat U_s\in\cN=\cA(K)$ for every $s\in\mathbb R$, and $\Ad\hat U_s$ is a $*$-automorphism of $\cN$;
+\item $\hat A:=\overline{T(\hat g)}$ is self-adjoint, affiliated with $\cN$, and $\Om\in D(\hat A)$ with
+ $\hat A\Om=\hat a\in\HT$;
+\item $\cM\subseteq\cN$ and $\Om$ is cyclic and separating for both;
+\item $\omega\circ\Ad\hat U_s|_{\cM}=\omega_s$ for every $s\ge0$.
+\end{enumerate}
+\end{proposition}
+\lstep{1}{1}{(i).}
+\lby{$\hat g$ is real with $\norm{\hat g}_{3/2}<\infty$ and vanishes on the open interval $K'$; by
+\texttt{implementation\_C11.tex}, Thm.~4.7 step $\langle1\rangle2$ (whose proof uses only these two
+properties: CW05 Lemma~4.6 gives smooth $\phi_k$ supported in an $\eps$-enlargement of
+$\supp\hat g\subseteq\overline{K}$ with $\norm{\phi_k-\hat g}_{3/2}\to0$, Lemma~4.4(i) puts
+$e^{itT(\phi_k)}\in\cA(K_\eps)$, and $e^{itT(\phi_k)}\to e^{it\overline{T(\hat g)}}$ strongly), one gets
+$\hat U_s\in\cA(K')'=\cA(K)$, the last equality by Haag duality; a unitary of $\cN$ implements an
+automorphism of $\cN$}
+\lstep{1}{2}{(ii).}
+\lby{$\overline{T(\hat g)}$ is self-adjoint (Carpi--Weiner essential self-adjointness on $\Hil_{\mathrm{fin}}$
+for $\norm{\hat g}_{3/2}<\infty$, \texttt{implementation\_C11.tex} Lemma~4.1); $s\mapsto\hat U_s$ is a
+strongly continuous unitary group with $\hat U_s\in\cN$ by $\langle1\rangle1$, so all spectral projections
+of $\hat A$ lie in $\{\hat U_s:s\in\mathbb R\}''\subseteq\cN$ (Stone), i.e.\ $\hat A$ is affiliated with
+$\cN$; $\Om\in D(\hat A)$ and $\hat a\in\HT$ by \emph{ibid.}, Thm.~4.8(i) and Lemma~4.4(ii), which need only
+$\norm{\hat g}_{3/2}<\infty$}
+\lstep{1}{3}{(iii).}
+\lby{$I\subseteq K$ and isotony give $\cM\subseteq\cN$; $\Om$ is cyclic and separating for the algebra of
+every proper interval by (RS) and Haag duality}
+\lstep{1}{4}{$\hat k_s|_I=k_s|_I$ for $s\ge0$.}
+\lby{$\hat g\le0$ on $\overline I$ and $\hat g=0$ on $(-\infty,0]$ by (G1), so every forward trajectory
+starting in $I$ is nonincreasing and stays in $I$ (points of $(-\infty,0]$ are fixed, points of $(0,1]$ move
+left and cannot cross the fixed point $0$); on $I$ the fields $\hat g$ and $\gtot$ coincide by (G1), so by
+uniqueness of solutions of $\dot x=\hat g(x)$ (Picard--Lindel\"of; $\hat g$ is Lipschitz by (G3)) the two
+flows coincide on $I$ for $s\ge0$, and $\ktil_s|_I=k_s|_I$ by \texttt{implementation\_C11.tex} Prop.~2.2}
+\lstep{1}{5}{(iv).}
+\lby{$\langle1\rangle4$ and \texttt{implementation\_C11.tex} Thm.~4.7, whose last clause states that
+$\omega\circ\Ad\hat U_s|_{\cA(I)}$ depends only on $\hat k_s|_I$ (it is proved there for $\gtot\in\mathcal E$;
+$\hat g$ satisfies (E1)--(E3) with $\mathcal E$'s $a=\infty$, $L=1$)}
+\lqed{1}{6}\lby{$\langle1\rangle1$--$\langle1\rangle5$}
+
+\begin{citedbox}{Araki 1977, Thm.~3.9 / Hiai 2018, Thm.~4.1(iv) --- monotonicity under restriction}
+\emph{Statement (faithful paraphrase).}  For a unital normal Schwarz map $\Phi:\cN_1\to\cN_2$ and normal
+positive functionals, $S_f(\rho\circ\Phi\Vert\sigma\circ\Phi)\le S_f(\rho\Vert\sigma)$; in particular, for a
+unital von Neumann subalgebra $\cM\subseteq\cN$ and normal states $\psi,\phi$ of $\cN$,
+\[
+ D_{\cM}\bigl(\psi|_{\cM}\,\big\Vert\,\phi|_{\cM}\bigr)\ \le\ D_{\cN}(\psi\Vert\phi).
+\]
+\emph{Locator.}  H.~Araki, \emph{Relative entropy for states of von Neumann algebras II}, Publ.\ RIMS
+\textbf{13} (1977) 173--192, Theorem~3.9; F.~Hiai, \emph{Quantum $f$-divergences in von Neumann algebras},
+arXiv:1805.02050v3, p.~12, Theorem~4.1(iv) (with $f(t)=-\log t$).
+\emph{Screenshot:} \texttt{shots/QK\_Hiai\_Thm41.png}, reproduced in
+\texttt{kubo\_mori\_second\_variation.tex}, \S5, where the same two clauses are transcribed verbatim; not
+duplicated here.
+\emph{Use here:} Theorem~\ref{thm:mono}, with $\cM=\cA(I)\subseteq\cA(K)=\cN$ and the inclusion map as
+$\Phi$.  \emph{Verdict:} hypotheses satisfied --- $\cM$ is a unital von Neumann subalgebra of $\cN$
+(isotony, $I\subseteq K$), $\omega$ and $\omega\circ\Ad\hat U_s$ are normal states of $\cN$, and the
+direction is the one needed for an \emph{upper} bound on $D_{\cM}$.
+\end{citedbox}
+
+\begin{theorem}[exact monotonicity bound; no hypothesis]\label{thm:mono}
+Let $(K,\hat g)$ be an admissible gauge, $\hat A=\overline{T(\hat g)}$, $\hat U_s=e^{is\hat A}$,
+$\Delta_K$ the modular operator of $(\cA(K),\Om)$, and
+$\hat w_s:=(\hat U_s-\one)\Om$.  Then for every $s\ge0$
+\begin{equation}\label{eq:mono}
+ D_{\cM}\bigl(\omega_s\Vert\omega\bigr)\ \le\ D_{\cN}\bigl(\omega\Vert\omega\circ\Ad\hat U_{-s}\bigr)
+ \ =\ \bigl\lVert h(\Delta_K)^{1/2}\hat w_{-s}\bigr\rVert^2
+ \ =\ \int_{(0,\infty)}h\dd\hat\nu_{-s},\qquad
+ \hat\nu_{-s}=\ip{\hat w_{-s}}{E_{\Delta_K}(\cdot)\hat w_{-s}},
+\end{equation}
+both sides in $[0,\infty]$.  The same holds with $\omega_s$ and $\omega$ interchanged on the left and
+$\hat w_{s}$ on the right.
+\end{theorem}
+\lstep{1}{1}{$\omega_s=\psi|_{\cM}$ and $\omega=\phi|_{\cM}$ with $\psi:=\omega\circ\Ad\hat U_s$ and
+$\phi:=\omega$, both normal states of $\cN$.}
+\lby{Proposition~\ref{prop:adm}(iv) for $\psi$; $\Ad\hat U_s$ is an automorphism of $\cN$ by
+Proposition~\ref{prop:adm}(i), so $\psi$ is a normal state of $\cN$}
+\lstep{1}{2}{$D_{\cM}(\omega_s\Vert\omega)\le D_{\cN}(\psi\Vert\phi)$.}
+\lby{$\langle1\rangle1$ and the citedbox above (Araki 1977, Thm.~3.9), with $\cM\subseteq\cN$
+(Prop.~\ref{prop:adm}(iii))}
+\lstep{1}{3}{$D_{\cN}(\psi\Vert\phi)=D_{\cN}(\omega\Vert\omega\circ\Ad\hat U_{-s})$.}
+\lby{relative entropy is invariant under a common $*$-automorphism $\alpha$ of $\cN$,
+$D(\psi\circ\alpha\Vert\phi\circ\alpha)=D(\psi\Vert\phi)$ (apply the citedbox twice, to $\alpha$ and to
+$\alpha^{-1}$, both unital normal Schwarz maps); take $\alpha=\Ad\hat U_{-s}$, so that
+$\psi\circ\alpha=\omega\circ\Ad\hat U_s\circ\Ad\hat U_{-s}=\omega$ (as
+$\hat U_s\hat U_{-s}=\one$) and $\phi\circ\alpha=\omega\circ\Ad\hat U_{-s}$}
+\lstep{1}{4}{$D_{\cN}(\omega\Vert\omega\circ\Ad\hat U_{-s})=\norm{h(\Delta_K)^{1/2}\hat w_{-s}}^2
+=\int h\dd\hat\nu_{-s}$.}
+\lby{\texttt{kubo\_mori\_second\_variation.tex}, Theorem~3.3 (exact formula
+$D(\omega\Vert\omega\circ\Ad e^{i\sigma A})=\norm{h(\Delta)^{1/2}(e^{i\sigma A}-\one)\Om}^2$) together with
+its Proposition~7.1, which extends Theorem~3.3 verbatim to a self-adjoint $A$ merely \emph{affiliated} with
+the algebra and satisfying $\Om\in D(A)$; here $\sigma=-s$, $A=\hat A$ affiliated with $\cN$ and
+$\Om\in D(\hat A)$ by Proposition~\ref{prop:adm}(ii), and $\Om$ is cyclic and separating for $\cN$ by
+Proposition~\ref{prop:adm}(iii)}
+\lqed{1}{5}\lby{$\langle1\rangle2$, $\langle1\rangle3$, $\langle1\rangle4$; for the interchanged version
+apply $\langle1\rangle2$ to $\psi=\omega$, $\phi=\omega\circ\Ad\hat U_s$ and then
+Theorem~3.3 of \emph{ibid.}\ directly, with no need for $\langle1\rangle3$}
+
+\begin{verdictok}
+Theorem~\ref{thm:mono} is unconditional and exact, and it is the one step of the brief's route that works
+without reservation.  It converts a curve that is \emph{not} a unitary orbit of $\cM$ into a genuine unitary
+orbit of a larger interval algebra, at the price of one inequality.  Note that the price is not
+\emph{a priori} small: the inequality is strict unless $\omega$ and $\omega\circ\Ad\hat U_s$ have equal
+relative entropy on $\cN$ and on $\cM$, which fails here (Section~\ref{sec:gauge} quantifies the loss:
+a factor $11.09$ at second order).
+\end{verdictok}
+
+\section{Second order: why $(\mathrm U_\eps)$ is unavailable, and what replaces it}\label{sec:second}
+
+By Theorem~\ref{thm:mono}, $s^{-2}D_{\cM}(\omega_s\Vert\omega)\le\int h\dd\hat\sigma_{-s}$ with
+$\hat\sigma_{-s}:=s^{-2}\hat\nu_{-s}$, and the task is the limit $s\downarrow0$ of the right-hand side.  Write
+$\mu_K:=\ip{\hat a}{E_{\Delta_K}(\cdot)\hat a}$ for the $\Delta_K$-spectral measure of the tangent vector and
+\begin{equation}\label{eq:gKMK}
+ \gKM^{(K)}(\hat a):=\int_{(0,\infty)}(\lambda-1)\log\lambda\dd\mu_K(\lambda)
+ =2\int h\dd\mu_K=-2\ip{\hat a}{\log\Delta_K\,\hat a}\in[0,\infty] .
+\end{equation}
+Three of the four ingredients of \texttt{kubo\_mori\_second\_variation.tex} \S4--\S6 are available verbatim,
+because they use nothing but $\hat A$ affiliated with $\cN$ and $\Om\in D(\hat A)$
+(Prop.~\ref{prop:adm}(ii)): the exact sum rule, the setwise convergence
+$\int f\dd\hat\sigma_s\to\int f\dd\mu_K$ for bounded Borel $f$ (\emph{ibid.}, Lemma~5.1), and the
+uniform integrability of the large-$\lambda$ tail (\emph{ibid.}, Lemma~5.2).  Only the small-$\lambda$ tail
+needs an input, and \emph{the input proposed in the brief does not exist}:
+
+\begin{proposition}[$(\mathrm U_\eps)$ fails for every admissible gauge]\label{prop:Afails}
+Let $(K,\hat g)$ be an admissible gauge and $\eps>0$.  Then $\hat a=T(\hat g)\Om\notin D(\Delta_K^{-\eps/2})$;
+equivalently $\int\lambda^{-\eps}\dd\mu_K=\infty$.  Consequently hypothesis $(\mathrm U_\eps)$ of
+\texttt{kubo\_mori\_second\_variation.tex} \emph{fails}, for every $\eps>0$, and with it hypothesis
+$(\mathrm A_\eps)$; Theorem~6.3 of that document is not applicable to the monotonicity bound.
+\end{proposition}
+\lstep{1}{1}{\ldefine $\tilde g(\xi):=\hat g(x)/\beta_K(x)$, $\xi=\xi_K(x)$, the field in the modular frame
+\eqref{eq:frame} of $K$.  Then $\tilde g$ is supported in the compact interval $[0,\xi_{\max}]$,
+$\xi_{\max}=\log\frac R{R-R'}<\infty$ where $\supp\hat g\subseteq[0,R']$, $R'\le R$; $\tilde g\in C^1$ with
+$\tilde g''$ piecewise continuous and \emph{jumping} at $\xi=0$ (by $-2R$, the image of the jump of
+$\gtot''$ at $x=0$).  Hence $\hat{\tilde g}(k)=\int\tilde g(\xi)e^{-ik\xi}\dd\xi$ satisfies
+$\abs{\hat{\tilde g}(k)}\le C_1\abs k^{-3}$ and $\abs{\hat{\tilde g}(k)}\ge C_2\abs k^{-3}$ along a sequence
+$\abs k\to\infty$, with $C_2>0$.}
+\lby{$\hat g$ is $C^1$, $C^\infty$ off $0$, $\hat g=-x^2$ on $[0,1]$ and $0$ on $(-\infty,0]$, so
+$\hat g''(0^+)=-2\ne0=\hat g''(0^-)$; $\beta_K=R-x$ is smooth and nonvanishing on $\supp\hat g$, so the frame
+field inherits the regularity, and $\tilde g''(0^+)-\tilde g''(0^-)=-2R\ne0$
+($\tilde g(\xi)=-4R\sinh^2(\xi/2)$ on $[0,\xi_1]$ by \eqref{eq:tildeg} below, whose second derivative at
+$0^+$ is $-2R$).  Two integrations by parts give
+$\hat{\tilde g}(k)=(ik)^{-3}\int\tilde g'''(\xi)e^{-ik\xi}\dd\xi$ with $\tilde g'''$ a finite measure whose
+atomic part is $-2R\delta_0$ plus finitely many further atoms; the Fourier transform of that measure tends
+to no limit but is bounded and bounded away from $0$ along a sequence, by the Riemann--Lebesgue lemma
+applied to its absolutely continuous part}
+\lstep{1}{2}{$\dd\mu_K(\lambda)=\frac1{2\pi}\hat W(k)\abs{\hat{\tilde g}(k)}^2\dd k$ at $\lambda=e^{2\pi k}$,
+with $\hat W(k)=\frac{c}{24\pi}\frac{k(k^2+1)}{e^{2\pi k}-1}$.}
+\lby{Theorem~\ref{thm:spectral} below (which is independent of this proposition)}
+\lstep{1}{3}{$\hat W(k)=\frac c{24\pi}\abs k^3(1+O(k^{-2}))$ as $k\to-\infty$.}
+\lby{$e^{2\pi k}-1\to-1$ and $k(k^2+1)=-\abs k^3(1+k^{-2})$ for $k<0$; this is Note~7, Lemma~4.1
+($\hat W\simeq\frac c{24\pi}\abs k^3\theta(-k)$)}
+\lstep{1}{4}{$\int\lambda^{-\eps}\dd\mu_K=\frac1{2\pi}\int e^{-2\pi\eps k}\hat W(k)\abs{\hat{\tilde g}(k)}^2\dd k
+=\infty$.}
+\lby{on $k<0$ the integrand is $\ge\text{const}\cdot e^{2\pi\eps\abs k}\abs k^3\abs{\hat{\tilde g}(k)}^2$ by
+$\langle1\rangle3$, and $\abs k^3\abs{\hat{\tilde g}(k)}^2\ge C_2^2\abs k^{-3}$ along a sequence
+$\abs k\to\infty$ by $\langle1\rangle1$; a positive integrand growing like $e^{2\pi\eps\abs k}\abs k^{-3}$
+on a set of infinite measure has infinite integral (the lower bound holds on intervals of fixed length
+around that sequence, by continuity of $\hat{\tilde g}$)}
+\lstep{1}{5}{$(\mathrm U_\eps)$ fails.}
+\lby{\texttt{kubo\_mori\_second\_variation.tex}, Lemma~6.1(1): $(\mathrm U_\eps)$ implies
+$\hat a\in D(\Delta_K^{-\eps/2})$ with $\int\lambda^{-\eps}\dd\mu_K\le C^2$, contradicting
+$\langle1\rangle4$; and $(\mathrm A_\eps)\Rightarrow(\mathrm U_\eps)$ \emph{ibid.}, Lemma~5.5}
+\lqed{1}{6}\lby{$\langle1\rangle4$, $\langle1\rangle5$}
+
+\begin{verdictbreak}
+The brief asks to ``check whether modular analyticity of $T(\gtot)$ for the dilations of $K_\delta$ holds
+--- the field $\gtot$ is not analytic; find the right sufficient condition''.  The answer is sharper than
+expected: not only does the \emph{operator} hypothesis $(\mathrm A_\eps)$ fail, the weaker \emph{vector}
+hypothesis $(\mathrm U_\eps)$ fails as well, and it fails for a structural reason that no choice of gauge can
+repair.  In the modular frame of $K$ the field is \emph{compactly supported} (this is exactly (G2), which is
+what makes $\hat U_s$ local in $K$), and a compactly supported field has a Fourier transform with only
+polynomial decay, whereas $\lambda^{-\eps}=e^{-2\pi\eps k}$ demands exponential decay as $k\to-\infty$.
+Locality in $K$ and modular analyticity for $K$ are incompatible.  Section~\ref{sec:V} gives the correct
+replacement.
+\end{verdictbreak}
+
+\subsection{The correct sufficient condition: uniform integrability along the orbit}\label{sec:V}
+
+\begin{lemma}[chord bound: the orbit dominates the chord]\label{lem:VU}
+Let $\hat A$ be self-adjoint with $\Om\in D(\hat A)$, $\hat U_\sigma=e^{i\sigma\hat A}$,
+$\hat a=\hat A\Om$, $\hat w_s=(\hat U_s-\one)\Om$, and let $q\ge0$ be Borel on $(0,\infty)$.  Then for all
+$s$,
+\begin{equation}\label{eq:chord}
+ \norm{q(\Delta_K)^{1/2}\hat w_s}\ \le\ \int_0^{\abs s}\norm{q(\Delta_K)^{1/2}\hat U_{\pm\sigma}\hat a}\dd\sigma
+ \ \le\ \abs s\,\sup_{\abs\sigma\le\abs s}\norm{q(\Delta_K)^{1/2}\hat U_\sigma\hat a},
+\end{equation}
+in $[0,\infty]$ (sign $\pm=\operatorname{sgn}s$).
+\end{lemma}
+\lstep{1}{1}{$\hat w_s=i\int_0^s\hat U_\sigma\hat a\dd\sigma$, a Bochner integral of a norm-continuous
+$\Hil$-valued integrand.}
+\lby{for $\Om\in D(\hat A)$ the map $\sigma\mapsto\hat U_\sigma\Om$ is $C^1$ with derivative
+$i\hat U_\sigma\hat A\Om=i\hat U_\sigma\hat a$ (Stone's theorem; $\hat U_\sigma$ commutes with $\hat A$), and
+$\sigma\mapsto\hat U_\sigma\hat a$ is norm continuous by strong continuity of the group; integrate}
+\lstep{1}{2}{\ldefine $q_N:=\min(q,N)$.  Then $q_N(\Delta_K)^{1/2}$ is bounded and
+$\norm{q_N(\Delta_K)^{1/2}\hat w_s}\le\int_0^{\abs s}\norm{q_N(\Delta_K)^{1/2}\hat U_{\pm\sigma}\hat a}\dd\sigma
+\le\int_0^{\abs s}\norm{q(\Delta_K)^{1/2}\hat U_{\pm\sigma}\hat a}\dd\sigma$.}
+\lby{a bounded operator commutes with a Bochner integral and
+$\norm{\int F}\le\int\norm F$ ($\langle1\rangle1$); $q_N\le q$ pointwise gives
+$\norm{q_N(\Delta)^{1/2}v}\le\norm{q(\Delta)^{1/2}v}$ in $[0,\infty]$ by the spectral theorem}
+\lstep{1}{3}{$\norm{q(\Delta_K)^{1/2}\hat w_s}=\sup_N\norm{q_N(\Delta_K)^{1/2}\hat w_s}$.}
+\lby{monotone convergence for the finite spectral measure of $\hat w_s$, $0\le q_N\uparrow q$, as in
+\texttt{kubo\_mori\_second\_variation.tex}, Thm.~4.1 $\langle1\rangle1$}
+\lqed{1}{4}\lby{$\langle1\rangle2$, $\langle1\rangle3$}
+
+\begin{definition}[hypothesis (V): uniform integrability of $\log_-$ along the orbit]\label{def:V}
+The admissible gauge $(K,\hat g)$ satisfies $(\mathrm V)$ if, with
+$\rho_\sigma:=\ip{\hat U_\sigma\hat a}{E_{\Delta_K}(\cdot)\hat U_\sigma\hat a}$ and some $s_0>0$,
+\begin{equation}\label{eq:V}
+ \lim_{N\to\infty}\ \sup_{\abs\sigma\le s_0}\ \int_{(0,1/N)}(-\log\lambda)\dd\rho_\sigma(\lambda)\ =\ 0 .
+\end{equation}
+It satisfies $(\mathrm V')$ if there is a Borel $\Theta:(0,1)\to[0,\infty)$ with
+$\Theta(\lambda)/(-\log\lambda)\to\infty$ as $\lambda\downarrow0$ and
+$\sup_{\abs\sigma\le s_0}\int_{(0,1)}\Theta\dd\rho_\sigma<\infty$.
+\end{definition}
+
+\begin{theorem}[second-order evaluation of the monotonicity bound]\label{thm:second}
+Let $(K,\hat g)$ be an admissible gauge satisfying $(\mathrm V)$.  Then $\gKM^{(K)}(\hat a)<\infty$ and
+\begin{equation}\label{eq:second}
+ \limsup_{s\downarrow0}\ \frac{D_{\cM}(\omega_s\Vert\omega)}{s^2}\ \le\ \tfrac12\,\gKM^{(K)}(\hat a).
+\end{equation}
+Moreover $(\mathrm V')\Rightarrow(\mathrm V)$.
+\end{theorem}
+\lstep{1}{1}{\lpick $N\ge1$.  $\displaystyle\int h\dd\hat\sigma_{-s}=\int_{(0,1/N)}+\int_{[1/N,N]}
++\int_{(N,\infty)}$, all three terms $\ge0$.}
+\lby{$h\ge0$ and $\hat\sigma_{-s}\ge0$}
+\lstep{1}{2}{$\displaystyle\sup_{0<s<s_0}\int_{(0,1/N)}h\dd\hat\sigma_{-s}
+\le\sup_{\abs\sigma\le s_0}\int_{(0,1/N)}(-\log\lambda)\dd\rho_\sigma\xrightarrow[N\to\infty]{}0$.}
+\lby{$0\le h(\lambda)\le-\log\lambda$ on $(0,1]$ (\emph{ibid.}, Lemma~6.1 $\langle1\rangle2$); then
+Lemma~\ref{lem:VU} with $q=\one_{(0,1/N)}\cdot(-\log)$, which gives
+$s^{-2}\int q\dd\hat\nu_{-s}\le\sup_{\abs\sigma\le s}\int q\dd\rho_\sigma$; then $(\mathrm V)$}
+\lstep{1}{3}{$\displaystyle\lim_{s\to0}\int_{[1/N,N]}h\dd\hat\sigma_{-s}=\int_{[1/N,N]}h\dd\mu_K$ and
+$\displaystyle\limsup_{s\to0}\int_{(N,\infty)}h\dd\hat\sigma_{-s}\le\int_{(N,\infty)}\lambda\dd\mu_K
+\xrightarrow[N\to\infty]{}0$.}
+\lby{\texttt{kubo\_mori\_second\_variation.tex}, Lemma~5.1 (bounded Borel test functions; needs only
+$s^{-1}\hat w_{-s}\to-i\hat a$ in norm, which holds by Stone as in Lemma~\ref{lem:VU} $\langle1\rangle1$) and
+Lemma~5.2 (large-$\lambda$ tail, which needs only the sum rule, valid by Prop.~\ref{prop:adm}(ii) and
+\emph{ibid.}, Prop.~7.1); $\int\lambda\dd\mu_K=\norm{\hat a}^2<\infty$ \emph{ibid.}, Lemma~4.3
+$\langle1\rangle3$}
+\lstep{1}{4}{$\gKM^{(K)}(\hat a)=2\int h\dd\mu_K<\infty$.}
+\lby{$\int_{(0,1)}h\dd\mu_K\le\int_{(0,1)}(-\log\lambda)\dd\mu_K<\infty$ --- the case $\sigma=0$ of
+$(\mathrm V)$ applied with $N=1$, which is finite because $(\mathrm V)$ makes the tails vanish and
+$\int_{[1/N,1)}(-\log\lambda)\dd\mu_K\le(\log N)\mu_K((0,\infty))<\infty$ --- and
+$\int_{[1,\infty)}h\dd\mu_K\le\int\lambda\dd\mu_K<\infty$; the identity $\gKM=2\int h\dd\mu$ is
+\emph{ibid.}, Lemma~4.3}
+\lstep{1}{5}{\eqref{eq:second}.}
+\lby{$\limsup_s\int h\dd\hat\sigma_{-s}\le\sup_s\int_{(0,1/N)}+\int_{[1/N,N]}h\dd\mu_K
++\int_{(N,\infty)}\lambda\dd\mu_K$ by $\langle1\rangle2$, $\langle1\rangle3$; let $N\to\infty$, using
+$\langle1\rangle4$; then Theorem~\ref{thm:mono}}
+\lstep{1}{6}{$(\mathrm V')\Rightarrow(\mathrm V)$.}
+\lby{de la Vall\'ee-Poussin: on $(0,1/N)$, $-\log\lambda\le\Theta(\lambda)/\theta_N$ with
+$\theta_N:=\inf_{\lambda<1/N}\Theta(\lambda)/(-\log\lambda)\to\infty$, so
+$\int_{(0,1/N)}(-\log\lambda)\dd\rho_\sigma\le\theta_N^{-1}\sup_\sigma\int\Theta\dd\rho_\sigma\to0$
+uniformly in $\sigma$}
+\lqed{1}{7}\lby{$\langle1\rangle5$, $\langle1\rangle6$}
+
+\begin{proposition}[$(\mathrm V)$ holds at $\sigma=0$]\label{prop:V0}
+For every admissible gauge, $\int_{(0,1)}(-\log\lambda)\dd\mu_K<\infty$; indeed
+$\int_{(0,1)}(-\log\lambda)\log\bigl(1-\log\lambda\bigr)\dd\mu_K<\infty$, so the single vector $\hat a$
+satisfies the de la Vall\'ee-Poussin condition of $(\mathrm V')$.
+\end{proposition}
+\lstep{1}{1}{$\int_{(0,1)}(-\log\lambda)^p\dd\mu_K
+=\frac1{2\pi}\int_{-\infty}^0(2\pi\abs k)^p\hat W(k)\abs{\hat{\tilde g}(k)}^2\dd k$ for $p\ge0$.}
+\lby{Theorem~\ref{thm:spectral}, $\lambda=e^{2\pi k}$, $\lambda<1\Leftrightarrow k<0$}
+\lstep{1}{2}{The integrand is $O(\abs k^{p}\cdot\abs k^3\cdot\abs k^{-6})=O(\abs k^{p-3})$ as $k\to-\infty$
+and $O(\abs k^{3+p}\abs{\hat{\tilde g}(0)}^2)$ near $0$.}
+\lby{Prop.~\ref{prop:Afails} $\langle1\rangle1$ ($\abs{\hat{\tilde g}(k)}\le C_1\abs k^{-3}$) and
+$\langle1\rangle3$ ($\hat W\sim\frac c{24\pi}\abs k^3$)}
+\lstep{1}{3}{Conclusion.}
+\lby{$\int^{-1}_{-\infty}\abs k^{p-3}\dd k<\infty$ for $p<2$, in particular for $p=1$ and for the weight
+$\abs k\log\abs k$; the integrand is continuous on $[-1,0]$}
+\lqed{1}{4}\lby{$\langle1\rangle3$}
+
+\begin{verdictgap}
+\textbf{Gap~RK1 (the only analytic gap of the upper bound).}  $(\mathrm V)$ is proved at $\sigma=0$
+(Prop.~\ref{prop:V0}) and is exactly the uniform-integrability statement of QK's Gap~QK1, transported from
+the chord $\hat w_s$ to the orbit $\{\hat U_\sigma\hat a\}$, a norm-compact family.  What is missing is
+uniformity in $\sigma$: $\hat U_\sigma\hat a=T(\hat g)\hat U_\sigma\Om$ leaves $\HT$ for $\sigma\ne0$, so the
+frame computation of Prop.~\ref{prop:V0} does not apply to it.  A sufficient condition would be norm
+continuity of $\sigma\mapsto\Theta(\Delta_K)^{1/2}\hat U_\sigma\hat a$ for one de la Vall\'ee-Poussin
+$\Theta$; this is a statement about the second-order term $T(\hat g)^2\Om$ of the orbit and should be
+decidable with the energy bounds of \texttt{implementation\_C11.tex} \S4, but we have not done it.  Note that
+the gap concerns only the \emph{value} of the limit; the finiteness statement of Theorem~\ref{thm:mono} is
+unconditional.
+\end{verdictgap}
+
+\section{The Kubo--Mori form of an interval is a local Sobolev functional}\label{sec:spectral}
+
+\begin{theorem}[spectral form of $\gKM^{(K)}$ on the $T$-subspace]\label{thm:spectral}
+Let $K=(-\infty,R)$, let $f$ be a real vector field with $\norm f_{3/2}<\infty$ vanishing on $K'$, and let
+\begin{equation}\label{eq:framefield}
+ \tilde f(\xi):=\frac{f(x)}{\beta_K(x)}=\frac{f(x)}{R-x},\qquad \xi=\xi_K(x)=-\log\frac{R-x}R,
+\end{equation}
+be its modular-frame representative, assumed in $L^2(\mathbb R)$, with
+$\hat{\tilde f}(k)=\int\tilde f(\xi)e^{-ik\xi}\dd\xi$.  Put $\hat W(k):=\frac c{24\pi}\frac{k(k^2+1)}{e^{2\pi k}-1}>0$.
+Then, with $\mu_K$ the $\Delta_K$-spectral measure of $T(f)\Om$,
+\begin{enumerate}[leftmargin=2.2em,label=\textup{(\arabic*)}]
+\item $\Delta_K^{it}T(f)\Om=T(f_t)\Om$ with $\tilde f_t(\xi)=\tilde f(\xi+2\pi t)$;
+\item $\dd\mu_K(\lambda)=\frac1{2\pi}\hat W(k)\abs{\hat{\tilde f}(k)}^2\dd k$ at $\lambda=e^{2\pi k}$, i.e.\
+ $\ip{T(f)\Om}{F(\Delta_K)T(f)\Om}=\frac1{2\pi}\int_{\mathbb R}F(e^{2\pi k})\hat W(k)\abs{\hat{\tilde f}(k)}^2\dd k$
+ for every Borel $F\ge0$;
+\item $\displaystyle \gKM^{(K)}\bigl(T(f)\Om\bigr)=\frac c{24\pi}\int_{\mathbb R}k^2(k^2+1)\abs{\hat{\tilde f}(k)}^2\dd k
+ =\frac c{12}\int_{\mathbb R}\Bigl[\tilde f''(\xi)^2+\tilde f'(\xi)^2\Bigr]\dd\xi$ in $[0,\infty]$;
+\item $\displaystyle \Var^{\mathrm{KM}}_\omega\bigl(T(f)\bigr)
+ :=\norm{m(\Delta_K)^{1/2}T(f)\Om}^2=\frac c{48\pi^2}\int_{\mathbb R}\Bigl[\tilde f'(\xi)^2+\tilde f(\xi)^2\Bigr]\dd\xi$,
+ $m(\lambda)=\frac{\lambda-1}{\log\lambda}$.
+\end{enumerate}
+\end{theorem}
+\lstep{1}{1}{$\ip{T(f)\Om}{T(g)\Om}=\iint\tilde f(\xi)\tilde g(\xi')W(\xi-\xi')\dd\xi\dd\xi'
+ =\frac1{2\pi}\int\overline{\hat{\tilde f}(k)}\hat{\tilde g}(k)\hat W(k)\dd k$ for real $f,g$ vanishing on
+ $K'$, where $W(u)=\frac c{128\pi^2}\sinh^{-4}\frac{u-i0}2$.}
+\lby{$T$ is a weight-$2$ field, so $T(f)=\int T(x)f(x)\dd x=\int\tilde T(\xi)\tilde f(\xi)\dd\xi$ with
+$\tilde T=\beta_K^2\,T$ and $\tilde f=f/\beta_K$; then \eqref{eq:TT} gives
+$\ip{\tilde T(\xi)\Om}{\tilde T(\xi')\Om}=\beta^2\beta'^2\frac c{8\pi^2}(x-y-i0)^{-4}
+=\frac c{128\pi^2}\sinh^{-4}\frac{u-i0}2$ because $(x-y)/\sqrt{\beta\beta'}=2\sinh\frac{\xi-\xi'}2$
+(Note~7, eq.~(3), verified there for $K=I$; the computation uses only $\beta_K=R-x$ and is verbatim the
+same for every $R$); Plancherel; $\hat W(k)=\frac c{24\pi}\frac{k(k^2+1)}{e^{2\pi k}-1}$ is Note~7,
+Lemma~4.1}
+\lstep{1}{2}{(1) for smooth $f$ compactly supported in $K$.}
+\lby{(BW): $\Delta_K^{it}=U(\delta_{-2\pi t})$ with $\delta_\tau$ the M\"obius dilation of $K$, acting on the
+frame as $\xi\mapsto\xi+\tau$; $U(\gamma)T(f)U(\gamma)^{*}=T(\gamma_*f)$ for M\"obius $\gamma$ with no
+Schwarzian $c$-number (\texttt{universality\_theorem\_B.tex}, Lemma~5.3(1) and its proof); $\Om$ is
+$U$-invariant; and in the frame $(\gamma_{\tau*}\tilde f)(\xi)=\tilde f(\xi-\tau)$, so $\tau=-2\pi t$ gives
+$\tilde f_t=\tilde f(\cdot+2\pi t)$}
+\lstep{1}{3}{(1) for $f$ as in the hypothesis.}
+\lby{$\norm{T(\phi)\Om}=(c/12)^{1/2}\norm{\phi}_{\dot H^{3/2},\mathrm{Vir}}$ is a seminorm continuous in
+$\norm\cdot_{3/2}$ (\texttt{implementation\_C11.tex}, Thm.~2.3(f), Lemma~4.4(ii)); by $\langle1\rangle2$ the
+map $\phi\mapsto\delta_{t*}\phi$ is an isometry for it ($\Delta_K^{it}$ is unitary); CW05 Lemma~4.6 gives
+smooth $f_n$ with supports in a fixed compact subset of $K$ and $\norm{f_n-f}_{3/2}\to0$, so both sides of
+(1) converge in norm}
+\lstep{1}{4}{(2).}
+\lby{$\int\lambda^{it}\dd\mu_K=\ip{T(f)\Om}{\Delta_K^{it}T(f)\Om}
+=\frac1{2\pi}\int\hat W(k)\overline{\hat{\tilde f}(k)}\,e^{2\pi ikt}\hat{\tilde f}(k)\dd k$ by
+$\langle1\rangle1$, $\langle1\rangle3$ and $\widehat{\tilde f(\cdot+a)}(k)=e^{ika}\hat{\tilde f}(k)$;
+substituting $\lambda=e^{2\pi k}$ makes the right side the Fourier transform, in $t$, of the finite positive
+measure $\frac1{2\pi}\hat W\abs{\hat{\tilde f}}^2\dd k$; two finite positive Borel measures on $\mathbb R$
+with the same Fourier transform coincide, and $F\ge0$ Borel then follows by the spectral theorem and monotone
+convergence}
+\lstep{1}{5}{(3).}
+\lby{$F(\lambda)=(\lambda-1)\log\lambda$ in (2) gives
+$\frac1{2\pi}\int(e^{2\pi k}-1)(2\pi k)\frac c{24\pi}\frac{k(k^2+1)}{e^{2\pi k}-1}\abs{\hat{\tilde f}}^2\dd k
+=\frac c{24\pi}\int k^2(k^2+1)\abs{\hat{\tilde f}}^2\dd k$ --- \emph{the Kubo--Mori weight cancels the KMS
+denominator exactly}; then Plancherel, $\int k^4\abs{\hat{\tilde f}}^2=2\pi\norm{\tilde f''}_{L^2}^2$ and
+$\int k^2\abs{\hat{\tilde f}}^2=2\pi\norm{\tilde f'}_{L^2}^2$, gives
+$\frac c{24\pi}2\pi(\norm{\tilde f''}^2+\norm{\tilde f'}^2)$}
+\lstep{1}{6}{(4).}
+\lby{$F=m$ in (2): $\frac1{2\pi}\int\frac{e^{2\pi k}-1}{2\pi k}\frac c{24\pi}\frac{k(k^2+1)}{e^{2\pi k}-1}
+\abs{\hat{\tilde f}}^2\dd k=\frac c{96\pi^3}\int(k^2+1)\abs{\hat{\tilde f}}^2\dd k
+=\frac c{48\pi^2}(\norm{\tilde f'}^2+\norm{\tilde f}^2)$}
+\lqed{1}{7}\lby{$\langle1\rangle3$--$\langle1\rangle6$}
+
+\begin{corollary}[$c$-linearity and net-independence]\label{cor:clin}
+For every net satisfying (S2) and (BW) and every $f$ as in Theorem~\ref{thm:spectral},
+$\gKM^{(K)}(T(f)\Om)=c\cdot Q_K(f)$ and $\Var^{\mathrm{KM}}_\omega(T(f))=c\cdot V_K(f)$ with
+\begin{equation}\label{eq:QV}
+ Q_K(f)=\tfrac1{12}\bigl(\norm{\tilde f''}^2_{L^2}+\norm{\tilde f'}^2_{L^2}\bigr),\qquad
+ V_K(f)=\tfrac1{48\pi^2}\bigl(\norm{\tilde f'}^2_{L^2}+\norm{\tilde f}^2_{L^2}\bigr),
+\end{equation}
+numbers depending only on the geometry $(K,f)$ and not on the net.  The same reduction argument as in
+\texttt{universality\_theorem\_B.tex}, Thm.~5.5 and Rem.~5.6 applies, so the constants transfer between all
+nets of the class, the free Dirac fermion included \textup{(}where $J$ differs from the geometric reflection
+by a Klein factor acting trivially on the even part\textup{)}.
+\end{corollary}
+\lstep{1}{1}{Immediate from Theorem~\ref{thm:spectral}(3),(4): the net enters only through the prefactor
+$c$ in $\hat W$, and $\HT$ reduces $\Delta_K$ so that no other part of the representation contributes.}
+\lby{Theorem~\ref{thm:spectral} and \texttt{universality\_theorem\_B.tex}, Lemma~5.3(3)}
+\lqed{1}{2}\lby{$\langle1\rangle1$}
+
+\begin{verdictok}
+Theorem~\ref{thm:spectral} upgrades the ``computational prescription'' of Note~7, \S4.1 --- flagged as
+unproved in \texttt{universality\_theorem\_B.tex}, \S6.1 (``$\mu$ is \emph{not} the spectral measure of
+$a$''; the hypothesis $A\in\cM$, $A\Om\in D(\Delta)$ of Note~7 Lemma~3.1(2) fails there because
+$\supp\gtot\not\subset I$) --- to a theorem, \emph{in the case treated here}: for an admissible gauge
+$T(\hat g)$ \emph{is} affiliated with $\cA(K)$ (Prop.~\ref{prop:adm}(ii)) and $\tilde{\hat g}\in L^2$, so
+$\mu_K$ really is the spectral measure and \eqref{eq:spectral-forms} of Note~7 is legitimate.  The price is
+that the same hypothesis forces $\tilde{\hat g}$ to have \emph{compact} support in the frame, which is what
+Section~\ref{sec:gauge} shows to be incompatible with the value $c/6$.
+\end{verdictok}
+
+\section{The gauge problem, solved exactly: the infimum is $\frac{11+5\sqrt5}{12}c$, not $\frac c6$}
+\label{sec:gauge}
+
+\begin{theorem}[gauge lemma, refuted form]\label{thm:gauge}
+For an admissible gauge $(K,\hat g)$, $K=(-\infty,R)$, put $\Phi(K,\hat g):=\int_{\mathbb R}
+[\tilde{\hat g}''^2+\tilde{\hat g}'^2]\dd\xi$, so that $\gKM^{(K)}(T(\hat g)\Om)=\frac c{12}\Phi(K,\hat g)$
+by Theorem~\ref{thm:spectral}(3).  Then
+\begin{enumerate}[leftmargin=2.2em,label=\textup{(\arabic*)}]
+\item on the constrained part $0\le x\le1$, i.e.\ $0\le\xi\le\xi_1:=\log\frac R{R-1}$,
+ \begin{equation}\label{eq:tildeg}
+  \tilde{\hat g}(\xi)=-\frac{x^2}{R-x}=-4R\sinh^2\frac\xi2=-2R(\cosh\xi-1),
+ \end{equation}
+ independently of the gauge, while $\tilde{\hat g}=0$ for $\xi\le0$;
+\item $\displaystyle\inf_{\hat g}\Phi(K,\hat g)=\Phi_*(R):=2R^2\frac{2R-1}{(R-1)^2}$, the infimum over the
+ free part being approached but not attained;
+\item $\displaystyle\min_{R>1}\Phi_*(R)=\Phi_*\Bigl(\tfrac{3+\sqrt5}2\Bigr)=11+5\sqrt5=22.18034\ldots$, and
+ hence
+ \begin{equation}\label{eq:gaugevalue}
+  \inf_{(K,\hat g)\ \mathrm{admissible}}\gKM^{(K)}\bigl(T(\hat g)\Om\bigr)=\frac{11+5\sqrt5}{12}\,c
+  =1.84836\,c=11.090\times\frac c6 .
+ \end{equation}
+\end{enumerate}
+\end{theorem}
+\lstep{1}{1}{(1).}
+\lby{$x=R(1-e^{-\xi})$ and $R-x=Re^{-\xi}$ invert \eqref{eq:frame}; (G1) gives $\hat g=-x^2$ there, so
+$\tilde{\hat g}=-x^2/(R-x)=-R(1-e^{-\xi})^2e^{\xi}=-R(e^{\xi/2}-e^{-\xi/2})^2=-4R\sinh^2\frac\xi2$; and
+$\hat g=0$ on $(-\infty,0]$, i.e.\ on $\xi\le0$, by (G1); $x=1$ corresponds to
+$e^{-\xi_1}=(R-1)/R$}
+\lstep{1}{2}{$\displaystyle\int_0^{\xi_1}[\tilde{\hat g}''^2+\tilde{\hat g}'^2]\dd\xi=2R^2\sinh2\xi_1$.}
+\lby{$\tilde{\hat g}'=-2R\sinh\xi$, $\tilde{\hat g}''=-2R\cosh\xi$ by $\langle1\rangle1$, and
+$\cosh^2+\sinh^2=\cosh2\xi$, $\int_0^{\xi_1}\cosh2\xi\dd\xi=\frac12\sinh2\xi_1$}
+\lstep{1}{3}{$\tilde{\hat g}(\xi)\to0$ as $\xi\to+\infty$.}
+\lby{$\tilde{\hat g}=\hat g(x)/(R-x)$ and $\xi\to\infty$ is $x\uparrow R$; by (G2)--(G3) $\hat g$ is $C^1$ on
+$S^1$ and vanishes identically on $(R,\infty)$, so $\hat g(R)=\hat g'(R)=0$ and
+$\hat g(x)/(R-x)\to-\hat g'(R^-)=0$}
+\lstep{1}{4}{For $u\in H^2_{\mathrm{loc}}(\xi_1,\infty)$ with $u',u''\in L^2$, $u(\xi_1)=\alpha$,
+$u'(\xi_1)=\beta$ and $u(\infty)=0$: $\int_{\xi_1}^\infty(u''^2+u'^2)\dd\xi\ge\beta^2$, and the infimum over
+this class equals $\beta^2$.}
+\lproof
+\lstep{2}{1}{$\int_{\xi_1}^\infty(u''^2+u'^2)\ge-2\int_{\xi_1}^\infty u''u'=\bigl[-u'^2\bigr]_{\xi_1}^\infty
+=\beta^2$.}
+\lby{$p^2+q^2\ge-2pq$; $u'\in L^2$ with $u''\in L^2$ forces $u'(\xi)\to0$
+(as $u'^2(\xi)-u'^2(\xi_1)=2\int_{\xi_1}^\xi u''u'$ converges, and the limit must be $0$ since
+$u'\in L^2$)}
+\lstep{2}{2}{\lpick $T>0$.  \ldefine $u_T:=\alpha+\beta(1-e^{-(\xi-\xi_1)})$ on $[\xi_1,\xi_1+T]$ and
+$u_T:=v_T\,\theta\bigl(\frac{\xi-\xi_1-T}T\bigr)+d_TT\,\vartheta\bigl(\frac{\xi-\xi_1-T}T\bigr)$ on
+$[\xi_1+T,\xi_1+2T]$, $u_T:=0$ beyond, where $v_T=\alpha+\beta-\beta e^{-T}$, $d_T=\beta e^{-T}$ and
+$\theta,\vartheta\in C^\infty([0,1])$ are fixed with $\theta(0)=1,\theta'(0)=0,\vartheta(0)=0,
+\vartheta'(0)=1$ and all of $\theta,\vartheta$ vanishing to second order at $1$.  Then $u_T$ is admissible
+and $\int_{\xi_1}^\infty(u_T''^2+u_T'^2)=\beta^2(1-e^{-2T})+O(T^{-1})$.}
+\lby{on the first piece $u_T'=\beta e^{-(\xi-\xi_1)}=-u_T''$, giving
+$2\beta^2\int_0^Te^{-2t}\dd t=\beta^2(1-e^{-2T})$; on the second piece the derivatives are
+$O(v_T/T)+O(d_T)$ and $O(v_T/T^2)+O(d_T/T)$ pointwise, so the integral over an interval of length $T$ is
+$O(v_T^2/T)+O(d_T^2T)=O(T^{-1})$ because $v_T=O(1)$ and $d_T=O(e^{-T})$; $u_T$ is $C^1$ at $\xi_1+T$ by the
+matching conditions and vanishes with its derivative at $\xi_1+2T$}
+\lqed{2}{3}\lby{$\langle2\rangle1$, $\langle2\rangle2$, letting $T\to\infty$}
+\lstep{1}{5}{(2).}
+\lby{$\langle1\rangle1$--$\langle1\rangle4$ with $\beta=\tilde{\hat g}'(\xi_1)=-2R\sinh\xi_1$ give
+$\inf\Phi=2R^2\sinh2\xi_1+4R^2\sinh^2\xi_1$; with $\rho:=e^{\xi_1}=\frac R{R-1}$ this is
+$R^2(\rho^2-\rho^{-2})+R^2(\rho^2-2+\rho^{-2})=2R^2(\rho^2-1)=2R^2\frac{2R-1}{(R-1)^2}$.  The free part of
+$\hat g$ on $(1,R)$ is unconstrained by (G1)--(G3) apart from $C^1$ matching at $x=1$ and $x=R$, which is
+exactly the boundary data $(\alpha,\beta)$ of $\langle1\rangle4$ plus $u(\infty)=0$; the approximants $u_T$
+correspond to fields $\hat g_T$ that are $C^1$ and piecewise smooth with $\norm{\hat g_T}_{3/2}<\infty$
+(smooth the single corner of $u_T''$ at $\xi_1$ at arbitrarily small cost)}
+\lstep{1}{6}{(3).}
+\lby{$\frac{\dd}{\dd R}\log\Phi_*=\frac2R+\frac2{2R-1}-\frac2{R-1}=0$ reduces to
+$(2R-1)(R-1)+R(R-1)=R(2R-1)$, i.e.\ $R^2-3R+1=0$, $R_*=\frac{3+\sqrt5}2$ (the root $>1$); there
+$(R_*-1)^2=R_*$ because $R_*^2=3R_*-1$, so $\Phi_*(R_*)=2R_*(2R_*-1)=(3+\sqrt5)(2+\sqrt5)=11+5\sqrt5$;
+$\Phi_*\to\infty$ as $R\downarrow1$ and as $R\to\infty$, so this is the global minimum}
+\lqed{1}{7}\lby{$\langle1\rangle5$, $\langle1\rangle6$, and $\gKM^{(K)}=\frac c{12}\Phi$}
+
+\begin{corollary}[what the route proves]\label{cor:final}
+If one admissible gauge satisfies $(\mathrm V)$ then
+\begin{equation}\label{eq:final}
+ \limsup_{s\downarrow0}\frac{D_{\cM}(\omega_s\Vert\omega)}{s^2}\le\frac{11+5\sqrt5}{24}\,c=0.92418\,c,
+\end{equation}
+and unconditionally $D_{\cM}(\omega_s\Vert\omega)\le\int h\dd\hat\nu_{-s}$ for the optimal gauge.  The target
+$s_2=c/12=0.08333\,c$ is a factor $11.09$ below \eqref{eq:final}.
+\end{corollary}
+\lstep{1}{1}{Theorem~\ref{thm:second} with the gauge of Theorem~\ref{thm:gauge}(3), and
+$\frac12\cdot\frac{11+5\sqrt5}{12}=\frac{11+5\sqrt5}{24}$.}\lby{Thms.~\ref{thm:second}, \ref{thm:gauge}}
+\lqed{1}{2}\lby{$\langle1\rangle1$}
+
+\begin{verdictbreak}
+\textbf{The gauge lemma of the brief is false.}  The brief conjectures
+$\inf_{\delta,h}\gKM^{(K_\delta)}(T(\gtot+h)\Om)=\gKM^{(\cM)}=c/6$.  By Theorem~\ref{thm:gauge} the infimum
+is $\frac{11+5\sqrt5}{12}c$, larger by the factor $\frac{11+5\sqrt5}2=11.090$.  The mechanism is visible in
+\eqref{eq:tildeg}: the constrained part of the field, $\hat g=-x^2$ on $D=(0,1)$, becomes
+$-4R\sinh^2(\xi/2)$ in the modular frame of $K$, and its cost $2R^2\sinh2\xi_1$ diverges both as
+$R\downarrow1$ (the frame of $K$ approaches that of $I$, where the field grows like $-e^\xi$ and the
+Sobolev integral diverges) and as $R\to\infty$ (the constrained region shrinks to a spike of curvature
+$2R$ on a $\xi$-interval of length $\approx1/R$).  No gauge choice can touch that term.  Two further
+remarks show the failure is not an artefact of the parametrisation:
+\begin{itemize}[leftmargin=1.6em]
+\item \emph{No smaller algebra is available.}  One might try $\cN_\delta:=\cA(I)\vee\cA(J_\delta)$,
+ $J_\delta=(1+\delta,\infty)$, for which $\Om$ is still cyclic and separating (its commutant contains
+ $\cA((1,1+\delta))$) and which is smaller than every $\cA(K)$.  But an implementer localised in
+ $\cN_\delta$ would require the field to vanish on the gap $(1,1+\delta)$, whereas
+ $\hat g(1)=-1\ne0$ and $\hat g$ is continuous.  The interval $K$ is forced.
+\item \emph{The brief's $K_\delta$ is not even admissible.}  With $a=\infty$ the interval
+ $K_\delta=S^1\setminus(-a,-a+\delta)$ of the brief degenerates; for finite $a$ it does contain
+ $\supp\gtot$ but it does \emph{not} contain $I$, so monotonicity does not apply to it at all.  The
+ admissible intervals are exactly those containing $I\cup\supp\hat g$.
+\end{itemize}
+\end{verdictbreak}
+
+\begin{remark}[where $c/6$ comes from, and why it is not this infimum]\label{rem:renorm}
+Formula \eqref{eq:tildeg} at $R=1$ --- i.e.\ in the modular frame of $\cM$ itself --- is exactly Note~7's
+$\tilde g(\xi)=-4\sinh^2(\xi/2)\one_{\xi>0}$, with no free part at all ($\xi_1=\infty$).  Then
+$\Phi=\int_0^\infty4(\cosh^2\xi+\sinh^2\xi)\dd\xi=+\infty$, and the value $c/6$ arises from the
+\emph{analytic continuation} $\hat{\tilde g}(k)=-2i/(k(k^2+1))$ (Note~7, eq.~(11), ``by analytic
+continuation from $\eps>1$''), which yields
+$\frac c{24\pi}\int k^2(k^2+1)\abs{\hat{\tilde g}}^2\dd k=\frac c{6\pi}\int\frac{\dd k}{k^2+1}=\frac c6$,
+i.e.\ the \emph{renormalised} value $\Phi_{\mathrm{ren}}=2$.  So Note~7's $\gKM=c/6$ and the honest
+infimum \eqref{eq:gaugevalue} are values of the same functional on two different objects: a
+non-$L^2$ field on the frame of $\cM$, regularised, versus honest $L^2$ fields on the frames of the
+larger intervals.  Nothing in the present document decides which one is the second variation of
+$D_{\cM}$; the free-fermion numerics of Note~5 support $c/6$, and $22.18>2$ is consistent with that,
+monotonicity being an inequality.  What is decided is that \emph{this} route cannot produce $c/6$.
+\end{remark}
+
+\begin{remark}[scope: stress-tensor gauges]\label{rem:scope}
+Theorem~\ref{thm:gauge} is an infimum over the class of Definition~\ref{def:adm}, i.e.\ over implementers of
+the form $e^{is\overline{T(\hat g)}}$.  The full gauge orbit is larger: $\Ad e^{isB}|_{\cM}=\Ad U_s|_{\cM}$
+holds iff $U_s^*e^{isB}\in\cM'$ for all $s$, so $B$ may be any self-adjoint operator affiliated with
+$\cA(K)$ of the (formal) form $T(\hat g)+C$ with $C$ affiliated with $\cM'\cap\cA(K)$, and then
+$B\Om=T(\hat g)\Om+C\Om$.  Two observations bound the damage.  (i) $\HT$ reduces $\Delta_K$
+(\texttt{universality\_theorem\_B.tex}, Lemma~5.3(3), whose proof uses only (BW) and M\"obius covariance and
+applies to every interval), so $\gKM^{(K)}(B\Om)\ge\gKM^{(K)}(PB\Om)$ with $P$ the projection onto $\HT$, and
+$PB\Om=T(\hat g)\Om+PC\Om$ with $PC\Om\in\overline{\cM'_{\rm sa}\Om}\cap\HT$ (\emph{ibid.}, Lemma~5.3(4)).
+(ii) \emph{If} $\overline{\cM'_{\rm sa}\Om}\cap\HT=\overline{\{T(h)\Om:\supp h\subset I'\}}^{\mathbb R}$
+(\emph{ibid.}, Lemma~5.8(3), itself conditional on the unverified Lemma~5.7 and on one-particle (BW)), then
+every gauge is, in $\HT$, a stress-tensor gauge, and Theorem~\ref{thm:gauge} is the infimum over all
+gauges up to the closure.  We have not closed the two conditional points, so the strict statement is:
+\emph{among stress-tensor gauges} the infimum is $\frac{11+5\sqrt5}{12}c$.
+\end{remark}
+
+\begin{remark}[the optimal extension is a M\"obius field]\label{rem:mobius}
+The minimising tail of $\langle1\rangle4$ is $u=(\alpha+\beta)-\beta e^{-(\xi-\xi_1)}$, i.e.
+$\hat g(x)=(R-x)\bigl[(\alpha+\beta)-\beta\frac{R-x}{R-1}\bigr]$ on $[1,R]$: a quadratic polynomial, i.e.\ an
+$\mathfrak{sl}(2,\mathbb R)$ field, cut off at $x=R$ at arbitrarily small cost.  This is the exact analogue
+of the ``optimal geometric extension'' that minimises the Bures form
+(\texttt{universality\_theorem\_B.tex}, Lemma~5.8(4)), and it is what one should expect: $T(f)\Om=0$ for
+$f\in\operatorname{span}\{1,x,x^2\}$, so a M\"obius tail is invisible to the two-point function and cheap in
+every one of these functionals.
+\end{remark}
+
+\section{The lower bound: a supremum formula, used in the direction that works}\label{sec:lower}
+
+\begin{citedbox}{Petz 1988 / Donald 1990 --- variational (Gibbs) expression for the relative entropy}
+\emph{Statement (as used in \texttt{rigor/lemma\_second\_variation.tex}, Gap~1, and in Ohya--Petz,
+\emph{Quantum Entropy and Its Use}, Ch.~5).}  For a von Neumann algebra $\cM$, a faithful normal state
+$\omega$ and a normal state $\psi$,
+\[
+ D(\psi\Vert\omega)=\sup_{X\in\Msa}\Bigl[\psi(X)-\log\omega^{X}(\one)\Bigr],
+\]
+$\omega^X$ Araki's perturbed functional (in finite dimensions $\omega^X(\one)=\Tr e^{\log\rho_\omega+X}$).
+\emph{Locator:} D.~Petz, \emph{A variational expression for the relative entropy}, Commun.\ Math.\ Phys.\
+\textbf{114} (1988) 345--349, Theorem; M.~J.~Donald, \emph{Further results on the relative entropy}, Math.\
+Proc.\ Camb.\ Phil.\ Soc.\ \textbf{101} (1987) 363--373.  \emph{Screenshot:} \textbf{NOT OBTAINED} --- the
+original papers were not opened in this session; the statement is transcribed from the two internal
+documents that use it (\texttt{lemma\_second\_variation.tex}, Gap~1: ``$D(\omega\Vert\varrho)=\sup_{h=h^*\in\cM}
+\{\omega(h)-\log\varrho(e^h)\}$'') and is standard.
+\emph{Use here:} Theorem~\ref{thm:lower}, with $\psi=\omega_s$ and trial elements $X=\theta sX_0$.
+\emph{Verdict on the direction:} a supremum formula gives a \emph{lower} bound on $D$ for every trial
+element --- the direction that \texttt{kubo\_mori\_second\_variation.tex} \S7 shows to be useless for the
+upper bound is exactly the one needed here.
+\end{citedbox}
+
+\begin{theorem}[lower bound for the zero-collar curve]\label{thm:lower}
+Let $X_0=X_0^*\in\cM$ and assume \textup{(i)} (H3), i.e.\
+$\omega_s(X_0)=\omega(X_0)+s\varphi(X_0)+o(s)$ \textup{(}\texttt{implementation\_C11.tex}, Thm.~4.8(ii),
+proved there for \emph{every} $X\in\cA(I)$\textup{)}, and \textup{(ii)} that
+$t\mapsto F(t):=\log\omega^{tX_0}(\one)$ is twice differentiable at $t=0$ with
+$F(0)=0$, $F'(0)=\omega(X_0)$, $F''(0)=\Var^{\mathrm{KM}}_\omega(X_0)
+=\norm{m(\Delta)^{1/2}X_0\Om}^2-\omega(X_0)^2$.  Then
+\begin{equation}\label{eq:lowerb}
+ \liminf_{s\downarrow0}\frac{D_{\cM}(\omega_s\Vert\omega)}{s^2}\ \ge\
+ \frac12\,G(\cM,\varphi),\qquad
+ G(\cM,\varphi):=\sup_{X\in\Msa}\bigl[2\varphi(X)-\Var^{\mathrm{KM}}_\omega(X)\bigr]
+ =\sup_{X}\frac{\varphi(X)^2}{\Var^{\mathrm{KM}}_\omega(X)},
+\end{equation}
+the suprema being over those $X$ satisfying \textup{(i)}--\textup{(ii)}.  Moreover
+$G(\cM,\varphi)\ge\gB=\frac{2c}{3\pi^2}$, so $\liminf_{s\downarrow0}s^{-2}D_{\cM}\ge\frac c{3\pi^2}
+=0.03377\,c$.
+\end{theorem}
+\lstep{1}{1}{\lpick $\theta\in\mathbb R$, $X_0$ as stated.  $D_{\cM}(\omega_s\Vert\omega)\ge
+\omega_s(\theta sX_0)-F(\theta s)$.}
+\lby{the citedbox, with the trial element $X=\theta sX_0\in\Msa$}
+\lstep{1}{2}{$\omega_s(\theta sX_0)-F(\theta s)=s^2\bigl[\theta\varphi(X_0)
+-\tfrac12\theta^2\Var^{\mathrm{KM}}_\omega(X_0)\bigr]+o(s^2)$.}
+\lby{(i) gives $\theta s\,\omega_s(X_0)=\theta s\omega(X_0)+\theta s^2\varphi(X_0)+o(s^2)$; (ii) gives
+$F(\theta s)=\theta s\,\omega(X_0)+\tfrac12\theta^2s^2\Var^{\mathrm{KM}}_\omega(X_0)+o(s^2)$; subtract, the
+terms linear in $s$ cancel}
+\lstep{1}{3}{$\liminf_{s\downarrow0}s^{-2}D_{\cM}\ge\sup_\theta\bigl[\theta\varphi(X_0)
+-\tfrac12\theta^2\Var^{\mathrm{KM}}_\omega(X_0)\bigr]=\frac{\varphi(X_0)^2}{2\Var^{\mathrm{KM}}_\omega(X_0)}$.}
+\lby{$\langle1\rangle1$, $\langle1\rangle2$ hold for every $\theta$; optimise the quadratic}
+\lstep{1}{4}{$\Var^{\mathrm{KM}}_\omega(X)\le\Var_\omega(X)$ for $X\in\Msa$.}
+\lby{$m(\lambda)=\frac{\lambda-1}{\log\lambda}\le\frac{1+\lambda}2$ (logarithmic mean $\le$ arithmetic
+mean), so $\norm{m(\Delta)^{1/2}X\Om}^2\le\tfrac12(\norm{X\Om}^2+\norm{\Delta^{1/2}X\Om}^2)
+=\tfrac12(\omega(X^2)+\norm{X^*\Om}^2)=\omega(X^2)$, using $\Delta^{1/2}X\Om=JSX\Om=JX^*\Om$ and $X=X^*$}
+\lstep{1}{5}{$G(\cM,\varphi)\ge\gB$.}
+\lby{$\langle1\rangle4$ gives $2\varphi(X)-\Var^{\mathrm{KM}}(X)\ge2\varphi(X)-\Var(X)$; substituting
+$X=2Y$ and using $\varphi,\Var$ homogeneous of degrees $1,2$,
+$\sup_X[2\varphi(X)-\Var(X)]=4\sup_Y[\varphi(Y)-\Var_\omega(Y)]=\gB$ by
+\texttt{lemma\_second\_variation.tex}, Thm.~4.4 (``three faces of the Bures form'') and
+\texttt{universality\_theorem\_B.tex}, Thm.~7.1 ($\gB=2c/3\pi^2$)}
+\lqed{1}{6}\lby{$\langle1\rangle3$, $\langle1\rangle5$}
+
+\begin{verdictgap}
+\textbf{Gap~RK2 (the perturbed free energy).}  Hypothesis (ii) is Araki's perturbation theory: for bounded
+$X$ the expansion $\omega^{tX}(\one)=\sum_n t^n\int_{0\le u_1\le\cdots\le u_n\le1}
+\omega(\sigma_{iu_1}(X)\cdots)\dd u$ converges and $F$ is real analytic with
+$F''(0)$ the Duhamel two-point function; the locator is H.~Araki, \emph{Relative Hamiltonian for faithful
+normal states}, Publ.\ RIMS \textbf{9} (1973) 165--209, and Bratteli--Robinson~II, \S5.4.1.  Neither was
+opened here (\textbf{NOT OBTAINED}), so (ii) is carried as a hypothesis.  It is not the bottleneck: the
+bottleneck is that we cannot evaluate $G(\cM,\varphi)$.  By Corollary~\ref{cor:clin} the trial family
+$X=T(f)$, $\supp f\subset I$, gives a $c$-linear universal lower bound
+$G\ge c\sup_f\frac{(\varphi(T(f))/c)^2}{V_I(f)}$ with $V_I$ of \eqref{eq:QV}; evaluating that supremum
+requires the pairing $\varphi(T(f))$ in the frame of $I$, where $\tilde\gtot\notin L^2$ --- the same
+divergence as in Remark~\ref{rem:renorm}, now on the lower-bound side.  \emph{Both} bounds hit the same
+obstruction, from opposite directions.
+\end{verdictgap}
+
+\section{Numerical verification}\label{sec:num}
+
+All checks are in \texttt{rigor/rk\_check.py}, run with the project interpreter; $c=1$ throughout (every
+quantity is exactly linear in $c$ by Corollary~\ref{cor:clin}).  The test field of (C1)--(C2) is a
+$C^\infty$ bump $\tilde f=\exp(-1/(u(1-u)))$, $u=(\xi-0.2)$, supported in $\xi\in[0.2,1.2]$, i.e.\
+$x\in[0.181,0.699]$, compactly inside $K=I=(-\infty,1)$; Fourier transforms by FFT on $2^{20}$ points,
+derivatives by centred differences.
+
+\begin{center}\small
+\begin{tabular}{@{}llp{0.46\textwidth}@{}}\toprule
+\textbf{Check} & \textbf{Result} & \textbf{Statement tested}\\\midrule
+(C1) & rel.\ $2.0\cdot10^{-5}$ &
+ $\norm{T(f)\Om}^2=\frac1{2\pi}\int\hat W\abs{\hat{\tilde f}}^2\dd k$ (frame) equals
+ $\frac c{48\pi^2}\int_0^\infty p^3\abs{\hat f(p)}^2\dd p$ (line chart):
+ $1.101453\cdot10^{-4}$ vs $1.101476\cdot10^{-4}$.  This validates $\hat W$, the weight-2 transformation
+ law $\tilde f=f/\beta_K$ and Theorem~\ref{thm:spectral}$\langle1\rangle1$; the residual is the
+ resampling error of the line-chart grid\\
+(C2) & rel.\ $5.1\cdot10^{-9}$ &
+ $\gKM^{(K)}=\frac c{24\pi}\int k^2(k^2+1)\abs{\hat{\tilde f}}^2\dd k
+ =\frac c{12}\int(\tilde f''^2+\tilde f'^2)$: $0.0120823823$ both ways
+ (Theorem~\ref{thm:spectral}(3)); likewise
+ $\Var^{\mathrm{KM}}=\frac c{48\pi^2}\int(\tilde f'^2+\tilde f^2)=4.8263\cdot10^{-6}$, rel.\
+ $1.2\cdot10^{-9}$ (Theorem~\ref{thm:spectral}(4))\\
+(C3) & exact & $\Phi_*(R)=2R^2\sinh2\xi_1+4R^2\sinh^2\xi_1=2R^2\frac{2R-1}{(R-1)^2}$ agrees to machine
+ precision at $R=1.5,2,\frac{3+\sqrt5}2,3,5$ ($36$, $24$, $22.180340$, $22.5$, $28.125$);
+ the independent finite-difference minimisation of the tail over $[\xi_1,\xi_1+60]$ with $3000$ nodes
+ returns $36.85$, $24.41$, $22.46$, $22.75$, $28.31$ --- always \emph{above} $\Phi_*$, as it must be
+ (the infimum is not attained, and a finite window is a restriction), by $1$--$2\%$\\
+(C4) & holds & $D_{\cM}\le D_{\cN}$ in finite dimensions: $\cN=M_4$, $\cM=M_2\otimes\one_2$, random
+ $\rho$ and $A=A^*$, $\rho_s=e^{-isA}\rho e^{isA}$: at $s=0.2,0.05,0.01$,
+ $D_{\cN}=0.2340,\,0.01488,\,5.906\cdot10^{-4}$ against
+ $D_{\cM}=0.01464,\,1.647\cdot10^{-3},\,7.248\cdot10^{-5}$; $s^{-2}D_{\cN}\to5.906$ and
+ $s^{-2}D_{\cM}\to0.725$, i.e.\ the two second variations differ by a factor $8.1$ --- the
+ finite-dimensional shadow of the factor $11.09$ of Theorem~\ref{thm:gauge}\\\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{verdictok}
+The two identities on which the refutation rests --- the frame representation of the two-point function
+(C1) and the exact cancellation of the KMS denominator by the Kubo--Mori weight (C2) --- are confirmed
+numerically, the second to $5\cdot10^{-9}$.  The closed form $\Phi_*(R)$ and its minimum $11+5\sqrt5$ are
+confirmed both symbolically and by an independent discretised minimisation (C3).  (C4) confirms that
+monotonicity is a genuine loss of information at second order, not an equality.
+\end{verdictok}
+
+\section{Summary, and what is open}\label{sec:open}
+
+\begin{center}\small
+\begin{tabular}{@{}p{0.60\textwidth}p{0.34\textwidth}@{}}\toprule
+\textbf{Claim} & \textbf{Status}\\\midrule
+$D_{\cM}(\omega_s\Vert\omega)\le\norm{h(\Delta_K)^{1/2}(\hat U_{-s}-\one)\Om}^2$, exact, every admissible
+ gauge, every $s\ge0$ & \textbf{proved} (Thm~\ref{thm:mono})\\
+$\gKM^{(K)}(T(f)\Om)=\frac c{12}\bigl(\norm{\tilde f''}^2+\norm{\tilde f'}^2\bigr)$;
+ $\Var^{\mathrm{KM}}(T(f))=\frac c{48\pi^2}(\norm{\tilde f'}^2+\norm{\tilde f}^2)$; both $c$-linear and
+ net-independent & \textbf{proved} (Thm~\ref{thm:spectral}, Cor.~\ref{cor:clin})\\
+Note~7's spectral measure $\dd\mu=\frac1{2\pi}\hat W\abs{\hat{\tilde g}}^2\dd k$ is the true spectral
+ measure whenever $T(f)$ is affiliated with $\cA(K)$ & \textbf{proved} (Thm~\ref{thm:spectral}(2))\\
+$\inf$ over stress-tensor gauges of $\gKM^{(K)}=\frac{11+5\sqrt5}{12}c$ at $R_*=\frac{3+\sqrt5}2$
+ & \textbf{proved} (Thm~\ref{thm:gauge})\\
+The gauge lemma $\inf=\frac c6$ of the Phase-2b brief & \textbf{refuted} (factor $11.090$)\\
+$\limsup s^{-2}D_{\cM}\le\frac{11+5\sqrt5}{24}c=0.924c$ & \textbf{proved under} $(\mathrm V)$
+ (Thm~\ref{thm:second}, Cor.~\ref{cor:final})\\
+$(\mathrm U_\eps)$, $(\mathrm A_\eps)$ of QK for the big interval algebra & \textbf{refuted}
+ (Prop.~\ref{prop:Afails}): locality in $K$ forbids them\\
+$(\mathrm V)$ along the orbit & \textbf{open} (Gap~RK1); holds at $\sigma=0$ (Prop.~\ref{prop:V0})\\
+$\liminf s^{-2}D_{\cM}\ge\frac12G(\cM,\varphi)\ge\frac c{3\pi^2}=0.0338c$ & \textbf{proved modulo}
+ Araki's perturbation expansion (Thm~\ref{thm:lower}, Gap~RK2)\\
+$s_2=c/12$ for a general net & \textbf{open}; $0.0338c\le\liminf\le\limsup\le0.924c$ brackets it\\
+Non-stress-tensor gauges & \textbf{open} (Rem.~\ref{rem:scope}); conditional on
+ \texttt{universality\_theorem\_B.tex} Lem.~5.7--5.8 they do not help\\\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Where to go instead.}  The two bounds fail at the same point: in the modular frame of $\cM$ the
+tangent field $\tilde\gtot(\xi)=-4\sinh^2(\xi/2)\one_{\xi>0}$ is not in $L^2$, because $\gtot(1)=-1\ne0$
+(``the deformation moves the far endpoint of $I$'').  Every route that stays inside one interval algebra
+--- monotonicity onto $\cA(K)$, or trial elements $T(f)$ with $\supp f\subset I$ --- either regularises
+that divergence by enlarging the algebra (and pays $11.09\times$) or inherits it.  Three routes are not
+excluded by anything proved here.
+(1) \emph{Renormalise honestly}: prove that $\lim_{R\downarrow1}$ of a \emph{$\zeta$-regularised}
+$\Phi$ is the second variation, i.e.\ turn Note~7's analytic continuation
+$\hat{\tilde g}(k)=-2i/(k(k^2+1))$ into a limit of \emph{states}, not of fields --- e.g.\ by comparing
+$\omega_s$ with the family $\omega_s^{(\eps)}$ of collar-$\eps$ curves, for which the field \emph{does}
+vanish at the endpoint, and controlling the $\eps\to0$ limit of the second variation (this is exactly the
+$\eps>1$ analytic continuation of Note~7, eq.~(11), read as a family of geometric data).
+(2) \emph{Type-I approximation with an explicit rate}, the martingale route of the brief, which does not
+enlarge the algebra: $D_{\cM_n}\uparrow D_{\cM}$ (Araki 1977 Thm.~3.9) with $\cM_n$ finite-dimensional
+gives only $\liminf$; the missing half is a rate uniform in $n$.
+(3) \emph{Evaluate $G(\cM,\varphi)$ directly}: by Theorem~\ref{thm:lower} the lower bound is the exact
+Legendre form, and by Corollary~\ref{cor:clin} it is $c$ times a universal number.  If the supremum over
+$T(f)$, $\supp f\subset I$, can be computed --- a one-dimensional variational problem in the frame of
+$I$ with the weight $\frac c{48\pi^2}(\norm{\tilde f'}^2+\norm{\tilde f}^2)$ --- and if it equals $c/6$,
+then $s_2=c/12$ follows for every net from the lower bound alone, \emph{provided} an upper bound of the
+same value is found; the value $c/6$ would then be the correct one, and Theorem~\ref{thm:gauge} would
+merely say that monotonicity is lossy.
+
+\begin{thebibliography}{9}
+\bibitem{Araki77} H.~Araki, \emph{Relative entropy for states of von Neumann algebras II}, Publ.\ RIMS
+ \textbf{13} (1977) 173--192 (Thm.~3.9).
+\bibitem{Araki73} H.~Araki, \emph{Relative Hamiltonian for faithful normal states of a von Neumann
+ algebra}, Publ.\ RIMS \textbf{9} (1973) 165--209.  \textbf{NOT OBTAINED.}
+\bibitem{Hiai18} F.~Hiai, \emph{Quantum $f$-divergences in von Neumann algebras}, arXiv:1805.02050
+ (Thm.~4.1). \texttt{refs/Hiai18\_1805.02050.pdf}.
+\bibitem{Petz88} D.~Petz, \emph{A variational expression for the relative entropy}, Commun.\ Math.\ Phys.\
+ \textbf{114} (1988) 345--349.  \textbf{NOT OBTAINED.}
+\bibitem{CW05} S.~Carpi, M.~Weiner, \emph{On the uniqueness of diffeomorphism symmetry in conformal field
+ theory}, Commun.\ Math.\ Phys.\ \textbf{258} (2005) 203--221 (Thm.~4.4, Prop.~4.5, Lemma~4.6).
+\bibitem{qk} \texttt{rigor/kubo\_mori\_second\_variation.tex} (QK): Thm.~3.3 (exact formula), Lemma~4.3,
+ Lemmas~5.1--5.2, Lemma~6.1, Thm.~6.3, Prop.~7.1, Gaps~QK1--QK3.
+\bibitem{qa} \texttt{rigor/universality\_theorem\_B.tex} (QA): (S2), Lemma~5.3, Prop.~5.4, Thm.~5.5,
+ Rem.~5.6, Lemmas~5.7--5.8, Thm.~6.1, Thm.~7.1.
+\bibitem{qb} \texttt{rigor/implementation\_C11.tex} (QB): Def.~2.1, Thm.~2.3, Lemma~4.1, Lemma~4.4,
+ Def.~4.6, Thm.~4.7, Thm.~4.8, Thm.~5.1.
+\bibitem{lsv} \texttt{rigor/lemma\_second\_variation.tex}: Thm.~4.4, Prop.~5.4, Prop.~9.1, Gap~1, Gap~2.
+\bibitem{n7} \texttt{universality\_normalization.tex} (Note~7): Lemma~3.1, Lemma~3.2, Lemma~4.1,
+ eqs.~(2),(3),(10),(11),(14), Thm.~5.2, eq.~(29).
+\end{thebibliography}
+
+\end{document}

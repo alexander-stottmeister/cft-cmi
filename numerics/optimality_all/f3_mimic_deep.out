@@ -1,0 +1,10 @@
+MIMIC L=256 a=2.0 Lg=1.0 capR=1.0 extra=0 N=153 nA=90 xi=[-6.41,5.81] gQ/(f2z^2)=0.93934 theta=0.35830 cg=400 7s
+MIMIC L=256 a=2.0 Lg=1.0 capR=1.0 extra=2 N=155 nA=90 xi=[-6.41,8.81] gQ/(f2z^2)=0.95329 theta=0.35922 cg=400 8s
+MIMIC L=256 a=2.0 Lg=1.0 capR=1.0 extra=4 N=157 nA=90 xi=[-6.41,20.81] gQ/(f2z^2)=0.95418 theta=0.35938 cg=450 10s
+MIMIC L=256 a=2.0 Lg=1.0 capR=1.0 extra=8 N=161 nA=90 xi=[-6.41,260.81] gQ/(f2z^2)=0.95418 theta=0.35938 cg=500 13s
+/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/optimality_all/kkt_continuum.py:80: RuntimeWarning: overflow encountered in exp
+  xof = lambda xi: (L * np.exp(xi) - a) / (1 + np.exp(xi))
+/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/optimality_all/kkt_continuum.py:80: RuntimeWarning: invalid value encountered in divide
+  xof = lambda xi: (L * np.exp(xi) - a) / (1 + np.exp(xi))
+MIMIC L=256 a=2.0 Lg=1.0 capR=1.0 extra=16 N=169 nA=90 xi=[-6.41,65540.81] gQ/(f2z^2)=nan theta=nan cg=20000 387s
+MIMIC L=256 a=2.0 Lg=1.0 capR=1.0 extra=32 N=185 nA=90 xi=[-6.41,4294967300.81] gQ/(f2z^2)=nan theta=nan cg=20000 370s

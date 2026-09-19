@@ -1,0 +1,1128 @@
+% Track QA, Phase 2: the conditional universality theorem (Theorem B).
+\documentclass[11pt]{article}
+\input{rigor_preamble}
+% ---- local macros (all \newcommand, none clashing with rigor_preamble) ----
+\newcommand{\Om}{\Omega}
+\newcommand{\one}{\mathbf 1}
+\newcommand{\Wt}{\widetilde W}
+\newcommand{\Gm}{\Gamma}
+\newcommand{\Hil}{\mathcal H}
+\newcommand{\ip}[2]{\langle#1,#2\rangle}
+\newcommand{\norm}[1]{\lVert#1\rVert}
+\newcommand{\dist}{\operatorname{dist}}
+\newcommand{\Msa}{\cM_{\mathrm{sa}}}
+\newcommand{\Mpsa}{\cM'_{\mathrm{sa}}}
+\newcommand{\HM}{H_{\cM}}
+\newcommand{\HMp}{H_{\cM'}}
+\newcommand{\gB}{g_B}
+\newcommand{\gKM}{g_{\mathrm{KM}}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\U}{\mathcal U}
+\newcommand{\Stwo}{\mathfrak S_2}
+\newcommand{\gt}{\widetilde g}
+\newcommand{\gh}{\widehat g}
+\newcommand{\Wh}{\widehat W}
+\newcommand{\HT}{\Hil_T}
+\newcommand{\HTR}{H_T}
+\newcommand{\kt}{\widetilde k}
+\newcommand{\gtot}{g_{\mathrm{tot}}}
+\newcommand{\Ad}{\operatorname{Ad}}
+\newcommand{\supp}{\operatorname{supp}}
+\title{Conditional universality of the zero-collar recovery error\\[2pt]
+\large Theorem~B: $-\log \Fid(\omega,\omega_s)=\tfrac{s^2}{8}\gB+o(s^2)$,\quad
+$\gB=\dfrac{2c}{3\pi^2}$,\quad $f_2=\dfrac{c}{12\pi^2}$}
+\author{Agent QA (Phase~2, track QA)}
+\date{2026-09-08}
+\begin{document}\maketitle
+\begin{abstract}\noindent
+Let $(\cA,U,\Om)$ be a diffeomorphism covariant conformal net on $S^1$ with central charge $c$, satisfying Haag
+duality, Bisognano--Wichmann and Reeh--Schlieder, and satisfying the implementation and differentiability
+hypotheses (H1)--(H3) of the Phase~2 brief for the zero-collar compression $k_s$.  We prove
+$-\log\Fid(\omega,\omega_s)=\frac{s^2}8\gB+o(s^2)$ with
+$\gB=4\dist\bigl(T(\gtot)\Om,\overline{\Mpsa\Om}\bigr)^2$, and we prove that this number is
+$2c/(3\pi^2)$, hence $f_2=c/(12\pi^2)$ in the cross-ratio normalisation $\zeta=s$ of Note~7.
+The two halves of the expansion are imported from \texttt{rigor/lemma\_second\_variation.tex}
+(hypotheses checked here); the evaluation of $\gB$ rests on a new standard-subspace lemma which replaces the
+fermion-specific Wick reduction of \texttt{rigor/uhlmann\_upper\_bound.tex} and reduces $\gB$ to a
+\emph{net-independent}, manifestly $c$-linear variational problem for real vector fields.
+Every step carries a verdict box; the one genuinely open point inside the present document is the
+Reeh--Schlieder property for stress-tensor vectors, isolated as Lemma~\ref{lem:RST} with a GAP verdict
+(it is a known theorem for the nets where (H1)--(H3) are known, so Theorem~B itself is not affected there).
+\end{abstract}
+\tableofcontents
+
+\section{Setting, conventions, hypotheses}\label{sec:setting}
+
+\paragraph{(S1) Inner products, standard form.}
+$\ip\cdot\cdot$ is conjugate linear in the \emph{first} variable (the convention of Note~7 and of
+\texttt{rigor/lemma\_second\_variation.tex}).  $\cM$ denotes a von Neumann algebra with cyclic and separating
+vector $\Om$, $\omega=\ip\Om{\cdot\,\Om}$, $S_0:X\Om\mapsto X^*\Om$, $S=\overline{S_0}=J\Delta^{1/2}$,
+$F=S^*=J\Delta^{-1/2}=\Delta^{1/2}J$, $J^2=1$, $J\Om=\Om$, $\Delta\Om=\Om$, $J\cM J=\cM'$, $J\Delta J=\Delta^{-1}$.
+Standard real subspaces: $\HM:=\overline{\Msa\Om}$, $\HMp:=\overline{\Mpsa\Om}$; by
+\texttt{lemma\_second\_variation.tex}, Lemma~``The two standard real subspaces'',
+\begin{equation}\label{eq:realsub}
+ \HM=\{\xi\in D(S):S\xi=\xi\},\qquad \HMp=\{\xi\in D(F):F\xi=\xi\} .
+\end{equation}
+$\Fid$ is the \emph{root} fidelity, $\Fid=\Tr|\rho^{1/2}\sigma^{1/2}|$ in finite dimensions, i.e.\
+$\Fid=\sqrt{P_{\cM}}$ with $P_{\cM}$ the Uhlmann transition probability.
+
+\paragraph{(S2) The net.}
+$(\cA,U,\Om)$ is a conformal net on $S^1$: $\cA(I)$ von Neumann algebras indexed by open nonempty non-dense
+intervals, isotony, locality, a positive-energy unitary (projective) representation $U$ of
+$\mathrm{Diff}^+(S^1)$ with $U(\gamma)\cA(I)U(\gamma)^*=\cA(\gamma I)$ and
+$U(\gamma)XU(\gamma)^*=X$ for $X\in\cA(I)$, $\supp\gamma\subset I'$; a unique (up to phase) vacuum $\Om$,
+invariant under the M\"obius subgroup; central charge $c>0$, i.e.\ the stress tensor $T$ of the net
+(the generator of $U$, $U(\exp(tf\partial_x))=e^{itT(f)}$) has vacuum two-point function
+\begin{equation}\label{eq:TT}
+ \ip{\Om}{T(x)T(y)\Om}=\frac{c}{8\pi^2}\,\frac1{(x-y-i0)^4}
+\end{equation}
+in the \emph{generator} normalisation of Note~7 (the BPZ field $2\pi T$ has $\frac c2(x-y)^{-4}$),
+and $T(f)\Om=0$ for $f\in\operatorname{span}\{1,x,x^2\}$.  We use throughout, as standing facts:
+\begin{itemize}[leftmargin=2em]
+\item[(HD)] \emph{Haag duality}: $\cA(I)'=\cA(I')$ for every interval $I$;
+\item[(BW)] \emph{Bisognano--Wichmann}: for $I$ an interval, $\Delta_I^{it}=U(\delta_I(-2\pi t))$ with
+ $\delta_I$ the one-parameter dilation subgroup preserving $I$, and $J_I$ implements the reflection $r_I$
+ fixing $\partial I$;
+\item[(RS)] \emph{Reeh--Schlieder}: $\Om$ is cyclic and separating for every $\cA(I)$.
+\end{itemize}
+On the line (Cayley picture) with $I=(-\infty,L)$, (BW) reads: $\Delta^{it}$ is the dilation about $L$,
+$u:=L-x\mapsto e^{2\pi t}u$, and $J$ implements $x\mapsto 2L-x$, i.e.\ $u\mapsto-u$
+(\texttt{rigor/collar\_and\_invariant\_formula.tex}, eq.~(dil); the sign is audited there, \S{}Convention audit).
+
+\paragraph{(S3) Geometry and the recovery curve.}
+Half-line configuration of Note~7 \S1, scaled to $L=1$ (legitimate: by Note~5 Lemma~1.1 all quantities
+depend on $(a,L,s)$ only through the cross ratio $\zeta=as/(a+L)$; $a=\infty$ gives $\zeta=s$, and
+dilation covariance removes $L$):
+\begin{equation}\label{eq:geom}
+ A=(-\infty,0),\quad D=(0,1),\quad I=AD=(-\infty,1),\quad I'=(1,\infty),\quad \zeta=s .
+\end{equation}
+The compression map and its fixed $C^{1,1}$ extension
+(\texttt{rigor/uhlmann\_upper\_bound.tex}, Def.~``The extended flow'' and Lemma~``Properties of the
+extension''): fix $\beta\in C^\infty(\mathbb R;[0,1])$, $\beta\equiv1$ on $(-\infty,0]$, $\beta\equiv0$ on
+$[1,\infty)$, and put
+\begin{equation}\label{eq:chi}
+ \gtot(x):=-\chi(x),\qquad \chi(x):=\begin{cases}0,&x\le0,\\ x^2\beta(x-1),&x>0,\end{cases}
+ \qquad \chi=x^2\ \text{on }[0,1],\quad\supp\chi=[0,2].
+\end{equation}
+$\kt_s$ is the flow of $\gtot\,\partial_x=-\chi\partial_x$; it is a one-parameter group of $C^{1,1}$
+increasing bijections of $\mathbb R$ with $\kt_s(x)=x$ for $x\le0$ and $x\ge2$, and
+\begin{equation}\label{eq:ks}
+ \kt_s(x)=k_s(x)=\frac{x}{1+sx}\quad (0\le x\le1),\qquad \kt_s|_I=k_s,\qquad
+ J_s:=\kt_s(I)=\Bigl(-\infty,\tfrac1{1+s}\Bigr).
+\end{equation}
+Thus $\gtot=-x^2$ on $D$, $\gtot=0$ on $A$, and $\gtot$ is a smooth compactly supported continuation beyond
+$x=1$; $\gtot$ is $C^{1,1}$, $C^\infty$ off $\{0\}$, and $\gtot''$ jumps by $-2$ at $x=0$ (the touching point).
+\emph{Note $\gtot(1)=-1\ne0$: the deformation moves the far endpoint of $I$.}
+
+\paragraph{(S4) The hypotheses.}
+\begin{itemize}[leftmargin=3em]
+\item[(H1)] \emph{Implementation.}  For $|s|<s_0$ there are unitaries $U_s$ on $\Hil$ with
+ $U_s\cA(K)U_s^*=\cA(\kt_s(K))$ for every interval $K$; the assignment is local in the sense that
+ $U_s=U(\phi)\,U_s^{\sharp}$ (up to a phase) whenever $U_s,U_s^\sharp$ implement two $C^{1,1}$ extensions of
+ $k_s$ that differ by $\phi:=\kt_s\circ(\kt^\sharp_s)^{-1}$, and
+ \begin{equation}\label{eq:H1loc}
+  U\bigl(\mathrm{Diff}(K)\bigr)\subseteq\cA(K),\qquad
+  \mathrm{Diff}(K):=\{\phi:\ \phi|_{K'}=\mathrm{id}\}
+ \end{equation}
+ for every interval $K$, i.e.\ $U(\phi)\in\cA(K)$ whenever $\phi$ acts trivially on the \emph{complement}
+ of $K$ (equivalently $\supp\phi\subseteq\overline K$).  This is the form in which the covariance theorem
+ is proved; the stronger-looking clause ``$U(\phi)\in\cA(K)$ for every interval $K\supseteq\supp\phi$''
+ is \emph{unusable} here, because the $\phi$ of Lemma~\ref{lem:ext} has
+ $\supp\phi=\overline{J_s'}\ni\partial J_s$ and no open interval $K$ with
+ $\supp\phi\subset K\subseteq J_s'$ exists.  In general $U_s\Om\ne\Om$.  We write $\cM:=\cA(I)$,
+ $\Psi_s:=U_s^*\Om$ and
+ \begin{equation}\label{eq:omegas}
+  \omega_s:=\omega\circ\Ad U_s\big|_{\cM},\qquad \omega_s(X)=\ip{\Om}{U_sXU_s^*\Om}=\ip{\Psi_s}{X\Psi_s}.
+ \end{equation}
+\item[(H2)] \emph{Differentiability on the vacuum.}  $T(\gtot)\Om\in\Hil$ and
+ \begin{equation}\label{eq:H2}
+  \norm{\Psi_s-\Om+is\,T(\gtot)\Om}=o(s)\qquad(s\to0);
+ \end{equation}
+ and, as part of the hypothesis,
+ \begin{itemize}[leftmargin=1.6em]
+ \item[(H2$'$)] $T(\gtot)\Om=\lim_nT(f_n)\Om$ in $\Hil$ for some $f_n\in C^\infty_c(\mathbb R;\mathbb R)$
+  with $\norm{\gtot-f_n}_{H^{3/2}}\to0$; equivalently $a:=T(\gtot)\Om\in\HT$
+  (Definition~\ref{def:HT}).
+ \end{itemize}
+ (H2$'$) is what the Carpi--Weiner energy bound $\norm{T(f)\psi}\le C\norm f_{3/2}\norm{(1+L_0)\psi}$
+ (CDIT Prop.~2.2(4)) delivers, and it is verified, together with (H1) and (H2), in
+ \texttt{rigor/implementation\_C11.tex}.  Without it, (H2) alone would permit an operator $T(\gtot)$
+ obtained by some other extension procedure whose vacuum vector differs from $\lim_nT(f_n)\Om$ by an
+ element of $\HT^\perp$, and the $c$-linearity Theorem~\ref{thm:linear} would fail.
+\item[(H3)] \emph{First-order differentiability of the curve on a core.}  There is a $*$-strongly dense
+ $*$-subalgebra $\cM_0\subseteq\cM$ with $\one\in\cM_0$ such that for all $X\in\cM_0$
+ \begin{equation}\label{eq:H3}
+  \omega_s(X)=\omega(X)+s\,\varphi(X)+o(s),\qquad \varphi(X)=i\,\omega\bigl([T(\gtot),X]\bigr),
+ \end{equation}
+ and $\omega_s(X^2)\to\omega(X^2)$ for $X\in\cM_{0,\mathrm{sa}}$.
+\end{itemize}
+
+\begin{remark}[Why $T(\gtot)\Om$ is a vector while $T(g\mathbf 1_I)\Om$ is not]\label{rem:vector}
+$\gtot$ is real, $C^{1,1}$ and compactly supported, so $\widehat{\gtot}(p)=O(|p|^{-3})$ and, by
+\eqref{eq:TT} and $\int e^{-ipu}(u-i0)^{-4}du=\frac{2\pi}{3!}|p|^3\theta(-p)$,
+\begin{equation}\label{eq:normTg}
+ \norm{T(f)\Om}^2=\frac{c}{8\pi^2}\iint\frac{f(x)f(y)}{(x-y-i0)^4}\,dx\,dy
+  =\frac{c}{48\pi^2}\int_0^\infty p^3\,|\widehat f(p)|^2\,dp\qquad (f\ \text{real}),
+\end{equation}
+using $\widehat K(p)=\int e^{-ipu}(u-i0)^{-4}du=\frac{2\pi}{3!}|p|^3\theta(-p)$ and
+$\iint f(x)f(y)K(x-y)=\int\frac{dp}{2\pi}\widehat K(p)|\widehat f(p)|^2$;  \eqref{eq:normTg}
+is finite for $f=\gtot$ (integrand $O(p^{-3})$ at infinity, $O(p^3)$ at $0$).  By contrast the zero-collar
+representative $g=-x^2\mathbf 1_{[0,1]}$ has a \emph{jump} at $x=1$, $\widehat g(p)=O(|p|^{-1})$, and
+$\int^\infty p^3|\widehat g|^2dp=\infty$: $T(g)\Om$ is not a vector.  This is Note~7's ``$T(g)\Om$ has infinite
+norm'' (\S3.2) and \texttt{collar\_and\_invariant\_formula.tex} Remark~``Where the formula is only a
+prescription'', where the same obstruction appears as the divergence of $\int d\mu$ at $k=0$ and is localised
+at $x=L$, i.e.\ at $\gtot(L)\ne0$.  \emph{The whole point of using the extended field $\gtot$ is that it is a
+representative of the same tangent functional (Lemma~\ref{lem:gauge}) for which the tangent vector exists.}
+\end{remark}
+
+\begin{lemma}[The recovered state does not depend on the extension beyond $L$]\label{lem:ext}
+Let $\kt_s$ and $\kt_s^\sharp$ be two $C^{1,1}$ diffeomorphisms of $\mathbb R$ (or of $S^1$) with
+$\kt_s|_I=\kt_s^\sharp|_I=k_s$, and let $U_s,U_s^\sharp$ be implementers as in \textup{(H1)}.  Then
+$\omega\circ\Ad U_s|_{\cM}=\omega\circ\Ad U_s^\sharp|_{\cM}$.
+\end{lemma}
+\lstep{1}{1}{\ldefine $\phi:=\kt_s\circ(\kt^\sharp_s)^{-1}$.  Then $\phi|_{J_s}=\mathrm{id}$ with
+ $J_s=k_s(I)$, i.e.\ $\phi\in\mathrm{Diff}(J_s')$; in general $\supp\phi=\overline{J_s'}$, so $\phi$ is
+ \emph{not} supported in any interval strictly inside $J_s'$.}
+\lby{for $y\in J_s$ write $y=k_s(x)$, $x\in I$; then $(\kt^\sharp_s)^{-1}(y)=x$ and $\kt_s(x)=k_s(x)=y$;
+ for $y$ just to the right of $\partial J_s$ the two continuations differ, so
+ $\partial J_s\in\supp\phi$}
+\lstep{1}{2}{$U(\phi)\in\cA(J_s)'$.}
+\lby{$\langle1\rangle1$ and the locality clause \eqref{eq:H1loc} of (H1) with $K=J_s'$ give
+ $U(\phi)\in\cA(J_s')$; then $\cA(J_s')\subseteq\cA(J_s)'$ by \emph{locality} alone (Haag duality is not
+ needed, and fails for the graded net of \S\ref{sec:models})}
+\lstep{1}{3}{For $X\in\cM$: $Y:=U^\sharp_sX U_s^{\sharp*}\in\cA(J_s)$ and $U(\phi)YU(\phi)^*=Y$.}
+\lby{(H1) covariance with $\kt^\sharp_s(I)=J_s$; then $\langle1\rangle2$}
+\lstep{1}{4}{$\omega(U_sXU_s^*)=\omega(Y)=\omega(U^\sharp_sXU_s^{\sharp*})$.}
+\lby{(H1) locality: $U_s=\lambda\,U(\phi)U^\sharp_s$ with $|\lambda|=1$, so
+ $U_sXU_s^*=U(\phi)YU(\phi)^*=Y$ by $\langle1\rangle3$ (the phase cancels)}
+\lqed{1}{5}\lby{$\langle1\rangle4$}
+
+\begin{verdictok}
+The independence is exactly the statement that the two implementers differ by a unitary of $\cA(J_s)'$,
+which is why the \emph{state} on $\cA(I)$, i.e.\ on $\cA(J_s)$ after transport, does not see the extension.
+Only two inputs are used, and neither is Haag duality: \emph{locality} ($\cA(J_s')\subseteq\cA(J_s)'$),
+and the locality clause \eqref{eq:H1loc} of (H1) in its correct form
+$U(\mathrm{Diff}(K))\subseteq\cA(K)$, which for smooth $\phi$ is the standard theorem of diffeomorphism
+covariance (\'a la Carpi--Weiner) and for the $C^{1,1}$ maps used here is part of what track QB
+(\texttt{rigor/implementation\_C11.tex}) must verify.  The naive clause ``$\supp\phi\subset K$'' is
+inapplicable here, see $\langle1\rangle1$.  Note that the \emph{vector} $\Psi_s$ and the tangent vector $T(\gtot)\Om$
+\emph{do} depend on the extension --- only their classes modulo $\HMp$ do not (Lemma~\ref{lem:gauge}).
+\end{verdictok}
+
+\section{The tangent vector, the tangent functional, and $\gB$}\label{sec:tangent}
+
+\begin{definition}\label{def:a}
+$a:=T(\gtot)\Om\in\Hil$ (a vector by (H2) / Remark~\ref{rem:vector}), and for $K\in\Msa$
+\begin{equation}\label{eq:phi}
+ \varphi(K):=i\,\omega\bigl([T(\gtot),K]\bigr)=-2\operatorname{Im}\ip a{K\Om},\qquad
+ \gB:=4\dist\bigl(a,\HMp\bigr)^2 .
+\end{equation}
+\end{definition}
+\lstep{1}{1}{The second equality in \eqref{eq:phi}, and $\ip\Om a=0$ (so a fortiori
+ $\operatorname{Im}\ip\Om a=0$).}
+\lby{$i\omega([A,K])=i\ip{A\Om}{K\Om}-i\ip{K\Om}{A\Om}=i\bigl(z-\bar z\bigr)=-2\operatorname{Im}z$ with
+ $z=\ip a{K\Om}$, using $K=K^*$ and $A=T(\gtot)$ symmetric on $\Om$; and
+ $\ip\Om a=\int \gtot(x)\ip\Om{T(x)\Om}dx=0$ since $\ip{T(x)}{}=0$ in this normalisation (S2)}
+
+\begin{lemma}[Gauge freedom: real fields localised in $I'$]\label{lem:gauge}
+Let $h$ be real, $C^{1,1}$, compactly supported with $\supp h\subset I'$, and suppose $T(h)$ is essentially
+self-adjoint on a domain containing $\Om$ with $T(h)\Om\in\Hil$ and $T(h)$ affiliated with $\cA(I')$.  Then
+\begin{enumerate}
+\item $T(h)\Om\in\HMp$;
+\item $a$ and $a+T(h)\Om$ define the same $\varphi$ on $\Msa$, hence the same $\gB$;
+\item $\dist(a,\HMp)^2=\inf\bigl\{\norm{a+T(h)\Om}^2\bigr\}$ over all such $h$, \emph{provided} the set
+ $\{T(h)\Om\}$ is dense in $\HMp\cap\overline{\{T(f)\Om\}}$ --- which is Lemma~\ref{lem:standard} below.
+\end{enumerate}
+\end{lemma}
+\lstep{1}{1}{(1).}
+\lproof
+\lstep{2}{1}{\ldefine $B_n:=T(h)E_{[-n,n]}(T(h))\in\cA(I')_{\mathrm{sa}}=\Mpsa$, where $E$ is the spectral
+ measure of the self-adjoint closure of $T(h)$.}
+\lby{$T(h)$ affiliated with $\cA(I')$ means its spectral projections lie in $\cA(I')$; $B_n$ is bounded and
+ self-adjoint; $\cA(I')\subseteq\cA(I)'=\cM'$ by locality (Haag duality is not needed here)}
+\lstep{2}{2}{$B_n\Om\to T(h)\Om$.}
+\lby{$\Om\in D(T(h))$ and $\norm{B_n\Om-T(h)\Om}^2=\int_{|\lambda|>n}\lambda^2d\ip\Om{E(\lambda)\Om}\to0$ by
+ dominated convergence}
+\lqed{2}{3}\lby{$\langle2\rangle2$ and $\HMp=\overline{\Mpsa\Om}$}
+\lstep{1}{2}{(2).}
+\lby{for $K\in\Msa\subset\cA(I)$ and $\supp h\subset I'$, $[T(h),K]=0$ (locality, in the form: $T(h)$ is
+ affiliated with $\cA(I)'$ by $\langle1\rangle1$, so it commutes with $K$ strongly), whence
+ $i\omega([T(\gtot+h),K])=i\omega([T(\gtot),K])=\varphi(K)$; and $\gB$ depends on $a$ only through $\varphi$
+ by Theorem~\ref{thm:three} below}
+\lstep{1}{3}{(3) is Lemma~\ref{lem:standard}\,(4).}
+\lqed{1}{4}\lby{$\langle1\rangle1$--$\langle1\rangle3$}
+
+\begin{theorem}[Three faces of the Bures form; imported verbatim]\label{thm:three}
+\emph{(\texttt{rigor/lemma\_second\_variation.tex}, theorem ``Three faces of the Bures form''.)}
+Let $\cM$ be a von Neumann algebra with cyclic separating $\Om$, let $b\in\Hil$ with
+$\operatorname{Im}\ip\Om b=0$, and put $\varphi_b(K):=-2\operatorname{Im}\ip b{K\Om}$, $K\in\Msa$.  Then
+\begin{equation}\label{eq:three}
+ \tfrac14\gB(b)=\tfrac12\bigl\|(1-J)(1+\Delta)^{-1/2}b\bigr\|^2=\dist\bigl(b,\HMp\bigr)^2
+ =\sup_{K\in\Msa}\bigl[\varphi_b(K)-\Var_\omega(K)\bigr].
+\end{equation}
+The infimum is attained at $E'b=\Delta(1+\Delta)^{-1}b+(1+\Delta)^{-1}\Delta^{1/2}Jb$.  \textbf{No domain
+hypothesis on $b$ is used}: in particular $b\in D(\Delta^{-1/2})=D(S^*)$ is \emph{not} required, and the
+right-hand side depends on $b$ only through $\varphi_b$.
+\end{theorem}
+
+\begin{verdictok}
+Hypotheses of Theorem~\ref{thm:three} for $b=a$: $\cM=\cA(I)$ has cyclic separating $\Om$ by (RS);
+$a\in\Hil$ by (H2); $\operatorname{Im}\ip\Om a=0$ by Definition~\ref{def:a}\,$\langle1\rangle1$.
+\emph{The domain hypothesis $T(\gtot)\Om\in D(\Delta^{-1/2})$ that Note~7's Lemma~3.1 needs for the
+$\eta$-form of $\gB$ is not needed here and is nowhere assumed}; it would be needed only if one wanted
+$\eta=i(S^*-1)a$ as a vector and the form $\gB=2\ip\eta{(1+\Delta)^{-1}\eta}$.  We use exclusively the
+$J$-form and the distance form, both unconditional.  (The audit's own summary of
+\texttt{lemma\_second\_variation.tex}, item (A), makes the same point.)
+\end{verdictok}
+
+\section{(B-lower): $-\log\Fid\ \ge\ \frac{s^2}8\gB+o(s^2)$}\label{sec:lower}
+
+\begin{theorem}[Alberti upper bound for $\Fid$; imported]\label{thm:albertiupper}
+\emph{(\texttt{rigor/lemma\_second\_variation.tex}, theorem ``Upper bound''.)}  Assume hypothesis
+\textup{(F$\varphi$)}: $(\omega_s)$ are normal states on $\cM$ and for every $y\in\cM$,
+$\omega_s(y)=\omega(y)+s\varphi(y)+o(s)$, with $\varphi(K)=-2\operatorname{Im}\ip b{K\Om}$ on $\Msa$ for some
+$b\in\Hil$ with $\operatorname{Im}\ip\Om b=0$.  Then
+$\liminf_{s\to0}s^{-2}\bigl(1-\Fid(\omega,\omega_s)\bigr)\ge\frac18\gB(b)$.
+The only external input is Alberti--Uhlmann's estimate $P_{\cM}(\nu,\varrho)\le\nu(x)\varrho(x^{-1})$
+for positive invertible $x\in\cM$ (arXiv:math-ph/0202038, p.~4, (1-4)), applied with $x=\one+sK$.
+\end{theorem}
+
+\begin{proposition}[(H3) supplies the hypotheses of Theorem~\ref{thm:albertiupper}]\label{prop:H3}
+Under \textup{(H1)}, \textup{(H3)} and (RS),
+\begin{equation}\label{eq:lowerbound}
+ \liminf_{s\to0}\frac{1-\Fid(\omega,\omega_s)}{s^2}\ \ge\ \frac18\gB,\qquad
+ \text{hence}\qquad -\log\Fid(\omega,\omega_s)\ \ge\ \frac{s^2}8\gB+o(s^2),
+\end{equation}
+with $\gB=4\dist(a,\HMp)^2$ of Definition~\ref{def:a}.
+\end{proposition}
+\lstep{1}{1}{$\omega_s$ is a normal state of $\cM$ for each $s$, and $\omega$ is faithful normal with $\Om$
+ cyclic and separating.}
+\lby{(H1): $\omega_s=\ip{\Psi_s}{\cdot\,\Psi_s}$ is a vector state, hence normal, and $\Psi_s$ is a unit
+ vector; (RS) for $\cM=\cA(I)$ ($I$ and $I'$ both nonempty)}
+\lstep{1}{2}{\lsuffices \lprove
+ $\displaystyle\liminf_{s\to0}\frac{1-\Fid}{s^2}\ \ge\ \frac12\bigl[\varphi(K)-\Var_\omega(K)\bigr]$
+ for every $K\in\cM_{0,\mathrm{sa}}$.}
+\lby{granting this, take the supremum over $K\in\cM_{0,\mathrm{sa}}$ and apply $\langle1\rangle5$ below}
+\lstep{1}{3}{The claim of $\langle1\rangle2$.}
+\lproof
+\lstep{2}{1}{\lpick $K\in\cM_{0,\mathrm{sa}}$, $|s|<\norm K^{-1}$, $x_s:=\one+sK$; then $x_s$ is positive and
+ invertible in $\cM$, $x_s^{-1}=\one-sK+s^2K^2+r_s$ with $\norm{r_s}\le|s|^3\norm K^3/(1-|s|\norm K)$.}
+\lby{Neumann series, as in \texttt{lemma\_second\_variation.tex}, theorem ``Upper bound'', $\langle1\rangle1$}
+\lstep{2}{2}{$\Fid^2\le\omega(x_s)\,\omega_s(x_s^{-1})$.}
+\lby{Alberti--Uhlmann (1-4) with $\nu=\omega$, $\varrho=\omega_s$, $x=x_s$; legitimate by $\langle1\rangle1$}
+\lstep{2}{3}{$\omega_s(x_s^{-1})=1-s\omega(K)-s^2\varphi(K)+s^2\omega(K^2)+o(s^2)$.}
+\lby{(H3) applied to $X=K\in\cM_0$ (first-order expansion) and to $X=K^2\in\cM_0$ (only
+ $\omega_s(K^2)\to\omega(K^2)$ is used); $|\omega_s(r_s)|\le\norm{r_s}=O(s^3)$; note $K^2\in\cM_0$ because
+ $\cM_0$ is an algebra}
+\lstep{2}{4}{$\omega(x_s)\omega_s(x_s^{-1})=1-s^2[\varphi(K)-\Var_\omega(K)]+o(s^2)$, hence
+ $1-\Fid\ge\frac12(1-\Fid^2)\ge\frac{s^2}2[\varphi(K)-\Var_\omega(K)]+o(s^2)$.}
+\lby{$\omega(x_s)=1+s\omega(K)$ exactly; the $O(s)$ terms cancel; then $1-\Fid^2\le2(1-\Fid)$ as $0\le\Fid\le1$}
+\lqed{2}{5}\lby{$\langle2\rangle4$, divided by $s^2>0$; $K$ is fixed while $s\to0$}
+\lstep{1}{4}{$\{K\Om-\omega(K)\Om:K\in\cM_{0,\mathrm{sa}}\}$ is dense in
+ $\HM\cap(\mathbb R\Om)^{\perp_{\mathbb R}}$.  \emph{(It is \textbf{not} dense in $\HM$: every element is
+ real-orthogonal to $\Om\in\HM$, so its closure has real codimension~$1$.)}}
+\lproof
+\lstep{2}{1}{\lpick $K\in\Msa$.  There is a net $X_\alpha\in\cM_0$ with $X_\alpha\to K$ $*$-strongly.}
+\lby{(H3): $\cM_0$ is $*$-strongly dense in $\cM$}
+\lstep{2}{2}{$K_\alpha:=\frac12(X_\alpha+X_\alpha^*)\in\cM_{0,\mathrm{sa}}$ and $K_\alpha\Om\to K\Om$.}
+\lby{$\cM_0$ is a $*$-subalgebra, so $K_\alpha\in\cM_0$; $*$-strong convergence gives both
+ $X_\alpha\Om\to K\Om$ and $X_\alpha^*\Om\to K^*\Om=K\Om$ (this is exactly where $*$-strong, not merely
+ strong, density is used)}
+\lstep{2}{3}{$\omega(K_\alpha)\to\omega(K)$, hence $K_\alpha\Om-\omega(K_\alpha)\Om\to K\Om-\omega(K)\Om$.}
+\lby{$\omega(K_\alpha)=\ip\Om{K_\alpha\Om}$ and $\langle2\rangle2$}
+\lqed{2}{4}\lby{$\langle2\rangle2$, $\langle2\rangle3$, and $\{K\Om-\omega(K)\Om:K\in\Msa\}$ has the same
+ closure as $\Msa\Om$ because $\one\in\Msa$}
+\lstep{1}{5}{$\displaystyle\sup_{K\in\cM_{0,\mathrm{sa}}}\bigl[\varphi(K)-\Var_\omega(K)\bigr]
+ =\sup_{K\in\Msa}\bigl[\varphi(K)-\Var_\omega(K)\bigr]=\tfrac14\gB$.}
+\lproof
+\lstep{2}{1}{For $K\in\Msa$ put $k:=K\Om-\omega(K)\Om$ and $w:=-ia$.  Then
+ $\varphi(K)-\Var_\omega(K)=2\operatorname{Re}\ip wk-\norm k^2=:\Theta(k)$, a norm-continuous function of $k$.}
+\lby{$\Var_\omega(K)=\norm{K\Om}^2-\omega(K)^2=\norm k^2$;
+ $\varphi(K)=-2\operatorname{Im}\ip a{K\Om}=-2\operatorname{Im}\ip ak=2\operatorname{Re}\ip wk$, using
+ $\ip a\Om=0$ (Definition~\ref{def:a}\,$\langle1\rangle1$) and
+ $\operatorname{Re}\ip{-ia}{k}=-\operatorname{Im}\ip ak$}
+\lstep{2}{2}{$\sup_{\HM}\Theta=\sup_{\HM\cap(\mathbb R\Om)^{\perp_{\mathbb R}}}\Theta$.}
+\lby{$\operatorname{Re}\ip w\Om=-\operatorname{Im}\ip a\Om=0$, so for $k\perp_{\mathbb R}\Om$ and
+ $t\in\mathbb R$, $\Theta(k+t\Om)=2\operatorname{Re}\ip wk-\norm k^2-t^2\le\Theta(k)$: $\Theta$ decreases
+ along $\Om$}
+\lstep{2}{3}{$\sup_{\cM_{0,\mathrm{sa}}}\Theta=\sup_{\Msa}\Theta$.}
+\lby{$\langle1\rangle4$, $\langle2\rangle1$, $\langle2\rangle2$: both index sets have the same closure
+ $\HM\cap(\mathbb R\Om)^{\perp_{\mathbb R}}$ (for $\Msa$ use $\one\in\Msa$), and a supremum of a
+ continuous function over a dense subset equals the supremum over the closure}
+\lqed{2}{4}\lby{$\langle2\rangle2$, $\langle2\rangle3$ and Theorem~\ref{thm:three} with $b=a$}
+\lstep{1}{6}{$-\log\Fid\ge\frac{s^2}8\gB+o(s^2)$.}
+\lby{$\langle1\rangle2$--$\langle1\rangle5$ give $1-\Fid\ge\frac{s^2}8\gB+o(s^2)$; then
+ $-\log(1-x)\ge x$ for $x\in[0,1)$}
+\lqed{1}{7}\lby{$\langle1\rangle1$--$\langle1\rangle6$}
+
+\begin{remark}[(H3) is redundant in Theorem~\ref{thm:B}]\label{rem:H2H3}
+(H2) implies (H3) with $\cM_0=\cM$ and the \emph{same} $\varphi$: for $X=X^*\in\cM$,
+$\omega_s(X)=\ip{\Psi_s}{X\Psi_s}=\ip{\Om-isa}{X(\Om-isa)}+o(s)
+=\omega(X)+is(\ip a{X\Om}-\overline{\ip a{X\Om}})+o(s)=\omega(X)+s\varphi(X)+o(s)$, the error being
+$\le2\norm X\,o(s)$; and $\omega_s(X^2)\to\omega(X^2)$ because $\Psi_s\to\Om$.  So no compatibility between
+the $\varphi$ of (H3) and the $a$ of (H2) has to be assumed --- it is automatic.  (H3) is kept as a separate
+hypothesis only because it is strictly weaker: it makes Proposition~\ref{prop:H3} available for nets where
+the tangent \emph{vector} is not known to exist.
+\end{remark}
+
+\begin{verdictok}
+The lower bound on $-\log\Fid$ needs \emph{only} (H3) --- no vector, no domain condition, no differentiability
+of $s\mapsto\Psi_s$.  Two points where the present statement is stronger than the imported theorem:
+(i) Theorem~\ref{thm:albertiupper} assumes (F$\varphi$) for \emph{all} $y\in\cM$, while (H3) gives it only on
+a $*$-strongly dense $*$-subalgebra; step $\langle1\rangle4$ closes that gap, and it is the reason (H3) must
+require $*$-strong (not merely strong or weak) density and that $\cM_0$ be an \emph{algebra}
+(so that $K^2\in\cM_0$).  (ii) The identification of $\sup_{\Msa}$ with $\frac14\gB$ is
+Theorem~\ref{thm:three}, which is unconditional.
+\end{verdictok}
+
+\section{(B-upper): $-\log\Fid\ \le\ \frac{s^2}8\gB+o(s^2)$}\label{sec:upper}
+
+\subsection{The abstract form}
+
+\begin{theorem}[Uhlmann lower bound for $\Fid$; imported]\label{thm:uhllower}
+\emph{(\texttt{rigor/lemma\_second\_variation.tex}, theorem ``Lower bound''.)}  Assume hypothesis
+\textup{(V)}: there are unit vectors $\Psi_s$ with $\Psi_0=\Om$, $\omega_s=\ip{\Psi_s}{\cdot\,\Psi_s}|_\cM$
+and $\norm{\Psi_s-\Om-s\dot\Psi_0}=o(s)$; put $b:=i\dot\Psi_0$.  Then
+$\limsup_{s\to0}s^{-2}(1-\Fid(\omega,\omega_s))\le\frac18\gB(b)$.
+The only external input is Alberti--Uhlmann's supremum formula
+$\Fid(\omega_\psi,\omega)=\sup_{v'\in\U(\cM')}|\ip\Om{v'\psi}|$ (arXiv:math-ph/0202038, Theorem~2(3)),
+of which only the elementary ``$\ge$'' half is used, with $v'=e^{-isB'}$, $B'\in\Mpsa$ \emph{bounded}.
+\end{theorem}
+
+\begin{proposition}[(H2) supplies the hypotheses of Theorem~\ref{thm:uhllower}]\label{prop:H2}
+Under \textup{(H1)}, \textup{(H2)} and (RS),
+\begin{equation}\label{eq:upperbound}
+ \limsup_{s\to0}\frac{1-\Fid(\omega,\omega_s)}{s^2}\ \le\ \frac18\gB,\qquad\text{hence}\qquad
+ -\log\Fid(\omega,\omega_s)\ \le\ \frac{s^2}8\gB+o(s^2).
+\end{equation}
+\end{proposition}
+\lstep{1}{1}{$\Psi_s=U_s^*\Om$ are unit vectors representing $\omega_s$ on $\cM$, and $\Psi_0=\Om$.}
+\lby{(H1), eq.~\eqref{eq:omegas}; $U_0=\one$ up to a phase, which does not change the state and may be
+ absorbed}
+\lstep{1}{2}{(V) holds with $\dot\Psi_0=-i\,T(\gtot)\Om=-ia$, i.e.\ $b=i\dot\Psi_0=a$.}
+\lby{(H2) is precisely $\norm{\Psi_s-\Om+isa}=o(s)$}
+\lstep{1}{3}{$\limsup_{s\to0}s^{-2}(1-\Fid)\le\frac18\gB(a)=\frac18\gB$.}
+\lby{Theorem~\ref{thm:uhllower} with $b=a$ by $\langle1\rangle1$, $\langle1\rangle2$;
+ Definition~\ref{def:a} and Theorem~\ref{thm:three}}
+\lstep{1}{4}{$-\log\Fid\le\frac{s^2}8\gB+o(s^2)$.}
+\lby{$\langle1\rangle3$ gives $1-\Fid\le\frac{s^2}8\gB+o(s^2)\to0$, and $-\log(1-x)=x+O(x^2)$}
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$}
+
+\begin{verdictok}
+(H2) is exactly hypothesis (V) of the imported theorem, so nothing is left to check beyond
+(RS) (cyclic separating $\Om$).  In particular the upper bound on $-\log\Fid$ requires \emph{only first-order
+norm differentiability of the vacuum curve}; no second-order expansion, no $\Om\in D(T(\gtot)^2)$, and no
+product formula for $e^{isB'}U_s^*$ appear anywhere (Remark ``No phase problem'' of
+\texttt{lemma\_second\_variation.tex}).
+\end{verdictok}
+
+\subsection{The geometric form: trial unitaries $u'=U(\phi')$, and the infimum over extensions}
+
+The abstract proof uses bounded $B'\in\Mpsa$ as trial unitaries.  For the \emph{evaluation} of $\gB$ we want
+trial unitaries that are themselves diffeomorphisms of $I'$: this is what converts the abstract distance into
+a variational problem for vector fields.  The following proposition is the ``Uhlmann with $u'=U(\phi')$''
+route of the brief; it is logically redundant given Proposition~\ref{prop:H2}, but it is the statement that
+makes Section~\ref{sec:value} possible and it is the exact net-independent analogue of
+\texttt{rigor/uhlmann\_upper\_bound.tex}, Prop.~``Uhlmann lower bound for the fidelity''.
+
+\begin{proposition}[Geometric trial unitaries]\label{prop:geom}
+Let $h$ be real, $C^{1,1}$, with $\supp h\subset I'$ compact, and assume $T(h)$ is essentially self-adjoint
+with $\Om\in D(T(h))$ and $e^{i\tau T(h)}=U(\phi'_\tau)$, $\phi'_\tau$ the flow of $h\partial_x$
+\textup{(}so $\supp\phi'_\tau\subset I'$\textup{)}.  Then, under \textup{(H1)}, \textup{(H2)}:
+\begin{equation}\label{eq:geombound}
+ -\log\Fid(\omega,\omega_s)\ \le\ \frac{s^2}{2}\,\bigl\|T(\gtot+h)\Om\bigr\|^2+o(s^2)
+ \qquad (s\to0),
+\end{equation}
+and therefore
+$\displaystyle\limsup_{s\to0}s^{-2}\bigl(-\log\Fid\bigr)\le\frac12\inf_h\norm{T(\gtot+h)\Om}^2$,
+the infimum over all such $h$.
+\end{proposition}
+\lstep{1}{1}{$u'_\tau:=U(\phi'_\tau)=e^{i\tau T(h)}\in\U(\cM')$ for every $\tau\in\mathbb R$.}
+\lby{$\supp\phi'_\tau\subseteq\supp h$ is a \emph{compact} subset of the open arc $I'$, so
+ $\phi'_\tau\in\mathrm{Diff}(K)$ for an interval $K$ with $\supp h\subset K\subseteq I'$, whence
+ $U(\phi'_\tau)\in\cA(K)$ by \eqref{eq:H1loc}; then $\cA(K)\subseteq\cA(I')\subseteq\cA(I)'=\cM'$ by
+ isotony and \emph{locality} (Haag duality is not needed)}
+\lstep{1}{2}{$\Fid(\omega,\omega_s)\ \ge\ \bigl|\ip{\Om}{u'_{-s}\Psi_s}\bigr|$.}
+\lby{Alberti--Uhlmann Theorem~2(3), ``$\ge$'' half: $u'_{-s}\Psi_s$ is a vector representative of $\omega_s$
+ by $\langle1\rangle1$ ($\ip{u'\Psi_s}{Xu'\Psi_s}=\ip{\Psi_s}{X\Psi_s}$ for $X\in\cM$, $u'\in\U(\cM')$), and
+ $\Om$ is one for $\omega$}
+\lstep{1}{3}{For unit vectors $\xi,\psi$: $|\ip\xi\psi|\ge\operatorname{Re}\ip\xi\psi=1-\frac12\norm{\xi-\psi}^2$.}
+\lby{$\norm{\xi-\psi}^2=2-2\operatorname{Re}\ip\xi\psi$}
+\lstep{1}{4}{$\norm{\Om-u'_{-s}\Psi_s}=\norm{u'_s\Om-\Psi_s}=|s|\,\norm{T(\gtot+h)\Om}+o(s)$.}
+\lproof
+\lstep{2}{1}{$u'_s\Om=\Om+is\,T(h)\Om+o(s)$ in norm.}
+\lby{$\Om\in D(T(h))$ and Stone's theorem: $\norm{s^{-1}(e^{isB}-\one)\xi-iB\xi}\to0$ for $\xi\in D(B)$,
+ $B=B^*$}
+\lstep{2}{2}{$\Psi_s=\Om-is\,T(\gtot)\Om+o(s)$ in norm.}
+\lby{(H2)}
+\lstep{2}{3}{$u'_s\Om-\Psi_s=is\,T(h)\Om+is\,T(\gtot)\Om+o(s)=is\,T(\gtot+h)\Om+o(s)$.}
+\lby{$\langle2\rangle1$, $\langle2\rangle2$, and linearity of $f\mapsto T(f)\Om$ on the (real) span of
+ $\gtot$ and $h$}
+\lqed{2}{4}\lby{$\langle2\rangle3$, $\norm{u'_{-s}}=1$ and the reverse triangle inequality}
+\lstep{1}{5}{\eqref{eq:geombound}.}
+\lby{$\langle1\rangle2$--$\langle1\rangle4$ give
+ $\Fid\ge1-\frac{s^2}2\norm{T(\gtot+h)\Om}^2+o(s^2)$; then $-\log(1-x)=x+O(x^2)$}
+\lqed{1}{6}\lby{$\langle1\rangle5$; the infimum is taken \emph{after} the $\limsup$, i.e.\ each $h$ has its
+ own $o(s^2)$, which is legitimate because $\limsup_s\le c_h$ for every $h$ implies
+ $\limsup_s\le\inf_hc_h$}
+
+\begin{verdictok}
+Proposition~\ref{prop:geom} is proved.  Three remarks.  (i) The passage from first-order norm
+differentiability to a \emph{second}-order fidelity bound is step $\langle1\rangle3$, the elementary
+inequality $|\ip\xi\psi|\ge1-\frac12\norm{\xi-\psi}^2$; this is the explicit ``$o(s^2)$ argument'' asked for
+in the brief and it is the same device as in the imported Theorem~\ref{thm:uhllower}.
+(ii) The trial unitary is $u'_{-s}=U(\phi'_{-s})$, i.e.\ \emph{the recovery is compared with a different
+extension of $k_s$ beyond $L$}: $\kt_s$ replaced by $\phi'_{-s}\circ\kt_s$, whose first-order field is
+$\gtot+h$.  Thus ``the infimum over extensions'' is literally an infimum over the choice of the
+$C^{1,1}$ continuation of $k_s$ past $x=1$ (plus arbitrary further motion inside $I'$).
+(iii) By Proposition~\ref{prop:H2} the resulting bound cannot beat $\frac18\gB$; the content of
+Section~\ref{sec:standard} is that it \emph{attains} it, i.e.\ $\inf_h\norm{T(\gtot+h)\Om}^2=\frac14\gB$.
+\end{verdictok}
+
+\section{The stress-tensor subspace: reduction, standardness, and the variational form of $\gB$}
+\label{sec:standard}
+
+\subsection{The subspace $\HT$ and its modular invariance}
+
+\begin{definition}\label{def:HT}
+$\mathcal T:=C^\infty_c(\mathbb R;\mathbb R)$ (real vector fields $f\partial_x$ with compact support in the line
+chart), and
+\begin{equation}\label{eq:HT}
+ \HT:=\overline{\operatorname{span}_{\mathbb C}\{T(f)\Om:f\in\mathcal T\}}\subseteq\Hil,\qquad
+ \HTR(K):=\overline{\{T(h)\Om:h\in\mathcal T,\ \supp h\subset K\}}^{\,\mathbb R}
+\end{equation}
+for an open $K\subseteq\mathbb R$; $\HTR(K)$ is a closed \emph{real}-linear subspace of $\HT$.  $P$ denotes the
+orthogonal projection of $\Hil$ onto $\HT$.
+\end{definition}
+
+\begin{lemma}[$a\in\HT$]\label{lem:aInHT}
+$a=T(\gtot)\Om\in\HT$.
+\end{lemma}
+\lstep{1}{0}{$a\in\HT$ is part of hypothesis (H2$'$), and the steps below only record why (H2$'$) is the
+ right normalisation --- they do \emph{not} replace it: for the $C^{1,1}$ field $\gtot$ the operator
+ $T(\gtot)$ is postulated by (H2), and nothing in (H1)--(H3) would otherwise force its vacuum vector to be
+ the $\norm\cdot_\star$-limit of the $T(f_n)\Om$ rather than that limit plus an element of $\HT^\perp$.}
+\lby{(H2$'$)}
+\lstep{1}{1}{The sesquilinear form $\ip{T(f)\Om}{T(g)\Om}=\frac{c}{48\pi^2}\int_0^\infty p^3\,
+ \overline{\widehat f(p)}\widehat g(p)\,dp$ (for real $f,g$; polarise for the general case) is positive
+ semi-definite and continuous in the norm $\norm f_\star^2:=\int_0^\infty p^3|\widehat f(p)|^2dp$.}
+\lby{\eqref{eq:normTg} and its polarisation}
+\lstep{1}{2}{There are $f_n\in\mathcal T$ with $\norm{\gtot-f_n}_\star\to0$.}
+\lby{$\gtot\in C^{1,1}$ with compact support, so $\gtot\in H^2(\mathbb R)\subset H^{3/2}$ and
+ $\norm\cdot_\star\le\norm\cdot_{H^{3/2}}$ up to a constant on compactly supported functions;
+ $C_c^\infty$ is dense in $H^2$ and mollification preserves the support up to $\eps$}
+\lqed{1}{3}\lby{$\langle1\rangle1$, $\langle1\rangle2$: $\norm{T(\gtot)\Om-T(f_n)\Om}=
+ \frac{c^{1/2}}{(48\pi^2)^{1/2}}\norm{\gtot-f_n}_\star\to0$, and $\HT$ is closed}
+
+\begin{lemma}[$\HT$ reduces the modular data]\label{lem:reduce}
+Under \textup{(BW)} and the M\"obius transformation law of $T$:
+\begin{enumerate}
+\item $\Delta^{it}T(f)\Om=T(\delta_{t*}f)\Om$ and $JT(f)\Om=T(f\circ r)\Om$ for $f\in\mathcal T$, where
+ $\delta_t$ is the dilation $u\mapsto e^{2\pi t}u$ about $x=L$ \textup{(}$u=L-x$\textup{)},
+ $\delta_{t*}f$ its push-forward as a vector field, and $r(x)=2L-x$;
+\item $\delta_{t*}\mathcal T=\mathcal T$, $\mathcal T\circ r=\mathcal T$, $\delta_{t*}$ preserves
+ $\{h:\supp h\subset I'\}$ and $r$ exchanges it with $\{h:\supp h\subset I\}$;
+\item $\HT$ is invariant under $\Delta^{it}$ $(t\in\mathbb R)$ and under $J$; consequently $P$ commutes with
+ $\Delta^{it}$, with every bounded Borel function of $\Delta$, and with $J$, and $\HT$ reduces $\Delta$;
+\item $P\HMp\subseteq\HMp$ and $P\HM\subseteq\HM$.
+\end{enumerate}
+\end{lemma}
+\lstep{1}{1}{(1).}
+\lproof
+\lstep{2}{1}{$\Delta^{it}=U(\delta_{-2\pi t})$ acts on the net geometrically by the dilation about $L$, and
+ $J$ antiunitarily by $r$.}
+\lby{(BW), in the line-chart form recorded in (S2); the sign is the audited one of
+ \texttt{collar\_and\_invariant\_formula.tex} \S{}``Convention audit''}
+\lstep{2}{2}{$\Delta^{it}e^{i\tau T(f)}\Delta^{-it}=e^{i\tau T(\delta_{t*}f)}$ and
+ $Je^{i\tau T(f)}J=e^{i\tau T(r_*f)}=e^{-i\tau T(f\circ r)}$, where $r_*f=-f\circ r$.}
+\lby{$\langle2\rangle1$ and $U(\gamma)U(\exp \tau f\partial)U(\gamma)^{-1}=U(\exp\tau(\gamma_*f)\partial)$
+ for the (projective) diffeomorphism representation; for $J$ antiunitary,
+ $Je^{i\tau T(f)}J=e^{-i\tau JT(f)J}$, and the implemented diffeomorphism is
+ $r\circ\exp(\tau f\partial)\circ r=\exp(\tau (r_*f)\partial)$, whence $JT(f)J=-T(r_*f)=T(f\circ r)$;
+ the push-forward of a vector field under $r(x)=2L-x$ is $r_*f=r'\cdot(f\circ r)=-f\circ r$}
+\lstep{2}{3}{$\Delta^{it}T(f)\Delta^{-it}=T(\delta_{t*}f)$ and $JT(f)J=T(f\circ r)$ as (essentially
+ self-adjoint) operators; apply to $\Om$ using $\Delta^{it}\Om=\Om$, $J\Om=\Om$.}
+\lby{$\langle2\rangle2$ and Stone's theorem (differentiate at $\tau=0$ on the common invariant domain of
+ finite-energy vectors); no Schwarzian c-number appears because $\delta_t$ and $r$ are (anti-)M\"obius}
+\lqed{2}{4}\lby{$\langle2\rangle3$}
+\lstep{1}{2}{(2).}
+\lby{in the coordinate $u=L-x$, $\delta_t$ is $u\mapsto e^{2\pi t}u$ and $r$ is $u\mapsto-u$; both are
+ diffeomorphisms of $\mathbb R$ mapping compact sets to compact sets and smooth fields to smooth fields;
+ $I'=\{u<0\}$ is $\delta_t$-invariant and $r(I')=I$}
+\lstep{1}{3}{(3).}
+\lby{$\langle1\rangle1$, $\langle1\rangle2$: $\Delta^{it}$ and $J$ map the generating set
+ $\{T(f)\Om:f\in\mathcal T\}$ into itself, $\Delta^{it}$ is unitary and $J$ antiunitary (so both preserve
+ closed complex spans: for $J$, note $J(\lambda\xi)=\bar\lambda J\xi$, and a complex subspace is preserved
+ under conjugation of coefficients); a closed subspace invariant under a unitary group and its inverses
+ reduces it, hence $P$ commutes with $\Delta^{it}$ and, by Stone/spectral calculus, with all bounded Borel
+ functions of $\Delta$ and with the spectral projections; $JPJ=P$ because $J\HT=\HT$ and $J^2=1$}
+\lstep{1}{4}{(4).}
+\lby{let $\xi\in\HMp$, i.e.\ $\xi\in D(F)$ and $F\xi=\xi$ with $F=J\Delta^{-1/2}$ \eqref{eq:realsub}.  Since
+ $P$ commutes with the spectral projections of $\Delta$, $P$ maps $D(\Delta^{-1/2})$ into itself and
+ $\Delta^{-1/2}P\xi=P\Delta^{-1/2}\xi$; then
+ $FP\xi=J\Delta^{-1/2}P\xi=JP\Delta^{-1/2}\xi=PJ\Delta^{-1/2}\xi=PF\xi=P\xi$.  The same argument with
+ $S=J\Delta^{1/2}$ gives $P\HM\subseteq\HM$}
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$}
+
+\subsection{Reduction of the Bures form to $\HT$, and $c$-linearity}
+
+\begin{proposition}[The Bures form lives in $\HT$]\label{prop:reduce}
+With $a=T(\gtot)\Om$, $u=(1+\Delta)^{-1/2}$:
+\begin{equation}\label{eq:reduceeq}
+ \tfrac14\gB=\dist(a,\HMp)^2=\norm{u(1-J)ua}^2=\tfrac12\bigl\|(1-J)ua\bigr\|^2
+ =\dist\bigl(a,\HMp\cap\HT\bigr)^2 ,
+\end{equation}
+and the unique closest point $E'a=\Delta(1+\Delta)^{-1}a+(1+\Delta)^{-1}\Delta^{1/2}Ja$ of $\HMp$ to $a$
+lies in $\HT$.  Every operator occurring in \eqref{eq:reduceeq} may be replaced by its restriction to $\HT$.
+\end{proposition}
+\lstep{1}{1}{$\dist(a,\HMp)^2=\norm{a-E'a}^2=\norm{u(1-J)ua}^2=\frac12\norm{(1-J)ua}^2=\frac14\gB$.}
+\lby{\texttt{lemma\_second\_variation.tex}, Lemma ``Explicit real-orthogonal projection onto $\HMp$''
+ ($E'b\in\HMp$, $b-E'b=u(1-J)ub$, $\operatorname{Re}\ip{b-E'b}\zeta=0$ for $\zeta\in\HMp$, so $E'b$ is the
+ real-orthogonal projection and $\dist(b,\HMp)=\norm{b-E'b}$), and Theorem~\ref{thm:three}; the identity
+ $\norm{u\psi}^2=\frac12\norm\psi^2$ for $\psi=(1-J)ub$ holds because $J\psi=-\psi$ and $Ju^2J=v^2$ with
+ $u^2+v^2=\one$, so $\ip\psi{u^2\psi}=\ip{J\psi}{Ju^2\psi}=\ip\psi{v^2\psi}$}
+\lstep{1}{2}{$E'a\in\HT$.}
+\lby{$a\in\HT$ (Lemma~\ref{lem:aInHT}) and $\HT$ is invariant under $\Delta(1+\Delta)^{-1}$,
+ $(1+\Delta)^{-1}\Delta^{1/2}$ (bounded Borel functions of $\Delta$) and under $J$
+ (Lemma~\ref{lem:reduce}(3))}
+\lstep{1}{3}{$\dist(a,\HMp)=\dist(a,\HMp\cap\HT)$.}
+\lby{``$\le$'' since $\HMp\cap\HT\subseteq\HMp$; ``$\ge$'' by $\langle1\rangle2$, $E'a\in\HMp\cap\HT$;
+ alternatively, for any $\eta\in\HMp$, $P\eta\in\HMp\cap\HT$ by Lemma~\ref{lem:reduce}(4) and
+ $\norm{a-\eta}^2=\norm{a-P\eta}^2+\norm{(1-P)\eta}^2\ge\norm{a-P\eta}^2$ because $Pa=a$}
+\lqed{1}{4}\lby{$\langle1\rangle1$--$\langle1\rangle3$}
+
+\begin{theorem}[Universality and $c$-linearity of $\gB$]\label{thm:linear}
+Let $(\cA,U,\Om)$ and $(\cA^\flat,U^\flat,\Om^\flat)$ be two nets as in (S2), with central charges $c$ and
+$c^\flat$, both satisfying \textup{(S2)}, \textup{(BW)} and \textup{(H2)}--\textup{(H2$'$)} for the same
+geometric data \eqref{eq:geom}, \eqref{eq:chi}.  \emph{Neither \textup{(HD)} nor \textup{(RS)} nor locality
+is used}: the proof needs only the normalisation \eqref{eq:TT}, $a=T(\gtot)\Om\in\HT$, and
+Lemma~\ref{lem:reduce}(1).  Then
+\begin{equation}\label{eq:linear}
+ \frac{\gB(\cA)}{c}=\frac{\gB(\cA^\flat)}{c^\flat}=:\gamma_0,
+\end{equation}
+a number depending on nothing but $\gtot$ and the geometry.  In particular $\gB=c\,\gamma_0$.
+\end{theorem}
+\lstep{1}{1}{\ldefine $\mathcal T_0:=\mathcal T/\mathcal N$, $\mathcal N:=\{f\in\mathcal T:\int_0^\infty
+ p^3|\widehat f(p)|^2dp=0\}$, and let $(\mathcal K,\ip\cdot\cdot_\star)$ be the completion of $\mathcal T_0$
+ in $\norm f_\star^2=\int_0^\infty p^3|\widehat f(p)|^2dp$, complexified.  Then
+ $V:[f]\mapsto (48\pi^2/c)^{1/2}T(f)\Om$ extends to a unitary $\mathcal K\to\HT$.}
+\lby{\eqref{eq:normTg} and Lemma~\ref{lem:aInHT}$\langle1\rangle1$: $\ip{T(f)\Om}{T(g)\Om}
+ =\frac{c}{48\pi^2}\ip fg_\star$, so $V$ is isometric on a dense subspace with dense range, hence extends to
+ a unitary; $\mathcal K$ and $\norm\cdot_\star$ do not involve the net or $c$}
+\lstep{1}{2}{$V^{-1}\Delta^{it}V$ and $V^{-1}JV$ are, respectively, the push-forward action
+ $[f]\mapsto[\delta_{t*}f]$ and the antilinear action $[f]\mapsto[f\circ r]$ on $\mathcal K$; and
+ $V^{-1}a=(c/48\pi^2)^{1/2}[\gtot]$ (corrected 2026-09-09: the earlier text had the inverted factor).}
+\lby{Lemma~\ref{lem:reduce}(1),(2) and Lemma~\ref{lem:aInHT}; both actions are defined on $\mathcal K$
+ without reference to the net}
+\lstep{1}{3}{$\frac14\gB=\frac{c}{48\pi^2}\cdot\frac12\bigl\|(1-J_0)(1+\Delta_0)^{-1/2}[\gtot]\bigr\|_\star^2$,
+ where $\Delta_0,J_0$ are the transported operators of $\langle1\rangle2$ on $\mathcal K$.}
+\lby{Proposition~\ref{prop:reduce} and $\langle1\rangle1$, $\langle1\rangle2$: unitary conjugation commutes
+ with the functional calculus, and the factor $(48\pi^2/c)$ scales the squared norm}
+\lqed{1}{4}\lby{$\langle1\rangle3$: the right-hand side is $c$ times a quantity computed entirely inside
+ $(\mathcal K,\Delta_0,J_0,[\gtot])$, which is the same object for every net}
+
+\begin{remark}[Graded nets: the theorem applies to the free fermion]\label{rem:klein}
+For the Dirac field net $\cF$, Haag duality \emph{fails} and twisted duality holds,
+$\cF(I)'=Z\,\cF(I')\,Z^*$ with $Z=\frac{1+iV}{1+i}$, $V$ the parity unitary (Foit,
+Publ.\ RIMS \textbf{19} (1983); used in \texttt{uhlmann\_upper\_bound.tex}, Prop.~``The infimum''
+$\langle2\rangle1$).  Theorem~\ref{thm:linear} nevertheless applies verbatim, because it uses none of
+(HD), (RS), locality.  Its only geometric input, Lemma~\ref{lem:reduce}(1), survives the grading:
+$\Delta^{it}$ is the geometric dilation ((BW) holds for $\cF(I)$), and $J_{\cF(I)}$ differs from the
+geometric antiunitary reflection $\Theta$ only by the Klein factor, $J=Z\Theta$ --- which is the content of
+twisted duality --- while $\Ad Z$ is \emph{trivial on the even subalgebra}, $Z$ being a function of the
+grading unitary $V$ and $VXV^*=X$ for even $X$.  Since $T(f)$ and every $U(\phi)$ are even, and
+$Z\Om=\Om$, one has $\Ad J|_{\mathrm{even}}=\Ad\Theta|_{\mathrm{even}}$ and hence
+$JT(f)\Om=T(f\circ r)\Om$ as in Lemma~\ref{lem:reduce}(1).  Therefore $\gamma_0$ computed on $\cF$
+transfers to every net of (S2).
+\end{remark}
+
+\begin{verdictok}
+This is the precise form of Note~7's paragraph ``Why this is universal'', and it is unconditional given
+\textup{(BW)} and \textup{(H2)}: the tangent vector, the modular unitaries and the inner product on the
+stress-tensor subspace are all fixed by $c$ and the geometry, and the Bures form only ever sees $\HT$
+(Proposition~\ref{prop:reduce}).  \emph{No spectral prescription, no analytic continuation, and no
+Reeh--Schlieder property for $T$-vectors is used here.}  What is \emph{not} obtained this way is the
+\emph{number} $\gamma_0$; that is Section~\ref{sec:value}.
+\end{verdictok}
+
+\subsection{The standard-subspace lemma and the variational form}
+
+The next lemma is the net-independent replacement for the Wick-reduction lemma of
+\texttt{rigor/uhlmann\_upper\_bound.tex} (Lemma ``Wick reduction''), which is fermion specific
+(it computes the one-particle--one-hole component of $B\Om$ for $B\in\cF(I)_{\mathrm{sa}}$).
+It is what turns $\dist(a,\HMp)$ into the variational problem $\inf_h\norm{T(\gtot+h)\Om}$ that
+Proposition~\ref{prop:geom} produces geometrically.
+
+\begin{lemma}[Reeh--Schlieder for stress-tensor vectors]\label{lem:RST}
+$\HTR(I')+i\,\HTR(I')$ is dense in $\HT$.
+\end{lemma}
+
+\begin{verdictgap}
+\textbf{GAP.}  We do not prove this here.  It is the one-particle Reeh--Schlieder property of the net of
+real subspaces $K\mapsto\HTR(K)$ on $\HT$.  It is \emph{true} whenever the standard one-particle argument
+applies: $\HT$ carries the restriction of the positive-energy representation $U|_{\mathrm{M\ddot ob}}$
+(Lemma~\ref{lem:reduce}), $\HT$ is by construction the closed span of $\bigcup_K(\HTR(K)+i\HTR(K))$ over all
+intervals $K$, and for a M\"obius covariant net of standard subspaces with positive energy the usual
+analyticity/edge-of-the-wedge argument upgrades ``cyclic for all $K$ together'' to ``cyclic for one $K$''
+(Brunetti--Guido--Longo, \emph{Modular structure and duality in conformal quantum field theory},
+Commun.\ Math.\ Phys.\ \textbf{156} (1993) 201--219, \S{}1--2; R.~Longo, \emph{Real Hilbert subspaces,
+modular theory, $\mathrm{SL}(2,\mathbb R)$ and CFT}, Prop.~2.4 and \S{}3).  \emph{Those sources were not
+obtained in this session (offline), so the citation is by memory of the statement and is marked
+NOT VERIFIED.}  For the model cases of Section~\ref{sec:models} the lemma is a theorem
+(for the free fermion $\HT\subset\mathcal H^{(1,1)}$ and the statement follows from the analyticity of the
+one-particle Hardy space; see \texttt{uhlmann\_upper\_bound.tex}, Lemma ``Wick reduction'').
+\emph{Nothing in Theorem~B depends on this lemma}: it is used only for the variational \emph{form}
+\eqref{eq:varform} of $\gB$, not for its value, which is obtained from Theorem~\ref{thm:linear}.
+\end{verdictgap}
+
+\begin{lemma}[Standard subspaces with the same Tomita operator]\label{lem:standard}
+Assume Lemma~\textup{\ref{lem:RST}} and the one-particle Bisognano--Wichmann property
+\begin{itemize}[leftmargin=2em]
+\item[(BW1)] the modular data of the standard subspace $\HTR(I')\subseteq\HT$ are
+ $\Delta_{\HTR(I')}^{it}=\Delta^{-it}\big|_{\HT}$ and $J_{\HTR(I')}=J|_{\HT}$.
+\end{itemize}
+Then, writing $F=J\Delta^{-1/2}$:
+\begin{enumerate}
+\item $\HTR(I')\subseteq\HMp\cap\HT$;
+\item $\HMp\cap\HT=\{\xi\in\HT\cap D(F):F\xi=\xi\}$;
+\item $\HTR(I')=\HMp\cap\HT$;
+\item $\displaystyle\tfrac14\gB=\dist\bigl(a,\HTR(I')\bigr)^2
+ =\inf\bigl\{\norm{T(\gtot+h)\Om}^2:h\in\mathcal T,\ \supp h\subset I'\bigr\}$. \label{eq:varform}
+\end{enumerate}
+\end{lemma}
+\lstep{1}{1}{(1).}
+\lby{for $h\in\mathcal T$ with $\supp h\subset I'$, $T(h)$ is essentially self-adjoint and affiliated with
+ $\cA(I')=\cM'$ (diffeomorphism covariance, (S2), and (HD)), and $\Om\in D(T(h))$; then
+ Lemma~\ref{lem:gauge}(1) gives $T(h)\Om\in\HMp$; $T(h)\Om\in\HT$ by definition; $\HMp\cap\HT$ is closed}
+\lstep{1}{2}{(2).}
+\lby{\eqref{eq:realsub}: $\HMp=\{\xi\in D(F):F\xi=\xi\}$; intersect with $\HT$}
+\lstep{1}{3}{(3).}
+\lproof
+\lstep{2}{1}{$\HTR(I')$ is a standard subspace of $\HT$: cyclic by Lemma~\ref{lem:RST}, separating because
+ $\HTR(I')\cap i\HTR(I')\subseteq\HMp\cap i\HMp=\{0\}$.}
+\lby{$\langle1\rangle1$; $\HMp\cap i\HMp=\{0\}$ since $F$ is a well-defined \emph{antilinear} operator:
+ $\xi$ and $i\xi$ both fixed by $F$ forces $\xi=F(i\xi)\cdot$\dots\ concretely $F(i\xi)=-iF\xi=-i\xi$, so
+ $i\xi=-i\xi$, $\xi=0$}
+\lstep{2}{2}{The Tomita operator of $\HTR(I')$ is $S_1=J_{\HTR(I')}\Delta^{1/2}_{\HTR(I')}
+ =J\Delta^{-1/2}|_{\HT}=F|_{\HT}$, and $\HTR(I')=\{\xi\in\HT\cap D(F):F\xi=\xi\}$.}
+\lby{(BW1) and the fact that a standard subspace is recovered from its Tomita operator as its fixed-point
+ set, $K=\ker(\one-S_K)$ (definition of $S_K$ as the closure of $\xi+i\eta\mapsto\xi-i\eta$ on $K+iK$)}
+\lqed{2}{3}\lby{$\langle2\rangle2$ and $\langle1\rangle2$}
+\lstep{1}{4}{(4).}
+\lby{Proposition~\ref{prop:reduce} and (3) give
+ $\frac14\gB=\dist(a,\HMp\cap\HT)^2=\dist(a,\HTR(I'))^2$; and
+ $\dist(a,\HTR(I'))^2=\inf_h\norm{a-T(h)\Om}^2=\inf_h\norm{T(\gtot-h)\Om}^2=\inf_h\norm{T(\gtot+h)\Om}^2$
+ by $h\mapsto-h$ and continuity of the norm on the closure}
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$}
+
+\begin{verdictgap}
+\textbf{Conditional.}  Part (4) --- the identity that makes Proposition~\ref{prop:geom} \emph{sharp}, i.e.\
+that the geometric trial unitaries $U(\phi')$ already exhaust the commutant for this problem --- rests on
+two imported one-particle statements, Lemma~\ref{lem:RST} (cyclicity) and (BW1) (geometric modular data of
+$\HTR(I')$ inside $\HT$).  Both are standard for M\"obius covariant nets of standard subspaces, and both
+are theorems in the model cases of Section~\ref{sec:models}; neither could be verified against a source in
+this session.  Two independent remarks make the risk small: (i) by Proposition~\ref{prop:H2} the geometric
+infimum can never be \emph{smaller} than $\frac14\gB$, so (4) can only fail in the direction
+``$\inf_h>\frac14\gB$'', i.e.\ the geometric family would be non-optimal; (ii) for the free fermion the
+identity (4) is a \emph{theorem} (\texttt{uhlmann\_upper\_bound.tex}, Prop.~``The infimum''), with
+$\mathcal A'$ in place of $\{T(h)\}$ and the same value.  \emph{Theorem~B does not use this lemma}
+(Theorem~\ref{thm:linear} plus Section~\ref{sec:value} bypass it).
+\end{verdictgap}
+
+\section{The value: $\gamma_0=2/(3\pi^2)$}\label{sec:value}
+
+\begin{theorem}[Value of the universal constant]\label{thm:value}
+$\gamma_0=\dfrac{2}{3\pi^2}$, hence for every net as in Theorem~\ref{thm:linear}
+\begin{equation}\label{eq:value}
+ \gB=4\dist\bigl(T(\gtot)\Om,\overline{\Mpsa\Om}\bigr)^2=\frac{2c}{3\pi^2}.
+\end{equation}
+\end{theorem}
+\lstep{1}{1}{For the one-component free chiral Dirac fermion net $\cF$ ($c=1$) with the geometry
+ \eqref{eq:geom} and the field $\gtot=-\chi$ of \eqref{eq:chi},
+ $\dist\bigl(T(\gtot)\Om,\overline{\cF(I)'_{\mathrm{sa}}\Om}\bigr)^2=\dfrac1{6\pi^2}$.}
+\lproof
+\lstep{2}{1}{In \texttt{rigor/uhlmann\_upper\_bound.tex} the vector $a^{\cF}$ is defined as the element of
+ $\mathcal H^{(1,1)}\cong\Stwo(\Pi_+H,\Pi_-H)$ corresponding to $-i\,\Pi_-D\Pi_+$, with
+ $D=\chi\partial_x+\frac12\chi'$, and Prop.~``The infimum'' proves
+ $\dist(a^{\cF},H_{\cF(I)'})^2=\frac{g_B}4=\frac1{6\pi^2}$.}
+\lby{\texttt{uhlmann\_upper\_bound.tex}, Lemma~``\texttt{lem:tangentvec}'' and
+ Prop.~``\texttt{prop:infimum}''; the chain there is
+ $\inf_{h'\in\mathcal A'}\norm{\Pi_-(D+ih')\Pi_+}_2^2=\dist(a^\cF,\overline{\mathcal K})^2
+ =\dist(a^\cF,H_{\cF(I)'})^2=\frac14 g_B$ with $g_B=\frac2{3\pi^2}$ from
+ \texttt{rigor/quadratic\_limit.tex} Prop.~5.1}
+\lstep{2}{2}{$a^{\cF}=-T(\gtot)\Om$ in the normalisation (S2).}
+\lby{for the free fermion the diffeomorphism representation is
+ $U(\exp\tau f\partial)=\Gamma(W_{\exp\tau f\partial})$ with the half-density push-forward
+ $(W_\phi f)(y)=f(\phi^{-1}(y))((\phi^{-1})'(y))^{1/2}$, so $T(f)=\,:\!\mathrm d\Gamma(-i\mathfrak L_f)\!:$ with
+ $\mathfrak L_f=f\partial_x+\frac12f'$; hence $T(f)\Om=\Pi_-(-i\mathfrak L_f)\Pi_+$ in
+ $\mathcal H^{(1,1)}$; with $f=\gtot=-\chi$, $\mathfrak L_{\gtot}=-D$ and
+ $T(\gtot)\Om=i\,\Pi_-D\Pi_+=-a^{\cF}$}
+\lstep{2}{3}{$\dist(-b,R)=\dist(b,R)$ for a real-linear subspace $R$.}
+\lby{$R=-R$}
+\lqed{2}{4}\lby{$\langle2\rangle1$--$\langle2\rangle3$}
+\lstep{1}{2}{$\cF$ satisfies the hypotheses of Theorem~\ref{thm:linear} with $c=1$.}
+\lby{$\cF$ is diffeomorphism covariant with $c=1$ (normalisation checked: for
+ $T(f)=\,:\!\mathrm d\Gamma(-i\mathfrak L_f)\!:$ one has
+ $\norm{T(f)\Om}^2=\norm{\Pi_-\mathfrak L_f\Pi_+}_{\Stwo}^2=\frac1{48\pi^2}\int_0^\infty p^3|\widehat
+ f(p)|^2dp$, i.e.\ \eqref{eq:TT} at $c=1$), it satisfies (BW), and $a=T(\gtot)\Om\in\HT$.  \emph{It does
+ \textbf{not} satisfy Haag duality}: for the Dirac field net twisted duality
+ $\cF(I)'=Z\cF(I')Z^*$ holds instead.  Theorem~\ref{thm:linear} uses neither (HD) nor (RS), and its
+ geometric input survives the grading (Remark~\ref{rem:klein}), so it applies to $\cF$}
+\lstep{1}{3}{$\gamma_0=\gB(\cF)/1=4\cdot\frac1{6\pi^2}=\frac2{3\pi^2}$.}
+\lby{$\langle1\rangle1$, $\langle1\rangle2$ and Definition~\ref{def:a}}
+\lqed{1}{4}\lby{Theorem~\ref{thm:linear} and $\langle1\rangle3$}
+
+\subsection{The independent modular-frame / $x$-space evaluation, and what it does and does not establish}
+
+Note~7 \S3 and \texttt{rigor/collar\_and\_invariant\_formula.tex} evaluate $\gB$ a second time, from the
+modular spectral measure.  Precisely, what is used from there is:
+\begin{enumerate}[leftmargin=1.7em]
+\item the thermal spectral density of the stress tensor,
+ $\Wh(k)=\frac{c}{24\pi}\frac{k(k^2+1)}{e^{2\pi k}-1}$ (Note~7, Lemma~3.1'' / eq.~(What)), derived
+ \emph{either} from the $\xi$-frame two-point function $W(u)=\frac{c}{128\pi^2}\sinh^{-4}\frac{u-i0}2$
+ \emph{or}, with no thermal input at all, from \eqref{eq:TT} and the geometric dilation by the Mellin
+ transform (\texttt{collar\_and\_invariant\_formula.tex}, Prop.~``$x$-space derivation of $\Wh$'');
+\item the tangent field in the modular frame,
+ $\gt(\xi)=-4\sinh^2\frac\xi2$ for $\xi>0$, $\gt=0$ for $\xi<0$, with
+ $\gh(k)=\frac{-2i}{k(k^2+1)}$ \emph{defined by analytic continuation}
+ (Note~7 eq.~(ghat); \texttt{collar\_and\_invariant\_formula.tex}, Prop.~``$x$-space derivation of $\gh$'');
+\item the spectral prescription $d\mu(\log\lambda)=\frac1{2\pi}\Wh(k)|\gh(k)|^2dk$ at $\log\lambda=2\pi k$,
+ with the sign fixed by (BW) $+$ (HD), inserted into
+ $\gB=2\int\frac{(\lambda-1)^2}{\lambda+1}d\mu(\lambda)$, giving
+ $\gB=\frac{c}{6\pi^2}\int_{\mathbb R}\frac{\tanh\pi k}{k(k^2+1)}dk=\frac{2c}{3\pi^2}$ via
+ $\int_0^\infty\frac{\tanh\pi k}{k(k^2+1)}dk=2$.
+\end{enumerate}
+
+\begin{verdictgap}
+\textbf{The modular-frame route is a consistent prescription, not a proof, and the smooth extension does
+\emph{not} repair it.}  Three separate points, which the brief conflates.
+\emph{(i)} The extension \emph{does} make $a=T(\gtot)\Om$ a vector (Remark~\ref{rem:vector}), hence makes the
+spectral measure $\mu$ of $a$ with respect to $\Delta$ a \emph{finite} measure and
+$\ip a{(1+\Delta)^{-1}a}=\int\frac{d\mu}{1+\lambda}$ absolutely convergent.  To that extent the spectral
+integrals become legitimate.
+\emph{(ii)} But the $\mu$ of item~3 above is \emph{not} the spectral measure of $a$: it is computed from
+$\gt$, i.e.\ from $\gtot\mathbf 1_I$, whose stress-tensor vector does \emph{not} exist
+(the jump of $\gtot\mathbf 1_I$ at $x=L$ gives $\widehat{\cdot}=O(p^{-1})$ and
+$\int^\infty p^3|\widehat\cdot|^2dp=\infty$).  The $\xi$-chart covers only $I$, so the part of $\gtot$
+living in $I'$ --- exactly the part that removes the jump --- is invisible to it.  Consequently the
+disjoint-strip obstruction diagnosed in \texttt{collar\_and\_invariant\_formula.tex},
+Remark~``Where the formula is only a prescription'' ($\int_0^1g(u)u^{-\sigma}du$ needs
+$\operatorname{Re}\sigma<1$, $\int_0^1g(u)u^{\sigma-4}du$ needs $\operatorname{Re}\sigma>3$) persists
+verbatim for $\gtot$, because it is caused by $\gtot(L)=-L\neq0$ and the extension does not change
+$\gtot$ near $x=L$ from inside.
+\emph{(iii)} Moreover the formula $\gB=2\int\frac{(\lambda-1)^2}{\lambda+1}d\mu$ is
+Note~7 Lemma~2.1(2), whose hypothesis is $A\in\cM$ and $A\Om\in D(\Delta)$; for $A=T(\gtot)$ the first
+already fails ($\supp\gtot\not\subset I$).  The correct unconditional formula for a tangent vector that is
+not affiliated with $\cM$ is the $J$-form $\frac14\gB=\norm{ua}^2-\operatorname{Re}\ip{ua}{Jua}$, whose two
+terms are \emph{not} related by the KMS symmetry $d\mu(\lambda^{-1})=\lambda\,d\mu(\lambda)$ used to pass
+between the two forms.
+\textbf{Net effect:} the number $\frac{2c}{3\pi^2}$ is established here by Theorem~\ref{thm:value}
+($c$-linearity $+$ the rigorous free-fermion value), and the modular-frame computation is an independent
+\emph{confirmation} of the same number (it agrees at $c=1$ with a computation sharing no step with it, and
+\texttt{collar\_and\_invariant\_formula.tex} \S{}``Numerical verification'' reassembles it to $10^{-11}$),
+but it is not, and is not made by the extension into, a proof.
+\end{verdictgap}
+
+\subsection{An independent numerical check of the variational form}\label{sec:num}
+
+Lemma~\ref{lem:standard}(4) and \eqref{eq:normTg} turn $\frac14\gB$ into a \emph{net-free} minimisation:
+with $c=1$ and $\norm G_{3/2}^2:=\int_{\mathbb R}|p|^3|\widehat G(p)|^2\frac{dp}{2\pi}$,
+\begin{equation}\label{eq:varnum}
+ \tfrac14\gB=\frac1{48\pi}\,\inf\Bigl\{\norm G_{3/2}^2:\ G\ \text{real},\
+ G(x)=0\ (x\le0),\ G(x)=-x^2\ (0\le x\le1)\Bigr\},
+\end{equation}
+the competitor $G$ being free on $I'=(1,\infty)$ (necessarily $G(1)=-1$, since a jump would make
+$\norm G_{3/2}=\infty$; this is again $\gtot(L)\ne0$).  The predicted value is
+$\inf\norm G_{3/2}^2=48\pi\cdot\frac1{6\pi^2}=\frac8\pi=2.546479\ldots$
+
+A Rayleigh--Ritz computation (FFT evaluation of $\norm\cdot_{3/2}$ on $[-\ell,\ell]$ with $2^{20}$ points;
+trial family $G=G_0+\sum_jc_j\psi_j$, $G_0$ a fixed $C^{1,1}$ continuation, $\psi_j(u)=u^ke^{-\alpha_ju}$
+and $u^2(1+u)^{-q_j}$, $u=x-1$, $k=2,3,4$, $27$ functions) gives the decreasing upper bounds
+\[
+ \begin{array}{c|ccc}
+ \ell & 512 & 1024 & 2048\\\hline
+ \inf\norm G_{3/2}^2 & 2.5678 & 2.5630 & 2.5579
+ \end{array}
+ \qquad\longrightarrow\qquad \frac8\pi=2.5465 ,
+\]
+i.e.\ agreement to $0.45\%$ and monotonically from above, as a Rayleigh--Ritz bound must be (the residue is
+box- and basis-truncation; the minimiser has a slowly decaying tail).  \emph{Two structural facts are
+confirmed exactly by the same computation}: the minimum is independent of the chosen continuation $G_0$
+(two different $G_0$ agree to six digits --- this is Lemma~\ref{lem:gauge} numerically), and it is finite
+only because the competitor is allowed to be nonzero at $x=1$.
+Script: \texttt{rigor/vB2.py}.
+
+\section{Theorem B}\label{sec:thmB}
+
+\begin{theorem}[Conditional universality; Theorem~B]\label{thm:B}
+Let $(\cA,U,\Om)$ be a diffeomorphism covariant conformal net on $S^1$ with central charge $c$ satisfying
+Haag duality \textup{(HD)}, Bisognano--Wichmann \textup{(BW)} and Reeh--Schlieder \textup{(RS)}, and let
+$A=(-\infty,0)$, $D=(0,L)$, $I=AD$, $\cM=\cA(I)$, with the zero-collar recovery curve
+$\omega_s=\omega\circ\Ad U_s|_{\cM}$ of \textup{(H1)} attached to the compression $k_s(x)=Lx/(L+sx)$ on $D$.
+Assume \textup{(H1)}, \textup{(H2)}--\textup{(H2$'$)} and \textup{(H3)} \textup{(}the last is redundant
+here, being implied by \textup{(H2)}: Remark~\textup{\ref{rem:H2H3}}\textup{)}.  Then, with $\zeta=as/(a+L)$ the cross ratio of Note~5
+Lemma~1.1 \textup{(}here $a=\infty$, so $\zeta=s$\textup{)},
+\begin{equation}\label{eq:B}
+ \boxed{\ -\log\Fid(\omega,\omega_s)=\frac{s^2}{8}\,\gB+o(s^2),\qquad
+ \gB=4\dist\bigl(T(\gtot)\Om,\overline{\Mpsa\Om}\bigr)^2=\frac{2c}{3\pi^2},\qquad
+ f_2=\frac{\gB}8=\frac{c}{12\pi^2}. \ }
+\end{equation}
+Here $f_2$ is defined by $\Phi(\zeta):=-\log\Fid(\omega,\omega_\zeta)=f_2\,\zeta^2+o(\zeta^2)$.
+\end{theorem}
+\lstep{1}{1}{$-\log\Fid\ge\frac{s^2}8\gB+o(s^2)$.}
+\lby{Proposition~\ref{prop:H3}, using (H1), (H3), (RS)}
+\lstep{1}{2}{$-\log\Fid\le\frac{s^2}8\gB+o(s^2)$.}
+\lby{Proposition~\ref{prop:H2}, using (H1), (H2), (RS)}
+\lstep{1}{3}{$\gB=4\dist(a,\HMp)^2=\frac{2c}{3\pi^2}$.}
+\lby{Definition~\ref{def:a}, Theorem~\ref{thm:linear} (using (BW), (H2)) and Theorem~\ref{thm:value}}
+\lstep{1}{4}{$\zeta=s$ and $f_2=\gB/8=\frac{c}{12\pi^2}$.}
+\lby{(S3): the half-line configuration $a=\infty$ gives $\zeta=as/(a+L)=s$; then
+ $\langle1\rangle1$--$\langle1\rangle3$ give $\Phi(\zeta)=\frac{\zeta^2}8\gB+o(\zeta^2)$}
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$}
+
+\begin{verdictok}
+Theorem~B is proved \emph{modulo (H1)--(H3)}, which are hypotheses, and modulo nothing else: the two halves
+of the expansion are the imported theorems of \texttt{lemma\_second\_variation.tex} with their hypotheses
+checked (Propositions~\ref{prop:H3}, \ref{prop:H2}), and the value of $\gB$ is Theorem~\ref{thm:linear}
+(unconditional, given (BW) and (H2)) together with Theorem~\ref{thm:value} (the rigorous free-fermion
+number).  The Reeh--Schlieder gap of Lemma~\ref{lem:RST} and the one-particle (BW1) enter only the
+\emph{variational form} of $\gB$, not Theorem~B.  The Kubo--Mori statement $s_2=c/12$ is \emph{not} proved
+here (Section~\ref{sec:remains}).
+\end{verdictok}
+
+\section{Model cases: the free fermion, and tensor products}\label{sec:models}
+
+\subsection{The free chiral Dirac fermion ($c=1$), and $r$ copies ($c=r$)}
+
+\begin{proposition}[(H1)--(H3) for $\cF_r$]\label{prop:fermion}
+For the $r$-component free chiral fermion net $\cF_r$ in the Fock representation of \eqref{eq:geom}:
+\begin{enumerate}
+\item \textup{(H1)} holds with $U_s=\Gamma(\Wt_s)$, $\Wt_s=W_{\kt_s}$ the half-density push-forward of the
+ $C^{1,1}$ flow $\kt_s$;
+\item \textup{(H3)} holds on the $*$-algebra generated by $\{a(f):f\in L^2(I)\}$;
+\item the conclusion of Theorem~B holds with $c=r$, unconditionally --- but \emph{not} as an instance of
+ Theorem~\ref{thm:B}: it is quoted from Theorem ``Theorem~A closed'' of
+ \texttt{uhlmann\_upper\_bound.tex}, which is proved by a different route.  \textbf{The free fermion is the
+ \emph{input} of Theorem~\ref{thm:value}, not a test of Theorem~\ref{thm:B}.}
+\end{enumerate}
+\end{proposition}
+\lstep{1}{1}{(1).}
+\lby{\texttt{uhlmann\_upper\_bound.tex}: Prop.~``Explicit Hilbert--Schmidt bound''
+ ($\norm{\Pi_-\Wt_s\Pi_+}_2\le C_0s$, from Lemma ``Kernel of the projection defect''), Cor.~``The
+ implementer'' (Shale--Stinespring: the Bogoliubov automorphism of $\Wt_s$ is unitarily implemented),
+ Prop.~``Vector representative'' ($\Psi_s=\Gamma(\Wt_s)^*\Om$ represents $\widetilde\omega_s$ on
+ $\cM=\cF(I)$), and Lemma ``Commutant elements from $I'$'' plus Remark ``The graded structure''
+ for the locality clause}
+\lstep{1}{2}{(2).}
+\lby{\texttt{uhlmann\_upper\_bound.tex}, Lemma ``\texttt{lem:tangentvec}'' $\langle1\rangle2$,
+ $\langle1\rangle4$: $s\mapsto\widetilde Q_s=Q-E_IG_sE_I$ is $\Stwo$-differentiable at $s=0$ with
+ $\dot Q=-E_IG^{(1)}E_I$, and $\widetilde\omega_s$ is the quasi-free state of symbol $\widetilde Q_s$, so
+ every polynomial in the $a(f)$, $f\in L^2(I)$, has an expansion \eqref{eq:H3} by Wick's theorem; the
+ generated $*$-algebra is $\sigma$-weakly, hence $*$-strongly, dense in $\cF(I)$}
+\lstep{1}{3}{(3).}
+\lby{\texttt{uhlmann\_upper\_bound.tex}, Theorem ``Theorem~A closed'':
+ $\lim_{\zeta\downarrow0}\Phi(\zeta)/\zeta^2=\frac{g_B}8=\frac r{12\pi^2}$, proved there without (H2)
+ (the upper bound uses the exact determinant formula for $|\ip\Om{\Gamma(U_s)\Om}|$ rather than a
+ first-order vacuum expansion)}
+
+\begin{verdictgap}
+\textbf{(H2) for the free fermion is not literally in the audit.}  The document
+\texttt{uhlmann\_upper\_bound.tex} never asserts norm differentiability of $s\mapsto\Gamma(\Wt_s)^*\Om$;
+it bypasses it by the vacuum-overlap determinant.  What it does prove ---
+$\norm{\Pi_-\Wt_s\Pi_+}_2\le C_0s$, $\norm{G_s-sG^{(1)}}_2\le s\epsilon(s)$ with $\epsilon(s)\to0$, and the
+exponential (Thouless) form of $\Gamma(\Wt_s)^*\Om$ --- is exactly the input from which
+$\norm{\Psi_s-\Om+is\,T(\gtot)\Om}=o(s)$ follows, since in the Thouless form the $n$-pair component is
+$O(\norm{Z_s}_2^n)=O(s^n)$ and the one-pair component is $s\,\Pi_-D\Pi_++o(s)$; but that derivation is not
+written down.  Consequently Proposition~\ref{prop:fermion}(3) is quoted from the audit's own route, and
+(H2) for $\cF_r$ is flagged as a small, clearly repairable gap for track QB.
+\end{verdictgap}
+
+\subsection{Tensor products and additivity in $c$}
+
+\begin{proposition}[Tensor products]\label{prop:tensor}
+Let $\cA=\cA_1\otimes\cA_2$ (with $\Om=\Om_1\otimes\Om_2$, $U=U_1\otimes U_2$, $c=c_1+c_2$) and suppose
+$\cA_1,\cA_2$ satisfy \textup{(HD)}, \textup{(BW)}, \textup{(RS)} and \textup{(H1)--(H3)}.  Then $\cA$ does,
+and
+\begin{equation}\label{eq:tensor}
+ \Fid=\Fid_1\Fid_2,\qquad \gB=\gB^{(1)}+\gB^{(2)},\qquad f_2=f_2^{(1)}+f_2^{(2)},
+\end{equation}
+consistently with $\gB=2c/(3\pi^2)$.
+\end{proposition}
+\lstep{1}{1}{$\cM=\cM_1\bar\otimes\cM_2$, $\cM'=\cM_1'\bar\otimes\cM_2'$, $\Delta=\Delta_1\otimes\Delta_2$,
+ $J=J_1\otimes J_2$, and $\Om$ is cyclic separating.}
+\lby{$\cA(I)=\cA_1(I)\otimes\cA_2(I)$ by construction of the tensor product net; the commutation theorem for
+ tensor products ($({\cM_1\bar\otimes\cM_2})'=\cM_1'\bar\otimes\cM_2'$, Tomita); the modular data of a
+ tensor product state factorise}
+\lstep{1}{2}{$U_s=U_s^{(1)}\otimes U_s^{(2)}$ satisfies (H1), and
+ $T(\gtot)=T_1(\gtot)\otimes\one+\one\otimes T_2(\gtot)$, so
+ $a=a_1\otimes\Om_2+\Om_1\otimes a_2$ and (H2), (H3) hold with
+ $\cM_0=\cM_0^{(1)}\odot\cM_0^{(2)}$.}
+\lby{the stress tensor of a tensor product net is the sum of the stress tensors; $o(s)$ estimates add;
+ the algebraic tensor product of $*$-strongly dense $*$-subalgebras is $*$-strongly dense}
+\lstep{1}{3}{$\dist(a,\HMp)^2=\dist(a_1,H_{\cM_1'})^2+\dist(a_2,H_{\cM_2'})^2$.}
+\lby{$\frac14\gB=\frac12\norm{(1-J)(1+\Delta)^{-1/2}a}^2$ (Theorem~\ref{thm:three}) and
+ $a_1\otimes\Om_2\perp\Om_1\otimes a_2$ with $\ip{\Om_i}{a_i}=0$; $(1+\Delta_1\otimes\Delta_2)^{-1/2}$
+ acts on $a_1\otimes\Om_2$ as $(1+\Delta_1)^{-1/2}\otimes\one$ because $\Delta_2\Om_2=\Om_2$, and
+ similarly for the other term; $J=J_1\otimes J_2$ preserves the splitting}
+\lstep{1}{4}{\eqref{eq:tensor}.}
+\lby{$\langle1\rangle3$ for $\gB$; $\Fid$ multiplies over tensor products of states
+ (Uhlmann's transition probability is multiplicative), hence $-\log\Fid$ and $f_2$ add}
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$}
+
+\begin{verdictok}
+Additivity of $\gB$ under tensor products is an independent confirmation of the $c$-linearity of
+Theorem~\ref{thm:linear}: $r$ copies of the free fermion give $\gB=2r/(3\pi^2)$, matching
+$\gB=2c/(3\pi^2)$ at $c=r$, and matching \texttt{uhlmann\_upper\_bound.tex} Theorem ``Sharp upper bound''
+$\langle1\rangle1$.
+\end{verdictok}
+
+\section{What remains}\label{sec:remains}
+
+\paragraph{(QB) The hypotheses (H1)--(H3) for general nets.}
+Theorem~B is conditional exactly on these and on nothing else.  The state of play, from the brief and from
+the audit:
+\begin{enumerate}[leftmargin=1.7em]
+\item \emph{Free fermion, $r$ copies, tensor products, integer $c$:} (H1), (H3) are proved
+ (Proposition~\ref{prop:fermion}); (H2) is a small written-out gap.  Fock representations of
+ $\mathrm{Diff}(S^1)$ extend to $\mathcal D^\sigma(S^1)$, $\sigma>2$ (Carpi--Del Vecchio--Iovieno--Tanimoto,
+ arXiv:1808.02384), and $\kt_s\in C^{1,1}=W^{2,\infty}\subset H^{5/2-\eps}$, so the extension applies.
+\item \emph{General $c$:} the CDIT theorem covers $\mathcal D^\sigma$ for $\sigma>3$ only, and $\kt_s\notin
+ H^3$ (the jump of $\chi''$ at the touching point $x=0$).  Two routes remain, both open:
+ (a) energy bounds $\norm{T(f)\psi}\le C\norm f_{3/2}\norm{(1+L_0)\psi}$ (Carpi--Weiner; CDIT Prop.~2.2(4)),
+ with $\norm f_{3/2}=\sum_n|f_n|(1+|n|^{3/2})$ finite for piecewise smooth $C^{1,1}$ $f$ (CDIT Prop.~2.3),
+ then essential self-adjointness of $T(\gtot)$ on the finite-energy domain via Nelson's commutator theorem
+ (which needs a bound on $[L_0,T(\gtot)]=-iT(\gtot')$, and $\gtot'$ has a kink --- the norm required must be
+ checked), then $U_s:=e^{isT(\gtot)}$ and (H1) by differentiating $U_s\cA(K)U_s^*$;
+ (b) strong limits of $U(\phi_n)$ for smooth $\phi_n\to\kt_s$ with uniformly bounded energy.
+\item Note that route (a) would give (H2) \emph{for free}: if $U_s=e^{isT(\gtot)}$ is a strongly continuous
+ one-parameter group with $\Om\in D(T(\gtot))$, then (H2) is Stone's theorem, and (H3) follows for
+ $X$ in any core on which the commutator expansion is controlled.  This is why (H2) is stated as
+ differentiability of $\Psi_s=U_s^*\Om$ and not as an assumption on $U_s$ itself.
+\end{enumerate}
+
+\paragraph{(QA, internal) The two one-particle inputs.}
+Lemma~\ref{lem:RST} (Reeh--Schlieder for $T$-vectors) and (BW1) (geometric modular data of $\HTR(I')$ inside
+$\HT$) are used only for the variational form
+$\frac14\gB=\inf_h\norm{T(\gtot+h)\Om}^2$, which is the statement that the geometric trial unitaries
+$U(\phi')$ of Proposition~\ref{prop:geom} are optimal.  They should be pinned to
+Brunetti--Guido--Longo 1993 and Longo's standard-subspace notes with exact locators and screenshots; neither
+source was obtainable in this session.
+
+\paragraph{(QK, O2) The Kubo--Mori half.}
+$D(\omega_s\Vert\omega)=\frac{s^2}2\gKM+o(s^2)$ with $\gKM=\int(\lambda-1)\log\lambda\,d\mu(\lambda)$ is
+\emph{not} proved in type III; \texttt{lemma\_second\_variation.tex} leaves it as Gap~1.  Note that the
+$c$-linearity argument of Theorem~\ref{thm:linear} applies verbatim to $\gKM$ \emph{once the type-III
+second-variation lemma for the relative entropy is available}, because it uses only that the relevant
+quadratic form is a function of $(\HT,\Delta|_{\HT},J|_{\HT},a)$; the missing ingredient is the analytic
+one (Kubo--Mori weight unbounded by $1+\lambda$, so $a\in\Hil$ is not enough; Note~7 \S2.1 requires
+essentially $a\in D(\Delta^{1/2})$ up to a logarithm).  With it, $s_2=\gKM/2=c/12$ and $s_2/f_2=\pi^2$.
+
+\paragraph{Two gaps that this document \emph{removes}.}
+\begin{enumerate}[leftmargin=1.7em]
+\item \emph{The collar interchange.}  \texttt{collar\_and\_invariant\_formula.tex} \S{}Status, item~2, and
+ \texttt{lemma\_second\_variation.tex} Gap~3, note that
+ $\lim_{\eps\to0}\lim_{s\to0}$ versus $\lim_{s\to0}\lim_{\eps\to0}$ is unproved.  The present document works
+ at \emph{zero collar throughout}: $\cM=\cA(I)$ with $I=ABC$, no $\cM_\eps$, no collar limit.  The
+ monotone-convergence proposition ``Data processing and monotone convergence of $\gB$'' is not used.
+\item \emph{The domain condition $T(\gtot)\Om\in D(\Delta^{-1/2})$.}  Note~7's Lemma~3.1 needs it for
+ $\eta=i(S^*-1)a$; the $J$-form of $\gB$ used here needs nothing beyond $a\in\Hil$
+ (Theorem~\ref{thm:three}), and $a\in\Hil$ is arranged by the smooth extension
+ (Remark~\ref{rem:vector}), which is legitimate because the tangent functional on $\cM$ does not see it
+ (Lemma~\ref{lem:gauge}) and the recovered state does not either (Lemma~\ref{lem:ext}).
+\end{enumerate}
+
+\section{Summary}\label{sec:summary}
+
+\begin{center}\small
+\begin{tabular}{@{}p{0.36\textwidth}p{0.58\textwidth}@{}}\toprule
+\textbf{Step} & \textbf{Status}\\\midrule
+Recovered state independent of the extension beyond $L$ (Lemma~\ref{lem:ext})
+ & \textbf{proved}, from (HD) and the locality clause of (H1)\\
+$T(\gtot)\Om\in\Hil$; gauge freedom (Rem.~\ref{rem:vector}, Lemma~\ref{lem:gauge})
+ & \textbf{proved}\\
+$-\log\Fid\ge\frac{s^2}8\gB+o(s^2)$ (Prop.~\ref{prop:H3})
+ & \textbf{proved} from (H3); the $*$-strong density / Kaplansky step is supplied here\\
+$-\log\Fid\le\frac{s^2}8\gB+o(s^2)$ (Prop.~\ref{prop:H2})
+ & \textbf{proved} from (H2)\\
+Geometric trial unitaries $u'=U(\phi')$, explicit $o(s^2)$ (Prop.~\ref{prop:geom})
+ & \textbf{proved} from (H1), (H2), (HD)\\
+$\HT$ reduces $\Delta$, $J$; $\frac14\gB$ computed inside $\HT$ (Lemma~\ref{lem:reduce},
+ Prop.~\ref{prop:reduce}) & \textbf{proved} from (BW)\\
+Universality and $c$-linearity $\gB=c\,\gamma_0$ (Thm.~\ref{thm:linear})
+ & \textbf{proved}\\
+Standard-subspace lemma, variational form $\frac14\gB=\inf_h\norm{T(\gtot+h)\Om}^2$
+ (Lemmas~\ref{lem:RST}, \ref{lem:standard}) & \textbf{GAP}: one-particle Reeh--Schlieder and (BW1) cited,
+ sources not obtained; \emph{not used by Theorem~B}\\
+$\gamma_0=2/(3\pi^2)$ (Thm.~\ref{thm:value})
+ & \textbf{proved} from the free-fermion value of \texttt{uhlmann\_upper\_bound.tex}\\
+Modular-frame / Mellin evaluation
+ & \textbf{prescription only}; the smooth extension does \emph{not} repair the disjoint Mellin strips
+ (verdict in \S\ref{sec:value})\\
+Theorem~B: $-\log\Fid=\frac{s^2}8\frac{2c}{3\pi^2}+o(s^2)$, $f_2=\frac c{12\pi^2}$
+ & \textbf{proved} modulo (H1)--(H3)\\
+(H1)--(H3) for general nets & \textbf{open} (track QB)\\
+Kubo--Mori $s_2=c/12$ & \textbf{open} (track QK)\\\bottomrule
+\end{tabular}
+\end{center}
+
+
+
+\section{Corrections after the referee report (QR1)}\label{sec:qr1}
+
+Referee report: \texttt{rigor/referee\_universality\_theorem\_B.tex} (agent QR1, 2026-09-08).  Verdict there:
+Theorem~\ref{thm:B} stands, no proof-breaking issue; four repairs required.  All four are applied above.
+
+\begin{enumerate}[leftmargin=1.8em]
+\item[\textbf{R1}] \textbf{(H2$'$): $a\in\HT$ is now a hypothesis.}  Lemma~\ref{lem:aInHT} previously derived
+ $a=T(\gtot)\Om\in\HT$ by mollification, which presupposes that the postulated operator $T(\gtot)$ of (H2)
+ has $T(\gtot)\Om=\lim_nT(f_n)\Om$ --- not implied by (H1)--(H3), and a priori violable by an element of
+ $\HT^\perp$.  Since $a\in\HT$ carries the whole $c$-linearity theorem, the clause (H2$'$) was added to
+ (H2) in \S\ref{sec:setting}, with the Carpi--Weiner energy bound
+ $\norm{T(f)\psi}\le C\norm f_{3/2}\norm{(1+L_0)\psi}$ (CDIT Prop.~2.2(4)) as its source and
+ \texttt{rigor/implementation\_C11.tex} as the place where it is verified; step
+ $\langle1\rangle0$ of Lemma~\ref{lem:aInHT} records this.
+\item[\textbf{R2}] \textbf{The locality clause of (H1).}  The old clause ``$U(\phi)\in\cA(K)$ for every
+ interval $K$ with $\supp\phi\subset K$'' is \emph{inapplicable} in Lemma~\ref{lem:ext}: there
+ $\phi=\kt_s\circ(\kt^\sharp_s)^{-1}$ is the identity on $J_s$ but differs from the identity immediately to
+ the right of $\partial J_s$, so $\supp\phi=\overline{J_s'}$ and no interval $K$ with
+ $\supp\phi\subset K\subseteq J_s'$ exists.  (H1) now carries the clause in the form in which the
+ covariance theorem is proved, $U(\mathrm{Diff}(K))\subseteq\cA(K)$ with
+ $\mathrm{Diff}(K)=\{\phi:\phi|_{K'}=\mathrm{id}\}$ (eq.~\eqref{eq:H1loc}); steps
+ $\langle1\rangle1$--$\langle1\rangle2$ of Lemma~\ref{lem:ext} were rewritten accordingly.  In
+ Proposition~\ref{prop:geom} $\langle1\rangle1$ the clause applies as before, $\supp\phi'_\tau$ being a
+ compact subset of the open arc $I'$.
+\item[\textbf{R3}] \textbf{The graded case: the old statement was backwards.}  Theorem~\ref{thm:value}
+ $\langle1\rangle2$ asserted that the Dirac field net is Haag dual.  It is not: Haag duality \emph{fails}
+ and twisted duality $\cF(I)'=Z\cF(I')Z^*$ holds, $Z=\frac{1+iV}{1+i}$ (Foit 1983), which is precisely what
+ \texttt{uhlmann\_upper\_bound.tex} uses.  The referee's repair is adopted: Theorem~\ref{thm:linear} uses
+ neither (HD) nor (RS) nor locality, only (S2), (H2$'$) and Lemma~\ref{lem:reduce}(1), and
+ Lemma~\ref{lem:reduce}(1) survives the grading because $J=Z\Theta$ with $\Ad Z$ trivial on even operators
+ and $T(f)$, $U(\phi)$ even, $Z\Om=\Om$.  See Remark~\ref{rem:klein} and the rewritten
+ Theorem~\ref{thm:value} $\langle1\rangle2$.  \emph{Consequence for the logic of the paper}: the value
+ $\gamma_0$ is imported from a net that is not (HD), and this is now justified rather than mis-stated.
+\item[\textbf{R4}] \textbf{Minor repairs.}
+ (a) Proposition~\ref{prop:H3} $\langle1\rangle4$ claimed density in $\HM$; that is false (the set is
+ real-orthogonal to $\Om\in\HM$, real codimension~$1$).  The step now claims density in
+ $\HM\cap(\mathbb R\Om)^{\perp_{\mathbb R}}$ and a new step $\langle2\rangle2$ supplies the missing line
+ $\sup_{\HM}\Theta=\sup_{\HM\cap(\mathbb R\Om)^{\perp_{\mathbb R}}}\Theta$ ($\Theta$ decreases along $\Om$);
+ the conclusion is unchanged.
+ (b) The hypothesis list of Theorem~\ref{thm:linear} was trimmed to (S2), (BW), (H2)--(H2$'$).
+ (c) Remark~\ref{rem:H2H3} records that (H2) $\Rightarrow$ (H3) with $\cM_0=\cM$ and the same $\varphi$, so
+ (H3) is redundant in Theorem~\ref{thm:B} and the two hypotheses are automatically compatible; (H3) is
+ retained only because it is strictly weaker and keeps Proposition~\ref{prop:H3} available where no tangent
+ vector is known.
+ (d) Haag duality was replaced by locality in the three places where only
+ $\cA(K)\subseteq\cA(I)'$, $K\subseteq I'$, is used (Lemmas~\ref{lem:ext}, \ref{lem:gauge},
+ Proposition~\ref{prop:geom}).
+ (e) Proposition~\ref{prop:fermion}(3) now states explicitly that it is quoted from
+ ``Theorem~A closed'' and is \emph{not} an instance of Theorem~\ref{thm:B}: the fermion is the input of
+ Theorem~\ref{thm:value}, not a test.
+\end{enumerate}
+
+Not changed, because the referee confirmed them: the two admitted GAPs (Lemma~\ref{lem:RST} and (BW1)) are
+unused by Theorem~\ref{thm:B}; the normalisation chain $s=\zeta$, $c=r$, $f_2=\gB/8$ (the referee verified
+in addition the missing link $\norm{T(f)\Om}^2=\norm{\Pi_-\mathfrak L_f\Pi_+}_{\Stwo}^2$, i.e.\ that the
+fermion of \texttt{uhlmann\_upper\_bound.tex} sits at $c=1$ in the normalisation \eqref{eq:TT}); and the
+verdict on the modular-frame/Mellin route.
+
+\end{document}

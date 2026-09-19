@@ -1,0 +1,20 @@
+step-2 image of p_1 = 1.996429  (must be >= p_2 = 1.300000): True
+sigma_1 = 1.452991   sigma_2 = 0.201550
+
+claimed corner set (junctions): p_3 = 3.400000, p_4 = 4.300000
+actual   corner at  k_2^{-1}(p_3) = 3.200568   (NOT a junction; p_3 = 3.400000)
+k_2'(x_0) = 0.670114
+
+jumps of Phi'' / Phi' :
+   at p_3 (claimed, sigma_1)   : +0.000054      (claim -2 sigma: -2.905983 / -0.403101)
+   at x_0 = k_2^{-1}(p_3)      : -1.947332      (claim -2 sigma: -2.905983 / -0.403101)
+   at p_4 (sigma_2)            : -0.403062      (claim -2 sigma: -2.905983 / -0.403101)
+
+predicted displaced mass -2 sigma_1 k_2'(x_0) = -1.947339
+measured                                        -1.947332
+mass at the junction p_3                        +0.000054  (claim -2.905983)
+
+total Schwarzian mass: claimed -3.309084, actual -2.350395  (ratio 0.7103)
+
+control (A_B = A_2, a single interval): both corners at p_3;
+   jump = -3.634266, claim -2(sigma_1+sigma_2) = -3.634274

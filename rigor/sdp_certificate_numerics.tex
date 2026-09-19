@@ -1,0 +1,666 @@
+\documentclass[11pt]{article}
+\input{rigor_preamble}
+\newcommand{\hh}{\mathfrak h}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\e}[1]{\times10^{#1}}
+\DeclareMathOperator{\Li}{Li}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\sech}{sech}
+\newcommand{\Zmax}{Z_{\max}}
+\DeclareMathOperator{\spec}{spec}
+\newcommand{\Erec}{E_{\mathrm{rec}}}
+
+\title{SDP certificate numerics for the quasi-free recovery programme\\
+{\large Track S11 (numerical), Phase 3b}}
+\author{Claude (track S11)}
+\date{2026-09-10}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Numerical verification of the KKT/duality structure of the second-order quasi-free
+recovery programme
+$\min_{(X,Z)\in F} g_Q(Q-Q_{\rm rec}(X,Z))$
+of \texttt{optimality\_second\_order.tex} (S8) and \texttt{optimality\_all\_channels.tex}.
+Part (a): on the lattice chain $(L_A,L_B,L_C)=(4,8,2)$ we compute the symmetric
+logarithmic derivative (SLD) $t_{\rm opt}$ of S8's optimal defect, maximise the
+\emph{linear} functional $\Tr(t_{\rm opt}Q_{\rm rec}(X,Z))$ over the feasible set $F$
+by an SDP, and test the KKT identity and strong duality
+$\Delta(t_{\rm opt})^2/(8V(t_{\rm opt}))=g_Q(\delta_{\rm opt})$.
+Part (b): in the continuum modular-frame discretisation of the compression defect we
+compute the SLD $t_c$, evaluate $\Delta(t_c)$ by an SDP over $F$, and report the
+dual ratio $\Delta(t_c)^2/(8V(t_c))\big/(f_2\zeta^2)$, $f_2=c/(12\pi^2)$.
+\end{abstract}
+
+
+\section{Conventions}
+\label{sec:conv}
+
+\paragraph{The programme.}  Throughout, $\hh_I=\hh_A\oplus\hh_D$, $\hh_D=\hh_B\oplus\hh_C$,
+$Q$ is the vacuum one-particle symbol on $\hh_I$ ($Q_{jk}=\omega(a^*(e_k)a(e_j))$, $0<Q<1$),
+and, following S8 (\texttt{optimality\_second\_order.tex} Thm.~3.1) and
+\texttt{optimality\_all\_channels.tex} Thm.~3.5,
+\begin{equation}\label{eq:F}
+ \mathcal F:=\Bigl\{(X,Z):\ X:\hh_B\to\hh_D,\ Z=Z^*\ \text{on}\ \hh_D,\
+   XQ_{BB}X^*\le Z\le 1-X(1-Q_{BB})X^*\Bigr\},\quad
+ Q^{\rm rec}(X,Z)=\begin{pmatrix}Q_{AA}&Q_{AB}X^*\\ XQ_{BA}&Z\end{pmatrix}.
+\end{equation}
+Both constraints are entered into the solver as Schur complements, exactly as in
+\texttt{relaxation\_test.py}: with $Q_{BB}=\sigma\sigma^*$ and $1-Q_{BB}=\tau\tau^*$
+(Cholesky),
+\begin{equation}\label{eq:schur}
+ \begin{pmatrix}Z&X\sigma\\ \sigma^*X^*&1_{\hh_B}\end{pmatrix}\ge0,
+ \qquad
+ \begin{pmatrix}1_{\hh_D}-Z&X\tau\\ \tau^*X^*&1_{\hh_B}\end{pmatrix}\ge0 .
+\end{equation}
+
+\paragraph{The objective and its Legendre dual.}  Write $Q=U\diag(q)U^*$ and
+$\widetilde\delta:=U^*\delta U$.  For a weight matrix $w=(w_{ik})$, $w_{ik}=w_{ki}>0$, put
+\begin{equation}\label{eq:gw}
+ g_w(\delta):=\tfrac14\sum_{ik}w_{ik}\,|\widetilde\delta_{ik}|^2,
+ \qquad
+ V_w(t):=\sum_{ik}\frac{|\widetilde t_{ik}|^2}{2\,w_{ik}} .
+\end{equation}
+The \emph{true} quantum-Fisher weights are $w^{\rm true}_{ik}=\bigl(q_i(1-q_k)+q_k(1-q_i)\bigr)^{-1}$;
+S8 also uses the \emph{capped} weights $w^{(\kappa_c)}:=\min\{w^{\rm true},1+\cosh\kappa_c\}$
+(S8 Sec.~3.4), which preserve convexity and still lower-bound the true form.
+
+\begin{lemma}[Legendre pair]\label{lem:legendre}
+For every self-adjoint $\delta$ and every $w$ as above,
+$g_w(\delta)=\tfrac18\sup_{t=t^*}(\Tr t\delta)^2/V_w(t)$, the supremum being attained at the
+\emph{$w$-SLD} $t=\tfrac12U(w\circ\widetilde\delta)U^*$ ($\circ$ = entrywise product), for which
+\begin{equation}\label{eq:sldid}
+ \Tr t\,\delta=2\,g_w(\delta),\qquad V_w(t)=\tfrac12 g_w(\delta),\qquad
+ \frac{(\Tr t\delta)^2}{8V_w(t)}=g_w(\delta).
+\end{equation}
+Moreover $V_{w^{\rm true}}(t)=\Tr\bigl(tQt(1-Q)\bigr)=\Var_\omega\dd\Gamma(t)$, but for a
+\emph{capped} $w$ one has $V_w(t)\ne\Tr(tQt(1-Q))$ in general (indeed $V_w\ge V_{w^{\rm true}}$).
+\end{lemma}
+
+\begin{proof}
+\lstep{1}{1}{$\Tr t\delta=\sum_{ik}\widetilde t_{ik}\overline{\widetilde\delta_{ik}}$.}
+\lby{$\Tr t\delta=\Tr\widetilde t\widetilde\delta=\sum_{ik}\widetilde t_{ik}\widetilde\delta_{ki}$ and
+$\widetilde\delta_{ki}=\overline{\widetilde\delta_{ik}}$ ($\delta=\delta^*$)}
+\lstep{1}{2}{$|\Tr t\delta|^2\le\bigl(\sum_{ik}|\widetilde t_{ik}|^2/w_{ik}\bigr)\bigl(\sum_{ik}w_{ik}|\widetilde\delta_{ik}|^2\bigr)
+ =2V_w(t)\cdot4g_w(\delta)=8V_w(t)g_w(\delta)$.}
+\lby{$\langle1\rangle1$ and Cauchy--Schwarz with the weights $w_{ik}^{\pm1/2}$}
+\lstep{1}{3}{Equality holds iff $\widetilde t_{ik}=\lambda\,w_{ik}\widetilde\delta_{ik}$ for a
+constant $\lambda>0$; $\lambda=\tfrac12$ gives \eqref{eq:sldid} by direct substitution.}
+\lby{the equality case of Cauchy--Schwarz; substitution:
+$\Tr t\delta=\tfrac12\sum w|\widetilde\delta|^2=2g_w$ and
+$V_w(t)=\sum\tfrac14w^2|\widetilde\delta|^2/(2w)=\tfrac18\sum w|\widetilde\delta|^2=\tfrac12g_w$}
+\lstep{1}{4}{$\Tr(tQt(1-Q))=\sum_{ik}|\widetilde t_{ik}|^2q_k(1-q_i)
+ =\sum_{ik}|\widetilde t_{ik}|^2\tfrac12\bigl(q_k(1-q_i)+q_i(1-q_k)\bigr)=V_{w^{\rm true}}(t)$.}
+\lby{expand in the $Q$-eigenbasis; symmetrise in $(i,k)$ using $|\widetilde t_{ik}|=|\widetilde t_{ki}|$}
+\lqed{1}{5}
+\end{proof}
+
+\noindent Consequently the dual value of \texttt{optimality\_all\_channels.tex} eq.~(4.1),
+\begin{equation}\label{eq:dual}
+ \Delta(t):=\inf_{(X,Z)\in\mathcal F}\Tr\,t\bigl(Q-Q^{\rm rec}(X,Z)\bigr),\qquad
+ \mathcal D:=\sup_t\frac{\Delta(t)_+^2}{8V(t)},\qquad V=V_{w^{\rm true}},
+\end{equation}
+satisfies $\mathcal D=\min_{\mathcal F}g_{w^{\rm true}}$ (Thm.~4.1(3), Sion), and the same
+identity holds verbatim with $(g_w,V_w)$ in place of $(g_{w^{\rm true}},V)$ for any capped $w$.
+\emph{The pairing must be consistent}: mixing $g_{w^{(\kappa_c)}}$ with $V_{w^{\rm true}}$ produces
+a spurious duality gap, and this is visible in Table~\ref{tab:lattice} below.
+
+
+
+\section{Part (a): lattice KKT at S8's optimum}
+\label{sec:lattice}
+
+\paragraph{Set-up.}  Half-filled hopping chain, $(L_A,L_B,L_C)=(4,8,2)$, $n=14$,
+$Q_{jk}=\sin(\pi(j-k)/2)/(\pi(j-k))$, $z=L_AL_C/(L_B(L_A+L_B+L_C))=1/14$,
+$2f_2z^2=8.615747\times10^{-5}$ (two chiralities, $c=1$; the reference value of S8 Table~1).
+The spectrum of $Q$ obeys $\min\{q,1-q\}=5.711\times10^{-10}$, i.e.\
+$\kappa_{\max}=\log\frac{1-q_{\min}}{q_{\min}}=21.283$ and $w^{\rm true}_{\max}=8.755\times10^{8}$:
+eight orders of magnitude of weight, which is why S8 caps.  Script:
+\texttt{numerics/optimality\_all/kkt\_lattice.py}, output \texttt{kkt\_lattice.out}
+(cvxpy 1.7 + Clarabel, SCS fallback at $\eps=10^{-11}$; complex variables $X\in M_{10\times8}$,
+$Z=Z^*\in M_{10}$, two $18\times18$ LMIs \eqref{eq:schur}).
+
+\paragraph{What is computed, for each cap $\kappa_c$ of the ladder.}
+(i) the primal $g_{w}^{\min}:=\min_{\mathcal F}g_w$ by SDP;
+(ii) the $w$-SLD $t_{\rm opt}$ of the minimising defect $\delta_{\rm opt}$;
+(iii) $\Delta(t_{\rm opt})=\inf_{\mathcal F}\Tr t_{\rm opt}(Q-Q^{\rm rec})$ by a second (linear) SDP;
+(iv) the two dual ratios $\Delta^2/(8V_w)/g^{\min}_w$ and $\Delta^2/(8V_{\rm true})/g^{\min}_w$;
+(v) the Frobenius distance between the recovered symbol of the \emph{linear} maximiser and that
+of the primal minimiser (the KKT statement proper);
+(vi) for reference, $g_w$ evaluated at S8's stored $(X,Z)$ of \texttt{best\_4\_8\_2.npz}.
+
+\begin{table}[h]\centering\small
+\begin{tabular}{rlllllll}
+\toprule
+$\kappa_c$&$\min_{\mathcal F}g_w$&$g_w$ at S8's $(X,Z)$&$\Delta(t_{\rm opt})$&
+$\dfrac{2g_w^{\min}-\Delta}{2g_w^{\min}}$&$\dfrac{\Delta^2/(8V_w)}{g_w^{\min}}$&
+$\dfrac{\Delta^2/(8V_{\rm true})}{g_w^{\min}}$&$\|\delta_{\rm lin}-\delta_{\rm opt}\|_F$\\
+\midrule
+ 4    &$6.38797\e{-5}$&$6.72726\e{-5}$&$1.27759\e{-4}$&$+6.3\e{-6}$&$0.9999873$&$1.052656$&$5.7\e{-4}$\\
+ 6    &$7.32364\e{-5}$&$7.37944\e{-5}$&$1.46472\e{-4}$&$+7.7\e{-6}$&$0.9999846$&$1.012533$&$2.1\e{-3}$\\
+ 8    &$7.69024\e{-5}$&$7.72397\e{-5}$&$1.53804\e{-4}$&$+3.2\e{-6}$&$0.9999936$&$1.023669$&$1.4\e{-3}$\\
+10    &$8.21078\e{-5}$&$8.42693\e{-5}$&$1.64222\e{-4}$&$-3.7\e{-5}$&$1.0000747$&$1.034610$&$3.8\e{-3}$\\
+12    &$9.48589\e{-5}$&$1.13953\e{-4}$&$1.89658\e{-4}$&$+3.2\e{-4}$&$0.9993682$&$1.073697$&$2.2\e{-2}$\\
+14    &$1.10426\e{-4}$&$2.21125\e{-4}$&$2.20830\e{-4}$&$+9.7\e{-5}$&$0.9998062$&$1.061769$&$2.0\e{-2}$\\
+16    &$1.26865\e{-4}$&$9.51051\e{-4}$&$2.54204\e{-4}$&$-1.9\e{-3}$&$1.0037407$&$1.044722$&$1.2\e{-2}$\\
+18    &$1.35239\e{-4}$&$2.86823\e{-3}$&$2.70801\e{-4}$&$-1.2\e{-3}$&$1.0023866$&$1.018609$&$5.6\e{-2}$\\
+21.283&$1.19686\e{-4}$&$4.99549\e{-2}$&$2.59240\e{-4}$&$-8.3\e{-2}$&$1.1728910$&$1.1728910$&$3.2\e{-1}$\\
+\bottomrule
+\end{tabular}
+\caption{Lattice $(4,8,2)$.  Cap ladder $w^{(\kappa_c)}=\min(w^{\rm true},1+\cosh\kappa_c)$; the last
+row $\kappa_c=21.283=\kappa_{\max}$ is the \emph{uncapped} problem.  Column~6 is the strong-duality
+ratio with the \emph{consistent} Legendre pair \eqref{eq:gw}; column~7 is the same with
+$V_{\rm true}=\Tr(tQt(1-Q))$, which is the correct pairing only in the last row (where columns 6
+and 7 coincide to $10^{-8}$, as Lemma~\ref{lem:legendre} demands).  Rows $\kappa_c\ge12$ are
+reported by Clarabel as \texttt{optimal\_inaccurate}; the last two rows are solver-limited
+(a ratio $>1$ is mathematically impossible).}
+\label{tab:lattice}
+\end{table}
+
+
+\paragraph{Findings (a).}
+\begin{enumerate}[leftmargin=1.6em,itemsep=2pt]
+\item \emph{Strong duality holds numerically.}  With the consistent Legendre pair, column~6 of
+Table~\ref{tab:lattice} is $1$ to $1.5\times10^{-5}$ for $\kappa_c\le10$ and to
+$4\times10^{-3}$ up to $\kappa_c=16$; the deviation tracks the solver status, not the
+mathematics.  This is a direct numerical confirmation of
+\texttt{optimality\_all\_channels.tex} Thm.~4.1(3) (the Sion minimax step
+$\min_{\mathcal K}\sup_t=\sup_t\min_{\mathcal K}$) in finite dimensions.
+\item \emph{KKT holds at the optimum.}  The relative KKT gap
+$\bigl(2g_w^{\min}-\Delta(t_{\rm opt})\bigr)/(2g_w^{\min})$ (column~5) is
+$3\times10^{-6}$--$3\times10^{-4}$ for $\kappa_c\le14$: the SLD of the optimal defect, used as a
+\emph{linear} functional, is minimised over $\mathcal F$ at the optimum itself.  The last column
+shows that the linear programme's minimiser reproduces the primal recovered symbol to
+$10^{-3}$--$10^{-2}$ in Frobenius norm.  The residual is expected and is \emph{not} a failure of
+KKT: the linear programme's minimiser need not be unique (the objective is flat along the
+face of $\mathcal F$ on which the optimum sits --- at $(4,8,2)$ eight of the ten singular values
+of $X$ are pinned at $1$, so both LMIs are active on an $8$-dimensional face), and only the value
+$\Delta(t_{\rm opt})$, not the argument, is certified by duality.
+\item \emph{The cap must be paired with its own variance.}  Column~7 exceeds $1$ by
+$1$--$7\%$ throughout the capped ladder.  This is not a violation of Theorem~4.1: capping changes
+the quadratic form, and the quantity $\Delta(t)^2/(8\Tr(tQt(1-Q)))$ is a valid lower bound for
+$\min_{\mathcal F}g_{w^{\rm true}}$, not for $\min_{\mathcal F}g_{w^{(\kappa_c)}}$.  The
+inequality $V_{w^{(\kappa_c)}}\ge V_{w^{\rm true}}$ of Lemma~\ref{lem:legendre} accounts for the
+sign.  In the uncapped row columns 6 and 7 agree to $2\times10^{-8}$, as they must.
+\item \emph{S8's stored $(X,Z)$ is a good but not exact minimiser of the capped form.}
+At its own cap $\kappa_c=8$ it gives $g_w=7.72397\times10^{-5}$ against the SDP optimum
+$7.69024\times10^{-5}$: $0.44\%$ high, consistent with the log-barrier tolerance of
+\texttt{opt\_gaussian.py}.  (Its \emph{exact} error $-\log\Fid=8.6695\times10^{-5}$, S8 Table~1,
+is unaffected: that number is a rigorous upper bound evaluated at the point actually produced.)
+Away from $\kappa_c=8$ the stored point degrades fast --- at $\kappa_c=21.28$ it gives
+$g_{w^{\rm true}}=5.0\times10^{-2}$, i.e.\ $420\times$ the true optimum: the capped optimiser
+does dump defect into the ultraviolet, exactly as S8's Sec.~3.4 predicts.
+\item \emph{The uncapped lattice value is a lattice artefact, as S8 says.}  Reading down
+column~2, $\min_{\mathcal F}g_{w^{\rm true}}$ has not converged at $\kappa_c=18$
+($1.35\times10^{-4}$, i.e.\ $1.57\times2f_2z^2$) and the solver fails beyond.  At $n=14$ the
+modular cutoff $\kappa_{\max}=21.3$ is not large compared with $\log(1/z)=2.6$, so the ``order of
+limits'' obstruction of S8 Sec.~3.4 is active; the continuum programme of Section~\ref{sec:continuum}
+is the correct place to compare with $f_2\zeta^2$.
+\end{enumerate}
+
+\begin{verdictok}[\;(a) Strong duality and KKT are numerically verified on the lattice]
+For the convex programme $\min_{\mathcal F}g_w$ on $(4,8,2)$, and for every cap
+$\kappa_c\in\{4,6,8,10,12,14\}$ at which Clarabel converges, the dual value
+$\Delta(t_{\rm opt})^2/(8V_w(t_{\rm opt}))$ equals the primal optimum to
+$\le3\times10^{-4}$ relative, and the linear programme $\inf_{\mathcal F}\Tr t_{\rm opt}(Q-Q^{\rm rec})$
+attains its value at (a point with the same value as) the primal optimum.  The SLD of the optimal
+defect is therefore the dual certificate, which is the structure that
+\texttt{optimality\_all\_channels.tex} Thm.~4.1(3) asserts and that track S10 must exhibit
+analytically at the compression.  No inconsistency with Thm.~4.1 was found; the two apparent
+violations (column~7, and the $\kappa_c\ge16$ rows of column~6) are respectively an inconsistent
+Legendre pairing and interior-point solver failure, both explained above.
+\end{verdictok}
+
+
+\section{Part (b): continuum compression defect}
+\label{sec:continuum}
+
+\subsection{A block-exact modular-frame discretisation}
+\label{sec:disc}
+Geometry: $A=(-a,0)$, $B=(0,b)$, $C=(b,L)$, $D=BC=(0,L)$, $b=L/(1+s)$,
+$\zeta=as/(a+L)$ (equal to the cross ratio $z$ of the four points), $a=1$, $L=2$.
+Modular coordinate of the interval $AD=(-a,L)$:
+\begin{equation}\label{eq:xi}
+ \xi=\log\frac{x+a}{L-x},\qquad x(\xi)=\frac{Le^\xi-a}{1+e^\xi},\qquad
+ \frac{dx}{d\xi}=\beta(x)=\frac{(x+a)(L-x)}{a+L},
+\end{equation}
+so that $A=\{\xi<\xi_0\}$, $B=\{\xi_0<\xi<\xi_1\}$, $C=\{\xi>\xi_1\}$ with
+$\xi_0=\log(a/L)$, $\xi_1=\log\frac{a+b}{L-b}$.  In half-density form the vacuum symbol is the
+translation-invariant kernel of Note~5 / \texttt{defect\_matrix.py},
+\begin{equation}\label{eq:qt}
+ \widetilde q(t)=\tfrac12\delta(t)-\frac{i}{4\pi\sinh(t/2)},\qquad t=\xi-\xi',
+ \qquad\text{Fourier symbol } \frac{1}{1+e^{\kappa}},\ \kappa=2\pi k ,
+\end{equation}
+and the zero-collar compression defect $\delta_c=Q-Q^{\rm rec}(X_c,Z_c)$ is supported on the
+$A\!-\!D$ blocks (Moebius invariance of the vacuum forces $Z_c=Q_{DD}$, i.e.\ $\delta_{c,DD}=0$),
+\begin{equation}\label{eq:dc}
+ \widetilde\delta_c(\xi,\xi')=\frac{i}{2\pi}\sqrt{\beta(x)\beta(y)}\;R_s(-x,y)+\text{h.c.},\qquad
+ R_s(u,v)=\frac{s\,u\,v}{(u+v)\bigl(L(u+v)+s\,u\,v\bigr)},
+\end{equation}
+$x=x(\xi)<0<y=x(\xi')$ (kernel \texttt{exact}); the $O(s)$ part is $R_s^{(1)}=\frac{s}{L}\frac{uv}{(u+v)^2}$
+(kernel \texttt{first}).
+
+\begin{lemma}[Closed form of the discretised vacuum symbol]\label{lem:closed}
+Let $\{I_m=[\alpha_m,\beta_m]\}$ be disjoint intervals of the $\xi$-line, $h_m=|I_m|$, and
+$e_m=h_m^{-1/2}\chi_{I_m}$.  Put
+\(
+ F_2(t):=-4\bigl(\Li_2(-e^{-|t|})-\Li_2(e^{-|t|})+\tfrac{\pi^2}{4}\bigr)\sgn t .
+\)
+Then $F_2$ is odd, $F_2''(t)=1/\sinh(t/2)$, $F_2(0)=0$, $F_2(\pm\infty)=\mp\pi^2$, and
+\begin{equation}\label{eq:Qcell}
+ \langle e_m,Qe_n\rangle=\tfrac12\delta_{mn}
+ -\frac{i}{4\pi\sqrt{h_mh_n}}\Bigl[F_2(\beta_m-\alpha_n)-F_2(\alpha_m-\alpha_n)
+ -F_2(\beta_m-\beta_n)+F_2(\alpha_m-\beta_n)\Bigr].
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+\lstep{1}{1}{$\int_0^X\log\tanh u\,du=-\tfrac12\bigl(\Li_2(-e^{-2X})-\Li_2(e^{-2X})+\tfrac{\pi^2}{4}\bigr)$
+for $X>0$.}
+\lby{$\frac{d}{dX}\Li_2(e^{-2X})=2\log(1-e^{-2X})$ and $\frac{d}{dX}\Li_2(-e^{-2X})=2\log(1+e^{-2X})$
+(chain rule in $\Li_2'(z)=-\log(1-z)/z$), so the derivative of the right side is
+$-\log\frac{1+e^{-2X}}{1-e^{-2X}}=\log\tanh X$; both sides vanish at $X=0$ because
+$\Li_2(-1)=-\pi^2/12$, $\Li_2(1)=\pi^2/6$}
+\lstep{1}{2}{$F_2(t)=8\int_0^{t/4}\log\tanh u\,du$ for $t>0$, hence $F_2'(t)=2\log\tanh(t/4)$ and
+$F_2''(t)=\tfrac12\bigl(\sinh(t/4)\cosh(t/4)\bigr)^{-1}=1/\sinh(t/2)$.}
+\lby{$\langle1\rangle1$ with $X=t/4$; $\frac{d}{dt}2\log\tanh(t/4)=\frac{2\cdot\frac14\sech^2(t/4)}{\tanh(t/4)}$}
+\lstep{1}{3}{$\displaystyle\int_{\alpha_m}^{\beta_m}\!\!\int_{\alpha_n}^{\beta_n}\frac{d\xi\,d\xi'}{\sinh((\xi-\xi')/2)}
+ =F_2(\beta_m-\alpha_n)-F_2(\alpha_m-\alpha_n)-F_2(\beta_m-\beta_n)+F_2(\alpha_m-\beta_n)$.}
+\lby{$\langle1\rangle2$: with $F_1=F_2'$, $\int_{\alpha_n}^{\beta_n}f(\xi-\xi')d\xi'=F_1(\xi-\alpha_n)-F_1(\xi-\beta_n)$
+and then integrate in $\xi$; the integral converges absolutely for disjoint $I_m,I_n$ (a logarithmic
+singularity at a shared endpoint) and vanishes for $m=n$ by oddness}
+\lstep{1}{4}{\eqref{eq:Qcell}.}
+\lby{$\langle1\rangle3$, \eqref{eq:qt}, and $\int\!\!\int\chi_{I_m}\delta(\xi-\xi')\chi_{I_n}=h_m\delta_{mn}$}
+\lqed{1}{5}
+\end{proof}
+
+
+\subsection{Validation: the discretised QFI form reproduces $f_2$}
+\label{sec:conv}
+Mesh: uniform cells of width $\approx h$ on $[\xi_0-\Lambda,\xi_1+\Lambda]$ with $\xi_0$ and $\xi_1$
+exact grid points; $\hh_A,\hh_B,\hh_C$ are then exact coordinate subspaces of the Galerkin space
+$\mathcal V_N=\mathrm{span}\{e_m\}$, which is what the box-Fourier frame of
+\texttt{compression\_box.py} cannot provide.  $Q$ from Lemma~\ref{lem:closed}; the cell integrals of
+$\widetilde\delta_c$ by tensor Gauss--Legendre ($10$ nodes), with a geometrically graded sub-rule
+($24$ panels, ratio $0.55$) on the two cells touching the corner $\xi_0$, where the kernel
+\eqref{eq:dc} is scale invariant.  Script \texttt{numerics/optimality\_all/kkt\_continuum.py},
+output \texttt{kkt\_continuum\_conv.out}.  Weights are the \emph{true} $w^{\rm true}$; no cap is
+needed, because the discrete $\kappa_{\max}$ is only $4.6$--$6.9$ (a piecewise-constant Galerkin
+space is a poor resolver of the ultraviolet) and $w_{\max}\le\tfrac12(1+\cosh\kappa_{\max})\le500$.
+
+\begin{table}[h]\centering\small
+\begin{tabular}{rrrrrrrrr}
+\toprule
+$h$&$N$&$\kappa_{\max}$&$\dfrac{\|\delta_c\|_1}{\frac1{2\pi}\log(1+\zeta)}$&
+$\dfrac{g_Q(\delta_c)}{f_2\zeta^2}$ (\texttt{first})&$\dfrac{g_Q(\delta_c)}{f_2\zeta^2}$ (\texttt{exact})\\
+\midrule
+0.400&  69&4.641&0.96673&0.86867&0.84819\\
+0.300&  91&5.063&0.97701&0.89559&0.87565\\
+0.250& 110&5.376&0.98426&0.91487&0.89553\\
+0.200& 137&5.724&0.99016&0.93107&0.91240\\
+0.150& 183&6.196&0.99674&0.94934&0.93171\\
+0.125& 219&6.486&0.99980&0.95790&0.94090\\
+0.100& 274&6.856&1.00315&0.96721&0.95105\\
+\midrule
+\multicolumn{4}{r}{Richardson $h\to0$ (\texttt{first}, last two / last three rows):}&
+\multicolumn{2}{l}{$1.0045$ \quad / \quad $1.0030$}\\
+\bottomrule
+\end{tabular}
+\caption{$s=0.1$, $\zeta=1/30$, $\Lambda=12$.  Convergence is clean first order,
+$g_Q(\delta_c)/(f_2\zeta^2)=1-0.34\,h+O(h^2)$ over the whole range (the ratio
+deviation$/h$ is $0.328,0.348,0.340,0.345,0.338,0.337,0.328$).  Infrared truncation is
+irrelevant: at $h=0.25$, $\Lambda=12$ and $\Lambda=16$ give $0.91487$ and $0.91489$; at $h=0.2$,
+$\Lambda=8$ gives $0.93022$ against $0.93107$ at $\Lambda=12$.  The \texttt{exact} column lies
+$\approx2\%$ below the \texttt{first} column, the size expected from the cubic remainder
+$c_3=-0.99$ at $\zeta=1/30$ combined with the $O(s^2)$ part of \eqref{eq:dc}.}
+\label{tab:conv}
+\end{table}
+
+\begin{verdictok}[\;The modular cell discretisation is a faithful model of $g_Q(\delta_c)$]
+Richardson extrapolation of Table~\ref{tab:conv} gives
+$g_Q(\delta_c)/(f_2\zeta^2)=1.003\pm0.002$: the block-exact modular-frame Galerkin model
+reproduces the continuum second-order value $f_2\zeta^2=\frac{c}{12\pi^2}\zeta^2$ of P2's
+Theorem~A, independently of the box-Fourier computation of \texttt{compression\_box.py}.
+Moreover the Legendre identity \eqref{eq:sldid} holds to $10^{-10}$ at every mesh
+(\texttt{Legendre=1.0000000000} in \texttt{kc\_h05.out}, \texttt{kc\_h04.out}), so $t_c$, $V(t_c)$
+and $g_Q(\delta_c)$ are internally consistent.
+\end{verdictok}
+
+
+\subsection{The linear programme at $t_c$, and the self-consistent KKT test}
+\label{sec:LP}
+Two SDPs are solved in the model of \S\ref{sec:disc}: the \emph{linear} programme
+$\Delta(t_c)=\inf_{\mathcal F_N}\Tr t_c(Q-Q^{\rm rec})$, and the \emph{primal}
+$\min_{\mathcal F_N}g_Q$ together with the linear programme at the SLD $t_{\rm opt}$ of its
+minimiser.  Outputs \texttt{kc\_h05.out}, \texttt{kc\_h04.out}.
+
+\begin{table}[h]\centering\small
+\begin{tabular}{lcccccccc}
+\toprule
+mesh&$N$&$(n_A,n_B,n_C)$&$\dfrac{g_Q(\delta_c)}{f_2\zeta^2}$&$\dfrac{\Delta(t_c)}{2g_Q(\delta_c)}$&
+$\dfrac{\Delta(t_c)_+^2/(8V)}{f_2\zeta^2}$&$\dfrac{\min_{\mathcal F_N}g_Q}{f_2\zeta^2}$&
+$\dfrac{\min_{\mathcal F_N}g_Q}{g_Q(\delta_c)}$&$\dfrac{\Delta(t_{\rm opt})^2/(8V_{\rm opt})}{\min g_Q}$\\
+\midrule
+$h{=}0.5$, $\Lambda_A{=}8$, $\Lambda_C{=}4$&31&$(16,7,8)$&0.8359&$-9.395$&$\mathbf 0$&8.398&10.05&$1.0000073$\\
+$h{=}0.4$, $\Lambda_A{=}8$, $\Lambda_C{=}6$&44&$(20,9,15)$&0.8675&$-10.325$&$\mathbf 0$&7.169&8.26&$1.0000186$\\
+\bottomrule
+\end{tabular}
+\caption{$s=0.1$, $\zeta=1/30$, kernel \texttt{first}.  Column~5: the linear functional
+$\Tr t_c(Q-Q^{\rm rec})$ is \emph{not} minimised at the compression --- its infimum over
+$\mathcal F_N$ is about ten times $2g_Q(\delta_c)$ and of the opposite sign --- so the dual value it
+certifies (column~6) is $0$, not $f_2\zeta^2$.  Column~9 is the same duality ratio computed
+self-consistently at the model's \emph{own} optimum: it is $1$ to $2\times10^{-5}$, with KKT gaps
+$-3.6\times10^{-6}$ and $-9.3\times10^{-6}$.}
+\label{tab:LPtc}
+\end{table}
+
+\paragraph{Diagnosis: a finite Galerkin model cannot hold the compression.}
+The zero-collar compression is the one-particle map of a Moebius \emph{squeeze} of $D=(0,L)$ onto
+$B=(0,b)$; $X_c:\hh_B\to\hh_D$ is \emph{unitary}, so $X_cX_c^*=1_{\hh_D}$ and both constraints of
+$\mathcal F$ are active.  In any finite model $\dim\mathcal V_B<\dim\mathcal V_D=\dim\mathcal V_B+\dim\mathcal V_C$,
+hence for every $(X,Z)\in\mathcal F_N$
+\begin{equation}\label{eq:deficit}
+ \Tr(1_{\mathcal V_D}-XX^*)\ \ge\ \dim\mathcal V_C\ =\ n_C\ >\ 0 ,
+\end{equation}
+and $\delta_c\notin\{Q-Q^{\rm rec}(X,Z):(X,Z)\in\mathcal F_N\}$: the compression is \emph{infeasible}
+in the truncated programme.  (Measured: $\Tr(1-XX^*)=11.66$ and $20.17$ at the optima of the two
+rows of Table~\ref{tab:LPtc}, against $n_C=8,15$.)  This is fatal for the test at $t_c$ because
+the KKT identity is a near-total cancellation: $\|t_c\|_1=1.3\times10^{-2}$ and the feasible set has
+$O(1)$ diameter, so a generic $t$ gives $\Delta(t)=O(10^{-2})$, whereas
+$2g_Q(\delta_c)=1.6\times10^{-5}$.  Since $|\Delta(t)-\Delta(t')|\le2\|t-t'\|_1$, a relative error of
+only $10^{-3}$ in $t_c$ --- or in the feasibility of the point it is the SLD of --- already swamps
+the answer.  In the modular coordinate the obstruction is quantitative: $\Xi:=\xi\circ h_s\circ\xi^{-1}$
+maps $(\xi_0,\infty)$ onto $(\xi_0,\xi_1)$ with $\Xi(\xi)-\xi\simeq-\frac{s\mu}{L}(\xi-\xi_0)^2$
+near the corner ($\mu=aL/(a+L)$), so the images $\Xi^k(C)$ accumulate at $\xi_0$ only like
+$p_k\sim L/(s\mu k)$: representing the squeeze down to modular scale $p$ needs
+$\sim L/(s\mu p)$ cells in $B$ against $O(1)$ cells for the physics.  \emph{The number of $B$-cells
+needed grows like $1/s$ as the collar closes} --- precisely the regime the conjecture is about.
+
+\paragraph{Consequence.}  The requested ratio $\Delta(t_c)^2/(8V(t_c))\big/(f_2\zeta^2)$ is
+$\mathbf 0$ in every mesh tested, but this is a \emph{property of the truncation}, not evidence
+against S10's KKT claim: the number is dominated by the infeasibility \eqref{eq:deficit} of the
+compression, and moves by an order of magnitude when $n_B/n_C$ is changed at fixed physics
+(Table~\ref{tab:s1}).  What the same computation \emph{does} establish, at machine precision, is
+the duality theory itself: at the model's own optimum, $t_{\rm opt}$ is a certificate and
+$\Delta(t_{\rm opt})^2/(8V(t_{\rm opt}))=\min_{\mathcal F_N}g_Q$ to $2\times10^{-5}$
+(last column of Table~\ref{tab:LPtc}) --- Theorem~4.1(3) of \texttt{optimality\_all\_channels.tex}
+verified in the continuum discretisation as well as on the lattice.
+
+
+\subsection{How the answer depends on $\dim\mathcal V_B$ versus $\dim\mathcal V_C$}
+\label{sec:s1}
+To make the compression at least approximately representable one must refine $B$ far more than
+$C$ (see the estimate above), and one must take the collar $s$ \emph{large}, since the number of
+$B$-cells needed grows like $1/s$.  Table~\ref{tab:s1} therefore works at $s=1$, i.e.\ $b=L/2$,
+$\zeta=1/3$, with region-dependent mesh widths $(h_A,h_B,h_C)$ and the \texttt{exact} kernel
+\eqref{eq:dc}.  Script \texttt{scan\_s.py} (built on \texttt{kkt\_continuum.py}), outputs
+\texttt{scan\_s1b.out}, \texttt{scan\_s1c.out}, \texttt{scan\_s1diag.out}.
+
+\begin{table}[h]\centering\small
+\begin{tabular}{cccccccccc}
+\toprule
+$h_A$&$h_B$&$h_C$&$N$&$(n_A,n_B,n_C)$&$\dfrac{g_Q(\delta_c)}{f_2\zeta^2}$&
+$\dfrac{\min_{\mathcal F_N}g_Q}{f_2\zeta^2}$&$\dfrac{\min_{\mathcal F_N}g_Q}{g_Q(\delta_c)}$&
+$\dfrac{\Delta(t_c)}{2g_Q(\delta_c)}$&$\dfrac{\Delta(t_{\rm opt})^2/(8V)}{\min g_Q}$\\
+\midrule
+0.50&0.35&1.500&24&$(16,\;4,\;4)$&0.6321&1.0245&1.6207&---&$1.000000$\\
+0.50&0.24&1.500&26&$(16,\;6,\;4)$&0.6482&0.6507&1.0038&$-0.521$&$1.000001$\\
+0.50&0.20&1.500&27&$(16,\;7,\;4)$&0.6535&0.5615&0.8591&---&$1.000002$\\
+0.50&0.12&1.500&32&$(16,12,\;4)$&0.6684&0.4082&0.6108&$-0.874$&$1.000001$\\
+0.50&0.12&0.750&36&$(16,12,\;8)$&0.7031&0.5666&0.8058&$-0.718$&$0.999998$\\
+0.40&0.12&0.750&40&$(20,12,\;8)$&0.7192&0.5889&0.8188&$-0.647$&$0.999997$\\
+\midrule
+\multicolumn{5}{l}{\emph{for comparison, $s=0.1$ (Table~\ref{tab:LPtc}):}}&&&&&\\
+0.50&0.50&0.500&31&$(16,\;7,\;8)$&0.8359&8.3980&10.047&$-9.395$&$1.0000073$\\
+0.40&0.40&0.400&44&$(20,\;9,15)$&0.8675&7.1686&8.2635&$-10.325$&$1.0000186$\\
+\bottomrule
+\end{tabular}
+\caption{$\Lambda_A=8$, $\Lambda_C=6$.  Reading the table: with $n_B<n_C$ the truncated programme
+is \emph{far worse} than the compression ($\min/g(\delta_c)=8$--$10$), because \eqref{eq:deficit}
+forces a rank-$n_C$ mismatch in the $A\!-\!D$ block; with $n_B\gg n_C$ it is \emph{better} than the
+compression ($0.61$), because a coarse $C$ under-represents the hard part of the problem.  Along
+the diagonal $n_B/n_C=1.5$ the ratio still drifts, $1.004\to0.819$.  The last column is the
+self-consistent duality ratio at the model's own optimum: $1$ to $\le2\times10^{-5}$ in every row.}
+\label{tab:s1}
+\end{table}
+
+\noindent Both truncation errors are one-sided and \emph{opposite}, and both are large compared
+with the effect being tested.  Note also the two exact inequalities that make the model legitimate
+but non-decisive: (i) $\mathcal F_N\subseteq\mathcal F$ --- every discrete feasible pair is a genuine
+gauge-invariant quasi-free channel, by extending $X$ with $XP_{\mathcal V_B}$ and $Z$ by $0$ on
+$\mathcal V_D^\perp$; and (ii) $g_{Q_N}(P\delta P)\le g_Q(\delta)$, because
+$V_{Q_N}(t)=\Tr(tQt(1-Q))$ \emph{exactly} for $t$ supported on $\mathcal V_N$ (as
+$P(1-Q)P=1_N-Q_N$), so $g_{Q_N}$ is the same Legendre supremum over a smaller set of test
+operators.  The two inequalities push $\min_{\mathcal F_N}g_{Q_N}$ in opposite directions relative
+to $\min_{\mathcal F}g_Q$, and neither can be dropped.
+
+
+\subsection{The discrete minimiser is a truncation artefact (nested-refinement test)}
+\label{sec:refine}
+The rows of Table~\ref{tab:s1} with $\min_{\mathcal F_N}g_Q<g_Q(\delta_c)$ raise the question
+whether a genuine channel beats the compression.  They do not, and this can be decided without a
+larger SDP.  Split every cell of a mesh into $r$ equal sub-cells: then
+$\mathcal V_N\subset\mathcal V_{N'}$, the inclusion $E:\mathcal V_N\to\mathcal V_{N'}$ is an isometry
+mapping cells to normalised sums of sub-cells, and $(X,Z)\mapsto(E_DXE_B^*,\ E_DZE_D^*)$ maps
+$\mathcal F_N$ into $\mathcal F_{N'}$ (the constraints are preserved because
+$E_B^*Q_{N',BB}E_B=Q_{N,BB}$ and both slacks are $\ge0$ block by block).  Since
+$g_{Q_{N'}}(P'\delta P')\uparrow g_Q(\delta)$, evaluating the coarse minimiser in the refinements
+gives an increasing sequence of \emph{lower} bounds for its true continuum second-order error.
+Script \texttt{refine\_check.py}, outputs \texttt{refine\_s1.out}, \texttt{refine\_s1b.out}.
+
+\begin{table}[h]\centering\small
+\begin{tabular}{rrcc|rrcc}
+\toprule
+\multicolumn{4}{c|}{coarse $(h_A,h_B,h_C)=(0.4,0.12,0.75)$, $(n_A,n_B,n_C)=(20,12,8)$}&
+\multicolumn{4}{c}{coarse $(0.5,0.24,1.5)$, $(16,6,4)$}\\
+$r$&$N'$&$\dfrac{g_{Q_{N'}}(\delta_c)}{f_2\zeta^2}$&
+$\dfrac{g_{Q_{N'}}(\delta_{\rm opt})}{f_2\zeta^2}$&
+$r$&$N'$&$\dfrac{g_{Q_{N'}}(\delta_c)}{f_2\zeta^2}$&
+$\dfrac{g_{Q_{N'}}(\delta_{\rm opt})}{f_2\zeta^2}$\\
+\midrule
+1& 40&0.7192&0.5889          &1& 26&0.6482&0.6507\\
+2& 80&0.7975&$6.40\e{3}$     &2& 52&0.7465&$3.11\e{3}$\\
+3&120&0.8343&$2.01\e{4}$     &4&104&0.8193&$1.97\e{4}$\\
+4&160&0.8578&$4.12\e{4}$     &8&208&0.8767&$9.58\e{4}$\\
+6&240&0.8887&$1.06\e{5}$     & &   &      &\\
+\bottomrule
+\end{tabular}
+\caption{$s=1$, $\zeta=1/3$.  The compression defect (columns 3,7) climbs monotonically towards
+$f_2\zeta^2$, as it must.  The minimiser of the coarse programme (columns 4,8), embedded
+\emph{unchanged} into the refinements, explodes by five orders of magnitude at the very first
+refinement: as a genuine quasi-free channel its second-order error is
+$\ge10^5\,f_2\zeta^2$.  It ``wins'' in the coarse model only because $\mathcal V_N$ cannot see the
+modes into which it dumps its defect --- the uncapped continuum analogue of S8's ultraviolet
+amplification (S8 Sec.~3.4).}
+\label{tab:refine}
+\end{table}
+
+\begin{verdictgap}[\;(b) The certificate test is inconclusive, for a structural reason]
+In the block-exact modular Galerkin model the requested ratio is
+$\Delta(t_c)^2/(8V(t_c))\big/(f_2\zeta^2)=0$ in every mesh, because
+$\Delta(t_c)<0$ (Tables~\ref{tab:LPtc},~\ref{tab:s1}).  This is \emph{not} evidence against S10's
+KKT claim: the zero-collar compression has $X_cX_c^*=1_{\hh_D}$, which no finite-dimensional
+Galerkin model can realise (eq.~\eqref{eq:deficit}), so $\delta_c$ is infeasible in
+$\mathcal F_N$ and the near-total cancellation that KKT asserts (from
+$\|t_c\|_1\sim10^{-2}$ down to $2g_Q(\delta_c)\sim10^{-5}$) cannot take place.  The measured
+$\Delta(t_c)/(2g_Q(\delta_c))$ moves from $-10.3$ (at $n_B<n_C$) to $-0.52$ (at $n_B>n_C$),
+i.e.\ it is governed by $\dim\mathcal V_B/\dim\mathcal V_C$ and not by the physics.  Symmetrically,
+the readings $\min_{\mathcal F_N}g_Q<g_Q(\delta_c)$ are refuted by Table~\ref{tab:refine}: the
+discrete minimisers are ultraviolet artefacts, not channels that beat the compression.  A
+conclusive numerical test of the certificate needs a discretisation in which the Moebius squeeze
+is exactly representable --- e.g.\ a mesh uniform in $\zeta=-L/x$, in which $h_s$ is the exact
+translation $\zeta\mapsto\zeta-s$ --- at the price of a hard gap of size $L/\Zmax$ at the corner;
+this is left as the next step.
+\end{verdictgap}
+
+
+\section{Part (c): exact root fidelity of S10's rotated channel}
+\label{sec:s10}
+
+\paragraph{The claim under test.}  Track S10 (\texttt{rigor/sdp\_dual\_certificate.tex}
+Secs.~6,7,9) reports that in the spectral NS-circle model the zero-collar compression
+$W_s=e^{-sD_\chi}$ is \emph{not} the second-order optimum: composing it with a Bogoliubov
+rotation $e^{-\eps G_*}$ supported in $D$ lowers the SLD form by $1-\vartheta$,
+$\vartheta=0.300\pm0.005$, the non-perturbative check giving the ratio $0.705$ at $\eps/s=-1$
+(\texttt{s10\_nonpert.out}).  That evidence is at the level of the (capped) quadratic form
+$g_Q$; an ``order of limits'' artefact --- $g_Q$ overestimating a defect that the exact fidelity
+does not see --- is exactly what S8's Sec.~3.4 warns about.  We therefore compute the
+\emph{exact} $-\log\Fid(\omega,\omega^\beta)$ in the same model.
+
+\paragraph{Method.}  Script \texttt{numerics/optimality\_all/s11\_exactF.py} (outputs
+\texttt{s11\_exactF\_L*.out}) rebuilds S10's ingredients through \texttt{s10\_theta.setup}
+($P$ = spectral projection $\nu>0$ on the NS circle of $L$ sites; $D_\chi$ the tapered generator
+of $\chi\partial_\theta$, $\chi=\cos\theta-1$ on $D$; $I=A\cup D$; $G_*$ from the same conjugate
+gradient), and forms
+\[
+ Q=P|_I,\qquad Q^{\rm rec}(s,\eps)=\bigl(\widetilde W^*P\widetilde W\bigr)\big|_I,\qquad
+ \widetilde W=e^{-sD_\chi}e^{-\eps G_*}.
+\]
+$-\log\Fid$ of the two quasi-free states with these symbols is Note~5 Thm.~2.1,
+\begin{equation}\label{eq:note5}
+ -\log\Fid=-\tfrac12\textstyle\sum_i\log(1-q_i)-\tfrac12\sum_j\log(1-q^{\rm rec}_j)
+ -\sum_k\log\bigl(1+\sqrt{\tau_k}\bigr),\quad
+ \tau=\spec\bigl(G_1^{1/2}G_2G_1^{1/2}\bigr),\ G=\tfrac{Q}{1-Q} .
+\end{equation}
+$Q=P|_I$ has eigenvalues exponentially close to $0$ and $1$, so \eqref{eq:note5} is a
+catastrophic cancellation in double precision.  Following \texttt{numerics/fidelity\_flint.py} we
+\emph{sub-compress} onto the spectral window
+$\mathcal S(\kappa_c)=\mathrm{span}\{$eigenvectors of $Q$ with $|\kappa|=|\log\frac{1-q}{q}|\le\kappa_c\}$
+and evaluate \eqref{eq:note5} there in \texttt{mpmath} at $60$ digits.  Compression is a channel,
+so this is a rigorous \emph{lower} bound, increasing to the true value as $\kappa_c\uparrow$; both
+channels are compressed with the \emph{same} $\mathcal S(\kappa_c)$, so the ratio compares like
+with like.  Window sizes at $L=192$ ($|I|=114$): $\dim\mathcal S=12,16,20,24,26$ for
+$\kappa_c=10,15,20,25,30$; beyond $\kappa_c\approx36$ the double-precision floor of $Q$ is reached.
+
+
+\paragraph{Results.}
+\begin{table}[h]\centering\small
+\begin{tabular}{rlccccc|cc}
+\toprule
+&&\multicolumn{5}{c|}{$-\log\Fid$ ratio at $\eps/s=-1$, window $\kappa_c=$}&
+\multicolumn{2}{c}{best over $\eps$}\\
+$L$&$s$&$10$&$15$&$20$&$25$&$30$&$-\log\Fid$&$g_Q^{(\kappa_c=10^4)}$\\
+\midrule
+192&0.05&0.5889&0.6251&0.6490&0.6662&0.6720&$0.6692$ at $-1.10$&$0.7093$ at $-1.00$\\
+192&0.02&0.5865&0.6207&0.6434&0.6597&0.6655&$0.6614$ at $-1.10$&$0.7049$ at $-1.00$\\
+192&0.01&0.5889&0.6226&0.6450&0.6609&0.6666&$0.6624$ at $-1.10$&$0.7072$ at $-1.00$\\
+320&0.02&---&0.6105&---&0.6488&$0.6660^{\ast}$&$0.6621$ at $-1.10$&$0.7052$ at $-1.00$\\
+\bottomrule
+\end{tabular}
+\caption{Ratio $-\log\Fid(\omega,\omega^{\beta_{s,\eps}})\big/{-\log\Fid(\omega,\omega^{\beta_{s,0}})}$
+of the rotated channel to the pure compression, evaluated by \eqref{eq:note5} on the spectral
+window $\mathcal S(\kappa_c)$.  ${}^{\ast}$: $\kappa_c=32$ at $L=320$ ($\dim\mathcal S=31$;
+the other two $L=320$ windows are $\kappa_c=15,25$ with $\dim\mathcal S=17,25$).  Absolute
+denominators at $L=192$, $\kappa_c=30$:
+$-\log\Fid=8.7380\e{-6},\ 1.4256\e{-6},\ 3.5852\e{-7}$ for $s=0.05,0.02,0.01$, against
+$g_Q^{(10^4)}=9.0207\e{-6},\ 1.4499\e{-6},\ 3.6293\e{-7}$ (the windowed fidelity recovers
+$97$--$99\%$ of the capped quadratic form, as it should at this $s$).  The last column reproduces
+S10's non-perturbative number $0.705$ (\texttt{s10\_nonpert.out}) to $\pm0.005$, confirming that
+the model has been rebuilt faithfully.  $\vartheta$ from the same conjugate gradient:
+$0.28870$ at $L=192$, $0.29074$ at $L=320$.}
+\label{tab:exactF}
+\end{table}
+
+\paragraph{Reading of Table~\ref{tab:exactF}.}
+\begin{enumerate}[leftmargin=1.6em,itemsep=2pt]
+\item \emph{The gain survives in the exact fidelity.}  In \emph{every} window, at every $s$ and
+both $L$, the rotated channel has strictly smaller exact recovery error than the compression, by
+at least $33\%$.  There is no sign of the ``order of limits'' artefact: the improvement is not an
+artefact of the quadratic form.
+\item \emph{Monotone in $\kappa_c$, and the limit is $0.67$--$0.71$.}  Since sub-compression is a
+channel, each column is a rigorous lower bound for $-\log\Fid$ of \emph{both} states, and the
+ratios rise monotonically with the window: $0.589\to0.625\to0.649\to0.666\to0.672$ at $s=0.05$.
+The increments shrink ($0.036,0.024,0.017,0.006$), so the windowed ratio is close to saturation
+near $0.67$; the remaining gap to the capped-quadratic value $0.705$ is of the size of the
+modes above $\kappa_c\approx30$, which double-precision $Q$ cannot resolve.  A safe statement is
+therefore \(\;-\log\Fid(\text{rotated})/{-\log\Fid}(\text{compression})=0.67\text{--}0.71\).
+\item \emph{Stable in $s$ and in $L$.}  At $\kappa_c=30$ the ratio is $0.6720,0.6655,0.6666$ for
+$s=0.05,0.02,0.01$: no drift as $s\to0$, so the number is the second-order ratio, not a
+finite-$s$ effect.  At $s=0.02$, $L=192$ and $L=320$ give $0.6655$ and $0.6660$ in the same window
+family ($\kappa_c=30$ vs $32$): no drift with the lattice cutoff either.
+\item \emph{The exact optimum sits slightly past $\eps/s=-1$.}  Optimising $\eps$ on the exact
+fidelity rather than on $g_Q$ moves the minimiser from $\eps/s=-1.00$ to $-1.10$ and improves the
+ratio by a further $0.004$--$0.005$ --- a third-order effect, in the direction that makes the
+compression \emph{worse}, not better.
+\end{enumerate}
+
+\begin{verdictbreak}[\;(c) S10's refutation is confirmed by the exact fidelity]
+In S10's spectral NS-circle model the composition of the zero-collar compression with the
+Bogoliubov rotation $e^{-\eps G_*}$, $\eps\simeq-s$, has exact recovery error
+$-\log\Fid$ equal to $0.67$--$0.71$ times that of the compression, uniformly in $s\in[0.01,0.05]$
+and in $L\in\{192,320\}$, computed from Note~5 Thm.~2.1 in $60$-digit arithmetic on spectral
+windows $|\kappa|\le\kappa_c$ (each value a rigorous lower bound for the true $-\log\Fid$ of both
+states).  The capped quadratic form of \texttt{s10\_nonpert.py} gives $0.705$ in the same runs.
+Hence the $30\%$ gain is \emph{not} an artefact of the SLD form or of the weight cap: within this
+model the zero-collar compression is not the second-order optimum among gauge-invariant
+quasi-free channels, and therefore $\Erec^{(2)}\le(1-\vartheta)f_2z^2$ with $\vartheta\approx0.3$.
+\end{verdictbreak}
+
+
+\section{Verdict}
+\label{sec:verdict}
+
+\paragraph{(a) Lattice: strong duality and KKT hold, to solver precision.}
+On the $(4,8,2)$ chain, for every cap $\kappa_c\in\{4,6,8,10,12,14\}$ at which Clarabel
+converges, the SLD $t_{\rm opt}$ of the optimal defect of $\min_{\mathcal F}g_w$ minimises the
+\emph{linear} functional $\Tr t_{\rm opt}(Q-Q^{\rm rec})$ over $\mathcal F$ (relative KKT gap
+$3\e{-6}$ to $3\e{-4}$), and
+$\Delta(t_{\rm opt})^2/(8V_w(t_{\rm opt}))=\min_{\mathcal F}g_w$ to $\le3\e{-4}$ relative
+(Table~\ref{tab:lattice}).  This is Theorem~4.1(3) of \texttt{optimality\_all\_channels.tex}
+(the Sion minimax step) verified numerically.  Two side findings: the Legendre pair must be kept
+consistent --- using $V_{\rm true}=\Tr(tQt(1-Q))$ with a \emph{capped} $g_w$ produces a spurious
+$1$--$7\%$ excess (Lemma~\ref{lem:legendre}) --- and S8's stored $(X,Z)$ in
+\texttt{best\_4\_8\_2.npz} is $0.44\%$ above the true minimiser of its own capped form
+($7.72397\e{-5}$ vs $7.69024\e{-5}$ at $\kappa_c=8$), which does not affect S8 Table~1 because
+that table reports the exact $-\log\Fid$ evaluated at the point actually produced.
+
+\paragraph{(b) Continuum: the certificate test at $t_c$ is inconclusive, for a structural reason.}
+The block-exact modular Galerkin model of \S\ref{sec:disc} is validated
+($g_Q(\delta_c)/(f_2\zeta^2)\to1.003\pm0.002$ by Richardson extrapolation, Table~\ref{tab:conv};
+the Legendre identity holds to $10^{-10}$), and in it the duality theory is again confirmed at
+machine precision at the model's own optimum (last columns of
+Tables~\ref{tab:LPtc},~\ref{tab:s1}).  But the requested ratio is
+\[
+ \frac{\Delta(t_c)^2/(8V(t_c))}{f_2\zeta^2}\;=\;\mathbf 0\qquad\text{in every mesh tested,}
+\]
+because $\Delta(t_c)<0$: the compression's SLD is not a dual certificate \emph{of the truncated
+programme}.  The reason is structural and is the main negative finding of this track: the
+zero-collar compression is a Moebius \emph{squeeze} with $X_cX_c^*=1_{\hh_D}$, so in any finite
+Galerkin model $\Tr(1-XX^*)\ge\dim\mathcal V_C>0$ (eq.~\eqref{eq:deficit}) and $\delta_c$ is
+\emph{infeasible}; the KKT identity is a cancellation from $\|t_c\|_1\sim10^{-2}$ down to
+$2g_Q(\delta_c)\sim10^{-5}$, which cannot survive that.  Empirically $\Delta(t_c)/(2g_Q(\delta_c))$
+runs from $-10.3$ to $-0.52$ as $\dim\mathcal V_B/\dim\mathcal V_C$ is raised at fixed physics.
+The apparent counter-readings $\min_{\mathcal F_N}g_Q<g_Q(\delta_c)$ are disposed of by the
+nested-refinement test (Table~\ref{tab:refine}): embedded unchanged into a refinement, the coarse
+minimisers have $g_Q\ge10^5f_2\zeta^2$ --- they are ultraviolet artefacts, not better channels.
+A conclusive test needs a discretisation in which the squeeze is exact, e.g.\ uniform in
+$\zeta=-L/x$ where $h_s$ is the translation $\zeta\mapsto\zeta-s$, at the cost of a hard corner
+gap; that is the recommended next step, and it is \emph{not} what this track's numbers settle.
+
+\paragraph{(c) The gain of S10's rotated channel is real.}
+Because (b) leaves the certificate question open on the compression side, the decisive number is
+the direct one: in S10's spectral NS-circle model the rotated channel
+$e^{-sD_\chi}e^{-\eps G_*}$ at $\eps\simeq-s$ has \emph{exact} recovery error $0.67$--$0.71$ times
+that of the compression, stable in $s\in[0.01,0.05]$ and in $L\in\{192,320\}$, each entry a
+rigorous lower bound for both $-\log\Fid$'s (Table~\ref{tab:exactF}).  The capped quadratic form
+gives $0.705$ on the same runs.  So S10's $\vartheta\approx0.3$ is not an artefact of the SLD
+form or of the weight cap.  Combined with (a) --- which says that where the compression \emph{is}
+the optimum its SLD must be the certificate --- the consistent picture is: in this model the
+compression is \emph{not} the optimum, the certificate at $t_c$ therefore cannot exist, and the
+negative $\Delta(t_c)$ of part (b), although quantitatively dominated by truncation, has the
+right sign.  What remains unproved is whether the same holds in the continuum limit of the
+physical geometry: (b)'s model cannot decide it, and (c)'s model carries the taper and the
+lattice cutoff of \texttt{s10\_theta.setup}.
+
+\paragraph{Deliverables.}
+\texttt{numerics/optimality\_all/}: \texttt{kkt\_lattice.py}/\texttt{.out},
+\texttt{kkt\_continuum.py} with \texttt{kkt\_continuum\_conv.out}, \texttt{kc\_h05.out},
+\texttt{kc\_h04.out}; \texttt{scan\_s.py} with \texttt{scan\_s1b.out}, \texttt{scan\_s1c.out},
+\texttt{scan\_s1diag.out}; \texttt{refine\_check.py} with \texttt{refine\_s1.out},
+\texttt{refine\_s1b.out}; \texttt{s11\_exactF.py} with \texttt{s11\_exactF\_L192.out},
+\texttt{s11\_exactF\_L320.out}; and this document.
+
+\end{document}

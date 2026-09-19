@@ -1,0 +1,173 @@
+% sec_setting.tex -- Sources: rigor/universality_theorem_B.tex (S1)-(S4), rigor/implementation_C11.tex Sec. 2-3.
+\subsection{Standing assumptions}\label{ss:standing}
+
+Throughout, $(\cA,U,\Omega)$ is a \emph{diffeomorphism covariant conformal net} on $S^1$ acting on a
+\emph{separable} Hilbert space $\Hil$, in the sense of the axioms (1)--(10) of \cite[\S4]{CDIT}:
+$\cA$ assigns von Neumann algebras $\cA(I)\subseteq B(\Hil)$ to open non-empty non-dense intervals
+$I\subset S^1$, subject to isotony and locality; $U$ is a strongly continuous positive-energy projective
+unitary representation of $\mathrm{Diff}^+(S^1)$ with
+\begin{equation}\label{eq:cov}
+ U(\gamma)\cA(I)U(\gamma)^*=\cA(\gamma I),\qquad
+ U(\gamma)XU(\gamma)^*=X\quad\bigl(X\in\cA(I),\ \gamma|_{I}=\mathrm{id}\bigr);
+\end{equation}
+$\Omega$ is the (unique up to phase) vacuum vector, invariant under the M\"obius subgroup
+$\mathrm{PSL}(2,\mathbb R)$, and $L_0\ge0$.  We write $\Hil_{\rm fin}$ for the space of finite-energy
+vectors.  The stress tensor $T$ is the generator of $U$,
+$U(\mathrm{Exp}(tf\partial_x))=e^{itT(f)}$ up to phase, with central charge $c>0$ normalised by
+\begin{equation}\label{eq:TT}
+ \langle\Omega,T(x)T(y)\Omega\rangle=\frac{c}{8\pi^{2}}\,\frac{1}{(x-y-i0)^{4}},
+ \qquad T(f)\Omega=0\ \ \text{for }f\in\mathrm{span}\{1,x,x^{2}\}.
+\end{equation}
+(The BPZ-normalised field is $2\pi T$; see \Cref{app:conv}.)  In addition we use, as standing facts,
+\begin{itemize}[leftmargin=2.6em]
+\item[(HD)] \emph{Haag duality}: $\cA(I)'=\cA(I')$ for every interval $I$;
+\item[(BW)] \emph{Bisognano--Wichmann}: $\Delta_I^{it}=U(\delta_I(-2\pi t))$ with $\delta_I$ the dilation
+ subgroup preserving $I$, and $J_I$ implements the reflection fixing $\partial I$;
+\item[(RS)] \emph{Reeh--Schlieder}: $\Omega$ is cyclic and separating for every $\cA(I)$.
+\end{itemize}
+Only locality --- not (HD) --- is used in the upper bound and in the $c$-linearity theorem; this matters
+for the free fermion, where (HD) fails and only twisted duality holds (\Cref{rem:graded}).
+
+Inner products are conjugate linear in the \emph{first} variable.  For a von Neumann algebra $\cM$ with
+cyclic separating $\Omega$ we write $\omega=\langle\Omega,\cdot\,\Omega\rangle$, $S=J\Delta^{1/2}$,
+$F=S^*=J\Delta^{-1/2}$, and
+\begin{equation}\label{eq:realsub}
+ H_{\cM}:=\overline{\cM_{\rm sa}\Omega}=\{\xi\in D(S):S\xi=\xi\},\qquad
+ H_{\cM'}:=\overline{\cM'_{\rm sa}\Omega}=\{\xi\in D(F):F\xi=\xi\}.
+\end{equation}
+$\Fid$ denotes the \emph{root} fidelity, $\Fid=\Tr|\rho^{1/2}\sigma^{1/2}|$ in finite dimensions, i.e.
+$\Fid=\sqrt{P_{\cM}}$ with $P_{\cM}$ the Uhlmann transition probability \cite{AU02}.
+
+\subsection{Geometry: three adjacent intervals and the zero-collar compression}\label{ss:geom}
+
+Let $A$, $B$, $C$ be adjacent intervals of the line with $B$ in the middle.  All quantities below depend on
+the configuration only through the cross ratio $\zeta$ of the four endpoints; this is the content of
+\cite[Lemma 1.1]{Note5}, and it allows us to pass to a normal form.  We use the half-line normal form
+\begin{equation}\label{eq:geom}
+ A=(-\infty,0),\qquad D=(0,L),\qquad I=AD=(-\infty,L),\qquad I'=(L,\infty),
+\end{equation}
+in which the collar has been shrunk to the point $0$ and the cross ratio is $\zeta=as/(a+L)\big|_{a=\infty}=s$.
+Dilation covariance removes $L$; we set $L=1$ where convenient.
+
+The \emph{zero-collar compression map} is
+\begin{equation}\label{eq:ks}
+ k_s|_A=\mathrm{id},\qquad k_s(x)=h_s(x)=\frac{Lx}{L+sx}\quad(x\in D),
+\end{equation}
+i.e.\ the identity on $A$ and a M\"obius map on $D$.  Its two pieces agree to first order at the touching
+point $0$ but not to second order, so $k_s$ is $C^{1,1}$ and no better.
+
+\begin{definition}[the extension and its first-order field]\label{def:ktilde}
+Fix $\beta\in C^\infty(\mathbb R;[0,1])$ with $\beta\equiv1$ on $(-\infty,0]$ and $\beta\equiv0$ on
+$[1,\infty)$, and set (at $L=1$)
+\begin{equation}\label{eq:chi}
+ g_{\rm tot}(x):=-\chi(x),\qquad
+ \chi(x):=\begin{cases}0,&x\le0,\\ x^{2}\beta(x-1),&x>0,\end{cases}
+\end{equation}
+so that $\chi=x^{2}$ on $[0,1]$ and $\supp\chi=[0,2]$.  Let $\tilde k_s:=\mathrm{Exp}(s\,g_{\rm tot})$ be
+the flow of $g_{\rm tot}\partial_x$.  Then $\tilde k_s$ is a one-parameter group of increasing $C^{1,1}$
+bijections of $\mathbb R$ (equivalently of $S^1$), $\tilde k_s=\mathrm{id}$ outside $[0,2]$, and
+$\tilde k_s|_I=k_s$.
+\end{definition}
+
+Two features of \eqref{eq:chi} drive everything that follows.  First, $g_{\rm tot}''$ has a single jump, of
+size $-2/L$ in the line chart (equivalently $-1/L$ for the circle representative, \Cref{thm:reg}), at the
+touching point; this is the exact obstruction to smoothness and it is what forces the
+Sobolev analysis of \Cref{sec:impl}.  Second, $g_{\rm tot}(L)=-L\neq0$: the deformation \emph{moves the far
+endpoint} of $I$, so the compression is not implemented inside $\cA(I)$ and there is a genuine choice of
+extension beyond $L$.
+
+\begin{remark}[why the extended field, and not $g_{\rm tot}\mathbf 1_I$]\label{rem:vector}
+For real $f$ with $\hat f(p)=\int f e^{-ipx}dx$, \eqref{eq:TT} gives
+\begin{equation}\label{eq:normTg}
+ \|T(f)\Omega\|^{2}=\frac{c}{8\pi^{2}}\iint\frac{f(x)f(y)}{(x-y-i0)^{4}}dx\,dy
+ =\frac{c}{48\pi^{2}}\int_{0}^{\infty}p^{3}|\hat f(p)|^{2}dp,
+\end{equation}
+finite exactly on the homogeneous Sobolev (Weil--Petersson) space $\dot H^{3/2}$.  The field $g_{\rm tot}$
+is $C^{1,1}$ with compact support, so $\hat g_{\rm tot}(p)=O(|p|^{-3})$ and \eqref{eq:normTg} converges.
+The naive zero-collar representative $g_{\rm tot}\mathbf 1_{I}=-x^{2}\mathbf 1_{[0,L]}$, by contrast, jumps
+at $x=L$, so its Fourier transform is only $O(|p|^{-1})$ and $T(g_{\rm tot}\mathbf 1_I)\Omega$ is
+\emph{not a vector}.  The extension is what makes the tangent vector exist; by \Cref{lem:gauge} it
+represents the same tangent functional.
+\end{remark}
+
+\subsection{The hypotheses (H1)--(H3)}\label{ss:hyp}
+
+The universality theorem is proved from three hypotheses about the implementation of $\tilde k_s$.  They are
+stated here in the exact form in which they are used, and they are \emph{verified for every diffeomorphism
+covariant net} in \Cref{sec:impl}; the reader who is willing to grant \Cref{thm:impl} may read
+(H1)--(H3) as facts.
+
+\begin{hypothesis}[implementation]\label{H1}
+For $|s|<s_{0}$ there are unitaries $U_{s}$ on $\Hil$ with
+$U_{s}\cA(K)U_{s}^{*}=\cA(\tilde k_{s}(K))$ for every interval $K\subseteq S^{1}$, and the representation is
+local in the form
+\begin{equation}\label{eq:H1loc}
+ U\bigl(\mathrm{Diff}(K)\bigr)\subseteq\cA(K),\qquad
+ \mathrm{Diff}(K):=\{\phi\in\mathrm{Diff}^{+}(S^{1}):\ \phi|_{K'}=\mathrm{id}\},
+\end{equation}
+for every interval $K$.  In general $U_{s}\Omega\neq\Omega$.  We write $\cM:=\cA(I)$,
+$\Psi_{s}:=U_{s}^{*}\Omega$ and
+\begin{equation}\label{eq:omegas}
+ \omega_{s}:=\omega\circ\Ad U_{s}\big|_{\cM},\qquad
+ \omega_{s}(X)=\langle\Omega,U_{s}XU_{s}^{*}\Omega\rangle=\langle\Psi_{s},X\Psi_{s}\rangle .
+\end{equation}
+\end{hypothesis}
+
+The form \eqref{eq:H1loc} of the locality clause is the one that is both provable and usable.  The
+apparently equivalent phrasing ``$U(\phi)\in\cA(K)$ for every interval $K\supseteq\supp\phi$'' is ill-posed
+in the situation of \Cref{lem:ext}: there $\supp\phi=\overline{J_{s}'}$ contains $\partial J_{s}$, and no
+open interval $K$ with $\supp\phi\subset K\subseteq J_{s}'$ exists.
+
+\begin{hypothesis}[differentiability on the vacuum]\label{H2}
+$T(g_{\rm tot})\Omega\in\Hil$ and $\|\Psi_{s}-\Omega+is\,T(g_{\rm tot})\Omega\|=o(s)$ as $s\to0$.
+Moreover
+\begin{itemize}
+\item[(H2$'$)] $T(g_{\rm tot})\Omega=\lim_{n}T(f_{n})\Omega$ in $\Hil$ for some $f_{n}\in
+ C_{c}^{\infty}(\mathbb R;\mathbb R)$ with $\|g_{\rm tot}-f_{n}\|_{H^{3/2}}\to0$; equivalently
+ $a:=T(g_{\rm tot})\Omega\in\HT$ \textup{(}\Cref{def:HT}\textup{)}.
+\end{itemize}
+\end{hypothesis}
+
+\begin{hypothesis}[differentiability of the curve]\label{H3}
+There is a $*$-strongly dense $*$-subalgebra $\cM_{0}\subseteq\cM$ with $\one\in\cM_{0}$ such that for all
+$X\in\cM_{0}$
+\begin{equation}\label{eq:H3}
+ \omega_{s}(X)=\omega(X)+s\,\varphi(X)+o(s),\qquad
+ \varphi(X)=i\,\omega\bigl([T(g_{\rm tot}),X]\bigr),
+\end{equation}
+and $\omega_{s}(X^{2})\to\omega(X^{2})$ for $X\in\cM_{0,\rm sa}$.
+\end{hypothesis}
+
+The clause (H2$'$) is not decoration: it is what carries the $c$-linearity theorem.  Without it, (H2) alone
+would allow an operator $T(g_{\rm tot})$ produced by some extension procedure whose vacuum vector differs
+from $\lim_{n}T(f_{n})\Omega$ by an element of $\HT^{\perp}$, and \Cref{thm:linear} would fail.  It is
+supplied by the Carpi--Weiner energy bound (\Cref{lem:CW}).  We note also that (H2) implies (H3), by the
+argument of \Cref{thm:H23}(ii); we keep (H3) separate because the lower bound needs \emph{only} (H3).
+
+\subsection{The recovered state does not depend on the extension}\label{ss:extindep}
+
+The freedom of extending $k_s$ beyond $L$ is the central mechanism of the proof: it is a gauge freedom on
+the recovered state and, simultaneously, the supply of commutant unitaries in Uhlmann's inequality.  We
+record the first half now.
+
+\begin{lemma}[extension independence]\label{lem:ext}
+Let $\tilde k_{s}$ and $\tilde k_{s}^{\sharp}$ be $C^{1,1}$ diffeomorphisms of $S^{1}$ with
+$\tilde k_{s}|_{I}=\tilde k_{s}^{\sharp}|_{I}=k_{s}$, and let $U_{s},U_{s}^{\sharp}$ be implementers as in
+\Cref{H1}.  Then $\omega\circ\Ad U_{s}|_{\cM}=\omega\circ\Ad U_{s}^{\sharp}|_{\cM}$.
+\end{lemma}
+
+\begin{proof}
+Put $\phi:=\tilde k_{s}\circ(\tilde k_{s}^{\sharp})^{-1}$ and $J_{s}:=k_{s}(I)$.  For $y\in J_{s}$ write
+$y=k_{s}(x)$ with $x\in I$; then $(\tilde k^{\sharp}_{s})^{-1}(y)=x$ and $\tilde k_{s}(x)=k_{s}(x)=y$, so
+$\phi|_{J_{s}}=\mathrm{id}$, i.e.\ $\phi\in\mathrm{Diff}(J_{s}')$.  By the locality clause
+\eqref{eq:H1loc} with $K=J_{s}'$ we get $U(\phi)\in\cA(J_{s}')$, and hence $U(\phi)\in\cA(J_{s})'$ by
+\emph{locality} alone.  Now let $X\in\cM$.  By covariance, $Y:=U^{\sharp}_{s}XU_{s}^{\sharp*}\in
+\cA(\tilde k^{\sharp}_{s}(I))=\cA(J_{s})$, so $U(\phi)YU(\phi)^{*}=Y$.  Since $U_{s}$ and
+$U(\phi)U^{\sharp}_{s}$ implement the same diffeomorphism they agree up to a phase $\lambda$, $|\lambda|=1$,
+which cancels in $\Ad$; therefore
+$U_{s}XU_{s}^{*}=U(\phi)YU(\phi)^{*}=Y=U^{\sharp}_{s}XU_{s}^{\sharp*}$, and applying $\omega$ finishes the
+proof.
+\end{proof}
+
+Note that $\phi$ is in general supported on the \emph{closed} arc $\overline{J_s'}$, which is why
+\eqref{eq:H1loc} rather than a support condition is the right hypothesis.

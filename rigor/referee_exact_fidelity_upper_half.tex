@@ -1,0 +1,747 @@
+\documentclass[11pt]{article}\input{rigor_preamble}
+\newcommand{\Pp}{P}\newcommand{\Pperp}{P^{\perp}}
+\newcommand{\Wt}{\widetilde W}\newcommand{\Om}{\Omega}\newcommand{\Gm}{\Gamma}
+\newcommand{\Stwo}{\mathfrak S_2}\newcommand{\Sone}{\mathfrak S_1}
+\newcommand{\norm}[1]{\lVert #1\rVert}\newcommand{\abs}[1]{\lvert #1\rvert}
+\newcommand{\ip}[2]{\langle #1,#2\rangle}\newcommand{\one}{\mathbf 1}
+\newcommand{\Ext}{\mathrm{Ext}}\newcommand{\Nvis}{\mathcal N}
+\newcommand{\Erec}{E_{\mathrm{rec}}}\newcommand{\Gs}{\mathcal G}
+\DeclareMathOperator{\dist}{dist}\DeclareMathOperator{\ran}{ran}
+\DeclareMathOperator{\Ad}{Ad}
+\title{Referee report: \texttt{rigor/exact\_fidelity\_upper\_half.tex}\\
+\large (track E1, Phase 4; adversarial check of $\overline{\Ext}=\Nvis^{\perp}$ and its consequences)}
+\author{Referee (Opus)}\date{2026-09-15}
+\begin{document}\maketitle
+\begin{abstract}
+Adversarial referee report on E1's document \texttt{exact\_fidelity\_upper\_half.tex}
+(17\,pp, 2026-09-15), which claims $\overline{\Ext}=\Nvis^{\perp}$ (Thm.~2.6/``Q''),
+the reduction of the exterior-optimised Uhlmann bound to $g_Q$, and
+$\Erec\le(1-\theta)f_2z^2(1+o(1))$.  Each numbered section below checks one of the
+items (a)--(h) of the referee brief and ends with a verdict box.  The overall verdict
+is stated in \S\ref{sec:verdict}.
+\end{abstract}
+\tableofcontents
+\section{What was checked, and against what}\label{sec:scope}
+
+The refereed document is \texttt{rigor/exact\_fidelity\_upper\_half.tex} (17\,pp, 886 lines,
+2026-09-15, track E1).  It was read in full, and every place where it invokes another
+document of the programme was checked against that document at the cited place:
+\texttt{uhlmann\_upper\_bound.tex} (``PA''; conventions (C1)--(C6), Prop.~3.4, Thm.~4.1,
+Def.~5.3, Cor.~5.5, \S7.3, Lemma~7.5, Prop.~7.6),
+\texttt{rate\_of\_remainder.tex} (``RR''; Def.~2.1, Lemma~2.2, Thm.~2.3, Thm.~2.5,
+Lemma~6.1, Prop.~6.2), \texttt{sdp\_dual\_certificate.tex} (``S10''; \S\S1--7 and 11:
+Lemma~4.1, Def.~4.2, Prop.~4.3, Lemma~6.1, Thm.~6.2, \S7, Lemma~11.1, Cor.~11.2),
+\texttt{optimality\_all\_channels.tex} (``S12''; \S\S2--5, in particular Prop.~2.5,
+Lemma~3.3, Thm.~4.1, \S5.1--5.2) and \texttt{exterior\_extension\_numerics.tex}
+(``E2''; Lemma~2.1, Tables~1--4).  Items (a)--(h) of the referee brief are treated in
+\S\S\ref{sec:a}--\ref{sec:h}; \S\ref{sec:loc} is a locator audit; \S\ref{sec:verdict} the
+overall verdict and the list of requested repairs.
+
+Two conventions are recorded once.  (i) Throughout, $\cH=\Stwo(PH,\Pperp H)$ with
+$\ip XY_r=\Re\Tr(X^*Y)$, $\Gamma:=2P-\one$, $E:=E_I$, $E^c:=E_{I^c}$,
+$\Gamma':=E^c\Gamma E^c$, and for $B\in\cH$, $\Xi:=B+B^*$, $\pi:=E^c\Xi E^c$; this is the
+notation of the refereed document, \S\S3 and 5.  (ii) $\mathrm F$ is the \emph{root}
+fidelity $\Tr\lvert\rho^{1/2}\sigma^{1/2}\rvert$ (PA (C5)), so that Theorem~A reads
+$-\log\mathrm F=f_2z^2(1+o(1))$; the refereed document uses this convention consistently.
+
+\section{(a) The identity $\Gamma'\pi\Gamma'=\pi$}\label{sec:a}
+
+I re-derived the identity from the three hypotheses of \eqref{eq:conds} without looking at
+the document's proof, and then compared.
+
+\lstep{1}{1}{\lassume $\Xi=\Xi^*$ bounded with
+ \begin{equation}\label{eq:conds}
+  \text{(i) }\Gamma\Xi+\Xi\Gamma=0,\qquad\text{(ii) }E\Xi E=0,\qquad
+  \text{(iii) }E^c\Gamma\Xi E^c=0 .
+ \end{equation}
+ \lprove $\Gamma'\pi\Gamma'=\pi$.}
+\lstep{1}{2}{$\Gamma\Xi\Gamma=-\Xi$, hence $E^c\Gamma\Xi\Gamma E^c=-\pi$.}
+\lby{(i) multiplied on the right by $\Gamma$ and $\Gamma^2=\one$; then compress with $E^c$
+ and use $E^c\Xi E^c=\pi$}
+\lstep{1}{3}{$E^c\Gamma E\,\Xi E^c=-\Gamma'\pi$ and, taking adjoints,
+ $E^c\Xi\,E\Gamma E^c=-\pi\Gamma'$.}
+\lby{insert $\one=E+E^c$ between $\Gamma$ and $\Xi$ in (iii):
+ $E^c\Gamma E\Xi E^c+(E^c\Gamma E^c)(E^c\Xi E^c)=0$, the second summand being $\Gamma'\pi$;
+ $\Xi$, $\Gamma$, $E$, $E^c$ are self-adjoint and $(\Gamma'\pi)^*=\pi\Gamma'$}
+\lstep{1}{4}{Inserting $\one=E+E^c$ twice in $E^c\Gamma\Xi\Gamma E^c$ gives four terms,
+ $0-\Gamma'\pi\Gamma'-\Gamma'\pi\Gamma'+\Gamma'\pi\Gamma'=-\Gamma'\pi\Gamma'$.}
+\lby{the term $E^c\Gamma E\,\Xi\,E\Gamma E^c$ vanishes by (ii); the two mixed terms are
+ $(E^c\Gamma E\Xi E^c)\Gamma'$ and $\Gamma'(E^c\Xi E\Gamma E^c)$, each $-\Gamma'\pi\Gamma'$
+ by $\langle1\rangle3$; the pure term is $\Gamma'\pi\Gamma'$}
+\lqed{1}{5}\lby{$\langle1\rangle2$ and $\langle1\rangle4$}
+
+This reproduces Theorem~5.3 $\langle1\rangle3$ of the refereed document line by line
+(its $\langle2\rangle1$--$\langle2\rangle3$), with the same intermediate identities and the
+same signs.  I also checked the two places where \eqref{eq:conds} is produced:
+(i) is $P\Xi P=\Pperp\Xi\Pperp=0$, i.e.\ $\Xi$ is $P$-off-diagonal, which is immediate from
+$B=\Pperp BP$; (iii) is $E^c(B-B^*)E^c=0$ together with $B-B^*=-\Gamma\Xi$, and the latter
+is correct: $\Gamma\Pperp=-\Pperp$, $\Gamma P=P$ give
+$\Gamma\Xi=-\Pperp BP+PB^*\Pperp=-(B-B^*)$.
+
+\begin{verdictok}
+The identity $\Gamma'\pi\Gamma'=\pi$ and its derivation from (i)--(iii) are correct as
+written (refereed document, Theorem~5.3 $\langle1\rangle2$--$\langle1\rangle3$).  No sign,
+no missing term, no hidden hypothesis: only $\Gamma^2=\one$, self-adjointness of
+$\Xi,\Gamma,E,E^c$, and $EE^c=0$ are used.  In particular the identity holds for
+\emph{bounded} $\Xi$; neither compactness nor the Hilbert--Schmidt property enters here
+(they enter only at $\langle1\rangle4$ of that proof, and \S\ref{sec:c} shows they are not
+needed there either).
+\end{verdictok}
+
+\section{(b) Generic position of $(P,E_I)$, and its two consequences}\label{sec:b}
+
+\paragraph{Where it comes from.}  The refereed document does \emph{not} import generic
+position from another document: it proves it (Lemma~5.1 $\langle1\rangle1$--$\langle1\rangle2$)
+from Hardy-space uniqueness, namely that a nonzero $f$ in $PH$ (boundary values of $H^2$ of a
+half-plane) cannot vanish on a set of positive measure.  The four intersections
+$\mathfrak h_I\cap P^{\pm}H=\mathfrak h_{I^c}\cap P^{\pm}H=\{0\}$ then hold for
+\emph{every} $I$ with $I$ and $I^c$ of positive measure, in particular for a bounded
+interval.  This is the correct and cheapest route; the BJL input is only a cross-check
+(Remark~5.2), and it is an accurate one: BJL Prop.~3.4 (p.~10, \texttt{shots/BJL\_p7.png})
+is used in the same way in \texttt{optimality\_all\_channels.tex} \S3, and states the
+equivalence of generic position of $(\mathfrak p,\mathfrak q)$ with cyclicity and
+separatingness of $\Om$.  Twisted duality (Foit) is \emph{not} needed for Lemma~5.1; it
+enters only the second proof of (Q) (\S\ref{sec:h}).
+
+\paragraph{(b1) No eigenvalues $\pm1$ for $\Gamma'$.}  Verified.  For
+$\xi\in\mathfrak h_{I^c}$ with $\Gamma'\xi=\xi$, $\norm\xi=1$:
+$1=\ip\xi{\Gamma'\xi}=\ip\xi{(2P-\one)\xi}=2\norm{P\xi}^2-1$, so $\norm{P\xi}=\norm\xi$ and
+$\Pperp\xi=0$, i.e.\ $\xi\in\mathfrak h_{I^c}\cap PH=\{0\}$; the case $-1$ is the same with
+$\Pperp$.  The passage to $\Gamma'^{\,n}\to0$ strongly is also correct:
+$\norm{\Gamma'^{\,n}\xi}^2=\int\lambda^{2n}\dd\mu_\xi\to\mu_\xi(\{\pm1\})$ by dominated
+convergence ($\norm{\Gamma'}\le1$), and $\mu_\xi(\{\pm1\})=0$ for all $\xi$ \emph{because}
+$\pm1$ are not eigenvalues (the spectral projection at an isolated or non-isolated point of
+the spectrum is the eigenprojection at that point).  Note that only the absence of
+\emph{eigenvalues} is used; $\pm1$ may well lie in the continuous spectrum, and does.
+
+\paragraph{(b2) Injectivity of $E_{I^c}PE_I$ on $\mathfrak h_I$.}  Verified.  With
+$A:=E_IPE_I|_{\mathfrak h_I}$ one has, for $\xi\in\mathfrak h_I$,
+$\norm{E^cPE\xi}^2=\ip\xi{(A-A^2)\xi}=\norm{A^{1/2}(\one-A)^{1/2}\xi}^2$, and
+$\ker\bigl(A^{1/2}(\one-A)^{1/2}\bigr)=\ker A\oplus\ker(\one-A)$ by the spectral theorem
+applied to $g(t)=\sqrt{t(1-t)}$, whose zero set in $[0,1]$ is $\{0,1\}$.  Finally
+$\ker A=\mathfrak h_I\cap\Pperp H=\{0\}$ and $\ker(\one-A)=\mathfrak h_I\cap PH=\{0\}$,
+because $\ip\xi{A\xi}=\norm{P\xi}^2$ and $\ip\xi{(\one-A)\xi}=\norm{\Pperp\xi}^2$.  The
+document's one-line justification says exactly this.
+
+\paragraph{The two groups are used in different places, as claimed.}  (b1) uses only
+$\mathfrak h_{I^c}\cap P^{\pm}H=\{0\}$ and (b2) only $\mathfrak h_{I}\cap P^{\pm}H=\{0\}$;
+the counterexample offered in the verdict box after Theorem~5.3 --- $B=\lvert g\rangle\langle f\rvert$ with
+$0\ne f\in\mathfrak h_{I^c}\cap PH$, $0\ne g\in\mathfrak h_I\cap\Pperp H$ --- is correct:
+$\Pperp BP=B$, $E_If=0$ kills $E_I(B+B^*)E_I$ and $E_{I^c}g=0$ kills
+$E_{I^c}(B-B^*)E_{I^c}$, so one failure in \emph{each} group does break the theorem.  The
+finite-dimensional remark is also right: at half filling, $\mathfrak h_I\cap PH=0$ forces
+$m\le n/2$ and $\mathfrak h_{I^c}\cap PH=0$ forces $m\ge n/2$, so generic position
+$\iff m=n/2$, while E2's model has $m>L/2$ and only the $\mathfrak h_I$ group fails.
+
+\begin{verdictok}
+Lemma~5.1 is proved, in the generality the document needs (arbitrary measurable $I$ with
+$I,I^c$ of positive measure; in particular a bounded interval), and both consequences
+(b1), (b2) follow as stated.  The only external input is Hardy-space uniqueness.
+\end{verdictok}
+
+\begin{verdictgap}
+Minor, locators only.  The Hardy input is cited as ``Rudin, \emph{Real and Complex
+Analysis}, 3rd ed., Thm.~19.2, p.~372'' and ``Thm.~17.18, p.~344'', with
+\emph{screenshots NOT OBTAINED} (the book is not in \texttt{refs/}).  Rudin's Chapter~17
+statements are for $H^p$ of the \emph{disc} ($\log\lvert f^*\rvert\in L^1(T)$), and the
+numbering 17.17/17.18 differs between printings; the half-plane statement used here needs
+the Cayley transfer as well.  Requested repair: either add the two-line transfer (Cayley
+$\mathbb R\to S^1$ maps $PH$ onto the boundary values of $H^2(\mathbb D)$ and sets of
+positive measure to sets of positive measure, so $\log\lvert f\rvert\in L^1$ gives
+$f\ne0$ a.e.), or cite a half-plane source verbatim (e.g.\ Koosis, \emph{Introduction to
+$H_p$ spaces}, Ch.~II).  Nothing in the mathematics changes.
+\end{verdictgap}
+
+\section{(c) The compactness step --- correct, and stronger than claimed}\label{sec:c}
+
+The document's step (Theorem~5.3 $\langle1\rangle4$) is: iterate $\pi=\Gamma'^{\,n}\pi\Gamma'^{\,n}$;
+$\pi$ is compact (Hilbert--Schmidt, a compression of $\Xi=B+B^*\in\Stwo$) and
+$\Gamma'^{\,n}\to0$ strongly with $\norm{\Gamma'}\le1$, so $\norm{\Gamma'^{\,n}\pi}\to0$ in
+operator norm (strong convergence is uniform on the precompact set $\pi(\text{ball})$),
+whence $\norm\pi\le\norm{\Gamma'^{\,n}\pi}\norm{\Gamma'^{\,n}}\to0$.
+
+\paragraph{Check.}  Each link is correct.  $\pi\in\Stwo(\mathfrak h_{I^c})$ because
+$B\in\cH\subseteq\Stwo$ and $E^c$ is a projection; ``strong convergence is uniform on
+precompact sets'' is the standard $\eps$-net argument and applies because
+$\overline{\pi(\text{ball})}$ is compact for compact $\pi$; and
+$\norm{\Gamma'^{\,n}\pi\Gamma'^{\,n}}\le\norm{\Gamma'^{\,n}\pi}$ since
+$\norm{\Gamma'^{\,n}}\le1$.  So $\pi=0$.
+
+\paragraph{The hypothesis is not needed.}  For \emph{any} bounded $\pi$ with
+$\pi=\Gamma'^{\,n}\pi\Gamma'^{\,n}$ and $\Gamma'^{\,n}\to0$ strongly,
+\begin{equation}\label{eq:sandwich}
+ \ip u{\pi v}=\ip u{\Gamma'^{\,n}\pi\Gamma'^{\,n}v}=\ip{\Gamma'^{\,n}u}{\pi\,\Gamma'^{\,n}v},
+ \qquad
+ \lvert\ip u{\pi v}\rvert\le\norm{\Gamma'^{\,n}u}\,\norm\pi\,\norm{\Gamma'^{\,n}v}\ \longrightarrow\ 0 ,
+\end{equation}
+so $\pi=0$.  Two-sided strong convergence already does the whole job; compactness is a
+convenience, not an ingredient.  This does not weaken the theorem (the test element $B$
+lives in $\Stwo$ by construction), but it does refute a claim made in the verdict box.
+
+\begin{verdictok}
+Theorem~5.3 $\langle1\rangle4$ is correct as written, and remains correct with
+``compact'' deleted, by \eqref{eq:sandwich}.  Step $\langle1\rangle5$ (from $\pi=0$ to
+$E\Xi E^c=0$) is also correct: $E^c\Gamma E=2E^cPE$ because $E^cE=0$, so
+$\langle1\rangle3$ of \S\ref{sec:a} with $\pi=0$ gives $(E^cPE)(E\Xi E^c)=0$ and
+$\ran(E\Xi E^c)\subseteq\mathfrak h_I\cap\ker(E^cPE)=\{0\}$ by (b2).  Together with (ii)
+this gives $\Xi=0$ and $B=\Pperp\Xi P=0$, so Theorem~5.3 is \textbf{proved}.
+\end{verdictok}
+
+\begin{verdictgap}
+\textbf{Incorrect claim in the verdict box after Theorem~5.3} (commentary, not proof).
+The box asserts: ``(b): for merely bounded $B$ the conclusion fails whenever
+$\pm1\in\operatorname{spec}\Gamma'$ --- which is the case here --- because
+$\Gamma'\pi\Gamma'=\pi$ then has nonzero bounded solutions (build $\pi$ from an approximate
+eigenvector sequence)''.  This is false.  Under the standing hypothesis of the theorem
+(generic position, hence Lemma~5.1(a), hence $\Gamma'^{\,n}\to0$ strongly)
+\eqref{eq:sandwich} shows that $\Gamma'\pi\Gamma'=\pi$ has \emph{no} nonzero bounded
+solution; and the sketched construction produces $\pi=0$: if $\xi_n$ are approximate
+eigenvectors at $1$ they converge weakly to $0$ (no eigenvector at $1$ exists), so any
+weak-$*$ cluster point of $\lvert\xi_n\rangle\langle\xi_n\rvert$ in
+$\cB(\mathfrak h_{I^c})=(\Sone)^*$ is $0$.  Requested repair: delete the clause, and
+replace the ``why only a closure'' explanation by the correct one, which the document
+already has elsewhere and E2 quantifies --- $\Ext$ is (very plausibly) dense but not
+closed because the map $Z_e\mapsto\Pperp Z_eP$ has unbounded inverse on
+$\Nvis^{\perp}$ (E2 \S2.3: the lower quartile of the gains $\sqrt{d^c_{ij}/2}$ falls from
+$10^{-2.5}$ at $L=96$ to $10^{-7.5}$ at $L=384$), not because bounded solutions of the
+fixed-point equation exist.
+\end{verdictgap}
+
+\section{(d) The two orthogonality conditions, the exterior class, the closure}\label{sec:d}
+
+\paragraph{The pairings.}  Lemma~3.2(a),(d) of the refereed document.  I recomputed both.
+For $B=\Pperp BP\in\cH$ and $\ell=\ell^*=E_I\ell E_I$ finite rank,
+$\Tr\bigl((\Pperp\ell P)^*B\bigr)=\Tr(P\ell\Pperp B)=\Tr(\ell B)$ and
+$\overline{\Tr(\ell B)}=\Tr(\ell B^*)$, so
+$\ip{\Pperp\ell P}B_r=\tfrac12\Tr\bigl(E_I(B+B^*)E_I\,\ell\bigr)$.  For
+$Z_e^*=-Z_e=E_{I^c}Z_eE_{I^c}$,
+$\Tr\bigl((\Pperp Z_eP)^*B\bigr)=\Tr(Z_e^*B)=-\Tr(Z_eB)$ and
+$\overline{\Tr(Z_eB)}=-\Tr(Z_eB^*)$, so
+$\ip{\Pperp Z_eP}B_r=-\tfrac12\Tr\bigl(Z_e\,E_{I^c}(B-B^*)E_{I^c}\bigr)$.  Both agree with
+the document, signs included.  Hence
+\begin{equation}\label{eq:twoconds}
+ B\perp\Nvis\iff E_I(B+B^*)E_I=0,\qquad B\perp\Ext\iff E_{I^c}(B-B^*)E_{I^c}=0 .
+\end{equation}
+The separation argument is also correct: $E_I(B+B^*)E_I$ is self-adjoint and
+$A:=E_{I^c}(B-B^*)E_{I^c}$ anti-self-adjoint, both Hilbert--Schmidt; testing the first
+against $\ell=\lvert f\rangle\langle f\rvert$ gives vanishing of all diagonal matrix
+elements of a self-adjoint operator, hence $0$; testing the second against finite-rank
+anti-self-adjoint $Z_e$ extends by $\Stwo$-density and $\Stwo$-continuity of
+$Z_e\mapsto\Tr(Z_eA)$ to $Z_e=A$, giving $-\norm A_2^2=\Tr(A^2)=0$.  Note that the second
+argument is what makes the theorem's ``$\Ext_{\rm fr}$ already suffices'' available; it is
+used in Theorem~5.3 $\langle1\rangle2$(iii) and the document says so.
+
+\paragraph{Which exterior class is actually available.}  Three classes occur and the
+document keeps them apart correctly: $\Ext_{\rm fr}$ (finite-rank anti-self-adjoint
+$Z_e$ in $I^c$), $\Ext$ (bounded, with $\Pperp Z_eP\in\Stwo$), and PA's $\mathcal A'$
+(Def.~5.3: bounded self-adjoint $h'$ supported in $I'$ with $\Pperp h'P\in\Stwo$), which is
+$i\mathcal A'=\Ext$ exactly.  Inclusions $\Ext_{\rm fr}\subseteq\Ext\subseteq\Nvis^{\perp}$
+are proved (Lemma~3.2(c)), and Theorem~5.3 squeezes the three closures.  The class that
+the \emph{fidelity} bound can use is $\Ext$: Theorem~6.2 needs $e^{sZ_e}$ to be a unitary
+fixing $\mathfrak h_I$ pointwise and $[P,Z_e]\in\Stwo$, which holds for bounded $Z_e$ with
+$\Pperp Z_eP\in\Stwo$, hence in particular for finite-rank $Z_e$.  So the class used for the
+density statement and the class used for the channels coincide; there is no gap between
+them.  (This is the point the Phase-4 brief got wrong in the other direction, see (e).)
+
+\paragraph{The closure is the right statement.}  $\Ext$ is a real-linear subspace of $\cH$
+but need not be closed, and the theorem only claims $\overline{\Ext}=\Nvis^{\perp}$.  Every
+downstream use goes through $\dist(\cdot,\Ext)=\dist(\cdot,\overline{\Ext})$
+(Theorem~4.3 $\langle1\rangle1$) or through an infimum over $Z_e$, so the closure suffices;
+in particular Theorem~7.1 $\langle1\rangle1$--$\langle1\rangle2$ takes a
+$\limsup$ \emph{first} and an infimum over $Z_e$ \emph{afterwards}, which is the order that
+makes a non-attained infimum harmless.  I checked that no statement in the document silently
+uses ``$(\one-\Pi)M\in\Ext$'' with an actual minimiser.
+
+\begin{verdictok}
+(d) is verified: the two orthogonality conditions are exactly ``$\perp\Nvis$'' and
+``$\perp\Ext$'' in $\ip\cdot\cdot_r$, with the constants and signs as stated; the exterior
+class available for the channels is the same class in which the density theorem is proved;
+and the closure statement is used consistently.
+\end{verdictok}
+
+\begin{verdictgap}
+Cosmetic inconsistency: the abstract defines
+$\Nvis=\{\Pperp\ell P:\ell=\ell^*=E_I\ell E_I\}$ without the finite-rank restriction, while
+Definition~3.1 imposes it (as does S10 Def.~4.2).  The two have the same closure only
+because the finite-rank ones are $\Stwo$-dense among the self-adjoint elements of
+$\Stwo(\mathfrak h_I)$; for \emph{bounded} $\ell$ with $\Pperp\ell P\in\Stwo$ this is the
+same density question as the one left open for $\Gs$ in \S\ref{sec:g}.  Requested repair:
+add the finite-rank restriction to the abstract.
+\end{verdictgap}
+
+\section{(e) Lemma~4.1 (prescribed column, free block) and the reduction}\label{sec:e}
+
+\paragraph{Lemma~4.1(a),(b),(d): verified.}  Differentiating $\Wt_\tau E_I=W_I(\tau)E_I$ at
+$\tau=0$ gives $ZE_I=\dot W_I(0)E_I$ (both blocks $E_IZE_I$ and $E_{I^c}ZE_I$), and
+$E_IZE_{I^c}=-(E_{I^c}ZE_I)^*$ by $Z^*=-Z$.  For (d),
+$E_I[P,Z]E_I=E_IPZE_I-(E_IZE_I)PE_I-(E_IZE_{I^c})PE_I$ uses only those blocks, so the
+first-order defect does not see $\widehat Z_e$; this is the structural reason why the whole
+exterior freedom is invisible, and it is the same computation as Lemma~3.2(c).  The
+justification line of (b) contains a typo (``$E_IZE_{I^c}=-(E_{I^c}Z^*E_I)^*\cdot(-1)^{0}$'')
+but the explicit identity that follows it is correct.
+
+\paragraph{Lemma~4.1(c): over-claimed as stated.}  The hypothesis of the lemma is a
+one-parameter \emph{group} $\Wt_\tau=e^{\tau Z}$ whose restrictions
+$\Wt_\tau|_{\mathfrak h_I}=W_I(\tau)$ are prescribed \emph{for all $\tau$}.  Then not only
+the column is determined: differentiating twice,
+$Z^2E_I=\ddot W_I(0)E_I$, and
+\begin{equation}\label{eq:secondorder}
+ Z^2E_I=(ZE_I)(E_IZE_I)+(ZE_{I^c})(E_{I^c}ZE_I)
+ \quad\text{contains}\quad \widehat Z_e\,(E_{I^c}ZE_I),
+\end{equation}
+so $\widehat Z_e$ is determined on $\ran(E_{I^c}ZE_I)$, and is \emph{not} ``an arbitrary
+anti-self-adjoint operator of $\mathfrak h_{I^c}$''.  The conclusion the document needs is
+nevertheless true, and is Lemma~1.2 (the torsor structure) in differentiated form:
+composing on the right with $e^{\tau Z_e}$, $Z_e$ exterior, changes no channel datum and
+shifts the generator by exactly $Z_e$.  Requested repair: state (c) either (i) at first
+order only (``prescribing $\dot W_I(0)$ leaves $\widehat Z_e$ free''), or (ii) as
+``$\mathcal E(W_I)\ni\Wt_0e^{\tau Z_e}$ for every exterior $Z_e$, and the generators of
+these right translations are the $0\oplus Z_e$''.  Version (ii) is what Theorem~6.2
+actually uses ($U_s=\Wt_se^{-\lambda s\Gs}e^{sZ_e}$), so nothing downstream changes.
+
+\paragraph{Theorem~4.3 and Corollary~4.4: verified.}  $\Ext$ is a real subspace, so the
+set $\{M_0+\Pperp Z_eP\}$ is the affine space $M_0+\Ext$ and the infimum is
+$\dist(M_0,\Ext)^2=\dist(M_0,\overline{\Ext})^2$; since $\overline{\Ext}\subseteq
+\Nvis^{\perp}=\ran(\one-\Pi)$, Pythagoras splits the distance as stated, and Lemma~3.3
+identifies $\tfrac12\norm{\Pi M_0}_2^2$ with $g_Q(\delta_{Z_0})$.  Equation~(12) (equality
+iff $(\one-\Pi)M_0\in\overline{\Ext}$) is then immediate.  Lemma~3.3 itself is S10
+Lemma~4.1/Prop.~4.3 with $D_\chi$ replaced by an arbitrary anti-self-adjoint $Z$, and the
+one new point --- that restricting the supremum defining $g_Q$ to finite-rank $t$ does not
+change it --- is argued correctly ($\Stwo$-continuity of $t\mapsto\Tr(t\delta_Z)$ and
+$t\mapsto\Tr(tQt(\one-Q))$ plus scale invariance of the quotient); it also agrees with
+S12 Thm.~4.1 $\langle2\rangle1$, which makes the same restriction.  Corollary~4.4 uses
+Theorem~5.3 (forward reference, not circular: Theorem~5.3 is independent of \S4).
+
+\paragraph{Remark~4.2 (do not truncate): verified against E2.}  The numbers
+$\norm{\Pi\Pperp(E_ID_\chi E_I)P}_2^2/\norm u_2^2=2608,6188,11052,25290$ at
+$L=128,192,256,384$ are E2 \S3.3 verbatim ($2608.4$, $6188.1$, $11051.9$, $25290.5$), and
+the reading is E2's: the truncation is not the generator of an admissible channel.
+
+\begin{verdictok}
+The reduction (Theorem~4.3), its corollaries and the identification of the correct
+bookkeeping are verified.  The only defect is the over-general phrasing of Lemma~4.1(c),
+which is not used in the form in which it is false.
+\end{verdictok}
+
+\section{(f) Second-order control: Proposition~1.3, Lemma~6.1, Theorem~6.2}\label{sec:f}
+
+\paragraph{Proposition~1.3 (the exact Uhlmann bound).}  Verified.  $\Psi=\Gm(\Wt)^*\Om$
+represents $\omega^\beta$ on $\cM$ because $\Gm(\Wt)a(f)\Gm(\Wt)^*=a(\Wt f)=a(W_If)$ for
+$f\in\mathfrak h_I$ and $\mathrm{id}_A\otimes\beta$ is the $*$-homomorphism $\alpha_{W_I}$
+on the generators ($\beta$ isometric quasi-free and even); the $\sigma$-weak density step is
+PA Prop.~3.1 verbatim.  The Alberti--Uhlmann half used is the elementary one (PA \S3
+citedbox, \texttt{math-ph/0202038} Thm.~2(3)), and the overlap identity is PA Thm.~4.1,
+whose hypotheses $V,A\in\Stwo$, $\norm V<1$, $\norm A<1$ hold because the two off-diagonal
+blocks of a unitary have the same singular values.  The expansion
+$-\tfrac12\log\det(\one-V^*V)=\tfrac12\norm V_2^2+O(\norm V_2^4)$ is correct with the
+explicit bracket given ($\tfrac12\norm V_2^2\le\cdot\le\tfrac12\norm V_2^2(1-\norm V_2^2)^{-1}$,
+valid for $\norm V_2<1$), and $\det(\one-V^*V)\ge1-\norm V_2^2$ is RR Thm.~2.5 $\langle1\rangle2$.
+\emph{Terminology}: the decomposition invoked is the \emph{cosine--sine} (CS) decomposition;
+``Cousin--Sylvester'' (twice, Prop.~1.3 $\langle1\rangle3$) is a slip.
+
+\paragraph{The correction of the brief.}  The verdict box after Proposition~1.3 is right and
+important: an admissible $\Wt$ does \emph{not} preserve $\mathfrak h_{I^c}$ (it maps it onto
+$\mathfrak h_{AB}^{\perp}\supsetneq\mathfrak h_{I^c}$), so no admissible generator is block
+diagonal, and the brief's $Z=Z_I\oplus Z_e$ must be read through Lemma~1.2.  Lemma~1.2 itself
+is correct, including the step that a unitary fixing $\mathfrak h_I$ pointwise preserves
+$\mathfrak h_{I^c}$.
+
+\paragraph{Lemma~6.1 (the exact group estimate).}  Verified, and it is the correct import.
+$\norm{P-U^*PU}_2^2=2\norm{\Pperp UP}_2^2$: with $R=U^*PU$,
+$\Tr\bigl((P-R)^2\bigr)=\Tr\bigl(P(\one-R)\bigr)+\Tr\bigl(R(\one-P)\bigr)
+=\norm{U^*\Pperp UP}_2^2+\norm{\Pperp U^*PU}_2^2=\norm{\Pperp UP}_2^2+\norm{PU\Pperp}_2^2$,
+and the two blocks are isospectral.  $\norm{[P,Z]}_2^2=2\norm{\Pperp ZP}_2^2$ for
+$Z^*=-Z$.  The Bochner-integral step is exactly RR Lemma~6.1 $\langle1\rangle2$ (the
+document cites ``RR Lemma~2.2'', see \S\ref{sec:loc}), whose hypothesis
+$[P,Z]\in\Stwo$ is the one assumed here.
+
+\paragraph{Theorem~6.2.}  Verified step by step.  (i) $U_s=\Wt_se^{-\lambda s\Gs}e^{sZ_e}$ is
+unitary, restricts on $\mathfrak h_I$ to $\Wt_se^{-\lambda s\Gs}$ (because $Z_eE_I=0$ gives
+$e^{sZ_e}E_I=E_I$), and S10 Lemma~6.1(1) makes that an isometric quasi-free channel datum;
+(ii) $\dot U_s=L_sU_s$ with the stated $L_s$, and
+$\frac{\dd}{\dd\sigma}U_\sigma^*PU_\sigma=U_\sigma^*[P,L_\sigma]U_\sigma$, which I checked by
+hand; (iii) the $\Stwo$-continuity estimate $\eta(\sigma)\to0$ is correct, including the
+telescoping $V^*PV-P$ for $V=\Wt_\sigma e^{-\lambda\sigma\Gs}$ and the bound
+$3\norm{P_\sigma-P}_2+\lambda\sigma\norm{[P,\Gs]}_2$; the step
+$\norm{[P_\sigma-P,Y]}_2\le2\norm Y\norm{P_\sigma-P}_2$ is where boundedness of $\Gs$ and
+$Z_e$ is used, and both are assumed; (iv) the conclusion follows from Proposition~1.3.
+
+\paragraph{The Hilbert--Schmidt hypothesis, explicitly.}  $[P,L_0]\in\Stwo$ with
+$L_0=-D_\chi-\lambda\Gs+Z_e$ requires (1) $[P,D_\chi]\in\Stwo$, which is PA Prop.~2.5 for an
+admissible field (this is the non-trivial one and it is where the $C^{1,1}$ extension is
+needed); (2) $\Pperp\Gs P\in\Stwo$, assumed; (3) $\Pperp Z_eP\in\Stwo$, assumed.  For the
+compression generator plus a \emph{finite-rank} exterior part all three hold, so the
+hypothesis is satisfied in the only case the main theorem uses.  Shale--Stinespring then
+gives the implementer for each $U_s$ through $\Pperp U_sP\in\Stwo$ (Theorem~6.2
+$\langle1\rangle4$), not through $[P,L_0]\in\Stwo$ directly; the logic is not circular
+because $\langle1\rangle4$ is proved from the integral representation, which needs only the
+generator hypothesis.
+
+\begin{verdictok}
+(f) is verified.  The one-parameter (product) family, the $\Stwo$ hypotheses, the
+implementability and the $\log\det$ expansion are all in order, and the $o(1)$ in
+\eqref{eq:UHb} below is a genuine $o(1)$ for each fixed $(\lambda,\Gs,Z_e)$:
+\begin{equation}\label{eq:UHb}
+ -\log\mathrm F\bigl(\omega,\omega^{\beta_{s,\lambda s}}\bigr)\le
+ \tfrac12s^2\norm{\Pperp(D_\chi+\lambda\Gs-Z_e)P}_2^2\,(1+o(1)).
+\end{equation}
+\end{verdictok}
+
+\begin{verdictgap}
+Two asides that are not justified and are not needed.  (1) \S8, item 3: ``its $o(1)$ is
+uniform over any family of exterior generators with bounded $\norm{Z_e}$ and bounded
+$\norm{[P,Z_e]}_2$''.  False as stated: $\eta(\sigma)$ contains
+$\norm{V_\sigma[P,Z_e]V_\sigma^*-[P,Z_e]}_2$, whose modulus of continuity at $\sigma=0$
+depends on the operator $[P,Z_e]$ itself, not on its norm (the $\Stwo$-continuity is proved
+by density from finite rank and is not uniform on norm-bounded sets).  It is not needed:
+Theorem~7.1 $\langle1\rangle1$--$\langle1\rangle2$ takes the $\limsup$ for fixed $Z_e$ and
+only then the infimum, which is the correct and hypothesis-free order.  Requested repair:
+delete the uniformity claim, keep E2's boundedness observation as what it is --- evidence
+that the infimum is effectively attained.  (2) Theorem~7.1 states the defect as
+$\delta(s)=E_I[P,-s(D_\chi+\lambda\Gs)]E_I+o(s)$, with a sign opposite to S10 eq.~(24)
+($\delta(\eps)=E_I[P,sD_\chi+\eps\Gs]E_I+\dots$); the direct computation
+$\delta=E_I(P-\Wt^*P\Wt)E_I=-sE_I[P,L_0]E_I+O(s^2)$ confirms S10's sign.  Immaterial for
+$g_Q$ (even in $\delta$), but it should be fixed.
+\end{verdictgap}
+
+\section{(f$'$) The re-expression of (UH) through $g_Q$ (Theorem~7.1)}\label{sec:fp}
+
+Theorem~7.1 is stated as $-\log\mathrm F(\omega,\omega^{\beta_s})\le g_Q(\delta(s))(1+o(1))$.
+Steps $\langle1\rangle1$--$\langle1\rangle2$ prove the sharp and unconditional half,
+\begin{equation}\label{eq:sharphalf}
+ \limsup_{s\downarrow0}s^{-2}\bigl[-\log\mathrm F(\omega,\omega^{\beta_s})\bigr]
+ \ \le\ \tfrac12\dist\bigl(\Pperp(D_\chi+\lambda\Gs)P,\Ext\bigr)^2
+ \ =\ \tfrac12\norm{\Pi\Pperp(D_\chi+\lambda\Gs)P}_2^2 ,
+\end{equation}
+the last equality by Theorems~4.3 and 5.3.  This is the content, and it is correct: the
+left-hand side does not depend on $Z_e$, so the infimum may be taken on the right.
+
+Step $\langle1\rangle3$ then replaces the right-hand side by $s^{-2}g_Q(\delta(s))$, citing
+``S10 Lemma~6.1(2) (its eq.~(24)) together with the continuity of the positive quadratic
+form $g_Q$''.  \emph{The continuity of $g_Q$ is false in the continuum}, and the programme
+knows it: $g_Q(\delta)=\tfrac18\sup_t(\Tr t\delta)^2/\Tr(tQt(\one-Q))$ is an unbounded
+quadratic form because $\operatorname{spec}Q$ accumulates at $0$ and $1$ for an interval,
+and this is exactly the ``order of limits'' effect documented in S10 \S7(d) (uncapped
+$g_Q(\delta_c)/\tfrac12s^2\norm u_2^2=2.8,12,45$ at $s=0.02,0.05,0.1$) and in S12 \S5.1
+(uncapped $g_Q\sim10^{283}$ in the spectral model).  S10's own Lemma~6.1(2)--(3) and
+Prop.~4.3(2) carry the same caveat: they are statements about the leading term of a formal
+expansion in $s$ with an $O(s^3)$ remainder that is controlled only after a weight cap.
+
+\begin{verdictgap}
+\textbf{Gap (repairable, and not load-bearing).}  Theorem~7.1's \emph{statement} in the form
+``$\le g_Q(\delta(s))(1+o(1))$'' is not proved: it needs
+$g_Q(\delta(s))=\tfrac{s^2}2\norm{\Pi\Pperp(D_\chi+\lambda\Gs)P}_2^2+o(s^2)$, which is S10
+Lemma~6.1(2)--(3), itself conditional on the cap/order-of-limits control, and certainly not
+a consequence of ``continuity of $g_Q$''.  Requested repairs, in order of preference:
+(1) state Theorem~7.1 as \eqref{eq:sharphalf} --- the $g_Q$-free form, which is what
+Theorem~7.2 and Corollary~7.3 actually consume --- and add ``$=g_Q(\delta(s))(1+o(1))$
+whenever S10 Lemma~6.1(2) applies'' as a remark; (2) or keep the present form and replace
+``continuity of the positive quadratic form $g_Q$'' by an explicit hypothesis, citing S10
+\S7(d) and S12 \S5.1 for why it is not automatic.  Note that Theorem~7.2 $\langle1\rangle1$
+cites the \emph{steps} $\langle1\rangle1$--$\langle1\rangle2$ of Theorem~7.1, not its
+statement, so the main theorem is unaffected; Corollary~7.3, whose upper half is phrased with
+$\inf g_Q$, is affected and should be rephrased with the right-hand side of
+\eqref{eq:sharphalf}.
+\end{verdictgap}
+
+\section{(g) Theorem~7.2 and Corollary~7.3: $\theta_{\rm fr}$, and what it is worth}\label{sec:g}
+
+\paragraph{The chain.}  Verified.  With $u=\Pi M$, $M=\Pperp D_\chi P$, $v_\Gs=\Pi(\Pperp\Gs P)$,
+$\Pi$ real-linear gives $\Pi\Pperp(D_\chi+\lambda\Gs)P=u+\lambda v_\Gs$;
+$\min_\lambda\norm{u+\lambda v}_2^2=\norm u_2^2(1-\cos^2\angle(u,v))$ with
+$\cos^2\angle(u,v)=(\Re\ip uv)^2/(\norm u^2\norm v^2)$; and $\tfrac12\norm u_2^2=g_B/8=f_2$
+(S10 Prop.~4.3(2)).  Since \eqref{eq:sharphalf} holds for every fixed $(\lambda,\Gs)$ and the
+left-hand side is independent of them, one may minimise in $\lambda$ and then maximise in
+$\Gs$; with $z=s$ in the half-line normal form (PA (C4); I checked the identification
+$z=ac/(b(a+b+c))=as/(a+L)=\zeta$ for $b=L/(1+sL)$, so the two cross ratios agree exactly)
+this gives
+$\Erec\le(1-\theta_{\rm fr})f_2z^2(1+o(1))$ with
+$\theta_{\rm fr}=\sup\{\cos^2\angle(u,v_\Gs):\Gs\ \text{finite rank}\}$.  So the definition of
+$\theta_{\rm fr}$ does support the displayed statement (19).  (Pedantic: the supremum should
+be restricted to $\Gs$ with $v_\Gs\ne0$, else the angle is undefined.)
+
+\paragraph{``$\theta_{\rm fr}>0\iff E_DuE_D$ non-self-adjoint'': proved.}  By S10 Thm.~6.2
+$\langle1\rangle1$, $\Re\ip u{v_\Gs}=\ip{R_a}\Gs_r$ with $R_a$ the anti-self-adjoint part of
+$R=E_DuE_D$; the functional $\Gs\mapsto\ip{R_a}\Gs_r$ vanishes on all finite-rank
+anti-self-adjoint $\Gs=E_D\Gs E_D$ iff $R_a=0$, because $R_a\in\Stwo$ is itself
+anti-self-adjoint and supported in $D$ and finite-rank operators are $\Stwo$-dense.  Both
+directions are correct as argued.  Note the document is \emph{conservative} here: S10
+Cor.~11.2 (M\"obius rigidity, Lemma~11.1) proves the exact identity $E_D\dot\delta E_D=0$,
+hence that $R=E_DuE_D$ is \emph{purely} anti-self-adjoint, so $R_a\ne0\iff E_DuE_D\ne0$, and
+gives the explicit bound $\theta\ge\norm{E_DuE_D}_2^2/\norm u_2^2$ with the \emph{admissible
+and Hilbert--Schmidt} test direction $\Gs=R_a$.  That test direction is available to
+$\theta_{\rm fr}$ as well (see next paragraph), which is worth saying in Theorem~7.2.
+
+\paragraph{$\theta_{\rm fr}$ versus $\theta$: the numerical corollary needs an argument.}
+$\theta_{\rm fr}\le\theta$ by definition ($\theta$ is a supremum over the larger class of
+bounded $\Gs$), so $(1-\theta_{\rm fr})\ge(1-\theta)$ and the numerical conclusion
+``$\Erec\le0.71f_2z^2$'' in Theorem~7.2 does \emph{not} follow from
+``$\theta=0.300\pm0.005$'': it needs $\theta_{\rm fr}\ge0.30$.  The gap box lists
+``$\theta_{\rm fr}=\theta$ is not proved'', but the theorem statement asserts the
+consequence anyway.  The repair is cheap and should be made:
+\begin{enumerate}[leftmargin=1.8em,itemsep=1pt]
+\item All quantities depend on $\Gs$ only through $w=\Pperp\Gs P$ (numerator
+ $\Re\ip u{\Pi w}=\Re\ip uw$, denominator $\norm{\Pi w}^2$), and both are $\Stwo$-continuous
+ in $w$; hence $\theta_{\rm fr}=\theta_{\rm HS}:=\sup\{\cos^2\angle(u,v_\Gs):\Gs\in\Stwo\}$,
+ by density of finite-rank anti-self-adjoint operators in the $\Stwo$ ones supported in $D$.
+ Only ``$\theta_{\rm HS}=\theta$'' (bounded $\Gs$ with $\Pperp\Gs P\in\Stwo$ but $\Gs\notin\Stwo$)
+ remains open, and it is irrelevant for a \emph{lower} bound on $\theta_{\rm fr}$.
+\item $\theta_{\rm fr}\ge\norm{R_a}_2^4/\bigl(\norm u_2^2\ip{R_a}{\mathcal AR_a}_r\bigr)>0$
+ whenever $R_a\ne0$, by the admissible HS direction $\Gs=R_a$ (S10 Cor.~11.2
+ $\langle1\rangle3$), which gives the explicit $\theta_{\rm fr}\ge0.0143$ numerically.
+\item The optimiser found numerically \emph{is} of this kind: S10 \S7(c) reports
+ $\norm{\eps_*\Gs_*}_2/s=0.84$ (finite Hilbert--Schmidt norm), and both discretisations that
+ produce $\theta\approx0.29$--$0.34$ (S10 \S7, S12 \S5.2) are finite-dimensional, i.e.\ their
+ optimisers are finite rank.  So $\theta_{\rm fr}\ge0.30$ is exactly as well supported
+ numerically as $\theta\ge0.30$ --- but this sentence has to be written down.
+\end{enumerate}
+
+\paragraph{Corollary~7.3.}  The upper half is Theorem~7.1 and inherits \S\ref{sec:fp}.  The
+lower half is cited as ``\texttt{optimality\_all\_channels.tex} Prop.~2.4 and Thm.~4.1
+($\Erec\ge\mathcal D_z(1-o(1))$, $\mathcal D_z=\min_\cF g_Q$)''.  S12 has no Prop.~2.4
+(Lemma~2.4 is the second-moment control, Prop.~2.5 the reduction), and S12 Thm.~4.1(2) is
+\emph{conditional}: it gives $\Erec\ge\mathcal D_z(1-o(1))$ only along families $t_z$ with
+$\norm{t_z}_1^2/V(t_z)$ bounded and $\Delta_z(t_z)\norm{t_z}_1/V(t_z)\to0$, and in the
+continuum the unconditional statement is the dual form (10),
+$\liminf z^{-2}\Erec\ge\sup_{(t_z)}\liminf z^{-2}\Delta_z(t_z)^2/(8V(t_z))$.  Requested
+repair: state the lower half of Corollary~7.3 with that proviso (or with ``$\mathcal D_z$''
+replaced by the value achieved along admissible test families), and correct the locator.
+
+\begin{verdictgap}
+Theorem~7.2's inequality (19) with $\theta_{\rm fr}$ and the equivalence
+$\theta_{\rm fr}>0\iff R_a\ne0$ are \textbf{proved}.  The numerical rider
+``$\Erec\le0.71f_2z^2$'' is \textbf{not yet justified as written}, because it quotes $\theta$
+where $\theta_{\rm fr}$ is needed; the three bullets above close that hole with no new
+mathematics.  Corollary~7.3's lower half overstates S12 Thm.~4.1(2).
+\end{verdictgap}
+
+\section{(h) The second proof (duality): inputs and sector}\label{sec:h}
+
+The proof of Theorem~5.4 has four links.  I checked each against PA.
+
+\lstep{1}{1}{$H_\cM\cap\cH^{(1,1)}=\overline{\Nvis}$ and
+ $H_{\cM'}\cap\cH^{(1,1)}=\overline{\mathcal K}$, and moreover $EH_\cM\subseteq\overline{\Nvis}$.}
+\lby{PA Lemma~7.5 (``Wick reduction''), whose statement is exactly this and whose
+ $\langle1\rangle1$--$\langle1\rangle3$ prove the stronger $EB\Om\in\overline{\mathcal L}$
+ resp.\ $\overline{\mathcal K}$ for every self-adjoint $B$ in the algebra; PA's
+ $\mathcal L$ is E1's $\Nvis$ verbatim (PA eq.~(35)), and PA's $\mathcal K$ is
+ $\{\Pperp h'P:h'\in\mathcal A'\}$, which has the same closure as E1's finite-rank
+ $\mathcal K$ by PA Lemma~7.5 $\langle1\rangle3$ (which produces finite-rank $h$) together
+ with $\Ext_{\rm fr}\subseteq\Ext$}
+\lstep{1}{2}{$K^{\perp_{\mathbb R}}=iK'$ for a closed real subspace $K$.}
+\lby{with $\ip fg$ antilinear in the first slot, $\Re\ip{i\zeta}\eta=\Re(-i\ip\zeta\eta)
+ =\operatorname{Im}\ip\zeta\eta$; pure algebra, correct, and the convention matches PA (C1)}
+\lstep{1}{3}{$\bigl(\overline{\cM_{\rm sa}\Om}\bigr)'=\overline{\cM'_{\rm sa}\Om}$.}
+\lby{Tomita--Takesaki for standard subspaces; $\Om$ cyclic and separating for $\cF(I)$ by
+ Reeh--Schlieder.  \emph{Screenshot NOT OBTAINED} (Rieffel--van Daele 1977; Longo's notes);
+ the document says so}
+\lstep{1}{4}{For $\xi=E\xi$: $\xi\perp_{\mathbb R}\Nvis\iff\xi\perp_{\mathbb R}H_\cM$;
+ combining, $\Nvis^{\perp}=i\overline{\mathcal K}=\overline{\Ext_{\rm fr}}$.}
+\lby{$E$ is a complex-linear orthogonal projection and $EH_\cM\subseteq\overline\Nvis\subseteq
+ H_\cM$ by $\langle1\rangle1$; then $\langle1\rangle2$, $\langle1\rangle3$, and
+ $i\mathcal K=\Ext_{\rm fr}$ because $\Pperp(ih')P=i\Pperp h'P$ and $h'\mapsto ih'$ is a
+ bijection from finite-rank self-adjoint onto finite-rank anti-self-adjoint operators
+ supported in $I^c$}
+
+So the proof does use exactly what the document says --- PA's Wick lemma, the algebraic
+identity $K^{\perp_{\mathbb R}}=iK'$, and Tomita --- in the $(1,1)$ sector, with the
+compression handled correctly in $\langle1\rangle4$ (this is the step that would fail if $E$
+were not complex-linear or if $EH_\cM$ could leave $\overline\Nvis$).  The claim that
+twisted duality enters ``only through the inclusion $\subseteq$'' is accurate: PA Lemma~7.5
+$\langle2\rangle1$ uses $\cM'\subseteq Z\cF(I')Z^*$, which is the \emph{duality} half of
+Foit's theorem (the hard half), and PA marks it \emph{screenshot NOT OBTAINED} as well.
+
+\begin{verdictok}
+The duality proof is correct as an argument, and the claim that it is independent of
+Theorem~5.3 is correct.  Its status as a \emph{proof} is weaker than the first one: it
+imports twisted duality and the standard-subspace form of Tomita's theorem, neither of them
+verified in this programme with a screenshot.  The document's own framing --- ``(Q) \emph{is}
+Haag duality read in the $(1,1)$ sector'' --- is the right reading, and is a genuinely
+useful structural statement.
+\end{verdictok}
+
+\begin{verdictgap}
+\textbf{Geometry transfer.}  PA is written in the \emph{half-line} configuration
+(PA (C4): $A=(-\infty,0)$, $D=(0,1)$, $I=(-\infty,1)$, $I'=(1,\infty)$), so PA Lemma~7.5,
+PA Def.~5.3 and PA Prop.~7.6 are statements for $I$ a half-line with connected complement.
+The refereed document works with $I=(-a,L)$ a \emph{bounded interval}, whose complement is
+the union of two half-lines, and applies PA Lemma~7.5 there without comment.  The transfer is
+true but not free: PA Lemma~7.5's proof uses twisted duality $\cF(I)'=Z\cF(I^c)Z^*$, which
+for a bounded interval on the line is Haag duality for the disconnected complement (standard
+for the free chiral fermion, e.g.\ via the circle picture where $I^c$ is the complementary
+arc, the point at infinity having measure zero), plus additivity
+$\cF(I^c)=\cF(I^c_-)\vee\cF(I^c_+)$.  Requested repair: one sentence in Theorem~5.4 saying
+which form of twisted duality is used for a bounded interval and where it is taken from.
+The \emph{first} proof needs none of this (Lemma~5.1 holds for any $I$ of positive measure
+with $I^c$ of positive measure), so the main theorem is untouched.
+\end{verdictgap}
+
+\begin{verdictgap}
+\textbf{Scope of the ``no duality'' claim.}  The verdict box says the first proof ``uses no
+net-theoretic input'' (true) and the gap box says twisted duality is needed ``for the second
+proof only''.  That is true for Theorem~5.3, but not for Theorem~7.2: the value
+$\tfrac12\norm u_2^2=f_2$ is imported from S10 Prop.~4.3(2), whose proof cites PA Prop.~7.6,
+whose proof uses PA Lemma~7.5 in the $X=I'$ case, i.e.\ twisted duality.  The dependence is
+removable --- with Theorem~5.3 in hand one has $\dist(M,\Ext)^2=\norm{\Pi M}_2^2$ without
+duality, and the \emph{value} $\norm{\Pi M}_2^2=g_B/4$ follows from PA
+Prop.~7.6 $\langle1\rangle3$--$\langle1\rangle6$, which use only the $X=I$ half of PA
+Lemma~7.5 plus \texttt{quadratic\_limit.tex} Thm.~4.2 --- but it should be said, since the
+document advertises the main line as duality-free.
+\end{verdictgap}
+
+\section{Corroboration section (\S8): the quoted E2 numbers}\label{sec:E2check}
+
+Every number quoted from track E2 was checked against
+\texttt{exterior\_extension\_numerics.tex}.  All are accurate:
+$\dim_{\mathbb R}\Nvis=m^2-2z^2$, $\dim_{\mathbb R}\Nvis^{\perp}=(L-m)^2=\dim_{\mathbb R}\Ext$,
+$z=m-L/2$ (E2 Lemma~2.1); all principal angles between $\Ext$ and $\Nvis^{\perp}$ zero to
+$10$ digits at $L=32,48,64$ (E2 Table~1); $\dist((\one-\Pi)M,\Ext)^2$ and
+$\dist((\one-\Pi)v_{\Gs_*},\Ext)^2$ vanishing to $55$--$70$ digits in \texttt{mpmath}
+(E2 \S3.2); $\mathrm{UB}_c/(\tfrac12s^2\norm u_2^2)=1.00000000$ and
+$\mathrm{UB}_{\rm rot}/\mathrm{UB}_c=0.70885,0.71125,0.71058,0.70766$ against
+$1-\theta=0.708903,0.711204,0.710508,0.707673$ at $L=128,192,256,384$ (E2 Table~3);
+$\norm{Z_e}_2/s=3.031,3.133,3.175,3.222$ at $\mu=10^{-8}$ (E2 \S4.1); the truncation numbers
+$2608,6188,11052,25290$ (E2 \S3.3); the earlier factor $4.3$ (S12 \S5.1, E2 Table~3 caption).
+The document's reading of the conditioning data (E2 \S2.3) as ``the finite-$L$ signature of
+$\Ext$ dense but not closed'' is E2's own reading and is sound.
+
+One cross-document convention mismatch, \emph{not} E1's: E2's verdict after its Table~4
+writes ``$-\log F\le2\,\mathrm{UH}(\Wt)$'' with $\mathrm{UH}=-\tfrac12\log\det(\one-V^*V)$,
+i.e.\ E2 there uses the squared fidelity, whereas PA, S10, S12 and the refereed document use
+the root fidelity (for which $-\log\mathrm F\le\mathrm{UH}$).  E2 only uses ratios, so no E2
+number is affected, but the factor should be reconciled before either text is quoted
+elsewhere.
+
+\section{Locator audit}\label{sec:loc}
+
+The README requires exact locators.  The refereed document's internal cross-references are
+all correct (I checked them against its \texttt{.aux}), and so are its citations to S10
+\S\S4 and 6, to \texttt{quadratic\_limit.tex} Thm.~4.2 and to E2.  Its citations to PA and
+RR, however, are systematically off --- apparently written with PA's ``Step $k$'' labels
+rather than its section numbers.  The list (cited $\to$ actual, from the compiled
+\texttt{.aux} files of 2026-09-15):
+\begin{center}\small
+\begin{tabular}{lll}
+\toprule
+cited in \texttt{exact\_fidelity\_upper\_half.tex} & actual & content\\
+\midrule
+PA Cor.~1.9 & PA Cor.~2.7 & the implementer $\Gm(U)$\\
+PA \S2 (Alberti--Uhlmann citedbox) & PA \S3 & fidelity as a sup over vector states\\
+PA Thm.~3.1 & PA Thm.~4.1 & vacuum overlap $=\det(\one-V^*V)^{1/2}$\\
+PA Lemma~2.4 & PA Lemma~3.2 & $\Gm(\widehat W')\in\cM'$ (PA 2.4 is a different lemma)\\
+PA Lemma~5.5 & PA Lemma~7.5 & Wick reduction\\
+PA \S5.3, eq.~(5.5) & PA \S7.3, eq.~(35) & definition of $\mathcal L$, $\mathcal K$\\
+PA Prop.~5.9 & PA Prop.~7.6 & the infimum is $g_B/4$\\
+RR Lemma~2.2 & RR Lemma~6.1 $\langle1\rangle2$ & $\Stwo$-valued $\int_0^tU^*[P,Z]U$\\
+RR Thm.~2.5 $\langle1\rangle4$ & RR Thm.~2.3 $\langle1\rangle4$ & CS: equal off-diagonal singular values\\
+RR Thm.~2.6 $\langle1\rangle2$ & RR Thm.~2.5 $\langle1\rangle2$ & $\det(\one-V^*V)\ge1-\norm V_2^2$\\
+S10 eq.~(2.1) & S10 eq.~(1) & $Q=E_IPE_I$\\
+S10 \S9 & S10 \S7 (and Cor.~11.2) & the numerics $\theta=0.300\pm0.005$\\
+S12 \S5.2--5.3 & S12 \S5.1--5.2 & exact-fidelity check; Galerkin $\theta$\\
+S12 Prop.~2.4 & S12 Prop.~2.5 (+Thm.~4.1(2),(3)) & reduction to the recovered symbol\\
+S12 \S1 & \texttt{optimality\_all\_channels.tex} \S1 & definition of $\Erec$ (sigil ``S12'' undefined)\\
+\bottomrule
+\end{tabular}
+\end{center}
+For contrast, \texttt{rate\_of\_remainder.tex} \S6.2 cites PA Prop.~7.6, Thm.~4.1, Prop.~3.4,
+Def.~5.3 and Lemma~5.2 with the current numbering, so the slips are local to this document
+and a reader following them lands on unrelated statements (e.g.\ ``PA Lemma~2.4'' is the
+kernel-of-the-projection-defect lemma, ``RR Thm.~2.6'' is the value of $f_2^\star$).
+
+\begin{verdictgap}
+Locators only, no mathematics: 15 references must be renumbered as above.  I verified that
+in each case the \emph{content} attributed to the source is what the correctly numbered
+statement says, so this is editorial.  One genuine terminology error: ``Cousin--Sylvester
+(CS) decomposition'' should be ``cosine--sine (CS) decomposition''.
+\end{verdictgap}
+
+\section{Overall verdict and requested repairs}\label{sec:verdict}
+
+\begin{verdictok}
+\textbf{The document stands, with repairs.}  Its central claim is \emph{proved}:
+in $\cH=\Stwo(PH,\Pperp H)$ with the real inner product,
+$\overline{\Ext_{\rm fr}}=\overline{\Ext}=\Nvis^{\perp}$ (Theorem~5.3).  I attempted to
+break it in four ways --- by re-deriving $\Gamma'\pi\Gamma'=\pi$ from scratch, by testing
+whether generic position is really available for the Hardy projection and a \emph{bounded}
+interval, by looking for a hidden use of compactness or of closedness of $\Ext$, and by
+checking whether the two orthogonality conditions really are ``$\perp\Nvis$'' and
+``$\perp\Ext$'' for the exterior class the channels can use --- and none of them worked.
+The proof is in fact stronger than advertised: the fixed-point step needs no compactness
+(\eqref{eq:sandwich}).  Downstream, the reduction (Theorem~4.3, Corollary~4.4), the exact
+Uhlmann bound (Proposition~1.3), the group estimate (Lemma~6.1), the product-family
+second-order control (Theorem~6.2) and the $g_Q$-free form \eqref{eq:sharphalf} of (UH) are
+all correct, and they give Theorem~7.2's inequality
+$\Erec\le(1-\theta_{\rm fr})f_2z^2(1+o(1))$ together with
+$\theta_{\rm fr}>0\iff E_DuE_D\ne(E_DuE_D)^*$.
+\end{verdictok}
+
+\paragraph{Proved (no numerical input).}
+(P1) $\overline{\Ext}=\Nvis^{\perp}$, finite-rank exterior generators sufficing
+(Theorem~5.3), for $P$ the Hardy projection and any $I$ with $I,I^c$ of positive measure.
+(P2) The same statement is Haag (twisted) duality in the $(1,1)$ sector (Theorem~5.4),
+modulo the imported twisted duality and Tomita, and modulo the geometry transfer of
+\S\ref{sec:h}.
+(P3) $\inf_{Z_e}\tfrac12\norm{\Pperp(Z_0+Z_e)P}_2^2=\tfrac12\norm{\Pi\Pperp Z_0P}_2^2$ for
+every anti-self-adjoint $Z_0$ with $\Pperp Z_0P\in\Stwo$, and dependence on the channel only
+through its first-order defect (Theorem~4.3, Corollary~4.4).
+(P4) \eqref{eq:sharphalf}: $\limsup s^{-2}[-\log\mathrm F]\le\tfrac12\norm{\Pi\Pperp(D_\chi+\lambda\Gs)P}_2^2$
+for the product family, hence $\Erec\le(1-\theta_{\rm fr})f_2z^2(1+o(1))$ (Theorems~6.2, 7.1
+$\langle1\rangle1$--$\langle1\rangle2$, 7.2), the value $f_2$ coming from S10 Prop.~4.3(2).
+(P5) $\theta_{\rm fr}>0\iff R_a\ne0$; and (S10 Cor.~11.2, not used by the document)
+$R=E_DuE_D$ is purely anti-self-adjoint, so this is $\iff E_DuE_D\ne0$.
+
+\paragraph{Numerical, not proved.}
+(N1) $\theta>0$, equivalently $E_DuE_D\ne0$ --- the single numerical input, as the document
+says.  (N2) Its \emph{value}: $\theta=0.300\pm0.005$ (S10 \S7, spectral model), $0.286\to0.336$
+and still rising with resolution in the modular Galerkin model (S12 \S5.2, which concludes
+``at least $0.30$ and plausibly $0.34$--$0.40$''); E2 reconfirms
+$\mathrm{UB}_{\rm rot}/\mathrm{UB}_c=0.708$--$0.711$.  Hence ``$\kappa_{\rm opt}\le0.71$''
+is a numerical statement with a $\pm0.01$-type uncertainty and, per S12 \S5.2, plausibly a
+conservative one.  (N3) The identity $\overline{\Ext}=\Nvis^{\perp}$ is now \emph{not}
+numerical --- E2's Lemma~2.1 is a finite-model theorem and Theorem~5.3 is the continuum one.
+
+\paragraph{Requested repairs (all editorial or one-paragraph).}
+\begin{enumerate}[leftmargin=2.0em,itemsep=1pt]
+\item[R1] Theorem~7.2: justify the step from $\theta$ to $\theta_{\rm fr}$ before quoting
+ $0.71$ --- the three bullets of \S\ref{sec:g} ($\theta_{\rm fr}=\theta_{\rm HS}$ by
+ $\Stwo$-density; the explicit HS direction $\Gs=R_a$ of S10 Cor.~11.2; the optimisers of
+ both discretisations are finite rank) --- or state (19) with $\theta_{\rm fr}$ only and put
+ the numerical rider in a remark.
+\item[R2] Theorem~7.1: state it as \eqref{eq:sharphalf}; the re-expression through
+ $g_Q(\delta(s))$ needs S10 Lemma~6.1(2) with its cap/order-of-limits proviso, not
+ ``continuity of $g_Q$'' (which is false: S10 \S7(d), S12 \S5.1).  Rephrase
+ Corollary~7.3's upper half accordingly.
+\item[R3] Verdict box after Theorem~5.3: delete the claim that compactness is necessary and
+ that $\Gamma'\pi\Gamma'=\pi$ has nonzero bounded solutions; replace by \eqref{eq:sandwich}
+ and by the conditioning argument of E2 \S2.3 for why only a closure is claimed.
+\item[R4] Lemma~4.1(c): restate at first order, or as the differentiated torsor statement
+ (see \eqref{eq:secondorder}).
+\item[R5] Corollary~7.3, lower half: S12 Thm.~4.1(2) is conditional on the test-family
+ conditions; state the proviso and use the dual form (10).
+\item[R6] Theorem~5.4: name the form of twisted duality used for a \emph{bounded} interval
+ (PA Lemma~7.5 is written in the half-line configuration).
+\item[R7] Say that the \emph{value} $\tfrac12\norm u_2^2=f_2$ still reaches back to PA
+ Prop.~7.6 (hence to duality), or record the duality-free route noted in \S\ref{sec:h}.
+\item[R8] Fix the 15 locators of \S\ref{sec:loc}; ``cosine--sine'', not ``Cousin--Sylvester'';
+ define the sigil ``S12''.
+\item[R9] Theorem~7.1: fix the sign of $\delta(s)$ (S10 eq.~(24)); \S8 item~3: delete the
+ uniformity claim.
+\item[R10] Abstract: add the finite-rank restriction in the definition of $\Nvis$; restrict
+ $\theta_{\rm fr}$'s supremum to $\Gs$ with $v_\Gs\ne0$; the abstract advertises a
+ ``Halmos two-projection normal form'' proof, while Theorem~5.3 is the invariant
+ computation (the Halmos form appears only in \S2 (N2)).
+\end{enumerate}
+
+\begin{verdictgap}
+\textbf{Summary verdict: stands with repairs.}  No proof-breaking issue was found: nothing
+in the chain from Theorem~5.3 to Theorem~7.2 is false, and the two items that are wrong ---
+the necessity-of-compactness claim (R3) and Lemma~4.1(c) as stated (R4) --- are a commentary
+claim and an over-general phrasing of a lemma that is used only in a form that is true.  The
+two substantive holes are R1 (the numerical corollary quotes $\theta$ where
+$\theta_{\rm fr}$ is needed) and R2 (the $g_Q$ form of (UH) is not proved, though the
+$g_Q$-free form is); both are repairable without new mathematics, and neither affects the
+headline conclusion $\Erec\le(1-\theta_{\rm fr})f_2z^2(1+o(1))$ with $\theta_{\rm fr}>0$
+iff $E_DuE_D\ne0$.
+\end{verdictgap}
+
+\end{document}

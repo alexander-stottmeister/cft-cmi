@@ -1,0 +1,12 @@
+L=96 dps=60 theta=0.30118 eps_*/s=-1.0000 |u|^2=0.007104
+selftest: brute force -logF = 0.109773246392   formula = 0.109773246392
+P projector check |P^2-P|: 2.24130835923931341374408273549646931145018153155223804047392e-59
+  s=0.005: compression  exact -logF = 2.6187615902e-7   (g_Q-scale: 0.5 s^2|u|^2 = 8.880091e-08)
+  s=0.005: rotated      exact -logF = 2.47082615264e-7   (g_Q-scale: 0.5 s^2|u|^2 = 8.880091e-08)
+  s=0.005: RATIO rotated/compression = 0.94350939   (S10 prediction 1-theta = 0.6988)
+  s=0.002: compression  exact -logF = 4.19814965168e-8   (g_Q-scale: 0.5 s^2|u|^2 = 1.420815e-08)
+  s=0.002: rotated      exact -logF = 3.96399706189e-8   (g_Q-scale: 0.5 s^2|u|^2 = 1.420815e-08)
+  s=0.002: RATIO rotated/compression = 0.94422481   (S10 prediction 1-theta = 0.6988)
+  s=0.001: compression  exact -logF = 1.05021381352e-8   (g_Q-scale: 0.5 s^2|u|^2 = 3.552036e-09)
+  s=0.001: rotated      exact -logF = 9.918942531e-9   (g_Q-scale: 0.5 s^2|u|^2 = 3.552036e-09)
+  s=0.001: RATIO rotated/compression = 0.94446887   (S10 prediction 1-theta = 0.6988)

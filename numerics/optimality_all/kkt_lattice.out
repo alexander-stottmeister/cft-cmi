@@ -1,0 +1,18 @@
+# (LA,LB,LC)=(4,8,2)  n=14  z=0.07142857  2 f2 z^2 = 8.615747e-05
+# eig(Q) in [5.711e-10,5.711e-10] from 1 -> kappa_max = 21.2834; w_true_max = 8.7547e+08
+# stored best_4_8_2.npz: exact -logF(best)=8.669529e-05, Petz=3.216425e-04, cap=8.0
+# kappa_c | min_F g_w (SDP) | g_w at S8 (X,Z) | Delta(t_opt) | 2 g_w | gap rel | Dual/g_w [V_w] | Dual/g_w [V_true] | |Qr_lin-Qr_pri|_F | status
+  4.000 | 6.38796887e-05 | 6.72726422e-05 | 1.27758567e-04 | 1.27759377e-04 | +6.34e-06 | 0.99998732 | 1.05265551 | 5.68e-04 | optimal/optimal
+  pr.solve(solver=solver)
+  6.000 | 7.32363916e-05 | 7.37944345e-05 | 1.46471657e-04 | 1.46472783e-04 | +7.69e-06 | 0.99998462 | 1.01253266 | 2.07e-03 | optimal_inaccurate/optimal
+  8.000 | 7.69024000e-05 | 7.72396966e-05 | 1.53804307e-04 | 1.53804800e-04 | +3.21e-06 | 0.99999359 | 1.02366873 | 1.44e-03 | optimal/optimal
+  pr.solve(solver=solver)
+ 10.000 | 8.21078367e-05 | 8.42693391e-05 | 1.64221802e-04 | 1.64215673e-04 | -3.73e-05 | 1.00007465 | 1.03460963 | 3.83e-03 | optimal_inaccurate/optimal_inaccurate
+ 12.000 | 9.48589385e-05 | 1.13953105e-04 | 1.89657937e-04 | 1.89717877e-04 | +3.16e-04 | 0.99936822 | 1.07369716 | 2.15e-02 | optimal_inaccurate/optimal
+ 14.000 | 1.10425586e-04 | 2.21124670e-04 | 2.20829772e-04 | 2.20851172e-04 | +9.69e-05 | 0.99980622 | 1.06176929 | 2.04e-02 | optimal_inaccurate/optimal_inaccurate
+ 16.000 | 1.26864752e-04 | 9.51050719e-04 | 2.54203622e-04 | 2.53729504e-04 | -1.87e-03 | 1.00374069 | 1.04472150 | 1.22e-02 | optimal_inaccurate/optimal_inaccurate
+ 18.000 | 1.35239148e-04 | 2.86823452e-03 | 2.70800861e-04 | 2.70478297e-04 | -1.19e-03 | 1.00238656 | 1.01860934 | 5.63e-02 | optimal_inaccurate/optimal_inaccurate
+  pr.solve(solver='SCS', eps_abs=1e-11, eps_rel=1e-11, max_iters=400000)
+ 21.283 | 1.19685975e-04 | 4.99549048e-02 | 2.59240042e-04 | 2.39371950e-04 | -8.30e-02 | 1.17289099 | 1.17289101 | 3.16e-01 | optimal_inaccurate/optimal_inaccurate
+# columns: Dual = Delta(t_opt)^2/(8 V);  [V_w] uses the Legendre pair of the capped form,
+#          [V_true] uses V(t)=Tr(tQt(1-Q)) (equal to V_w only for the uncapped weights).

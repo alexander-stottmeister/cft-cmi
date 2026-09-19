@@ -1,0 +1,8 @@
+Dhat_exact_s0.025_Lam60_k30_g12.npz: N=91 n_sub=81 kc=25.3 dps=40 (148s) zeta=0.00833 -logF_sub=5.744436e-07 +tail=5.816601e-07 [0.008376 zeta^2]  S_sub=4.922154e-06 +tail=4.936587e-06 [0.071087 zeta^2]  qt in (1.6e-11,1.6e-11)
+Dhat_exact_s0.05_Lam60_k30_g12.npz: N=91 n_sub=81 kc=25.3 dps=40 (148s) zeta=0.01667 -logF_sub=2.278930e-06 +tail=2.307796e-06 [0.008308 zeta^2]  S_sub=1.943522e-05 +tail=1.949295e-05 [0.070175 zeta^2]  qt in (1.6e-11,1.6e-11)
+Dhat_exact_s0.1_Lam60_k30_g12.npz: N=91 n_sub=81 kc=25.3 dps=40 (148s) zeta=0.03333 -logF_sub=8.967949e-06 +tail=9.083414e-06 [0.008175 zeta^2]  S_sub=7.583498e-05 +tail=7.606591e-05 [0.068459 zeta^2]  qt in (1.7e-11,1.7e-11)
+Dhat_exact_s0.2_Lam60_k30_g12.npz: N=91 n_sub=81 kc=25.3 dps=40 (147s) zeta=0.06667 -logF_sub=3.473751e-05 +tail=3.519937e-05 [0.007920 zeta^2]  S_sub=2.894889e-04 +tail=2.904126e-04 [0.065343 zeta^2]  qt in (1.7e-11,1.7e-11)
+Dhat_exact_s0.4_Lam60_k30_g12.npz: N=91 n_sub=81 kc=25.3 dps=40 (148s) zeta=0.13333 -logF_sub=1.305916e-04 +tail=1.324390e-04 [0.007450 zeta^2]  S_sub=1.061889e-03 +tail=1.065584e-03 [0.059939 zeta^2]  qt in (1.7e-11,1.7e-11)
+Dhat_exact_s0.8_Lam60_k30_g12.npz: N=91 n_sub=81 kc=25.3 dps=40 (148s) zeta=0.26667 -logF_sub=4.651622e-04 +tail=4.725519e-04 [0.006645 zeta^2]  S_sub=3.633951e-03 +tail=3.648730e-03 [0.051310 zeta^2]  qt in (1.7e-11,1.7e-11)
+Dhat_exact_s1.6_Lam60_k30_g12.npz: N=91 n_sub=81 kc=25.3 dps=40 (148s) zeta=0.53333 -logF_sub=1.514896e-03 +tail=1.544455e-03 [0.005430 zeta^2]  S_sub=1.112580e-02 +tail=1.118492e-02 [0.039322 zeta^2]  qt in (1.8e-11,1.8e-11)
+done

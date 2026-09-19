@@ -1,0 +1,446 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[margin=0.92in,headheight=14pt]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{bm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{booktabs,tabularx,array}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,decorations.pathreplacing}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+\definecolor{navy}{HTML}{17365D}
+\definecolor{teal}{HTML}{117A8B}
+\definecolor{ink}{HTML}{2C3138}
+\definecolor{lightblue}{HTML}{EEF5FA}
+\definecolor{lightgray}{HTML}{F4F5F7}
+\definecolor{softgreen}{HTML}{EEF7F2}
+\definecolor{greenframe}{HTML}{3C735B}
+\definecolor{warm}{HTML}{FFF7E8}
+\definecolor{warmframe}{HTML}{A86E20}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=navy,
+  citecolor=teal,
+  urlcolor=teal,
+  pdftitle={Derivation of the Universal Recovery Coefficients},
+  pdfauthor={Technical research note}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}Universal recovery coefficients}
+\fancyhead[R]{\small\color{ink}Derivation of \(c/12\)}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newtheoremstyle{accent}
+  {8pt}{8pt}{\itshape}{}
+  {\color{navy}\bfseries}{.}{0.5em}{}
+\theoremstyle{accent}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\cM}{\mathfrak{M}}
+\newcommand{\cN}{\mathfrak{N}}
+\newcommand{\cR}{\mathcal{R}}
+\newcommand{\CAR}{\operatorname{CAR}}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\Ad}{\operatorname{Ad}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\Ran}{\operatorname{Ran}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\pv}{\operatorname{pv}}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\one}{\mathbf{1}}
+\newcommand{\Sone}{\mathfrak{S}_1}
+\newcommand{\Stwo}{\mathfrak{S}_2}
+\newcommand{\Fid}{\operatorname{F}}
+\newcommand{\MI}{\operatorname{MI}}
+\newcommand{\CMI}{I}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\ip}[2]{\left\langle #1,#2\right\rangle}
+
+\newtcolorbox{mainbox}{
+  enhanced,
+  colback=lightblue,
+  colframe=navy,
+  boxrule=0.85pt,
+  arc=2mm,
+  left=5mm,right=5mm,top=3.8mm,bottom=3.8mm,
+  title={\bfseries Main result},
+  coltitle=white,
+  colbacktitle=navy,
+  attach boxed title to top left={xshift=4mm,yshift=-2mm}
+}
+
+\newtcolorbox{proofbox}[1][]{
+  enhanced,
+  breakable,
+  colback=softgreen,
+  colframe=greenframe,
+  boxrule=0.65pt,
+  arc=1.5mm,
+  left=4mm,right=4mm,top=2.8mm,bottom=2.8mm,
+  title={\bfseries #1},
+  coltitle=white,
+  colbacktitle=greenframe
+}
+
+\newtcolorbox{caveatbox}{
+  enhanced,
+  breakable,
+  colback=warm,
+  colframe=warmframe,
+  boxrule=0.65pt,
+  arc=1.5mm,
+  left=4mm,right=4mm,top=2.8mm,bottom=2.8mm,
+  title={\bfseries Precise scope},
+  coltitle=white,
+  colbacktitle=warmframe
+}
+
+\setlist[itemize]{leftmargin=1.5em,itemsep=2.5pt,topsep=4pt}
+\setlist[enumerate]{leftmargin=1.8em,itemsep=3pt,topsep=4pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5.2pt}
+\allowdisplaybreaks
+\emergencystretch=2em
+\raggedbottom
+
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{problem}[theorem]{Problem}
+\newcommand{\Diff}{\operatorname{Diff}}
+
+\newcommand{\Wh}{\widehat W}
+\newcommand{\gh}{\widehat{\widetilde g}}
+\newcommand{\gt}{\widetilde g}
+
+\title{\vspace{-1.55cm}\color{navy}\bfseries
+Derivation of the Universal Recovery Coefficients\\[0.35em]
+\Large \(f_2=\dfrac{c}{12\pi^2}\) and \(s_2=\dfrac{c}{12}\)\\[0.5em]
+\large Stress-tensor tangent vector, modular spectral measure, and the exact free-fermion check}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-1.55em}
+
+\begin{abstract}
+Note~5 computed the fidelity and relative entropy between the vacuum of the free chiral fermion and the state recovered by the zero-collar Petz channel for three adjacent intervals, \(-\log\Fid=f_2\zeta^2+\dots\), \(D=s_2\zeta^2+\dots\), with \(f_2=0.008444(1)\) and \(s_2=0.0837(5)\).  We derive these numbers in closed form.  The first-order change of the recovered state is the derivation by the stress tensor smeared with the special conformal vector field restricted to the recovered interval; the second variations of fidelity and relative entropy are the Bures and Kubo--Mori quadratic forms of that tangent, expressed through the modular operator of the interval; and, because the modular flow of an interval is geometric, both reduce to the vacuum two-point function of the stress tensor in the modular frame, where it is the thermal function of a weight-two field at inverse temperature \(2\pi\).  With the generator normalization \(\langle T(x)T(y)\rangle=\frac{c}{8\pi^2}(x-y-i0)^{-4}\) the two quadratic forms are \(g_B=\frac{2c}{3\pi^2}\) and \(g_{\mathrm{KM}}=\frac c6\) per unit of the deformation parameter, giving \(f_2=c/(12\pi^2)=0.0084434\) and \(s_2=c/12=0.083333\).  For the free fermion the same constants follow rigorously from the one-particle formulas of Note~5, using an exact identity between the modular matrix elements of the covariance defect and those of the (analytically continued) half-density generator; every step is verified numerically.  The argument uses only diffeomorphism covariance and the half-sided modular geometry, so the coefficients are universal: for a two-dimensional CFT with \((c,\bar c)\), in the lattice variables of Vardhan--Wei--Zou, \(-\log F^{(0)}=\frac{c+\bar c}{3\pi^2}\eta^2+O(\eta^3)\) and \(D=\frac{c+\bar c}{3}\eta^2+\dots\).
+\end{abstract}
+
+\begin{mainbox}
+Let \(\Phi(\zeta)=-\log\Fid(\omega,\widetilde\omega_s)\) and \(\mathcal D(\zeta)=D(\omega\Vert\widetilde\omega_s)\) for the zero-collar rotated Petz recovery, \(\zeta=z(1+e^{-2\pi t})\).
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+\item \textbf{Theorem A (free fermion, \(r\) components).}
+The one-particle Bures and Kubo--Mori metrics of the recovery curve are exactly \(g_B=\frac{2r}{3\pi^2}\) and \(g_{\mathrm{KM}}=\frac r6\), i.e.\ \(f_2=\frac{r}{12\pi^2}\), \(s_2=\frac r{12}\).  The identification \(f_2=\lim_{\zeta\to0}\Phi/\zeta^2\), \(s_2=\lim\mathcal D/\zeta^2\) is now a theorem: \(\liminf_{\zeta\to0}\Phi/\zeta^2\ge r/(12\pi^2)\) by data processing and the Legendre form of the SLD metric (\texttt{rigor/quadratic\_limit.tex}, Thm~4.2), and \(\limsup_{\zeta\to0}\Phi/\zeta^2\le r/(12\pi^2)\) by Uhlmann's inequality applied to the vector representative \(\Gamma(\widetilde W_s)^*\Omega\) obtained from a Bogoliubov extension of the compression map to a diffeomorphism, whose vacuum overlap is \(\det(1-V^*V)^{1/2}\) with \(V=P_-\widetilde W_sP_+\), and whose second-order expansion, minimized over the extension, is exactly \(\tfrac18g_B\) by the three-way identity (\texttt{rigor/uhlmann\_upper\_bound.tex}, refereed in \texttt{rigor/referee\_uhlmann\_upper\_bound.tex}).  No interchange of limits and no tail estimate are needed; with the flow extension the bound is global, \(\Phi\le-\frac12\log(1-2f_2\zeta^2)\), and the remainder of the quadratic law is \(c_3f_2\zeta^3+O(\zeta^4)\), \(c_3=-0.99(1)\) (\texttt{rigor/rate\_of\_remainder.tex}).  Numerically the limit is confirmed to \(10^{-3}\), and the Uhlmann bound itself exceeds \(\Phi\) by \(0.2\%\) at \(\zeta=1/120\).
+\item \textbf{Theorem B (any diffeomorphism covariant net on \(S^1\); Bures statement now a theorem: \texttt{rigor/universality\_theorem\_B.tex} Thm~7.1 with hypotheses (H1)--(H3) proved for every such net in \texttt{rigor/implementation\_C11.tex} Thm~5.1, both refereed; the Kubo--Mori statement remains conditional).}  The same with \(r\) replaced by the central charge \(c\); for a two-dimensional CFT the chiralities add.
+\item \textbf{Mechanism.}  \(\delta\omega=i\,\omega([T(g),\cdot])\) with \(\gt(\xi)=-4\sinh^2(\xi/2)\mathbf 1_{\xi>0}\) in the modular frame; spectral density \(\frac1{2\pi}\Wh(k)|\gh(k)|^2\), \(\Wh(k)=\frac{c}{24\pi}\frac{k(k^2+1)}{e^{2\pi k}-1}\), \(\gh(k)=\frac{-2i}{k(k^2+1)}\); Bures weight \(\frac{(\lambda-1)^2}{\lambda+1}\) and Kubo--Mori weight \((\lambda-1)\log\lambda\), \(\lambda=e^{2\pi k}\); integrals \(\int_0^\infty\frac{\tanh\pi k}{k(k^2+1)}dk=2\) and \(\int_{\mathbb R}\frac{dk}{k^2+1}=\pi\).
+\item \textbf{Consequences.}  \(s_2/f_2=\pi^2\); \(-\log\Fid\simeq\frac{12}{\pi^2c}\) (the chiral law; for a two-dimensional CFT with total CMI \(I_{\rm tot}\) the coefficient is \(12/(\pi^2(c+\bar c))\)) \(\,I_\omega(A{:}C|B)^2\) for the ordinary Petz map; the numbers of Note~5 are reproduced: \(12\pi^2f_2^{\mathrm{num}}=1.00007(118)\), \(12s_2^{\mathrm{num}}=1.0008(60)\).
+\end{itemize}
+\end{mainbox}
+
+\tableofcontents
+\clearpage
+\section{Setting, conventions, and statements}\label{sec:setting}
+
+\paragraph{Stress tensor.}
+\(T(f)=\int T(x)f(x)\,dx\) is normalized as the \emph{generator}: \(e^{isT(f)}\) implements the flow of the vector field \(f\partial_x\), so that \(T(1)\) is the light-ray momentum.  In this normalization
+\begin{equation}\label{eq:TT}
+ \langle\Omega,T(x)T(y)\Omega\rangle=\frac{c}{8\pi^2}\,\frac{1}{(x-y-i0)^4},
+\end{equation}
+(the BPZ field \(2\pi T\) has \(\frac c2(x-y)^{-4}\)); \(\langle T(x)\rangle=0\) on the line, and \(T(f)\Omega=0\) for \(f\in\operatorname{span}\{1,x,x^2\}\) by M\"obius invariance of the vacuum.  Under a conformal change of coordinate \(x\mapsto\xi\) the field transforms as a weight-2 density up to a c-number Schwarzian term, \(\widetilde T(\xi)=(dx/d\xi)^2T(x)+\text{const}\), which drops out of connected correlation functions and of all commutators; only the connected two-point function enters below.
+
+\paragraph{Geometry and modular frame.}
+By Lemma~1.1 of Note~5 the quantities depend on \((a,L,s)\) only through \(\zeta=as/(a+L)\); we take the half-line configuration
+\[
+ A=(-\infty,0),\qquad D=BC=(0,L),\qquad I=ABC=(-\infty,L),\qquad \zeta=s,
+\]
+and the modular coordinate
+\begin{equation}\label{eq:xi}
+ \xi=-\log\frac{L-x}{L},\qquad \beta(x)=\frac{dx}{d\xi}=L-x=Le^{-\xi},\qquad x=L(1-e^{-\xi}),
+\end{equation}
+so that \(x<0\Leftrightarrow\xi<0\) and \(D\Leftrightarrow\xi>0\).  The modular group of \((\cA(I),\Omega)\) is the dilation about \(L\) (Bisognano--Wichmann), a translation \(\xi\mapsto\xi-2\pi t\) for \(\Delta^{it}\) (the sign follows from Bisognano--Wichmann together with Haag duality, see \texttt{rigor/check\_notes\_6\_7.tex}); the modular conjugation \(J\) implements the reflection \(x\mapsto2L-x\) antiunitarily.  In the half-density identification the vacuum symbol of the free fermion is the thermal kernel of Note~5, eq.~(16), and for any net the connected two-point function of \(\widetilde T(\xi)=\beta^2T(x)\) is translation invariant:
+\begin{equation}\label{eq:W}
+ W(u):=\langle\widetilde T(\xi)\widetilde T(\xi')\rangle_{\mathrm{conn}}
+ =\frac{\beta^2\beta'^2}{(x-y-i0)^4}\,\frac{c}{8\pi^2}
+ =\frac{c}{128\pi^2}\,\frac{1}{\sinh^4\frac{u-i0}{2}},\qquad u=\xi-\xi',
+\end{equation}
+because \((x-y)/\sqrt{\beta\beta'}=2\sinh\frac{\xi-\xi'}{2}\).  This is the Wightman function of a weight-2 field at inverse temperature \(2\pi\).
+
+\paragraph{The deformation.}
+The rotated Petz maps are \(\gamma_{s_t}\) with \(h_s(x)=Lx/(L+sx)\), \(s_t=\lambda(1+e^{-2\pi t})\); \(h_s\) is the M\"obius flow generated by
+\begin{equation}\label{eq:f}
+ f(x)=\frac{d}{ds}h_s(x)\Big|_{s=0}=-\frac{x^2}{L},\qquad U(s)=e^{isT(f)},\qquad U(s)\Omega=\Omega,
+\end{equation}
+and the collar recovered state is \(\widetilde\omega_\eps(x_Ay_D)=\omega\bigl(x_A\,U(s)y_DU(s)^*\bigr)\) for \(x_A\in\cA(A_\eps)\), \(y_D\in\cA(D)\).
+
+\paragraph{What is proved here.}
+Write \(g_B\) and \(g_{\mathrm{KM}}\) for the Bures (SLD) and Kubo--Mori metrics of the curve \(s\mapsto\widetilde\omega_s\) at \(s=0\), normalized so that \(-\log\Fid=\frac{s^2}{8}g_B+o(s^2)\) and \(D=\frac{s^2}{2}g_{\mathrm{KM}}+o(s^2)\).  We show
+\begin{equation}\label{eq:main}
+ \boxed{\;g_B=\frac{2c}{3\pi^2},\qquad g_{\mathrm{KM}}=\frac c6,\qquad\text{hence}\qquad f_2=\frac{c}{12\pi^2},\quad s_2=\frac c{12},\;}
+\end{equation}
+by two routes: a general one (Sections~\ref{sec:step1}--\ref{sec:step3}) valid for every diffeomorphism covariant net once the type-III second-variation lemma is granted, and a rigorous one-particle computation for the free fermion (Section~\ref{sec:fermion}) that reproduces \eqref{eq:main} at \(c=r\) and validates the analytic continuation used in the general route.  For the free fermion the identification \(f_2=g_B/8\), \(s_2=g_{\mathrm{KM}}/2\) rests on the finite-dimensional formulas of Note~5 and on the existence of \(\lim_{\zeta\to0}\Phi/\zeta^2\), which Note~5 established up to the interchange of the compression limit with the second-order expansion (its Corollary~4.2).
+\section{Step 1: the tangent vector is a stress-tensor derivation}\label{sec:step1}
+
+\begin{lemma}\label{lem:tangent}
+Let \(\chi\in C^\infty\) with \(\chi=1\) on a neighbourhood of \(\overline D\) and \(\chi=0\) on a neighbourhood of \(\overline{A_\eps}\), and \(g:=f\chi\).  Then for every \(X\in\cM_\eps=\cA(A_\eps)\vee\cA(D)\),
+\begin{equation}\label{eq:tangent}
+ \frac{d}{ds}\widetilde\omega_\eps(X)\Big|_{s=0}=i\,\omega\bigl([T(g),X]\bigr).
+\end{equation}
+The right-hand side does not depend on the choice of \(\chi\); replacing \(g\) by \(-f(1-\chi)\) (a function supported near \(A\)) gives the same functional.
+\end{lemma}
+
+\begin{proof}
+For \(X=x_Ay_D\): \(\frac{d}{ds}\omega(x_AU(s)y_DU(s)^*)|_0=i\omega(x_A[T(f),y_D])\).  By locality \([T(f),y_D]=[T(g),y_D]\) and \([T(g),x_A]=0\), so \(i\omega(x_A[T(g),y_D])=i\omega([T(g),x_Ay_D])\).  Linear combinations of products are weakly dense in \(\cM_\eps\), and both sides are normal in \(X\) because \(T(g)\Omega\) is a vector (\(g\) is smooth and compactly supported).  For the second representative use \(T(f)\Omega=0\): \(i\omega(x_AT(f)y_D)=i\omega([x_A,T(f)]y_D)=-i\omega([T(f(1-\chi)),X])\); the two representatives differ by the derivation of the global generator \(T(f)\), which annihilates \(\omega\).
+\end{proof}
+
+At zero collar the natural representative is \(g=f\) on \([0,L]\), continued smoothly beyond \(L\) (outside \(I\)) and vanishing on \(A\); it is \(C^{1,1}\) at the touching point (\(f(0)=f'(0)=0\), jump of \(f''\)) and smooth elsewhere.  In the modular frame,
+\begin{equation}\label{eq:gtilde}
+ T(g)=\int\widetilde T_0(\xi)\,\gt(\xi)\,d\xi,\qquad
+ \gt(\xi)=\frac{g(x(\xi))}{\beta(x(\xi))}=-\frac{x^2}{L(L-x)}=-\frac{L^2(1-e^{-\xi})^2}{L^2e^{-\xi}}=-4\sinh^2\frac\xi2\quad(\xi>0),
+\end{equation}
+and \(\gt=0\) for \(\xi<0\); here \(\widetilde T_0=\widetilde T-\langle\widetilde T\rangle\) (a vacuous subtraction, since \(\langle\widetilde T\rangle=0\) in this convention) \(\) is the subtracted field, so that \(\langle\widetilde T_0\widetilde T_0\rangle=W\) of \eqref{eq:W}.  The exponential growth of \(\gt\) as \(\xi\to\infty\) is the statement that the vector field does not vanish at the far endpoint \(L\) of \(D\), which coincides with the endpoint of \(I\): the deformation moves that endpoint.  Its Fourier transform exists as the analytic continuation
+\begin{equation}\label{eq:ghat}
+ \gh(k):=\lim_{\eps\downarrow0}\int_0^\infty e^{-(ik+\eps)\xi}\gt(\xi)\,d\xi\Big|_{\text{continued from }\eps>1}
+ =-2\Bigl[\tfrac12\Bigl(\tfrac1{ik-1}+\tfrac1{ik+1}\Bigr)-\tfrac1{ik}\Bigr]=\frac{-2i}{k(k^2+1)},
+\end{equation}
+\(|\gh(k)|^2=4/(k^2(k^2+1)^2)\).  Section~\ref{sec:fermion} shows that this continuation is exactly what the honest kernel computation produces.
+
+\paragraph{Free fermion.}
+For \(\cA=\cF_r\), \(U(s)=\Gamma(V_s)\) with \(V_s\) the half-density push-forward, and the recovered symbol is \(\widetilde Q_s=W_s^*P_+W_s\), \(W_s=1_{H_A}\oplus V_s\) (Note~4).  Hence the first-order defect is
+\begin{equation}\label{eq:D1-def}
+ D^{(1)}:=\frac{d}{ds}(Q-\widetilde Q_s)\Big|_{s=0}=\mathfrak g^*Q+Q\mathfrak g,\qquad
+ \mathfrak g:=-\frac{d}{ds}W_s\Big|_{s=0}=\Bigl(g\,\partial_x+\tfrac12g'\Bigr)E_D,
+\end{equation}
+the half-density Lie derivative along \(g\) on \(D\) (in \(\xi\): \(\gt\partial_\xi+\frac12\gt'\)).  Note~5 gave its kernel explicitly: on \(A\times D\), \(D^{(1)}(-u,v)=\frac{i}{2\pi}\frac{1}{L}\frac{uv}{(u+v)^2}\).  In the modular frame of the half-line, with \(u=-x=L(e^{-\xi}-1)\), \(v=y=L(1-e^{-\xi'})\), \(\sqrt{\beta\beta'}=Le^{-(\xi+\xi')/2}\),
+\begin{equation}\label{eq:D1-kernel}
+ \boxed{\;\widetilde D^{(1)}(\xi,\xi')=\sqrt{\beta\beta'}\,D^{(1)}(x,y)=-\frac{i}{2\pi}\,\frac{\sinh\frac\xi2\,\sinh\frac{\xi'}2}{\sinh^2\frac{\xi-\xi'}{2}}\qquad(\xi<0<\xi'),\;}
+\end{equation}
+and the adjoint on the other block; it is bounded and decays like \(e^{-|\xi|/2}e^{-\xi'/2}\), so its modular matrix elements are absolutely convergent integrals.
+\section{Step 2: second variations as modular quadratic forms}\label{sec:step2}
+
+\subsection{Finite dimensions}
+Let \(\rho=\sum_ip_i|i\rangle\langle i|\) be faithful on \(\mathbb C^n\), realized in standard form on \(\mathbb C^n\otimes\overline{\mathbb C^n}\) with \(\Omega=\sum_i\sqrt{p_i}\,|i\rangle\otimes|\bar\imath\rangle\), \(\cM=B(\mathbb C^n)\otimes1\), modular operator \(\Delta=\rho\otimes\bar\rho^{-1}\), antiunitary \(J(|i\rangle\otimes|\bar\jmath\rangle)=|j\rangle\otimes|\bar\imath\rangle\), Tomita operator \(S=J\Delta^{1/2}\) (\(SX\Omega=X^*\Omega\)) and \(S^*=\Delta^{1/2}J\).  For a curve \(\rho_s\) with \(\dot\rho=d\rho\) Hermitian and traceless the second variations are the SLD and Kubo--Mori metrics
+\begin{align}
+ -\log\Fid(\rho,\rho_s)&=\frac{s^2}{8}g_B+o(s^2),& g_B&=2\sum_{ij}\frac{|d\rho_{ij}|^2}{p_i+p_j};\label{eq:metrics-fd}\\
+ D(\rho\Vert\rho_s)&=\frac{s^2}{2}g_{\mathrm{KM}}+o(s^2),& g_{\mathrm{KM}}&=\sum_{ij}|d\rho_{ij}|^2\,\frac{\log p_i-\log p_j}{p_i-p_j}.\notag
+\end{align}
+Write the tangent functional \(\varphi(X)=\Tr(d\rho X)\) as \(\varphi(X)=\langle\eta,X\Omega\rangle\) for all \(X\in\cM\); the vector \(\eta\) is unique and given by \(\eta_{i\bar\jmath}=d\rho_{ij}/\sqrt{p_j}\).  Since \((1\otimes\bar\rho^{1/2})(\rho\otimes1+1\otimes\bar\rho)^{-1}(1\otimes\bar\rho^{1/2})=(\Delta+1)^{-1}\) and \(p_j\,\ell(p_i,p_j)=\log\lambda/(\lambda-1)\) with \(\lambda=p_i/p_j\),
+\begin{equation}\label{eq:metrics-eta}
+ g_B=2\bigl\langle\eta,(\Delta+1)^{-1}\eta\bigr\rangle,\qquad g_{\mathrm{KM}}=\Bigl\langle\eta,\frac{\log\Delta}{\Delta-1}\,\eta\Bigr\rangle.
+\end{equation}
+
+\begin{lemma}[Derivation tangents]\label{lem:eta}
+If \(\varphi(X)=i\,\omega([A,X])\) for a self-adjoint \(A\) on the standard-form space (not necessarily in \(\cM\)) with \(\Omega\in D(A)\) and \(A\Omega\in D(S^*)=D(\Delta^{-1/2})\), then \(\eta=i\,(S^*-1)A\Omega\); the domain hypothesis is also necessary, since for \(A\Omega\notin D(S^*)\) no vector represents \(\varphi\) (\texttt{rigor/lemma\_second\_variation.tex}).  Consequently:
+\begin{enumerate}
+\item \(\eta\) is unchanged under \(A\mapsto A+B\) with \(B=B^*\in\cM'\), because \(S^*B\Omega=B^*\Omega=B\Omega\).
+\item If \(A\in\cM\) and \(A\Omega\in D(\Delta)\) (not automatic for bounded \(A\in\cM\), which only gives \(A\Omega\in D(\Delta^{1/2})\)), then \(S^*A\Omega=\Delta A\Omega\), \(\eta=i(\Delta-1)A\Omega\), and with the spectral measure \(\mu\) of \(A\Omega\) with respect to \(\Delta\),
+\begin{equation}\label{eq:spectral-forms}
+ g_B=2\int\frac{(\lambda-1)^2}{\lambda+1}\,d\mu(\lambda),\qquad g_{\mathrm{KM}}=\int(\lambda-1)\log\lambda\,d\mu(\lambda),\qquad d\mu(\lambda^{-1})=\lambda\,d\mu(\lambda).
+\end{equation}
+\item In general \(g_B=2\bigl\|(1+\Delta)^{-1/2}(S^*-1)A\Omega\bigr\|^2=2\bigl\|(1-J)(1+\Delta)^{-1/2}A\Omega\bigr\|^2\), a finite expression for every vector \(A\Omega\), which needs no hypothesis and is taken as the definition of \(g_B\) in general.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\(\varphi(X)=i\langle A\Omega,X\Omega\rangle-i\langle X^*\Omega,A\Omega\rangle\) and \(\langle X^*\Omega,A\Omega\rangle=\langle J\Delta^{1/2}X\Omega,A\Omega\rangle=\langle\Delta^{1/2}JA\Omega,X\Omega\rangle=\langle S^*A\Omega,X\Omega\rangle\), which gives \(\eta\).  (1) is \(S^*X'\Omega=X'^*\Omega\) on \(\cM'\Omega\).  (2): \(S^*X\Omega=\Delta^{1/2}JX\Omega=\Delta^{1/2}\Delta^{1/2}X^*\Omega=\Delta X^*\Omega\) for \(X\in\cM\); insert into \eqref{eq:metrics-eta}.  The KMS symmetry of \(\mu\) is \(|A_{ij}|^2p_i=\lambda\,|A_{ij}|^2p_j\).  (3): \((1+\Delta)^{-1/2}\Delta^{1/2}J=J(1+\Delta)^{-1/2}\) since \(J\Delta J=\Delta^{-1}\).
+\end{proof}
+
+Both weights in \eqref{eq:spectral-forms} satisfy \(w(\lambda^{-1})=w(\lambda)/\lambda\), so each integral is twice the contribution of \(\{\lambda<1\}\); the Bures weight is bounded by \(1+\lambda\), which is why \(g_B\le4\|A\Omega\|^2\) (equality for pure states) and why the Bures second variation is finite whenever \(A\Omega\) is a vector; the Kubo--Mori weight \(4(\lambda-1)/\log\lambda\) is \emph{not} bounded by \(1+\lambda\) (\(12.78>8.39\) at \(\lambda=e^2\)) and grows like \(4\lambda/\log\lambda\), so finiteness of the Kubo--Mori variation needs \(\int\lambda\,d\mu(\lambda)/\log\lambda<\infty\), i.e.\ essentially \(A\Omega\in D(\Delta^{1/2})\) up to a logarithm, in line with the hypothesis of Lemma~\ref{lem:second-variation}.
+
+\subsection{The type-III lemma}
+\begin{lemma}[Second variation for faithful normal states; needed for Theorem B]\label{lem:second-variation}
+Let \(\omega\) be a faithful normal state of a von Neumann algebra \(\cM\) in standard form \((\mathcal H,J,\Delta,\Omega)\), and let \(\omega_s\) be normal states with \(\omega_s(X)=\omega(X)+s\,\varphi(X)+o(s)\) for \(X\) in a strongly dense \(*\)-subalgebra, where \(\varphi(X)=i\omega([A,X])\) for a self-adjoint \(A\) affiliated with a von Neumann algebra containing \(\cM\), \(\Omega\in D(A)\), and \(o(s)\) is controlled in the norm of the tangent space.  Then \eqref{eq:metrics-fd} holds with \(g_B\), \(g_{\mathrm{KM}}\) given by \eqref{eq:metrics-eta}, \(\eta=i(S^*-1)A\Omega\), whenever \(\eta\) lies in the form domain of \(\log\Delta/(\Delta-1)\).
+\end{lemma}
+Simplifications of the hypotheses (\texttt{rigor/lemma\_second\_variation.tex}): for the Bures half only \(\Omega\in D(A)\), \(A=A^*\) and \(A\Omega\in D(\Delta^{-1/2})\) are needed (neither the form-domain condition on \(\eta\) nor an affiliation of \(A\) with a larger algebra); in \(g_B=4\inf\|A\Omega-B'\Omega-c\Omega\|^2\) the constant \(c\) is redundant over \(\mathbb R\) (\(c\mathbf 1\in\cM'_{\rm sa}\)), and allowing \(c\in\mathbb C\) is harmless only because \(A=A^*\) forces \(\operatorname{Im}\langle\Omega,A\Omega\rangle=0\); the natural cone does not compute the fidelity (\(\langle\xi_\rho,\xi_\sigma\rangle=\Tr\rho^{1/2}\sigma^{1/2}\le\Fid\)), so the supremum over \(U(\cM')\) is genuinely needed.  Proof route: the standard-form supremum formula \(\Fid(\omega_\psi,\omega)=\sup_{u'\in U(\cM')}|\langle\Omega,u'\psi\rangle|\) (Alberti--Uhlmann 2002, Theorem~2(3)) and the finite-dimensional variational characterization of the Bures metric; note that \(\langle\Omega,\Delta_{\omega_s,\omega}^{1/2}\Omega\rangle\) is not the fidelity but the quasi-entropy \(Q_{1/2}\), whose second variation is the Wigner--Yanase metric, and that Jen\v cov\'a's construction of monotone metrics is finite-dimensional.  A further caveat: for the zero-collar representative \(g=f\mathbf 1_D\) the vector \(T(g)\Omega\) has infinite norm (\(\int\widehat W|\widehat{\widetilde g}|^2dk\) diverges at \(k=0\)), so the lemma must be applied to a finite-norm representative (\(g\) continued smoothly beyond \(L\); different continuations change \(T(g)\) by elements of \(\cF(I)'\), which leave the tangent functional unchanged), and the passage to the \(\xi\)-frame spectral integrals of Section~\ref{sec:step3} requires a separate form-domain statement.  For the free fermion both points are bypassed by the kernel identity of Section~\ref{sec:fermion}.  \emph{Status (2026-09-05):} the fidelity half of the lemma is now proved for every von Neumann algebra with cyclic separating \(\Omega\) and every \(A\) with \(\Omega\in D(A)\), \(A\Omega\in D(\Delta^{-1/2})\) (\texttt{rigor/lemma\_second\_variation.tex}, theorem ``Three faces of the Bures form'': \(\tfrac14g_B=\tfrac12\|(1-J)(1+\Delta)^{-1/2}a\|^2=\operatorname{dist}(a,\overline{\cM'_{\rm sa}\Omega})^2=\sup_{K\in\cM_{\rm sa}}[\varphi(K)-\operatorname{Var}_\omega(K)]\); lower bound from the supremum formula with \(v'=e^{isB'}\), upper bound from Alberti's inequality with \(x=1+sK\)).  The Kubo--Mori half remains open beyond finite dimensions.  For the zero-collar representative the upper bound survives verbatim, while the identification of the lower bound with the spectral integral is reduced to a uniform-convergence statement for cut-off tangents (ibid., proposition ``Stability of \(g_B(\varphi)\) under approximation of the tangent'').  For quasi-free states of the CAR algebra the lemma is not needed: Theorem A below uses only the finite-dimensional formulas of Note~5 (its Proposition~2.3, valid on every compression) and their one-particle reduction.
+\section{Step 3: evaluation in the modular frame}\label{sec:step3}
+
+\subsection{The thermal spectral density of the stress tensor}
+\begin{lemma}\label{lem:What}
+The Fourier transform \(\Wh(k)=\int_{\mathbb R}e^{-iku}W(u)\,du\) of \eqref{eq:W} is
+\begin{equation}\label{eq:What}
+ \boxed{\;\Wh(k)=\frac{c}{24\pi}\,\frac{k(k^2+1)}{e^{2\pi k}-1}\;}\qquad\Wh(-k)=e^{2\pi k}\Wh(k),\qquad \Wh(k)\ge0.
+\end{equation}
+\end{lemma}
+\begin{proof}
+\(W(u-i0)\) is the boundary value of \(\frac{c}{128\pi^2}\sinh^{-4}(z/2)\) from \(\operatorname{Im}z<0\); the poles are at \(z\in2\pi i\mathbb Z\), so the contour may be shifted to \(\operatorname{Im}u=-\pi\), where \(\sinh\frac{v-i\pi}{2}=-i\cosh\frac v2\).  Hence \(\Wh(k)=\frac{c}{128\pi^2}e^{-\pi k}\int e^{-ikv}\cosh^{-4}(v/2)\,dv\), and \(\int e^{-ikv}\cosh^{-2h}(v/2)dv=2^{2h}|\Gamma(h+ik)|^2/\Gamma(2h)\) with \(|\Gamma(2+ik)|^2=\pi k(k^2+1)/\sinh\pi k\) gives \eqref{eq:What}.  For \(|k|\to\infty\), \(\Wh\simeq\frac{c}{24\pi}|k|^3\theta(-k)\), the flat-space density obtained from \eqref{eq:TT} via \(\int e^{-ipu}(u-i0)^{-4}du=\frac{2\pi}{3!}|p|^3\theta(\mp p)\); this confirms the normalization.
+\end{proof}
+
+\subsection{Spectral measure of the tangent vector}
+With \(\Delta^{it}\widetilde T_0(\xi)\Delta^{-it}=\widetilde T_0(\xi-2\pi t)\) and \(T(g)=\int\widetilde T_0\gt\),
+\[
+ \langle T(g)\Omega,\Delta^{it}T(g)\Omega\rangle=\iint\gt(\xi)\gt(\xi')W(\xi-\xi'\mp2\pi t)\,d\xi\,d\xi'
+ =\frac1{2\pi}\int dk\,\Wh(k)|\gh(k)|^2e^{\mp2\pi ikt},
+\]
+so the spectral measure of \(T(g)\Omega\) with respect to \(\log\Delta\) is
+\begin{equation}\label{eq:mu}
+ d\mu(u)=\frac1{2\pi}\Wh(k)\,|\gh(k)|^2\,dk,\qquad u=\log\lambda=2\pi k,
+\end{equation}
+the sign being fixed by the modular translation \(\xi\mapsto\xi-2\pi t\) (Bisognano--Wichmann with Haag duality; the KMS asymmetry \(d\mu(-u)=e^ud\mu(u)\) of \eqref{eq:spectral-forms} would fix it only for \(T(g)\in\cM\), which does not hold) and consistent with \(\Wh(-k)=e^{2\pi k}\Wh(k)\).  Because \(\gt\) grows at the far endpoint, \(\gh\) is the analytic continuation \eqref{eq:ghat}, the total mass \(\int d\mu\) diverges (the \(k^{-2}\) pole at \(k=0\)), and \(T(g)\Omega\) is not a vector for this representative; only the weighted integrals below converge.  Moreover no admissible representative of the tangent vector is affiliated with \(\cA(I)\) (the \(\xi\)-chart ends at \(L\)), so \eqref{eq:spectral-forms} is used here formally, as a computational prescription; Section~\ref{sec:fermion} validates the result for the free fermion.  An independent \(x\)-space route (Mellin transform in \(u=L-x\), which diagonalizes the dilation; \texttt{rigor/collar\_and\_invariant\_formula.tex}) reproduces \(\Wh(k)\) exactly from \eqref{eq:TT} and the geometric dilation alone, so the thermal form at \(\beta=2\pi\) is a consequence and not an input, and it reassembles \(g_B=2c/(3\pi^2)\) and \(g_{\mathrm{KM}}=c/6\) to \(10^{-11}\).  The same route diagnoses the formal step: the Mellin--Barnes strips required for the two factors are disjoint precisely because \(g(L)\ne0\), i.e.\ the obstruction is a property of the tangent field at the moving endpoint, not of the \(\xi\)-chart; a tangent field vanishing to second order at \(x=L\) would make the identity absolutely convergent.  The sign of the dilation is also forced without Bisognano--Wichmann: the opposite sign multiplies both integrands by \(e^{2\pi k}\) and both integrals diverge.  For the Kubo--Mori weight the formal status is more serious (\texttt{rigor/kubo\_mori\_gauge\_lemma.tex}): for any field affiliated with an interval algebra \(\cA(K)\), \(K\supseteq I\), the Kubo--Mori form is the local Sobolev expression \(\frac c{12}\int(\tilde f''^2+\tilde f'^2)d\xi\) in the modular frame of \(K\), and its infimum over all admissible gauges of the tangent field is \((11+5\sqrt5)c/12\approx11.09\times\frac c6\); the value \(g_{\mathrm{KM}}=c/6\) below is the analytically continued one.  It is confirmed numerically for the free fermion (\(s_2=0.0837(5)\)) and the free boson (\(0.083(2)\)), but the rigorous bracket for general nets is only \(0.034c\le\liminf s^{-2}D\le\limsup s^{-2}D\le0.924c\) (the latter under a uniform-integrability hypothesis).  Section~\ref{sec:fermion} shows that this prescription is exactly what the convergent kernel computation gives.
+
+\subsection{The two integrals}
+Inserting \eqref{eq:mu} and \eqref{eq:ghat} into \eqref{eq:spectral-forms}:
+\begin{align}
+ g_B&=\frac{1}{\pi}\int_{\mathbb R}dk\,\frac{c}{24\pi}\frac{k(k^2+1)}{e^{2\pi k}-1}\cdot\frac{(e^{2\pi k}-1)^2}{e^{2\pi k}+1}\cdot\frac{4}{k^2(k^2+1)^2}
+ =\frac{c}{6\pi^2}\int_{\mathbb R}\frac{\tanh\pi k}{k(k^2+1)}\,dk,\label{eq:gB-int}\\
+ g_{\mathrm{KM}}&=\frac1{2\pi}\int_{\mathbb R}dk\,\frac{c}{24\pi}\frac{k(k^2+1)}{e^{2\pi k}-1}\cdot(e^{2\pi k}-1)\,2\pi k\cdot\frac{4}{k^2(k^2+1)^2}
+ =\frac{c}{6\pi}\int_{\mathbb R}\frac{dk}{k^2+1}=\frac c6.\label{eq:gKM-int}
+\end{align}
+The pole of \(|\gh|^2\) at \(k=0\), i.e.\ the far endpoint, is cancelled by \(\tanh\pi k\) and by \(k\) respectively; the kink of \(\gt\) at the touching point gives the \(k^{-3}\) decay.  For \eqref{eq:gB-int} use \(\tanh\pi k=\sum_{n\ge0}\frac{2k/\pi}{k^2+(n+\frac12)^2}\) and \(\int_0^\infty\frac{dk}{(k^2+a^2)(k^2+b^2)}=\frac{\pi}{2ab(a+b)}\):
+\begin{equation}\label{eq:key-integral}
+ \int_0^\infty\frac{\tanh\pi k}{k(k^2+1)}\,dk=\sum_{n\ge0}\frac{2}{\pi}\cdot\frac{\pi}{2(n+\frac12)(n+\frac32)}=\sum_{n\ge0}\frac{4}{(2n+1)(2n+3)}=2 .
+\end{equation}
+Hence
+\begin{equation}\label{eq:result-general}
+ \boxed{\;g_B=\frac{2c}{3\pi^2},\qquad f_2=\frac{g_B}{8}=\frac{c}{12\pi^2}=0.00844343\,c,\qquad g_{\mathrm{KM}}=\frac c6,\qquad s_2=\frac{g_{\mathrm{KM}}}{2}=\frac c{12},\qquad \frac{s_2}{f_2}=\pi^2.\;}
+\end{equation}
+
+\subsection{Why this is universal}
+Every ingredient is fixed by the conformal net's central charge: the tangent vector is \(T(g)\) with a universal \(g\) (Lemma~\ref{lem:tangent}); the modular operator and conjugation of an interval are geometric for all M\"obius covariant nets; and the second variations are quadratic in \(T(g)\Omega\), hence given by the two-point function \eqref{eq:TT}, which is proportional to \(c\).  The invariant expression of Lemma~\ref{lem:eta}(3), \(g_B=2\|(1-J)(1+\Delta)^{-1/2}T(g)\Omega\|^2=4\|\chi\|^2-4\operatorname{Re}\langle J\chi,\chi\rangle\) with \(\chi=(1+\Delta)^{-1/2}T(g)\Omega\) and \(JT(g)J=T(g\circ r)\), \(r(x)=2L-x\), is therefore \(c\) times a universal number (the number is fixed by linearity in \(c\) together with the free-fermion value of Section~\ref{sec:fermion}, so Theorem~B rests on Lemma~\ref{lem:second-variation} alone), and the same holds for \(g_{\mathrm{KM}}\).  That number is computed in \eqref{eq:result-general} with the analytic-continuation prescription for \(\gh\), and independently, without any prescription, by the free-fermion computation of Section~\ref{sec:fermion} at \(c=1\).  The agreement of the two fixes the constant unambiguously.
+\section{Step 4: the free fermion, exactly}\label{sec:fermion}
+
+For the free fermion the many-body metrics reduce to one-particle sums (Note~5, Proposition~2.3): with \(q_\kappa=(1+e^\kappa)^{-1}\) and the modular modes \(\psi_\kappa\) normalized by \(\int d\kappa\,|\psi_\kappa\rangle\langle\psi_\kappa|=1\),
+\begin{align}
+ g_B&=2\iint d\kappa\,d\kappa'\,\frac{|D^{(1)}(\kappa,\kappa')|^2}{q_\kappa(1-q_{\kappa'})+q_{\kappa'}(1-q_\kappa)},\label{eq:one-particle}\\
+ g_{\mathrm{KM}}&=\iint d\kappa\,d\kappa'\,|D^{(1)}(\kappa,\kappa')|^2\bigl[\ell(q_\kappa,q_{\kappa'})+\ell(1-q_\kappa,1-q_{\kappa'})\bigr],\notag
+\end{align}
+where \(D^{(1)}(\kappa,\kappa')=\langle\psi_\kappa,D^{(1)}\psi_{\kappa'}\rangle\) is the absolutely convergent transform of the kernel \eqref{eq:D1-kernel}.
+
+\begin{lemma}[Kernel identity]\label{lem:kernel}
+\begin{equation}\label{eq:kernel-identity}
+ D^{(1)}(\kappa,\kappa')=i\,(q_\kappa-q_{\kappa'})\,\mathfrak g(\kappa,\kappa'),\qquad
+ \mathfrak g(\kappa,\kappa'):=\frac{1}{(2\pi)^2}\,\gh\Bigl(\frac{\kappa-\kappa'}{2\pi}\Bigr)\frac{\kappa+\kappa'}{4\pi},
+\end{equation}
+with \(\gh\) the analytic continuation \eqref{eq:ghat}.
+\end{lemma}
+
+\begin{proof}
+(i) Pointwise, on the block \(\xi<0<\xi'\), \(\widetilde D^{(1)}=(Q\mathfrak g)(\xi,\xi')\): with the off-diagonal thermal kernel \(\widetilde Q(u)=-\frac{i}{4\pi}\sinh^{-1}\frac u2\), \(u=\xi-\xi'\), and \(\mathfrak g=\gt\partial_{\xi'}+\frac12\gt'\) acting on the second variable,
+\[
+ (Q\mathfrak g)(\xi,\xi')=-\tfrac12\gt'(\xi')\widetilde Q(u)-\gt(\xi')\partial_{\xi'}\widetilde Q(u)
+ =-\frac{i}{4\pi}\Bigl[\frac{\sinh\xi'}{\sinh\frac u2}+\frac{2\sinh^2\frac{\xi'}2\cosh\frac u2}{\sinh^2\frac u2}\Bigr]
+\]
+\[
+ \phantom{(Q\mathfrak g)(\xi,\xi')}=-\frac{i}{2\pi}\frac{\sinh\frac{\xi'}2\,\sinh\bigl(\frac u2+\frac{\xi'}2\bigr)}{\sinh^2\frac u2},
+\]
+and \(\frac u2+\frac{\xi'}2=\frac\xi2\), which is \eqref{eq:D1-kernel}; on \(A\times A\) and \(D\times D\) both sides vanish (for \(D\times D\) this uses \(h_s(D)\subset D\) and the M\"obius invariance of \(P_+\); the computation is written out in \texttt{rigor/referee\_kernel\_identity.tex}).  (ii) Taking modular matrix elements of \(Q\mathfrak g+\mathfrak g^*Q\) gives \((q_\kappa-q_{\kappa'})\) times the matrix element of the generator, \(\langle\psi_\kappa,\mathfrak g\psi_{\kappa'}\rangle=\frac1{(2\pi)^2}\int e^{-i(\kappa-\kappa')\xi/2\pi}\bigl[\frac{i\kappa'}{2\pi}\gt+\frac12\gt'\bigr]d\xi=i\,\mathfrak g(\kappa,\kappa')\), provided the divergent integral \(\int_0^\infty e^{-ik\xi}\gt\) is interpreted as \eqref{eq:ghat}; the boundary contribution at \(\xi'\to\infty\) in the integration by parts is what the continuation encodes.  That this is correct is checked against the absolutely convergent transform of \eqref{eq:D1-kernel}: at \((\kappa,\kappa')=(1,3),(2.5,-1),(4,4.5),(-3,0.7)\) the two sides agree to eight digits in modulus with phase exactly \(i\) (script \texttt{verify\_normalization.py}); the integrated version is the agreement of Note~5's \(f_2\) with \eqref{eq:result-general}.  A complete analytic proof (expansion of \(\sinh^{-2}\) in exponentials and summation by Gauss's theorem to digamma functions) is given in \texttt{rigor/kernel\_identity.tex}; a naive contour shift \(\xi'\to\xi'-i\pi\) does not close on the half-line contour.
+\end{proof}
+
+\paragraph{Weights.}
+With \(u=\kappa-\kappa'\), \(v=\kappa+\kappa'\): \(q_\kappa-q_{\kappa'}=-\frac{2\sinh\frac u2\,e^{(\kappa+\kappa')/2}}{(1+e^\kappa)(1+e^{\kappa'})}\), \(N=\frac{e^\kappa+e^{\kappa'}}{(1+e^\kappa)(1+e^{\kappa'})}\), and \((1+e^\kappa)(1+e^{\kappa'})=4e^{v/2}\cosh\frac\kappa2\cosh\frac{\kappa'}2=2e^{v/2}\bigl(\cosh\frac v2+\cosh\frac u2\bigr)\), so
+\begin{align}
+ \frac{(q_\kappa-q_{\kappa'})^2}{N}&=\frac{\sinh^2\frac u2}{\cosh\frac u2\,\bigl(\cosh\frac v2+\cosh\frac u2\bigr)},\label{eq:weights}\\
+ (q_\kappa-q_{\kappa'})^2\bigl[\ell(q,q')+\ell(1-q,1-q')\bigr]&=(q_\kappa-q_{\kappa'})(\kappa'-\kappa)=\frac{u\,\sinh\frac u2}{\cosh\frac v2+\cosh\frac u2},\notag
+\end{align}
+using \(\log\frac{q}{1-q}=-\kappa\).  Also \(|\mathfrak g|^2=\frac{|\gh(u/2\pi)|^2v^2}{256\pi^6}\) and \(|\gh(u/2\pi)|^2=\frac{256\pi^6}{u^2(u^2+4\pi^2)^2}\), and \(d\kappa\,d\kappa'=\frac12du\,dv\).
+
+\paragraph{The \(v\)-integral.}
+From \(\int_{\mathbb R}\frac{w^2\,dw}{\cosh w+\cosh a}=\frac{2a(a^2+\pi^2)}{3\sinh a}\) (verified numerically),
+\begin{equation}\label{eq:V}
+ V(u):=\int_{\mathbb R}\frac{v^2\,dv}{\cosh\frac v2+\cosh\frac u2}=\frac{2u(u^2+4\pi^2)}{3\sinh\frac u2}.
+\end{equation}
+
+\begin{theorem}[Theorem A]\label{thm:A}
+For the \(r\)-component free chiral fermion,
+\[
+ g_B=\frac23\int_{\mathbb R}\frac{\tanh\frac u2}{u(u^2+4\pi^2)}\,du\cdot r=\frac{2r}{3\pi^2},\qquad
+ g_{\mathrm{KM}}=\frac13\int_{\mathbb R}\frac{du}{u^2+4\pi^2}\cdot r=\frac r6,
+\]
+hence \(f_2=r/(12\pi^2)\) and \(s_2=r/12\).
+\end{theorem}
+\begin{proof}
+Insert \eqref{eq:kernel-identity}, \eqref{eq:weights} into \eqref{eq:one-particle} and integrate over \(v\) with \eqref{eq:V}:
+\[
+ g_B=\frac{1}{256\pi^6}\int du\,|\gh(\tfrac u{2\pi})|^2\frac{\sinh^2\frac u2}{\cosh\frac u2}\,V(u)
+ =\frac23\int du\,\frac{\tanh\frac u2}{u(u^2+4\pi^2)},
+\]
+\[
+ g_{\mathrm{KM}}=\frac{1}{512\pi^6}\int du\,|\gh(\tfrac u{2\pi})|^2\,u\sinh\tfrac u2\,V(u)=\frac13\int\frac{du}{u^2+4\pi^2},
+\]
+where all powers of \(\pi\) cancel.  With \(u=2\pi k\) the first integral is \(\frac{1}{4\pi^2}\int_{\mathbb R}\frac{\tanh\pi k}{k(k^2+1)}dk=\frac{1}{\pi^2}\) by \eqref{eq:key-integral}, and the second is \(\frac1{2}\).  Components add.
+\end{proof}
+
+The identical integrals appear in \eqref{eq:gB-int}--\eqref{eq:gKM-int}: the one-particle computation is the \(c=1\) case of the general one, with the kernel identity replacing the analytic-continuation prescription.
+\section{Numerical confirmation}\label{sec:numerics}
+
+\begin{center}\footnotesize
+\begin{tabular}{l l l l}\toprule
+Quantity & Closed form & Numerical & Check \\\midrule
+\(f_2\) (\(r=1\)) & \(1/(12\pi^2)=0.0084434\) & \(0.008444(1)\) [Note~5] & \(12\pi^2f_2=1.0001(1)\) \\
+\(s_2\) & \(1/12=0.083333\) & \(0.0837(5)\) [Note~5] & \(12s_2=1.004(6)\) \\
+\(s_2/f_2\) & \(\pi^2=9.8696\) & \(9.877(60)\) & \\
+\(\Wh(k)\), four values of \(k\) & \eqref{eq:What} & contour-shift quadrature & 12 digits \\
+\(\int_0^\infty\frac{\tanh\pi k}{k(k^2+1)}dk\) & \(2\) & \(2.000000000000\) & \\
+\(\int\frac{w^2dw}{\cosh w+\cosh a}\), three \(a\) & \(\frac{2a(a^2+\pi^2)}{3\sinh a}\) & quadrature & 12 digits \\
+kernel identity \eqref{eq:kernel-identity}, four points & modulus, phase & 2D quadrature of \eqref{eq:D1-kernel} & ratio \(1.000000\), phase \(i\) \\
+\bottomrule
+\end{tabular}
+\end{center}
+The scripts are \texttt{numerics/verify\_normalization.py} (this note) and those of Note~5.  The numerical \(f_2\) and \(s_2\) were obtained before the closed forms were known and involve no fitted quantity, so the table is a genuine test of Theorem~A and of the normalization chain of Section~\ref{sec:step3}.
+
+\section{Consequences}\label{sec:consequences}
+
+\begin{corollary}[Universal recovery law]\label{cor:law}
+For every diffeomorphism covariant chiral net with central charge \(c\) (Theorem~B; rigorous for the free fermion with \(c=r\)), the zero-collar rotated Petz recovery of the vacuum on three adjacent intervals satisfies, with \(\zeta_t=z(1+e^{-2\pi t})\) and \(z=\frac{a\,\ell_C}{b(a+b+\ell_C)}=\eta_{\mathrm V}/(1-\eta_{\mathrm V})\) (\(\ell_C\) the length of \(C\), written so to avoid a clash with the central charge; \(\eta_{\mathrm V}\) the Vardhan--Wei--Zou cross ratio),
+\[
+ -\log\Fid(\omega,\widetilde\omega_t)=\frac{c}{12\pi^2}\zeta_t^2+o(\zeta_t^2),\qquad
+ D(\omega\Vert\widetilde\omega_t)=\frac{c}{12}\zeta_t^2+o(\zeta_t^2).
+\]
+For a two-dimensional CFT with central charges \((c,\bar c)\) the chiralities add with opposite rotations: \(-\log F^{(\lambda)}=\Phi_c\bigl(z(1+e^{-\pi\lambda})\bigr)+\Phi_{\bar c}\bigl(z(1+e^{\pi\lambda})\bigr)\), even in \(\lambda\) and minimal at \(\lambda=0\).  In the lattice variables of Vardhan--Wei--Zou (\(\lambda=2t\), \(\eta\) their cross ratio, ordinary Petz map \(\lambda=0\)):
+\[
+ -\log F^{(0)}=\frac{c+\bar c}{3\pi^2}\,\eta^2+O(\eta^3)=0.06755\,c\,\eta^2\ (c=\bar c),\qquad
+ D(\rho_{ABC}\Vert\widetilde\rho_{ABC})=\frac{c+\bar c}{3}\,\eta^2+\dots=0.667\,c\,\eta^2,
+\]
+against their fits \(0.070\,c\,\eta^2\) and \(\approx0.56\,c\,\eta^2\).  In terms of the conditional mutual information \(I=\frac c6\log(1+z)\), the ordinary Petz map obeys \(-\log\Fid\simeq\frac{12}{\pi^2c}\,I^2\): the recovery error is quadratic in the CMI with a universal coefficient inversely proportional to \(c\), and, for a single chirality, the optimal rotation (\(\zeta_t\downarrow z\)) improves the constant by a factor \(4\); for a two-dimensional CFT the ordinary Petz map is the optimum of the family.
+\end{corollary}
+
+\paragraph{The ratio \(\pi^2\).}
+\(s_2/f_2=\pi^2\) is independent of normalization and of \(c\); it reflects the two weights in \eqref{eq:spectral-forms} against the same spectral density and is a clean lattice-testable prediction, although the Kubo--Mori side converges slowly in the ultraviolet (Note~5).
+
+\paragraph{Where the \(c/12\) comes from.}
+The constant traces back to \(\Wh(k)\simeq\frac{c}{24\pi}|k|^3\), the flat-space spectral density of the stress tensor in generator normalization, together with the factor \(2\) of the two blocks \(A\times D\), \(D\times A\) of the defect and the factors \(\frac18\), \(\frac12\) of the Bures and Kubo--Mori expansions.  The geometry enters only through the shape \(\gt=-4\sinh^2(\xi/2)\mathbf 1_{\xi>0}\) of the piecewise-M\"obius generator in the modular frame, whose transform is the elementary \(-2i/(k(k^2+1))\).
+
+\section{What remains for full rigour}\label{sec:remains}
+\begin{enumerate}
+\item \emph{Lemma~\ref{lem:second-variation}} (type-III second variation) for Theorem~B.  Status: the fidelity (Bures) half is proved for every von Neumann algebra with cyclic separating vector (\texttt{rigor/lemma\_second\_variation.tex}), and Theorem~B itself is established for every diffeomorphism covariant net on \(S^1\) (\texttt{rigor/universality\_theorem\_B.tex}, \texttt{rigor/implementation\_C11.tex}, refereed): the implementer \(U_s=e^{isT(g_{\rm tot})}\) exists by the Carpi--Weiner energy bound because \(g_{\rm tot}\) is \(C^{1,1}\) with a single jump of the second derivative, and \(c\)-linearity of \(g_B\) follows because the stress-tensor subspace reduces \(\Delta\) and \(J\).  The Kubo--Mori half is proved for unitary orbits with generator affiliated with the algebra (\texttt{rigor/kubo\_mori\_second\_variation.tex}); for \(T(g_{\rm tot})\), which is not affiliated with \(\cA(I)\), a gauge lemma is still missing.  For the free fermion both are bypassed.
+\item \emph{Existence of \(\lim_{\zeta\to0}\Phi/\zeta^2\)} and its identification with \(g_B/8\) (Note~5, Corollary~4.2; status: done, \(\lim\Phi/\zeta^2=g_B/8\) proved by \texttt{rigor/quadratic\_limit.tex} Thm~4.2 together with \texttt{rigor/uhlmann\_upper\_bound.tex}; the remainder is \(O(\zeta^3)\) with a negative cubic coefficient \(c_3=-0.99(1)\), and the \(\log^{-2}\) rate claimed earlier is refuted by the global bound \(\Phi\le-\frac12\log(1-2f_2\zeta^2)\) of \texttt{rigor/rate\_of\_remainder.tex}): the compression formulas give \(\Phi\) as a monotone limit and the tail analysis gives the \(\zeta^2\log^{-2}\) remainder; a two-sided bound would complete Theorem~A as a statement about \(\Phi\) itself rather than about the QFI.
+\item \emph{Analytic proof of Lemma~\ref{lem:kernel}(ii)}: done in \texttt{rigor/kernel\_identity.tex} (series expansion and Gauss summation; closed forms \(D^{(1)}(\kappa,\kappa')=(q_\kappa-q_{\kappa'})(\kappa+\kappa')/[(\kappa-\kappa')((\kappa-\kappa')^2+4\pi^2)]\), \(D^{(1)}(\kappa,\kappa)=-\kappa/(8\pi^2\cosh^2(\kappa/2))\)).
+\item \emph{Collar limit} in the general case: the collar tangent functionals and metrics converge to the zero-collar ones as \(\eps\to0\); for the free fermion this is contained in Note~5.  Status: monotone convergence \(g_B^{(\eps)}\uparrow g_B\) along increasing algebras is proved (\texttt{rigor/lemma\_second\_variation.tex}, proposition ``Data processing and monotone convergence''); the identification of the zero-collar tangent functional with the spectral integral is reduced to a uniform-convergence statement and remains open; the \(x\)-space analysis of \texttt{rigor/collar\_and\_invariant\_formula.tex} locates the obstruction at \(g(L)\neq0\).
+\end{enumerate}
+
+\begin{thebibliography}{99}
+\bibitem{Araki77} H.~Araki, Relative entropy for states of von Neumann algebras II, \emph{Publ. RIMS} \textbf{13} (1977), 173--192.
+\bibitem{BW} J.~Bisognano, E.~Wichmann, On the duality condition for a Hermitian scalar field, \emph{J. Math. Phys.} \textbf{16} (1975), 985--1007; R.~Brunetti, D.~Guido, R.~Longo, Modular structure and duality in conformal quantum field theory, \emph{Commun. Math. Phys.} \textbf{156} (1993), 201--219.
+\bibitem{CasiniHuerta} H.~Casini, M.~Huerta, Reduced density matrix and internal dynamics for multicomponent regions, \emph{Class. Quantum Grav.} \textbf{26} (2009), 185005.
+\bibitem{FHWS} T.~Faulkner, S.~Hollands, B.~Swingle, Y.~Wang, Approximate recovery and relative entropy I, \emph{Commun. Math. Phys.} \textbf{389} (2022), 349--397.
+\bibitem{Jencova} A.~Jen\v cov\'a, Quantum information geometry and standard purification, \emph{J. Math. Phys.} \textbf{43} (2002), 2187--2201.
+\bibitem{LongoXu} R.~Longo, F.~Xu, Relative entropy in CFT, \emph{Adv. Math.} \textbf{337} (2018), 139--170.
+\bibitem{Petz} D.~Petz, Monotone metrics on matrix spaces, \emph{Linear Algebra Appl.} \textbf{244} (1996), 81--96.
+\bibitem{Uhlmann} A.~Uhlmann, The ``transition probability'' in the state space of a *-algebra, \emph{Rep. Math. Phys.} \textbf{9} (1976), 273--279.
+\bibitem{VWZ} S.~Vardhan, A.~Y.~Wei, Y.~Zou, Petz recovery from subsystems in conformal field theory, \emph{J. High Energy Phys.} \textbf{2024}, 016.
+\bibitem{Notes} Notes 4--6 of this series: \texttt{continuum\_petz\_free\_fermion}, \texttt{fidelity\_recovered\_quasifree}, \texttt{strategy\_open\_problems} (\texttt{cft\_cmi/}).
+\end{thebibliography}
+
+\end{document}

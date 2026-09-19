@@ -1,0 +1,112 @@
+/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/optimality_all/e2_common.py:70: RuntimeWarning: divide by zero encountered in divide
+  w = 1.0/(dc+mu)
+/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/optimality_all/e2_common.py:72: RuntimeWarning: invalid value encountered in multiply
+  red = np.sum(np.abs(K)**2*w) - 0.5*np.sum(dc*np.abs(K)**2*w**2)
+=== L=128  theta=0.29110  eps_*=-1.00018  |u|^2=7.35860818e-03  |I|=76 |I^c|=52 ===
+  M = P^perp D_chi P         ||X||^2=3.21603794e-02  ||Pi X||^2=7.35860818e-03  ||(1-Pi)X||^2=2.48017713e-02
+                              ||Proj_Ext X||^2=2.48017713e-02  dist((1-Pi)X,Ext)^2=3.530e-12  rel dist=1.193e-05   leak(N)=1.9e-28 leak(Ext)=1.1e-28
+  v = P^perp G_* P           ||X||^2=3.40538246e-03  ||Pi X||^2=2.14244487e-03  ||(1-Pi)X||^2=1.26293759e-03
+                              ||Proj_Ext X||^2=1.26293759e-03  dist((1-Pi)X,Ext)^2=6.072e-18  rel dist=6.934e-08   leak(N)=8.0e-33 leak(Ext)=3.0e-35
+  M + v  (rotated)           ||X||^2=3.06960923e-02  ||Pi X||^2=5.21616330e-03  ||(1-Pi)X||^2=2.54799290e-02
+                              ||Proj_Ext X||^2=2.54799290e-02  dist((1-Pi)X,Ext)^2=3.532e-12  rel dist=1.177e-05   leak(N)=1.9e-28 leak(Ext)=1.0e-28
+  P^perp (E_I D_chi E_I) P   ||X||^2=2.28192737e+01  ||Pi X||^2=1.91942631e+01  ||(1-Pi)X||^2=3.62501059e+00
+                              ||Proj_Ext X||^2=3.62501059e+00  dist((1-Pi)X,Ext)^2=-1.208e-13  rel dist=0.000e+00   leak(N)=6.9e-30 leak(Ext)=7.5e-31
+  CHECK ||Pi(M+v)||^2/|u|^2 = 0.708852   1-theta = 0.708903
+  UB_c/(1/2 s^2|u|^2)      = 1.00000000   (= 1 + d_c^2/|u|^2)
+  UB_rot/UB_c              = 0.70885189   UB_rot/(1/2 s^2|u|^2) = 0.70885189
+  UB_c(truncated Z_I)/(1/2 s^2|u|^2) = 2608.409452
+  Tikhonov trade-off (unit s):   mu        UB_c/(s^2|u|^2/2)   ||Z_e||_F/s      UB_rot/(s^2|u|^2/2)   ||Z_e||_F/s
+         0e+00                nan            inf                nan            inf
+         1e-14           1.000000     1.0831e+01           0.708852     1.0735e+01
+         1e-12           1.000000     5.3696e+00           0.708852     5.2173e+00
+         1e-10           1.000000     4.1223e+00           0.708852     3.9674e+00
+         1e-08           1.000001     3.0306e+00           0.708853     2.8806e+00
+         1e-06           1.000062     2.0688e+00           0.708907     1.9635e+00
+         1e-04           1.003310     1.2195e+00           0.711792     1.1799e+00
+         1e-02           1.126074     5.4129e-01           0.827460     5.4067e-01
+  s-independence: UB is exactly quadratic in s (UB(sX)=s^2 UB(X)); for s=0.001,0.002,0.005 the ratios above are unchanged to machine precision.
+      s=0.001: UB_c=3.679304e-09  1/2 s^2|u|^2=3.679304e-09  ratio=1.00000000  UB_rot=2.608082e-09  UB_rot/UB_c=0.70885189
+      s=0.002: UB_c=1.471722e-08  1/2 s^2|u|^2=1.471722e-08  ratio=1.00000000  UB_rot=1.043233e-08  UB_rot/UB_c=0.70885189
+      s=0.005: UB_c=9.198260e-08  1/2 s^2|u|^2=9.198260e-08  ratio=1.00000000  UB_rot=6.520204e-08  UB_rot/UB_c=0.70885189
+
+=== L=192  theta=0.28880  eps_*=-0.99984  |u|^2=7.27173366e-03  |I|=114 |I^c|=78 ===
+  M = P^perp D_chi P         ||X||^2=3.19940435e-02  ||Pi X||^2=7.27173366e-03  ||(1-Pi)X||^2=2.47223099e-02
+                              ||Proj_Ext X||^2=2.47223099e-02  dist((1-Pi)X,Ext)^2=-4.330e-11  rel dist=0.000e+00   leak(N)=3.4e-29 leak(Ext)=5.6e-28
+  v = P^perp G_* P           ||X||^2=3.51823945e-03  ||Pi X||^2=2.09971027e-03  ||(1-Pi)X||^2=1.41852918e-03
+                              ||Proj_Ext X||^2=1.41852918e-03  dist((1-Pi)X,Ext)^2=-9.975e-17  rel dist=0.000e+00   leak(N)=3.5e-33 leak(Ext)=3.5e-37
+  M + v  (rotated)           ||X||^2=3.04093993e-02  ||Pi X||^2=5.17202339e-03  ||(1-Pi)X||^2=2.52373759e-02
+                              ||Proj_Ext X||^2=2.52373760e-02  dist((1-Pi)X,Ext)^2=-4.331e-11  rel dist=0.000e+00   leak(N)=3.4e-29 leak(Ext)=5.6e-28
+  P^perp (E_I D_chi E_I) P   ||X||^2=5.35980647e+01  ||Pi X||^2=4.49983898e+01  ||(1-Pi)X||^2=8.59967487e+00
+                              ||Proj_Ext X||^2=8.59967487e+00  dist((1-Pi)X,Ext)^2=-8.686e-13  rel dist=0.000e+00   leak(N)=3.8e-29 leak(Ext)=1.3e-31
+  CHECK ||Pi(M+v)||^2/|u|^2 = 0.711250   1-theta = 0.711204
+  UB_c/(1/2 s^2|u|^2)      = 0.99999999   (= 1 + d_c^2/|u|^2)
+  UB_rot/UB_c              = 0.71125039   UB_rot/(1/2 s^2|u|^2) = 0.71125038
+  UB_c(truncated Z_I)/(1/2 s^2|u|^2) = 6188.124035
+  Tikhonov trade-off (unit s):   mu        UB_c/(s^2|u|^2/2)   ||Z_e||_F/s      UB_rot/(s^2|u|^2/2)   ||Z_e||_F/s
+         0e+00                nan            inf                nan            inf
+         1e-14           1.000000     9.2985e+00           0.711250     9.2072e+00
+         1e-12           1.000000     5.5300e+00           0.711250     5.3952e+00
+         1e-10           1.000000     4.2831e+00           0.711250     4.1379e+00
+         1e-08           1.000001     3.1325e+00           0.711251     2.9854e+00
+         1e-06           1.000069     2.1142e+00           0.711312     2.0025e+00
+         1e-04           1.003548     1.2387e+00           0.714394     1.1952e+00
+         1e-02           1.131395     5.4476e-01           0.834380     5.4223e-01
+  s-independence: UB is exactly quadratic in s (UB(sX)=s^2 UB(X)); for s=0.001,0.002,0.005 the ratios above are unchanged to machine precision.
+      s=0.001: UB_c=3.635867e-09  1/2 s^2|u|^2=3.635867e-09  ratio=0.99999999  UB_rot=2.586012e-09  UB_rot/UB_c=0.71125039
+      s=0.002: UB_c=1.454347e-08  1/2 s^2|u|^2=1.454347e-08  ratio=0.99999999  UB_rot=1.034405e-08  UB_rot/UB_c=0.71125039
+      s=0.005: UB_c=9.089667e-08  1/2 s^2|u|^2=9.089667e-08  ratio=0.99999999  UB_rot=6.465029e-08  UB_rot/UB_c=0.71125039
+
+=== L=256  theta=0.28949  eps_*=-0.99974  |u|^2=7.38711344e-03  |I|=153 |I^c|=103 ===
+  M = P^perp D_chi P         ||X||^2=3.19400348e-02  ||Pi X||^2=7.38711344e-03  ||(1-Pi)X||^2=2.45529213e-02
+                              ||Proj_Ext X||^2=2.45529213e-02  dist((1-Pi)X,Ext)^2=-1.952e-12  rel dist=0.000e+00   leak(N)=5.2e-29 leak(Ext)=2.0e-28
+  v = P^perp G_* P           ||X||^2=3.69904649e-03  ||Pi X||^2=2.13795676e-03  ||(1-Pi)X||^2=1.56108972e-03
+                              ||Proj_Ext X||^2=1.56108972e-03  dist((1-Pi)X,Ext)^2=-8.262e-17  rel dist=0.000e+00   leak(N)=6.0e-33 leak(Ext)=8.9e-37
+  M + v  (rotated)           ||X||^2=3.03221039e-02  ||Pi X||^2=5.24915668e-03  ||(1-Pi)X||^2=2.50729472e-02
+                              ||Proj_Ext X||^2=2.50729473e-02  dist((1-Pi)X,Ext)^2=-1.950e-12  rel dist=0.000e+00   leak(N)=5.2e-29 leak(Ext)=2.0e-28
+  P^perp (E_I D_chi E_I) P   ||X||^2=9.73351602e+01  ||Pi X||^2=8.16417705e+01  ||(1-Pi)X||^2=1.56933897e+01
+                              ||Proj_Ext X||^2=1.56933897e+01  dist((1-Pi)X,Ext)^2=-1.009e-12  rel dist=0.000e+00   leak(N)=4.6e-29 leak(Ext)=3.6e-30
+  CHECK ||Pi(M+v)||^2/|u|^2 = 0.710583   1-theta = 0.710508
+  UB_c/(1/2 s^2|u|^2)      = 1.00000000   (= 1 + d_c^2/|u|^2)
+  UB_rot/UB_c              = 0.71058293   UB_rot/(1/2 s^2|u|^2) = 0.71058293
+  UB_c(truncated Z_I)/(1/2 s^2|u|^2) = 11051.917796
+  Tikhonov trade-off (unit s):   mu        UB_c/(s^2|u|^2/2)   ||Z_e||_F/s      UB_rot/(s^2|u|^2/2)   ||Z_e||_F/s
+         0e+00                nan            inf                nan            inf
+         1e-14           1.000000     8.4183e+00           0.710583     8.3207e+00
+         1e-12           1.000000     5.6315e+00           0.710583     5.5044e+00
+         1e-10           1.000000     4.3459e+00           0.710583     4.2081e+00
+         1e-08           1.000001     3.1752e+00           0.710584     3.0333e+00
+         1e-06           1.000070     2.1353e+00           0.710646     2.0243e+00
+         1e-04           1.003570     1.2458e+00           0.713746     1.2041e+00
+         1e-02           1.130633     5.4572e-01           0.833352     5.4375e-01
+  s-independence: UB is exactly quadratic in s (UB(sX)=s^2 UB(X)); for s=0.001,0.002,0.005 the ratios above are unchanged to machine precision.
+      s=0.001: UB_c=3.693557e-09  1/2 s^2|u|^2=3.693557e-09  ratio=1.00000000  UB_rot=2.624578e-09  UB_rot/UB_c=0.71058293
+      s=0.002: UB_c=1.477423e-08  1/2 s^2|u|^2=1.477423e-08  ratio=1.00000000  UB_rot=1.049831e-08  UB_rot/UB_c=0.71058293
+      s=0.005: UB_c=9.233892e-08  1/2 s^2|u|^2=9.233892e-08  ratio=1.00000000  UB_rot=6.561446e-08  UB_rot/UB_c=0.71058293
+
+=== L=384  theta=0.29233  eps_*=-1.00006  |u|^2=7.41022293e-03  |I|=230 |I^c|=154 ===
+  M = P^perp D_chi P         ||X||^2=3.19026454e-02  ||Pi X||^2=7.41022293e-03  ||(1-Pi)X||^2=2.44924225e-02
+                              ||Proj_Ext X||^2=2.44924226e-02  dist((1-Pi)X,Ext)^2=-1.260e-10  rel dist=0.000e+00   leak(N)=5.7e-28 leak(Ext)=1.8e-27
+  v = P^perp G_* P           ||X||^2=3.91398473e-03  ||Pi X||^2=2.16633374e-03  ||(1-Pi)X||^2=1.74765099e-03
+                              ||Proj_Ext X||^2=1.74765099e-03  dist((1-Pi)X,Ext)^2=-1.527e-16  rel dist=0.000e+00   leak(N)=2.0e-32 leak(Ext)=2.8e-36
+  M + v  (rotated)           ||X||^2=3.02638442e-02  ||Pi X||^2=5.24388919e-03  ||(1-Pi)X||^2=2.50199551e-02
+                              ||Proj_Ext X||^2=2.50199552e-02  dist((1-Pi)X,Ext)^2=-1.260e-10  rel dist=0.000e+00   leak(N)=5.7e-28 leak(Ext)=1.8e-27
+  P^perp (E_I D_chi E_I) P   ||X||^2=2.23678358e+02  ||Pi X||^2=1.87408056e+02  ||(1-Pi)X||^2=3.62703025e+01
+                              ||Proj_Ext X||^2=3.62703025e+01  dist((1-Pi)X,Ext)^2=-1.398e-11  rel dist=0.000e+00   leak(N)=1.3e-27 leak(Ext)=5.9e-30
+  CHECK ||Pi(M+v)||^2/|u|^2 = 0.707656   1-theta = 0.707673
+  UB_c/(1/2 s^2|u|^2)      = 0.99999998   (= 1 + d_c^2/|u|^2)
+  UB_rot/UB_c              = 0.70765606   UB_rot/(1/2 s^2|u|^2) = 0.70765605
+  UB_c(truncated Z_I)/(1/2 s^2|u|^2) = 25290.474696
+  Tikhonov trade-off (unit s):   mu        UB_c/(s^2|u|^2/2)   ||Z_e||_F/s      UB_rot/(s^2|u|^2/2)   ||Z_e||_F/s
+         0e+00                nan            inf                nan            inf
+         1e-14           1.000000     1.9038e+01           0.707656     1.8997e+01
+         1e-12           1.000000     5.7314e+00           0.707656     5.6097e+00
+         1e-10           1.000000     4.4169e+00           0.707656     4.2847e+00
+         1e-08           1.000001     3.2218e+00           0.707657     3.0846e+00
+         1e-06           1.000072     2.1595e+00           0.707721     2.0493e+00
+         1e-04           1.003634     1.2554e+00           0.710885     1.2166e+00
+         1e-02           1.132027     5.4755e-01           0.832460     5.4622e-01
+  s-independence: UB is exactly quadratic in s (UB(sX)=s^2 UB(X)); for s=0.001,0.002,0.005 the ratios above are unchanged to machine precision.
+      s=0.001: UB_c=3.705111e-09  1/2 s^2|u|^2=3.705111e-09  ratio=0.99999998  UB_rot=2.621945e-09  UB_rot/UB_c=0.70765606
+      s=0.002: UB_c=1.482045e-08  1/2 s^2|u|^2=1.482045e-08  ratio=0.99999998  UB_rot=1.048778e-08  UB_rot/UB_c=0.70765606
+      s=0.005: UB_c=9.262779e-08  1/2 s^2|u|^2=9.262779e-08  ratio=0.99999998  UB_rot=6.554861e-08  UB_rot/UB_c=0.70765606
+

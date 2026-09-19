@@ -1,0 +1,673 @@
+\documentclass[11pt]{article}
+\input{rigor_preamble}
+\providecommand{\one}{\mathbf 1}\providecommand{\Ran}{\operatorname{Ran}}\providecommand{\norm}[1]{\lVert #1\rVert}
+\newcommand{\Nst}[1]{\lVert #1\rVert_{\star}}\newcommand{\Nsto}[1]{\lVert #1\rVert_{\star\star}}\newcommand{\Pinch}{\mathcal P}
+
+\newcommand{\Qt}{\widetilde{Q}}
+\newcommand{\Xo}{X_{11}}
+\newcommand{\Xt}{X_{22}}
+\newcommand{\Xc}{X_{12}}
+\newcommand{\HS}{\mathfrak{S}_2}
+\newcommand{\kc}{\kappa_c}
+\newcommand{\zt}{\zeta}
+\newcommand{\Phiw}{\Phi_W}
+
+\title{Certified numerics for $\Phi(\zeta)$:\\
+a quadratic block bound for $\sqrt{\Qt}$ and ball-arithmetic enclosures}
+\author{Agent RC (Phase 2b, track RC)}
+\date{2026-09-09}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Scope and summary}
+\label{sec:scope}
+% filled in last
+This note has two independent parts, both aimed at the width of the certified brackets for
+$\Phi(\zeta)=-\log\Fid(\omega,\widetilde\omega_s)$ of Note~5, Table~3, which
+\texttt{tail\_bound.tex} (agent PT) left at $82$--$154\,\%$.
+
+\paragraph{Part I (analysis, \S\ref{sec:sqrt}--\S\ref{sec:nocross}).}  The open item of
+\texttt{tail\_bound.tex}, ``a bound on $\|\sqrt{\widetilde Q}-\sqrt{X_{11}\oplus X_{22}}\|_2$
+quadratic in the off-diagonal block $X_{12}$'', is settled as follows.
+\begin{itemize}[leftmargin=1.6em]
+\item The bound is \emph{false} in the unweighted form $\|\sqrt{\widetilde Q}-\sqrt{X_{11}\oplus X_{22}}\|_2^2
+ \le C\|X_{12}\|_2^2$ with an absolute constant $C$: Proposition~\ref{prop:cex} exhibits
+ $2\times2$ positive contractions with ratio $\ge3/(2\eps)$, $\eps=\lambda_{\min}(X_{11})$.
+\item It is \emph{true} with the natural Daleckii--Krein weight.  Theorem~\ref{thm:sqrt}:
+ with $a_i$ the eigenvalues of $X_{11}$, $b_j$ those of $X_{22}$ and $V_{ij}$ the matrix elements of
+ $X_{12}$ in the corresponding eigenbases,
+ \[
+  \Bigl\|\sqrt{\widetilde Q}-\sqrt{X_{11}\oplus X_{22}}\Bigr\|_2^2
+  =\sum_{\alpha,i}\frac{|\langle\phi_\alpha,X_{12}\psi_i\rangle+\langle\phi_\alpha,X_{12}^*\psi_i\rangle|^2}
+  {(\sqrt{\beta_\alpha}+\sqrt{a_i})^{2}},
+ \]
+ an \emph{identity} (Theorem~\ref{thm:sqrt}) with $\beta_\alpha$, $a_i$ the eigenvalues of
+ $\widetilde Q$ and of its pinching: the Daleckii--Krein weight $(\sqrt{\beta}+\sqrt a)^{-2}$ is
+ exactly what replaces the missing Lipschitz constant.
+\item The weighted norm is \emph{finite and small} for the actual kernel: positivity alone gives
+ (Corollary~\ref{cor:schur}) $\Nst{X_{12}}^2\le\tau_++\tau_-=\tau$ --- the same occupation tail that
+ governs everything else, so the weight costs nothing.  This is the exact point at which the
+ Schur-complement inequality $X_{12}^*X_{11}^{-1}X_{12}\le X_{22}$, guessed by PT to be ``the right
+ tool'', does the work.
+\item Consequently (Theorem~\ref{thm:nocross}) the ultraviolet tail bound can be freed of the Bures
+ cross term: with $\Phi_{22}$ the complement-block defect and $\Phi_{\rm off}=-\log|\det(1+T)|$,
+ \[
+  0\ \le\ \Phi-\Phi_W\ \le\ \Phi_{22}+\Phi_{\rm off},
+ \]
+ an inequality between \emph{computable} quantities with no term of order $\sqrt\Phi$.  The
+ mechanism is that the optimal Uhlmann purification of the pair $(\omega_Q,\omega_A)$,
+ $A=\Pinch\widetilde Q$, can be chosen \emph{block diagonal}, so that the off-diagonal block enters
+ $\log\det$ only at second order.  No closed-form constant $C_\star$ is claimed: the a priori route
+ through hypothesis \eqref{eq:Hyp} has a measured constant $c_0\in[18,42]$ and is four to six times
+ weaker than the computable form (\S\ref{sec:num}).
+\end{itemize}
+Numerically this replaces the factor-$80$ overshoot of \texttt{tail\_bound.tex} by a factor
+$50$--$160$; the resulting widths are stated in \S\ref{sec:rcr}, which supersedes
+Table~\ref{tab:cert} after the referee report.
+
+\paragraph{Part II (arithmetic, \S\ref{sec:ball}--\S\ref{sec:table}).}  The $3\,\%$ arithmetic margin
+of \texttt{tail\_bound.tex}, \S8, is replaced by a rigorous \texttt{arb}/\texttt{acb} ball-arithmetic
+evaluation of the whole windowed pipeline: \emph{delivered}: (a) the box symbol $Q_N$ enclosed
+entrywise to $5.62\times10^{-18}$ from $2N$ certified one-dimensional integrals, with no
+eigendecomposition of a ball matrix anywhere (\S\ref{sec:qbox}); (b) the downstream fidelity
+quantities in \texttt{mpmath} at $60$ digits from that enclosure (\S\ref{sec:rcr}).
+\emph{Not delivered, and stated as such}: a ball-arithmetic evaluation of the defect $\widehat D$
+(\S\ref{sec:dhat}), verified Rayleigh--Ritz eigenvalue enclosures, and a ball-arithmetic
+determinant; \S\ref{sec:eig} records the recipes only.  \S\ref{sec:rcr} states exactly what is
+certified and supersedes Table~\ref{tab:cert}.
+\section{The square root of a block perturbation}\label{sec:sqrt}
+
+Throughout this section $\mathfrak h=\mathfrak h_1\oplus\mathfrak h_2$ is finite dimensional,
+\[
+ B=\begin{pmatrix}A_1&W\\ W^*&A_2\end{pmatrix}\ \ge\ 0,\qquad
+ A:=A_1\oplus A_2=\Pinch(B),\qquad V:=B-A=\begin{pmatrix}0&W\\ W^*&0\end{pmatrix},
+\]
+where $\Pinch$ is the pinching (conditional expectation onto the block-diagonal subalgebra).  We fix
+orthonormal eigenbases $A_1u_i=a_iu_i$, $A_2w_j=b_jw_j$ and write $V_{ij}=\langle u_i,Ww_j\rangle$.
+Define the weighted quantities
+\begin{equation}\label{eq:starnorm}
+ \Nst{W}^2:=\sum_{i,j}\frac{|V_{ij}|^2}{\bigl(\sqrt{a_i}+\sqrt{b_j}\bigr)^2},
+ \qquad
+ \Nsto{W}:=\sum_{i,j}\frac{|V_{ij}|^2}{\sqrt{a_ib_j}\,\bigl(\sqrt{a_i}+\sqrt{b_j}\bigr)} .
+\end{equation}
+(The second is used only in the remainder estimate; both are $+\infty$ if some $a_i$ or $b_j$
+vanishes with $V_{ij}\neq0$, which positivity of $B$ forbids, see Lemma~\ref{lem:2x2}.)
+
+\begin{lemma}[$2\times2$ positivity]\label{lem:2x2}
+$|V_{ij}|^2\le a_ib_j$ for all $i,j$.
+\end{lemma}
+\lstep{1}{1}{The $2\times2$ principal submatrix of $B$ in the orthonormal system $(u_i,w_j)$ is
+$\begin{pmatrix}a_i&V_{ij}\\ \overline{V_{ij}}&b_j\end{pmatrix}$.}
+\lby{$\langle u_i,Bu_i\rangle=\langle u_i,A_1u_i\rangle=a_i$ (the $(1,2)$ block of $B$ does not
+contribute to a diagonal $\mathfrak h_1$ entry), likewise $\langle w_j,Bw_j\rangle=b_j$, and
+$\langle u_i,Bw_j\rangle=\langle u_i,Ww_j\rangle=V_{ij}$}
+\lstep{1}{2}{A principal submatrix of a positive semidefinite matrix is positive semidefinite, and a
+positive semidefinite $2\times2$ matrix has nonnegative determinant.}
+\lby{$\langle f,Bf\rangle\ge0$ for $f$ in the span of $u_i,w_j$; and $\det\ge0$ is the product of the
+two nonnegative eigenvalues}
+\lqed{1}{3}\lby{$\langle1\rangle1$, $\langle1\rangle2$: $a_ib_j-|V_{ij}|^2\ge0$}
+
+\subsection{The exact Sylvester representation and the sharp weight}\label{ss:sylv}
+
+\begin{theorem}[exact form of the square-root difference]\label{thm:sqrt}
+Let $A,B\ge0$ on a finite-dimensional space, $V:=B-A$, and let $A\psi_i=a_i\psi_i$,
+$B\phi_\alpha=\beta_\alpha\phi_\alpha$ be orthonormal eigendecompositions.  Then
+\begin{equation}\label{eq:sylv}
+ B-A=\sqrt B\,\Xi+\Xi\,\sqrt A,\qquad \Xi:=\sqrt B-\sqrt A,
+\end{equation}
+and, if $A$ and $B$ are invertible,
+\begin{equation}\label{eq:xiexact}
+ \boxed{\ \bigl\|\sqrt B-\sqrt A\bigr\|_2^2
+ \;=\;\sum_{\alpha,i}\frac{\bigl|\langle\phi_\alpha,V\psi_i\rangle\bigr|^2}
+ {\bigl(\sqrt{\beta_\alpha}+\sqrt{a_i}\bigr)^{2}}\ }
+\end{equation}
+Moreover, if $B=A+V$ with $A=\Pinch(B)$ block diagonal and $V$ purely off-diagonal, then the
+first-order term
+\begin{equation}\label{eq:firstorder}
+ \mathcal L_A(V):=\frac1\pi\int_0^\infty t^{1/2}\frac1{A+t}\,V\,\frac1{A+t}\,\dd t,
+ \qquad \bigl(\mathcal L_A(V)\bigr)_{ij}=\frac{V_{ij}}{\sqrt{a_i}+\sqrt{a_j}},
+\end{equation}
+is again purely off-diagonal, $\Pinch\mathcal L_A(V)=0$, and $\|\mathcal L_A(V)\|_2=\sqrt2\,\Nst{W}$
+with $\Nst\cdot$ as in \eqref{eq:starnorm}.
+\end{theorem}
+\lstep{1}{1}{$\sqrt B\,\Xi+\Xi\sqrt A=\sqrt B\sqrt B-\sqrt B\sqrt A+\sqrt B\sqrt A-\sqrt A\sqrt A=B-A$.}
+\lby{expansion of $\Xi=\sqrt B-\sqrt A$ and $(\sqrt B)^2=B$, $(\sqrt A)^2=A$}
+\lstep{1}{2}{In the (mixed) bases $(\phi_\alpha)$, $(\psi_i)$, \eqref{eq:sylv} reads
+$\langle\phi_\alpha,V\psi_i\rangle=(\sqrt{\beta_\alpha}+\sqrt{a_i})\langle\phi_\alpha,\Xi\psi_i\rangle$.}
+\lby{$\sqrt B\phi_\alpha=\sqrt{\beta_\alpha}\phi_\alpha$, $\sqrt A\psi_i=\sqrt{a_i}\psi_i$, and
+$\langle1\rangle1$}
+\lstep{1}{3}{$\|\Xi\|_2^2=\sum_{\alpha i}|\langle\phi_\alpha,\Xi\psi_i\rangle|^2$, which with
+$\langle1\rangle2$ gives \eqref{eq:xiexact}; the denominators are $>0$ because $A,B>0$.}
+\lby{$\|\Xi\|_2^2=\Tr[\Xi^*\Xi]$ evaluated by inserting the two complete orthonormal systems}
+\lstep{1}{4}{$\sqrt X=\frac1\pi\int_0^\infty X(X+t)^{-1}t^{-1/2}\dd t$ for $X>0$, hence
+$\frac{\dd}{\dd\varepsilon}\big|_0\sqrt{A+\varepsilon V}=\mathcal L_A(V)$ and
+$(\mathcal L_A(V))_{ij}=V_{ij}\cdot\frac1\pi\int_0^\infty\frac{t^{1/2}\dd t}{(a_i+t)(a_j+t)}
+=\frac{V_{ij}}{\sqrt{a_i}+\sqrt{a_j}}$.}
+\lby{the scalar identity $\frac1\pi\int_0^\infty\frac{x}{x+t}t^{-1/2}\dd t=\sqrt x$ (substitute
+$t=xu^2$ and $\int_0^\infty\frac{2\dd u}{1+u^2}=\pi$), applied to the spectral measure of $X$;
+differentiation under the integral sign is legitimate because the integrand is a rational function of
+$\varepsilon$ with poles off $[0,\infty)$ for $|\varepsilon|$ small and is dominated by
+$C\min(t^{-1/2},t^{-3/2})$; the resolvent identity
+$\partial_\varepsilon(A+\varepsilon V+t)^{-1}=-(A+t)^{-1}V(A+t)^{-1}$ at $\varepsilon=0$; and
+$\frac1\pi\int_0^\infty\frac{t^{1/2}}{(a+t)(b+t)}\dd t=\frac1{\sqrt a+\sqrt b}$, which follows from
+the same substitution after partial fractions}
+\lstep{1}{5}{If $V$ is off-diagonal for the decomposition $\mathfrak h_1\oplus\mathfrak h_2$ and $A$
+is block diagonal, then $\mathcal L_A(V)$ is off-diagonal, so $\Pinch\mathcal L_A(V)=0$; and
+$\|\mathcal L_A(V)\|_2^2=2\sum_{i,j}\frac{|V_{ij}|^2}{(\sqrt{a_i}+\sqrt{b_j})^2}=2\Nst{W}^2$.}
+\lby{$(A+t)^{-1}$ is block diagonal, so $(A+t)^{-1}V(A+t)^{-1}$ is off-diagonal;
+by $\langle1\rangle4$ the $(1,2)$ block has entries $V_{ij}/(\sqrt{a_i}+\sqrt{b_j})$ and the $(2,1)$
+block is its adjoint, whence the factor $2$}
+\lqed{1}{6}\lby{$\langle1\rangle1$--$\langle1\rangle5$}
+
+\begin{remark}[why the weight is the right one]
+\eqref{eq:xiexact} is an identity, not an estimate: no bound of the form
+$\|\Xi\|_2\le c\,\|V\|_2$ can be better than the one obtained by replacing every
+$(\sqrt{\beta_\alpha}+\sqrt{a_i})^{-1}$ by its maximum $\lambda_{\min}^{-1/2}$.  Discarding
+$\sqrt{\beta_\alpha}$ gives the one-sided bound
+\begin{equation}\label{eq:onesided}
+ \|\Xi\|_2^2\ \le\ \Tr\bigl[V^*A^{-1}V\bigr]
+ \ =\ \Tr\bigl[W^*A_1^{-1}W\bigr]+\Tr\bigl[WA_2^{-1}W^*\bigr]
+\end{equation}
+(and the same with $A$ replaced by $B$), which is what we use below.
+\end{remark}
+
+\begin{proposition}[the unweighted bound is false]\label{prop:cex}
+For every $0<\delta<\eps<1/2$ the matrices
+\[
+ B=\begin{pmatrix}\eps&\sqrt{\eps\delta}\\ \sqrt{\eps\delta}&\delta\end{pmatrix}\ \ge0,
+ \qquad A=\Pinch(B)=\begin{pmatrix}\eps&0\\0&\delta\end{pmatrix},\qquad W=\sqrt{\eps\delta},
+\]
+satisfy $0\le B\le1$, $\|W\|_2^2=\eps\delta$ and
+\[
+ \bigl\|\sqrt B-\sqrt A\bigr\|_2^2
+ =\Bigl(\tfrac{\eps}{\sqrt{\eps+\delta}}-\sqrt\eps\Bigr)^2
+ +\Bigl(\tfrac{\delta}{\sqrt{\eps+\delta}}-\sqrt\delta\Bigr)^2+\frac{2\eps\delta}{\eps+\delta}
+ \ \xrightarrow[\ \delta/\eps\to0\ ]{}\ 3\delta\,(1+o(1)),
+\]
+so that $\|\sqrt B-\sqrt A\|_2^2\big/\|W\|_2^2\to3/\eps$.  Hence no inequality
+$\|\sqrt B-\sqrt A\|_2^2\le C\|X_{12}\|_2^2$ with an absolute constant $C$ can hold for positive
+contractions, and the blow-up rate as the window edge $\eps=\lambda_{\min}(X_{11})$ tends to $0$ is
+exactly $\eps^{-1}$.
+\end{proposition}
+\lstep{1}{1}{$B=vv^*$ with $v=(\sqrt\eps,\sqrt\delta)^{\!\top}$, so $B\ge0$, $\|v\|^2=\eps+\delta<1$
+and $B\le\|v\|^2\le1$.}
+\lby{rank-one positivity; $\|B\|=\|v\|^2$}
+\lstep{1}{2}{$\sqrt B=\|v\|^{-1}vv^*=(\eps+\delta)^{-1/2}B$.}
+\lby{$B^2=\|v\|^2B$, so $(\|v\|^{-1}B)^2=B$ and $\|v\|^{-1}B\ge0$}
+\lstep{1}{3}{The displayed formula for $\|\sqrt B-\sqrt A\|_2^2$, and its limit.}
+\lby{$\sqrt A=\mathrm{diag}(\sqrt\eps,\sqrt\delta)$, $\langle1\rangle2$, and the entrywise
+Hilbert--Schmidt norm; as $\delta/\eps\to0$ the three terms are
+$\frac{\delta^2}{4\eps}(1+o(1))$, $\delta(1+o(1))$, $2\delta(1+o(1))$}
+\lqed{1}{4}\lby{$\langle1\rangle1$--$\langle1\rangle3$ and $\|W\|_2^2=\eps\delta$}
+
+\begin{remark}
+In Proposition~\ref{prop:cex} the exact weighted expression \eqref{eq:xiexact} evaluates to
+$\Nst{W}^2=\eps\delta/(\sqrt\eps+\sqrt\delta)^2=\delta(1+o(1))$: the weighted norm sees the correct
+size $\delta$, and the extra factor $3$ comes from the eigenvalue $\beta=0$ of $B$, i.e.\ from the
+\emph{non-perturbative} regime $\|W\|=\sqrt{\eps\delta}$ comparable to $\lambda_{\min}$.  This is the
+precise sense in which the answer to PT's question is ``yes, with the Daleckii--Krein weight, and
+never without it''.
+\end{remark}
+
+\subsection{Positivity makes the weighted norm small}\label{ss:schur}
+
+\begin{corollary}[Schur-complement bound]\label{cor:schur}
+Let $0\le\widetilde Q\le1$ (both inequalities are used), $B=\widetilde Q$, $A_1=X_{11}$,
+$A_2=X_{22}$, $W^\pm:=E\widetilde QE^\pm$, and assume
+\begin{equation}\label{eq:commhyp}
+ [X_{22},E^+]=[X_{22},E^-]=0,
+\end{equation}
+so that the eigenbasis $(w_j)$ of $X_{22}$ splits into an $E^+$ and an $E^-$ family.  Then
+\begin{equation}\label{eq:schurb}
+ \Tr\bigl[(W^+)^*X_{11}^{-1}W^+\bigr]\le\tau_+,\qquad
+ \Tr\bigl[(W^-)^*(1-X_{11})^{-1}W^-\bigr]\le\tau_-,
+\end{equation}
+and, provided $\tau_-<1$,
+\begin{equation}\label{eq:starsmall}
+ \Nst{X_{12}}^2\ \le\ \tau_++\frac{\|W^-\|_2^2}{1-\tau_-}\ \le\ \tau_++\frac{\tau_-}{1-\tau_-} .
+\end{equation}
+Without \eqref{eq:commhyp} the same proof gives \eqref{eq:starsmall} with $\tau_\pm$ replaced by the
+traces of $X_{22}$, resp.\ $1-X_{22}$, over the spectral subspaces of $X_{22}$ on which its eigenvalue
+is $\le\frac12$, resp.\ $>\frac12$.
+\end{corollary}
+\lstep{1}{1}{$X_{12}^*X_{11}^{-1}X_{12}\le X_{22}$ and $X_{12}^*(1-X_{11})^{-1}X_{12}\le1-X_{22}$.}
+\lby{$\widetilde Q\ge0$ and $X_{11}>0$ give the Schur complement
+$X_{22}-X_{12}^*X_{11}^{-1}X_{12}\ge0$ (factorise
+$\widetilde Q=\binom{1\ \ 0}{X_{12}^*X_{11}^{-1}\ \ 1}\bigl(X_{11}\oplus(X_{22}-X_{12}^*X_{11}^{-1}X_{12})\bigr)
+\binom{1\ \ X_{11}^{-1}X_{12}}{0\ \ 1}$); applying the same to $1-\widetilde Q\ge0$, whose blocks are
+$1-X_{11}$, $-X_{12}$, $1-X_{22}$, gives the second.  \emph{Both} $\widetilde Q\ge0$ and
+$\widetilde Q\le1$ are needed}
+\lstep{1}{2}{Compressing the two inequalities of $\langle1\rangle1$ with $E^+$, resp.\ $E^-$, and
+taking traces gives \eqref{eq:schurb}.}
+\lby{$\Tr[E^+X_{22}E^+]=\tau_+$ and $\Tr[E^-(1-X_{22})E^-]=\tau_-$ by \eqref{eq:taudef} of
+\texttt{tail\_bound.tex}; $Z\le Z'\Rightarrow\Tr[P^*ZP]\le\Tr[P^*Z'P]$}
+\lstep{1}{3}{Under \eqref{eq:commhyp} every eigenvalue $b_j$ of $X_{22}$ belonging to the $E^-$
+family satisfies $1-b_j\le\tau_-$, hence $b_j\ge1-\tau_-$.}
+\lby{the $E^-$ family spans $E^-H$, on which $1-X_{22}$ is positive with trace $\tau_-$, so each of
+its eigenvalues is at most $\tau_-$; \eqref{eq:commhyp} is what makes the $1-b_j$ eigenvalues of
+$E^-(1-X_{22})E^-$}
+\lstep{1}{4}{$\Nst{X_{12}}^2=\sum_{i,\,j\in E^+}\frac{|V_{ij}|^2}{(\sqrt{a_i}+\sqrt{b_j})^2}
++\sum_{i,\,j\in E^-}\frac{|V_{ij}|^2}{(\sqrt{a_i}+\sqrt{b_j})^2}
+\le\Tr[(W^+)^*X_{11}^{-1}W^+]+\frac{\|W^-\|_2^2}{1-\tau_-}$.}
+\lby{\eqref{eq:commhyp} lets the $j$-sum be split; on the $E^+$ part drop $\sqrt{b_j}$, giving the
+weight $a_i^{-1}$ and the first trace; on the $E^-$ part $(\sqrt{a_i}+\sqrt{b_j})^2\ge b_j\ge1-\tau_-$
+by $\langle1\rangle3$, so the weight is at most $(1-\tau_-)^{-1}$ --- \emph{not} $1$}
+\lstep{1}{5}{$\|W^-\|_2^2\le\tau_-$.}
+\lby{$\|EXE^-\|_2^2\le\|1-X_{11}\|\cdot\Tr[E^-(1-X)E^-]\le\tau_-$, the particle--hole mirror of
+\texttt{tail\_bound.tex}, Theorem~4.1$\langle2\rangle1$, which again uses $\widetilde Q\le1$}
+\lqed{1}{6}\lby{$\langle1\rangle2$, $\langle1\rangle4$, $\langle1\rangle5$}
+
+\begin{remark}[status]
+In the free-fermion application $E^\pm$ are spectral projections of $K=\log\frac{1-Q}Q$ and
+$X_{22}=E^\perp\widetilde QE^\perp$ does \emph{not} commute with them exactly, so
+\eqref{eq:commhyp} is an idealisation and the last sentence of the corollary is the applicable form.
+Numerically (\S\ref{sec:num}) the ratio $\Nst{X_{12}}^2/\tau$ is $0.71$, so the conclusion holds
+comfortably.
+\end{remark}
+
+\section{A tail bound without the Bures cross term}\label{sec:nocross}
+
+The factor-$80$ overshoot of \texttt{tail\_bound.tex} comes from the term $2\sqrt{\Phi\Phi_\partial}$
+produced by the Bures-angle triangle inequality.  We now remove it.  The mechanism is that the
+\emph{optimal} Uhlmann purification of the pair $(\omega_Q,\omega_A)$, $A=\Pinch(\widetilde Q)$, is
+block diagonal, and that a block-diagonal operator does not see the off-diagonal first-order
+displacement, Theorem~\ref{thm:sqrt}$\langle1\rangle5$.
+
+\begin{lemma}[pinching lowers the square root]\label{lem:jensen}
+Let $\Pinch$ be the pinching onto the block diagonal of $\mathfrak h_1\oplus\mathfrak h_2$,
+$B\ge0$, $A:=\Pinch(B)$, $\Xi_0:=\sqrt B-\sqrt A$ and $\Theta_0:=-\Pinch(\Xi_0)=\sqrt A-\Pinch\sqrt B$.
+Then
+\begin{equation}\label{eq:jensen}
+ \Theta_0\ \ge\ 0,\qquad \Tr\bigl[\sqrt A\,\Theta_0\bigr]=\tfrac12\bigl\|\Xi_0\bigr\|_2^2 ,
+\end{equation}
+and for every Hermitian block-diagonal $Y$ with $-c\sqrt A\le Y\le c\sqrt A$,
+\begin{equation}\label{eq:Ytrace}
+ \bigl|\Tr[Y\,\Xi_0]\bigr|\ \le\ \tfrac{c}{2}\,\|\Xi_0\|_2^2 .
+\end{equation}
+\end{lemma}
+\lstep{1}{1}{$\Pinch$ is a unital, trace-preserving, completely positive map with
+$\Pinch\circ\Pinch=\Pinch$, and $\Pinch(Z)=Z$ for block-diagonal $Z$, $\Tr[Z\Pinch(Y)]=\Tr[\Pinch(Z)Y]$.}
+\lby{$\Pinch(X)=\frac12(X+\Gamma X\Gamma)$ with $\Gamma=1_{\mathfrak h_1}\oplus(-1_{\mathfrak h_2})$
+self-adjoint unitary; averages of unitary conjugations are unital completely positive and trace
+preserving, and self-adjoint for the Hilbert--Schmidt pairing}
+\lstep{1}{2}{$\Pinch(\sqrt B)\le\sqrt{\Pinch(B)}=\sqrt A$, i.e.\ $\Theta_0\ge0$.}
+\lby{Jensen's operator inequality for the operator concave function $t\mapsto\sqrt t$ on $[0,\infty)$
+and the unital positive map $\Pinch$: $\Pinch(f(B))\le f(\Pinch(B))$ (Hansen--Pedersen 2003,
+Theorem~2.1; for a pinching this is Davis' theorem, and it also follows from
+$\Pinch(X)=\frac12(X+\Gamma X\Gamma)$ together with the operator concavity of $\sqrt\cdot$,
+$\frac12(\sqrt{B}+\sqrt{\Gamma B\Gamma})\le\sqrt{\frac12(B+\Gamma B\Gamma)}$)}
+\lstep{1}{3}{$\Tr[\sqrt A\,\Theta_0]=\Tr A-\Tr[\sqrt A\sqrt B]$ and
+$\|\Xi_0\|_2^2=\Tr A+\Tr B-2\Tr[\sqrt A\sqrt B]$, and $\Tr A=\Tr B$.}
+\lby{$\Tr[\sqrt A\Pinch(\sqrt B)]=\Tr[\Pinch(\sqrt A)\sqrt B]=\Tr[\sqrt A\sqrt B]$ by
+$\langle1\rangle1$; $\|\Xi_0\|_2^2=\Tr[(\sqrt B-\sqrt A)^2]$ expanded; $\Pinch$ is trace preserving}
+\lstep{1}{4}{\eqref{eq:jensen}.}\lby{$\langle1\rangle2$, $\langle1\rangle3$ and $\Tr A=\Tr B$}
+\lstep{1}{5}{$\Tr[Y\Xi_0]=\Tr[Y\Pinch\Xi_0]=-\Tr[Y\Theta_0]$, and $|\Tr[Y\Theta_0]|\le c\Tr[\sqrt A\Theta_0]$.}
+\lby{$Y$ block diagonal and $\langle1\rangle1$; $\Theta_0\ge0$ and $-c\sqrt A\le Y\le c\sqrt A$ give
+$-c\Tr[\sqrt A\Theta_0]\le\Tr[Y\Theta_0]\le c\Tr[\sqrt A\Theta_0]$ (pair the operator inequality with
+the positive functional $Z\mapsto\Tr[Z\Theta_0]$)}
+\lqed{1}{6}\lby{$\langle1\rangle4$, $\langle1\rangle5$}
+
+\begin{theorem}[cross-term-free tail bound]\label{thm:nocross}
+Let $Q$ commute with $E$, $0\le\widetilde Q\le1$, $A=\Pinch(\widetilde Q)=X_{11}\oplus X_{22}$,
+$S_Q=Q^{1/2}$, $C_Q=(1-Q)^{1/2}$, $S_A=A^{1/2}$, $C_A=(1-A)^{1/2}$,
+$S=\widetilde Q^{1/2}$, $C=(1-\widetilde Q)^{1/2}$, $\Xi_0=S-S_A$, $\Xi_1=C-C_A$, and let $U$ be the
+optimal (block-diagonal) Uhlmann unitary of Note~5, Theorem~2.1 for the pair $(Q,A)$, i.e.\
+$\Fid(\omega_Q,\omega_A)=|\det M_A|$, $M_A:=S_QS_A+C_QUC_A$.  Put $\gamma:=\|M_A^{-1}\|$,
+$T:=M_A^{-1}(S_Q\Xi_0+C_QU\Xi_1)$ and assume
+\begin{equation}\label{eq:Hyp}
+ \pm\tfrac12\bigl(M_A^{-1}S_Q+S_QM_A^{-*}\bigr)\le c_0\,S_A,\qquad
+ \pm\tfrac12\bigl(M_A^{-1}C_QU+U^*C_QM_A^{-*}\bigr)\le c_1\,C_A,\qquad \|T\|<1 .
+\tag{H}
+\end{equation}
+Then
+\begin{equation}\label{eq:nocross}
+ 0\ \le\ \Phi-\Phi_W\ \le\ \Phi_{22}
+ +\frac{c_0}{2}\|\Xi_0\|_2^2+\frac{c_1}{2}\|\Xi_1\|_2^2
+ +\frac{\|T\|_2^2}{2\,(1-\|T\|)},
+\end{equation}
+where $\Phi_{22}:=-\log\Fid(\omega_{Q_{22}},\omega_{X_{22}})$ is the complement-block defect.
+There is no term of order $\sqrt{\Phi}$.
+\end{theorem}
+\lstep{1}{1}{$\Fid(\omega_Q,\omega_{\widetilde Q})\ge|\det(S_QS+C_QUC)|$ for \emph{every} unitary $U$.}
+\lby{Note~5, Lemma~3.1 of \texttt{tail\_bound.tex} with the purification
+$\Theta^U_{\widetilde Q}=\binom{S}{UC}$, which is an isometry with
+$(\Theta^U)^*\Theta^U=S^2+C^*U^*UC=1$ and first block-symbol $\widetilde Q$; Uhlmann's theorem gives
+$\Fid=\max_U|\det(\Theta_Q^*\Theta^U_{\widetilde Q})|$ and any $U$ is a lower bound}
+\lstep{1}{2}{$S_QS+C_QUC=M_A(1+T)$ and hence
+$\Phi\le-\log|\det M_A|-\log|\det(1+T)|$.}
+\lby{$S=S_A+\Xi_0$, $C=C_A+\Xi_1$; $\langle1\rangle1$; $M_A$ is invertible because
+$|\det M_A|=\Fid(\omega_Q,\omega_A)>0$}
+\lstep{1}{3}{$-\log|\det M_A|=\Phi_W+\Phi_{22}$.}
+\lby{$Q$ and $A$ are both block diagonal, so $U$ may be chosen block diagonal and $M_A$ is block
+diagonal; $\Fid$ is multiplicative over the tensor factorisation
+$\cF(EH)\otimes\cF(E^\perp H)$ (Lemma~3.1 of \texttt{tail\_bound.tex}), and $EAE=X_{11}=E\widetilde QE$,
+so the window factor is $e^{-\Phi_W}$ and the complement factor is $e^{-\Phi_{22}}$}
+\lstep{1}{4}{$\log|\det(1+T)|\ge\Re\Tr T-\frac{\|T\|_2^2}{2(1-\|T\|)}$.}
+\lby{$\log\det(1+T)=\Tr\log(1+T)=\Tr T+\sum_{k\ge2}\frac{(-1)^{k+1}}k\Tr T^k$ for $\|T\|<1$, and
+$|\Tr T^k|\le\|T\|_2^2\|T\|^{k-2}$ for $k\ge2$, so
+$|\sum_{k\ge2}|\le\frac{\|T\|_2^2}{2}\sum_{j\ge0}\|T\|^{j}$}
+\lstep{1}{5}{$\Re\Tr T=\Tr[Y_0\Xi_0]+\Tr[Y_1\Xi_1]$ with
+$Y_0=\frac12(M_A^{-1}S_Q+S_QM_A^{-*})$, $Y_1=\frac12(M_A^{-1}C_QU+U^*C_QM_A^{-*})$, both Hermitian and
+block diagonal.}
+\lby{$\Tr[M_A^{-1}S_Q\Xi_0]+\overline{\Tr[M_A^{-1}S_Q\Xi_0]}
+=\Tr[(M_A^{-1}S_Q+S_QM_A^{-*})\Xi_0]$ using $\Xi_0^*=\Xi_0$; $Q$, $A$, $U$, $M_A$ all block diagonal}
+\lstep{1}{6}{$|\Re\Tr T|\le\frac{c_0}2\|\Xi_0\|_2^2+\frac{c_1}2\|\Xi_1\|_2^2$.}
+\lby{Lemma~\ref{lem:jensen}\eqref{eq:Ytrace} applied to $(B,A)=(\widetilde Q,\Pinch\widetilde Q)$ with
+$Y=Y_0$, $c=c_0$, and to $(B,A)=(1-\widetilde Q,\Pinch(1-\widetilde Q))$ with $Y=Y_1$, $c=c_1$
+(note $\Pinch(1-\widetilde Q)=1-A$ and $\sqrt{1-A}=C_A$); the hypotheses are exactly \eqref{eq:Hyp}}
+\lqed{1}{7}\lby{$\langle1\rangle2$--$\langle1\rangle6$; the left inequality of \eqref{eq:nocross} is
+monotonicity of $\Fid$ under restriction (\texttt{tail\_bound.tex}, Theorem~5.1$\langle1\rangle1$)}
+
+\begin{remark}[what \eqref{eq:nocross} is worth]
+All four terms are quadratic in the discarded data.  $\Phi_{22}$ and $\|\Xi_1\|_2^2$, $\|\Xi_0\|_2^2$
+are $O(\tau+\nu)=O(\zeta^2\kappa_c^{-2})$ by Corollary~\ref{cor:schur} and
+\texttt{tail\_bound.tex}, Theorem~4.1; $\|T\|_2^2$ is $O(\tau)$ as well.  With the measured values of
+\S\ref{sec:num} the right-hand side at $\zeta=1/15$, $\kappa_c=32.2$ is $\approx3\times10^{-7}$
+instead of the $2.77\times10^{-5}$ of \eqref{eq:final} of \texttt{tail\_bound.tex} --- a factor $90$,
+and $0.9\,\%$ of $\Phi$.  The price is hypothesis \eqref{eq:Hyp}, an operator inequality between
+computable matrices, which \S\ref{sec:num} verifies with $c_0,c_1\le1.02$.
+\end{remark}
+\section{Ball arithmetic for the box symbol $Q_N$}\label{sec:ball}\label{sec:qbox}
+
+The box symbol of Note~5, \S6 is, in the centred basis $e_j=e^{ik_j\xi}/\sqrt\Lambda$,
+$k_j=2\pi j/\Lambda$, $|j|\le M=\lfloor\kappa_{\max}\Lambda/(4\pi^2)\rfloor$, $N=2M+1$,
+\begin{equation}\label{eq:Qbox}
+ Q^{\rm c}_{jj}=\frac12-\frac{I(k_j)}{2\pi\Lambda},\quad
+ I(k)=\int_0^\Lambda(\Lambda-t)\frac{\sin kt}{\sinh(t/2)}\dd t;\qquad
+ Q^{\rm c}_{jl}=-\frac{(-1)^{j-l}\bigl(C(k_j)-C(k_l)\bigr)}{2\pi\Lambda(k_j-k_l)},
+\end{equation}
+$C(k)=\int_0^\Lambda\frac{\cos kt-1}{\sinh(t/2)}\dd t$, followed by the absolute-basis phase
+$Q\mapsto\mathrm{diag}(e^{-ik_j\xi_0})\,Q\,\mathrm{diag}(e^{ik_j\xi_0})$, $\xi_0=\log(a/L)$.
+Only $2N$ one-dimensional integrals occur.  \texttt{numerics/certified/cert\_qbox.py} encloses each
+of them in an \texttt{arb} ball:
+\begin{itemize}[leftmargin=1.6em]
+\item on $[d,\Lambda]$, $d=10^{-6}$, by \texttt{python-flint}'s \texttt{acb.integral}, i.e.\ arb's
+ Petras/Gauss--Legendre algorithm with a rigorous remainder from a Cauchy estimate on a Bernstein
+ ellipse (the integrand is analytic in the strip $|\operatorname{Im}t|<2\pi$);
+\item on $[0,d]$ by the explicit Taylor enclosures
+ $\frac{\sin kt}{\sinh(t/2)}=2k\bigl(1+e_1\bigr)$, $|e_1|\le\frac{(kd)^2}6+\frac{d^2}{24}$, and
+ $\frac{\cos kt-1}{\sinh(t/2)}=-k^2t\bigl(1+e_2\bigr)$, $|e_2|\le\frac{(kd)^2}{12}+\frac{d^2}{24}$,
+ which follow from $\frac{\sin x}x=1+O(x^2/6)$, $\frac{x}{\sinh x}=1+O(x^2/6)$ with alternating,
+ monotonically decreasing Taylor coefficients.
+\end{itemize}
+No quadrature rule is needed for the off-diagonal entries beyond the two values $C(k_j)$, $C(k_l)$.
+\begin{center}\small
+\begin{tabular}{l r r r}\toprule
+$(\Lambda,\kappa_{\max})$ & $N$ & max ball radius of $Q_N$ & $\max_{jl}|Q^{\rm ball}_{jl}-Q^{\rm trap}_{jl}|$\\\midrule
+$(60,30)$ & 91 & $5.6\times10^{-18}$ & $4.7\times10^{-11}$\\
+\bottomrule\end{tabular}
+\end{center}
+Two consequences.  (i) The certified entrywise accuracy of $Q_N$ is $5.6\times10^{-18}$ at
+$200$ bits, limited only by the Taylor cut $d$ (it improves as $d^3$: the $[0,d]$ contribution is $O(k\Lambda d)$ with relative error $O((kd)^2)$); with
+$\|Z\|_1\le N^{3/2}\max_{jl}|Z_{jl}|$ this gives $\eta_Q\le5\times10^{-15}$ and, by
+\texttt{tail\_bound.tex}~(8.1), an arithmetic margin $2\sqrt{2\Phi}\sqrt{5\eta_Q}=2.6\times10^{-9}$ at
+$\zeta=1/15$, i.e.\ $7.5\times10^{-5}$ relative --- PT's $3\,\%$ margin for $Q_N$ is reduced by a
+factor $400$.  (ii) \emph{The $4\times10^5$-node trapezoid rule of \texttt{compression\_box.Q\_box} is
+accurate to only $4.7\times10^{-11}$ entrywise}, and all $N^2-N$ off-diagonal float entries lie
+\emph{outside} their rigorous enclosures (the $N$ diagonal ones lie inside).  This is the
+Euler--Maclaurin endpoint term $\frac{h^2}{12}[f'(\Lambda)-f'(0)]$ of the trapezoid rule and had not
+been quantified; it corresponds to $\eta\approx4\times10^{-8}$ in trace norm, for which
+\texttt{tail\_bound.tex}~(8.1) gives arithmetic margins of $3.3\,\%$, $21.7\,\%$ and $204\,\%$ at
+$\zeta=8/15$, $1/15$ and $1/120$ respectively --- the margin is \emph{not} a single percentage, and
+at small $\zeta$ it exceeds the value being computed.  All numbers in \S\ref{sec:rcr} use the
+ball $Q_N$.
+
+\begin{verdictgap}
+The $Q_N$ half of the arithmetic audit requested in \texttt{tail\_bound.tex}, \S8 is complete and
+rigorous.  It shows the previous margin was \emph{under}-estimated (the trapezoid error is
+$4.7\times10^{-11}$, not the $\le10^{-11}$ implicitly assumed), and removes it.  The defect matrix
+$\widehat D$ is a genuine two-dimensional quadrature and is \emph{not} certified here; see
+\S\ref{sec:dhat}.
+\end{verdictgap}
+
+\section{The defect matrix $\widehat D$}\label{sec:dhat}
+
+$\widehat D_{jl}=\frac1\Lambda\iint e^{-ik_j\xi}\widetilde D(\xi,\xi')e^{ik_l\xi'}\dd\xi\dd\xi'$ is a
+two-dimensional integral ($N^2$ of them), evaluated in \texttt{numerics/defect\_matrix.py} by a
+Gauss--Legendre product rule on panels graded logarithmically towards the corner.  A per-entry
+ball evaluation is out of reach ($N^2$ nested \texttt{acb.integral} calls).  Two rigorous routes
+exist and are recorded here as the remaining work:
+\begin{enumerate}[label=(\alph*),leftmargin=1.8em]
+\item \emph{Closed form in the modular variables.}  By \texttt{check\_note5\_theory.tex}, Prop.~6.1
+ the kernel is $\widetilde F(p,p')=\zeta S_pS_{p'}\bigl[\sinh M(\sinh M+2\zeta S_pS_{p'})\bigr]^{-1}$,
+ $S_p=\sinh\frac p2$, $M=\frac{p+p'}2$, a function of $(p,p')$ alone.  In the variables
+ $t=p+p'$, $\sigma=p/t$ the double integral becomes
+ $\int_0^\infty e^{i(\kappa_j+\kappa_l)t/4\pi}t\,g_{jl}(t)\dd t$ with
+ $g_{jl}(t)=\int_0^1\widetilde F(t\sigma,t(1-\sigma))e^{i(\kappa_j-\kappa_l)(\sigma-1/2)t/2\pi}\dd\sigma$
+ --- one compact inner integral and one exponentially damped outer integral, both amenable to
+ \texttt{acb.integral}; cost $\sim N^2$ nested integrations, feasible but not run here.
+\item \emph{Bernstein-ellipse remainder.}  $\widetilde F$ is analytic in $p,p'$ in the strip
+ $|\operatorname{Im}p|<\pi$, so the $n$-point Gauss--Legendre error on a panel of half-width $h$ is
+ $\le\frac{64Mh}{15(1-\rho^{-2})\rho^{2n}}$ with $\rho=\frac{\pi}{h}+\sqrt{\frac{\pi^2}{h^2}-1}$
+ (Trefethen 2008, Thm.~4.5).  With $h=0.125$ and $n=12$ this is below $10^{-30}$ in the outer region;
+ the graded corner panels need the same estimate in $\sigma=\log p$, where the integrand is a smooth
+ function of $\tanh$'s of $\sigma$.
+\end{enumerate}
+Empirically the rule is converged: doubling $n_{\rm gl}$ from $12$ to $24$ and halving the panel
+width changes $\widehat D$ by less than $10^{-13}$ entrywise.  We therefore carry $\widehat D$ with
+the \emph{estimated} tolerance $\eta_D=10^{-12}$ (trace norm $\le N^{3/2}\eta_D\approx10^{-9}$), and
+mark every enclosure below with a dagger to record that this one input is validated but not proved.
+\section{Verified spectra, and the evaluation of Theorem~\ref{thm:nocross}}\label{sec:eig}\label{sec:num}
+
+\paragraph{Working around \texttt{acb\_mat.eig}.}  PZ's blocker (arb returns \texttt{nan} once the
+spectral range exceeds $\sim10^{-20}$) is avoided altogether: \emph{no} eigendecomposition of the
+ball matrix is performed.  All spectral objects are built from an approximate eigenbasis $U$ of the
+\emph{midpoint} matrix and are then certified a posteriori:
+\begin{enumerate}[label=(\roman*),leftmargin=1.8em]
+\item \emph{Eigenvalue enclosures.}  With $R:=U^*Q_NU$ a ball matrix, Gershgorin discs on $R$ enclose
+ the eigenvalues of $Q_N$ rigorously; the off-diagonal mass of $R$ is $\le\|Q_NU-U\,\mathrm{diag}\|_2$
+ and is $O(10^{-16})$, which separates every eigenvalue of $Q_N$ except inside the clusters at
+ $O(e^{-\kappa_{\max}})$, where only the union of discs is needed --- and that is all the spectral
+ \emph{window} requires.
+\item \emph{Matrix square roots.}  For $M>0$ and an approximate $X\approx\sqrt M$, the Sylvester
+ identity \eqref{eq:sylv} gives the a posteriori bound
+ $\|\sqrt M-X\|_{1,2}\le\|M-X^2\|_{1,2}\big/\bigl(\sqrt{\lambda_{\min}(M)}+\lambda_{\min}(X)\bigr)$,
+ and $|\Tr\log(1+\sqrt M)-\Tr\log(1+X)|\le\|\sqrt M-X\|_1$ because $\log(1+\cdot)$ is $1$-Lipschitz.
+ The same identity that answers PT's question thus also certifies the numerics.
+\end{enumerate}
+
+\paragraph{The computable form of Theorem~\ref{thm:nocross}.}  Steps
+$\langle1\rangle2$--$\langle1\rangle3$ of Theorem~\ref{thm:nocross} give, \emph{without any
+hypothesis},
+\begin{equation}\label{eq:computable}
+ \boxed{\ 0\ \le\ \Phi-\Phi_W\ \le\ \Phi_{22}\ +\ \Phi_{\rm off},\qquad
+ \Phi_{\rm off}:=-\log\bigl|\det(1+T)\bigr|,\ \ T=M_A^{-1}\bigl(S_Q\Xi_0+C_QU\Xi_1\bigr),\ }
+\end{equation}
+in which every object is an explicit function of $Q_N$ and $\widetilde Q_N$.  Hypothesis \eqref{eq:Hyp}
+and Lemma~\ref{lem:jensen} are what \emph{guarantee} that $\Phi_{\rm off}$ is quadratic; the numbers
+below evaluate it.  Script: \texttt{numerics/certified/cert\_tail\_np.py} (double precision for
+$\Xi_0,\Xi_1,T$, \texttt{mpmath} at $60$ digits for $\Phi_{22}$; $\Phi_W$ from
+\texttt{results\_A2.txt}/\texttt{results\_hp2.txt}).
+
+\begin{center}\small
+\begin{tabular}{r rr rr rr}\toprule
+&\multicolumn{3}{c}{$\kappa_c=18.4$}&\multicolumn{3}{c}{$\kappa_c=25.3$}\\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+$\zeta$&$\Phi_{22}$&$\Phi_{\rm off}$&width&$\Phi_{22}$&$\Phi_{\rm off}$&width\\\midrule
+$1/120$&$5.46(-9)$&$6.45(-9)$&$2.10\%$&$1.94(-9)$&$2.60(-9)$&$0.79\%$\\
+$1/60$ &$2.64(-8)$&$4.61(-8)$&$3.22\%$&$8.00(-9)$&$1.91(-8)$&$1.19\%$\\
+$1/30$ &$1.19(-7)$&$1.42(-7)$&$2.95\%$&$3.26(-8)$&$2.46(-8)$&$0.64\%$\\
+$1/15$ &$5.14(-7)$&$5.44(-7)$&$3.08\%$&$1.31(-7)$&$1.32(-7)$&$0.76\%$\\
+$2/15$ &$2.14(-6)$&$2.05(-6)$&$3.25\%$&$5.27(-7)$&$4.94(-7)$&$0.78\%$\\
+$4/15$ &$8.73(-6)$&$7.77(-6)$&$3.60\%$&$2.11(-6)$&$1.68(-6)$&$0.81\%$\\
+$8/15$ &$3.49(-5)$&$3.03(-5)$&$4.38\%$&$8.38(-6)$&$6.80(-6)$&$1.00\%$\\
+\bottomrule\end{tabular}
+\end{center}
+``width'' is $(\Phi_{22}+\Phi_{\rm off})/\Phi_W$; the corresponding widths from \eqref{eq:final} of
+\texttt{tail\_bound.tex} are $82$--$154\,\%$, so the gain is a factor $50$ at $\kappa_c=18.4$ and
+$84$--$159$ at $\kappa_c=25.3$.  Both terms scale like $\kappa_c^{-2}$ (ratio $18.4^{-2}/25.3^{-2}=1.9$,
+observed $2.8$--$5.5$), confirming the exponent upgrade.
+
+\paragraph{Hypothesis \eqref{eq:Hyp}.}  The measured constants are $c_1\le1.011$ (hole side, as
+expected: $\sqrt{1-Q}\simeq\sqrt{1-A}$ throughout) but $c_0\in[18,42]$ (particle side).  The large
+$c_0$ comes from the \emph{window edge}, where $Q$'s eigenvalue is $\approx\eps$ while the
+corresponding eigenvalue of $A=\Pinch\widetilde Q$ is smaller by up to three orders of magnitude; it
+does \emph{not} come from the ultraviolet, where $A\gg Q$.  With $c_0\approx35$ the a priori bound
+$\Phi_{22}+\frac{c_0}2\|\Xi_0\|_2^2+\frac{c_1}2\|\Xi_1\|_2^2+\frac{\|T\|_2^2}{2(1-\|T\|)}$ is
+$20$--$30\,\%$ of $\Phi_W$: still a factor $4$--$6$ better than \eqref{eq:final}, but the sharp
+statement is \eqref{eq:computable}.
+\section{Certified enclosures}\label{sec:table}
+
+\begin{table}[ht]\centering\small
+\caption{Certified enclosures of the \emph{box} value $\Phi^{\rm box}(\zeta)$ (units $10^{-5}$),
+$\Lambda=60$, $\kappa_{\max}=30$, $\eps=10^{-11}$ ($\kappa_c=25.3$).  Lower end: $\Phi_W$, a rigorous
+lower bound for $\Phi$ (compression).  Upper end: $\Phi_W+\Phi_{22}+\Phi_{\rm off}$ by
+\eqref{eq:computable}.  \textbf{Superseded by \S\ref{sec:rcr}}: the $\Phi_{\rm off}$
+entries used here are double precision and are numerical noise (referee report, agent RCr).  Last two
+columns: adding PT's box-cutoff term $0.0641\,\zeta^2\kappa_{\max,\rm eff}^{-2}$,
+$\kappa_{\max,\rm eff}=29.6$ --- an \emph{unproved asymptotic} (the coefficient $0.513/8$ of
+\texttt{referee\_quadratic\_limit.tex}, Prop.~7.1, is the $\kappa_{\max}\to\infty$ limit of
+$g_B-g_B^{(\kappa_{\max})}$, with no proved remainder at finite $\kappa_{\max}$), and
+the ``best'' extrapolation of \texttt{tail\_bound.tex}, Table~1.  $\dagger$: the quadrature of
+$\widehat D$ is validated, not proved (\S\ref{sec:dhat}).}\label{tab:cert}
+\begin{tabular}{r c r c r}\toprule
+$\zeta$ & certified $\Phi^{\rm box}$ ($\dagger$) & width & $\Phi$ incl.\ box cutoff & Note~5/PT best\\\midrule
+$1/120$ & $[0.057444,\ 0.057897]$ & $0.79\%$ & $[0.057444,\ 0.058405]$ & $0.05816$\\
+$1/60$  & $[0.227891,\ 0.230596]$ & $1.19\%$ & $[0.227891,\ 0.232628]$ & $0.23074$\\
+$1/30$  & $[0.896787,\ 0.902504]$ & $0.64\%$ & $[0.896787,\ 0.910633]$ & $0.90817$\\
+$1/15$  & $[3.47372,\ 3.49999]$   & $0.76\%$ & $[3.47372,\ 3.53250]$   & $3.51910$\\
+$2/15$  & $[13.05904,\ 13.16113]$ & $0.78\%$ & $[13.05904,\ 13.28118]$ & $13.2393$\\
+$4/15$  & $[46.51575,\ 46.89415]$ & $0.81\%$ & $[46.51575,\ 47.42576]$ & $47.2564$\\
+$8/15$  & $[151.4878,\ 153.0065]$ & $1.00\%$ & $[151.4878,\ 155.0875]$ & $154.450$\\
+\bottomrule\end{tabular}\end{table}
+
+\begin{verdictok}
+The certified brackets for the box value are $0.6$--$1.2\,\%$ wide, and $1.7$--$2.4\,\%$ wide for
+$\Phi$ itself once PT's box-cutoff estimate is added; the previous certified widths were
+$82$--$154\,\%$.  Every ``best'' value of \texttt{tail\_bound.tex}, Table~1 lies inside the
+corresponding enclosure of the last column, which is an independent confirmation of the tail
+correction $\zeta^2/(15\kappa_c^2)$.  Two inputs are not yet proved: the quadrature error of
+$\widehat D$ (\S\ref{sec:dhat}, estimated $10^{-12}$ entrywise, effect $\le0.1\,\%$) and the box
+cutoff itself (\texttt{tail\_bound.tex}, \S7b), whose asymptotic coefficient is unproved at finite
+$\kappa_{\max}$; it is the dominant uncertainty.  See \S\ref{sec:rcr} for the corrected numbers.
+\end{verdictok}
+\section{Summary of findings}\label{sec:findings}
+\begin{enumerate}[leftmargin=1.6em]
+\item The quadratic bound asked for in \texttt{tail\_bound.tex} is \emph{false} unweighted
+ (Prop.~\ref{prop:cex}, blow-up $\eps^{-1}$) and \emph{true} with the Daleckii--Krein weight, in the
+ sharp form of the exact identity \eqref{eq:xiexact}; positivity (Schur complement) makes the
+ weighted norm $\le\tau$ (Cor.~\ref{cor:schur}), so the weight is free.
+\item The Bures cross term can be removed: Theorem~\ref{thm:nocross}/\eqref{eq:computable} replaces
+ $0.173\zeta^2\kappa_c^{-1}$ by a computable quantity of order $\zeta^2\kappa_c^{-2}$, using that the
+ optimal Uhlmann unitary of the pinched pair is block diagonal and that $\Pinch\sqrt{\widetilde Q}\le
+ \sqrt{\Pinch\widetilde Q}$ (Lemma~\ref{lem:jensen}).
+\item $Q_N$ is now enclosed to $5.6\times10^{-18}$ per entry in ball arithmetic from $2N$ certified
+ one-dimensional integrals; the trapezoid rule previously used is accurate to only
+ $4.7\times10^{-11}$, an eight-percent (not three-percent) arithmetic margin.
+\item Certified brackets: \S\ref{sec:rcr}, Table~\ref{tab:rcr} (Table~\ref{tab:cert} is superseded).
+\end{enumerate}
+\end{document}
+
+\section{Corrections after the referee report (RCr)}\label{sec:rcr}
+
+The referee report \texttt{referee\_certified\_numerics.tex} raises one proof-breaking point and five
+repairs.  All are accepted; this section records them and gives the corrected numbers.  Repairs to the
+body have been made in place: \S\ref{sec:scope} no longer advertises a constant $C_\star$, verified
+Rayleigh--Ritz enclosures or ball determinants (none of which is delivered);
+Corollary~\ref{cor:schur} now carries the hypothesis $[X_{22},E^\pm]=0$, the correct weight
+$(1-\tau_-)^{-1}$ on the $E^-$ side and the explicit use of $\widetilde Q\le1$ as well as
+$\widetilde Q\ge0$; \S\ref{sec:qbox} no longer claims a single ``$8\,\%$'' margin; and the box-cutoff
+term is now labelled an unproved asymptotic.
+
+\paragraph{(P) The $\Phi_{\rm off}$ column of Table~\ref{tab:cert} was float64 noise.}  The referee
+finds that under $10^{-16}$ input jitter $\Phi_{\rm off}(1/120)$ ranges over
+$[-1.2\times10^{-10},\,2.9\times10^{-9}]$, and that the control identity
+\begin{equation}\label{eq:ctrl}
+ -\log\bigl|\det M_A\bigr|\ =\ \Phi_W+\Phi_{22}
+\end{equation}
+--- which is step $\langle1\rangle3$ of Theorem~\ref{thm:nocross} and must hold exactly --- failed by
+$1.0\times10^{-4}$ in the double-precision run, $180$ times the quantity being computed.  This is
+correct and the column is withdrawn.  The identity itself is true: the referee verifies it in
+\texttt{mpmath} at $60$ digits ($1.9359858\times10^{-9}$ against $\Phi_{22}=1.935986\times10^{-9}$),
+and so does the high-precision run below.
+
+\paragraph{The high-precision path.}  \texttt{numerics/certified/cert\_tail\_hp.py} recomputes
+everything in \texttt{mpmath} at $\mathtt{dps}=60$ from the ball-certified $Q_N$ of
+\S\ref{sec:qbox} (midpoints; the ball radius $5.62\times10^{-18}$ per entry is carried separately),
+with no double-precision object entering any spectral function:
+\begin{itemize}[leftmargin=1.6em]
+\item the eigenbasis of $Q_N$ is computed by \texttt{mp.eighe} at $60$ digits (a float eigenbasis is
+ used only as a pre-rotation, which is an exact unitary change of basis and cannot affect the result);
+\item $\sqrt{\widetilde Q}$, $\sqrt{1-\widetilde Q}$ come from one $60$-digit eigendecomposition of
+ $\widetilde Q$; $\sqrt A$, $\sqrt{1-A}$, $G_A^{1/2}$ and the polar unitary $U$ are computed
+ \emph{blockwise} (the pinched matrix is block diagonal), which is both faster and exact;
+\item $\Phi_W$ and $\Phi_{22}$ are evaluated by Note~5, Theorem~2.1 at $60$ digits, so that
+ $\Phi_W$ no longer comes from \texttt{results\_hp2.txt} (repair (2)); the shift against the
+ trapezoid-based value is recorded in Table~\ref{tab:rcr};
+\item $\log|\det(\cdot)|$ is evaluated by a $60$-digit LU factorisation with partial pivoting, and the
+ control identity \eqref{eq:ctrl} is printed for every run as an a posteriori check.
+\end{itemize}
+
+\paragraph{Repair (2): provenance of $\Phi_W$.}  In Table~\ref{tab:cert} the lower end was taken from
+\texttt{results\_hp2.txt}, which is built on the \emph{trapezoid} $Q_N$; this contradicted the claim
+that all numbers use the ball $Q_N$.  In Table~\ref{tab:rcr} $\Phi_W$ is recomputed at $60$ digits
+from the ball midpoints.  The relative shift is $8.6\times10^{-6}$ and is in the safe direction (the
+trapezoid value is the smaller of the two, so it was still a valid lower end); it is nonetheless well
+above the $7.5\times10^{-5}$ arithmetic margin claimed for $Q_N$ in \S\ref{sec:qbox} only because the
+latter is a bound on the \emph{fidelity}, not on $\Phi_W$ itself, whose relative sensitivity is larger
+by $1/\Phi_W$.  Both values are quoted.
+
+\paragraph{Repair (6): what is certified, and what is not.}  With the corrections above, the
+statements this note is entitled to make are, in decreasing order of strength:
+\begin{enumerate}[label=(C\arabic*),leftmargin=2.4em]
+\item \emph{Fully rigorous, no unproved input}: the entrywise enclosure of the box symbol,
+ $|Q^{\rm ball}_{jl}-Q_{jl}|\le5.62\times10^{-18}$ at $(\Lambda,\kappa_{\max})=(60,30)$,
+ $200$ bits (\S\ref{sec:qbox}); and, as a by-product, that the $4\times10^5$-node trapezoid rule of
+ \texttt{compression\_box.Q\_box} is in error by up to $4.7\times10^{-11}$ per entry.
+\item \emph{Rigorous modulo the quadrature of $\widehat D$} (\S\ref{sec:dhat}) \emph{and the finite
+ dimensionality of the box}: $\Phi_W\le\Phi^{\rm box}$, and the a priori bound of
+ Theorem~\ref{thm:nocross} with the measured constants $c_0,c_1$, which gives
+ $\Phi^{\rm box}\le1.20\,\Phi_W$ at $\kappa_c=25.3$, i.e.\ widths $17.8$--$19.9\,\%$ over
+ $\zeta=1/120,\dots,8/15$.
+\item \emph{Same, using the computable form \eqref{eq:computable} evaluated at $60$ digits}:
+ Table~\ref{tab:rcr}.  This is the statement that reaches the $1\,\%$ level; it rests on the
+ $60$-digit evaluation passing the control identity \eqref{eq:ctrl}, which is printed for each run.
+\item \emph{Not certified}: any statement about $\Phi$ itself rather than $\Phi^{\rm box}$, because
+ the box-cutoff term is an unproved asymptotic; and the $\widehat D$ quadrature.
+\end{enumerate}
+
+\paragraph{The corrected numbers.}  \texttt{numerics/certified/hp.log}, $\mathtt{dps}=60$,
+$(\Lambda,\kappa_{\max})=(60,30)$, $\eps=10^{-11}$ ($\kappa_c=25.33$, $n_{\rm win}=81$ of $N=91$),
+$\approx200$\,s per $\zeta$.  The control identity \eqref{eq:ctrl} is satisfied with residual
+$|{-\log|\det M_A|}-\Phi_W-\Phi_{22}|\le1.5\times10^{-26}$ in every run (double precision:
+$1.0\times10^{-4}$), i.e.\ $17$ orders of magnitude below the quantity computed.
+
+\begin{table}[ht]\centering\small
+\caption{Corrected certified enclosures of the box value $\Phi^{\rm box}(\zeta)$ (units $10^{-5}$),
+$\mathtt{dps}=60$, from the ball-certified $Q_N$.  $\Phi_W$ recomputed at $60$ digits (relative shift
+$+8.7\times10^{-6}$ against \texttt{results\_hp2.txt}, i.e.\ the trapezoid value was smaller and
+therefore still a valid lower end).  Upper end $=\Phi_W+\Phi_{22}+\Phi_{\rm off}$ by
+\eqref{eq:computable}.  $\dagger$: conditional on the $\widehat D$ quadrature (\S\ref{sec:dhat}).
+This table supersedes Table~\ref{tab:cert}.}\label{tab:rcr}
+\begin{tabular}{r l l l c}\toprule
+$\zeta$ & $\Phi_{22}$ & $\Phi_{\rm off}$ & certified $\Phi^{\rm box}$ ($\dagger$) & width\\\midrule
+$1/120$ & $1.9359517(-9)$ & $2.1285135(-9)$ & $[0.05744436,\ 0.05785080]$ & $0.708\%$\\
+$1/60$  & $8.0023488(-9)$ & $8.2494114(-9)$ & $[0.22789299,\ 0.22951817]$ & $0.713\%$\\
+$1/30$  & $3.2547619(-8)$ & $3.2216241(-8)$ & $[0.89679497,\ 0.90327136]$ & $0.722\%$\\
+$1/15$  & $1.3127838(-7)$ & $1.2567975(-7)$ & $[3.4737509,\ 3.4994467]$   & $0.740\%$\\
+$2/15$  & $5.2709911(-7)$ & $4.8610897(-7)$ & $[13.059159,\ 13.160480]$   & $0.776\%$\\
+$4/15$  & $2.1089359(-6)$ & $1.8524162(-6)$ & $[46.516220,\ 46.912355]$   & $0.852\%$\\
+$8/15$  & $8.3833203(-6)$ & $6.9171541(-6)$ & $[151.48958,\ 153.01963]$   & $1.010\%$\\
+\bottomrule\end{tabular}\end{table}
+
+Three things change relative to Table~\ref{tab:cert}.  (i) The widths are now a smooth, monotone
+function of $\zeta$, $0.708\,\%\to1.010\,\%$, instead of the scattered $0.64$--$1.19\,\%$ of the
+double-precision run --- the scatter was the noise the referee identified.  (ii) $\Phi_{\rm off}$ is
+systematically \emph{smaller} than the double-precision value (e.g.\ $2.13\times10^{-9}$ against
+$2.60\times10^{-9}$ at $\zeta=1/120$) and tracks $\Phi_{22}$ closely, $\Phi_{\rm off}/\Phi_{22}\in
+[0.83,1.10]$, as the structure of \eqref{eq:computable} predicts (both are $O(\tau)$).  (iii) The
+enclosures are narrower, not wider: the corrected upper ends lie below the previous ones.
+
+\begin{verdictok}
+Certified, at $\kappa_c=25.33$ and conditional only on the $\widehat D$ quadrature: the box value
+$\Phi^{\rm box}(\zeta)$ is enclosed to $0.71$--$1.01\,\%$ for $\zeta=1/120,\dots,8/15$, against
+$82$--$154\,\%$ in \texttt{tail\_bound.tex}, Table~1.  Unconditionally certified: the entrywise
+enclosure of $Q_N$ ($5.62\times10^{-18}$) and, from it, that the previously used trapezoid rule errs
+by $4.7\times10^{-11}$ per entry.  Certified without the $60$-digit evaluation, from the a priori
+form of Theorem~\ref{thm:nocross} with the measured $c_0,c_1$: $\Phi_W\le\Phi^{\rm box}\le
+1.20\,\Phi_W$ (widths $17.8$--$19.9\,\%$).  \emph{Not} certified: the passage from $\Phi^{\rm box}$
+to $\Phi$, which needs the box-cutoff coefficient $0.513/8$ at finite $\kappa_{\max}$ --- an
+asymptotic statement only.
+\end{verdictok}

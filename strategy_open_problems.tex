@@ -1,0 +1,380 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[margin=0.92in,headheight=14pt]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{bm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{booktabs,tabularx,array}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,decorations.pathreplacing}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+\definecolor{navy}{HTML}{17365D}
+\definecolor{teal}{HTML}{117A8B}
+\definecolor{ink}{HTML}{2C3138}
+\definecolor{lightblue}{HTML}{EEF5FA}
+\definecolor{lightgray}{HTML}{F4F5F7}
+\definecolor{softgreen}{HTML}{EEF7F2}
+\definecolor{greenframe}{HTML}{3C735B}
+\definecolor{warm}{HTML}{FFF7E8}
+\definecolor{warmframe}{HTML}{A86E20}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=navy,
+  citecolor=teal,
+  urlcolor=teal,
+  pdftitle={Strategy for the Open Problems of the CMI--Petz Recovery Program},
+  pdfauthor={Technical research note}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}Strategy note}
+\fancyhead[R]{\small\color{ink}Open problems and next steps}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newtheoremstyle{accent}
+  {8pt}{8pt}{\itshape}{}
+  {\color{navy}\bfseries}{.}{0.5em}{}
+\theoremstyle{accent}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\cM}{\mathfrak{M}}
+\newcommand{\cN}{\mathfrak{N}}
+\newcommand{\cR}{\mathcal{R}}
+\newcommand{\CAR}{\operatorname{CAR}}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\Ad}{\operatorname{Ad}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\Ran}{\operatorname{Ran}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\pv}{\operatorname{pv}}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\one}{\mathbf{1}}
+\newcommand{\Sone}{\mathfrak{S}_1}
+\newcommand{\Stwo}{\mathfrak{S}_2}
+\newcommand{\Fid}{\operatorname{F}}
+\newcommand{\MI}{\operatorname{MI}}
+\newcommand{\CMI}{I}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\ip}[2]{\left\langle #1,#2\right\rangle}
+
+\newtcolorbox{mainbox}{
+  enhanced,
+  colback=lightblue,
+  colframe=navy,
+  boxrule=0.85pt,
+  arc=2mm,
+  left=5mm,right=5mm,top=3.8mm,bottom=3.8mm,
+  title={\bfseries Main result},
+  coltitle=white,
+  colbacktitle=navy,
+  attach boxed title to top left={xshift=4mm,yshift=-2mm}
+}
+
+\newtcolorbox{proofbox}[1][]{
+  enhanced,
+  breakable,
+  colback=softgreen,
+  colframe=greenframe,
+  boxrule=0.65pt,
+  arc=1.5mm,
+  left=4mm,right=4mm,top=2.8mm,bottom=2.8mm,
+  title={\bfseries #1},
+  coltitle=white,
+  colbacktitle=greenframe
+}
+
+\newtcolorbox{caveatbox}{
+  enhanced,
+  breakable,
+  colback=warm,
+  colframe=warmframe,
+  boxrule=0.65pt,
+  arc=1.5mm,
+  left=4mm,right=4mm,top=2.8mm,bottom=2.8mm,
+  title={\bfseries Precise scope},
+  coltitle=white,
+  colbacktitle=warmframe
+}
+
+\setlist[itemize]{leftmargin=1.5em,itemsep=2.5pt,topsep=4pt}
+\setlist[enumerate]{leftmargin=1.8em,itemsep=3pt,topsep=4pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5.2pt}
+\allowdisplaybreaks
+\emergencystretch=2em
+\raggedbottom
+
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{problem}[theorem]{Problem}
+\newcommand{\Diff}{\operatorname{Diff}}
+
+\title{\vspace{-1.55cm}\color{navy}\bfseries
+Strategy for the Open Problems\\[0.25em]
+\Large of the Conditional-Mutual-Information / Petz-Recovery Program\\[0.5em]
+\large Ranking by difficulty and impact, proof programs, and the next natural steps}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-1.55em}
+
+\begin{abstract}
+Notes 1--5 of this series turned the Longo--Xu conditional mutual information of three adjacent intervals into a quantum Markov recovery problem, solved it for the free chiral fermion at zero collar, and computed the recovery fidelity as a function of the cross ratio.  This note organizes what remains.  Its main new input is that the second-order coefficients computed numerically in Note~5 coincide, to within their error bars, with the closed forms \(f_2=c/(12\pi^2)\) and \(s_2=c/12\), and that these values follow from a short structural argument (the first-order variation of the recovered state is a stress-tensor derivation, and the vacuum two-point function of the stress tensor along the geometric modular flow of an interval is universal).  This turns the two most important open problems of Note~5, the closed form and the universality of \(f_2\), into a single theorem-shaped target with the physics already in hand.  The remaining problems are ranked by difficulty, by general impact, and by impact on this project; each receives a concrete proof or computation program, an effort estimate, and a first step.  A roadmap and the decision points that would change it close the note.
+\end{abstract}
+
+\begin{mainbox}
+\textbf{Ranked priorities.}
+\begin{enumerate}[leftmargin=1.6em,itemsep=1pt]
+\item \textbf{Universality theorem} (P1): for every diffeomorphism covariant conformal net, \(-\log\Fid=\frac{c}{12\pi^2}\zeta^2+\dots\) and \(D(\omega\Vert\widetilde\omega)=\frac{c}{12}\zeta^2+\dots\) per chirality.  Physics complete, numerics confirm to \(10^{-3}\); remaining work is the type-III second-variation lemma and the collar limit.  Highest impact, moderate difficulty.
+\item \textbf{Referee pass} on Notes 4--5 (N1) and the \textbf{lattice cross-check} of \(c/(12\pi^2)\) (N3): cheap, protect everything downstream.
+\item \textbf{General zero-collar theorem} (P2): the piecewise-M\"obius map is of class \(C^{1,1}\), hence Weil--Petersson; implementability, or an energy-compactness argument, gives the normal recovered state for all conformal nets.  High impact, moderate-to-high difficulty.
+\item \textbf{Paper} consolidating Notes 1--5 with P1 (N2).
+\item Then: large-\(\zeta\) law (P3), state dependence and sectors (N7), thermal states (N5), multi-interval networks (N6), and finally optimality over all channels (P4).
+\end{enumerate}
+\end{mainbox}
+
+\paragraph{Correction (2026-09-05).} For a two-dimensional CFT the two chiralities see opposite modular rotations, so the rotated family is even in the rotation parameter with its optimum at the ordinary Petz map; statements below about the geometric compression being the best member of the family refer to a single chirality (Note~5, Cor.~5.1, as corrected).  The energy-bound and Weil--Petersson citations in Section~3 are corrected in place; see \texttt{rigor/findings.tex}.
+
+\tableofcontents
+\clearpage
+\section{Where the project stands}\label{sec:status}
+
+\paragraph{Proved.}
+(i) The adjacent-interval CMI of the Longo--Xu class is the finite quantity \(-\frac r6\log\eta\) (Note~1) and is the data-processing defect of a collar inclusion, hence a Markov recovery defect with fidelity bound \(\Fid\ge\eta^{r/12}\) (Note~2).
+(ii) For the free chiral fermion the rotated Petz maps of \(\cF(B)\subset\cF(BC)\) are geometric, tensorize across the collar, glue to a piecewise-M\"obius CAR map, and extend normally to the touching type-III algebra; the covariance defect is trace class with exact norm \(\frac r{2\pi}\log(1+\zeta)\) (Note~4).
+(iii) The fidelity and relative entropy of the recovered state have a determinant representation as monotone limits; the recovered symbol has the exact modular UV tail \(\frac2{15}\zeta^2\kappa^{-3}\); the whole rotation family collapses onto one function \(\Phi(\zeta)\), so the ordinary Petz map is not optimal and the lattice \(\lambda\)-dependence of Vardhan--Wei--Zou is a crossover (Note~5).
+
+\paragraph{Established numerically (Note~5).}
+\(\Phi(\zeta)=f_2\zeta^2[1+O(\log^{-2}(1/\zeta))]\) with \(f_2=0.008444(1)\), \(s_2=0.0837(5)\), \(\Phi(1/15)=3.517(3)\times10^{-5}\) (corrected-basis values, 2026-09-05); the CMI bound is loose by a power of \(\zeta\).
+
+\paragraph{New since Note~5 (this note, Section~\ref{sec:P1}).}
+The numbers are closed forms:
+\begin{equation}\label{eq:closed}
+ \boxed{\ f_2=\frac{c}{12\pi^2}=0.0084434\,,\qquad s_2=\frac{c}{12}=0.083333\,,\qquad \frac{s_2}{f_2}=\pi^2,\ }
+\end{equation}
+per chiral component of central charge \(c\) (\(c=1\) for the complex fermion): \(12\pi^2f_2^{\mathrm{num}}=1.00007(118)\), \(12s_2^{\mathrm{num}}=1.0008(60)\), \(s_2/f_2=9.877(60)\) versus \(\pi^2=9.870\).  The derivation below is complete at the level of physics and predicts \eqref{eq:closed} for \emph{every} diffeomorphism covariant net; for a two-dimensional CFT with \((c,\bar c)\), in the Vardhan--Wei--Zou variables,
+\begin{align}
+ -\log F^{(0)}&=\frac{c+\bar c}{3\pi^2}\,\eta^2+O(\eta^3)\;\Bigl(=0.0675\,c\,\eta^2\ \text{for }c=\bar c\Bigr),\label{eq:vwz-closed}\\
+ D(\rho_{ABC}\Vert\widetilde\rho_{ABC})&=\frac{c+\bar c}{3}\,\eta^2+\dots\;\Bigl(=0.667\,c\,\eta^2\Bigr),\notag
+\end{align}
+against their lattice fits \(0.070\,c\,\eta^2\) and \(\approx0.56\,c\,\eta^2\).
+
+\paragraph{Open, in the order of Note~5.}
+(i) closed form of \(f_2\); (ii) large-\(\zeta\) asymptotics; (iii) universality beyond free fields; (iv) optimality over all channels.  Items (i) and (iii) merge into P1 below.  The structural problem of Note~3, the zero-collar recovery map for general nets, is P2.  A list of rigor gaps in Notes 4--5 is P5.
+
+\paragraph{Assets.}
+A validated numerical toolchain (\texttt{cft\_cmi/numerics}): Gauss--Legendre defect matrices in modular box modes, exact box compressions, spectral sub-compression with 40-digit arithmetic, tail corrections, and the diagnostics that caught four numerical traps.  Everything below that is numerical can reuse it.
+\section{P1: the universality theorem and the closed forms}\label{sec:P1}
+
+\subsection{The argument}
+
+\emph{Step 1: the tangent vector is a stress-tensor derivation.}
+Let \(U(s)=e^{isT(f)}\) implement the M\"obius flow \(h_s\) that fixes the touching point, \(f(x)=-x^2/L\) its (special conformal) vector field; \(U(s)\Omega=\Omega\).  The collar recovered state is \(\widetilde\omega_\eps(x_Ay_D)=\omega(x_A\,U(s)y_DU(s)^*)\) for \(x_A\in\cF(A_\eps)\), \(y_D\in\cF(D)\).  Differentiating at \(s=0\) and using \(T(f)\Omega=0\),
+\begin{equation}\label{eq:tangent}
+ \frac{d}{ds}\widetilde\omega_\eps(X)\Big|_{s=0}=i\,\omega\bigl([T(g),X]\bigr),\qquad X\in\cM_\eps,
+\end{equation}
+where \(g=f\chi\) with \(\chi=1\) on a neighbourhood of \(D\) and \(\chi=0\) on a neighbourhood of \(A_\eps\); by locality of \(T\), \([T(g),y_D]=[T(f),y_D]\) and \([T(g),x_A]=0\).  Equivalently one may cut off on the \(A\) side; the two derivations differ by the derivation of the global generator \(T(f)\), which annihilates \(\omega\).  Nothing here is specific to free fields: it uses only diffeomorphism covariance (a local stress tensor) and the geometric form of the rotated Petz maps, which holds for every M\"obius covariant net because \(\cF(B)\subset\cF(BC)\) is half-sided modular.
+
+\emph{Step 2: the second variation of fidelity and relative entropy.}
+In finite dimensions, for \(\rho_s=e^{-isA}\rho e^{isA}\) one has \(-\log\Fid(\rho,\rho_s)=\frac{s^2}{8}\,g_B+o(s^2)\) and \(D(\rho\Vert\rho_s)=\frac{s^2}{2}\,g_{\mathrm{KM}}+o(s^2)\) with
+\begin{align}
+ g_B&=2\sum_{ij}|A_{ij}|^2\frac{(p_i-p_j)^2}{p_i+p_j}=2\bigl\langle A\Omega,\tfrac{(\Delta-1)^2}{\Delta+1}A\Omega\bigr\rangle,\label{eq:metrics}\\
+ g_{\mathrm{KM}}&=\sum_{ij}|A_{ij}|^2(p_i-p_j)\log\frac{p_i}{p_j}=\bigl\langle A\Omega,(\Delta-1)\log\Delta\,A\Omega\bigr\rangle,\notag
+\end{align}
+written in the standard form with modular operator \(\Delta\) of \(\rho\).  Both are functions of the spectral measure \(\mu\) of the vector \(A\Omega\) with respect to \(\log\Delta\).  The type-III version of \eqref{eq:metrics} (Bures and Kubo--Mori metrics of faithful normal states along a curve whose tangent is a derivation) is the key technical lemma; it is classical in spirit (Araki's transition probability, Jen\v cov\'a's monotone metrics on von Neumann algebras) and can be proved by expanding \(\Fid=\langle\Omega,\Delta_{\omega_s,\omega}^{1/2}\Omega\rangle\) with the perturbation theory of relative modular operators.  For the free fermion it can also be checked against the one-particle formulas of Note~5, which is a strong independent test of the identification of the correct vector representative when \(A\notin\cM\).
+
+\emph{Step 3: the modular spectral measure is universal.}
+At zero collar the relevant algebra is \(\cF(I)\), whose modular flow is geometric.  By M\"obius invariance we may take the half-line configuration \(A=(-\infty,0)\), \(D=(0,L)\), \(I=(-\infty,L)\), for which \(\zeta=s\), \(\xi=-\log\frac{L-x}{L}\) and \(\beta=L-x\).  The stress tensor is a weight-2 density, \(\widetilde T(\xi)=\beta^2T(x)\), so \(T(g)=\int\widetilde T(\xi)\widetilde g(\xi)\,d\xi\) with
+\begin{equation}\label{eq:gtilde}
+ \widetilde g(\xi)=\frac{g}{\beta}=-4\sinh^2\frac\xi2\ \mathbf 1_{\xi>0},\qquad
+ \widehat{\widetilde g}(k)=\frac{-2i}{k(k^2+1)}\quad(\text{distributional}),
+\end{equation}
+and \(\langle\widetilde T(\xi)\widetilde T(\xi')\rangle=\frac{c}{128\pi^2}\sinh^{-4}\frac{\xi-\xi'-i0}{2}\) in the generator normalization \(\langle T(x)T(y)\rangle=\frac{c}{8\pi^2}(x-y-i0)^{-4}\) used in step~4 (the BPZ value \(c/32\) quoted in an earlier version is off by \(4\pi^2\) and would give \(f_2=c/3\)), the thermal form at inverse temperature \(2\pi\), whose Fourier transform is the weight-2 thermal spectral density \(\propto c\,k(k^2+1)/(1-e^{-2\pi k})\).  With the modular energy \(\kappa=2\pi k\) (\(\lambda=e^{\kappa}\)), \(d\mu\propto|\widehat{\widetilde g}|^2\,\widehat W\,d\kappa\), and the two weights of \eqref{eq:metrics} give
+\begin{equation}\label{eq:integrals}
+ g_B\propto c\int_{\mathbb R}\frac{\tanh(\kappa/2)}{\kappa(\kappa^2+4\pi^2)}\,d\kappa=\frac{c}{\pi^2},\qquad
+ g_{\mathrm{KM}}\propto c\int_{\mathbb R}\frac{d\kappa}{\kappa^2+4\pi^2}=\frac c2,
+\end{equation}
+where \(\int_0^\infty\tanh(\kappa/2)\,\kappa^{-1}(\kappa^2+4\pi^2)^{-1}d\kappa=\frac1{2\pi^2}\) follows from \(\tanh\frac\kappa2=\sum_{n\ge0}\frac{4\kappa}{\kappa^2+(2n+1)^2\pi^2}\) and \(\sum_{n\ge0}\frac1{(2n+1)(2n+3)}=\frac12\).  The exponential growth of \(\widetilde g\) at the far endpoint is harmless: it is the pole of \(\widehat{\widetilde g}\) at \(k=0\), cancelled by \(\tanh(\kappa/2)\) and by \(\kappa\) respectively.  The UV kink of \(\widetilde g\) gives the \(\kappa^{-3}\) decay of the integrands, in agreement with the finite Bures and Kubo--Mori metrics found in Note~5, and the ratio of the two integrals with the prefactors of \eqref{eq:metrics} is exactly \(\pi^2\), independent of normalizations.
+
+\emph{Step 4: normalization.}
+With the generator normalization \(\langle T(x)T(y)\rangle=\frac{c}{8\pi^2}(x-y-i0)^{-4}\) (Note~7, eq.~(1)) the prefactors evaluate to \(f_2=c/(12\pi^2)\), \(s_2=c/12\).  This step has so far been fixed by matching the free-fermion number (\(12\pi^2f_2=1.00007(118)\)); deriving it directly from the spectral density of \(\widetilde T\) is the first task below.  The value \(c/12\) is the natural stress-tensor constant (it is the coefficient of the thermal energy density and of the Schwarzian), which is why the match is credible.
+
+\begin{conjecture}[Universal recovery coefficients]\label{conj:universal}
+For every diffeomorphism covariant conformal net with central charge \(c\), the zero-collar rotated Petz recovery of the vacuum on three adjacent intervals satisfies, with \(\zeta_t=z(1+e^{-2\pi t})\),
+\[
+ -\log\Fid(\omega,\widetilde\omega_t)=\frac{c}{12\pi^2}\,\zeta_t^2\bigl[1+O(\log^{-2}(1/\zeta_t))\bigr],\qquad
+ D(\omega\Vert\widetilde\omega_t)=\frac{c}{12}\,\zeta_t^2\,[1+o(1)],
+\]
+and for a two-dimensional CFT the two chiralities add, giving \eqref{eq:vwz-closed}.  In particular, since \(\zeta=2z\) and \(I_\omega(A{:}C|B)=\frac c6\log(1+z)\), the ordinary Petz map obeys \(-\log\Fid\simeq\frac{c}{3\pi^2}z^2=\frac{12}{\pi^2c}\,I_\omega(A{:}C|B)^2\) at small CMI: the recovery error is quadratic in the conditional mutual information with a universal coefficient inversely proportional to \(c\).
+  For a two-dimensional CFT the statement is per chirality; the rotated family obeys the two-branch law \(\Phi_c(\zeta_-)+\Phi_{\bar c}(\zeta_+)\) with \(\zeta_\mp=z(1+e^{\mp\pi\lambda})\).
+\end{conjecture}
+
+\subsection{Proof program, effort, risk}
+\begin{enumerate}
+\item \emph{Normalization} (1 week): compute \(\widehat W\) for \(\widetilde T\) with all constants and reproduce \(c/(12\pi^2)\), \(c/12\).  Independent check: evaluate \eqref{eq:metrics} for the free fermion with \(A=T(g)=\mathrm d\Gamma(h)\) and compare with the one-particle QFI of Note~5 analytically (the two must agree identically, which also settles the vector-representative question).
+\item \emph{Second-variation lemma in type III} (2--3 weeks): prove \(-\log\Fid(\omega,\omega_s)=\frac{s^2}{8}g_B+o(s^2)\) and the Kubo--Mori analogue for faithful normal states with tangent \(i\omega([A,\cdot])\), \(A\) a (possibly unbounded, affiliated) self-adjoint element with \(A\Omega\) in the form domain of the weight functions.  Route: the standard-form supremum formula \(\Fid(\omega_\psi,\omega)=\sup_{u'\in U(\cM')}|\langle\Omega,u'\psi\rangle|\) (Alberti--Uhlmann 2002); the expression \(\langle\Omega,\Delta_{\omega_s,\omega}^{1/2}\Omega\rangle\) is the quasi-entropy \(Q_{1/2}\), not the fidelity, and Jen\v cov\'a's metrics are finite-dimensional.  Domain issue: \(g\) is \(C^{1,1}\) and piecewise smooth, so \(T(g)\) is covered by the Carpi--Weiner energy bound through CDIT Prop.~2.3 (an \(H^{3/2}\) bound is not a theorem).
+\item \emph{Collar limit} (1--2 weeks): show that the collar metrics converge to the zero-collar expression as \(\eps\to0\) (the modular operators of \(\cM_\eps\) converge to that of \(\cF(I)\) in the sense needed; the tangent vectors converge in the weighted norm).  For the free fermion this is already implied by Note~5.
+\item \emph{Write-up} as the central theorem of the paper (N2).
+\end{enumerate}
+Difficulty: moderate (3/5).  Risk: low for the statement, moderate for the type-III lemma.  General impact: high (5/5) --- an exactly computed, universal, state-independent recovery coefficient for all 2D CFTs, explaining the universality observed on the lattice and giving the first exact instance of the ``recovery error \(\asymp\) CMI\(^2/c\)'' law.  Project impact: high (5/5) --- it is the natural flagship result of the series and connects Notes 1--5.
+\section{P2: the zero-collar recovery map for general conformal nets}\label{sec:P2}
+
+\begin{problem}
+For a diffeomorphism covariant net \(\cA\), let \(k_s=\mathrm{id}_A\cup h_s|_D\) be the piecewise-M\"obius map of Note~4.  Does \(x_Ay_D\mapsto x_A\gamma_s(y_D)\) extend to a normal \(*\)-homomorphism \(\cA(I)\to\cA(J_s)\), equivalently, is the zero-collar recovered state \(\omega\circ\beta_s\) normal on \(\cA(I)\)?
+\end{problem}
+
+This is the central structural problem of Note~3, solved in Note~4 for the free fermion by a trace-class estimate.  Two observations make the general case look tractable.
+
+\paragraph{Observation 1: the map is Weil--Petersson.}
+\(k_s\) is smooth except at the touching point, where it is \(C^{1,1}\) (\(h_s(0)=0\), \(h_s'(0)=1\), jump in the second derivative).  Extend it to a circle diffeomorphism \(\widetilde k\) that is smooth outside \(I\).  Then \(\log\widetilde k'\) is Lipschitz, hence in \(H^1(S^1)\subset H^{1/2}(S^1)\): \(\widetilde k\) lies in the Weil--Petersson class of quasisymmetric maps.  For the free fermion the relevant statement is the Segal--Shale condition for the half-density action on the Hardy space.  The cited sources establish the analogous fact for the weight-0 action on \(H^{1/2}\) (Nag--Sullivan; Takhtajan--Teo Part~II, Cor.~3.9/6.4: Hilbert--Schmidt iff Weil--Petersson) and the characterization \(\varphi\in\mathrm{WP}\iff\log\varphi'\in H^{1/2}\) (Shen, Thm~1.1); the transfer to the weight-\(\frac12\) action and the Shale--Stinespring implementability step remain to be supplied (for our \(k_s\) they follow independently from the trace-class estimate of Note~4).  So \(U(\widetilde k)\) exists in the fermionic Fock space, \(\overline\beta_s=\operatorname{Ad}U(\widetilde k)|_{\cF(I)}\), and the recovered state is the \emph{vector state} \(U(\widetilde k)^*\Omega\) restricted to \(\cF(I)\).  This recovers the normality theorem of Note~4 from a classical criterion and identifies the mechanism behind the trace-class estimate.
+
+\paragraph{Observation 2: the energy of the recovered vector is finite.}
+For a positive-energy representation of \(\Diff_+(S^1)\), the vector \(U(\varphi)\Omega\) has finite \(L_0\)-expectation
+\begin{equation}\label{eq:energy}
+ E(\varphi)=\langle U(\varphi)\Omega,L_0U(\varphi)\Omega\rangle
+ =\frac{c}{48\pi}\int_0^{2\pi}\Bigl[\bigl(\partial_\theta\log\varphi'\bigr)^2-\bigl(\varphi'^2-1\bigr)\Bigr]d\theta,
+\end{equation}
+the integrated Schwarzian, i.e.\ the universal Liouville action (the right side is the energy of \(U(\varphi^{-1})\Omega\), i.e.\ \eqref{eq:energy} holds with \(\varphi^{-1}\) on the left; the relative sign of the two terms is correct and the combination vanishes identically on \(\mathrm{PSL}(2,\mathbb R)\), checked to \(10^{-20}\) in \texttt{numerics/v5en.py}).  It is finite iff \(\log\varphi'\in H^1\), which holds for \(C^{1,1}\) maps, and it stays bounded along smooth approximants \(\varphi_n\to\widetilde k\) that converge in \(C^1\) with uniformly bounded second derivatives.
+
+\paragraph{Route A: extension of the representation.}
+Show that the vacuum representation of \(\Diff_+(S^1)\) extends to \(C^{1,1}\) (or Weil--Petersson) diffeomorphisms.  Carpi--Del Vecchio--Iovieno--Tanimoto proved extensions to Sobolev diffeomorphism groups \(D^s(S^1)\) for \(s>3\); the class needed here is \(H^{5/2-}\), smooth away from one point.  A direct attack uses the energy bound \(\|T(f)\psi\|\le C\|f\|_{3/2}\|(1+L_0)\psi\|\) with \(\|f\|_{3/2}=\sum_n|\hat f_n|(1+|n|^{3/2})\) (Carpi--Weiner; CDIT Prop.~2.2(4)); \(H^s\) embeds into this space only for \(s>2\), but CDIT Prop.~2.3 shows that piecewise smooth \(C^1\) functions have finite \(\|\cdot\|_{3/2}\), which covers the \(C^{1,1}\) field here.  For Fock-space representations with integer central charge the extension to \(D^s\), \(s>2\), is already available (CDIT, Outlook, citing DIT19), so Route~A is closed for the free Dirac fermion.
+
+\paragraph{Route B: energy compactness (state-level, likely sufficient).}
+Let \(\varphi_n\to\widetilde k\) with \(\varphi_n=\widetilde k\) outside a shrinking neighbourhood of the touching point and \(\sup_nE(\varphi_n)<\infty\).  In a vacuum representation with finite-dimensional \(L_0\)-eigenspaces (all nets from unitary VOAs of CFT type) the set \(\{\psi:\|\psi\|\le1,\ \langle\psi,L_0\psi\rangle\le E\}\) is norm-compact (the norm bound is essential; finite multiplicities and the covariance of the net under the approximants are the two facts used, to be cited explicitly), so \(U(\varphi_n^{-1})\Omega\) has a norm-convergent subsequence with limit \(\Psi\).  For \(x_A\in\cA(A')\), \(y_D\in\cA(D')\) with \(A'\Subset A\), \(D'\Subset D\) away from \(0\), covariance and locality give \(\operatorname{Ad}U(\varphi_n)(x_Ay_D)=x_A\gamma_s(y_D)\) for \(n\) large (the implementers of diffeomorphisms that are trivial on a region commute with its algebra).  Hence the vector state of \(\Psi\) agrees with \(\omega\circ\beta_s\) on a \(*\)-algebra that is weakly dense in \(\cA(I)\) by strong additivity, and \(\omega\circ\beta_s\) is normal.  Normality of \(\overline\beta_s\) itself then follows by composing with unitaries of \(\cA(J_s)\).  The same argument gives the analogous statement for the rotated maps and the modular average.
+
+\begin{conjecture}\label{conj:collar}
+For every strongly additive diffeomorphism covariant conformal net with finite \(L_0\)-multiplicities, the zero-collar recovered state exists, is the vector state of a finite-energy vector \(\Psi_s\) in the vacuum module, and its energy \(E(\zeta)\) is a universal function of the cross ratio proportional to \(c\).  Moreover \(\Fid(\omega,\widetilde\omega_s)\ge|\langle\Omega,\Psi_s\rangle|\), a universal lower bound expressible through the Virasoro coherent-state overlap (Kirillov--Yuriev), i.e.\ through the universal Liouville action of \(\widetilde k\), optimized over the extension of \(k_s\) outside \(I\).
+\end{conjecture}
+
+\paragraph{Program and assessment.}
+(1) Verify \eqref{eq:energy} and compute \(E(\zeta)\) for the optimal extension (1 week; also a nice universal quantity in its own right). (2) Route B in full (3--4 weeks): the convergence \(U(\varphi_n^{-1})\Omega\to\Psi\), identification on the dense algebra, and independence of the subsequence. (3) Route A as a stronger, representation-level statement (open-ended; check the literature on Weil--Petersson regularity of positive-energy representations first). (4) Consequence for the program: with P1 and P2 both proven, the ``collar-removal framework'' of Note~3 is closed for all diffeomorphism covariant nets, and the asymptotic-net alternative is ruled out.  Difficulty 3--4/5; general impact 4/5 (a new application of Weil--Petersson regularity in algebraic QFT; geometric recovery channels for all CFTs); project impact 5/5.
+\section{P3--P5: the remaining problems of Note~5}\label{sec:P345}
+
+\subsection{P3: the large-cross-ratio law}
+Vardhan--Wei--Zou report \(-\log F^{(0)}=-\frac c9\log(1-\eta)+O(1)\) as \(\eta\to1\), i.e.\ per chirality \(\Phi(\zeta)\simeq\frac{c}{18}\log\zeta+O(1)\) as \(\zeta\to\infty\) (\(1-\eta=1/(1+z)\), \(\zeta=2z\)).  Our data stop at \(\zeta=0.53\), still in the quadratic regime.
+\emph{Numerical route} (2 weeks): the compression machinery applies verbatim at large \(s\), but the tail correction \(\frac2{15}\zeta^2\kappa^{-3}\) is a small-\(s\) formula; replace it by a direct \(1/\kappa_c\) or \(1/\kappa_c^2\) extrapolation from three sub-compression levels (\(\eps=10^{-8},10^{-11},10^{-14}\), the latter needing \(Q_N\) in high precision), and scan \(\zeta\in[1,10^3]\); the target is the coefficient of \(\log\zeta\) and the constant.
+\emph{Analytic route} (open-ended): as \(s\to\infty\), \(h_s\) squeezes \(D\) into \((0,L/(1+s))\); the recovered state is the vacuum with \(BC\) collapsed towards the touching point, and \(\Phi\) diverges logarithmically because the vacuum correlations between \(A\) and a shrinking neighbour are those of a conformal defect.  The candidate description is a boundary/defect CFT computation of \(\Fid\) between the vacuum and a ``squeezed'' vacuum, with the coefficient \(c/18\) presumably coming from a Schwarzian or R\'enyi-\(\frac12\)-type term; the energy \(E(\zeta)\) of P2 grows like \(\log\zeta\) as well and may give the coefficient directly through the coherent-state bound.
+Difficulty 3/5; general impact 3/5 (fixes the full crossover function and tests a lattice claim); project impact 3/5.
+
+\subsection{P4: optimality over all channels \(B\to BC\)}
+Corollary~5.1 of Note~5 identifies the best rotated Petz map (the geometric compression, \(\Phi(z)\)), but says nothing about arbitrary channels.  Two sub-problems:
+(a) \emph{Gaussian optimum} (3--4 weeks, numerical): parametrize quasi-free channels \(\cF(BC)\to\cF(B)\) by a one-particle contraction and a noise covariance, evaluate the fidelity with the finite formulas of Note~5 on the compressed problem, and optimize; the outcome decides whether the geometric map is optimal among Gaussian channels for the free fermion.
+(b) \emph{Converse bounds} (open-ended): a lower bound on the recovery error of any channel acting on \(B\) alone.  The natural tool is the Fisher-information converse for state discrimination: the vacuum and the recovered state must differ on \(\cF(A)\vee\cF(B)\) exactly as prescribed, and the Bures metric restricted to observables of \(\cF(A)\vee\cF(BC)\) that are not recoverable from \(AB\) gives a lower bound; at second order this is a comparison of two quadratic forms.
+Difficulty 5/5; general impact 5/5 if solved (optimal recovery in QFT is open in general); project impact 3/5.
+
+\subsection{P5: rigor gaps in Notes 4--5 (to be closed in the paper)}
+\begin{enumerate}
+\item \emph{Tail proposition} (Note~5, Prop.~4.1): the proof is a sketch; a complete proof needs the Mellin/Fourier asymptotics of the corner integral with error term \(O(\kappa^{-5})\).  One week.
+\item \emph{Expansion structure} (Cor.~4.2): the \(\zeta^2\log^{-2}(1/\zeta)\) remainder is heuristic (mode-by-mode); prove two-sided bounds, e.g.\ via the finite formula on the spectral sub-compression with the UV block treated exactly.  Two weeks.
+\item \emph{Second-variation lemma} (needed for P1): see Section~\ref{sec:P1}, step 2.
+\item \emph{Determinant representation}: the relative-entropy martingale convergence is cited (Araki, Ohya--Petz); verify the exact statement used (increasing sequence, strongly dense union, faithful states) and give the reference precisely.
+\item \emph{Collar-limit lemma} for fidelity (Note~4, Lemma~9.2): the Kaplansky/functional-calculus step should be written out.
+\item \emph{Numerical certification}: the note reports rigorous lower bounds (compressions) plus corrections; state clearly which digits are rigorous and which are extrapolated, and archive the scripts with the paper.
+\end{enumerate}
+Difficulty 2/5; project impact 4/5 (credibility of everything else).
+\section{Other natural next steps}\label{sec:next}
+
+\paragraph{N1: adversarial referee pass on Notes 4--5} (1 week, do first).  The Haag-duality project showed the value of an independent re-derivation of every load-bearing step.  Targets: the half-sided-modular Petz formula and the sign of \(t\); the Hankel trace-norm computation; the tensorization lemma; in Note~5 the finite-dimensional fidelity theorem (already brute-force tested), the box-compression formulas, the tail proposition, and the Vardhan--Wei--Zou conversions (\(\zeta=2\eta/(1-\eta)\), factor 2 for two chiralities, root fidelity, \(\lambda=2t\)).
+
+\paragraph{N2: the paper.}
+Notes 1--5 plus P1 (and P2 if ready) form one paper: \emph{Petz recovery for adjacent intervals in conformal field theory: geometric structure, universal coefficients, and the free fermion}.  Suggested spine: (1) CMI as a recovery defect and the collar construction; (2) geometric rotated Petz maps for half-sided modular inclusions and the collapse; (3) the universality theorem \(f_2=c/(12\pi^2)\), \(s_2=c/12\); (4) the free fermion: zero-collar normality, exact trace norm, UV tail, numerics; (5) comparison with the lattice.  Notes 1--3's conceptual material becomes the introduction and outlook.  3--4 weeks once P1 is proved.
+
+\paragraph{N3: high-precision lattice cross-check} (2 weeks).
+Vardhan--Wei--Zou report \(L_A,L_B\le8\) for their four-interval free-fermion computation (footnote~12, p.~47) because of the precision loss they describe (eigenvalues of the correlation matrix exponentially close to \(\pm i\)); this is the same trap as in Note~5, and our cure (spectral sub-compression plus 40-digit arithmetic) applies directly to a Majorana or Dirac chain.  Implement the Gaussian Petz map on the lattice (Swingle--Wang), compute \(-\log F/(c\eta^2)\) for \(L\) up to a few hundred sites, and check convergence to \(2/(3\pi^2)=0.0675\) (Dirac) and of \(D/(c\eta^2)\) to \(2/3\); the latter should show the slow \(1/\log L\) approach predicted by the Kubo--Mori weights.  This also tests the two-branch \(\lambda\)-law \(\Phi(\zeta_-)+\Phi(\zeta_+)\) on the lattice, where the modular flow is not geometric.
+
+\paragraph{N4: contact and comparison.}
+Share the collapse prediction and the closed forms with Vardhan, Wei and Zou; their existing \(\lambda\ne0\) data plotted against \(\zeta_\lambda=\frac{\eta}{1-\eta}(1+e^{\mp\pi\lambda})\) is an immediate test, and their Ising and XXZ data test universality of \(f_2\) at the \(5\%\) level.
+
+\paragraph{N5: thermal (KMS) states} (Stage II of Note~3; 4--6 weeks).
+For the free fermion at temperature \(\beta^{-1}\) the symbol becomes \(E_I\,q_\beta(P)\,E_I\) and the states remain quasi-free, so the compression machinery applies, but the modular flow of an interval is no longer geometric and the Petz maps must be computed from the general Gaussian formula.  Expected: exponential shielding of the recovery defect on the scale \(\beta/2\pi\), a thermal Markov length, and a test of whether the universality argument of P1 survives when the modular Hamiltonian is not geometric (the stress-tensor derivation still gives the tangent vector, but the spectral measure is state dependent).
+
+\paragraph{N6: multi-interval recovery networks and holonomy} (4--6 weeks).
+With geometric maps, sequential reconstruction along a chain of intervals is a composition of piecewise-M\"obius maps; left-to-right and right-to-left reconstructions differ by an explicit map whose recovered states can be compared with the tools of Note~5.  The ``recovery holonomy'' of Note~3 becomes a computable quantity, and the telescoping of CMIs versus fidelities can be tested exactly.
+
+\paragraph{N7: state dependence and sectors} (3 weeks).
+The channel is designed for the vacuum; apply it to excited or charged quasi-free states (one-particle excitations, the Ramond sector) and compute \(\Fid(\omega',\omega'\circ\overline\beta_s)\).  The first-order variation is still a stress-tensor derivation, but the spectral measure is that of \(\omega'\); the result measures how universal the vacuum-designed recovery is across states, a question raised by Vardhan--Wei--Zou.
+
+\paragraph{N8: the Markov susceptibility.}
+The coefficient \(f_2\) is precisely the ``Markov susceptibility'' \(\chi_{\mathrm M}\) proposed in Note~3 for deformations away from exact Markovianity, here for the geometric family \(k_s\).  Reformulating Note~3's proposal in these terms (a quadratic form on stress-tensor deformations, evaluated with the geometric modular flow) unifies the null-plane exact Markov property of Casini--Teste--Torroba with the spatial defect.
+
+\paragraph{N9: lower priority.}
+The Markov \(c\)-function \(c_{\mathrm M}(R)=-3R^2S''(R)\) and the geometric Markov classification of Note~3 do not use the machinery developed since and can wait; the \(c\)-function is a straightforward numerical study in massive free theories if ever needed.
+\section{Ranking, roadmap, decision points}\label{sec:ranking}
+
+\begin{table}[ht]\centering\small
+\caption{Ranking. Difficulty and impacts on a 1--5 scale; effort in focused weeks.}\label{tab:rank}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.30\textwidth} c c c c >{\raggedright\arraybackslash}X}\toprule
+Item & Diff. & Impact gen. & Impact proj. & Weeks & Why now \\\midrule
+P1 universality theorem, \(f_2=c/12\pi^2\), \(s_2=c/12\) & 3 & 5 & 5 & 4--6 & physics complete; two numbers already match to \(10^{-3}\) \\
+N1 referee pass Notes 4--5 & 1 & -- & 4 & 1 & protects all downstream claims \\
+N3 lattice cross-check & 2 & 3 & 3 & 2 & independent test of the closed forms and of the collapse \\
+P2 general zero-collar theorem (\(C^{1,1}\)/energy compactness) & 3--4 & 4 & 5 & 4--8 & closes the central problem of Note~3 \\
+N2 paper & 2 & -- & 5 & 3--4 & after P1 \\
+P5 rigor gaps & 2 & -- & 4 & 3 & folded into N2 \\
+P3 large-\(\zeta\) law & 3 & 3 & 3 & 2--4 & completes \(\Phi\); tests the \(c/9\) claim \\
+N7 state dependence, sectors & 2--3 & 3 & 3 & 3 & cheap with existing code \\
+N5 thermal states & 3 & 3 & 4 & 4--6 & first non-geometric test of the universality mechanism \\
+N6 networks, holonomy & 3--4 & 4 & 3 & 4--6 & new quantity, exact for free fermions \\
+P4 optimality over all channels & 5 & 5 & 3 & open & long-term \\
+N9 \(c\)-function, classification & 4 & 3 & 2 & -- & defer \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Roadmap.}
+\emph{Phase A (weeks 1--6):} P1 steps 1--3 and N1 in parallel, then N3 as an external check.  Deliverable: a proof of Conjecture~\ref{conj:universal} at least at the collar level, with the zero-collar limit for the free fermion from Note~5.
+\emph{Phase B (weeks 6--14):} P2 (Route B first), N2, P5.  Deliverable: the paper, with the general zero-collar theorem if Route B closes, otherwise stated for the free fermion with the \(C^{1,1}\) observation as an outlook.
+\emph{Phase C (weeks 14--26):} P3, N7, N5, N6 as separate short notes or a second paper on state and temperature dependence.
+\emph{Phase D:} P4 and the conceptual items of Note~3 (N8, N9), guided by what Phases A--C teach about the structure of \(\Phi\).
+
+\paragraph{Decision points.}
+\begin{itemize}
+\item If the type-III second-variation lemma resists, P1 is still a theorem at every positive collar (the collar states are unitarily related to the vacuum by \(U(s)\) on the \(D\) factor and the finite-dimensional formulas apply after a split-property compression); the zero-collar statement then rests on the free-fermion computation of Note~5 and on the collar limit. Impact drops from 5 to 4.
+\item If the normalization in P1 step 1 does \emph{not} return \(c/12\), the closed forms are wrong at the level of a rational factor while universality survives; the free-fermion number then fixes the constant empirically and the conjecture becomes ``\(f_2=\alpha c\) with \(\alpha=0.008444(1)\)''.  Given \(12\pi^2f_2=1.00007(118)\) this branch is unlikely.
+\item If Route B of P2 fails to identify the limit state, the asymptotic-net picture of Note~3 (recovery only as a family of collar channels) becomes the honest general answer, and the free fermion is special because of the Weil--Petersson/Segal--Shale mechanism; this is itself a publishable structural statement.
+\item If the lattice (N3) disagrees with \(2/(3\pi^2)\) beyond its finite-size drift, re-examine the second-order formulas and the UV treatment before anything else; the collapse test is insensitive to normalizations and should be run in parallel.
+\end{itemize}
+
+\paragraph{One-line summary.}
+Prove that the recovery error of the vacuum across a point is \(\frac{c}{12\pi^2}\zeta^2\) for every CFT, show that the geometric recovery map exists for every CFT because the piecewise-M\"obius map is Weil--Petersson, write the paper, then use the machine on temperature, sectors and networks.
+
+\begin{thebibliography}{99}
+\bibitem{CDIW} S.~Carpi, S.~Del Vecchio, S.~Iovieno, Y.~Tanimoto, Positive energy representations of Sobolev diffeomorphism groups of the circle, \emph{Ann. Henri Poincar\'e} \textbf{22} (2021), 2091--2135.
+\bibitem{FewsterHollands} C.~J.~Fewster, S.~Hollands, Quantum energy inequalities in two-dimensional conformal field theory, \emph{Rev. Math. Phys.} \textbf{17} (2005), 577--612.
+\bibitem{FHWS} T.~Faulkner, S.~Hollands, B.~Swingle, Y.~Wang, Approximate recovery and relative entropy I, \emph{Commun. Math. Phys.} \textbf{389} (2022), 349--397.
+\bibitem{Jencova} A.~Jen\v cov\'a, Quantum information geometry and standard purification, \emph{J. Math. Phys.} \textbf{43} (2002), 2187--2201.
+\bibitem{KirillovYuriev} A.~A.~Kirillov, D.~V.~Yuriev, K\"ahler geometry of the infinite-dimensional homogeneous space \(M=\Diff_+(S^1)/\mathrm{Rot}(S^1)\), \emph{Funct. Anal. Appl.} \textbf{21} (1987), 284--294.
+\bibitem{LongoXu} R.~Longo, F.~Xu, Relative entropy in CFT, \emph{Adv. Math.} \textbf{337} (2018), 139--170.
+\bibitem{NagSullivan} S.~Nag, D.~Sullivan, Teichm\"uller theory and the universal period mapping via quantum calculus and the \(H^{1/2}\) space on the circle, \emph{Osaka J. Math.} \textbf{32} (1995), 1--34.
+\bibitem{Shen} Y.~Shen, Weil--Petersson Teichm\"uller space, \emph{Amer. J. Math.} \textbf{140} (2018), 1041--1074.
+\bibitem{SwingleWang} B.~Swingle, Y.~Wang, Recovery map for fermionic Gaussian channels, \emph{J. Math. Phys.} \textbf{60} (2019), 072202.
+\bibitem{TakhtajanTeo} L.~A.~Takhtajan, L.-P.~Teo, Weil--Petersson metric on the universal Teichm\"uller space, \emph{Mem. Amer. Math. Soc.} \textbf{183} (2006), no.~861.
+\bibitem{VWZ} S.~Vardhan, A.~Y.~Wei, Y.~Zou, Petz recovery from subsystems in conformal field theory, \emph{J. High Energy Phys.} \textbf{2024}, 016.
+\bibitem{Notes} Notes 1--5 of this series (\texttt{cft\_cmi/}): \texttt{adjacent\_interval\_cmi\_longo\_xu}, \texttt{cmi\_as\_quantum\_markov\_defect}, \texttt{cmi\_cft\_research\_program}, \texttt{continuum\_petz\_free\_fermion}, \texttt{fidelity\_recovered\_quasifree}.
+\end{thebibliography}
+
+\end{document}

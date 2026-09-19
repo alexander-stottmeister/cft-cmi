@@ -1,0 +1,14 @@
+h=0.12 Lam=8 K=0 r=0.5 Kl=0 N=162 hmin=1.20e-01 kmax=6.50 gQ/(f2z^2)=0.95934 theta=0.34277 cg=650 17s
+h=0.12 Lam=8 K=2 r=0.5 Kl=0 N=164 hmin=3.00e-02 kmax=6.50 gQ/(f2z^2)=0.95934 theta=0.34282 cg=650 17s
+h=0.12 Lam=8 K=4 r=0.5 Kl=0 N=166 hmin=7.50e-03 kmax=6.50 gQ/(f2z^2)=0.95934 theta=0.34287 cg=650 17s
+h=0.12 Lam=8 K=6 r=0.5 Kl=0 N=168 hmin=1.88e-03 kmax=6.50 gQ/(f2z^2)=0.95934 theta=0.34292 cg=650 18s
+h=0.12 Lam=8 K=8 r=0.5 Kl=0 N=170 hmin=4.69e-04 kmax=6.50 gQ/(f2z^2)=0.95934 theta=0.34296 cg=650 17s
+h=0.12 Lam=8 K=10 r=0.5 Kl=0 N=172 hmin=1.17e-04 kmax=6.50 gQ/(f2z^2)=0.95934 theta=0.34300 cg=650 15s
+h=0.12 Lam=8 K=12 r=0.5 Kl=0 N=174 hmin=2.93e-05 kmax=6.50 gQ/(f2z^2)=0.95934 theta=0.34304 cg=700 16s
+h=0.06 Lam=8 K=0 r=0.5 Kl=0 N=324 hmin=6.00e-02 kmax=7.66 gQ/(f2z^2)=0.98107 theta=0.35960 cg=1150 110s
+h=0.06 Lam=8 K=2 r=0.5 Kl=0 N=326 hmin=1.50e-02 kmax=7.66 gQ/(f2z^2)=0.98107 theta=0.35962 cg=1150 96s
+h=0.06 Lam=8 K=4 r=0.5 Kl=0 N=328 hmin=3.75e-03 kmax=7.66 gQ/(f2z^2)=0.98107 theta=0.35963 cg=1150 103s
+h=0.06 Lam=8 K=6 r=0.5 Kl=0 N=330 hmin=9.37e-04 kmax=7.66 gQ/(f2z^2)=0.98107 theta=0.35965 cg=1150 106s
+h=0.06 Lam=8 K=8 r=0.5 Kl=0 N=332 hmin=2.34e-04 kmax=7.66 gQ/(f2z^2)=0.98107 theta=0.35966 cg=1150 112s
+h=0.06 Lam=8 K=10 r=0.5 Kl=0 N=334 hmin=5.86e-05 kmax=7.66 gQ/(f2z^2)=0.98107 theta=0.35967 cg=1150 154s
+h=0.06 Lam=8 K=12 r=0.5 Kl=0 N=336 hmin=1.46e-05 kmax=7.66 gQ/(f2z^2)=0.98107 theta=0.35969 cg=1150 165s

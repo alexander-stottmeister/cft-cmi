@@ -1,0 +1,64 @@
+
+=== (a) first-order field of h(x)=p+(x-p)/(1+sigma(x-p)) in the modular frame ===
+**FAIL** zeta*w(y-y_p) identity, zeta=sigma*beta_I(p), w(u)=-4 sinh^2(u/2)  (rel.err 6.66e-03)
+PASS Theorem A zeta = a s/(a+L):  35/153 == 35/153
+
+=== (b) Schwarzian of a C^1 piecewise-Moebius map ===
+PASS right-compression jump = -2 sigma  (-0.740000 vs -0.740000)
+PASS left-compression  jump = -2 sigma  (-0.740000 vs -0.740000)
+PASS R(s1) o R(s2) == R(s1+s2) exactly
+PASS L(s1) o R(s2) == M_{-s1} o R(s1+s2) (global Moebius x single corner)
+PASS ...and its Schwarzian jump = -2(s1+s2)  (-1.960000)
+PASS R(s2) o L(s1) has the same Schwarzian jump (-1.960000)
+
+=== (b) VWZ Protocols 1(A), 1(B), 2, 3 ===
+PASS 1(B) identity 2c/(b(b+c)) + 2d/((b+c)(b+c+d)) = 2(c+d)/(b(b+c+d))  [344/365]
+PASS Protocol 1(B) point map == Protocol 1(A) point map LITERALLY (max|diff| = 2.22e-16)
+PASS Protocol 2: two corners, jump at p2 = -2*0.757895 (-1.515789)
+PASS Protocol 2: jump at p3 = -2*0.661499 (-1.322997)
+PASS sigma_1 = 2a/(b(a+b)) = 96/235
+PASS sigma_2 = 2d/(c(c+d)) = 256/387
+PASS Protocol 3 composite == (global Moebius) o R(sigma_1+sigma_2) at p3 (max|diff| 8.88e-16)
+      (it is NOT literally equal to the single compression: max|diff| = 0.6828)
+PASS zeta_eff = (s1+s2)(a+b)(c+d)/(a+b+c+d) = 24328/26235
+
+=== (d) amplification lemma ===
+PASS beta_I(p)/beta_Istep(p) = 1 + z', z' = cross ratio = ac/(b(a+b+c))  (0/20000 bad)
+
+=== (e) L->R Petz chain: zeta_k^(I), e^{Delta_k}, separation inequality ===
+PASS e^{Delta_k}=(1+u_k)(1+v_k), zeta_k^(I)=2r(1+v)/((1+r)(e^D-1)), (e^D-1)zeta>=2r/(1+r)  (0 bad)
+      min over 20000 random chains of (e^D-1)zeta / (2r/(1+r)) = 1.000157  (>=1, =1+v_k)
+      scan: smallest e^{Delta_k} compatible with zeta_k,zeta_{k+1} <= eps
+        eps=0.30  min e^{Delta} = 1.132   (eps * min e^{Delta} = 0.3397)
+        eps=0.10  min e^{Delta} = 1.303   (eps * min e^{Delta} = 0.1303)
+        eps=0.03  min e^{Delta} = 1.557   (eps * min e^{Delta} = 0.0467)
+        eps=0.01  min e^{Delta} = 2.88   (eps * min e^{Delta} = 0.0288)
+
+=== (f) VWZ symmetric setup L_A=L_D=a, L_B=L_C=b ===
+  a=1/10 b=1  eta=1/21
+    single step zeta = 1/10   (a/b = 1/10)      -> True
+    Prot2 zeta_2 = 21/220  (a(a+2b)/(2b(a+b)) = 21/220) -> True
+    Prot2 zeta_3 = 1/10  (a/b) -> True
+    Prot3 zeta_eff = 1/5  (2a/b) -> True
+    e^{Delta_23} = 21  ((a+2b)/a = 21, = 1/eta) -> True
+    zeta/eta:  1(A) 2.1000   2:(2.0045,2.1000)   3: 4.2000   [-> 2,2,2,4]
+    f2-sum ratios (cross term DROPPED): 1 : 1.9112 : 4.0000
+    with cross term 2 z2a z2b Ghat(D)/Ghat(0) = X:  ratio_2 = 1.9112 + 1.9091*X
+  a=1/100 b=1  eta=1/201
+    single step zeta = 1/100   (a/b = 1/100)      -> True
+    Prot2 zeta_2 = 201/20200  (a(a+2b)/(2b(a+b)) = 201/20200) -> True
+    Prot2 zeta_3 = 1/100  (a/b) -> True
+    Prot3 zeta_eff = 1/50  (2a/b) -> True
+    e^{Delta_23} = 201  ((a+2b)/a = 201, = 1/eta) -> True
+    zeta/eta:  1(A) 2.0100   2:(2.0000,2.0100)   3: 4.0200   [-> 2,2,2,4]
+    f2-sum ratios (cross term DROPPED): 1 : 1.9901 : 4.0000
+    with cross term 2 z2a z2b Ghat(D)/Ghat(0) = X:  ratio_2 = 1.9901 + 1.9901*X
+  a=3 b=2  eta=3/7
+    single step zeta = 3/2   (a/b = 3/2)      -> True
+    Prot2 zeta_2 = 21/20  (a(a+2b)/(2b(a+b)) = 21/20) -> True
+    Prot2 zeta_3 = 3/2  (a/b) -> True
+    Prot3 zeta_eff = 3  (2a/b) -> True
+    e^{Delta_23} = 7/3  ((a+2b)/a = 7/3, = 1/eta) -> True
+    zeta/eta:  1(A) 3.5000   2:(2.4500,3.5000)   3: 7.0000   [-> 2,2,2,4]
+    f2-sum ratios (cross term DROPPED): 1 : 1.4900 : 4.0000
+    with cross term 2 z2a z2b Ghat(D)/Ghat(0) = X:  ratio_2 = 1.4900 + 1.4000*X

@@ -1,0 +1,8 @@
+n= 8 |I|= 4 k=4: dim S2= 32 dim N= 16 dim N^perp= 16 dim Ext= 16 rank(N+Ext)= 32 max|<N,Ext>|=2.1e-16 => Ext = N^perp: True
+n=10 |I|= 4 k=5: dim S2= 50 dim N= 16 dim N^perp= 34 dim Ext= 34 rank(N+Ext)= 50 max|<N,Ext>|=1.5e-16 => Ext = N^perp: True
+n=10 |I|= 5 k=5: dim S2= 50 dim N= 25 dim N^perp= 25 dim Ext= 25 rank(N+Ext)= 50 max|<N,Ext>|=1.5e-16 => Ext = N^perp: True
+n=12 |I|= 6 k=6: dim S2= 72 dim N= 36 dim N^perp= 36 dim Ext= 36 rank(N+Ext)= 72 max|<N,Ext>|=2.4e-16 => Ext = N^perp: True
+n=12 |I|= 3 k=6: dim S2= 72 dim N=  9 dim N^perp= 63 dim Ext= 63 rank(N+Ext)= 72 max|<N,Ext>|=4.4e-16 => Ext = N^perp: True
+n=12 |I|= 5 k=6: dim S2= 72 dim N= 25 dim N^perp= 47 dim Ext= 47 rank(N+Ext)= 72 max|<N,Ext>|=4.7e-16 => Ext = N^perp: True
+n=14 |I|= 7 k=7: dim S2= 98 dim N= 49 dim N^perp= 49 dim Ext= 49 rank(N+Ext)= 98 max|<N,Ext>|=3.6e-16 => Ext = N^perp: True
+n=16 |I|= 6 k=8: dim S2=128 dim N= 36 dim N^perp= 92 dim Ext= 92 rank(N+Ext)=128 max|<N,Ext>|=2.0e-16 => Ext = N^perp: True

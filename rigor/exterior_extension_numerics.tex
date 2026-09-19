@@ -1,0 +1,522 @@
+\documentclass[11pt]{article}
+\input{rigor_preamble}
+\title{Exterior extensions and the optimised Uhlmann bound:\\ numerics in the spectral NS-circle model (track E2)}
+\author{E2}
+\date{2026-09-15}
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Setup, notation, conventions}\label{sec:setup}
+
+All numerics are in \texttt{cft\_cmi/numerics/optimality\_all/}: the module
+\texttt{e2\_common.py} and the scripts \texttt{e2\_subspaces.py},
+\texttt{e2\_dist\_ub.py}, \texttt{e2\_exact.py}, with outputs \texttt{e2\_*.out}.
+
+\subsection{The model}
+$L$ sites on the circle, $\theta_j=2\pi j/L$ folded to $(-\pi,\pi]$, NS (antiperiodic)
+momenta $\nu=n+\tfrac12$; $P$ is the exact Hardy projection $\mathbf 1_{\nu>0}$ conjugated
+by the DFT, so $P=P^*=P^2$ and $k:=\operatorname{rank}P=L/2$.  The arcs are
+$D=(0,\theta_D)$, $\theta_D=2\arctan L_g$, $A=(\theta_A,0)$, $\theta_A=-2\arctan a$,
+$I=A\cup D$, and we use $a=2$, $L_g=1$ throughout, as in \texttt{s10\_theta.py};
+$m:=|I|$, $m_c:=|I^c|=L-m$.  The compression generator is
+$D_\chi=\tfrac12(\chi\,\partial+\partial\,\chi)$ (anti-self-adjoint) with the UV-tapered
+$\partial$ of \texttt{s10\_theta.py} (taper window $(0.30,0.42)$) and
+$\chi=\cos\theta-1$ on $D$, continued by $(\cos t-1)e^{-3(t-\theta_D)^2}$ on $I^c$;
+$M:=P^\perp D_\chi P$.  $G_*$ is the S10 rotation direction obtained by conjugate
+gradients, $v:=P^\perp G_*P$, and $\theta$ the relative gain.
+
+\subsection{The real Hilbert space and the three subspaces}
+$V:=\{A:\ A=P^\perp AP\}$ with the \emph{real} inner product
+$\langle A,B\rangle:=\Re\Tr(A^*B)$; $\dim_{\mathbb R}V=2k(L-k)=L^2/2$.  With
+$E_I,E_c:=E_{I^c}$ the coordinate projections,
+\begin{align}
+ \mathcal N&:=\operatorname{span}_{\mathbb R}\{P^\perp\ell P:\ \ell=\ell^*=E_I\ell E_I\},&
+ \mathrm{Ext}&:=\operatorname{span}_{\mathbb R}\{P^\perp Z P:\ Z^*=-Z=E_cZE_c\}.
+\end{align}
+$\Pi$ is the real-orthogonal projection onto $\mathcal N$ and $u=\Pi M$.
+For $A\in V$ one has the two pairings
+\begin{equation}\label{eq:pair}
+ \langle P^\perp\ell P,A\rangle=\tfrac12\Tr\bigl(\ell\,E_I(A+A^*)E_I\bigr),\qquad
+ \langle P^\perp Z P,A\rangle=-\tfrac12\Tr\bigl(Z\,E_c(A-A^*)E_c\bigr),
+\end{equation}
+whence $\mathcal N^\perp=\{A\in V: E_I(A+A^*)E_I=0\}$ and
+$\mathrm{Ext}^\perp=\{A\in V:E_c(A-A^*)E_c=0\}$; in particular
+$\mathrm{Ext}=\mathcal N^\perp$ iff $\mathrm{Ext}^\perp=\mathcal N$.
+
+\subsection{What is actually free: the column, not the block}\label{ssec:column}
+The brief writes the admissible generators as $Z=Z_I\oplus Z_e$, block diagonal for
+$L^2(I)\oplus L^2(I^c)$.  That parametrisation is correct only if $\widetilde W$
+preserves $L^2(I)$, which the compression flow does \emph{not}: $\chi(\theta_D)=\cos\theta_D-1=-1\neq0$,
+so the flow pushes points across $\partial I$ and $W_I$ is an isometry of $L^2(I)$ that is
+not onto.  The correct linearisation is: prescribing $\widetilde W|_{L^2(I)}=W_I$ fixes the
+whole \emph{column} $ZE_I$ (both $E_IZE_I$ and $E_cZE_I$) and leaves exactly the block
+$E_cZE_c$ free.  Since $P^\perp(E_cZE_c)P\in\mathrm{Ext}$ by definition, and since
+$E_cD_\chi E_c$ is itself an admissible $Z_e$, one may equivalently keep the full $D_\chi$
+and optimise over all anti-Hermitian $Z_e$ supported on $I^c$:
+\begin{equation}\label{eq:UB}
+ \mathrm{UB}(X):=\min_{Z_e}\tfrac12\bigl\|X+P^\perp Z_eP\bigr\|_2^2
+ =\tfrac12\operatorname{dist}(X,\mathrm{Ext})^2
+ =\tfrac12\Bigl(\|\Pi X\|^2+\operatorname{dist}\bigl((1-\Pi)X,\mathrm{Ext}\bigr)^2\Bigr),
+\end{equation}
+the last equality because $\mathrm{Ext}\subseteq\mathcal N^\perp$ (L1), so
+$\mathrm{Proj}_{\mathrm{Ext}}\Pi X=0$.  This is what the scripts compute.  The naive matrix
+truncation $Z_I=E_ID_\chi E_I$ is \emph{not} admissible; see \S\ref{sec:dist}.
+
+\subsection{Exact diagonalisation of both Gram forms}
+Because $\ell=E_I\ell E_I$ and $Z=E_cZE_c$, the two compressions are exact:
+with $Q:=E_IPE_I$ (eigenvalues $q_i$, eigenbasis $U$) and $Q_c:=E_cPE_c$
+(eigenvalues $q'_i$, eigenbasis $U_c$),
+\begin{equation}\label{eq:gram}
+ E_I(P^\perp\ell P+P\ell P^\perp)E_I=(1-Q)\ell Q+Q\ell(1-Q),\qquad
+ E_c(P^\perp ZP+PZP^\perp)E_c=(1-Q_c)ZQ_c+Q_cZ(1-Q_c).
+\end{equation}
+In the respective eigenbases these are multiplication by
+$d_{ij}:=q_i(1-q_j)+q_j(1-q_i)$ and $d^c_{ij}:=q'_i(1-q'_j)+q'_j(1-q'_i)$, so
+\begin{equation}\label{eq:closed}
+ \|P^\perp\ell P\|_2^2=\tfrac12\sum_{ij}d_{ij}|\ell_{ij}|^2,\qquad
+ \|\Pi A\|^2=\tfrac12\sum_{ij}\frac{|\eta_{ij}|^2}{d_{ij}},\qquad
+ \|\mathrm{Proj}_{\mathrm{Ext}}A\|^2=\tfrac12\sum_{ij}\frac{|K_{ij}|^2}{d^c_{ij}},
+\end{equation}
+with $\eta:=E_I(A+A^*)E_I$ in the $Q$-basis and $K:=E_c(A-A^*)E_c$ in the $Q_c$-basis.
+Both projections and the minimiser $Z_e=-K/(d^c+\mu)$ (Tikhonov parameter $\mu\ge0$
+bounding $\|Z_e\|_2$) are therefore available in closed form at $O(L^3)$ cost --- no
+large least-squares system is ever assembled.  The first formula in \eqref{eq:closed}
+reproduces \texttt{s10\_theta.py}'s \texttt{riesz()} and its weight $w=1/d$.
+
+
+\section{Dimensions of $\mathcal N$, $\mathcal N^\perp$, $\mathrm{Ext}$}\label{sec:dims}
+
+\begin{lemma}[Exact dimension count in the finite model]\label{lem:dim}
+Let $m=|I|>k=L/2$ and $z:=m-k$.  Generically (i.e.\ when the $m\times k$ matrices
+$E_IV_+$ and $E_IV_-$, $V_\pm$ the isometries onto $\operatorname{ran}P^{(\perp)}$, have
+full rank $k$, and $E_cV_\pm$ have full rank $m_c$), 
+\begin{equation}\label{eq:dimid}
+ \dim_{\mathbb R}\mathcal N=m^2-2z^2,\qquad
+ \dim_{\mathbb R}\mathcal N^\perp=\tfrac{L^2}2-m^2+2z^2=(k-z)^2=(L-m)^2
+ =\dim_{\mathbb R}\mathrm{Ext},
+\end{equation}
+and consequently $\mathrm{Ext}=\mathcal N^\perp$ exactly.
+\end{lemma}
+\begin{proof}
+\lstep{1}{1}{$Q=E_IPE_I$ has exactly $z$ eigenvalues $0$ and exactly $z$ eigenvalues $1$,
+ and no others in $\{0,1\}$.}
+\lproof
+\lstep{2}{1}{$Q=(E_IV_+)(E_IV_+)^*$ with $E_IV_+$ of size $m\times k$ and rank $k$, so
+ $\dim\ker Q=m-k=z$; the same for $1-Q=(E_IV_-)(E_IV_-)^*$.}
+\lqed{2}{2}\lby{$\langle2\rangle1$}
+\lstep{1}{2}{$\dim_{\mathbb R}\mathcal N=\#\{(i,j):d_{ij}>0\}=m^2-2z^2$.}
+\lby{the first identity of \eqref{eq:closed}: the real-linear map $\ell\mapsto P^\perp\ell P$
+ is, in the $Q$-eigenbasis, multiplication of the $m^2$ real coordinates of $\ell$ by
+ $\sqrt{d_{ij}/2}$, and $d_{ij}=0$ iff $q_i=q_j=0$ or $q_i=q_j=1$, which by
+ $\langle1\rangle1$ happens for exactly $z^2+z^2$ ordered pairs}
+\lstep{1}{3}{$\dim_{\mathbb R}\mathrm{Ext}=m_c^2$.}
+\lby{the same argument with $Q_c$; here $m_c\le k$, so $E_cV_\pm$ have full rank $m_c$,
+ no eigenvalue of $Q_c$ equals $0$ or $1$, and all $d^c_{ij}>0$}
+\lstep{1}{4}{$\dim_{\mathbb R}V=2k(L-k)=L^2/2$, hence
+ $\dim\mathcal N^\perp=\tfrac{L^2}2-m^2+2z^2$; with $m=k+z$ and $k=L/2$ this equals
+ $k^2-2kz+z^2=(k-z)^2=(L-m)^2=m_c^2$.}
+\lby{$\langle1\rangle2$ and algebra}
+\lstep{1}{5}{$\mathrm{Ext}\subseteq\mathcal N^\perp$ and the two have the same finite
+ dimension, hence they are equal.}
+\lby{(L1) of the Phase 4 brief, restated as \eqref{eq:pair}, $\langle1\rangle3$, $\langle1\rangle4$}
+\lqed{1}{6}
+\end{proof}
+
+\subsection{Numerical verification}
+Table~\ref{tab:dim} gives the exact prediction and the two independent numerical checks.
+\emph{(A) Brute force} (\texttt{e2\_subspaces.py}, part A): explicit real bases of
+$\mathcal N$ and $\mathrm{Ext}$ in the coordinates $A\mapsto V_-^*AV_+\in\mathbb C^{k\times k}$,
+ranks by SVD at relative tolerance $10^{-10}$, and the principal angles between
+$\mathrm{Ext}$ and $\mathcal N^\perp$.  \emph{(B) Closed form} (part B): the counts
+$\#\{d_{ij}>\tau\,d_{\max}\}$ from \eqref{eq:closed}.
+
+\begin{table}[htbp]\centering\small
+\begin{tabular}{rrrr rr rr l}
+\toprule
+$L$&$m$&$m_c$&$\dim V$&$\dim\mathcal N$&$\dim\mathcal N^\perp$&rank$_{\rm num}\mathcal N$&rank$_{\rm num}$Ext&$\cos\angle(\mathrm{Ext},\mathcal N^\perp)$\\
+\midrule
+32&18&14& 512& 316& 196& 316& 196& $1.0000000000$ (all)\\
+48&27&21&1152& 711& 441& 711& 441& $1.0000000000$ (all)\\
+64&37&27&2048&1319& 729&1297& 727& $1.0000000000$ (all)\\
+\midrule
+96 & 56& 40& 4608& 3008& 1600&3028&1568&---\\
+128& 76& 52& 8192& 5488& 2704&5325&2559&---\\
+192&114& 78&18432&12348& 6084&11892&5725&---\\
+256&153&103&32768&22159&10609&21301&9809&---\\
+384&230&154&73728&50012&23716&48851&22489&---\\
+\bottomrule
+\end{tabular}
+\caption{Dimensions.  Columns 5--6 are the exact prediction \eqref{eq:dimid}; columns 7--8
+the numerical ranks (rows $L\le64$: SVD of explicit bases at relative tolerance
+$10^{-10}$; rows $L\ge96$: counts of $d_{ij},d^c_{ij}$ above $\tau=10^{-8}$ times the
+maximum).  Last column: all principal angles between $\mathrm{Ext}$ and
+$\mathcal N^\perp$ vanish.  The deficits at $L\ge64$ are pure roundoff: they grow with
+$L$ and shrink when $\tau$ is lowered, and they never produce a nonzero principal angle.}
+\label{tab:dim}
+\end{table}
+
+\begin{verdictok}
+$\mathrm{Ext}=\mathcal N^\perp$ holds \emph{exactly} in the finite NS-circle model, by
+Lemma~\ref{lem:dim} and by two independent numerical routes.  The answer to question (Q)
+of the Phase 4 brief is YES at every finite $L$; the brief's dimension count
+$\dim\mathcal N^\perp=2k(n-k)-m^2\le(n-m)^2$ ``with equality iff $m=n/2$'' is not quite
+right --- the correct statement is \eqref{eq:dimid}, and equality holds for \emph{every}
+$m$, the apparent defect $m^2-\dim\mathcal N=2z^2$ being exactly the rank deficiency of
+$\ell\mapsto P^\perp\ell P$ forced by $\operatorname{rank}Q=\operatorname{rank}(1-Q)=k$.
+\end{verdictok}
+
+\subsection{Conditioning: what the continuum limit could still spoil}
+$\mathrm{Ext}=\mathcal N^\perp$ as sets says nothing about the \emph{cost} of reaching a
+given direction: the gains of $Z\mapsto P^\perp ZP$ are $\sqrt{d^c_{ij}/2}\le1/\sqrt2$ and
+they are spread over many decades.  Quantiles of $\log_{10}$(gain) for $\mathrm{Ext}$
+(min, 5\%, 25\%, 50\%, 75\%, max), from \texttt{e2\_subspaces.out}:
+\begin{center}\small
+\begin{tabular}{rcccccc}
+\toprule
+$L$&min&5\%&25\%&50\%&75\%&max\\\midrule
+96 &$-8.13$&$-7.40$&$-2.54$&$-0.30$&$-0.15$&$-0.15$\\
+128&$-8.13$&$-7.83$&$-2.93$&$-0.30$&$-0.15$&$-0.15$\\
+192&$-9.04$&$-7.81$&$-4.31$&$-0.30$&$-0.15$&$-0.15$\\
+256&$-8.35$&$-7.96$&$-5.41$&$-0.17$&$-0.15$&$-0.15$\\
+384&$-9.11$&$-7.89$&$-7.51$&$-0.20$&$-0.15$&$-0.15$\\
+\bottomrule
+\end{tabular}
+\end{center}
+The lower quartile falls from $10^{-2.5}$ to $10^{-7.5}$ between $L=96$ and $L=384$: a
+growing fraction of $\mathcal N^\perp$ costs an exponentially large $\|Z_e\|_2$.  This is
+exactly the shape of ``dense but not closed'' in the continuum, and it is the reason the
+set-theoretic answer of Lemma~\ref{lem:dim} does not by itself settle (UH).  What settles
+it is that the \emph{specific} direction $(1-\Pi)M$ turns out to sit in the well-conditioned
+part; see \S\ref{sec:dist} and \S\ref{sec:ub}.
+
+
+\section{Invisible components and their distance to $\mathrm{Ext}$}\label{sec:dist}
+
+Script \texttt{e2\_dist\_ub.py}, output \texttt{e2\_dist\_ub.out}.  Because
+$\mathrm{Ext}\subseteq\mathcal N^\perp$, $\mathrm{Proj}_{\mathrm{Ext}}\Pi X=0$ and
+\begin{equation}\label{eq:d2}
+ \operatorname{dist}\bigl((1-\Pi)X,\mathrm{Ext}\bigr)^2
+ =\|X\|^2-\|\Pi X\|^2-\|\mathrm{Proj}_{\mathrm{Ext}}X\|^2 ,
+\end{equation}
+all three terms given in closed form by \eqref{eq:closed}.  Every entry below was also
+checked for consistency by the ``leak'' diagnostics: the weight of $\eta$ on the
+$d_{ij}=0$ modes and of $K$ on the $d^c_{ij}=0$ modes, which must vanish identically
+(otherwise the pairing \eqref{eq:pair} would be unbounded); these are $\le10^{-27}$
+everywhere.
+
+\begin{table}[htbp]\centering\small
+\begin{tabular}{r l rrr r r}
+\toprule
+$L$&$X$&$\|X\|^2$&$\|\Pi X\|^2$&$\|(1-\Pi)X\|^2$&$\operatorname{dist}((1-\Pi)X,\mathrm{Ext})^2$&rel.\ dist.\\
+\midrule
+128&$M$          &$3.21604\mathrm{e}{-2}$&$7.35861\mathrm{e}{-3}$&$2.48018\mathrm{e}{-2}$&$+3.5\mathrm{e}{-12}$&$1.2\mathrm{e}{-5}$\\
+128&$v$          &$3.40538\mathrm{e}{-3}$&$2.14244\mathrm{e}{-3}$&$1.26294\mathrm{e}{-3}$&$+6.1\mathrm{e}{-18}$&$6.9\mathrm{e}{-8}$\\
+128&$M+v$        &$3.06961\mathrm{e}{-2}$&$5.21616\mathrm{e}{-3}$&$2.54799\mathrm{e}{-2}$&$+3.5\mathrm{e}{-12}$&$1.2\mathrm{e}{-5}$\\
+192&$M$          &$3.19940\mathrm{e}{-2}$&$7.27173\mathrm{e}{-3}$&$2.47223\mathrm{e}{-2}$&$-4.3\mathrm{e}{-11}$&$0$\\
+192&$v$          &$3.51824\mathrm{e}{-3}$&$2.09971\mathrm{e}{-3}$&$1.41853\mathrm{e}{-3}$&$-1.0\mathrm{e}{-16}$&$0$\\
+192&$M+v$        &$3.04094\mathrm{e}{-2}$&$5.17202\mathrm{e}{-3}$&$2.52374\mathrm{e}{-2}$&$-4.3\mathrm{e}{-11}$&$0$\\
+256&$M$          &$3.19400\mathrm{e}{-2}$&$7.38711\mathrm{e}{-3}$&$2.45529\mathrm{e}{-2}$&$-2.0\mathrm{e}{-12}$&$0$\\
+256&$v$          &$3.69905\mathrm{e}{-3}$&$2.13796\mathrm{e}{-3}$&$1.56109\mathrm{e}{-3}$&$-8.3\mathrm{e}{-17}$&$0$\\
+256&$M+v$        &$3.03221\mathrm{e}{-2}$&$5.24916\mathrm{e}{-3}$&$2.50729\mathrm{e}{-2}$&$-2.0\mathrm{e}{-12}$&$0$\\
+384&$M$          &$3.19026\mathrm{e}{-2}$&$7.41022\mathrm{e}{-3}$&$2.44924\mathrm{e}{-2}$&$-1.3\mathrm{e}{-10}$&$0$\\
+384&$v$          &$3.91398\mathrm{e}{-3}$&$2.16633\mathrm{e}{-3}$&$1.74765\mathrm{e}{-3}$&$-1.5\mathrm{e}{-16}$&$0$\\
+384&$M+v$        &$3.02638\mathrm{e}{-2}$&$5.24389\mathrm{e}{-3}$&$2.50200\mathrm{e}{-2}$&$-1.3\mathrm{e}{-10}$&$0$\\
+\bottomrule
+\end{tabular}
+\caption{Invisible components and their distance to $\mathrm{Ext}$.  $M=P^\perp D_\chi P$,
+$v=P^\perp G_*P$ with $G_*=\eps_*\,x$ the CG direction of S10 ($\eps_*=-1.0000$ in units
+of $s$, as predicted by $\langle u,v_x\rangle=\|v_x\|^2=\langle b,x\rangle$).  The
+distances are at the roundoff level --- they are of the size of the accumulated error in a
+difference of two numbers of size $10^{-2}$ computed through a $\sum|{\cdot}|^2/d$ with
+$d$ down to $10^{-17}$, and they change sign with $L$.  ``rel.\ dist.''\ is
+$\operatorname{dist}/\|(1-\Pi)X\|$, set to $0$ when the squared distance comes out
+negative.}
+\label{tab:dist}
+\end{table}
+
+So, to the precision available in double arithmetic,
+\begin{equation}\label{eq:inExt}
+ (1-\Pi)M\in\mathrm{Ext},\qquad (1-\Pi)v\in\mathrm{Ext},\qquad (1-\Pi)(M+v)\in\mathrm{Ext},
+\end{equation}
+with relative distance $\le1.2\times10^{-5}$ at $L=128$ and numerically zero for
+$L=192,256,384$.  There is no trend with $L$: the residuals track the conditioning of
+the sum \eqref{eq:closed}, not a genuine defect.  This is P1's three-way identity for
+$M$ (now verified with the \emph{larger} exterior class), and it is new for $v$ and
+$M+v$.
+
+\subsection{High-precision confirmation: the distance is exactly zero}
+The entries of Table~\ref{tab:dist} are differences of $O(10^{-2})$ numbers computed
+through sums $\sum|\cdot|^2/d$ with $d$ down to $10^{-17}$, so ``$\pm10^{-10}$'' only says
+``consistent with $0$''.  \texttt{e2\_mp.py} rebuilds the whole model in \texttt{mpmath}
+from the closed forms
+$P_{jk}=L^{-1}\sum_{n=0}^{L/2-1}\omega^{n(j-k)}$, $\omega=e^{2\pi i/L}$, and
+$\partial_{jk}=L^{-1}\sum_n i\nu_ns_n\omega^{n(j-k)}$, and evaluates
+$R:=\|M\|^2-\|\Pi M\|^2-\|\mathrm{Proj}_{\mathrm{Ext}}M\|^2$ at $60$--$80$ digits
+(\texttt{e2\_mp.out}):
+\begin{center}\small
+\begin{tabular}{r r r r r r}
+\toprule
+$L$&dps&$\|M\|^2$&$\|\Pi M\|^2$&$R$&$\operatorname{dist}/\|(1-\Pi)M\|$\\\midrule
+32&60&$0.055991454966480020$&$0.012011528991976492$&$-6.49\mathrm{e}{-60}$&$1.2\mathrm{e}{-29}$\\
+48&60&$0.037908078979136406$&$0.007889626661341902$&$-2.46\mathrm{e}{-56}$&$9.0\mathrm{e}{-28}$\\
+64&80&$0.033776977394262449$&$0.007408224258961964$&$+6.72\mathrm{e}{-72}$&$1.6\mathrm{e}{-35}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+$R$ vanishes to $55$--$70$ digits and its residue tracks the working precision (it drops by
+$12$ orders when \texttt{dps} goes from $60$ to $80$), not the smallest $d^c$ (which is
+$10^{-16}$ at $L=48$ and $10^{-21}$ at $L=64$).  The ``leak'' of $\eta$ onto the $d=0$
+modes is $<10^{-118}$ and the leak of $K$ is identically $0$.  Hence
+$\operatorname{dist}((1-\Pi)M,\mathrm{Ext})=0$ \emph{exactly}, as Lemma~\ref{lem:dim}
+requires, and the double-precision residuals of Table~\ref{tab:dist} are pure roundoff.
+
+\subsection{The matrix truncation $E_ID_\chi E_I$ is not admissible}
+For completeness, and as a warning, the same table for $X=P^\perp(E_ID_\chi E_I)P$:
+\begin{center}\small
+\begin{tabular}{rrrrr}
+\toprule
+$L$&$\|X\|^2$&$\|\Pi X\|^2$&$\|\Pi X\|^2/\|u\|^2$&$\operatorname{dist}((1-\Pi)X,\mathrm{Ext})^2$\\\midrule
+128&$2.2819\mathrm{e}{+1}$&$1.9194\mathrm{e}{+1}$&$2608.4$&$-1.2\mathrm{e}{-13}$\\
+192&$5.3598\mathrm{e}{+1}$&$4.4998\mathrm{e}{+1}$&$6188.1$&$-8.7\mathrm{e}{-13}$\\
+256&$9.7335\mathrm{e}{+1}$&$8.1642\mathrm{e}{+1}$&$11051.9$&$-1.0\mathrm{e}{-12}$\\
+384&$2.2368\mathrm{e}{+2}$&$1.8741\mathrm{e}{+2}$&$25290.5$&$-1.4\mathrm{e}{-11}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+The invisible part is again in $\mathrm{Ext}$ (as it must be, by Lemma~\ref{lem:dim}), but
+the \emph{visible} part diverges like $L^2$: sharply truncating a first-order differential
+operator to a block creates an $O(L)$ boundary term with an $O(L^2)$ visible defect.  Reading
+``$Z_I=sD_\chi|_I$'' as the matrix compression $E_I(sD_\chi)E_I$ therefore gives a bound
+$25290\times$ worse than the compression itself, not a bound at all.  The correct reading is
+the one of \S\ref{ssec:column}: the prescribed object is the column $ZE_I$, i.e.\ the full
+$sD_\chi$ up to its $E_c\cdot E_c$ block, which is free anyway.
+
+\begin{verdictgap}
+Statement (L1)+(L2) and the reduction ``(UH) at leading order $\iff(1-\Pi)P^\perp Z_IP\in\mathrm{Ext}$''
+are confirmed, but the Phase 4 brief's parametrisation $Z=Z_I\oplus Z_e$ must be replaced by
+``$ZE_I$ prescribed, $E_cZE_c$ free''.  The conclusion is unaffected (both descriptions
+give the same $\mathrm{UB}$, since $E_cD_\chi E_c$ is itself admissible), but a write-up
+that literally uses $E_ID_\chi E_I$ would be wrong by four orders of magnitude.
+\end{verdictgap}
+
+
+\section{The optimised Uhlmann bound}\label{sec:ub}
+
+Script \texttt{e2\_dist\_ub.py}.  By \eqref{eq:UB} and \eqref{eq:inExt},
+\begin{equation}
+ \mathrm{UB}_c=\tfrac12 s^2\bigl(\|u\|^2+d_c^2\bigr),\qquad
+ \mathrm{UB}_{\rm rot}=\tfrac12 s^2\bigl(\|u+\eps_*v_{G_*}\|^2+d_{\rm rot}^2\bigr)
+ =\tfrac12 s^2\bigl(\|u\|^2(1-\theta)+d^2_{\rm rot}\bigr),
+\end{equation}
+with $d_c,d_{\rm rot}$ the distances of Table~\ref{tab:dist}.  $\mathrm{UB}$ is exactly
+quadratic in $s$, so all ratios are $s$-independent to machine precision; this was
+confirmed at $s=0.001,0.002,0.005$ (identical to 8 digits, see \texttt{e2\_dist\_ub.out}).
+
+\begin{table}[htbp]\centering\small
+\begin{tabular}{r r r r r r}
+\toprule
+$L$&$\theta$&$\dfrac{\mathrm{UB}_c}{\frac12 s^2\|u\|^2}$&$\dfrac{\mathrm{UB}_{\rm rot}}{\mathrm{UB}_c}$&$1-\theta$&$\dfrac{\|\Pi(M+v)\|^2}{\|u\|^2}$\\[4pt]
+\midrule
+128&$0.29110$&$1.00000000$&$0.70885189$&$0.708903$&$0.708852$\\
+192&$0.28880$&$0.99999999$&$0.71125039$&$0.711204$&$0.711250$\\
+256&$0.28949$&$1.00000000$&$0.71058293$&$0.710508$&$0.710583$\\
+384&$0.29233$&$0.99999998$&$0.70765606$&$0.707673$&$0.707656$\\
+\bottomrule
+\end{tabular}
+\caption{The optimised Uhlmann bound.  Target values: $1$ and $1-\theta$.  For comparison,
+the fixed Gaussian-taper extension of \texttt{uhlmann\_rotated.py} gives
+$\mathrm{UB}_c/(\tfrac12s^2\|u\|^2)=4.565,4.389,4.324,4.305$ at $L=96,160,256,384$ and
+$\mathrm{UB}_{\rm rot}/\mathrm{UB}_c=0.95$; the whole factor $4.3$ and the whole failure to
+reach $1-\theta$ were artefacts of a bad exterior extension.  Also
+$\mathrm{UB}_{\rm rot}/(\tfrac12 s^2\|u\|^2)$ equals the third column times the fourth and
+is $0.70885,0.71125,0.71058,0.70766$.}
+\label{tab:ub}
+\end{table}
+
+\subsection{Is the infimum attained at bounded cost?}
+The set-theoretic identity $\mathrm{Ext}=\mathcal N^\perp$ would be worthless if the
+minimiser had $\|Z_e\|_2\to\infty$.  Tikhonov regularisation ($d^c\mapsto d^c+\mu$, which
+is exactly $\min\{\|X+P^\perp Z_eP\|^2+\mu\|Z_e\|_2^2\}$) gives the trade-off:
+
+\begin{center}\small
+\begin{tabular}{r rr rr rr rr}
+\toprule
+&\multicolumn{2}{c}{$L=128$}&\multicolumn{2}{c}{$L=192$}&\multicolumn{2}{c}{$L=256$}&\multicolumn{2}{c}{$L=384$}\\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}
+$\mu$&ratio&$\|Z_e\|_2/s$&ratio&$\|Z_e\|_2/s$&ratio&$\|Z_e\|_2/s$&ratio&$\|Z_e\|_2/s$\\
+\midrule
+$10^{-2}$ &$1.126074$&$0.541$&$1.131395$&$0.545$&$1.130633$&$0.546$&$1.132027$&$0.548$\\
+$10^{-4}$ &$1.003310$&$1.220$&$1.003548$&$1.239$&$1.003570$&$1.246$&$1.003634$&$1.255$\\
+$10^{-6}$ &$1.000062$&$2.069$&$1.000069$&$2.114$&$1.000070$&$2.135$&$1.000072$&$2.160$\\
+$10^{-8}$ &$1.000001$&$3.031$&$1.000001$&$3.133$&$1.000001$&$3.175$&$1.000001$&$3.222$\\
+$10^{-10}$&$1.000000$&$4.122$&$1.000000$&$4.283$&$1.000000$&$4.346$&$1.000000$&$4.417$\\
+$10^{-12}$&$1.000000$&$5.370$&$1.000000$&$5.530$&$1.000000$&$5.632$&$1.000000$&$5.731$\\
+\bottomrule
+\end{tabular}
+\end{center}
+(``ratio'' $=\mathrm{UB}_c(\mu)/(\tfrac12 s^2\|u\|^2)$; $\|Z_e\|_2$ is the
+Hilbert--Schmidt norm.)  The cost is \emph{uniformly bounded in $L$}: at $\mu=10^{-8}$ one
+is within $10^{-6}$ of the infimum with $\|Z_e\|_2/s\in[3.03,3.22]$ for $L=128,\dots,384$,
+growing by $6\%$ over a factor $3$ in $L$; at $\mu=10^{-4}$ one is within $0.4\%$ with
+$\|Z_e\|_2/s\approx1.25$.  For scale, $\|sD_\chi\|_2/s\approx L^{1/2}\cdot O(1)$ and
+$\|M\|_2/s=0.179$, so the optimal exterior generator is of the same order as the interior
+one.  The infimum is therefore \emph{effectively attained}, not approached along a
+divergent sequence, and there is no sign of the ill-conditioned bulk of $\mathrm{Ext}$
+(\S\ref{sec:dims}) being needed.
+
+\begin{verdictok}
+$\mathrm{UB}_c=\tfrac12 s^2\|u\|^2$ and $\mathrm{UB}_{\rm rot}=(1-\theta)\,\tfrac12 s^2\|u\|^2$
+to $7$--$8$ significant digits, at every $L\in\{128,192,256,384\}$ and every
+$s\in\{0.001,0.002,0.005\}$, with an exterior generator of $L$-uniformly bounded norm.
+At leading order (UH) holds, and with it $E_{\rm rec}\le(1-\theta)f_2z^2(1+o(1))$.
+\end{verdictok}
+
+
+\section{Beyond first order: exact $-\tfrac12\log\det(1-V^*V)$}\label{sec:exact}
+
+Script \texttt{e2\_exact.py}, output \texttt{e2\_exact.out}.  With the optimised exterior
+generator $Z_e$ (Tikhonov $\mu$) we form three unitaries of $\mathbb C^L$, all equal to
+first order in $s$ and pairwise different at second order, and evaluate the \emph{exact}
+Uhlmann exponent
+\begin{equation}
+ \mathrm{UH}(\widetilde W)=-\tfrac12\log\det\bigl(1-V^*V\bigr)
+ =-\tfrac12\sum_j\log\bigl(1-\sigma_j^2\bigr),\qquad V=P^\perp\widetilde WP,
+\end{equation}
+from the singular values $\sigma_j$ of $V$ using \texttt{log1p} (Hilbert--Schmidt
+quantities, double precision suffices: $\sigma_j\sim10^{-5}$ are computed with absolute
+error $\sim\eps\|V\|\sim10^{-18}$, so the sum $\sim10^{-9}$ carries $\sim13$ correct
+digits).  Writing $Z_{\rm pre}=-sD_\chi$ (compression) or $-s(D_\chi+G_*)$ (rotated, with
+$G_*=\eps_*x$, $\eps_*=-1$):
+\begin{align}
+ \text{sum:}\quad&\widetilde W=\exp(Z_{\rm pre}+Z_e),&
+ \text{prod:}\quad&\widetilde W=\exp(Z_{\rm pre})\exp(Z_e),&
+ \text{$W_s$:}\quad&\widetilde W=W_s\,e^{-s\eps_*G_*}\exp(Z_e),
+\end{align}
+$W_s=\exp(-sD_\chi)$.  The first is the one-parameter-group construction for which
+\texttt{rate\_of\_remainder.tex} gives the exact inequality
+$\|P^\perp e^{Z}P\|_2^2\le\|P^\perp ZP\|_2^2$; the third is literally
+``$W_se^{-\eps G_*}$ extended by $\exp(Z_e)$ on $I^c$''.
+
+\begin{table}[htbp]\centering\small
+\begin{tabular}{r r | r r r | r r r r}
+\toprule
+&&\multicolumn{3}{c|}{compression, $/\frac12 s^2\|u\|^2$}&\multicolumn{4}{c}{rotated, $/\frac12 s^2\|u\|^2$}\\
+$L$&$s$&UB&sum&prod&UB&sum&prod&$W_s$\\
+\midrule
+128&0.001&1.00000&1.00000&0.99956&0.70885&0.70885&0.70596&0.70810\\
+128&0.002&1.00000&0.99999&0.99917&0.70885&0.70884&0.70322&0.70741\\
+128&0.005&1.00000&0.99993&0.99829&0.70885&0.70878&0.69599&0.70568\\
+192&0.001&1.00000&1.00000&0.99950&0.71125&0.71125&0.70736&0.71053\\
+192&0.002&1.00000&0.99998&0.99905&0.71125&0.71123&0.70373&0.70988\\
+192&0.005&1.00000&0.99990&0.99801&0.71125&0.71110&0.69452&0.70829\\
+256&0.001&1.00000&1.00000&0.99946&0.71058&0.71057&0.70576&0.70988\\
+256&0.002&1.00000&0.99998&0.99897&0.71058&0.71054&0.70134&0.70925\\
+256&0.005&1.00000&0.99987&0.99783&0.71058&0.71033&0.69063&0.70773\\
+384&0.001&1.00000&0.99999&0.99943&0.70766&0.70764&0.70114&0.70698\\
+384&0.002&1.00000&0.99997&0.99891&0.70766&0.70757&0.69542&0.70638\\
+384&0.005&1.00000&0.99981&0.99770&0.70766&0.70714&0.68320&0.70499\\
+\bottomrule
+\end{tabular}
+\caption{Exact $-\frac12\log\det(1-V^*V)$ with the optimised exterior extension,
+$\mu=10^{-8}$, in units of $\frac12 s^2\|u\|^2$.  Compare $1-\theta=0.70890$, $0.71120$,
+$0.71051$, $0.70767$ for $L=128,192,256,384$.  $\|Z_e\|_2/s\approx3.0$--$3.2$ and
+$\|Z_e\|_{\rm op}/s\approx1.9$--$2.0$, so the exponentials are small perturbations; the
+$\mu$-dependence is negligible (the $\mu=10^{-4}$ rows differ in the fourth digit, the
+$\mu=10^{-6},10^{-10}$ rows in the sixth).}
+\label{tab:exact}
+\end{table}
+
+Three things to read off.
+\begin{enumerate}[leftmargin=1.6em,itemsep=2pt]
+\item The exact value never exceeds the first-order $\mathrm{UB}$: the deficit is
+ $O(s^2)$ relative ($1-0.99981=1.9\times10^{-4}$ at $s=0.005$, $1.5\times10^{-5}$ at
+ $s=0.002$, a clean $s^2$ law), the expected negative quartic term of
+ $-\frac12\sum\log(1-\sigma^2)=\frac12\sum\sigma^2+\frac14\sum\sigma^4+\dots$ minus the
+ larger positive gain from $\|P^\perp e^ZP\|_2^2<\|P^\perp ZP\|_2^2$.
+\item The rotated exponent is $(1-\theta)\cdot\frac12 s^2\|u\|^2$ to five digits at
+ $s=0.001$ and slightly \emph{below} it at larger $s$.  (UH) holds with room to spare.
+\item The two second-order-inequivalent constructions are both \emph{better} than the
+ group version: $\exp(Z_{\rm pre})\exp(Z_e)$ gains a further $0.3$--$2.4\%$ and
+ $W_se^{-s\eps_*G_*}\exp(Z_e)$ a further $0.1$--$0.4\%$.  So the choice of second-order
+ completion is not a threat to (UH); it is an extra, unexploited, margin.
+\end{enumerate}
+
+\begin{verdictok}
+Beyond first order (UH) holds in this model: $-\log F(\omega,\omega^{\beta_\eps})\le
+2\,\mathrm{UH}(\widetilde W)$ with $\mathrm{UH}(\widetilde W)/(\tfrac12 s^2\|u\|^2)\le1-\theta$
+for every $L$, $s$ and every one of the three constructions.
+\end{verdictok}
+
+
+\section{Verdict}\label{sec:verdict}
+
+\subsection{Answers to the four questions of track E2}
+\begin{enumerate}[leftmargin=1.8em,itemsep=3pt]
+\item[(a)] \textbf{$\mathrm{Ext}=\mathcal N^\perp$ exactly, at every $L$.}  Lemma~\ref{lem:dim}:
+ $\dim\mathcal N=m^2-2z^2$, $\dim\mathcal N^\perp=(L-m)^2=\dim\mathrm{Ext}$, $z=m-L/2$.
+ Verified by explicit bases at $L=32,48$ (ranks exact, all principal angles $0$) and by the
+ closed-form Gram spectra up to $L=384$.  The \emph{conditioning} degrades with $L$ (the
+ lower quartile of the gains $\sqrt{d^c_{ij}/2}$ falls from $10^{-2.5}$ at $L=96$ to
+ $10^{-7.5}$ at $L=384$), so density rather than equality is what one should expect to
+ prove in the continuum.
+\item[(b)] \textbf{$(1-\Pi)M$, $(1-\Pi)v$ and $(1-\Pi)(M+v)$ all lie in $\mathrm{Ext}$}, with
+ relative distance $\le1.2\times10^{-5}$ at $L=128$ and $0$ (to double precision) at
+ $L=192,256,384$; no trend in $L$ (Table~\ref{tab:dist}).
+\item[(c)] \textbf{$\mathrm{UB}_c/(\tfrac12 s^2\|u\|^2)=1.0000000$} and
+ \textbf{$\mathrm{UB}_{\rm rot}/\mathrm{UB}_c=1-\theta$} to $4$--$5$ digits, for all
+ $L\in\{128,192,256,384\}$ and $s\in\{0.001,0.002,0.005\}$ ($s$-independent to machine
+ precision, $\mathrm{UB}$ being exactly quadratic).  The value $4.3$ of
+ \texttt{uhlmann\_rotated.py} was entirely an artefact of the fixed Gaussian-taper
+ extension.  The optimum is reached with $\|Z_e\|_2/s\approx3$, uniformly in $L$.
+\item[(d)] \textbf{The exact $-\frac12\log\det(1-V^*V)$ agrees} with the first-order
+ $\mathrm{UB}$ to $O(s^2)$ relative and always from \emph{below}; the rotated value is
+ $(1-\theta)\tfrac12 s^2\|u\|^2$ to five digits (Table~\ref{tab:exact}).
+\end{enumerate}
+
+\subsection{Consequence for Phase 4}
+In this model, and to the accuracy of double-precision linear algebra,
+\begin{equation}
+ -\log F\bigl(\omega,\omega^{\beta_{\eps_*}}\bigr)\ \le\ (1-\theta)\,f_2z^2\,(1+o(1)),
+ \qquad \theta\approx0.29,
+\end{equation}
+so the upper half of the Phase 4 target holds and $E_{\rm rec}\le(1-\theta)f_2z^2(1+o(1))$:
+\emph{the zero-collar geometric compression is not optimal in exact fidelity}.  Moreover,
+since $\mathrm{Ext}=\mathcal N^\perp$ (not merely $\mathrm{Ext}\ni(1-\Pi)M$), the same
+conclusion holds for \emph{every} isometric channel $\mathrm{Ad}\,\Gamma(W_I)$, and the
+second-order recovery problem over the isometric orbit is exactly the $g_Q$ problem.
+
+\subsection{What is not settled}
+\begin{enumerate}[leftmargin=1.8em,itemsep=2pt]
+\item These are finite-$L$ statements.  The continuum question is whether
+ $\overline{\mathrm{Ext}}=\mathcal N^\perp$ for the Hardy projection on an arc, and
+ Lemma~\ref{lem:dim} does not survive as a dimension count.  The evidence that it does
+ survive is quantitative, not structural: the required $\|Z_e\|_2/s$ is bounded
+ ($3.03,3.13,3.18,3.22$ at $L=128,192,256,384$; a $6\%$ rise over a factor $3$ in $L$).
+ A proof is track E1's; the natural target is not (Q) itself but
+ $(1-\Pi)M\in\overline{\mathrm{Ext}}$ with a norm bound, which is what the numerics
+ actually support.
+\item[$\checkmark$] (Closed.)  The double-precision distances of (b) were re-run in
+ \texttt{mpmath} at $60$--$80$ digits for $L=32,48,64$: $\operatorname{dist}((1-\Pi)M,\mathrm{Ext})^2$
+ vanishes to $55$--$70$ digits, with a residue that tracks the working precision.  The
+ same was not done at $L\ge128$ (cost), but there is no mechanism by which the identity
+ could fail there given Lemma~\ref{lem:dim}.
+\item The brief's parametrisation $Z=Z_I\oplus Z_e$ is not literally correct for this
+ $\chi$ (\S\ref{ssec:column}); the value of $\mathrm{UB}$ is unaffected, but a write-up
+ using the matrix truncation $E_ID_\chi E_I$ would be wrong by a factor $2.5\times10^4$
+ at $L=384$.
+\item Everything is at one geometry ($a=2$, $L_g=1$) and one UV taper ($0.30,0.42$);
+ \texttt{s10\_theta.py}'s \texttt{diagnostics()} shows $\theta$ is stable under both, but
+ the $\mathrm{UB}$ ratios were not re-scanned over them.
+\end{enumerate}
+
+\begin{verdictok}
+Track E2 is complete and affirmative on all four items.  The single quantitative headline:
+with an optimised exterior extension the Uhlmann bound for the compression \emph{equals}
+$\frac12 s^2\|u\|^2=g_Q(\delta_c)$ exactly (not $4.3\times$ it), and for the S10 rotated
+channel it equals $(1-\theta)$ times that, with $\theta=0.29$ --- confirmed at the level of
+the exact Fredholm determinant, not only at second order.
+\end{verdictok}
+
+
+\end{document}

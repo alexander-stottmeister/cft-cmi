@@ -1,0 +1,80 @@
+/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/boson/boson_recovery.py:66: LinAlgWarning: Matrix is ill-conditioned. The result might be inaccurate or the array might not have a square root.
+  M = sla.sqrtm(s1 @ r2 @ s1)
+=== 0. validation of the finite-dimensional Gaussian formulas vs exact Fock space ===
+ modes=1 ncut=60: max|V_Fock-V|=9.55e-15  |F_Fock-F_BBP|=6.13e-13  |D_Fock-D_Gauss|=6.66e-16
+ modes=2 ncut=22: max|V_Fock-V|=2.94e-07  |F_Fock-F_BBP|=6.69e-09  |D_Fock-D_Gauss|=2.39e-07
+ modes=3 ncut=10: max|V_Fock-V|=2.42e-03  |F_Fock-F_BBP|=1.18e-04  |D_Fock-D_Gauss|=5.77e-04
+
+=== 1. modular frame: purity of the flat symbol pi|k| (must give nu = 1) ===
+ N=60 sig=1.6: nu_flat in [1.000000000,1.6013], median 1.000000000
+ N=120 sig=1.6: nu_flat in [1.000000000,1.7209], median 1.000000000
+
+=== 2. finite-s scan  (a=1, L=2, zeta=s/3), eps = 1e-12 window ===
+   s      zeta      n    Phi=-log F     Phi/zeta^2    D(w_s||w)      D/zeta^2
+ -- N=60 sig=1.6 Lam=35.1 kmax=6.85
+ 0.4000  0.13333   26 1.328170e-04  0.007471  1.130374e-03  0.063584
+ 0.2000  0.06667   26 3.450875e-05  0.007764  1.931991e-04  0.043470
+ 0.1000  0.03333   26 9.354538e-06  0.008419  3.356780e-05  0.030211
+ 0.0500  0.01667   26 2.093944e-06  0.007538  -2.545669e-05  -0.091644
+ 0.0250  0.00833   26 5.942482e-07  0.008557  -1.725878e-05  -0.248526
+ -- N=120 sig=1.6 Lam=49.6 kmax=9.68
+ 0.4000  0.13333   37 1.321918e-04  0.007436  1.094720e-03  0.061578
+ 0.2000  0.06667   37 3.508234e-05  0.007894  2.196622e-04  0.049424
+ 0.1000  0.03333   37 8.935489e-06  0.008042  1.683526e-05  0.015152
+ 0.0500  0.01667   37 2.446130e-06  0.008806  -1.074452e-05  -0.038680
+ 0.0250  0.00833   37 5.407460e-07  0.007787  -1.710174e-05  -0.246265
+
+=== 3. exact second-order coefficients f2 = 9 lim Phi/s^2, s2 = 9 lim D/s^2 ===
+  window eps -> kappa_c = log(2/eps)/(2 pi);  target 1/(12 pi^2)=0.00844343, 1/12=0.08333333
+ -- N=60 sig=1.6 (Lam=35.1, kmax=6.85)
+    kappa_c= 1.58   f2=0.0078971   s2=0.0586806
+    kappa_c= 1.94   f2=0.0081048   s2=0.0633380
+    kappa_c= 2.31   f2=0.0082141   s2=0.0665901
+    kappa_c= 2.68   f2=0.0082989   s2=0.0698605
+    kappa_c= 3.04   f2=0.0083332   s2=0.0715062
+    kappa_c= 3.41   f2=0.0083484   s2=0.0723354
+    kappa_c= 3.77   f2=0.0083693   s2=0.0735792
+    kappa_c= 4.14   f2=0.0083852   s2=0.0746542
+    kappa_c= 4.51   f2=0.0083980   s2=0.0756253
+    kappa_c= 4.87   f2=0.0084012   s2=0.0758834
+    kappa_c= 5.24   f2=0.0084084   s2=0.0765049
+    f2 tail fits: free p=2.84 -> 0.0084257 | p=2 -> 0.0084569 | p=1 -> 0.0085633
+    s2 tail fits: free p=1.39 -> 0.0809905 | p=2 -> 0.0784621 | p=1 -> 0.0841730
+ -- N=120 sig=1.6 (Lam=49.6, kmax=9.68)
+    kappa_c= 1.58   f2=0.0079148   s2=0.0590292
+    kappa_c= 1.94   f2=0.0081208   s2=0.0637601
+    kappa_c= 2.31   f2=0.0082264   s2=0.0670168
+    kappa_c= 2.68   f2=0.0082863   s2=0.0693256
+    kappa_c= 3.04   f2=0.0083252   s2=0.0711232
+    kappa_c= 3.41   f2=0.0083508   s2=0.0724870
+    kappa_c= 3.77   f2=0.0083699   s2=0.0736471
+    kappa_c= 4.14   f2=0.0083832   s2=0.0745522
+    kappa_c= 4.51   f2=0.0083906   s2=0.0750966
+    kappa_c= 4.87   f2=0.0083998   s2=0.0758437
+    kappa_c= 5.24   f2=0.0084053   s2=0.0763220
+    f2 tail fits: free p=2.29 -> 0.0084377 | p=2 -> 0.0084508 | p=1 -> 0.0085543
+    s2 tail fits: free p=1.14 -> 0.0823988 | p=2 -> 0.0781738 | p=1 -> 0.0837521
+ -- N=120 sig=2.26 (Lam=70.0, kmax=6.85)
+    kappa_c= 1.58   f2=0.0079220   s2=0.0591668
+    kappa_c= 1.94   f2=0.0081240   s2=0.0638490
+    kappa_c= 2.31   f2=0.0082279   s2=0.0670634
+    kappa_c= 2.68   f2=0.0082883   s2=0.0694073
+    kappa_c= 3.04   f2=0.0083270   s2=0.0712032
+    kappa_c= 3.41   f2=0.0083535   s2=0.0726352
+    kappa_c= 3.77   f2=0.0083691   s2=0.0735874
+    kappa_c= 4.14   f2=0.0083846   s2=0.0746367
+    kappa_c= 4.51   f2=0.0083932   s2=0.0752773
+    kappa_c= 4.87   f2=0.0084017   s2=0.0759742
+    kappa_c= 5.24   f2=0.0084052   s2=0.0762800
+    f2 tail fits: free p=2.33 -> 0.0084375 | p=2 -> 0.0084519 | p=1 -> 0.0085549
+    s2 tail fits: free p=1.18 -> 0.0821252 | p=2 -> 0.0782506 | p=1 -> 0.0838276
+
+=== 4. c-linearity of the vacuum overlap (same diffeo k~_s, extension beta=1) ===
+  Q[g] = (1/(48 pi^2)) int_0^inf k^3 |ghat|^2 dk = 0.03870458
+  box: X=100, 2^15 grid, |k|<=20.1.  E_box underestimates E (IR, ~1/X); E_quad is box free.
+    s      s^2 Q       E_quad        E_box       Tr(B*B)_box   Tr(B*B)/(2E_quad)  -logF_f  -logF_b
+ 0.4000 6.19273e-03 3.84335e-03 3.55842e-03 7.65211e-03   0.995500   1.78078e-03 1.90654e-03
+ 0.2000 1.54818e-03 1.18782e-03 1.10068e-03 2.36783e-03   0.996713   5.50489e-04 5.91323e-04
+ 0.1000 3.87046e-04 3.36169e-04 3.11192e-04 6.70317e-04   0.996994   1.55608e-04 1.67528e-04
+ 0.0500 9.67615e-05 8.99585e-05 8.32031e-05 1.79407e-04   0.997165   4.16024e-05 4.48480e-05
+ 0.0250 2.41904e-05 2.33091e-05 2.15479e-05 4.64915e-05   0.997279   1.07740e-05 1.16226e-05

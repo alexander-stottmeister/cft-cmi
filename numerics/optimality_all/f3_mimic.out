@@ -1,0 +1,4 @@
+MIMIC L=128 a=2.0 Lg=1.0 capR=1.0 extra=0 N=76 nA=45 xi=[-6.41,5.12] gQ/(f2z^2)=0.89321 theta=0.34058 cg=250 2s
+MIMIC L=256 a=2.0 Lg=1.0 capR=1.0 extra=0 N=153 nA=90 xi=[-6.41,5.81] gQ/(f2z^2)=0.93934 theta=0.35830 cg=400 8s
+MIMIC L=512 a=2.0 Lg=1.0 capR=1.0 extra=0 N=307 nA=180 xi=[-6.41,6.50] gQ/(f2z^2)=0.96604 theta=0.36904 cg=700 43s
+MIMIC L=1024 a=2.0 Lg=1.0 capR=1.0 extra=0 N=615 nA=360 xi=[-6.41,7.19] gQ/(f2z^2)=0.98090 theta=0.37534 cg=1300 615s

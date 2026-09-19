@@ -1,0 +1,12 @@
+L= 96 s=0.005 theta=0.3012 | UB_c=4.0538e-07 UB_c/(s^2|u|^2/2)=4.565 | UB_rot(eps*)/UB_c=0.9574 | best eps/s=-0.70 UB_rot/UB_c=0.9491 | 1-theta=0.6988
+L= 96 s=0.002 theta=0.3012 | UB_c=6.4863e-08 UB_c/(s^2|u|^2/2)=4.565 | UB_rot(eps*)/UB_c=0.9568 | best eps/s=-0.70 UB_rot/UB_c=0.9487 | 1-theta=0.6988
+L= 96 s=0.001 theta=0.3012 | UB_c=1.6216e-08 UB_c/(s^2|u|^2/2)=4.565 | UB_rot(eps*)/UB_c=0.9566 | best eps/s=-0.70 UB_rot/UB_c=0.9485 | 1-theta=0.6988
+L=160 s=0.005 theta=0.2891 | UB_c=4.0061e-07 UB_c/(s^2|u|^2/2)=4.389 | UB_rot(eps*)/UB_c=0.9536 | best eps/s=-0.70 UB_rot/UB_c=0.9449 | 1-theta=0.7109
+L=160 s=0.002 theta=0.2891 | UB_c=6.4100e-08 UB_c/(s^2|u|^2/2)=4.389 | UB_rot(eps*)/UB_c=0.9527 | best eps/s=-0.70 UB_rot/UB_c=0.9442 | 1-theta=0.7109
+L=160 s=0.001 theta=0.2891 | UB_c=1.6025e-08 UB_c/(s^2|u|^2/2)=4.389 | UB_rot(eps*)/UB_c=0.9524 | best eps/s=-0.70 UB_rot/UB_c=0.9440 | 1-theta=0.7109
+L=256 s=0.005 theta=0.2891 | UB_c=3.9923e-07 UB_c/(s^2|u|^2/2)=4.324 | UB_rot(eps*)/UB_c=0.9514 | best eps/s=-0.70 UB_rot/UB_c=0.9416 | 1-theta=0.7109
+L=256 s=0.002 theta=0.2891 | UB_c=6.3880e-08 UB_c/(s^2|u|^2/2)=4.324 | UB_rot(eps*)/UB_c=0.9502 | best eps/s=-0.70 UB_rot/UB_c=0.9408 | 1-theta=0.7109
+L=256 s=0.001 theta=0.2891 | UB_c=1.5970e-08 UB_c/(s^2|u|^2/2)=4.324 | UB_rot(eps*)/UB_c=0.9498 | best eps/s=-0.70 UB_rot/UB_c=0.9406 | 1-theta=0.7109
+L=384 s=0.005 theta=0.2920 | UB_c=3.9876e-07 UB_c/(s^2|u|^2/2)=4.305 | UB_rot(eps*)/UB_c=0.9509 | best eps/s=-0.70 UB_rot/UB_c=0.9399 | 1-theta=0.7080
+L=384 s=0.002 theta=0.2920 | UB_c=6.3805e-08 UB_c/(s^2|u|^2/2)=4.305 | UB_rot(eps*)/UB_c=0.9496 | best eps/s=-0.70 UB_rot/UB_c=0.9390 | 1-theta=0.7080
+L=384 s=0.001 theta=0.2920 | UB_c=1.5951e-08 UB_c/(s^2|u|^2/2)=4.305 | UB_rot(eps*)/UB_c=0.9491 | best eps/s=-0.70 UB_rot/UB_c=0.9387 | 1-theta=0.7080

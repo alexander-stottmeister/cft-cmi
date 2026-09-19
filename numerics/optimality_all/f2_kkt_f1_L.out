@@ -1,0 +1,46 @@
+L=64 nD=15 cap=1e+10 uv=(0.3, 0.42): theta=0.350955 g0=3.704112e-03 SLD id (1/4)Tr(t d)/g=1.0000000000 | |dc_DD|/|dc|=0.3455 |dc_AA|/|dc|=0.0484 | ||AntiHerm(tQ)_DD||/||M||=3.329e-08
+   lam_min(M_*)     = -3.107855e-01 = -8.3903e+01 g0 = -2.0568e-01 ||M||   lam_max=+1.511041e+00
+   lam_min(M_*-tau) = -3.107922e-01 = -8.3905e+01 g0 = -2.0568e-01 ||M||   lam_min(tau)=-1.510e+00 lam_max(tau)=+1.510e+00
+   CRITERION (M>=0 and M-tau>=0): False
+   violating p from M    : <p,Mp>=-3.1079e-01 <p,tau p>=-3.0970e-01 y=0 Delta=+1.5539e-01 | g_Q(eta)=1.0333e+09 g_red(eta)=1.0332e+09 | gain/g0=6.3087e-09 gain_red/g0=6.3096e-09 | loc(p): top-3 |p| at D-frac [0.067, 0.0, 0.133]
+   violating p from M-tau: <p,Mp>=-1.0883e-03 <p,tau p>=+3.0970e-01 y=1 Delta=+1.5540e-01 | g_Q(eta)=1.0333e+09 g_red(eta)=1.0332e+09 | gain/g0=6.3090e-09 gain_red/g0=6.3099e-09 | loc(p): top-3 |p| at D-frac [0.067, 0.0, 0.133]
+   [4s]
+
+L=96 nD=23 cap=1e+10 uv=(0.3, 0.42): theta=0.301210 g0=3.552036e-03 SLD id (1/4)Tr(t d)/g=1.0000000000 | |dc_DD|/|dc|=0.2138 |dc_AA|/|dc|=0.0324 | ||AntiHerm(tQ)_DD||/||M||=3.774e-07
+   lam_min(M_*)     = -7.696856e-03 = -2.1669e+00 g0 = -7.5361e-03 ||M||   lam_max=+1.021329e+00
+   lam_min(M_*-tau) = -7.703016e-03 = -2.1686e+00 g0 = -7.5422e-03 ||M||   lam_min(tau)=-1.019e+00 lam_max(tau)=+1.019e+00
+   CRITERION (M>=0 and M-tau>=0): False
+   violating p from M    : <p,Mp>=-7.6969e-03 <p,tau p>=-1.0080e-02 y=0 Delta=+3.8484e-03 | g_Q(eta)=2.3175e+09 g_red(eta)=2.3174e+09 | gain/g0=1.7992e-12 gain_red/g0=1.7992e-12 | loc(p): top-3 |p| at D-frac [0.652, 0.696, 0.609]
+   violating p from M-tau: <p,Mp>=+2.3797e-03 <p,tau p>=+1.0083e-02 y=1 Delta=+3.8515e-03 | g_Q(eta)=2.3177e+09 g_red(eta)=2.3176e+09 | gain/g0=1.8019e-12 gain_red/g0=1.8020e-12 | loc(p): top-3 |p| at D-frac [0.652, 0.696, 0.609]
+   [9s]
+
+L=128 nD=31 cap=1e+10 uv=(0.3, 0.42): theta=0.291179 g0=3.679304e-03 SLD id (1/4)Tr(t d)/g=1.0000000000 | |dc_DD|/|dc|=0.1528 |dc_AA|/|dc|=0.0238 | ||AntiHerm(tQ)_DD||/||M||=9.002e-07
+   lam_min(M_*)     = -3.477067e-02 = -9.4503e+00 g0 = -3.5193e-02 ||M||   lam_max=+9.880065e-01
+   lam_min(M_*-tau) = -3.476195e-02 = -9.4480e+00 g0 = -3.5184e-02 ||M||   lam_min(tau)=-9.845e-01 lam_max(tau)=+9.845e-01
+   CRITERION (M>=0 and M-tau>=0): False
+   violating p from M    : <p,Mp>=-3.4771e-02 <p,tau p>=-3.5252e-02 y=0 Delta=+1.7385e-02 | g_Q(eta)=2.3248e+09 g_red(eta)=2.3244e+09 | gain/g0=3.5335e-11 gain_red/g0=3.5342e-11 | loc(p): top-3 |p| at D-frac [0.774, 0.806, 0.742]
+   violating p from M-tau: <p,Mp>=+4.8071e-04 <p,tau p>=+3.5243e-02 y=1 Delta=+1.7381e-02 | g_Q(eta)=2.3249e+09 g_red(eta)=2.3245e+09 | gain/g0=3.5316e-11 gain_red/g0=3.5323e-11 | loc(p): top-3 |p| at D-frac [0.774, 0.806, 0.742]
+   [15s]
+
+L=192 nD=47 cap=1e+10 uv=(0.3, 0.42): theta=0.288861 g0=3.635867e-03 SLD id (1/4)Tr(t d)/g=1.0000000000 | |dc_DD|/|dc|=0.1009 |dc_AA|/|dc|=0.0162 | ||AntiHerm(tQ)_DD||/||M||=2.241e-06
+   lam_min(M_*)     = -6.306792e-02 = -1.7346e+01 g0 = -5.7880e-02 ||M||   lam_max=+1.089628e+00
+   lam_min(M_*-tau) = -6.305970e-02 = -1.7344e+01 g0 = -5.7873e-02 ||M||   lam_min(tau)=-1.086e+00 lam_max(tau)=+1.086e+00
+   CRITERION (M>=0 and M-tau>=0): False
+   violating p from M    : <p,Mp>=-6.3068e-02 <p,tau p>=-6.3387e-02 y=0 Delta=+3.1534e-02 | g_Q(eta)=2.2137e+09 g_red(eta)=2.2127e+09 | gain/g0=1.2354e-10 gain_red/g0=1.2360e-10 | loc(p): top-3 |p| at D-frac [0.872, 0.894, 0.851]
+   violating p from M-tau: <p,Mp>=+3.1930e-04 <p,tau p>=+6.3379e-02 y=1 Delta=+3.1530e-02 | g_Q(eta)=2.2137e+09 g_red(eta)=2.2127e+09 | gain/g0=1.2351e-10 gain_red/g0=1.2357e-10 | loc(p): top-3 |p| at D-frac [0.872, 0.894, 0.851]
+   [25s]
+
+L=256 nD=63 cap=1e+10 uv=(0.3, 0.42): theta=0.289582 g0=3.693557e-03 SLD id (1/4)Tr(t d)/g=1.0000000000 | |dc_DD|/|dc|=0.0747 |dc_AA|/|dc|=0.0121 | ||AntiHerm(tQ)_DD||/||M||=2.456e-07
+   lam_min(M_*)     = -5.863580e-02 = -1.5875e+01 g0 = -4.9826e-02 ||M||   lam_max=+1.176801e+00
+   lam_min(M_*-tau) = -5.863682e-02 = -1.5875e+01 g0 = -4.9827e-02 ||M||   lam_min(tau)=-1.173e+00 lam_max(tau)=+1.173e+00
+   CRITERION (M>=0 and M-tau>=0): False
+   violating p from M    : <p,Mp>=-5.8636e-02 <p,tau p>=-5.9655e-02 y=0 Delta=+2.9318e-02 | g_Q(eta)=2.1344e+09 g_red(eta)=2.1339e+09 | gain/g0=1.0903e-10 gain_red/g0=1.0906e-10 | loc(p): top-3 |p| at D-frac [0.905, 0.921, 0.889]
+   violating p from M-tau: <p,Mp>=+1.0189e-03 <p,tau p>=+5.9656e-02 y=1 Delta=+2.9318e-02 | g_Q(eta)=2.1345e+09 g_red(eta)=2.1339e+09 | gain/g0=1.0903e-10 gain_red/g0=1.0906e-10 | loc(p): top-3 |p| at D-frac [0.905, 0.921, 0.889]
+   [49s]
+
+#    L     cap      uv0    theta     lam_min(M)/g0  lam_min(M-tau)/g0  lam_min(M)/||M||  |dc_DD|/|dc|
+    64 1e+10 0.30 0.350955 -8.3903e+01 -8.3905e+01 -2.0568e-01 0.3455
+    96 1e+10 0.30 0.301210 -2.1669e+00 -2.1686e+00 -7.5361e-03 0.2138
+   128 1e+10 0.30 0.291179 -9.4503e+00 -9.4480e+00 -3.5193e-02 0.1528
+   192 1e+10 0.30 0.288861 -1.7346e+01 -1.7344e+01 -5.7880e-02 0.1009
+   256 1e+10 0.30 0.289582 -1.5875e+01 -1.5875e+01 -4.9826e-02 0.0747

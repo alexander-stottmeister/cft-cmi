@@ -1,0 +1,2 @@
+# S11(b) KKT test, kind=first, a=1.0 L=2.0 s=0.1;  f2 = 0.00844343
+#   h   Lam    N  nA nB nC | g_Q(d_c)/(f2 z^2) | Tr t d_c | Delta(t_c) | Delta/(2g) | Dual/g_Q(d_c) | Dual/(f2 z^2) | min_F g_Q | min/g_Q(d_c) | min/(f2 z^2) | status

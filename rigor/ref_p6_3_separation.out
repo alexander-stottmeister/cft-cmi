@@ -1,0 +1,49 @@
+=== (a) Lemma 10.3, re-derived; the boundary case k = n-1 ===
+PASS  Lem 10.3 first form  zeta_k = sinh(D_{k+1}/2)/(sinh(D_k/2)sinh((D_k+D_{k+1})/2))  (max rel err 2.6e-12)
+PASS  Lem 10.3 second form 1/zeta_k = sinh^2(D_k/2)coth(D_{k+1}/2)+sinh(D_k)/2  (max rel err 2.6e-12)
+PASS  (29) e^{Delta_k} < 1 + 2/zeta_k is STRICT for k <= n-2 (0 violations in 20000 chains)
+PASS  but for k = n-1 (29) holds with EXACT EQUALITY in 20000 of 20000 chains -- the document prints the strict '<' for 2 <= k <= n-1
+   => Lemma 10.3 eq. (29) must read  e^{Delta_k} <= 1 + 2/zeta_k, with equality iff k = n-1
+      (the document itself uses the equality at k = n-1 in Thm 11.1 step <1>7).
+   g1a_separation.py check (iv) uses the slack (1+1e-8), so it does not test the strict form.
+
+=== (b) Theorem 11.1: recursion, fixed point, bound, sharpness (EXACT rationals) ===
+PASS  recursion  gamma_j <= zeta_j (1 + gamma_{j+1}/2)   (0 violations)
+PASS  fixed point gamma_j <= 2 eps/(2-eps)               (0 violations)
+PASS  separation e^{Delta_k} >= 2/eps                    (0 violations, min (eps/2)e^{Delta} = 1.000000276)
+PASS  last corner e^{Delta_{n-1}} >= 1 + 2/eps_{n-1}     (0 violations)
+PASS  the recursion is an EQUALITY at the last corner (gamma_{n-1} = zeta_{n-1}) in 60000/60000 chains
+   EXACT minimum of e^{Delta_k} over all-weak chains (m = number of corners j >= k):
+     eps      m=1        m=2        m=3        m=10       m->inf      2/eps      ratio
+       0.3     7.6667     6.9087     6.8252     6.8134     6.8134     6.6667  1.022015
+       0.1    21.0000    20.0929    20.0519    20.0499    20.0499    20.0000  1.002494
+      0.03    67.6667    66.6960    66.6819    66.6817    66.6817    66.6667  1.000225
+      0.01   201.0000   200.0099   200.0050   200.0050   200.0050   200.0000  1.000025
+     0.003   667.6667   666.6697   666.6682   666.6682   666.6682   666.6667  1.000002
+PASS  the exact minimum is >= 2/eps for every eps (Theorem 11.1 holds, and is never violated)
+PASS  the constant 2 is sharp only ASYMPTOTICALLY: (eps/2) min e^{Delta} = 1.0220 at eps=0.3 and 1.000002 at eps=0.003
+PASS  the exact minima reproduce REF-P6-0's 20.05, 66.68, 200.0, 666.7 at eps=0.1,0.03,0.01,0.003
+PASS  but REF-P6-0's eps=0.3 entry 6.75, quoted verbatim in the document's verdict box, is BELOW the exact minimum 6.8134 and is therefore not attainable
+   CAUTION: a naive float minimisation over the LENGTHS drives l_2/l_1 ~ 1e-15 and loses
+   all precision in T - L_k; it then reports e^{Delta_2} = 6.40 at eps = 0.3, i.e. BELOW
+   the theorem.  The exact recomputation of that point gives e^{Delta_2} = 6.979, zeta_2 =
+   0.29922: no violation.  Optimise in the modular variables (Lemma 10.3), not in lengths.
+
+=== (c) Corollary 11.2 and the pair-only hypothesis ===
+PASS  Cor 11.2: eps e^{Delta_k} >= 1 for admissible s_j (min = 1.000047)
+PASS  with only the PAIR weak (zeta_k,zeta_{k+1} <= 0.01) the separation stays O(1): min e^{Delta_k} found = 8.074  <<  2/eps = 200
+
+=== (d) Corollary 12.6 asymptotics, and the chordal variant that avoids (U) ===
+   max relative excess of the exact bound over (sum sqrt(Phi_k))^2, Phi_k <= 1e-2/1e-4/1e-6:
+     angle route  (34): 1.08e-01  7.21e-04  7.42e-06
+     chordal route    : 1.67e-01  9.64e-04  9.96e-06
+PASS  (35) Phi_tot <= (sum sqrt(Phi_k))^2 (1+o(1)): the excess vanishes as Phi -> 0 (angle route, Cor 12.6 as written)
+PASS  chordal route (Bures DISTANCE triangle inequality, Alberti-Uhlmann 2002 Prop. 1(1) p.3, no Hypothesis (U)) gives the SAME second-order bound
+
+=== (e) Box [G5] / Prop 13.1: the normalisation of the FHSW weight ===
+   document Box [G5]:  int (pi/2)(cosh 2 pi t + 1)^{-1} dt = 0.5000000000
+   FHSW eq. (26)    :  int  pi   (cosh 2 pi t + 1)^{-1} dt = 1.0000000000
+PASS  FHSW's p(t) = pi/(cosh 2 pi t + 1) is the probability density (integral 1)
+PASS  the document's dmu(t) = (pi/2)(cosh 2 pi t + 1)^{-1} dt has TOTAL MASS 1/2, so it is NOT a probability measure (Prop 13.1 step <1>1 asserts that it is)
+
+0 FAILURES

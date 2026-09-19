@@ -1,0 +1,92 @@
+% app_conventions.tex -- Sources: Note 7 (universality_normalization.tex), rigor/universality_theorem_B.tex (S1)-(S3),
+% rigor/collar_and_invariant_formula.tex, numerics/boson/README.md.
+The value of $f_{2}$ is normalisation dependent, so we collect the conventions in one place and make every
+constant in the paper traceable to them.
+
+\paragraph{Fourier transform.}  $\hat f(p)=\int_{\mathbb R}f(x)e^{-ipx}dx$ on the line;
+$\hat f_{n}=\frac{1}{2\pi}\int_{-\pi}^{\pi}f(\theta)e^{-in\theta}d\theta$ on the circle.  Sobolev norms:
+$\|f\|_{\beta}=\sum_{n}|\hat f_{n}|(1+|n|^{\beta})$ (the Carpi--Weiner norm), and
+$\|G\|_{3/2}^{2}=\int_{\mathbb R}|p|^{3}|\hat G(p)|^{2}\frac{dp}{2\pi}$ for the homogeneous
+$\dot H^{3/2}$ (Weil--Petersson) norm on the line.
+
+\paragraph{Inner products, modular objects.}  $\langle\cdot,\cdot\rangle$ is conjugate linear in the first
+variable.  $S=J\Delta^{1/2}$, $F=S^{*}=J\Delta^{-1/2}$, $J\Omega=\Omega$, $\Delta\Omega=\Omega$,
+$J\cM J=\cM'$.  In the line chart with $I=(-\infty,L)$ and $u=L-x$, (BW) says that $\Delta^{it}$ is the
+dilation $u\mapsto e^{2\pi t}u$ and $J$ implements $u\mapsto-u$, i.e.\ $x\mapsto 2L-x$.
+
+\paragraph{Stress tensor.}  The generator normalisation used throughout is
+\begin{equation}\label{eq:appTT}
+ \langle\Omega,T(x)T(y)\Omega\rangle=\frac{c}{8\pi^{2}}\,\frac{1}{(x-y-i0)^{4}},
+ \qquad U(\mathrm{Exp}(tf\partial_{x}))=e^{itT(f)}\ \ \text{(up to phase)} .
+\end{equation}
+The BPZ-normalised field is $2\pi T$, with $\langle(2\pi T)(x)(2\pi T)(y)\rangle=\frac{c}{2}(x-y)^{-4}$.
+Equivalent forms of \eqref{eq:appTT}, used at various points:
+\begin{equation}\label{eq:appnorm}
+ \|T(f)\Omega\|^{2}=\frac{c}{48\pi^{2}}\int_{0}^{\infty}p^{3}|\hat f(p)|^{2}dp
+ \quad\text{(line)},\qquad
+ \|T(G)\Omega\|^{2}=\frac{c}{12}\sum_{n\ge2}n(n^{2}-1)|\hat G_{n}|^{2}
+ \quad\text{(circle)} .
+\end{equation}
+The first follows from \eqref{eq:appTT} and
+$\int e^{-ipu}(u-i0)^{-4}du=\frac{2\pi}{3!}|p|^{3}\theta(-p)$; the second from
+$\langle L_{-n}\Omega,L_{-n}\Omega\rangle=\frac{c}{12}n(n^{2}-1)$.  In the modular frame the thermal
+spectral density is $\widehat W(k)=\frac{c}{24\pi}\frac{k(k^{2}+1)}{e^{2\pi k}-1}$; see \Cref{rem:mellin}
+for the status of the computation that uses it.
+
+\paragraph{Hardy projections.}  For the free fermion the one-particle space is $L^{2}(\mathbb R)$ and
+$\Pi_{\pm}$ are the spectral projections of the momentum $-i\partial_{x}$ onto $\pm(0,\infty)$; we use
+\emph{$\Pi_{+}=$ positive momenta}, so that $\Pi_{+}L^{2}$ is the Hardy space of the upper half plane and
+the vacuum is the Fock state of $\Pi_{+}$.  The opposite convention ($\Pi_{+}=$ negative momenta) is also
+common; it replaces $V=\Pi_{-}W\Pi_{+}$ by $\Pi_{+}W\Pi_{-}$, which has the same Hilbert--Schmidt norm, so
+none of the quoted numbers changes.  With $\mathfrak L_{f}=f\partial_{x}+\frac12f'$ one has
+$T(f)=\,:\!d\Gamma(-i\mathfrak L_{f})\!:$ and $T(f)\Omega\cong\Pi_{-}(-i\mathfrak L_{f})\Pi_{+}$, and
+$\|\Pi_{-}\mathfrak L_{f}\Pi_{+}\|_{\mathfrak S_{2}}^{2}=\frac{1}{48\pi^{2}}\int_{0}^{\infty}
+p^{3}|\hat f(p)|^{2}dp$, i.e.\ \eqref{eq:appnorm} at $c=1$ (checked numerically to $1.5\cdot10^{-11}$).
+
+\paragraph{The compression map and the cross ratio.}  For the general configuration $A=(-a,0)$,
+$D=(0,L)$, the zero-collar compression is
+\begin{equation}\label{eq:appks}
+ k_{s}|_{A}=\mathrm{id},\qquad k_{s}(x)=h_{s}(x)=\frac{Lx}{L+sx}\ \ (x\in D),
+\end{equation}
+and all recovery quantities depend on $(a,L,s)$ only through the cross ratio
+\begin{equation}\label{eq:appzeta}
+ \zeta=\frac{a\,s}{a+L}.
+\end{equation}
+Two normal forms are used.  The half-line normal form $a=\infty$ gives $\zeta=s$ and is the one in which
+\Cref{sec:univ,sec:impl} are written; the bosonic computation of \Cref{sec:boson} uses $a=1$, $L=2$, i.e.\
+$\zeta=s/3$.  The first-order field of the extended map $\tilde k_{s}$ is $g_{\rm tot}$ of \eqref{eq:chi}:
+$g_{\rm tot}=0$ on $A$, $g_{\rm tot}(x)=-x^{2}/L$ on $D$, smooth and compactly supported beyond $L$; it is
+$C^{1,1}$ with a single jump of its second derivative at the touching point, of size $-2/L$ in the line
+chart and $-1/L$ for the circle representative $G$ (\Cref{thm:reg}).  In the rotated Petz family
+of \cite{FHSW} the parameter enters as $\zeta_{t}=z(1+e^{-2\pi t})$, $t=0$ being the ordinary Petz map.
+
+\paragraph{The constants, and where they come from.}
+\begin{center}
+\begin{tabular}{@{}llp{0.44\textwidth}@{}}\toprule
+Constant & Value & Source\\\midrule
+$\gamma_{0}$ & $2/(3\pi^{2})=0.0675$ & \Cref{thm:value}: $c$-linearity (\Cref{thm:linear}) plus the
+ free-fermion distance $\frac{1}{6\pi^{2}}$ of Paper~1 \cite{Paper1,RigorUB}\\
+$\gB$ & $c\,\gamma_{0}=2c/(3\pi^{2})$ & \Cref{thm:value}; independently reproduced by the modular-frame
+ computation of Note~7 \cite{Note7} (a confirmation, not a proof: \Cref{rem:mellin})\\
+$f_{2}$ & $\gB/8=c/(12\pi^{2})$ & \Cref{thm:B}; at $c=1$, $0.0084434$\\
+$\inf\|G\|_{3/2}^{2}$ & $8/\pi=2.546479$ & \Cref{rem:varform}, equivalent to $\gB$ at $c=1$; Rayleigh--Ritz
+ value $2.547971$ ($0.06\%$)\\
+$\gKM$ & $c/6$ \emph{(conjectural)} & \Cref{sec:km}; free-fermion reduction $\gKM=1/6$
+ \cite{RigorKM}, an analytic continuation; the gauge lemma is refuted \cite{RigorRK}\\
+$s_{2}$ & $\gKM/2=c/12$ \emph{(conjectural)} & \Cref{sec:km}; proved bracket
+ $0.034\,c\le\liminf\le\limsup\le0.924\,c$ \cite{RigorRK}; bosonic check $0.083(2)$
+ (\Cref{sec:boson})\\
+$J_{\rm jump}$ & $-1/L$ & \Cref{thm:reg}: jump of $G''$ at the touching point, $G$ the \emph{circle}
+ representative; the line-chart field has $g_{\rm tot}''$ jumping by $-2/L$\\
+$\|T(g_{\rm tot})\Omega\|^{2}$ & $\frac{c}{12}\|g_{\rm tot}\|_{\dot H^{3/2}}^{2}$ & \Cref{thm:reg}(f);
+ finite, whereas $\|L_{0}T(g_{\rm tot})\Omega\|^{2}$ diverges logarithmically with coefficient
+ $\frac{c}{12}\frac{J_{\rm jump}^{2}}{4\pi^{2}}$\\\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Fidelity and relative entropy.}  $\Fid$ is the root fidelity, $\Fid=\Tr|\rho^{1/2}\sigma^{1/2}|$
+in finite dimensions, equal to $\sqrt{P_{\cM}}$ with $P_{\cM}$ the Uhlmann transition probability
+\cite{AU02}; $\Phi(\zeta)=-\log\Fid(\omega,\omega_{\zeta})$.  Relative entropy is Araki's
+$D(\omega\Vert\omega_{\xi})=-\langle\Omega,\log\Delta_{\xi,\Omega}\Omega\rangle$ \cite{Araki}, and the
+Kubo--Mori metric is its second variation, $D=\frac{s^{2}}{2}\gKM+o(s^{2})$, so that $s_{2}=\gKM/2$ with
+$\Phi$ and $D$ both expressed in $\zeta$.

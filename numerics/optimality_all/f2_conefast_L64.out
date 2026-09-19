@@ -1,0 +1,7 @@
+L=64 cap=1e+04: FAILED SolverError: Solver 'CLARABEL' failed. Try another solver, or solve with verbose=True for more information.
+
+L=64 cap=1e+06: FAILED SolverError: Solver 'CLARABEL' failed. Try another solver, or solve with verbose=True for more information.
+
+L=64 cap=1e+10: FAILED SolverError: Solver 'CLARABEL' failed. Try another solver, or solve with verbose=True for more information.
+
+#   L    cap      1-theta     kappa_full      gap/g0

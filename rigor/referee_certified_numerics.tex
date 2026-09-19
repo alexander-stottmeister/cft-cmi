@@ -1,0 +1,554 @@
+\documentclass[11pt]{article}
+\input{rigor_preamble}
+\providecommand{\one}{\mathbf 1}\providecommand{\norm}[1]{\lVert #1\rVert}
+\newcommand{\Nst}[1]{\lVert #1\rVert_{\star}}\newcommand{\Pinch}{\mathcal P}
+\newcommand{\Qt}{\widetilde{Q}}\newcommand{\HS}{\mathfrak{S}_2}
+\newcommand{\kc}{\kappa_c}\newcommand{\zt}{\zeta}\newcommand{\Phiw}{\Phi_W}
+
+\title{Referee report on \texttt{rigor/certified\_numerics.tex} (agent RC)\\
+\large quadratic block bound, cross-term removal, ball-arithmetic enclosures}
+\author{Referee RCr (Phase 2b)}
+\date{2026-09-09}
+
+\begin{document}
+\maketitle
+
+\section{Summary of the verdicts}\label{sec:summary}
+% filled last
+\providecommand{\eps}{\varepsilon}\providecommand{\Fid}{F}\providecommand{\Tr}{\operatorname{Tr}}
+\providecommand{\dd}{\mathrm{d}}\providecommand{\cF}{\mathcal F}
+\newcommand{\Xo}{\Xi_0}\newcommand{\Xt}{\Xi_1}
+
+\noindent\textbf{Documents refereed.} \texttt{rigor/certified\_numerics.tex} (agent RC, 2026-09-09,
+10~pp.) together with \texttt{rigor/tail\_bound.tex} (agent PT) on which it builds, and the scripts
+\texttt{numerics/certified/cert\_qbox.py}, \texttt{cert\_tail\_np.py}, \texttt{cert\_tail.py} and the
+data file \texttt{numerics/certified/qball\_Lam60\_k30.pkl}.  All scripts were rerun by the referee
+(\S\ref{sec:rerun}).
+
+\begin{center}\footnotesize
+\begin{tabular}{p{0.30\textwidth} p{0.11\textwidth} p{0.50\textwidth}}\toprule
+Ingredient & Verdict & One-line reason\\\midrule
+(a1) $2\times2$ counterexample, Prop.~2.4 & OK & re-derived and reproduced numerically; ratio
+ $\to3/\eps$ confirmed to $4$ digits.\\
+(a2) Sylvester identity + weight, Thm.~2.2 & OK & identity \eqref{eq:xi} verified symbolically and
+ numerically ($10^{-15}$); the derivative formula \eqref{eq:LA} is correct.\\
+(a3) Schur bound $\Nst{X_{12}}^2\le\tau$, Cor.~2.6 & GAP & the proof splits the eigenbasis of
+ $X_{22}$ into $E^+$ and $E^-$ parts, which presupposes $[X_{22},E^\pm]=0$; and the $E^-$ weight is
+ $\le(1-\tau_-)^{-1}$, not $\le1$.  Conclusion is true in all tested cases.\\
+(b1) block diagonality of the optimal $U$ & OK & attained by $U_1\oplus U_2$ because $\Fid$
+ factorises over the two blocks; the note's one-line justification is thin but repairable.\\
+(b2) $\Pinch\sqrt B\le\sqrt{\Pinch B}$ & OK & operator Jensen, right direction.\\
+(b3) $\Tr[\sqrt A\,\Pinch\Xi]=-\frac12\|\Xi\|_2^2$ & OK & exact; re-derived and verified numerically
+ to $10^{-14}$.  Needs $A=\Pinch(B)$, which holds.\\
+(c) $0\le\Phi-\Phi_W\le\Phi_{22}-\log|\det(1+T)|$ & OK & every step in the right direction; the lower
+ bound is data processing and is used correctly.\\
+(d) enclosures of Table~3 & GAP & the numbers reproduce exactly, but the lower end $\Phi_W$ is
+ \emph{not} recomputed from the ball $Q_N$: it is read from \texttt{results\_hp2.txt}, i.e.\ from the
+ double-precision trapezoid $Q_N$ that \S5 of the same note declares inaccurate.\\
+(e) ball enclosure of $Q_N$ & OK/MINOR & rigorous and reproduced ($5.620\times10^{-18}$,
+ $4.687\times10^{-11}$, $91/8281$); the ``$8\,\%$'' reading of the trapezoid error is wrong --- with
+ the note's own conversion it is $22\,\%$ at $\zeta=1/15$ and $204\,\%$ at $\zeta=1/120$.\\
+(f) statement of what is certified & GAP & the $\widehat D$ dagger is honest; the box cutoff is
+ called an ``estimate'' in the verdict but the corresponding column sits inside a table headed
+ ``certified enclosures'', and the $Q_N$ contamination of $\Phi_W$ is not disclosed.\\
+\bottomrule\end{tabular}
+\end{center}
+
+\medskip\noindent\textbf{Proof-breaking issues: none.}  No theorem of
+\texttt{certified\_numerics.tex} is false as stated.  Two claims must be weakened: the width of
+Table~3 (ingredient (d)) and the ``$8\,\%$ margin'' sentence of \S5 (ingredient (e)).
+
+\section{(a) The square-root bound}\label{sec:a}
+
+\subsection{The counterexample (Prop.~2.4): correct}
+
+\begin{lemma}[referee's re-derivation]\label{lem:cex}
+Let $0<\delta<\eps$, $\eps+\delta\le1$, $v=(\sqrt\eps,\sqrt\delta)^{\!\top}$, $B=vv^*$,
+$A=\Pinch(B)=\mathrm{diag}(\eps,\delta)$.  Then $0\le B\le1$, $\|X_{12}\|_2^2=\eps\delta$ and
+\[
+ \frac{\|\sqrt B-\sqrt A\|_2^2}{\|X_{12}\|_2^2}\ \xrightarrow[\delta/\eps\to0]{}\ \frac3\eps .
+\]
+\end{lemma}
+\lstep{1}{1}{$B=vv^*\ge0$, $\|B\|=\|v\|^2=\eps+\delta\le1$, and $\sqrt B=\|v\|^{-1}B$.}
+\lby{$B^2=\|v\|^2B$, so $(\|v\|^{-1}B)^2=B$, and $\|v\|^{-1}B\ge0$; uniqueness of the positive square
+root}
+\lstep{1}{2}{$\|\sqrt B-\sqrt A\|_2^2=\bigl(\tfrac{\eps}{\sqrt{\eps+\delta}}-\sqrt\eps\bigr)^2
+ +\bigl(\tfrac{\delta}{\sqrt{\eps+\delta}}-\sqrt\delta\bigr)^2+\tfrac{2\eps\delta}{\eps+\delta}$.}
+\lby{$\langle1\rangle1$, $\sqrt A=\mathrm{diag}(\sqrt\eps,\sqrt\delta)$, and
+$\|Z\|_2^2=\sum_{ij}|Z_{ij}|^2$; the two off-diagonal entries of $\sqrt B$ are
+$\sqrt{\eps\delta}/\sqrt{\eps+\delta}$ and those of $\sqrt A$ vanish}
+\lstep{1}{3}{With $r=\delta/\eps\to0$ the three terms are $\frac{\delta^2}{4\eps}(1+O(r))$,
+$\delta(1-\sqrt r+O(r))^2$ and $2\delta(1+O(r))$, so the sum is $3\delta(1+O(\sqrt r))$.}
+\lby{$\frac{\eps}{\sqrt{\eps+\delta}}-\sqrt\eps=\sqrt\eps\bigl((1+r)^{-1/2}-1\bigr)
+=-\frac{\sqrt\eps\,r}2(1+O(r))$ and
+$\frac{\delta}{\sqrt{\eps+\delta}}-\sqrt\delta=-\sqrt\delta(1-\sqrt r(1+O(r)))$}
+\lqed{1}{4}\lby{$\langle1\rangle3$ divided by $\|X_{12}\|_2^2=\eps\delta$}
+
+\begin{verdictok}
+Proposition~2.4 of \texttt{certified\_numerics.tex} is correct.  The referee reproduced the ratio
+numerically: $(\eps,\delta)=(0.4,10^{-6})$ gives $7.4921$ against $3/\eps=7.5$, and
+$(0.1,10^{-8})$ gives $29.9937$ against $30$.  Since $\eps=\lambda_{\min}(X_{11})=e^{-\kappa_c}$ in
+the application, an unweighted bound would carry the factor $e^{\kappa_c}$ and be useless; PT's open
+item is therefore genuinely unanswerable in the form in which it was posed, and RC is right to say
+so.  Two caveats, both cosmetic: (i) the example is rank one, so $\beta_{\min}(B)=0$ and the
+denominators of the exact formula degenerate --- the counterexample says nothing about the
+\emph{weighted} statement, as RC's own remark notes; (ii) the hypothesis printed in the proposition
+is ``$0<\delta<\eps<1/2$'' whereas $B\le1$ only needs $\eps+\delta\le1$; harmless.
+\end{verdictok}
+
+
+\subsection{The Sylvester identity and the Daleckii--Krein weight (Thm.~2.2): correct}
+
+The identity under review is, for $A,B>0$ with orthonormal eigendecompositions $A\psi_i=a_i\psi_i$,
+$B\phi_\alpha=\beta_\alpha\phi_\alpha$ and $V=B-A$,
+\begin{equation}\label{eq:xi}
+ \bigl\|\sqrt B-\sqrt A\bigr\|_2^2=\sum_{\alpha,i}
+ \frac{|\langle\phi_\alpha,V\psi_i\rangle|^2}{(\sqrt{\beta_\alpha}+\sqrt{a_i})^2},
+\end{equation}
+and the first-order (Daleckii--Krein) formula
+\begin{equation}\label{eq:LA}
+ \bigl(\mathcal L_A(V)\bigr)_{ij}=\frac{V_{ij}}{\sqrt{a_i}+\sqrt{a_j}},\qquad
+ \mathcal L_A(V)=\frac{\dd}{\dd\varepsilon}\Big|_0\sqrt{A+\varepsilon V}.
+\end{equation}
+
+\lstep{1}{1}{$\sqrt B\,\Xi+\Xi\sqrt A=B-A$ for $\Xi=\sqrt B-\sqrt A$; hence
+$\langle\phi_\alpha,V\psi_i\rangle=(\sqrt{\beta_\alpha}+\sqrt{a_i})\langle\phi_\alpha,\Xi\psi_i\rangle$.}
+\lby{$\sqrt B(\sqrt B-\sqrt A)+(\sqrt B-\sqrt A)\sqrt A=B-\sqrt B\sqrt A+\sqrt B\sqrt A-A$; no
+commutation is used, which is the point of the Sylvester form; then act with the eigenvectors on the
+left and right}
+\lstep{1}{2}{\eqref{eq:xi} follows because $(\phi_\alpha)$ and $(\psi_i)$ are complete orthonormal
+systems and $\sqrt{\beta_\alpha}+\sqrt{a_i}>0$.}
+\lby{$\|\Xi\|_2^2=\sum_{\alpha i}|\langle\phi_\alpha,\Xi\psi_i\rangle|^2$, valid for any two
+orthonormal bases; $\langle1\rangle1$}
+\lqed{1}{3}\lby{$\langle1\rangle1$, $\langle1\rangle2$}
+
+\begin{verdictok}
+Theorem~2.2 of \texttt{certified\_numerics.tex} is correct, and its proof is complete.  The referee
+verified \eqref{eq:xi} on four random pairs of $9\times9$ positive matrices (agreement
+$\le1.1\times10^{-14}$ in absolute value on quantities of size $8$), and \eqref{eq:LA} together with
+$\|\mathcal L_A(V)\|_2^2=2\Nst{W}^2$ on a random block-positive $B$ (agreement $5\times10^{-16}$).
+Three points of presentation.  (i) In the summary of \S1 the displayed identity has the numerator
+$|\langle\phi_\alpha,X_{12}\psi_i\rangle+\langle\phi_\alpha,X_{12}^*\psi_i\rangle|^2$ and the text
+just above it introduces $a_i$ as the eigenvalues of $X_{11}$ and $b_j$ as those of $X_{22}$, while
+the formula then uses $a_i$ for the eigenvalues of the \emph{pinching} $A=X_{11}\oplus X_{22}$; the
+theorem itself is stated correctly, but the summary should be brought into line, since a reader who
+takes $a_i\in\mathrm{spec}(X_{11})$ at face value will read a false statement.  (ii) The identity
+requires $A,B>0$ (not merely $\ge0$): with $\beta_\alpha=a_i=0$ and $\langle\phi_\alpha,V\psi_i\rangle
+\ne0$ the right-hand side is $+\infty$ while the left-hand side is finite, and the step
+$\langle1\rangle1$ then only gives $0=0$.  The theorem says so; the boxed formula does not, and it is
+the boxed formula that is quoted in \S1.  (iii) The remark ``no bound of the form
+$\|\Xi\|_2\le c\|V\|_2$ can be better than \ldots\ $\lambda_{\min}^{-1/2}$'' is loose (the optimal
+constant is $\max_{\alpha i}(\sqrt{\beta_\alpha}+\sqrt{a_i})^{-1}$, attained only if $V$ is supported
+on the extremal pair), but the conclusion drawn from it is right.
+\end{verdictok}
+
+\subsection{Positivity and the Schur complement (Cor.~2.6): a gap}\label{ss:schur}
+
+Corollary~2.6 asserts $\Nst{X_{12}}^2\le\tau_++\tau_-=\tau$ with PT's occupation tails
+$\tau_+=\Tr[E^+\Qt E^+]$, $\tau_-=\Tr[E^-(1-\Qt)E^-]$ of \texttt{tail\_bound.tex}~(1.1); the referee
+confirms that the $\tau$ appearing here \emph{is} PT's $\tau$, so the corollary does what the note
+claims it does (the weight ``costs nothing'').  The two Schur-complement steps are correct:
+
+\lstep{1}{1}{$X_{12}^*X_{11}^{-1}X_{12}\le X_{22}$ and $X_{12}^*(1-X_{11})^{-1}X_{12}\le1-X_{22}$.}
+\lby{the first is the Schur complement of $\Qt\ge0$ with $X_{11}>0$, exactly as in RC's
+$\langle1\rangle1$; the second is the same statement for $1-\Qt\ge0$, whose blocks are
+$1-X_{11}>0$, $-X_{12}$, $1-X_{22}$}
+\lstep{1}{2}{Compressing $\langle1\rangle1$ with $E^+$ resp.\ $E^-$ and tracing gives
+\eqref{eq:schur2}.}
+\lby{$X_{12}E^+=E\Qt E^+=W^+$, $\Tr[E^+X_{22}E^+]=\tau_+$; $X_{12}E^-=-E(1-\Qt)E^-$,
+$\Tr[E^-(1-X_{22})E^-]=\tau_-$; $Z\le Z'\Rightarrow\Tr[P^*ZP]\le\Tr[P^*Z'P]$}
+\begin{equation}\label{eq:schur2}
+ \Tr\bigl[(W^+)^*X_{11}^{-1}W^+\bigr]\le\tau_+,\qquad
+ \Tr\bigl[(W^-)^*(1-X_{11})^{-1}W^-\bigr]\le\tau_- .
+\end{equation}
+
+\noindent The gap is in step $\langle1\rangle3$ of the note, which reads
+\begin{quote}\itshape
+$\Nst{X_{12}}^2=\sum_{i,j\in E^+}\frac{|V_{ij}|^2}{(\sqrt{a_i}+\sqrt{b_j})^2}
++\sum_{i,j\in E^-}\frac{|V_{ij}|^2}{(\sqrt{a_i}+\sqrt{b_j})^2}$,
+\end{quote}
+justified by ``on the $E^+$ part drop $\sqrt{b_j}$ \ldots\ on the $E^-$ part $b_j\ge1-\tau_-\ge1/2$''.
+
+\begin{verdictgap}
+Two defects, both repairable, in the proof of Corollary~2.6.  (i) The index $j$ runs over an
+eigenbasis of $X_{22}=E^\perp\Qt E^\perp$, and $i$ over an eigenbasis of $X_{11}$; the displayed
+splitting of the sum into an ``$E^+$ part'' and an ``$E^-$ part'' therefore presupposes that
+$X_{22}$ commutes with $E^+$ and $E^-$, i.e.\ that $E^+\Qt E^-=0$, which is nowhere assumed and is
+false in general ($E^\pm$ are spectral projections of the \emph{vacuum} modular Hamiltonian $K$, not
+of $\Qt$).  The same presupposition underlies ``the eigenvalues of $X_{22}$ on $E^-H$ are within
+$\tau_-$ of $1$''.  (ii) Even granting the splitting, on the $E^-$ part
+$(\sqrt{a_i}+\sqrt{b_j})^{-2}\le b_j^{-1}\le(1-\tau_-)^{-1}$, not $\le1$; with the crude bound
+$b_j\ge1/2$ actually quoted one gets $\le2$.  A clean repair that avoids both defects: split the
+eigenbasis of $X_{22}$ by $b_j<\frac12$ / $b_j\ge\frac12$ (spectral projections $R_<,R_\ge$ of
+$X_{22}$, hence commuting with $X_{22}$ by construction), use the weight $a_i^{-1}$ and
+\eqref{eq:schur2} on $R_<$, and the weight $2$ together with
+$\|X_{12}R_\ge\|_2^2=\|E(1-\Qt)E^\perp R_\ge\|_2^2\le\|1-X_{11}\|\Tr[R_\ge(1-X_{22})R_\ge]$ on
+$R_\ge$; this yields $\Nst{X_{12}}^2\le\Tr[R_<X_{22}R_<]+2\Tr[R_\ge(1-X_{22})R_\ge]$, at the price of
+a factor $2$ and of a small additional argument comparing that quantity to $\tau$.  The conclusion
+itself survives every test: on the free-fermion data ($\zeta=1/15$, $\kappa_c=25.3$,
+$\Lambda=60$, $\kappa_{\max}=30$) the referee measures $\Nst{X_{12}}^2=1.893\times10^{-7}$ against
+$\tau=2.648\times10^{-7}$, ratio $0.71$, and $\|E^+X_{22}E^-\|_2/\|X_{22}\|_2=1.3\times10^{-6}$, so
+the omitted coupling is numerically irrelevant here; over $400$ random $12\times12$ positive
+contractions with a genuine $E^+/E^-$ mixing the ratio never exceeded $0.15$.
+Finally, the \S1 sentence ``\emph{positivity alone} gives $\Nst{X_{12}}^2\le\tau$'' is inaccurate:
+the $E^-$ half uses $\Qt\le1$ as well, i.e.\ that $\Qt$ is a positive \emph{contraction}, and the
+weight estimate uses the smallness of $\tau_-$.
+\end{verdictgap}
+
+\section{(b) Removal of the Bures cross term}\label{sec:b}
+
+\subsection{Is the optimal Uhlmann unitary of the pinched pair block diagonal?}
+
+The claim (step $\langle1\rangle3$ of Thm.~4.2) is: $Q$ commutes with $E$ and $A=\Pinch(\Qt)$ is
+block diagonal, hence the maximiser $U$ of $|\det(S_QS_A+C_QUC_A)|$ may be taken block diagonal, and
+then $-\log|\det M_A|=\Phi_W+\Phi_{22}$.  The note's justification is one clause
+(``$Q$ and $A$ are both block diagonal, so $U$ may be chosen block diagonal'').  It is correct, but
+the argument that makes it correct is the \emph{second} half of the same step, and should be stated
+in this order:
+
+\lstep{1}{1}{$\omega_Q$ and $\omega_A$ both factorise as $\omega_{Q_{11}}\otimes\omega_{Q_{22}}$ resp.\
+$\omega_{X_{11}}\otimes\omega_{X_{22}}$ under $\cF(H)\cong\cF(EH)\otimes\cF(E^\perp H)$.}
+\lby{a gauge-invariant quasi-free state with a symbol that is block diagonal for $H=EH\oplus E^\perp H$
+is the product of the two quasi-free states with the diagonal blocks (Note~5, proof of Thm.~3.1);
+$[Q,E]=0$ and $A=\Pinch(\Qt)$}
+\lstep{1}{2}{$\Fid(\omega_Q,\omega_A)=\Fid(\omega_{Q_{11}},\omega_{X_{11}})\cdot
+\Fid(\omega_{Q_{22}},\omega_{X_{22}})=e^{-\Phi_W}e^{-\Phi_{22}}$.}
+\lby{multiplicativity of the fidelity over tensor products, $\langle1\rangle1$, $EAE=X_{11}=E\Qt E$,
+and PT's definition $\Phi_W=-\log\Fid(\omega_{EQE},\omega_{E\Qt E})$}
+\lstep{1}{3}{Let $U_1,U_2$ be optimal unitaries for the two blocks in the sense of Note~5, Thm.~2.1.
+Then $U:=U_1\oplus U_2$ satisfies $|\det(S_QS_A+C_QUC_A)|=e^{-\Phi_W-\Phi_{22}}=\Fid(\omega_Q,\omega_A)$,
+so $U$ is optimal and $M_A$ is block diagonal and invertible.}
+\lby{for block-diagonal $U$ the matrix $M_A$ is block diagonal and its determinant is the product of
+the two block determinants, each equal to the corresponding block fidelity by Note~5, Thm.~2.1;
+$\langle1\rangle2$; and no unitary can exceed $\Fid$ by Thm.~4.2$\langle1\rangle1$}
+\lqed{1}{4}\lby{$\langle1\rangle1$--$\langle1\rangle3$}
+
+\begin{verdictok}
+Correct, with the caveat that the note's phrasing invites the reader to look for a
+symmetry/uniqueness argument for the maximiser, whereas the real argument is that a block-diagonal
+$U$ \emph{attains} the (block-multiplicative) maximum, so that one may take it.  Note that
+block diagonality of $M_A$ is load bearing: it is what makes $Y_0,Y_1$ block diagonal in
+$\langle1\rangle5$ and hence what allows Lemma~3.1 to be applied at all.  If the maximiser were not
+block diagonal, the whole mechanism would collapse.  The referee checked the identity
+$-\log|\det M_A|=\Phi_W+\Phi_{22}$ numerically on the free-fermion data with $U$ taken from the polar
+decomposition of $G_Q^{1/2}G_A^{1/2}$, exactly as \texttt{cert\_tail\_np.py} does
+(\S\ref{sec:rerun}).  A second caveat: ``$U_1,U_2$ optimal'' is Note~5, Thm.~2.1, which is quoted in
+\texttt{tail\_bound.tex} only through the remark after Lemma~3.1; \texttt{certified\_numerics.tex}
+should carry the exact locator, because the entire cross-term removal rests on the
+polar-decomposition characterisation of the maximiser.
+\end{verdictok}
+
+\subsection{The operator Jensen step, and the trace identity}
+
+\begin{lemma}[referee's check of Lemma 3.1]\label{lem:jens}
+Let $B\ge0$ on $\mathfrak h_1\oplus\mathfrak h_2$, $A=\Pinch(B)$, $\Xo=\sqrt B-\sqrt A$,
+$\Theta_0=-\Pinch(\Xo)$.  Then $\Theta_0\ge0$ and $\Tr[\sqrt A\,\Theta_0]=\frac12\|\Xo\|_2^2$,
+equivalently $\Tr[\sqrt A\,\Pinch\Xo]=-\frac12\|\Xo\|_2^2$.
+\end{lemma}
+\lstep{1}{1}{$\Theta_0=\sqrt{\Pinch B}-\Pinch\sqrt B\ge0$.}
+\lby{$\sqrt A$ is block diagonal so $\Pinch\sqrt A=\sqrt A$; and $\Pinch(f(B))\le f(\Pinch B)$ for
+operator concave $f$ and a unital positive map $\Pinch$ (Davis 1957; Hansen--Pedersen 2003,
+Thm.~2.1), with $f=\sqrt\cdot$ operator concave on $[0,\infty)$.  The direction is the one used:
+concavity gives $\Pinch f(B)\le f(\Pinch B)$, i.e.\ the pinching of the square root is \emph{below}
+the square root of the pinching}
+\lstep{1}{2}{$\Tr[\sqrt A\,\Pinch\sqrt B]=\Tr[\sqrt A\sqrt B]$ and $\Tr A=\Tr B$.}
+\lby{$\Pinch$ is self-adjoint for the Hilbert--Schmidt pairing and $\Pinch\sqrt A=\sqrt A$;
+$\Pinch$ is trace preserving}
+\lstep{1}{3}{$\|\Xo\|_2^2=\Tr B+\Tr A-2\Tr[\sqrt A\sqrt B]=2\bigl(\Tr A-\Tr[\sqrt A\sqrt B]\bigr)
+=2\Tr[\sqrt A\,\Theta_0]$.}
+\lby{expand $\Tr[(\sqrt B-\sqrt A)^2]$; $\langle1\rangle2$}
+\lqed{1}{4}\lby{$\langle1\rangle1$, $\langle1\rangle3$}
+
+\begin{verdictok}
+Lemma~3.1 of \texttt{certified\_numerics.tex} is correct, including \eqref{eq:Ytr} below, and its
+proof is complete.  Note that the trace identity is \emph{not} an inequality and uses $A=\Pinch(B)$
+twice (through $\Tr A=\Tr B$ and $\Pinch\sqrt A=\sqrt A$); it would fail for a general block-diagonal
+$A$.  Numerical check by the referee on three random $9\times9$ positive $B$ with a $4|5$ split:
+$\Tr[\sqrt A\Pinch\Xo]$ and $-\frac12\|\Xo\|_2^2$ agree to $1.7\times10^{-14}$ on quantities of size
+$1.6$, and $\lambda_{\min}(\Theta_0)>0$ in all three cases.  The consequence used later,
+\begin{equation}\label{eq:Ytr}
+ Y=Y^*\ \text{block diagonal},\ -c\sqrt A\le Y\le c\sqrt A\ \Longrightarrow\
+ |\Tr[Y\Xo]|\le\tfrac c2\|\Xo\|_2^2,
+\end{equation}
+follows because $\Tr[Y\Xo]=\Tr[Y\Pinch\Xo]=-\Tr[Y\Theta_0]$ and $\Theta_0\ge0$; this is the whole
+mechanism: \emph{a block-diagonal observable sees the off-diagonal perturbation only at second
+order}.  It is a genuinely new and, in the referee's judgement, correct idea, and it is the reason
+the $2\sqrt{\Phi\Phi_\partial}$ of \texttt{tail\_bound.tex} disappears.
+\end{verdictok}
+
+
+\section{(c) The final inequality}\label{sec:c}
+
+The computable statement, \eqref{eq:main} of the note, is
+\begin{equation}\label{eq:main}
+ 0\ \le\ \Phi-\Phi_W\ \le\ \Phi_{22}-\log\bigl|\det(1+T)\bigr|,\qquad
+ T=M_A^{-1}\bigl(S_Q\Xo+C_QU\Xt\bigr),
+\end{equation}
+with $A=\Pinch(\Qt)=X_{11}\oplus X_{22}$, $S_Q=Q^{1/2}$, $C_Q=(1-Q)^{1/2}$, $S_A=A^{1/2}$,
+$C_A=(1-A)^{1/2}$, $\Xo=\Qt^{1/2}-S_A$, $\Xt=(1-\Qt)^{1/2}-C_A$, $M_A=S_QS_A+C_QUC_A$ with $U$ the
+optimal block-diagonal Uhlmann unitary of the pair $(Q,A)$, and
+$\Phi_{22}=-\log\Fid(\omega_{Q_{22}},\omega_{X_{22}})$, $Q_{22}=E^\perp QE^\perp$,
+$X_{22}=E^\perp\Qt E^\perp$.  All of these are unambiguous, and match the implementation in
+\texttt{cert\_tail\_np.py} line by line.  The chain of inequalities is
+
+\lstep{1}{1}{$\Fid(\omega_Q,\omega_{\Qt})\ \ge\ |\det(S_QS+C_QUC)|$ for the chosen $U$
+($\ge$: an arbitrary purification of $\omega_{\Qt}$ is used).}
+\lby{Thm.~4.2$\langle1\rangle1$; the isometry $\Theta^U=\binom{S}{UC}$ has
+$\Theta^{U*}\Theta^U=1$ and $(\Theta^U\Theta^{U*})_{11}=\Qt$, and monotonicity of the fidelity under
+restriction \emph{increases} it, so any purification pair gives a lower bound}
+\lstep{1}{2}{$S_QS+C_QUC=M_A(1+T)$ exactly.}
+\lby{$S=S_A+\Xo$, $C=C_A+\Xt$, and $M_A$ invertible}
+\lstep{1}{3}{$\Phi\le-\log|\det M_A|-\log|\det(1+T)|=\Phi_W+\Phi_{22}-\log|\det(1+T)|$.}
+\lby{$\langle1\rangle1$, $\langle1\rangle2$, monotonicity of $-\log$, and \S\ref{sec:b}}
+\lstep{1}{4}{$\Phi\ge\Phi_W$.}
+\lby{$\Fid$ is monotone under the restriction to the subalgebra $\cF(EH)$, and the restriction of a
+quasi-free state is quasi-free with the compressed symbol; $EQE$ and $E\Qt E$ are those symbols
+(\texttt{tail\_bound.tex}, Thm.~5.1$\langle1\rangle1$).  This is data processing and is used in the
+correct direction: it is the \emph{lower} end of the bracket}
+\lqed{1}{5}\lby{$\langle1\rangle3$, $\langle1\rangle4$}
+
+\begin{verdictok}
+\eqref{eq:main} is correct as stated, every step points the right way, and the lower bound
+$\Phi\ge\Phi_W$ is the standard data-processing inequality used correctly.  Three observations.
+(i) \eqref{eq:main} holds with \emph{no} hypothesis --- neither (H) nor $\|T\|<1$ ---
+because it never expands the logarithm; the note says this and is right.  Consequently the sign of
+$\Phi_{\rm off}=-\log|\det(1+T)|$ is not controlled a priori; it happens to be positive in all seven
+data points, but if it were negative the bracket would simply be tighter.  (ii) The a priori form
+(H)--(4.4) is also correct: $|\Re\Tr T|\le\frac{c_0}2\|\Xo\|_2^2+\frac{c_1}2\|\Xt\|_2^2$ by
+\eqref{eq:Ytr}, and $\log|\det(1+T)|\ge\Re\Tr T-\|T\|_2^2/(2(1-\|T\|))$ by
+$|\Tr T^k|\le\|T\|_2^2\|T\|^{k-2}$; the referee checked both directions of the second estimate and the
+Hermiticity and block diagonality of $Y_0,Y_1$.  (iii) The remaining weakness is honestly located by
+the note: the measured $c_0$ (referee's rerun: $18.4$ to $31.3$ over the seven $\zeta$ at
+$\kappa_c=25.3$) comes from the window edge, where $\lambda_{\min}(S_A)$ is three orders below
+$\lambda_{\min}(S_Q)$, so (H) cannot hold with $c_0=O(1)$; the a priori theorem is
+therefore a factor $4$--$6$, not $50$--$150$, better than \texttt{tail\_bound.tex}.  A remark the
+note should add: since $Y_0=\frac12(M_A^{-1}S_Q+S_QM_A^{-*})$ and $M_A\approx S_QS_A+C_QC_A$, the
+natural comparison operator for $Y_0$ is not $S_A$ but $S_A+O(\ldots)$; a hypothesis of the form
+$\pm Y_0\le c_0'(S_A+\lambda)$ with the window edge $\lambda=\sqrt\eps$ excised would presumably give
+$c_0'=O(1)$ and an unconditional $O(\tau)$ theorem.  As it stands, ``$c_0\sim18$--$42$'' is a
+placeholder, not a constant, and \eqref{eq:main} is the only statement that should be quoted.
+\end{verdictok}
+
+\section{(d) Reproduction of the enclosures, and the box cutoff}\label{sec:rerun}
+
+\paragraph{Reruns.}  All three scripts were rerun by the referee with the venv interpreter.
+\texttt{cert\_qbox.py 60 30 200} finishes in $4.4$\,s and prints
+\begin{center}\small\ttfamily
+Lam=60.0 kmax=30.0 N=91 prec=200  max entry radius = 5.620e-18\\
+\ \ max |Q\_ball - Q\_float| = 4.687e-11;  float entries inside ball: 91/8281
+\end{center}
+reproducing the two numbers of \S5 of the note ($5.6\times10^{-18}$, $4.7\times10^{-11}$) and the
+claim that exactly the $N=91$ diagonal float entries lie inside their enclosures.
+\texttt{cert\_tail\_np.py} was rerun for all seven $\zeta$ at $\eps=10^{-11}$ ($\kappa_c=25.33$) with
+$\Phi_W$ taken, as the note does, from \texttt{results\_hp2.txt}; every entry of the
+$\kappa_c=25.3$ half of the table of \S7 is reproduced to the printed digits
+($\Phi_{22}=1.936(-9),8.002(-9),3.255(-8),1.313(-7),5.271(-7),2.109(-6),8.383(-6)$;
+$\Phi_{\rm off}=2.598(-9),1.905(-8),2.462(-8),1.315(-7),4.938(-7),1.675(-6),6.803(-6)$; widths
+$0.79,1.19,0.64,0.76,0.78,0.81,1.00\,\%$), and so is every interval of Table~3, e.g.\
+$0.057444+0.0000194+0.0000260=0.057897$ at $\zeta=1/120$ in units $10^{-5}$.  The
+containment claim is also reproduced: each ``Note~5/PT best'' value lies inside the last-column
+interval (the tightest case is $\zeta=4/15$: $47.2564\in[46.51575,47.42576]$).
+\texttt{cert\_tail.py}, the \texttt{mpmath} version that recomputes $\Phi_W$ itself, is present but
+its only log file, \texttt{numerics/certified/tail\_z0.2.log}, is \emph{empty}: the high-precision
+run was evidently never completed.
+
+\paragraph{The box-cutoff column.}  The last two columns of Table~3 add
+$0.0641\,\zeta^2\kappa_{\max,\rm eff}^{-2}$ with $\kappa_{\max,\rm eff}=29.6$; the referee confirms
+the arithmetic ($7.316\times10^{-5}\zeta^2$, e.g.\ $5.08\times10^{-9}$ at $\zeta=1/120$, giving
+$0.058405$).  The provenance of the constant is \texttt{tail\_bound.tex}~(7.2),
+$f_2-f_2^{(\kappa_{\max})}=0.513/(8\kappa_{\max}^2)=0.0641/\kappa_{\max}^2$, which is the
+\emph{leading asymptotics} of the $\zeta^2$ coefficient, obtained from the exact leading ultraviolet
+occupation tail --- not a proved bound on $\Phi_E-\Phi_{P_{\rm sub}}$.  PT is explicit about this
+(\S7b: ``Theorem 4.1 \ldots\ does \emph{not} give a bound on $\Phi_E-\Phi_{P_{\rm sub}}$.
+Empirically it is small'').
+
+
+\subsection{The arithmetic behind Table~3 does not resolve $\Phi_{\rm off}$}\label{ss:noise}
+
+\texttt{cert\_tail\_np.py} evaluates $\Xo,\Xt,T$ and $\log\det(1+T)$ in \emph{double precision}
+(the note says so) on matrices whose spectrum spans $[2.8\times10^{-13},1-2.8\times10^{-13}]$.  The
+script never checks the one identity that its own theory provides as an error monitor, namely
+$-\log|\det M_A|=\Phi_W+\Phi_{22}$ (step $\langle1\rangle3$ of Thm.~4.2).  The referee did:
+\begin{center}\small
+\begin{tabular}{l r r r}\toprule
+input ($\zeta=1/120$, $\kappa_c=25.3$) & $-\log|\det M_A|$ & $\Phi_W+\Phi_{22}$ & $\Phi_{\rm off}$\\\midrule
+ball $Q_N$ (midpoints)              & $1.0285\times10^{-4}$ & $5.7638\times10^{-7}$ & $+2.598\times10^{-9}$\\
+trapezoid $Q_N$                     & $4.6649\times10^{-5}$ & $5.7638\times10^{-7}$ & $-1.158\times10^{-10}$\\
+ball $+$ $10^{-16}$ jitter (3 seeds)& $1.09$--$1.76\times10^{-4}$ & --- & $1.49,2.38,2.94\times10^{-9}$\\
+\bottomrule\end{tabular}
+\end{center}
+The identity is \emph{true}: on the $10\times10$ complement block, where the same construction can be
+carried out in \texttt{mpmath}, the referee finds $-\log|\det M_A^{22}|=1.9359858\times10^{-9}$ at
+\texttt{dps}$=60$ against $\Phi_{22}=1.935986\times10^{-9}$ --- agreement to $7$ digits, which also
+confirms independently that the polar unitary of $G_Q^{1/2}G_A^{1/2}$ is the maximiser and that
+\S\ref{sec:b} is right.  In double precision the same $10\times10$ quantity comes out as
+$1.98\times10^{-9}$ ($2.3\,\%$ off), and on the full $91\times91$ problem the double-precision value
+of $-\log|\det M_A|$ misses $\Phi_W+\Phi_{22}$ by $1.0\times10^{-4}$, i.e.\ by $180$ times the
+quantity itself.
+
+\begin{verdictbreak}
+\emph{The $\Phi_{\rm off}$ column of the table in \S7, and hence the upper end of every interval of
+Table~3, is not supported by the computation that produced it.}  Under a relative jitter of
+$10^{-16}$ in the input $Q_N$ --- i.e.\ within the rounding noise of the double-precision pipeline
+itself --- the computed $\Phi_{\rm off}$ at $\zeta=1/120$ takes the values
+$2.60,\,2.94,\,1.49,\,2.38\times10^{-9}$ and, with the trapezoid input, $-1.16\times10^{-10}$: the
+tabulated value $2.60(-9)$ has no significant digit and does not even have a stable sign.  At
+$\zeta=1/15$ the spread is $1.05$--$1.75\times10^{-7}$ around the tabulated $1.32\times10^{-7}$,
+i.e.\ $\pm25\,\%$.  The reason is the cancellation in $\Re\Tr T$: $\|T\|_2^2$ is perfectly stable
+($3.917\times10^{-9}\pm10^{-12}$ under the same jitter), but $\log|\det(1+T)|$ is a difference of
+quantities of size $10^{-4}$ in this arithmetic.  Consequently the printed widths
+``$0.64$--$1.19\,\%$'' are not established, and \emph{no} interval of Table~3 may be quoted as a
+certified upper bound in its present form.  This is not an error in Thm.~4.2 or in
+\eqref{eq:main} --- both are correct --- and the fix is already in the repository: the
+\texttt{mpmath} script \texttt{cert\_tail.py} recomputes exactly these quantities (and $\Phi_W$
+itself) at \texttt{dps}$=40$ from the ball $Q_N$, but its only log,
+\texttt{numerics/certified/tail\_z0.2.log}, is empty, so it appears never to have been run to
+completion.  The three quantities that \emph{are} stable under the jitter test --- $\Phi_{22}$
+(computed at \texttt{dps}$=60$), $\|\Xo\|_2^2,\|\Xt\|_2^2,\|T\|_2^2,\|T\|$ and $c_0,c_1$ (norms, no
+cancellation) --- support the \emph{a priori} bound (4.4), which the referee's rerun gives as
+$17.8$--$19.9\,\%$ of $\Phi_W$ across the seven $\zeta$ (the note says $20$--$30\,\%$).
+\end{verdictbreak}
+
+\begin{verdictgap}
+Independently of \S\ref{ss:noise}: the lower end of every interval of Table~3 is
+$\Phi_W$ read from \texttt{results\_hp2.txt}, which was produced by \texttt{fidelity\_hp.py} from
+\texttt{compression\_box.Q\_box}, i.e.\ from the $4\times10^5$-node double-precision \emph{trapezoid}
+$Q_N$ that \S5 of the same note declares inaccurate --- contradicting the sentence ``All numbers
+below use the ball $Q_N$''.  The referee recomputed $\Phi_W$ at \texttt{dps}$=60$ from both inputs at
+$\zeta=1/120$: $5.744435427\times10^{-7}$ (ball) against $5.744385761\times10^{-7}$ (trapezoid,
+reproducing \texttt{results\_hp2.txt} to $8$ digits and thereby confirming the provenance).  The
+shift is $+4.94\times10^{-12}$, i.e.\ $8.6\times10^{-6}$ relative --- harmless, and in the safe
+direction (the quoted lower end remains a lower bound) --- but it is measured here, not bounded in
+the note, and the note's own error formula would have predicted something $10^5$ times larger
+(next subsection).
+\end{verdictgap}
+
+\section{(e) The ball enclosure of $Q_N$}\label{sec:e}
+
+\paragraph{Rigour of the enclosure.}  The construction is sound.  $Q^{\rm c}_{jj}$ and
+$Q^{\rm c}_{jl}$ depend on the $2N$ numbers $I(k_j)$, $C(k_j)$ only, each a one-dimensional integral
+of a function that is meromorphic in $t$ with poles exactly at $t\in2\pi i\mathbb Z$, so it is
+analytic in $|\operatorname{Im}t|<2\pi$ as claimed and \texttt{acb.integral} (Petras' algorithm with
+Gauss--Legendre nodes and a Bernstein-ellipse remainder) returns a rigorous ball on $[d,\Lambda]$.
+The Python integrand ignores the \texttt{analytic} flag; this is safe \emph{here} because the only
+singularity is a pole and \texttt{arb} division by a ball containing $0$ returns an indeterminate
+ball, which forces subdivision --- it would not be safe for a branch cut, and the script deserves a
+comment saying so.  The endpoint pieces are enclosed by
+$\frac{\sin kt}{\sinh(t/2)}=2k(1+e_1)$, $\frac{\cos kt-1}{\sinh(t/2)}=-k^2t(1+e_2)$ with
+$|e_1|\le\frac{(kd)^2}6+\frac{d^2}{24}$, $|e_2|\le\frac{(kd)^2}{12}+\frac{d^2}{24}$; the referee
+confirms $\bigl|\frac{\sin x}x-1\bigr|\le\frac{x^2}6$, $\bigl|\frac{x}{\sinh x}-1\bigr|\le\frac{x^2}6$
+and $\bigl|\frac{1-\cos x}{x^2/2}-1\bigr|\le\frac{x^2}{12}$ from the alternating Taylor series with
+decreasing terms, and that the integrands $2k(\Lambda-t)$ and $-k^2t$ do not change sign on $[0,d]$,
+so the products may be enclosed as printed.  Two small slips: the product of the two Taylor factors
+contributes $|e_1e_2|$ as well, so strictly $|e|\le|e_1|+|e_2|+|e_1||e_2|$ (the omitted term is
+$\sim10^{-25}$ and cannot affect a radius of $5.6\times10^{-18}$); and the claimed scaling ``it
+improves as $d^2$'' is wrong --- the endpoint contribution to $I$ is
+$\sim2k\Lambda d\cdot(kd)^2/6=O(d^3)$ and to $C$ is $O(d^4)$.  Both err on the safe side.  The
+referee reran \texttt{cert\_qbox.py 60 30 200}: $4.4$\,s, max radius $5.620\times10^{-18}$,
+$\max|Q^{\rm ball}-Q^{\rm trap}|=4.687\times10^{-11}$, $91/8281$ float entries inside their balls.
+With $k_{\max}=2\pi\cdot45/60$ and $d=10^{-6}$ the dominant term is
+$2k\Lambda d\cdot(kd)^2/6/(2\pi\Lambda)\approx5.6\times10^{-18}$, so the note's attribution of the
+radius to the Taylor cut is right.
+
+
+\paragraph{The ``$8\,\%$ rather than $3\,\%$'' sentence.}  \S5 of the note reads: ``\emph{it
+corresponds to $\eta\approx4\times10^{-8}$ in trace norm, i.e.\ an arithmetic margin of $8\,\%$
+rather than the assumed $3\,\%$.}''  The referee checks the chain.  (i)
+$\|Z\|_1\le N^{3/2}\max_{jl}|Z_{jl}|$ is correct and gives
+$\eta=868.25\times4.687\times10^{-11}=4.07\times10^{-8}$, as claimed.  (ii) Inserting this into PT's
+(8.1) ($|\Phi_{\rm sub}-\Phi^{\rm c}_{\rm sub}|\le2\sqrt{2\Phi}\sqrt{5\eta}+5\eta$) gives
+$7.5\times10^{-6}$ at $\zeta=1/15$, which is $21.7\,\%$ of $\Phi$, not $8\,\%$; the value $8\,\%$
+corresponds to $\eta\approx5.5\times10^{-9}\approx N\max_{jl}|Z_{jl}|$, i.e.\ to a conversion
+different from the one the note states, weaker by $\sqrt N\approx9.5$.  (iii) More importantly the
+margin PT~(8.1) scales like $\sqrt\Phi$, so the \emph{relative} margin scales like
+$\Phi^{-1/2}\propto\zeta^{-1}$ and no single percentage describes it: with the note's own $\eta$ the
+margin is $3.3\,\%$ at $\zeta=8/15$, $21.7\,\%$ at $\zeta=1/15$ and $204\,\%$ at $\zeta=1/120$.
+The answer to the question ``does an entry error of $4.7\times10^{-11}$ translate into $8\,\%$ of
+$\Phi$ at the smallest $\zeta$'' is therefore \emph{no}: by the note's own formula it is a factor
+$25$ worse there.  (iv) That bound is, however, wildly pessimistic: the referee's direct
+recomputation of $\Phi_W$ from the two inputs (\S\ref{ss:noise}) gives a relative shift of
+$8.6\times10^{-6}$ at $\zeta=1/120$, i.e.\ $2\times10^{5}$ times smaller than
+PT~(8.1) allows, because Powers--St\o rmer discards the fact that the perturbation of $Q_N$
+is smooth and almost commutes with the state.  The correct summary of \S5 is: \emph{the trapezoid
+$Q_N$ carries an entrywise error of $4.7\times10^{-11}$, for which the only available rigorous
+sensitivity estimate is useless at small $\zeta$ ($3$--$204\,\%$); the ball $Q_N$ removes the
+question entirely, with a margin $\le5.9\times10^{-4}$ relative at every tabulated $\zeta$.}
+The claim that the ball reduces PT's margin ``by a factor $400$'' is correct at $\zeta=1/15$
+($\eta_Q\le4.9\times10^{-15}$, margin $2.6\times10^{-9}$).
+
+\begin{verdictok}
+The ball-arithmetic enclosure of $Q_N$ (\S5 of the note) is rigorous, reproduces exactly, and is the
+strongest part of Part~II.  The two defects are editorial: the ``$8\,\%$'' figure is not what the
+note's own conversion and PT's (8.1) give (it should read $3$--$204\,\%$ across the
+tabulated $\zeta$, or, honestly, ``the rigorous sensitivity bound is vacuous at small $\zeta$ and the
+measured shift is $10^{-5}$ relative''), and the endpoint error improves as $d^3$, not $d^2$.
+\end{verdictok}
+
+\small
+\section{(f) Is the statement of what is certified honest and complete?}\label{sec:f}
+
+\begin{verdictgap}
+Partly.  Honest and clearly flagged: the $\widehat D$ quadrature (dagger on Table~3, \S6, with two
+concrete routes to a proof and the empirical $10^{-13}$ convergence test), the constant
+$c_0\in[18,42]$ and the resulting $4$--$6\times$ weakening of the a priori theorem, and the
+sentence naming the box cutoff as the dominant remaining uncertainty.  Not flagged, and needed
+before the note is used:
+\begin{enumerate}[label=(\roman*),leftmargin=1.8em]
+\item \emph{The arithmetic of Table~3 itself.}  \S\ref{ss:noise}: $\Phi_{\rm off}$ is computed in
+ double precision and is noise at the smallest $\zeta$; the note states the precision but draws no
+ consequence, and no error term for it appears in the table.  A ``certified enclosure'' whose upper
+ end is a float64 log-determinant of a matrix with condition number $\sim10^{13}$ needs either
+ \texttt{cert\_tail.py} (present, apparently never completed) or an interval evaluation.
+\item \emph{The provenance of $\Phi_W$.}  ``All numbers below use the ball $Q_N$'' is false for the
+ lower end of Table~3, which comes from \texttt{results\_hp2.txt} (trapezoid).  The effect is
+ $8.6\times10^{-6}$ relative and in the safe direction, but this must be said, not left to the
+ reader to discover.
+\item \emph{The ball radius is never propagated.}  $5.6\times10^{-18}$ per entry is negligible, but
+ no step of \S7 carries it, so ``certified'' is used for a computation with no interval arithmetic
+ in it after \S5.
+\item \emph{Overclaims in the scope section.}  \S1 announces (a) an unconditional bound
+ $\Phi-\Phi_W\le C_\star(\tau+\nu)/(1-C_\star(\tau+\nu))$ with $C_\star=6$, hence
+ $\Phi-\Phi_W\le0.85\,\zeta^2\kappa_c^{-2}$; no such statement occurs in the body, and the body's a
+ priori bound carries $c_0\approx35$ instead.  (b) ``the spectral window by verified eigenvalue
+ enclosures (Rayleigh--Ritz $+$ residual, \S6)'' --- \S6 proposes Gershgorin discs on $U^*Q_NU$ and an
+ a posteriori Sylvester bound, and \texttt{cert\_tail\_np.py} uses neither (it calls
+ \texttt{numpy.linalg.eigh}).  (c) ``the fidelity determinant of Note~5, Thm.~2.1 in ball
+ arithmetic'' --- not done anywhere.  (d) ``the \emph{measured} (and, in Part~II, certified) values
+ of $\tau$'' --- $\tau$ is not certified in Part~II.
+\item \emph{The box cutoff.}  The verdict calls it an estimate, but the column ``$\Phi$ incl.\ box
+ cutoff'' sits in a table captioned ``Certified enclosures'' and the verdict itself says
+ ``the certified brackets \ldots\ are $1.7$--$2.4\,\%$ wide for $\Phi$ itself once PT's box-cutoff
+ estimate is added''.  Adding an unproved (asymptotic, one-term) correction to an interval does not
+ produce a certified interval; that column should be labelled ``extrapolated''.  (Its width range is
+ also $1.5$--$2.4\,\%$, not $1.7$--$2.4\,\%$: the $\zeta=1/30$ row is $1.54\,\%$.)
+\end{enumerate}
+\end{verdictgap}
+
+\section{What may be quoted, and what must not}\label{sec:quotable}
+
+\begin{enumerate}[leftmargin=1.8em]
+\item \textbf{Quotable as proved (analysis).}  Theorem~2.2 (the Sylvester identity and the
+ Daleckii--Krein weight), Proposition~2.4 (the unweighted bound is false, with the sharp rate
+ $\eps^{-1}$), Lemma~3.1 (operator Jensen $+$ the trace identity), Theorem~4.2 and its
+ hypothesis-free corollary \eqref{eq:main}.  Corollary~2.6 ($\Nst{X_{12}}^2\le\tau$) needs the
+ repair of \S\ref{ss:schur} before being quoted with a constant $1$; it is safe with a factor $2$.
+\item \textbf{Quotable as certified (arithmetic).}  The enclosure of the box symbol:
+ $|Q^{\rm ball}_{jl}-Q_{jl}|\le5.62\times10^{-18}$ at $\Lambda=60$, $\kappa_{\max}=30$, $N=91$,
+ and the consequence $\eta_Q\le4.9\times10^{-15}$, margin $\le5.9\times10^{-4}$ relative on $\Phi$
+ at every tabulated $\zeta$.  This is a genuine, reproducible advance over
+ \texttt{tail\_bound.tex}, \S8.
+\item \textbf{Quotable as a rigorous bracket, modulo $\widehat D$ and the arithmetic of
+ \S\ref{ss:noise}.}  $\Phi^{\rm box}\ge\Phi_W$ (data processing; unconditional) and
+ $\Phi^{\rm box}-\Phi_W\le\Phi_{22}+\Phi_{\rm off}$.  The \emph{numbers} $\Phi_{22}$
+ ($1.94(-9)$ to $8.38(-6)$) are stable to three digits and may be quoted; the numbers
+ $\Phi_{\rm off}$ may not, and therefore neither may the widths $0.64$--$1.19\,\%$ nor the
+ $1.7$--$2.4\,\%$.  What can be quoted today is the \emph{stable} a priori bracket
+ $\Phi_W\le\Phi^{\rm box}\le\Phi_W(1+0.20)$ (measured $17.8$--$19.9\,\%$), a factor
+ $4$--$6$ improvement on \texttt{tail\_bound.tex}'s $82$--$154\,\%$, plus the statement that a
+ high-precision rerun of \texttt{cert\_tail.py} is expected to bring this to the $1\,\%$ level.
+\item \textbf{Not quotable.}  ``$C_\star=6$'', ``$\Phi-\Phi_W\le0.85\zeta^2\kappa_c^{-2}$'',
+ ``verified eigenvalue enclosures'', ``ball arithmetic for the fidelity determinant'', and any
+ interval containing the box-cutoff term described as certified.
+\end{enumerate}
+
+\end{document}

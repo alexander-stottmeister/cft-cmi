@@ -1,0 +1,124 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}\usepackage{lmodern}\usepackage{microtype}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\newtheorem{theorem}{Theorem}[section]\newtheorem{proposition}[theorem]{Proposition}\newtheorem{lemma}[theorem]{Lemma}\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}\newtheorem{definition}[theorem]{Definition}\newtheorem{remark}[theorem]{Remark}
+\newcommand{\cA}{\mathcal A}\newcommand{\cB}{\mathcal B}\newcommand{\cN}{\mathcal N}\newcommand{\cD}{\mathcal D}\newcommand{\cH}{\mathcal H}
+\newcommand{\CAR}{\mathrm{CAR}}\newcommand{\Sone}{\mathfrak S_1}\newcommand{\Stwo}{\mathfrak S_2}\newcommand{\Om}{\Omega}\newcommand{\one}{\mathbf 1}\newcommand{\Ran}{\operatorname{Ran}}
+\DeclareMathOperator{\pv}{p.v.}\newcommand{\id}{\mathrm{id}}\newcommand{\ip}[2]{\langle #1,#2\rangle}\newcommand{\norm}[1]{\lVert #1\rVert}
+\newcommand{\cF}{\mathcal F}\newcommand{\cM}{\mathcal M}\newcommand{\Fid}{F}\newcommand{\Tr}{\operatorname{Tr}}\newcommand{\eps}{\varepsilon}
+% ---- Paper 1 skeleton (Phase 1 deliverable). Sources: Note 4 (continuum_petz_free_fermion.tex), Note 5 (fidelity_recovered_quasifree.tex),
+% ---- Note 7 (universality_normalization.tex, free-fermion part), rigor/quadratic_limit.tex, rigor/uhlmann_upper_bound.tex (PA), rigor/kernel_identity.tex,
+% ---- numerics (fidelity_tables.tex, corrected basis), lattice (numerics/lattice, PL).  Each section lists what is imported from where.
+\title{Exact recovery error of the vacuum in chiral conformal field theory:\\ the free fermion}
+\author{}
+\date{September 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+For three adjacent intervals in the vacuum of the free chiral fermion net we
+determine the exact error of Petz recovery.  We show that every rotated Petz map
+of the half-sided modular inclusion $\cF_r(B)\subset\cF_r(BC)$ is the Borchers
+translation semigroup of that inclusion and, glued with the identity on $A$,
+extends at zero collar to a normal $*$-isomorphism of the type III$_1$ factor
+$\cF_r(ABC)$ onto a subalgebra of $\cF_r(AB)$; the extension follows from an exact
+trace-norm identity for the covariance defect together with the
+Powers--St\o rmer--Araki criterion, without any global diffeomorphism.  The
+resulting recovery error depends on the geometry through a single cross ratio
+$1+\zeta$, and we prove the exact small-cross-ratio law
+\[
+ \lim_{\zeta\downarrow0}\frac{-\log \Fid(\omega,\widetilde\omega_\zeta)}{\zeta^2}
+ =\frac{c}{12\pi^2},\qquad c=r,
+\]
+by a data-processing lower bound in the Legendre form of the SLD metric and a
+matching Uhlmann upper bound built from a Bogoliubov extension of the compression,
+whose vacuum overlap is a Fredholm determinant.  The corresponding relative-entropy
+coefficient of the Kubo--Mori form is $c/12$, a value the relative entropy itself follows numerically to $0.5\%$.  Because the answer depends only on $\zeta$, the whole
+rotated family collapses onto one function $\Phi$ of one variable per chirality,
+with $\zeta_t=z(1+e^{-2\pi t})$; in a two-dimensional CFT the two chiralities see
+opposite modular rotations, so the recovery error is a sum of two branches,
+$-\log F^{(\lambda)}=\Phi_c(z(1+e^{-\pi\lambda}))+\Phi_{\bar c}(z(1+e^{\pi\lambda}))$.
+This explains the apparently $\lambda$-dependent power laws observed on the lattice
+by Vardhan, Wei and Zou, which we reproduce with a ball-arithmetic Gaussian
+implementation on up to $72$ sites.  High-precision numerics for $\Phi$ over three
+decades of cross ratio confirm the quadratic law to $10^{-4}$ relative.
+\end{abstract}
+
+\section{Introduction}
+\input{sec_intro}
+
+\section{Setting and the Longo--Xu conditional mutual information}
+\input{sec_setting}
+
+\section{The zero-collar Petz recovery map}
+\input{sec_petz}
+
+\section{Fidelity and relative entropy of the recovered state}
+\input{sec_fidelity}
+
+\section{The quadratic law: $\lim_{\zeta\to0}\Phi/\zeta^2=c/(12\pi^2)$}
+\input{sec_quadratic}
+
+\section{Two-dimensional CFT and the lattice}
+\input{sec_2d_lattice}
+
+\section{Numerics}
+\input{sec_numerics}
+
+\section{Outlook}
+\input{sec_outlook}
+
+\appendix
+\section{Proofs deferred from the main text}
+\input{app_proofs}
+\section{Conventions}
+\input{app_conventions}
+\bibliographystyle{plain}
+\begin{thebibliography}{99}
+\bibitem{LX} R. Longo, F. Xu, Relative entropy in CFT, Adv. Math. 337 (2018).
+\bibitem{FHSW} T. Faulkner, S. Hollands, B. Swingle, Y. Wang, Approximate recovery and relative entropy I, arXiv:2006.08002.
+\bibitem{VWZ} S. Vardhan, A. Wei, Y. Zou, Petz recovery from subsystems in conformal field theory, arXiv:2307.14434.
+\bibitem{AU02} P. M. Alberti, A. Uhlmann, Acta Appl. Math. 60 (2000) 1--37, arXiv:math-ph/0202038.
+\bibitem{RigorTB} \textbf{[internal document, to be replaced before submission]} Internal rigor document \texttt{rigor/tail\_bound.tex}: ultraviolet tail bound and certified error bars (2026-09-08).
+\bibitem{RigorRR} \textbf{[internal document, to be replaced before submission]} Internal rigor document \texttt{rigor/rate\_of\_remainder.tex}: global Uhlmann bound and the cubic coefficient (2026-09-09).
+\bibitem{Ruij77} S. N. M. Ruijsenaars, On Bogoliubov transformations for systems of relativistic charged particles, J. Math. Phys. 18 (1977) 517.
+\bibitem{Araki77} H. Araki, Relative entropy of states of von Neumann algebras II, Publ. RIMS 13 (1977) 173--192.
+\bibitem{BGL} R. Brunetti, D. Guido, R. Longo, Modular structure and duality in conformal quantum field theory, Commun. Math. Phys. 156 (1993) 201--219.
+\bibitem{Wiesbrock} H.-W. Wiesbrock, Half-sided modular inclusions of von Neumann algebras, Commun. Math. Phys. 157 (1993) 83--92.
+\bibitem{ArakiCAR} H. Araki, On quasifree states of CAR and Bogoliubov automorphisms, Publ. RIMS 6 (1970/71) 385--442.
+\bibitem{Note1} \textbf{[internal document, to be replaced before submission]} Note~1, \emph{Conditional mutual information for three adjacent intervals in chiral CFT} (\texttt{adjacent\_interval\_cmi\_longo\_xu.tex}).
+\bibitem{Note2} \textbf{[internal document, to be replaced before submission]} Note~2, \emph{Conditional mutual information as a quantum Markov defect} (\texttt{cmi\_as\_quantum\_markov\_defect.tex}).
+\bibitem{Note4} \textbf{[internal document, to be replaced before submission]} Note~4, \emph{Continuum Petz recovery for adjacent intervals in the free chiral fermion} (\texttt{continuum\_petz\_free\_fermion.tex}).
+\bibitem{Note5} \textbf{[internal document, to be replaced before submission]} Note~5, \emph{Fidelity of the recovered quasi-free state} (\texttt{fidelity\_recovered\_quasifree.tex}).
+\bibitem{Note7} \textbf{[internal document, to be replaced before submission]} Note~7, \emph{Universality and normalization of the second-order coefficients} (\texttt{universality\_normalization.tex}).
+\bibitem{RigorQL} \textbf{[internal document, to be replaced before submission]} \texttt{rigor/quadratic\_limit.tex}, \emph{The quadratic limit: lower bound, unconditional}.
+\bibitem{RigorUB} \textbf{[internal document, to be replaced before submission]} \texttt{rigor/uhlmann\_upper\_bound.tex}, \emph{Sharp Uhlmann--Bogoliubov upper bound} (refereed).
+\bibitem{RigorKI} \textbf{[internal document, to be replaced before submission]} \texttt{rigor/kernel\_identity.tex}, \emph{The kernel identity}.
+\bibitem{RigorCN5} \textbf{[internal document, to be replaced before submission]} \texttt{rigor/check\_note5\_theory.tex}, verification of Note~5 (monotonicity of $\Phi$; exact first-order modular kernel).
+\bibitem{RigorCN5N} \textbf{[internal document, to be replaced before submission]} \texttt{rigor/check\_note5\_numerics.tex}, numerical audit of Note~5.
+\bibitem{RigorSV} \textbf{[internal document, to be replaced before submission]} \texttt{rigor/lemma\_second\_variation.tex}, \emph{Three faces of the Bures form}.
+\bibitem{Derez} J. Derezi\'nski, Introduction to representations of the canonical commutation and anticommutation relations, arXiv:math-ph/0511030, Thm.~31(3).
+\bibitem{CH} H. Casini, M. Huerta, Reduced density matrix and internal dynamics for multicomponent regions, Class. Quantum Grav. 26 (2009) 185005.
+\bibitem{FR} O. Fawzi, R. Renner, Quantum conditional mutual information and approximate Markov chains, Commun. Math. Phys. 340 (2015) 575--611.
+\bibitem{Petz88} D. Petz, Sufficiency of channels over von Neumann algebras, Quart. J. Math. Oxford 39 (1988) 97--108.
+\bibitem{Uhl11} A. Uhlmann, Transition probability (fidelity) and its relatives, Found. Phys. 41 (2011) 288--298.
+\bibitem{Bhatia} R. Bhatia, Matrix Analysis, GTM 169, Springer 1997.
+\bibitem{PS70} R. T. Powers, E. St\o rmer, Free states of the canonical anticommutation relations, Commun. Math. Phys. 16 (1970) 1--33.
+\bibitem{RigorCN} \textbf{[internal document, to be replaced before submission]} Internal rigor document \texttt{rigor/certified\_numerics.tex}: certified enclosures of the windowed recovery error (2026-09-09).
+\bibitem{RigorS9} \textbf{[internal document, to be replaced before submission]} \texttt{rigor/thermal\_rg\_gap\_summary.md} and \texttt{numerics/lattice/petz\_thermal\_rg.py}: thermal, massive and gap recovery on the lattice (2026-09-09).
+\bibitem{Note3} \textbf{[internal document, to be replaced before submission]} Note~3, \emph{From Longo--Xu finiteness to continuum Petz maps, RG diagnostics, and Markov networks} (\texttt{cmi\_cft\_research\_program.tex}).
+\bibitem{RigorS8} \textbf{[internal document, to be replaced before submission]} \texttt{rigor/optimality\_second\_order.tex}: second-order optimality of the Petz map (2026-09-09).
+\bibitem{RigorAll} Every recovery channel's recovered symbol is quasi-free feasible; the all-channel second-order problem equals the quasi-free programme. \texttt{rigor/optimality\_all\_channels.tex} [internal document, to be replaced before submission].
+\bibitem{RigorS10} Exact KKT certificate at the compression and the isometric orbit: the compression is not the second-order minimiser. \texttt{rigor/sdp\_dual\_certificate.tex} [internal document, to be replaced before submission].
+\bibitem{RigorE1} The upper half via exterior extensions: exterior directions exhaust the invisible space. \texttt{rigor/exact\_fidelity\_upper\_half.tex} [internal document, to be replaced before submission].
+\bibitem{RigorE2} Exterior-extension numerics in the spectral model. \texttt{rigor/exterior\_extension\_numerics.tex} [internal document, to be replaced before submission].
+\bibitem{RigorF3} Reconciliation of the two discretisations of the first-order gain constant: $\theta=0.384\pm0.003$, the spectral circle model's taper suppressing about a fifth of it. \texttt{numerics/optimality\_all/F3\_RESULTS.md} (F3, 2026-09-15) [internal note, to be replaced before submission].
+\end{thebibliography}
+\end{document}

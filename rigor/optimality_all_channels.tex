@@ -1,0 +1,729 @@
+\documentclass[11pt,a4paper]{article}
+\input{rigor_preamble}
+\newcommand{\Erec}{E_{\mathrm{rec}}}\newcommand{\Krec}{\mathcal K_{\mathrm{rec}}}
+\newcommand{\hh}{\mathfrak h}\newcommand{\Var}{\operatorname{Var}}
+\title{Second-order optimality of the geometric compression among \emph{all} recovery channels\\
+\large Structured proof document (Lamport style), continuation of \texttt{optimality\_second\_order.tex}}
+\author{Orchestrator (Claude), research programme \texttt{cft\_cmi}}
+\date{2026-09-10}
+\begin{document}\maketitle
+\begin{abstract}
+\noindent \texttt{optimality\_second\_order.tex} (S8) proved that among gauge-invariant
+quasi-free channels the second-order recovery problem is a convex programme and found,
+numerically, that the zero-collar geometric compression is its optimum, but it left the
+lower bound over \emph{all} channels at \(\Erec\ge0\).  This document attacks that lower
+bound.  Sections~\ref{sec:red}--\ref{sec:cert} are the proof; Section~\ref{sec:num} the
+exact all-channel SDP on tiny chains that guided it; Section~\ref{sec:verdict} the verdict.
+Every statement is either proved here in structured form or marked as an open gap.
+\end{abstract}
+\tableofcontents
+
+\section{Problem, notation, and the shape of the argument}\label{sec:intro}
+Notation as in S8: \(A=(-a,0)\), \(B=(0,b)\), \(C=(b,L)\), \(D=BC\), \(I=ABC\), vacuum
+\(\omega\), cross-ratio \(z=ac/(b(a+b+c))\), \(f_2=c/(12\pi^2)\).  Recovery channels
+\(\beta:\cA(D)\to\cA(B)\) (unital, CP, normal, even), \(\omega^\beta=\omega|_{\cA(AB)}\circ(\mathrm{id}_A\otimes\beta)\),
+\(\Erec=\inf_\beta[-\log\Fid(\omega,\omega^\beta)]\).  Target:
+\begin{equation}\label{eq:target}
+ \liminf_{z\to0}\ z^{-2}\,\Erec\ \ge\ f_2\qquad\text{(per chirality)},
+\end{equation}
+which together with S8 Prop.~1.3(4) gives \(\Erec=f_2z^2+o(z^2)\): the geometric compression
+is second-order optimal among all channels.
+
+\paragraph{Shape of the argument.}
+\begin{enumerate}[leftmargin=1.6em,itemsep=1pt]
+\item (\S\ref{sec:red}) \emph{Reduce the fidelity to a linear channel problem.}  The Legendre
+form of the Bures/SLD metric (P2, \texttt{quadratic\_limit.tex} Thm.~4.2) gives, for every
+self-adjoint test observable \(T\), \(-\log\Fid(\omega,\varphi)\ge\tfrac18\,\frac{(\omega(T)-\varphi(T))^2}{\Var_\omega(T)}\)
+up to third order.  Applied to \(\varphi=\omega^\beta\) and minimised over \(\beta\), the
+only channel-dependent quantity is the \emph{linear} functional \(\beta\mapsto\omega^\beta(T)\).
+\item (\S\ref{sec:lin}) \emph{Solve the linear channel problem by a dual certificate.}
+\(\sup_\beta\omega^\beta(T)\) over all unital CP maps \(\cA(D)\to\cA(B)\) is a conic linear
+programme; any \(b\in\cA(B)\) with \(T\le 1_A\otimes\!\!\ldots\) (operator inequality on the
+graded tensor product) certifies an upper bound.  The certificate we exhibit is built from
+the modular data of the compression.
+\item (\S\ref{sec:cert}) \emph{Choose \(T\).}  \(T\) is the SLD of the compression direction,
+i.e.\ the Lagrange multiplier of the quasi-free convex programme at the compression; we show
+the resulting bound reproduces \(f_2\).
+\end{enumerate}
+
+\section{Reduction to a linear channel problem}\label{sec:red}
+
+\begin{lemma}[Alberti's variational formula]\label{lem:alberti}
+For normal states \(\varphi,\psi\) on a von Neumann algebra \(\cM\),
+\(\Fid(\varphi,\psi)=\inf\{\tfrac12(\varphi(x)+\psi(x^{-1})):x\in\cM,\ x\ge\eps1\text{ for some }\eps>0\}\).
+\end{lemma}
+\lby{Alberti--Uhlmann 2002 (math-ph/0202038), Thm.~2(1):
+\(P(\nu,\varrho)^{1/2}=\inf_{x>0}\frac12\{\nu(x)+\varrho(x^{-1})\}\) for positive normal
+functionals on a \(W^*\)-algebra, \(P\) the transition probability (\(P^{1/2}=\Fid\)); S8
+Lemma~4.1 quotes it in the same way.  Screenshot \texttt{shots/alberti\_uhlmann\_thm2\_p11.png}
+(\texttt{refs/AlbertiUhlmann02\_math-ph-0202038.pdf}, p.~11)}
+
+\begin{lemma}[Exact single-observable fidelity bound]\label{lem:single}
+Let \(\varphi,\psi\) be normal states on \(\cM\), \(T=T^*\in\cM\), \(m:=\varphi(T)\),
+\(\Delta:=\varphi(T)-\psi(T)\), \(N:=\|T-m\|\).  Then for every \(0<\eps<1/N\),
+\begin{equation}\label{eq:single}
+ \Fid(\varphi,\psi)\ \le\ 1-\frac{\eps}{2}\,\Delta+\frac{\eps^2}{2}\,\frac{\psi\bigl((T-m)^2\bigr)}{1-\eps N}.
+\end{equation}
+Consequently, for every \(V'\ge\psi((T-m)^2)\) with \(0<\Delta N<2V'\),
+\begin{equation}\label{eq:single2}
+ -\log\Fid(\varphi,\psi)\ \ge\ 1-\Fid(\varphi,\psi)\ \ge\ \frac{\Delta^2}{8V'}\Bigl(1-\frac{\Delta N}{V'}\Bigr).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+\lstep{1}{1}{\lassume{} w.l.o.g.\ \(m=0\) (replace \(T\) by \(T-m\); \(\Delta\) and \(\psi((T-m)^2)\) are unchanged).
+\ldefine{} \(x_\eps:=1+\eps T\), invertible with \(x_\eps\ge(1-\eps N)1>0\).}
+\lstep{1}{2}{\(x_\eps^{-1}\le 1-\eps T+\eps^2T^2/(1-\eps N)\).}
+\lby{for a real number \(u\) with \(|u|\le\eps N<1\): \((1+u)^{-1}=1-u+u^2/(1+u)\le1-u+u^2/(1-\eps N)\);
+apply the spectral theorem to \(u=\eps T\)}
+\lstep{1}{3}{\eqref{eq:single}.}
+\lby{Lemma~\ref{lem:alberti}: \(\Fid\le\tfrac12(\varphi(x_\eps)+\psi(x_\eps^{-1}))\), then $\langle1\rangle2$ and positivity of \(\psi\)}
+\lstep{1}{4}{\eqref{eq:single2}.}
+\lby{replace \(\psi((T-m)^2)\) by \(V'\) in \eqref{eq:single} (the right side increases) and put
+\(\eps:=\Delta/(2V')\), admissible because \(\eps N=\Delta N/(2V')<1\); then
+\(1-\Fid\ge\frac{\Delta^2}{4V'}-\frac{\Delta^2}{8V'}\frac{1}{1-\Delta N/(2V')}
+=\frac{\Delta^2}{8V'}\cdot\frac{1-\Delta N/V'}{1-\Delta N/(2V')}\ge\frac{\Delta^2}{8V'}\Bigl(1-\frac{\Delta N}{V'}\Bigr)\)
+(the last step because the denominator is in \((0,1)\) when the numerator is positive, and trivially
+otherwise); finally \(-\log\Fid\ge1-\Fid\)}
+\lqed{1}{5}
+\end{proof}
+
+\begin{remark}
+Lemma~\ref{lem:single} is the exact, non-asymptotic form of the Legendre/SLD (Cram\'er--Rao)
+bound used by P2 for the lower half of Theorem~A (\texttt{quadratic\_limit.tex}, Thm.~4.2): as
+\(\Delta\to0\) it gives \(-\log\Fid\ge\Delta^2/(8\Var_\varphi T)\,(1+o(1))\), the sharp constant of
+the Bures metric.  Nothing about \(\varphi,\psi\) is assumed (no Gaussianity, no purity).  We
+will apply it with \(\varphi=\omega\), \(\psi=\omega^\beta\) and \(T\) a \emph{one-particle
+observable} \(T=\dd\Gamma(t)\), so that \(\Delta\) depends on \(\beta\) only through the recovered
+symbol; the denominator \(\psi((T-m)^2)\) is then controlled by \(\|\omega^\beta-\omega\|_1\)
+(Lemma~\ref{lem:variance} below).
+\end{remark}
+
+
+\begin{lemma}[Control of the second moment]\label{lem:variance}
+In the situation of Lemma~\ref{lem:single}, \(\psi((T-m)^2)\le\Var_\varphi(T)+\|\varphi-\psi\|\,N^2\)
+and \(\|\varphi-\psi\|\le2\sqrt{1-\Fid(\varphi,\psi)^2}\).  Consequently, if
+\(-\log\Fid(\varphi,\psi)\le E\) then \(\psi((T-m)^2)\le\Var_\varphi(T)+2\sqrt{2E}\,N^2\).
+\end{lemma}
+\lby{\(|\psi(y)-\varphi(y)|\le\|\varphi-\psi\|\,\|y\|\) with \(y=(T-m)^2\), \(\|y\|=N^2\),
+\(\varphi((T-m)^2)=\Var_\varphi(T)\); Fuchs--van de Graaf
+\(\frac12\|\varphi-\psi\|\le\sqrt{1-\Fid^2}\) (valid for normal states on von Neumann algebras,
+e.g.\ via Alberti--Uhlmann 2002 Cor.~2 or the standard purification argument); and
+\(1-\Fid^2\le2(1-\Fid)\le2(-\log\Fid)\le2E\)}
+
+\begin{proposition}[Reduction to the recovered symbol]\label{prop:red}
+Let \(\beta\) be a recovery channel with \(-\log\Fid(\omega,\omega^\beta)\le E\), and let
+\(t\) be a finite-rank self-adjoint operator on the one-particle space \(\hh_I\) of \(\cA(I)\),
+\(T:=\dd\Gamma(t)=\sum_{jk}t_{jk}a^*(e_j)a(e_k)\).  Write \(Q\) for the vacuum symbol,
+\(Q^\beta\) for the recovered symbol \(Q^\beta_{jk}:=\omega^\beta(a^*(e_j)a(e_k))\) (both on
+\(\hh_I\)), \(\delta^\beta:=Q-Q^\beta\), and, in an eigenbasis \(Q=\sum_jq_j|j\rangle\langle j|\),
+\(V(t):=\sum_{jk}|t_{jk}|^2q_j(1-q_k)\) (\(=\Tr(tQt(1-Q))\)).  If \(\Delta:=\Tr\,t\,\delta^\beta>0\) and
+\(V':=V(t)+2\sqrt{2E}\,\|t\|_1^2>\Delta\|t\|_1/2\), then
+\begin{equation}\label{eq:red}
+ -\log\Fid(\omega,\omega^\beta)\ \ge\ \frac{\Delta^2}{8V'}\Bigl(1-\frac{\Delta\,\|t\|_1}{V'}\Bigr)
+ \ \ge\ \frac{(\Tr\,t\,\delta^\beta)^2}{8\bigl(V(t)+2\sqrt{2E}\,\|t\|_1^2\bigr)}
+ \Bigl(1-\frac{|\Tr\,t\,\delta^\beta|\,\|t\|_1}{V(t)}\Bigr).
+\end{equation}
+The right-hand side depends on \(\beta\) only through \(\delta^\beta\), i.e.\ through the recovered symbol.
+\end{proposition}
+
+\begin{proof}
+\lstep{1}{1}{\(\omega(T)-\omega^\beta(T)=\Tr\,t\,\delta^\beta\), \(\Var_\omega(T)=V(t)\), and
+\(\|T-\omega(T)\|\le\|t\|_1\) (trace norm).}
+\lby{linearity of \(\dd\Gamma\); Wick's theorem for the gauge-invariant quasi-free \(\omega\):
+\(\omega(a^*_ja_ka^*_la_m)-\omega(a^*_ja_k)\omega(a^*_la_m)=\omega(a_j^*a_m)\omega(a_ka_l^*)\), which in
+the eigenbasis of \(Q\) gives \(\Var_\omega(\dd\Gamma(t))=\sum_{jk}|t_{jk}|^2q_j(1-q_k)\)
+(Note~5, Sec.~2; \texttt{lemma\_second\_variation.tex}); and
+\(\|a^*(f)a(g)\|\le\|f\|\|g\|\) applied to \(t=\sum_r\tau_r|f_r\rangle\langle f_r|\) gives
+\(\|\dd\Gamma(t)\|\le\sum_r|\tau_r|=\|t\|_1\), while \(\|T-m\|\le\|T\|\) for \(m\) in the numerical range}
+\lstep{1}{2}{Apply Lemma~\ref{lem:single} with \(\varphi=\omega\), \(\psi=\omega^\beta\), \(N\le\|t\|_1\)
+and \(V'\) as defined, which dominates \(\psi((T-m)^2)\) by Lemma~\ref{lem:variance}; the middle term of
+\eqref{eq:red} results, and the last inequality is \(V'\ge V(t)\).}
+\lby{$\langle1\rangle1$, Lemma~\ref{lem:variance}; \eqref{eq:single2} is monotone in \(N\)}
+\lqed{1}{3}
+\end{proof}
+
+\begin{remark}[How the bound will be used]\label{rem:use}
+Take \(E:=\Phi(z)=f_2z^2(1+o(1))\), the compression value: channels with a larger error are
+irrelevant for \(\Erec\).  For a test operator \(t=t_z\) with \(\Tr\,t_z\delta^\beta=O(z)\),
+\(V(t_z)\) and \(\|t_z\|_1\) of order one, \eqref{eq:red} reads
+\(-\log\Fid\ge\frac{(\Tr t_z\delta^\beta)^2}{8V(t_z)}(1-O(z))\): the sharp Legendre form of the
+quasi-free second-order functional \(g_Q\) of S8, eq.~(3.9), because
+\(g_Q(\delta)=\frac18\sup_t(\Tr t\delta)^2/V(t)\) (S8 Sec.~3.2; the supremum is attained at the
+symmetric logarithmic derivative).  Thus \emph{for every channel}, Gaussian or not,
+\(-\log\Fid(\omega,\omega^\beta)\ge g_Q(\delta^\beta)\,(1-o(1))\), and the all-channel problem is
+reduced to the geometry of the set of achievable recovered symbols, treated next.
+\end{remark}
+
+\section{The achievable recovered symbols}\label{sec:lin}
+
+Throughout, \(\beta:\cA(D)\to\cA(B)\) is a recovery channel (Def.~1.1 of S8: unital, CP,
+normal, even).  For \(g\in\hh_D\) (one-particle vectors localised in \(D\)) put
+\begin{equation}\label{eq:xi}
+ \xi_g:=\beta\bigl(a(g)\bigr)\Omega\ \in\ \overline{\cA(B)\Omega}=\hh ,\qquad
+ b_g:=\beta(a(g))\in\cA(B)_{\mathrm{odd}} .
+\end{equation}
+\(g\mapsto b_g\) is antilinear (\(a(\cdot)\) is antilinear, \(\beta\) linear) and \(g\mapsto\xi_g\)
+antilinear.  We use S8's convention \(\omega(a^*(f)a(g))=\langle g,Qf\rangle\) and write the
+recovered symbol on \(\hh_I=\hh_A\oplus\hh_D\) as the operator \(Q^\beta\) with
+\(\omega^\beta(a^*(f)a(g))=\langle g,Q^\beta f\rangle\); below, \(Q^\beta(f,g):=\omega^\beta(a^*(f)a(g))\)
+is used as a shorthand for this matrix element.  A kernel inequality
+``\([K(g_a,g_b)]_{ab}\ge[K'(g_a,g_b)]_{ab}\) for all finite families'' is the same as the operator
+inequality between the operators whose matrix elements \(\langle g_b,\cdot\,g_a\rangle\) they are.
+
+\begin{lemma}[Gram inequalities from \(2\)-positivity]\label{lem:gram}
+Let \(S_B=J_B\Delta_B^{1/2}\) be the Tomita operator of \((\cA(B),\Omega)\).  Then for all
+\(f\in\hh_A\), \(g,g'\in\hh_D\):
+\begin{align}
+ Q^\beta(f,g)&=\langle a(f)\Omega,\ \xi_g\rangle, \label{eq:AD}\\
+ Q^\beta(g,g')&\ \ge\ \langle \xi_g,\xi_{g'}\rangle\quad\text{as kernels, i.e.\ }
+ \bigl[Q^\beta(g_a,g_b)\bigr]_{ab}\ge\bigl[\langle\xi_{g_a},\xi_{g_b}\rangle\bigr]_{ab}, \label{eq:gram1}\\
+ \langle g,g'\rangle-Q^\beta(g',g)&\ \ge\ \langle S_B\xi_g,S_B\xi_{g'}\rangle\quad\text{as kernels}. \label{eq:gram2}
+\end{align}
+\end{lemma}
+
+\begin{proof}
+\lstep{1}{1}{\eqref{eq:AD}.}
+\lby{\(\omega^\beta(a^*(f)a(g))=\omega(a^*(f)\beta(a(g)))=\langle a(f)\Omega,b_g\Omega\rangle\)
+by the definition of \(\omega^\beta\) (S8 eq.~(1.2)); \(a^*(f)\in\cA(A)\) is odd and
+\(b_g\) is odd, and the graded tensor product convention of S8 Def.~1.1 is exactly the one for
+which \(\omega^\beta(xy)=\omega(x\beta(y))\) for odd \(x,y\) as well (the Klein twist is absorbed
+in the definition of \(\alpha_\beta\))}
+\lstep{1}{2}{For \(y_1,\dots,y_n\in\cA(D)\): \([\beta(y_a^*y_b)]_{ab}\ge[\beta(y_a)^*\beta(y_b)]_{ab}\)
+in \(M_n(\cA(B))\).}
+\lby{the operator Schwarz inequality \(\Phi(y^*y)\ge\Phi(y)^*\Phi(y)\) for a unital \(2\)-positive map
+\(\Phi\) (Choi 1974, \emph{Illinois J.\ Math.}\ \textbf{18}, 565--574), applied to the unital CP map
+\(\Phi=\beta\otimes\mathrm{id}_{M_n}\) and the element \(y=\sum_a y_a\otimes e_{1a}\in\cA(D)\otimes M_n\)
+(\(y^*y=\sum_{ab}y_a^*y_b\otimes e_{ab}\), \(\Phi(y)^*\Phi(y)=\sum_{ab}\beta(y_a)^*\beta(y_b)\otimes e_{ab}\))}
+\lstep{1}{3}{\eqref{eq:gram1}.}
+\lby{$\langle1\rangle2$ with \(y_a=a(g_a)\), evaluated in the vector state \(\Omega\) entrywise:
+\(\omega(\beta(a^*(g_a)a(g_b)))=\omega^\beta(a^*(g_a)a(g_b))=Q^\beta(g_a,g_b)\) and
+\(\omega(\beta(a(g_a))^*\beta(a(g_b)))=\langle\xi_{g_a},\xi_{g_b}\rangle\); a positive
+operator matrix has a positive matrix of \(\Omega\)-expectations}
+\lstep{1}{4}{\eqref{eq:gram2}.}
+\lby{$\langle1\rangle2$ with \(y_a=a^*(g_a)\): \(\beta(a(g_a)a^*(g_b))=\langle g_a,g_b\rangle1-\beta(a^*(g_b)a(g_a))\)
+by the CAR, so the left side has \(\Omega\)-expectation \(\langle g_a,g_b\rangle-Q^\beta(g_b,g_a)\);
+the right side is \(\omega(b_{g_a}b_{g_b}^*)=\langle b_{g_a}^*\Omega,b_{g_b}^*\Omega\rangle
+=\langle S_B\xi_{g_a},S_B\xi_{g_b}\rangle\) because \(S_B(b\Omega)=b^*\Omega\) for \(b\in\cA(B)\)}
+\lqed{1}{5}
+\end{proof}
+
+\begin{remark}
+In the Gaussian case (S8 Def.~2.1, Schr\"odinger one-particle map \(X:\hh_B\to\hh_D\)) the Heisenberg
+action on annihilators is \(b_g=a(X^*g)\), so \(\xi_g=a(X^*g)\Omega\),
+\(\langle\xi_{g_a},\xi_{g_b}\rangle=\omega(a^*(X^*g_a)a(X^*g_b))=\langle g_b,XQ_{BB}X^*g_a\rangle\),
+\(S_B\xi_g=a^*(X^*g)\Omega\),
+\(\langle S_B\xi_{g_a},S_B\xi_{g_b}\rangle=\omega(a(X^*g_a)a^*(X^*g_b))=\langle g_a,X(1-Q_{BB})X^*g_b\rangle\),
+and \(\langle a(f)\Omega,\xi_g\rangle=\omega(a^*(f)a(X^*g))=\langle g,XQ_{BA}f\rangle\): the three
+relations of Lemma~\ref{lem:gram} are then \emph{exactly} the description of the feasible set
+\(\mathcal F\) of S8 Thm.~3.1 (\(Q^{\mathrm{rec}}_{DA}=XQ_{BA}\), \(XQ_{BB}X^*\le Z\le1-X(1-Q_{BB})X^*\)).
+Lemma~\ref{lem:gram} says that \emph{every} channel satisfies the same relations with
+\(a(X^*g)\Omega\) replaced by an arbitrary vector \(\xi_g\in\overline{\cA(B)\Omega}\cap D(S_B)\).
+The next two lemmas show that nothing is gained by this freedom.
+\end{remark}
+
+\begin{lemma}[Projection to the one-particle, charge \(-1\) sector]\label{lem:proj}
+Let \(\hh^{(1)}\subset\hh\) be the one-particle subspace of the vacuum Fock space
+(\(\hh^{(1)}=\overline{\{B(h)\Omega\}}\) in Araki's self-dual notation, i.e.\ the span of the vectors
+\(a(h)\Omega\), \(a^*(k)\Omega\)), \(P_1\) its projection, and \(P_{-}\) the spectral projection of the
+global \(U(1)\) charge onto charge \(-1\) (the charge of \(a(h)\Omega\)).  Put \(\Pi:=P_-P_1\) and
+\(\xi'_g:=\Pi\xi_g\).  Then \(\xi'_g\in D(S_B)\) and \eqref{eq:AD}--\eqref{eq:gram2} hold with
+\(\xi\) replaced by \(\xi'\) (with the same left-hand sides).
+\end{lemma}
+
+\begin{proof}
+\lstep{1}{1}{\(P_1\) and \(P_-\) commute with \(\Delta_B^{it}\) for all \(t\), hence with every
+bounded function of \(\Delta_B\) and with \(\Delta_B^{1/2}\) on its domain; both leave \(D(S_B)=D(\Delta_B^{1/2})\)
+invariant.}
+\lby{for \(P_1\): Baumg\"artel--Jurke--Lled\'o 2002 (math-ph/0204029), Prop.~5.3 and Cor.~5.4 ---
+\(S_B\), \(S_B^*\), \(\Delta_B\) and \(J_B\) restrict to every \(n\)-particle subspace of the Fock space
+(screenshots \texttt{shots/BJL\_p22.png}); hypotheses: \(\cA(B)=M(\mathfrak q)\) with
+\(\mathfrak q=\hh_B\oplus\Gamma\hh_B\) a closed \(\Gamma\)-invariant subspace of Araki's self-dual
+one-particle space \(\mathfrak h\), the vacuum being the Fock state of the basis projection \(P\); BJL
+Sections~4--5 assume \(\mathfrak p:=P\mathfrak h\) and \(\mathfrak q\) in generic position
+(\(\mathfrak p\cap\mathfrak q=\mathfrak p\cap\mathfrak q^\perp=\mathfrak p^\perp\cap\mathfrak q=\mathfrak p^\perp\cap\mathfrak q^\perp=\{0\}\)),
+which by BJL Prop.~3.4 (\texttt{shots/BJL\_p7.png}, p.~10) is equivalent to \(\Omega\) being cyclic
+and separating for \(M(\mathfrak q)\) (\(P\mathfrak q\) dense in \(\mathfrak p\iff\mathfrak p\cap\mathfrak q^\perp=\{0\}\),
+\(P\mathfrak q^\perp\) dense \(\iff\mathfrak p\cap\mathfrak q=\{0\}\), and \(\Gamma\) exchanges
+\(\mathfrak p\leftrightarrow\mathfrak p^\perp\) while preserving \(\mathfrak q,\mathfrak q^\perp\)); for an
+interval \(B\) and the vacuum this is the Reeh--Schlieder property (Note~1, Sec.~2).  For \(P_-\): the gauge
+unitaries \(\Gamma(e^{i\theta})\) fix \(\Omega\) and normalise \(\cA(B)\), so they commute with
+\(S_B\), \(\Delta_B\), \(J_B\) (immediate from the definition of \(S_B\): \(uS_Bu^*\) has the same graph as \(S_B\) when \(u\cA(B)u^*=\cA(B)\) and \(u\Omega=\Omega\); then uniqueness of the polar decomposition)}
+\lstep{1}{2}{\eqref{eq:AD} is unchanged.}
+\lby{\(a(f)\Omega\in\operatorname{ran}\Pi\) (it is a one-particle vector of charge \(-1\)), and
+\(\Pi\) is an orthogonal projection: \(\langle a(f)\Omega,\Pi\xi_g\rangle=\langle\Pi a(f)\Omega,\xi_g\rangle=\langle a(f)\Omega,\xi_g\rangle\)}
+\lstep{1}{3}{\([\langle\xi'_{g_a},\xi'_{g_b}\rangle]\le[\langle\xi_{g_a},\xi_{g_b}\rangle]\) and
+\([\langle S_B\xi'_{g_a},S_B\xi'_{g_b}\rangle]\le[\langle S_B\xi_{g_a},S_B\xi_{g_b}\rangle]\).}
+\lby{a Gram matrix decreases under an orthogonal projection of all its vectors
+(\(G(\xi)-G(\Pi\xi)=G((1-\Pi)\xi)\ge0\)); for the second inequality use
+\(\langle S_B\eta,S_B\eta'\rangle=\langle\Delta_B^{1/2}\eta',\Delta_B^{1/2}\eta\rangle\) (antiunitarity of \(J_B\))
+and $\langle1\rangle1$: \(\Delta_B^{1/2}\Pi\xi=\Pi\Delta_B^{1/2}\xi\), so the modular Gram matrix of
+\(\Pi\xi\) is the Gram matrix of the projected vectors \(\Pi\Delta_B^{1/2}\xi_g\), again
+\(\le\) the unprojected one}
+\lqed{1}{4}
+\lby{$\langle1\rangle2$--$\langle1\rangle3$: the inequalities \eqref{eq:gram1}--\eqref{eq:gram2} have
+\(\beta\)-independent left sides and right sides that only decrease}
+\end{proof}
+
+\begin{lemma}[One-particle vectors of finite modular norm are localised]\label{lem:domain}
+With \(\mathfrak q=\hh_B\oplus\Gamma\hh_B\subset\mathfrak h\) the one-particle subspace of \(B\) and
+\(P\) the basis projection of the vacuum,
+\[
+ D(S_B)\cap\hh^{(1)}=\{B(q)\Omega:\ q\in\mathfrak q\}=P\mathfrak q,
+ \qquad\text{and in the charge \(-1\) sector}\qquad
+ D(S_B)\cap\operatorname{ran}\Pi=\{a(u)\Omega:\ u\in\hh_B\}.
+\]
+\end{lemma}
+\lby{BJL Prop.~5.3: \(S_B\!\restriction\!\hh^{(1)}=\beta\) with
+\(\operatorname{gra}\beta=\{(Pq,P\Gamma q):q\in\mathfrak q\}\) (BJL p.~15, Lemma~4.10: this graph is
+closed, so no closure is to be taken); thus \(D(S_B)\cap\hh^{(1)}=\operatorname{dom}\beta=P\mathfrak q\),
+and \(Pq=B(q)\Omega\) (BJL Lemma~3.5(i), \texttt{shots/BJL\_p11.png}, \texttt{shots/BJL\_p15.png}).
+For the charge \(-1\) part write \(q=u\oplus\Gamma v\) with \(u,v\in\hh_B\): \(B(q)\Omega=a(u)\Omega+a^*(v)\Omega\)
+has charge \(-1\) component \(a(u)\Omega\)}
+
+\begin{theorem}[Every recovered symbol is quasi-free feasible]\label{thm:range}
+For every recovery channel \(\beta\) there is a bounded operator \(X:\hh_B\to\hh_D\) such that,
+with \(Z:=Q^\beta_{DD}\),
+\[
+ Q^\beta=\begin{pmatrix}Q_{AA}&Q_{AB}X^*\\ XQ_{BA}&Z\end{pmatrix},\qquad
+ XQ_{BB}X^*\ \le\ Z\ \le\ 1-X(1-Q_{BB})X^*,
+\]
+i.e.\ \((X,Z)\in\mathcal F\) (S8 Thm.~3.1) and \(Q^\beta=Q^{\mathrm{rec}}(X,Z)\).
+\end{theorem}
+
+\begin{proof}
+\lstep{1}{1}{\(\Pi\xi_g=a(u_g)\Omega\) for a unique \(u_g\in\hh_B\), and \(g\mapsto u_g\) is linear.}
+\lby{Lemmas~\ref{lem:proj} and~\ref{lem:domain}; uniqueness since \(a(u)\Omega=0\iff Q_{BB}u=0\iff u=0\)
+(\(Q_{BB}=E_BP_+E_B\) is injective: a Hardy-space function vanishing on the interval \(B\) vanishes
+identically); linearity because \(g\mapsto\xi_g\) and \(u\mapsto a(u)\Omega\) are both antilinear}
+\lstep{1}{2}{\ldefine{} \(X:\hh_B\to\hh_D\) by \(X^*g:=u_g\).  \(X\) is bounded.}
+\lby{\eqref{eq:gram1} for \(\xi'\): \(\langle u_g,Q_{BB}u_g\rangle=\|a(u_g)\Omega\|^2\le Q^\beta(g,g)\le\|g\|^2\),
+and \eqref{eq:gram2}: \(\langle u_g,(1-Q_{BB})u_g\rangle=\|a^*(u_g)\Omega\|^2\le\|g\|^2\);
+adding, \(\|X^*g\|^2\le2\|g\|^2\)}
+\lstep{1}{3}{The three relations.}
+\lby{Lemma~\ref{lem:gram} for \(\xi'=a(X^*g)\Omega\) (Lemma~\ref{lem:proj}) together with the Gaussian
+evaluations of the Remark after Lemma~\ref{lem:gram}: \eqref{eq:AD} gives
+\(\langle g,Q^\beta_{DA}f\rangle=\langle g,XQ_{BA}f\rangle\); \eqref{eq:gram1} gives
+\([\langle g_b,Zg_a\rangle]\ge[\langle g_b,XQ_{BB}X^*g_a\rangle]\), i.e.\ \(Z\ge XQ_{BB}X^*\);
+\eqref{eq:gram2} gives \([\langle g_a,(1-Z)g_b\rangle]\ge[\langle g_a,X(1-Q_{BB})X^*g_b\rangle]\), i.e.\
+\(1-Z\ge X(1-Q_{BB})X^*\); \(Q^\beta_{AA}=Q_{AA}\) because \(\omega^\beta\) restricts to \(\omega\) on
+\(\cA(A)\) (\(\beta\) unital)}
+\lqed{1}{4}
+\end{proof}
+
+\section{The all-channel second-order problem equals the quasi-free one}\label{sec:cert}
+
+For a bounded self-adjoint finite-rank \(t\) on \(\hh_I\) define the \emph{support-function gap}
+and the \emph{dual value}
+\begin{equation}\label{eq:gap}
+ \Delta_z(t):=\inf_{(X,Z)\in\mathcal F}\Tr\,t\bigl(Q-Q^{\mathrm{rec}}(X,Z)\bigr),\qquad
+ \mathcal D_z:=\sup_{t}\ \frac{\Delta_z(t)_+^2}{8\,V(t)},\qquad V(t)=\Tr\bigl(tQt(1-Q)\bigr),
+\end{equation}
+(all objects depend on the geometry, hence on \(z\)); \(\Delta_z(t)\) is the value of a
+\emph{linear} programme over the convex set \(\mathcal F\).
+
+\begin{theorem}[All-channel lower bound]\label{thm:main}
+\begin{enumerate}[leftmargin=1.6em,itemsep=1pt]
+\item For every recovery channel \(\beta\) and every finite-rank \(t\) with \(\Delta_z(t)>0\),
+\[
+ -\log\Fid(\omega,\omega^\beta)\ \ge\ \min\Bigl\{\Phi(z),\ 
+ \frac{\Delta_z(t)^2}{8\bigl(V(t)+2\sqrt{2\Phi(z)}\,\|t\|_1^2\bigr)}
+ \Bigl(1-\frac{2\,\Delta_z(t)\,\|t\|_1}{V(t)}\Bigr)\Bigr\}
+ \quad\text{(when the last bracket is positive)}.
+\]
+\item Consequently \(\Erec\ge\mathcal D_z\,(1-o(1))\) along any family of test operators
+\(t_z\) with \(\|t_z\|_1^2/V(t_z)\) bounded and \(\Delta_z(t_z)\|t_z\|_1/V(t_z)\to0\); in particular
+\begin{equation}\label{eq:liminf}
+ \liminf_{z\to0}\ z^{-2}\Erec\ \ge\ \sup_{(t_z)}\ \liminf_{z\to0}\ z^{-2}\frac{\Delta_z(t_z)^2}{8V(t_z)}
+\end{equation}
+over all such families.
+\item (Strong duality.)  For each fixed geometry (finite dimensional or continuum),
+\(\mathcal D_z=\min_{(X,Z)\in\mathcal F}g_Q\bigl(Q-Q^{\mathrm{rec}}(X,Z)\bigr)=:\Erec^{(2),\mathrm{qf}}(z)\),
+the quasi-free second-order optimum of S8 Cor.~3.3.  Hence the second-order recovery problem
+over \emph{all} channels has the same value as over gauge-invariant quasi-free channels, up to the
+remainder control of (2), which for finite-dimensional \(\hh_I\) is automatic.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\lstep{1}{1}{(1).  \lassume{} \(E(\beta):=-\log\Fid(\omega,\omega^\beta)<\Phi(z)\) (otherwise the bound holds
+with the first alternative).  Then Prop.~\ref{prop:red} applies with \(E=\Phi(z)\), and
+\(\Tr\,t\,\delta^\beta\ge\Delta_z(t)\) because \(Q^\beta=Q^{\mathrm{rec}}(X,Z)\) for some
+\((X,Z)\in\mathcal F\) by Theorem~\ref{thm:range}; the right side of \eqref{eq:red} is increasing
+in \(\Tr t\delta^\beta\) on the range where the bracket is positive.}
+\lby{Prop.~\ref{prop:red}, Thm.~\ref{thm:range}; monotonicity of \(x\mapsto x^2(1-cx)\) for \(0<x<2/(3c)\),
+which covers the range where the bracket of the statement is positive after replacing \(\Delta\) by
+\(\Delta_z(t)\le\Tr t\delta^\beta\) (if \(\Tr t\delta^\beta\) exceeds \(2V/(3\|t\|_1)\) the bound with
+\(\Delta_z(t)\) is weaker than the one with \(\Tr t\delta^\beta\) only if the latter is past the maximum
+of \(x^2(1-cx)\), in which case use \(x=2/(3c)\) instead; in all cases the stated bound holds)}
+\lstep{1}{2}{(2).}
+\lby{take the infimum over \(\beta\) in (1) and let \(z\to0\); \(\Phi(z)=O(z^2)\) (Theorem~A) makes
+\(2\sqrt{2\Phi}\|t_z\|_1^2/V(t_z)=O(z)\), and \(\Erec\le\Phi(z)\) (S8 Prop.~1.3(4)) rules the first
+alternative in or out consistently: \(\Erec\ge\min\{\Phi,\mathcal D_z(1-o(1))\}\ge\mathcal D_z(1-o(1))\)
+because \(\mathcal D_z\le\Erec^{(2),\mathrm{qf}}\le\Phi(z)(1+o(1))\) (the compression is feasible)}
+\lstep{1}{3}{(3).  \(\mathcal D_z\le\Erec^{(2),\mathrm{qf}}\).}
+\lby{for every \((X,Z)\in\mathcal F\) and every \(t\): \(\Delta_z(t)_+^2/(8V(t))\le(\Tr t\delta)^2/(8V(t))\le g_Q(\delta)\),
+the Legendre form of \(g_Q\) (S8 Sec.~3.2: \(g_Q(\delta)=\frac18\sup_t(\Tr t\delta)^2/V(t)\), the sup
+attained at the symmetric logarithmic derivative \(t=\frac12\sum_{ik}w_{ik}\widetilde\delta_{ik}\,|i\rangle\langle k|\));
+take the inf over \(\mathcal F\)}
+\lstep{1}{4}{(3).  \(\mathcal D_z\ge\Erec^{(2),\mathrm{qf}}\).}
+\lproof
+\lstep{2}{1}{\(\Erec^{(2),\mathrm{qf}}=\min_{\delta\in\mathcal K}\sup_{t\in\mathcal T}L(\delta,t)\), where
+\(\mathcal K:=\{Q-Q^{\mathrm{rec}}(X,Z):(X,Z)\in\mathcal F,\ \|X\|\le1\}\) is convex and compact,
+\(\mathcal T:=\{t=t^*\}\) is convex, and \(L(\delta,t):=\frac18\bigl(2\Tr t\delta-V(t)\bigr)\)
+is affine in \(\delta\) and concave in \(t\).}
+\lby{Legendre form: \(\sup_{t}L(\delta,t)=\frac18\sup_t(\Tr t\delta)^2/V(t)=g_Q(\delta)\) (scale \(t\);
+the supremum over \emph{finite-rank} \(t\) already gives \(g_Q\), as \(g_Q\) is the increasing limit of
+its finite-dimensional truncations).  Compactness of \(\mathcal K\): \(\mathcal F\) is bounded
+(\(0\le Z\le1\) and \(XX^*\le1\), the latter because \(XQ_{BB}X^*\le Z\le1-X(1-Q_{BB})X^*\)); it is closed
+in the weak operator topology because its two constraints are the positivity of the block operators
+\(\bigl(\begin{smallmatrix}Z&XQ_{BB}^{1/2}\\ Q_{BB}^{1/2}X^*&1\end{smallmatrix}\bigr)\) and
+\(\bigl(\begin{smallmatrix}1-Z&X(1-Q_{BB})^{1/2}\\ (1-Q_{BB})^{1/2}X^*&1\end{smallmatrix}\bigr)\), which are
+\emph{affine} in \((X,Z)\) (S8, Remark after Thm.~3.1), and positivity is WOT-closed; bounded WOT-closed sets
+are WOT-compact; \(\delta=Q-Q^{\mathrm{rec}}(X,Z)\) is WOT-continuous affine in \((X,Z)\); and
+\(\delta\mapsto\Tr t\delta\) is WOT-continuous for finite-rank \(t\)}
+\lstep{2}{2}{\(\min_{\delta\in\mathcal K}\sup_{t}L=\sup_t\min_{\delta\in\mathcal K}L\).}
+\lby{Sion's minimax theorem in the form of Sion 1958 (\emph{Pacific J.\ Math.}\ \textbf{8}, 171--176),
+Corollary~3.3 (p.~175, screenshot \texttt{shots/Sion1958\_p5.png}): two convex sets, \emph{one of which is
+compact}, and a quasi-concave-convex, u.s.c.-l.s.c.\ function; here \(\mathcal K\) is compact convex (WOT),
+\(\mathcal T\) = finite-rank self-adjoint operators is convex, \(L(\cdot,t)\) is continuous affine on
+\(\mathcal K\) for each \(t\in\mathcal T\), and \(L(\delta,\cdot)\) is continuous concave on \(\mathcal T\).  (\(\min_{\mathcal K}\sup_{\mathcal T}L\) may be \(+\infty\) only if \(g_Q=+\infty\) on all of
+\(\mathcal K\), excluded since the compression has \(g_Q<\infty\))}
+\lstep{2}{3}{\(\sup_t\min_{\delta\in\mathcal K}L(\delta,t)=\sup_t\frac18\bigl(2\Delta_z(t)-V(t)\bigr)=\sup_t\frac{\Delta_z(t)_+^2}{8V(t)}=\mathcal D_z\).}
+\lby{\(\min_\delta\Tr t\delta=\Delta_z(t)\) by definition; then optimise the scale \(t\mapsto\lambda t\), \(\lambda\ge0\)
+(\(\Delta_z(\lambda t)=\lambda\Delta_z(t)\), \(V(\lambda t)=\lambda^2V(t)\)); if \(\Delta_z(t)\le0\) the sup over
+\(\lambda\) is \(0\)}
+\lqed{2}{4}
+\lqed{1}{5}
+\end{proof}
+
+\begin{verdictok}[\;What is now proved]
+S8's ``sharpened open question'' (Verdict~Q4) is answered: the recovered symbol of an
+\emph{arbitrary} recovery channel is quasi-free feasible (Theorem~\ref{thm:range}), and the
+recovery error of an arbitrary channel is bounded below by the quasi-free second-order functional
+of its symbol (Prop.~\ref{prop:red}).  In finite dimensions the all-channel second-order optimum
+\emph{equals} the quasi-free one (Theorem~\ref{thm:main}(3)); in the continuum the same holds in
+the dual form \eqref{eq:liminf}.  Optimality of the geometric compression among all channels is
+therefore \emph{equivalent} to its optimality among gauge-invariant quasi-free channels, i.e.\ to
+the statement that the convex programme of S8 Cor.~3.3 has second-order value \(f_2z^2\).  That
+last statement is addressed in Section~\ref{sec:sdp}.
+\end{verdictok}
+
+\section{The quasi-free programme: the certificate at the compression}\label{sec:sdp}
+
+This section summarises track S10 (\texttt{sdp\_dual\_certificate.tex}, 960 lines, structured
+proofs) and the orchestrator's independent checks.  Notation: \(W_s\) is the one-particle
+unitary of the \(C^{1,1}\) map \(k_s\) (identity on \(A\), M\"obius on \(D\); \texttt{uhlmann\_upper\_bound.tex}),
+\(V_c:=E_BW_sE_D:\hh_D\to\hh_B\) is \emph{unitary} in the continuum (\(k_s\) maps \(D\) onto \(B\)
+at \(s=\lambda\)), and the compression point is \((X_c,Z_c)=(V_c^*,V_c^*Q_{BB}V_c)\): both
+constraints of \(\mathcal F\) are active there (\(Y=0\), \(XX^*=1\)).
+
+\begin{theorem}[S10 Thm.~3.2: exact certificate, necessary and sufficient]\label{thm:s10kkt}
+For a trace-class \(t=t^*\) on \(\hh_I\) let \(L(X,Z):=\Tr\bigl(t\,Q^{\mathrm{rec}}(X,Z)\bigr)\) and
+\(\Sigma_1:=t_{DA}Q_{AB}V_c-t_{DD}V_c^*(1-Q_{BB})V_c\), \(\Sigma_2:=\Sigma_1+t_{DD}\).  Then
+\(\sup_{\mathcal F}L=L(X_c,Z_c)\) if and only if \(\Sigma_1=\Sigma_1^*\), \(\Sigma_1\ge0\), \(\Sigma_2\ge0\);
+the multipliers are unique.  Consequently the compression minimises \(g_Q\) over \(\mathcal F\) iff
+this holds for \(t=t_c\), the symmetric logarithmic derivative of its own defect \(\delta_c\).
+\end{theorem}
+\lby{S10 Thm.~3.2 and Cor.~3.4: sufficiency is weak duality for the concave Lagrangian
+\(L+\Tr\Sigma_1(Z-XQ_{BB}X^*)+\Tr\Sigma_2(1-Z-X(1-Q_{BB})X^*)\), stationary at \((X_c,Z_c)\); necessity
+from two explicit feasible perturbation families (\(X_c\mapsto X_cU\) with \(U\) unitary on \(\hh_B\), and
+\(X_c\mapsto X_c(1-\frac\eps2\gamma)\) with the freed noise budget used optimally); uniqueness
+because \(X_c\) is invertible --- which is where the continuum (\(V_c\) unitary) is essential}
+
+\begin{lemma}[S10 Lemmas 4.1, 6.1: the isometric orbit]\label{lem:orbit}
+(i) For \(t\) supported in \(I\), \(V(t)=\|P^\perp tP\|_2^2\), and for a first-order defect
+\(\delta=E_I[P,\mathcal Z]E_I\) (\(\mathcal Z\) anti-self-adjoint) one has
+\(g_Q(\delta)=\frac12\|\Pi P^\perp\mathcal ZP\|_2^2\), where \(\Pi\) is the orthogonal projection (real
+Hilbert--Schmidt structure) onto the closure of \(\{P^\perp tP:\ t=t^*\text{ supported in }I\}\).
+(ii) For bounded anti-self-adjoint \(\mathcal G=E_D\mathcal GE_D\) and \(\eps\in\mathbb R\),
+\(\widetilde W_\eps:=W_se^{-\eps\mathcal G}\) is the identity on \(L^2(A)\) and maps \(L^2(D)\) onto
+\(L^2(B)\); \((V_\eps^*,V_\eps^*Q_{BB}V_\eps)\in\mathcal F\) with \(V_\eps=E_B\widetilde W_\eps E_D\), the
+defect is \(E_I[P,sD_\chi+\eps\mathcal G]E_I+O(s^2+\eps^2+\eps s)\), and
+\[
+ \min_\eps g_Q(\delta(\eps))=g_Q(\delta_c)\bigl(1-\cos^2\angle(u,v_{\mathcal G})\bigr)+o(s^2),\qquad
+ u:=\Pi P^\perp D_\chi P,\quad v_{\mathcal G}:=\Pi P^\perp\mathcal GP .
+\]
+(iii) \(\theta:=\sup_{\mathcal G}\cos^2\angle(u,v_{\mathcal G})>0\) iff the anti-self-adjoint part of
+\(E_DuE_D\) is nonzero; and \(E_DuE_D\) is \emph{purely} anti-self-adjoint (S10 Lemma~11.1: the
+\(DD\)-block of the first-order compression defect vanishes because the M\"obius generator commutes with
+\(P\) and is local).
+\end{lemma}
+\lby{(i) is the Legendre computation: for local \(t\), \(\Tr(tQ_It(1-Q_I))=\Tr(tPt(1-P))=\|P^\perp tP\|_2^2\)
+since \(E_It=t\), and \(\Tr(t\,E_I[P,\mathcal Z]E_I)=-2\Re\langle P^\perp tP,P^\perp\mathcal ZP\rangle_2\)
+(block decomposition), so \(\frac18\sup_t(\Tr t\delta)^2/V(t)=\frac12\|\Pi P^\perp\mathcal ZP\|_2^2\);
+(ii)--(iii): S10 Lemma~6.1, Thm.~6.2, Lemma~11.1 (checked line by line by the orchestrator)}
+
+\paragraph{Numerical value of \(\theta\) (S10 Sec.~7).}  In a spectral model on the circle
+(Neveu--Schwarz modes, exact projection \(P\), \(L=256\)--\(768\) grid points; validated by reproducing
+Theorem~A, \(g_Q(\delta_c)/f_2\zeta^2=0.984\)--\(0.991\) with \(O(1/L)\) drift), conjugate gradients on
+the quadratic problem defining \(\theta\) give \(\theta=0.2895,0.2924,0.2950\) for \(L=256,384,512\),
+Richardson \(\theta_\infty=0.300\pm0.005\), independent of the geometry (as M\"obius covariance
+requires) and of the weight cap (\(10^6\) vs \(10^{12}\)); the optimal rotation is bounded
+(\(\|\eps_*\mathcal G_*\|/s\approx0.49\)) and Shale--Stinespring implementable
+(\(\|P^\perp\eps_*\mathcal G_*P\|_2/s\approx0.06\)).  A non-perturbative check with the exact defect of
+\(\widetilde W_{\eps}\) and the capped SLD form gives \(\min_\eps g_Q/g_Q(\delta_c)=0.705,0.705,0.704\) at
+\(s=0.001,0.002,0.005\) (cap \(10^4\)); with cap \(10^8\) the orchestrator finds \(0.707,0.712,0.738\),
+i.e.\ the gain persists but erodes with \(s\) through the modular ultraviolet.
+\emph{Superseded by Phase~5 (F3, \texttt{numerics/optimality\_all/F3\_RESULTS.md}, 2026-09-15):}
+the reconciled value is \(\theta=0.384\pm0.003\); the number \(0.300\pm0.005\) quoted in this
+paragraph is a \emph{taper-suppressed lower bound}, because the smoothstep ultraviolet taper that
+S10 puts on the spectral derivative removes modes carrying \(\approx20\%\) of \(\theta\) (there is
+no taper-free lattice limit, the second Fermi point obstructing it), and \(\theta_{\rm circ}\) rises
+linearly in \(\log L\), so the \(1/L\) Richardson extrapolation used the wrong variable.  The table
+values below are kept as the historical record.
+
+\begin{verdictbreak}[\;The zero-collar compression is not the optimum of the quasi-free programme]
+By Lemma~\ref{lem:orbit}, \(\min_{\mathcal F}g_Q\le(1-\theta)f_2z^2(1+o(1))\approx0.70\,f_2z^2\), so the
+certificate of Theorem~\ref{thm:s10kkt} does not exist at the compression, and by
+Theorem~\ref{thm:main}(3) no test operator can certify \(\liminf z^{-2}\Erec\ge f_2\).  The
+statement this document set out to prove --- optimality of the geometric compression among all
+channels --- is therefore \emph{false at the level of the second-order functional}, provided
+\(\theta>0\) (numerical, \(0.384\pm0.003\); F3); whether it is false in exact fidelity depends on the upper half of
+the expansion for the rotated channel, examined in Sec.~\ref{sec:exactfid} and left open in the
+Verdict.  What survives is the equivalence of Section~\ref{sec:cert}: the
+all-channel optimum is the quasi-free optimum, now known to lie in \([\,\mathcal D_z,\ 0.616f_2z^2]\) (\(1-\theta=0.616\pm0.003\), F3).
+\end{verdictbreak}
+
+\subsection{Exact-fidelity check of the rotated channel}\label{sec:exactfid}
+
+The SLD form is only the second-order approximation where the defect is small relative to the
+modular occupation numbers; in the spectral model the \emph{uncapped} form already overshoots at
+\(s=10^{-3}\) (cap \(10^{12}\): \(g_Q(\delta_c)/\frac12s^2\|u\|^2=1.19,1.78,5.9\) at
+\(s=0.001,0.002,0.005\)), and with that cap the rotated channel shows \emph{no} gain at \(s=10^{-3}\)
+(ratio \(1.000\); \(0.946\), \(0.805\) at the two larger \(s\)).  Whether the gain is real is therefore
+decided only by the exact root fidelity of the two Gaussian states.  The orchestrator computes it
+(\texttt{numerics/optimality\_all/exact\_fidelity\_rotated.py}) in \texttt{mpmath} at \(60\) digits with the
+exact projection \(P_{jk}=L^{-1}\sum_{\nu>0}e^{i\nu(\theta_j-\theta_k)}\), exact matrix exponentials for
+\(\widetilde W=e^{-sD_\chi}e^{-\eps\mathcal G_*}\) (the double-precision \(D_\chi,\mathcal G_*\) being
+taken as the definition of the channel), and Note~5 Thm.~2.1 in the numerically stable form
+\[
+ \Fid=\det(1-Q_1)^{1/2}\det(1-Q_2)^{1/2}\prod_i\bigl(1+\sigma_i(C)\bigr),\qquad
+ C=(1-Q_1)^{-1/2}Q_1^{1/2}\,Q_2^{1/2}(1-Q_2)^{-1/2},
+\]
+(\(\sigma_i(C)^2\) are the eigenvalues of \(G_1^{1/2}G_2G_1^{1/2}\); only the large singular values
+matter, so an SVD at working precision suffices), eigenvalues clipped to \([10^{-30},1-10^{-30}]\)
+(a state perturbation of order \(10^{-28}\)).  The implementation reproduces the brute-force
+many-body fidelity on three random modes to \(12\) digits.
+
+\paragraph{S11's windowed exact fidelity (\texttt{sdp\_certificate\_numerics.tex} Sec.~4, \texttt{s11\_exactF.py}).}
+Independently, S11 evaluates the same exact formula after compressing both states onto the spectral
+window \(|\kappa|\le\kappa_c\) of \(Q\) (a channel, hence a rigorous lower bound for each
+\(-\log\Fid\), increasing in \(\kappa_c\); both channels compressed with the same window).  At
+\(\eps/s=-1\) (S10's optimum) the ratio rotated/compression of the windowed exact errors is
+\begin{center}\small
+\begin{tabular}{lcccccc}
+\toprule
+ & \(\kappa_c=10\) & \(15\) & \(20\) & \(25\) & \(30\) & \(32\)\\
+\midrule
+\(L=192\), \(s=0.05\) & 0.589 & 0.625 & 0.649 & 0.666 & 0.672 & ---\\
+\(L=320\), \(s=0.02\) & --- & 0.611 & --- & 0.649 & --- & 0.666\\
+\bottomrule
+\end{tabular}
+\end{center}
+against \(0.709\) and \(0.705\) for the capped SLD form; the best exact ratio over \(\eps\) is
+\(0.669\) (\(L=192\)) and \(0.662\) (\(L=320\)) at \(\eps/s=-1.1\).  The ratio increases with the
+window and appears to converge to a value in \([0.67,0.71]\); in no window is the gain smaller
+than \(30\%\).  (In this model the uncapped SLD form is meaningless --- \(g_Q^{\mathrm{unc}}\sim10^{283}\)
+--- because the eigenvalues of \(Q\) sit at the double-precision floor; this is the order-of-limits
+effect in its most extreme form, and the reason the SLD form cannot decide the question.)
+% RESULTS-PLACEHOLDER
+
+\paragraph{Orchestrator's full exact fidelity, and the Uhlmann bound, in the spectral model.}
+With the exact projection and \(60\)-digit arithmetic (\texttt{exact\_fidelity\_rotated.py}) the
+\emph{full} exact errors at \(L=96\), \(s=0.005\) are \(2.619\times10^{-7}\) (compression) and
+\(2.471\times10^{-7}\) (rotated, \(\eps=\eps_*\)): ratio \(0.9435\), and the compression's error is
+\(2.95\) times its second-order value \(\frac12s^2\|u\|^2=8.88\times10^{-8}\); at \(s=0.002\) and \(0.001\)
+the ratios are \(0.9442\) and \(0.9445\) with the same excess factor \(2.95\), so the excess scales as
+\(s^2\) and is a property of the discretised flow, not a higher-order effect.  At \(L=160\) the ratio is
+\(0.9473\) (\(s=0.005\)) and \(0.9478\) (\(s=0.002\)) with excess factor \(2.70\) at both \(s\): the excess decreases only slowly with the grid
+(\(2.95\to2.70\) for \(L=96\to160\)), so grids that would make the exact fidelity faithful to the
+continuum are out of reach for the \(60\)-digit dense computation.  The Uhlmann bound
+\(-\frac12\log\det(1-V^*V)\), \(V=P^\perp\widetilde WP\) (\texttt{uhlmann\_rotated.py}), behaves the same way:
+\(\mathrm{UB}_c/(\frac12s^2\|u\|^2)=4.57,4.39,4.32,4.31\) for \(L=96,160,256,384\), independent of
+\(s\in\{0.005,0.002,0.001\}\), and \(\mathrm{UB}_{\mathrm{rot}}/\mathrm{UB}_c=0.95\) at \(\eps_*\) (\(0.94\) at
+the best \(\eps/s=-0.7\)).  Both excesses over the second-order value are stable in \(L\), so they are
+not discretisation noise but the invisible component of the model's \emph{particular} extension
+(the Gaussian taper \(e^{-\alpha(\theta-\theta_D)^2}\) is far from the optimal exterior extension whose
+infimum is \(\|u\|^2\)) and, for the exact fidelity, the discretised flow's failure to preserve the
+Hardy space in the ultraviolet.  Neither number can be compared with the continuum second-order
+prediction; the model resolves the \emph{visible} second-order functional faithfully (S10 Sec.~7(a))
+but not the exact fidelity.
+
+\subsection{Independent cross-check of \(\theta\) in the modular Galerkin frame}\label{sec:galerkin}
+S10's value of \(\theta\) comes from one spectral model on the circle (with an ultraviolet taper on
+the derivative).  The orchestrator recomputed it in S11's block-exact modular Galerkin model
+(\texttt{kkt\_continuum.py}: piecewise-constant cells in the modular coordinate of \(AD\), the
+vacuum symbol on \(I\) in closed form, \(\hh_A,\hh_B,\hh_C\) exact coordinate subspaces, true SLD
+weights, no cap and no taper), where the first-order defect on the isometric orbit is simply
+\(\delta_c+\eps[Q,G]\) for \(G\) anti-Hermitian on \(\mathcal V_D\) (because \(E_I[P,G]E_I=[Q,G]\) for
+\(G\) supported in \(D\subset I\)); \(\theta\) is then \(2\langle\beta,\mathfrak A^{-1}\beta\rangle/g_Q(\delta_c)\)
+with \(\beta=\frac14\Phi^\dagger W\delta_c\), \(\mathfrak A=\frac12\Phi^\dagger W\Phi\), \(\Phi(G)=[Q,G]\),
+solved by conjugate gradients (\texttt{theta\_galerkin.py}).  The gain is verified directly by
+evaluating \(g_Q\) at the rotated defect with the optimal \(G\):
+\begin{center}\small
+\begin{tabular}{lcccccc}
+\toprule
+\(h\) & \(N\) & \((n_A,n_B,n_C)\) & \(g_Q(\delta_c)/f_2\zeta^2\) & \(\theta\) & \(\min_\eps g_Q(\delta(\eps))/g_Q(\delta_c)\) & \(\|\delta_{c,DD}\|\)\\
+\midrule
+0.40 & 69 & (30,9,30) & 0.869 & 0.286 & 0.714 & 0\\
+0.30 & 91 & (40,11,40) & 0.896 & 0.299 & 0.701 & 0\\
+0.25 & 110 & (48,14,48) & 0.915 & 0.314 & 0.686 & 0\\
+0.20 & 137 & (60,17,60) & 0.931 & 0.324 & 0.676 & 0\\
+0.15 & 183 & (80,23,80) & 0.949 & 0.336 & 0.664 & 0\\
+\midrule
+0.20, \(s=0.02\) & 145 & (60,25,60) & 0.931 & 0.324 & 0.676 & 0\\
+0.20, \(s=0.5\) & 130 & (60,10,60) & 0.932 & 0.325 & 0.675 & 0\\
+\bottomrule
+\end{tabular}
+\end{center}
+(\(a=1\), \(L=2\), \(\Lambda=12\), \(s=0.1\) unless stated, first-order kernel.)  The gain is
+independent of \(s\) (as a first-order quantity must be), and \(\theta\) \emph{increases} with
+resolution, \(0.29\to0.34\), with no sign of saturation at the meshes reachable; the true continuum
+value is therefore at least \(0.30\) and plausibly in \(0.34\)--\(0.40\); the Phase~5
+reconciliation gives \(\theta=0.384\pm0.003\) (F3, \texttt{numerics/optimality\_all/F3\_RESULTS.md}).  The M\"obius-rigidity
+statement \(\delta_{c,DD}=0\) (S10 Lemma~11.1) is exact in this frame.  Two entirely different
+discretisations thus agree that composing the compression with a Bogoliubov rotation inside \(B\)
+lowers the second-order error by at least \(30\%\).
+
+
+
+% to be written
+
+\section{Numerics: the exact all-channel SDP on tiny chains}\label{sec:num}
+
+\paragraph{Method.}  On the half-filled hopping chain of S8 (\(Q_{ij}=\sin(\pi(i-j)/2)/(\pi(i-j))\),
+regions of \(L_A,L_B,L_C\) consecutive sites, Jordan--Wigner with \(A\) leftmost) the optimum over
+\emph{all} recovery channels is a single semidefinite programme
+(\texttt{numerics/optimality\_all/all\_channels\_sdp.py}): the Choi matrix \(C\ge0\) of the
+Schr\"odinger channel \(E=\beta_*:\ \mathcal B(\hh_B)\to\mathcal B(\hh_{BC})\) with
+\(\Tr_{BC}C=1_B\), the recovered state \(\rho^\beta=(\mathrm{id}_A\otimes E)(\rho_{AB})\) (affine in
+\(C\)), and Watrous' fidelity SDP \(\Fid(\rho,\sigma)=\max\{\Re\Tr X:\ \bigl(\begin{smallmatrix}\rho&X\\X^*&\sigma\end{smallmatrix}\bigr)\ge0\}\)
+are combined into one maximisation (jointly convex because \(\sigma=\rho^\beta\) is affine in \(C\)).
+Evenness of \(\beta\) is the linear constraint \((P_B\otimes P_{BC})C(P_B\otimes P_{BC})=C\); with the
+Jordan--Wigner ordering chosen, the fermionic recovered state is then the qubit recovered state.
+Solver: Clarabel (interior point), tolerances \(10^{-8}\).
+
+\begin{center}\small
+\begin{tabular}{lcccccc}
+\toprule
+\((L_A,L_B,L_C)\) & \(z\) & Petz \(-\log\Fid\) & all-channel optimum & opt/Petz & opt\(/z^2\) & parity constraint \\
+\midrule
+(1,2,1) & 0.1250 & \(2.5138\times10^{-3}\) & \(2.4839\times10^{-3}\) & 0.988 & 0.159 & no effect (\(3\times10^{-10}\)) \\
+(2,2,1) & 0.2000 & \(4.1092\times10^{-3}\) & \(4.0235\times10^{-3}\) & 0.979 & 0.101 & --- \\
+(1,2,2) & 0.2000 & \(4.0641\times10^{-3}\) & \(3.4215\times10^{-3}\) & 0.842 & 0.086 & --- \\
+(1,3,1) & 0.0667 & \(5.7789\times10^{-4}\) & \(5.5217\times10^{-4}\) & 0.956 & 0.124 & --- \\
+(2,3,1) & 0.1111 & \(1.1148\times10^{-3}\) & \(1.0176\times10^{-3}\) & 0.913 & 0.082 & --- \\
+(2,2,2) & 0.3333 & \(7.8275\times10^{-3}\) & \(5.1901\times10^{-3}\) & 0.663 & 0.047 & --- \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Findings.}
+\begin{enumerate}[leftmargin=1.6em,itemsep=1pt]
+\item \emph{The optimum over all channels is Gaussian.}  On \((1,2,1)\) the optimal recovered state
+\(\rho^\beta\) is gauge covariant (\(\|[\rho^\beta,N]\|=10^{-18}\)), has no pairing, satisfies Wick's
+theorem (four-point deviation \(3.6\times10^{-7}\)) and is at trace distance \(4\times10^{-6}\) from
+the Gaussian state with the same symbol, whose \(-\log\Fid\) equals the optimum to \(7\times10^{-9}\)
+(\texttt{analyze\_opt.py}).  On \((2,2,2)\), the geometry with the largest gain over Petz, the same holds (trace distance
+\(5\times10^{-6}\), Wick deviation \(3\times10^{-11}\), commutator with \(N\) at \(10^{-20}\)).  This is
+the numerical counterpart of Theorem~\ref{thm:main}(3).
+\item \emph{The relaxation of Section~\ref{sec:lin} is tight on the lattice.}  Minimising the (capped,
+\(\kappa_c=8\)) SLD form over the exact lattice analogue of Lemma~\ref{lem:gram}--\ref{lem:proj}
+(\(\xi_g\in\cA(B)\Omega_{\mathrm{odd}}\), Tomita operator computed on the purified chain) gives
+\(3.496037\times10^{-3}\), against \(3.496042\times10^{-3}\) over the Gaussian set \(\mathcal F\)
+(\texttt{relaxation\_test.py}).  Note that on the lattice \(\cA(B)\Omega\) is finite dimensional and the
+one-particle reduction of Lemma~\ref{lem:domain} is replaced by the Schmidt-support restriction; the
+continuum statement is cleaner.
+\item \emph{Order of limits.}  On these tiny chains \(g_Q\) overestimates the exact \(-\log\Fid\)
+(\(3.5\times10^{-3}\) vs \(2.48\times10^{-3}\)), the phenomenon of S8's ``order of limits'' box:
+\(z\) is not small compared with \(e^{-\kappa_{\max}}\).  The equality in item~2 is an equality of two
+minima of the \emph{same} quadratic form and is unaffected.
+\item \emph{Theorem~\ref{thm:range} on the lattice.}  For the all-channel optimum, the Petz map and
+random parity-covariant channels (random Choi matrices, strongly non-Gaussian: trace distance
+\(0.2\)--\(0.3\) to the Gaussian state with the same symbol) on \((1,2,1)\) and \((2,2,1)\), the recovered
+symbol lies in \(\mathcal F\): the feasibility SDP (find \(X\) with \(Q^\beta_{DA}=XQ_{BA}\) and the two
+LMIs) has minimal slack \(\le0\) in every case (\texttt{symbol\_in\_F\_test.py}; the Petz symbol sits on
+the boundary, \(|s^*|<10^{-9}\), as it must: both constraints are active there).  Random parity-covariant \emph{isometric} channels \(E(\rho)=W\rho W^*\) --- extreme points of the
+channel set, with recovered states at trace distance \(1.3\)--\(1.5\) from Gaussian and
+\(-\log\Fid\) between \(0.47\) and \(1.56\) --- also pass, with slack \(s^*\in[-0.16,-0.05]\)
+(twelve trials on the two geometries).  Note that the lattice lacks the type-III ingredient of Lemma~\ref{lem:domain}, so this is a
+consistency check of the conclusion, not of the proof.
+\item \emph{Petz is not optimal, but on tiny chains it is close.}  The gain over Petz grows with the
+size of \(C\) relative to \(B\) (\(0.66\) at \((2,2,2)\)); S8's larger chains reach \(0.27\).
+\end{enumerate}
+
+
+\section{Verdict (2026-09-10, revised after the exact-fidelity runs)}\label{sec:verdict}
+
+\begin{verdictok}[\;What is proved]
+\begin{enumerate}[leftmargin=1.6em,itemsep=1pt]
+\item Exact single-observable fidelity bound (Lemma~\ref{lem:single}) and its one-particle form
+(Prop.~\ref{prop:red}): for \emph{every} recovery channel, \(-\log\Fid\ge g_Q(Q-Q^\beta)(1-o(1))\) in
+the Legendre sense.
+\item Every recovered symbol is quasi-free feasible (Theorem~\ref{thm:range}); the second-order
+recovery problem over all channels equals the quasi-free convex programme (Theorem~\ref{thm:main}).
+\emph{This is the positive result of the document:} the all-channel optimum is bounded below by the
+value \(\mathcal D_z=\min_{\mathcal F}g_Q\) of an explicit semidefinite programme in one-particle data, and
+above by the compression value \(f_2z^2(1+o(1))\).
+\item The exact KKT certificate at the compression (S10 Thm.~3.2), the Legendre reduction (S10
+Lemma~4.1), M\"obius rigidity \(\delta_{c,DD}=0\) (S10 Lemma~11.1) and the isometric-orbit formula
+(S10 Lemma~6.1): together they reduce the question ``is the compression the minimiser of the
+second-order functional \(g_Q\) over \(\mathcal F\)?'' to the single statement \(E_DuE_D=0\).
+\end{enumerate}
+\end{verdictok}
+
+\begin{verdictbreak}[\;The compression is not the minimiser of the second-order functional]
+\(E_DuE_D\ne0\) numerically in two independent discretisations (S10's spectral model,
+a taper-suppressed lower bound \(\theta\ge0.300\pm0.005\); the modular Galerkin model,
+\(\theta=0.29\to0.34\) increasing with resolution), and the Phase~5 reconciliation of the two
+frames gives \(\theta=0.384\pm0.003\) (F3, \texttt{numerics/optimality\_all/F3\_RESULTS.md}).
+Hence \(\mathcal D_z=\min_{\mathcal F}g_Q\le(1-\theta)f_2z^2(1+o(1))\le0.616f_2z^2\): the zero-collar
+compression is \emph{not} the optimum of the quasi-free second-order programme, the KKT certificate
+does not exist at the compression, and no dual test operator can certify \(\liminf z^{-2}\Erec\ge f_2\).
+S8's Verdict~Q2 (``consistent with optimal'') is superseded at the level of the second-order functional.
+\end{verdictbreak}
+
+\begin{verdictgap}[\;Whether the rotated channel beats the compression in \emph{exact} fidelity is not settled]
+The second-order functional is a rigorous \emph{lower} bound for every channel (item 1), so the
+statement above bounds \(\Erec\) only from below: \(\Erec\ge\mathcal D_z(1-o(1))\) with
+\(\mathcal D_z\le0.616f_2z^2\).  To conclude \(\Erec<f_2z^2\) one needs the \emph{upper} half
+\(-\log\Fid(\omega,\omega^{\beta_\eps})\le g_Q(\delta(\eps))(1+o(1))\) for the rotated channel --- the
+analogue of what \texttt{uhlmann\_upper\_bound.tex} proved for the compression --- and it is open.  The
+numerical evidence is split.  S11's exact fidelity restricted to spectral windows \(|\kappa|\le\kappa_c\)
+gives ratios \(0.59\to0.67\) as the window grows, but these are ratios of lower bounds (each windowed
+value is a compression of both states) and need not bound the ratio.  The orchestrator's full exact
+fidelity at \(60\) digits (Sec.~\ref{sec:exactfid}) gives, at \(L=96\), \(s=0.005\), a ratio of only
+\(0.9435\), while the compression's own exact error is \(2.95\) times its second-order value: in the
+finite spectral model the discretised \(W_s\) does not preserve the Hardy space in the ultraviolet,
+and the resulting defect in modes with exponentially large weights dominates the exact error of
+\emph{both} channels.  The full exact fidelity in this model is therefore not a valid test either.
+Status: \(\Erec\in[\,\mathcal D_z(1-o(1)),\ f_2z^2(1+o(1))\,]\) with \(\mathcal D_z\le0.616f_2z^2\); whether the
+compression is optimal in exact fidelity is \emph{open}, and it hinges on the ultraviolet behaviour
+of the rotation \(\mathcal G_*\) (its Riesz vector is spread over the whole modular window, S10 Sec.~7),
+i.e.\ on whether \(\Erec\) is a second-order quantity for channels whose defect is not
+M\"obius-rigid.
+\end{verdictgap}
+
+\begin{verdictgap}[\;What remains open, and how to settle it]
+(i) \(\theta>0\) analytically (a proof needs \(E_DuE_D\ne0\) for the Riesz vector \(u\) of the
+compression direction).  (ii) The upper half for the rotated channel.  The natural route is the one
+that worked for the compression: \(\Fid\ge|\langle\Omega,\Gamma(\widetilde W)\Omega\rangle|=\det(1-V^*V)^{1/2}\),
+\(V=P^\perp\widetilde WP\), with \(\widetilde W=W_{s}e^{-\eps\mathcal G}\) extended to the line; to leading order
+\(-\log\Fid\le\frac12\|sM_{\chi'}+\eps P^\perp\mathcal GP\|_2^2\), and the infimum over the exterior
+extensions \(\chi'\) equals \(g_Q(\delta(\eps))\) if and only if the invisible component of
+\(P^\perp\mathcal G_*P\) lies in the closure of the exterior variations \(\{P^\perp D_\psi P:\ \operatorname{supp}\psi\cap I=\emptyset\}\)
+(for \(M\) itself this is P1's three-way identity, \texttt{uhlmann\_upper\_bound.tex} Sec.~5).  This is a
+concrete, checkable statement.  (iii) The exact value of \(\mathcal D_z\) (non-isometric channels).
+(iv) A numerical model in which the compression is exactly Hardy-preserving (a \(\zeta\)-uniform mesh,
+S11 Sec.~3), so that the exact fidelity of the rotated channel can be compared with the compression's.
+\end{verdictgap}
+
+\paragraph{Consequences for the notes and papers.}  Note~5 Cor.~5.1 and S8's Verdict~Q3 must say
+``optimal within the rotated family'' and ``consistent with optimal in exact fidelity; not the
+minimiser of the second-order functional''.  \texttt{open\_problems\_plan.tex} O8: the all-channel
+problem is reduced to the quasi-free SDP (proved); the compression is not its second-order
+minimiser; its optimality in exact fidelity is open and now sharply localised in (ii) above.
+Paper~1's outlook paragraph must be corrected accordingly before submission.
+
+\end{document}

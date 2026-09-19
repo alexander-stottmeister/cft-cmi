@@ -1,0 +1,162 @@
+% !TeX root = main.tex
+\label{sec:numerics}
+All continuum computations use $r=1$, $a=1$, $L=2$, so that $\zeta=s/3$; by
+\cref{lem:mobius} this is no restriction.  (The M\"obius-equivalent configuration
+$(a,L,s)=(2,1,0.1)$ reproduces $\Phi$ exactly, but only because the two defect
+matrices are complex conjugates of one another identically, so this carries no
+independent information.)
+
+\subsection{The box compression}
+In the modular coordinate $\xi=\log\frac{x+a}{L-x}$ of \eqref{eq:modes}, with the
+half-density identification $f\mapsto\beta^{1/2}f$, the vacuum symbol is a
+translation-invariant kernel on the line.  The finite-rank projections $P_n$ of
+\cref{thm:detrep} are taken to be the Fourier modes of a box of length $\Lambda$
+in $\xi$ with $|\kappa|\le\kappa_{\max}$; $N$ denotes the resulting matrix
+dimension.  The defect matrix $\widehat D$ is computed by Gauss--Legendre product
+quadrature (12 nodes per panel; panels of width $0.5$ in $\log|\xi-\xi_0|$ down to
+$10^{-12}$ near the corner $\xi_0=\log(a/L)$, where the kernel is a smooth
+function of the log-ratio, and of width $0.25$ in $\xi$ elsewhere); 16 nodes
+change the matrix by $3\times10^{-11}$ relative.  The compressed vacuum symbol is
+evaluated with the exact $t\to0$ limit of the diagonal integrand; omitting it
+produces an $O(h)$ error of $0.2\%$ in $\Phi$.  The basis phase is the absolute
+convention $\xi_0=\log(a/L)$; all values quoted below are in this
+\emph{corrected basis}, and the earlier runs with the phase bug (a $5\times10^{-5}$
+relative effect on $\Phi$) are superseded.
+
+\subsection{Sub-compression and the tail correction}
+The eigenvalues of the compressed symbol $Q_N$ reach $e^{-\kappa_{\max}}$, which
+double precision cannot resolve.  We therefore compress once more onto the
+spectral subspace $\{\eps<Q_N<1-\eps\}$ --- a genuine compression, so that
+$\Phi_{\rm sub}\le\Phi$ by \cref{thm:detrep} --- and evaluate \cref{thm:fidfd}
+there in $40$-digit arithmetic.  The discarded modes have $|\kappa|>\kappa_c
+=\log(1/\eps)$ and, by \cref{prop:tail}, carry occupation
+$\frac2{15}\zeta^2\kappa^{-3}$, contributing
+\begin{equation}\label{eq:tailcorr}
+ \tfrac12\Tr(\text{excess})=\frac{\zeta^2}{15\,\kappa_c^2}
+\end{equation}
+to $-\log\Fid$ (particles and holes).  \emph{This correction is heuristic}: it
+rests on the proof sketch of \cref{prop:tail}, and the asymptotic tail formula is
+accurate only for $\kappa_c$ well above $\kappa_*(\zeta)=2\log(1/\zeta)
++O(\log\log)$.  With $\eps=10^{-8}$ ($\kappa_c=18.4$) and $\eps=10^{-11}$
+($\kappa_c=25.3$, which requires $Q_N$ itself in high precision) the corrected
+values of $\Phi(1/15)$ agree to $1.4\times10^{-4}$ while the raw values differ by
+$1.2\%$; but part of that agreement is a cancellation.  At $\zeta=1/120$ one has
+$\kappa_*\approx20.7>\kappa_c=18.4$, and the audit \cite{RigorCN5N} estimates the
+error of the correction itself at $12\%$ ($\zeta=1/15$) to $56\%$
+($\zeta=1/120$), i.e.\ a realistic uncertainty of $0.3$--$1\%$ on the corrected
+$\Phi$ at small $\zeta$.  Accordingly:
+\begin{itemize}
+\item the raw values $\Phi_{\rm sub}$ are \emph{rigorous lower bounds} for $\Phi$;
+\item the corrected values are best estimates with the uncertainty just stated;
+\item certified statements \cite{RigorTB,RigorCN}: the compressed vacuum symbol $Q_N$ is enclosed to $5.6\times10^{-18}$ per entry by ball arithmetic; the windowed value obeys $\Phi_W\le\Phi^{\rm box}\le1.20\,\Phi_W$ a priori; and a weighted Sylvester identity (the unweighted quadratic square-root bound is false) together with a 60-digit evaluation gives enclosures of the box value of width $0.71\%$ at $\zeta=1/120$ rising to $1.01\%$ at $\zeta=8/15$ ($\kappa_c=25.3$).  Not certified: the two-dimensional quadrature of $\widehat D$ and the box cutoff beyond $\kappa_{\max}$; the enclosures therefore refer to the compressed problem, and the best estimates above remain the quoted values.
+\end{itemize}
+At $\eps=10^{-14}$ ($\kappa_c=32.2$) and $\Lambda=60$, $\kappa_{\max}=30$ the
+window contains \emph{all} box modes ($n_{\rm sub}=N=91$): nothing is discarded,
+the residual error is the box cutoff and not the window, and the tail must then be
+taken with $\min(\kappa_c,\kappa_{\max})$ and the box law
+$g_B-g_B^{(\kappa_{\max})}=0.513\,r/\kappa_{\max}^2$, giving $0.0641\,\zeta^2/\kappa_{\max}^2$
+in place of \eqref{eq:tailcorr}.  With that recipe the three windows agree at
+$\zeta=1/15$ to $2\times10^{-4}$ relative.
+
+For the relative entropy the occupation tail is \emph{not} the dominant
+remainder: the Kubo--Mori weight of an infrared--ultraviolet pair grows like
+$|\kappa_i-\kappa_k|$, so the sub-compressed values converge like $1/\kappa_c$, and
+we extrapolate linearly in $1/\kappa_c$ from $\kappa_c=18.4$ and $25.3$.  At
+$\zeta=1/120$ this raises $S$ by $16\%$ over the raw value at $\kappa_c=25.3$ and
+lands within $2\%$ of $s_2\zeta^2$, the residue being the expected $O(\zeta)$
+correction.
+
+\subsection{Results}
+\Cref{tab:convergence} lists $\Phi(1/15)$ for nine combinations of box length
+$\Lambda$ and mode cutoff $\kappa_{\max}$; the spread is $\pm0.06\%$, giving
+\begin{equation}\label{eq:Phi115}
+ \Phi(1/15)=3.517(3)\times10^{-5}.
+\end{equation}
+\Cref{tab:second-order} gives the second-order coefficients extracted from the
+first-order kernel through \cref{prop:secondorder}.  They converge more slowly
+than $\Phi$ itself: the increments follow
+$f_2(\kappa_{\max})=f_2-0.066\,\kappa_{\max}^{-2}$ and
+$s_2(\kappa_c)=s_2-0.29\,\kappa_c^{-1}$.  The tail-corrected $f_2$ is stable to
+$10^{-4}$ relative for $\kappa_c\ge25$ and independent of $\Lambda$ and
+$\kappa_{\max}$, giving
+\begin{equation}\label{eq:f2s2}
+ f_2^{\rm num}=0.008444(1),\qquad s_2^{\rm num}=0.0837(5),
+\end{equation}
+against the closed forms $f_2=1/(12\pi^2)=0.0084434$ and $s_2=1/12=0.083333$ of
+\cref{prop:gBvalue}: $12\pi^2f_2^{\rm num}=1.0001(1)$, $12s_2^{\rm num}=1.004(6)$
+and $s_2^{\rm num}/f_2^{\rm num}=9.912(60)$ against $\pi^2=9.8696$.  The slower
+law for $s_2$ is the linear growth of the Kubo--Mori weight
+$\ell(q_i,q_k)\approx|\kappa_i-\kappa_k|/\max(q_i,q_k)$ for
+infrared--ultraviolet pairs.  Windows below $10^{-14}$ sit at the
+double-precision floor and are omitted.  An independent evaluation of the same
+sums with exact Fermi weights agrees with the compression to six digits at
+$\kappa_{\max}=30$; it becomes unusable when $e^{\kappa_{\max}}$ amplifies the
+$\xi$-truncation and quadrature errors, and the rule
+$\kappa_{\max}\lesssim\Lambda/2-5$ was respected throughout.
+
+\Cref{tab:scan} gives $\Phi(\zeta)$ and the relative entropy over
+$0.008\le\zeta\le0.53$.  The ratio $\Phi/\zeta^2$ rises towards $f_2$ as
+$\zeta\to0$ --- consistent with \cref{thm:main} and with an approximately linear
+approach, $\Phi/\zeta^2\approx f_2-0.0082\,\zeta$ --- and has dropped by a third at
+$\zeta=0.53$; the relative entropy stays close to $\pi^2$ times $\Phi$; and the
+ratio $-2\log\Fid/I_\omega(A{:}C\mid B)$ grows linearly, $\approx0.20\,\zeta$, so
+the bound \eqref{eq:cmi-bound} is never close to saturation.
+
+\input{fidelity_tables}
+
+\subsection{Large cross ratios}
+For \(\zeta\ge1\) the small-\(\zeta\) tail formula is invalid and the window dependence dominates the systematics; the box dependence is negligible (\(\Lambda=60,120,180\) agree to \(10^{-3}\) at fixed \(\kappa_c\)).  We therefore evaluate the windowed values for \(\kappa_c\) up to \(43.8\) (python-flint ball arithmetic for the box symbol, 40-digit arithmetic for the fidelity) and extrapolate the tail law \(\Phi_{\rm sub}(\kappa_c)=\Phi_\infty-b\,\kappa_c^{-p}\) with free exponent; \(p\) drifts from \(2.5\) at \(\zeta\approx1\) to \(1.2\) at \(\zeta\approx17\), so neither \(p=2\) nor \(p=1\) is adequate throughout.  \Cref{tab:largezeta} gives the certified brackets \([\Phi_{\rm sub}(\kappa_c^{\max}),\Phi_\infty]\) and best estimates: \(0.45\%\) at \(\zeta=1.07\), \(1.8\%\) at \(\zeta=8.5\), \(6.6\%\) at \(\zeta=17\).  The local exponent \(d\log\Phi/d\log\zeta\) falls from \(1.29\) to \(0.69\) over this range, in agreement with the lattice values \(1.41,1.18,0.98,0.87,0.68\) (\cref{sec:2d}); the lattice-to-continuum ratio grows from \(1.01\) to \(1.28\) at \(\zeta=17\), where the lattice regions are only a few sites long.
+\input{../numerics/fidelity_table_largezeta}
+
+\subsection{The Uhlmann--Bogoliubov bound, numerically}
+The trial vector of \cref{thm:upper} can be evaluated directly.  With
+$E(s)=\norm{P_-\widetilde W_{\varphi_s}P_+}_2^2$, so that
+$\Phi\le-\frac12\log\det(\one-V^*V)\approx\frac12E$, one finds
+\begin{center}\small
+\begin{tabular}{r r r r r}\toprule
+$\zeta$ & $E(s)$ & $\tfrac12E/\zeta^2$ & $\Phi(\zeta)$ & $\tfrac12E/\Phi$\\\midrule
+$0.008333$ & $1.16560\times10^{-6}$ & $0.0083923$ & $5.81545\times10^{-7}$ & $1.00216$\\
+$0.016667$ & $4.63517\times10^{-6}$ & $0.0083433$ & $2.30729\times10^{-6}$ & $1.00446$\\
+$0.033333$ & $1.83985\times10^{-5}$ & $0.0082793$ & $9.08136\times10^{-6}$ & $1.01298$\\
+$0.066667$ & $7.33008\times10^{-5}$ & $0.0082463$ & $3.51928\times10^{-5}$ & $1.04142$\\
+$0.133333$ & $2.96805\times10^{-4}$ & $0.0083476$ & $1.32433\times10^{-4}$ & $1.12059$\\
+$0.266667$ & $1.21449\times10^{-3}$ & $0.0085394$ & $4.72675\times10^{-4}$ & $1.28470$\\
+\bottomrule\end{tabular}
+\end{center}
+The bound is respected for every extension tested, and
+$\frac12E/\Phi\to1$ from above as $\zeta\to0$: at $\zeta=1/120$ the bound exceeds
+$\Phi$ by $0.2\%$.  Minimizing the first-order functional
+$Q[g]=\frac1{48\pi^2}\int_0^\infty k^3|\widehat g(k)|^2dk=\lim_{s\to0}E(s)/s^2$
+over the extension (linear least squares in a basis of size $M$ on the free arc)
+gives $4.5\,Q_{\min}=0.0084653,\,0.0084581,\,0.0084553,\,0.0084506,\,0.0084494$ at
+$M=30,60,90,140,200$, with Richardson extrapolation
+$4.5\,Q_\infty=0.0084465$, against $g_B/8=1/(12\pi^2)=0.0084434$: agreement to
+$0.04\%$.  The unoptimized cubic-Hermite extension gives $0.011174$, a valid but
+$32\%$ weaker bound.  Restricting to extensions with $u\to0$ at $|x|=\infty$
+raises the infimum to $0.0678$, a factor $8.0$ too large --- the optimal extension
+\emph{moves the point at infinity}, being asymptotically affine on $\mathbb R$
+rather than decaying to the identity.  This is a numerical fact about the trial
+family and does not affect \cref{thm:upper}, whose infimum is taken over the full
+admissible class.
+
+\subsection{Reproducibility}
+The continuum tables are produced by \texttt{numerics/compression\_box.py} (box
+compression with the absolute basis phase $\xi_0=\log(a/L)$),
+\texttt{numerics/fidelity\_flint.py} (fidelity and relative entropy in the
+spectral window, \texttt{python-flint} at 40 digits, together with the
+first-order coefficients $f_2,s_2$ and the tail correction),
+\texttt{numerics/fidelity\_hp.py} (the compressed symbol itself in \texttt{mpmath}
+for the $\eps=10^{-11}$ and $10^{-14}$ runs) and
+\texttt{numerics/make\_tables.py}.  \Cref{tab:convergence} comes from
+\texttt{results\_final2.txt}; \cref{tab:second-order} from
+\texttt{results\_first\_window.txt}; the three columns of \cref{tab:scan} from
+\texttt{results\_A2.txt} ($\Lambda=60$, $\kappa_{\max}=30$, $\eps=10^{-8}$),
+\texttt{results\_L120\_2.txt} ($\Lambda=120$, $\kappa_{\max}=45$, $\eps=10^{-8}$)
+and \texttt{results\_hp2.txt} ($\Lambda=60$, $\kappa_{\max}=30$, $\eps=10^{-11}$).
+The large-$\zeta$ values of \cref{tab:largezeta} come from
+\texttt{run\_largezeta\_cert.py} and \texttt{results\_largezeta\_certified.txt}
+(\texttt{results\_largezeta.txt} and \texttt{results\_largezeta2.txt} for the
+$\Phi_{\rm sub}$ lower bounds quoted in \cref{rem:largezeta}), the
+Bogoliubov table from \texttt{p1\_bogoliubov.py}, and the lattice data of
+\cref{sec:2d} from \texttt{numerics/lattice/petz\_lattice.py}.  Runs predating the
+basis-phase correction are superseded and are not used anywhere in this paper.

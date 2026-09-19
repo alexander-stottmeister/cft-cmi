@@ -1,0 +1,738 @@
+\documentclass[11pt]{article}\input{rigor_preamble}
+\newcommand{\hh}{\mathfrak h}
+\newcommand{\Herm}{\operatorname{Herm}}
+\newcommand{\SLD}{\mathcal S_Q}
+\newcommand{\Aop}{\mathbb A}
+\newcommand{\Stwo}{\mathfrak S_2}
+\DeclareMathOperator{\ran}{ran}
+\DeclareMathOperator{\dist}{dist}
+\newcommand{\Erecc}{E_{\mathrm{rec}}}
+\title{Referee report: \texttt{rigor/exact\_optimum\_tangent\_problem.tex}\\
+\large (track F1, Phase 5; adversarial check of the exact chart of $\cF$, the tangent
+problem, the boundary-direction theorem, the KKT sign criterion and the modular frame)}
+\author{Referee REF-P5-1 (Opus)}\date{2026-09-15}
+\begin{document}\maketitle
+\begin{abstract}
+Adversarial report on F1's \texttt{exact\_optimum\_tangent\_problem.tex} (19\,pp, 1135
+lines, 2026-09-15).  Every lemma, proposition and theorem receives one verdict
+(\textsc{stands} / \textsc{stands with repair} / \textsc{fails}), with the precise step, an
+independent recomputation and, where the claim is false, an explicit counterexample.  The
+mandated recomputations (Lemmas~2.1--2.2, all blocks of Prop.~3.4, Lemma~3.2 at finite $s$,
+Thm.~3.11, Thm.~4.4 including a numerical counterexample search, Prop.~4.6, Prop.~6.2) were
+carried out from scratch; numerical spot checks used \texttt{numpy} on random matrices.
+Headline: the chart, the first-order blocks, the exact feasibility, the derivative formula,
+the equivalence (a)$\Leftrightarrow$(c) and the modular-frame reduction all stand; the
+boundary-direction theorem (Thm.~3.11(3)) is \emph{false as stated} and takes with it the
+last clause of Lemma~4.2 and the completeness of Thm.~4.4(d); the $\theta$-diagnosis of
+\S6.3 is superseded by F3.  \S\ref{sec:table} collects the verdicts and \S\ref{sec:repairs}
+the required repairs.
+\end{abstract}
+\tableofcontents
+
+\section{Scope, method, and what was checked against what}\label{sec:scope}
+
+The refereed document is \texttt{rigor/exact\_optimum\_tangent\_problem.tex} (1135 lines,
+2026-09-15, track F1).  It was read in full, in pieces, and every invocation of another
+document was checked at the cited place: \texttt{sdp\_dual\_certificate.tex} (``S10'':
+(C4), (C5), (N4), (N5), Def.~3.1, Thm.~3.2$\langle1\rangle5$--$\langle1\rangle8$, Cor.~3.3,
+Prop.~5.2, Cor.~5.3, Lemma~6.1, Thm.~6.2, \S7, Lemma~11.1, Cor.~11.2),
+\texttt{optimality\_second\_order.tex} (``S8'': Thm.~3.1, eq.~(3.9)),
+\texttt{optimality\_all\_channels.tex} (``S9'': Thm.~3.5, Thm.~4.1, \S5.2) and
+\texttt{exact\_fidelity\_upper\_half.tex} (``E1'': Cor.~7.5).  Numerical spot checks were
+run in \texttt{numpy} (random Hermitian/positive matrices, $n\le12$); they are reported
+inline and are not part of any proof.  Two external inputs postdating the document are used
+where they bear on it: track F2's KKT numerics (\texttt{numerics/optimality\_all/F2\_RESULTS.md})
+and track F3's $\theta$ reconciliation (\texttt{F3\_RESULTS.md}, \texttt{f3\_t0.py}).
+
+Adversarial stance: the burden is on the document.  A claim is \textsc{stands} only if the
+referee could reproduce it independently; \textsc{stands with repair} if the statement
+survives but a step, a hypothesis or a domain must be changed; \textsc{fails} if a
+counterexample to the claim \emph{as written} exists.
+
+\section{Conventions: the SLD normalisation and the factor $2$ in S10~(C4)}\label{sec:norm}
+
+\begin{lemma}[Recomputation of Lemma~1.1]\label{lem:norm}
+With $\SLD(t)=Qt(1-Q)+(1-Q)tQ$ and $t_\delta:=\SLD^{-1}\delta$ one has, in the
+eigenbasis of $Q$, $\widetilde{(t_\delta)}_{ik}=w_{ik}\widetilde\delta_{ik}$, hence
+$\Tr(t_\delta\delta)=\sum_{ik}w_{ik}|\widetilde\delta_{ik}|^2=4g_Q(\delta)$ and
+$V(t_\delta)=\sum_{ik}|\widetilde{(t_\delta)}_{ik}|^2q_k(1-q_i)
+=\tfrac12\sum_{ik}w_{ik}^{-1}|\widetilde{(t_\delta)}_{ik}|^2=2g_Q(\delta)$.
+\end{lemma}
+The symmetrisation in the last step uses that $|\widetilde t_{ik}|^2$ is symmetric under
+$i\leftrightarrow k$ for $t=t^*$.  Numerically ($n=9$, random $Q$ with $0<Q<1$, random
+$\delta=\delta^*$): $\Tr(t\delta)/g_Q=4.000000$, $V(t)/g_Q=2.000000$,
+$(\Tr t\delta)^2/(8V)/g_Q=1.000000$, and a random search over $4000$ test operators never
+exceeded the Legendre value.  \textbf{Lemma~1.1 stands}, including
+$b(\delta,\eta)=\frac14\Tr(t_\delta\eta)$ and
+$\frac{\dd}{\dd\sigma}g_Q(\delta+\sigma\eta)|_0=\frac12\Tr(t_\delta\eta)$.
+
+\paragraph{Adjudication of the factor $2$ (Remark~1.2).}
+S10~(C4) defines $t_\delta$ by \emph{the same} equation $\SLD(t)=\delta$ (S10 eq.~(5)) and
+then asserts $\Tr(t_\delta\delta)=2g_Q(\delta)$, $V(t_\delta)=\frac12g_Q(\delta)$.  By
+Lemma~\ref{lem:norm} both are wrong under S10's own eq.~(5): the correct values are
+$4g_Q$ and $2g_Q$.  The two errors are \emph{not} independent: they are exactly what one
+gets by replacing $t$ by $t/2$ (linear in $t$, quadratic in $t$).  So S10's displayed
+relations correspond to the normalisation $\SLD(t)=\frac12\delta$, i.e.\ $t_{\rm S10}
+=\frac12\SLD^{-1}\delta$.  \emph{Verdict:} F1's diagnosis (``S10 has a factor $2$'') is
+\textbf{correct}, and F1's own normalisation (F1 eq.~(5)) is the consistent one; but
+F1's parenthetical in Remark~1.2 inverts the factor --- it reads ``$\SLD(t)=2\delta$
+(i.e.\ $t\mapsto t/2$)'', and $\SLD(t)=2\delta$ means $t\mapsto2t$.  It must read
+$\SLD(t)=\frac12\delta$.  \emph{Consequences:} none downstream.  The Legendre ratio
+$(\Tr t\delta)^2/(8V(t))$ is homogeneous of degree $0$ in $t$, so S10 Cor.~3.3's
+$\mathcal D_z\ge\Delta_z(t_c)^2/(8V(t_c))=g_Q(\delta_c)$ is correct in either
+normalisation, as is the weak-duality bound of F1 Remark~3.18; and every sign
+condition of \S4 is homogeneous of degree $1$ in $t_*$.  The one place where it matters is
+F2's reporting convention: $\lambda_{\min}(M_*)$ ``in units of $g_Q(\dot\delta)$'' is
+normalisation dependent by a factor $2$, and F2 must state which $t_*$ it uses.
+\begin{verdictok}[\;\S1]
+Lemma~1.1 verified analytically and numerically.  Remark~1.2: right conclusion, inverted
+parenthetical (repair R1).  S10~(C4) carries a genuine internal inconsistency (repair R2,
+for the S10 errata log, not for this document).
+\end{verdictok}
+
+\section{\S2: the exact chart of $\cF$ (Lemmas 2.1--2.4, Prop.~2.5)}\label{sec:chart}
+
+\paragraph{Lemma~2.1 (the $(N,Y)$ chart), both directions.}  Recomputed: with
+$N=1-XX^*$, $Y=Z-XQ_{BB}X^*$ and $R_++R_-=1_{\hh_B}$,
+\[ Z-XR_+X^*=Y,\qquad 1-XR_-X^*-Z=1-XR_-X^*-XR_+X^*-Y=1-XX^*-Y=N-Y, \]
+so $(X,Z)\in\cF\iff Y\ge0$ and $Y\le N$; and $Y\ge0$, $Y\le N$ force $N\ge0$.  Both
+implications are equivalences of the \emph{same} two operator inequalities, no extra
+hypothesis enters (in particular no boundedness of $X$ beyond $X$ bounded, and no
+invertibility).  The map $(X,Z)\mapsto(X,Y)$ is affine with affine inverse
+$Z=XQ_{BB}X^*+Y$.  \textbf{Stands} (exactly as written).
+
+\paragraph{Lemma~2.2 and Remark~2.3 (the co-isometry).}
+(1)--(2) are the standard polar decomposition: $X=U|X|$, $|X^*|U=U|X|U^*U=U|X|=X$, so
+$X=(1-N)^{1/2}V$ with $V:=U$; $VV^*$ is the projection onto
+$\overline{\ran X}=\overline{\ran XX^*}=\overline{\ran(1-N)}=\ker(1-N)^\perp
+=(1-\mathbf1_{\{1\}}(N))\hh_D$.  \textbf{Stands.}
+
+Remark~2.3's sharpness claim was verified independently.  For $X=S$ the forward shift on
+$\ell^2(\mathbb N)$: $XX^*=SS^*=1-|e_0\rangle\langle e_0|$, so $N=|e_0\rangle\langle e_0|$
+and $(1-N)^{1/2}=P_{\ge1}$.  Any factorisation $X=(1-N)^{1/2}V'$ forces $P_{\ge1}V'=S$,
+i.e.\ $V'=S+e_0\varphi^*$ with $\varphi:=V'^*e_0$ free.  Then
+$V'V'^*=SS^*+(S\varphi)e_0^*+e_0(S\varphi)^*+\|\varphi\|^2|e_0\rangle\langle e_0|$; the
+$(e_j,e_0)$ entries with $j\ge1$ give $S\varphi=0$, hence $\varphi=0$ ($S$ injective),
+while the $(e_0,e_0)$ entry gives $\|\varphi\|^2=1$.  Contradiction, so \emph{no}
+co-isometric factor exists.  \textbf{The stated counterexample is correct.}
+
+\begin{verdictgap}[\;Lemma~2.2(1) is sharp for the polar $V$, not for the existence of
+\emph{some} co-isometric factor]
+The abstract in F1 and item~1 of F1 \S7 read ``$X=(1-N)^{1/2}V$ with $V$ a co-isometry
+\emph{iff} $1\notin\sigma_p(N)$''.  That is an overstatement.  Repeating the computation
+above in general: $X=(1-N)^{1/2}V'$ forces $\ran(V'-V)\subseteq K:=\ker(1-N)$, and
+$V'V'^*=1$ holds iff $J:=V'-V$ satisfies $JJ^*=P_K$ and $VJ^*=0$, i.e.\ iff $J^*$ is an
+isometry $K\to\ker X$.  Hence
+\[ \exists\ \text{co-isometric factor}\iff \dim\ker(1-N)\le\dim\ker X , \]
+which for the shift ($\ker S=0$) is the document's counterexample, but which is satisfiable
+with $1\in\sigma_p(N)$: take $\hh_B=\ell^2\oplus\ell^2$, $X(a,b)=Sa$, and
+$V'(a,b)=Sa+e_0\langle f,b\rangle$ with $\|f\|=1$; then $N=|e_0\rangle\langle e_0|$,
+$1\in\sigma_p(N)$, and $V'V'^*=1$.  This does not affect anything downstream: \S3 works in
+$\|N\|<1$ where Lemma~2.2(3) applies.  \textbf{Verdict: stands with repair} (R3: state
+(1) for the polar $V$, or state the dimension criterion).
+\end{verdictgap}
+
+\paragraph{Lemma~2.4 and Prop.~2.5.}  $U:=W^*V^*$ is an isometry since
+$U^*U=VWW^*V^*=VV^*=1$, and $V^*=WW^*V^*=WU$; the converse puts $V:=U^*W^*$.  \textbf{Stands.}
+Prop.~2.5: $\delta_{AD}=Q_{AD}-Q_{AB}X^*$ with $X^*=V^*(1-N)^{1/2}=WU(1-N)^{1/2}$ gives
+the two displayed forms with $\Lambda=Q_{AB}W$; $\delta_{DD}=Q_{DD}-XQ_{BB}X^*-Y$ with
+$XQ_{BB}X^*=(1-N)^{1/2}U^*(W^*Q_{BB}W)U(1-N)^{1/2}$.  Recomputed, correct, exact at finite
+$s$; $\delta_{AA}=0$ because $Q_{\rm rec}$ has $Q_{AA}$ in its $AA$ slot by construction.
+Remark~2.6's warning that $Q_{AD}\ne Q_{AB}$ is well taken and is the only place the
+geometry enters.  \textbf{Stands.}
+
+\section{\S3.1: the first-order defect (Lemmas 3.2--3.3, Prop.~3.4)}\label{sec:blocks}
+
+\paragraph{Lemma~3.2 (exact feasibility at finite $s$) --- mandated check (iii).}
+Recomputed from the definitions, with no expansion.  $V(s)=(V(s)^*)^*=(W_sU_s)^*=U_s^*W_s^*$,
+hence
+\[ V(s)V(s)^*=U_s^*W_s^*W_sU_s=U_s^*U_s=1_{\hh_D}, \qquad
+   X(s)X(s)^*=(1-sN_1)^{1/2}\,1\,(1-sN_1)^{1/2}=1-sN_1 , \]
+using only (i) $W_s$ \emph{restricted} as in (C3) is a unitary $\hh_D\to\hh_B$ (S10 (C5),
+where $V_c=E_BW_\lambda E_D$ is unitary --- a genuine continuum feature) and (ii) $U_s$ is
+an isometry of $\hh_D$ \emph{at each finite $s$}, which is Def.~3.1(1).  Then
+$N=sN_1\ge0$ needs $s\|N_1\|<1$ (as stated, and it needs $N_1$ to be a bounded
+\emph{operator}, see \S\ref{sec:bdry}), and $Y=Z(s)-X(s)Q_{BB}X(s)^*=sY_1$ with
+$0\le sY_1\le sN_1$.  Lemma~2.1 then gives $(X(s),Z(s))\in\cF$.  The two inequalities
+$0\le sY_1\le sN_1\le1$ and $X(s)X(s)^*=1-sN_1\le1$ hold \emph{exactly}, not to leading
+order.  \textbf{Stands} --- this is the strongest part of the document: the upper bound is
+constructive and every competitor is a genuine channel.
+
+\paragraph{Lemma~3.3.}  $\chi=-x^2\mathbf1_{x>0}$ has $\chi(0)=\chi'(0)=0$ and $D_\chi$ is
+local, so $D_\chi E_A=0=E_AD_\chi$ and $E_A\dot\delta E_A=0$.  $E_D\dot\delta E_D=0$ is
+quoted from S10 Lemma~11.1 (M\"obius rigidity: on $D$, $\chi$ \emph{is} the global M\"obius
+field $-x^2$, whose generator commutes with $P$); I checked S10 Lemma~11.1 at the cited
+place and it says this.  \textbf{Stands} (imported, correctly cited).
+
+\paragraph{Proposition~3.4 --- mandated check (ii): every block recomputed from scratch.}
+From $\delta=Q-Q_{\rm rec}$ with $X(s)=(1-sN_1)^{1/2}V(s)$, $V(s)^*=W_sU_s$,
+$U_s=1+s\zeta+o(s)$, $(1-sN_1)^{1/2}=1-\frac s2N_1+O(s^2)$, $Z=XQ_{BB}X^*+sY_1$:
+\begin{align*}
+ \delta_{AD}(s)&=Q_{AD}-Q_{AB}X(s)^*=Q_{AD}-\Lambda_sU_s(1-sN_1)^{1/2},\qquad \Lambda_s=Q_{AB}W_s,\\
+ &=(Q_{AD}-\Lambda_s)-\Lambda_s\bigl[s\zeta-\tfrac s2N_1\bigr]+o(s)
+  =s\Bigl[\dot\delta_{AD}-Q_{AD}\zeta+\tfrac12Q_{AD}N_1\Bigr]+o(s),
+\end{align*}
+where $Q_{AD}-\Lambda_s=(\delta_c)_{AD}=s\dot\delta_{AD}+O(s^2)$ and $\Lambda_s=Q_{AD}+O(s)$
+(the $O(s)$ error multiplies an $O(s)$ factor).  This reproduces
+$\Aop_{AD}=-Q_{AD}\zeta+\frac12Q_{AD}N_1$: the $\zeta$-sign is \emph{minus} because
+$X^*$, not $X$, carries $U_s$, and the $N_1$-sign is \emph{plus} with the factor $\frac12$
+from the square root.  For the diagonal block, with $Z_c=W_s^*Q_{BB}W_s$,
+\[ X Q_{BB}X^*=\bigl(1-\tfrac s2N_1\bigr)(1+s\zeta^*)Z_c(1+s\zeta)\bigl(1-\tfrac s2N_1\bigr)+o(s)
+ =Z_c+s(\zeta^*Z_c+Z_c\zeta)-\tfrac s2\{N_1,Z_c\}+o(s), \]
+so $\delta_{DD}=(Q_{DD}-Z_c)-s(\zeta^*Z_c+Z_c\zeta)+\frac s2\{N_1,Z_c\}-sY_1+o(s)$; since
+$Q_{DD}-Z_c=(\delta_c)_{DD}=sE_D\dot\delta E_D+O(s^2)=O(s^2)$ by Lemma~3.3 and
+$Z_c=Q_{DD}+o(1)$, the first-order part is
+$\Aop_{DD}=-(\zeta^*Q_{DD}+Q_{DD}\zeta)+\frac12\{N_1,Q_{DD}\}-Y_1$.  Hermiticity checks:
+$\Aop_{DD}^*=\Aop_{DD}$ (the $\zeta$-term is self-adjoint as written, \emph{not} a
+commutator unless $\zeta^*=-\zeta$), and
+$\Aop_{DA}=\Aop_{AD}^*=-\zeta^*Q_{DA}+\frac12N_1Q_{DA}$.  Consistency with the isometric
+orbit: $\zeta=-\mathcal G$, $\mathcal G^*=-\mathcal G$ gives
+$\Aop_{AD}=Q_{AD}\mathcal G$ and $\Aop_{DD}=[Q_{DD},\mathcal G]$, which are the blocks of
+$E_I[P,\mathcal G]E_I$ --- I verified this independently using $E_A\mathcal G=\mathcal GE_A=0$.
+\textbf{All blocks and all signs confirmed.}
+\begin{verdictgap}[\;Prop.~3.4: the expansion is a \emph{form} statement on $C_c^\infty$]
+The proposition is stated ``as sesquilinear forms on $C_c^\infty(A)\oplus C_c^\infty(D)$'',
+and in that sense it is correct.  It is however weaker than it looks: for unbounded $\zeta$
+the remainder is $o(s)$ only after testing against fixed smooth compactly supported
+vectors, and a boundary layer of width $O(s)$ at $\partial D$ is invisible to it.  The
+entire weight of the passage from ``forms'' to ``$g_Q$'' is carried by H1, and
+\S\ref{sec:bdry} shows that this is not a technicality: there are directions admitted by
+Def.~3.1(1)--(2) (as forms) for which $g_Q(\delta(s))\sim s$, not $s^2$.  \textbf{Verdict:
+stands as a form identity} (repair R4: say so in the statement, not only in the proof).
+\end{verdictgap}
+
+\section{\S3.2: the tangent programme and the upper bound}\label{sec:tangent}
+
+\paragraph{Lemma~3.6 (convexity).}  The cone property was rechecked: if $\zeta_1,\zeta_2$
+generate isometry families $U^1,U^2$ and $\alpha,\beta\ge0$, the product family
+$s\mapsto U^1_{\alpha s}U^2_{\beta s}$ consists of isometries and has derivative
+$\alpha\zeta_1+\beta\zeta_2$, so the admissible $\zeta$'s form a convex cone --- correct as
+stated.  $\{N_1\ge0,0\le Y_1\le N_1\}$ is a convex cone, $\Aop$ is real-linear, so
+$\mathcal C$ is a convex cone.  $g_Q\ge\frac14\|\cdot\|_2^2$ (Prop.~3.14) makes $g_Q$
+strictly positive definite on $\mathfrak F$, hence $\eta\mapsto g_Q(\dot\delta+\eta)$ is
+strictly convex and its kernel on $\mathcal C$ is $\{0\}$.  \textbf{Stands.}
+\emph{Caveat (used in \S\ref{sec:kkt}):} a convex cone is \emph{not} a linear space.  The
+admissible $\zeta$-cone is genuinely one-sided --- $\zeta=-\lambda D_\chi|_D$ ($\lambda>0$)
+is admissible (inward flow), $\zeta=+\lambda D_\chi|_D$ is not (outward flow leaves $D$;
+its adjoint fails dissipativity) --- and $\mathcal C$ is not closed, so the minimiser need
+not be attained.  Neither point is flagged in the document.
+
+\paragraph{H1 (Def.~3.7) and Theorem~3.9.}  The proof is the triangle inequality for the
+Hilbert seminorm $g_Q^{1/2}$ plus H1, applied to a family that Lemma~3.2 has already shown
+to be \emph{exactly} feasible; squaring and dividing by $s^2$ gives \eqref{eq:upperref}:
+\begin{equation}\label{eq:upperref}
+ \limsup_{s\downarrow0}s^{-2}\min_\cF g_Q\ \le\ g_Q\bigl(\dot\delta+\Aop(\zeta,N_1,Y_1)\bigr).
+\end{equation}
+\textbf{Stands, given H1 for the datum used.}  Two honest points which the document makes
+and which I confirm: H1 is \emph{not} implied by Prop.~3.4 (the $w_{ik}$ grow like
+$e^{\min(|\kappa_i|,|\kappa_k|)}$, so $g_Q$ is strictly stronger than $\|\cdot\|_2$), and
+H1 is known on the isometric orbit (S10 Lemma~6.1$\langle1\rangle3$--$\langle1\rangle4$
+carries out exactly that estimate --- checked at the cited place).  The statement
+``$\limsup\le T$ if H1 holds for a minimising sequence'' is correct but should be read
+with \S\ref{sec:bdry}: which data are admitted in the infimum $T$ is exactly what
+Thm.~3.11 gets wrong, and for some of them H1 \emph{fails}.
+
+\paragraph{Corollary~3.10.}  $\Aop(-\mathcal G,0,0)=E_I[P,\mathcal G]E_I$ was verified
+blockwise above; with S10 Prop.~4.3 ($g_Q(E_I[P,\mathcal Z]E_I)=\frac12\|\Pi P^\perp\mathcal ZP\|_2^2$
+for anti-self-adjoint $\mathcal Z$) this gives
+$g_Q(\delta^{(1)})=\frac12\|u+v_{\mathcal G}\|_2^2$ and
+$\inf_{\mathcal G}=\frac12\dist(u,\mathcal Y)^2=(1-\theta)g_Q(\dot\delta)$ with $\theta$
+of S10 Thm.~6.2 (sup over \emph{bounded anti-self-adjoint} $\mathcal G=E_D\mathcal GE_D$ ---
+I checked the class at the cited place).  Hence $T\le(1-\theta)g_Q(\dot\delta)$.
+\textbf{Stands.}  Note that the infimum is over a class whose $\{v_{\mathcal G}\}$ need not
+be closed: $\delta_*$ exists as the $g_Q$-orthogonal projection residual of $-\dot\delta$
+onto $\overline{\mathcal Y}$, but a minimising \emph{operator} $\mathcal G_*$ need not
+exist.  \S\ref{sec:kkt} takes this up.
+
+\section{\S3.3: boundary-moving generators (Thm.~3.11) --- the main failure}\label{sec:bdry}
+
+This is mandated check~(iv).  I take the four items in turn.
+
+\paragraph{(0) The definition of $\sigma$ is not well posed as written.}
+$\sigma:=\frac12(\zeta+\zeta^*)$ is declared ``on $\operatorname{dom}\zeta^*$'', but $\zeta$
+is \emph{not} defined there (in the document's own example
+$\operatorname{dom}\zeta=H^1_0(D)\subsetneq H^1(D)=\operatorname{dom}\zeta^*$), and on the
+common domain $\operatorname{dom}\zeta^{**}\cap\operatorname{dom}\zeta^*$ one has
+$\sigma=0$ identically.  The object actually used in \eqref{eq:sigmarefer} is the
+\emph{boundary form}
+\begin{equation}\label{eq:sigmarefer}
+ \langle\sigma g,g\rangle:=\Re\langle\zeta^*g,g\rangle ,\qquad g\in\operatorname{dom}\zeta^* ,
+\end{equation}
+which is what Remark~3.12 evaluates.  Repair R5: define $\sigma$ by \eqref{eq:sigmarefer}.
+I verified Remark~3.12 independently: for $\zeta=-D_\psi$, $\zeta^*=D_\psi$ on $H^1(D)$,
+$2\Re\langle D_\psi g,g\rangle=\int_D(\psi|g|^2)'=[\psi|g|^2]_0^1$, so
+$-2\sigma=|\psi(1)|\delta_1\otimes\delta_1+\psi(0)\delta_0\otimes\delta_0\ge0$ for inward
+$\psi$.  I also checked the domain claim implicit there: if $\psi(0)>0$ the isometry
+$U_s$ leaves a hole of width $\sim s\psi(0)$ at the left endpoint, so
+$\|U_sf-f\|_2^2\gtrsim s\psi(0)|f(0)|^2$ and $\operatorname{dom}\zeta=H^1_0(D)$ indeed.
+
+\paragraph{(1) $\sigma\le0$: true, but the proof is not available in the stated generality.}
+The proof says ``$U_s^*$ is a contraction semigroup with generator $\zeta^*$'' and invokes
+Lumer--Phillips.  Def.~3.1(1) does \emph{not} require $(U_s)$ to be a semigroup, only a
+differentiable family, and Lumer--Phillips is a statement about semigroup generators.  From
+a bare family one gets $\Re\langle\zeta f,f\rangle=0$ on $\operatorname{dom}\zeta$
+(differentiate $\|U_sf\|^2=\|f\|^2$) but \emph{not} $\Re\langle\zeta^*g,g\rangle\le0$ for
+$g\notin\operatorname{dom}\zeta$: that needs $s\mapsto U_s^*g$ to be differentiable, which
+does not follow.  Repair R6: add ``semigroup'' to Def.~3.1(1) (every example in the
+document, $e^{s\mathcal G}$ and $W_{\varphi_s}$ for a flow $\varphi$, is one), or assume
+weak differentiability of the adjoint family.  Under either, $\sigma\le0$ is correct, and
+it is \emph{essential}: it is the only thing that excludes the outward field of~(3).
+\textbf{Stands with repair.}
+
+\paragraph{(2) The absorption identity: algebra correct, content empty.}
+Substituting $\zeta=\mathcal G+\sigma$, $\zeta^*=-\mathcal G+\sigma$ into the blocks gives,
+as I recomputed,
+$\Aop_{DD}=[\mathcal G,Q_{DD}]+\frac12\{N_1-2\sigma,Q_{DD}\}-Y_1$ and
+$\Aop_{AD}=-Q_{AD}\mathcal G+\frac12Q_{AD}(N_1-2\sigma)$, i.e.\
+$\Aop(\zeta,N_1,Y_1)=\Aop(\mathcal G,N_1-2\sigma,Y_1)$.  But Prop.~3.4 lives on
+$C_c^\infty(A)\oplus C_c^\infty(D)$, where $\sigma$ \emph{vanishes identically}
+($g(0)=g(1)=0$); there the identity reads $\Aop(\zeta,N_1,Y_1)=\Aop(\zeta,N_1,Y_1)$ and
+$\mathcal G$ is the same differential expression as $\zeta$.  On any larger domain the
+left-hand side is undefined.  So the identity is a tautology and does \emph{not} show that
+a boundary-moving direction ``is'' an $N_1$-direction.  (It \emph{is} the right statement
+for \emph{contraction} families: if $U_s$ is only a contraction, $1-U_s^*U_s=-2s\sigma+o(s)
+\ge0$ is an honest loss of isometry and the absorption is exact.  That class is not
+Def.~3.1(1).)  \textbf{Stands as algebra; the interpretation fails.}
+
+\begin{verdictbreak}[\;Theorem~3.11(3) is false as stated, and fatally so]
+Step $\langle1\rangle4$ asserts: ``conversely $\mathcal G$ anti-symmetric with
+$\mathcal G=E_D\mathcal GE_D$ generates the isometry (indeed unitary) family
+$e^{s\mathcal G}$, so the two cones coincide''.  Counterexample:
+$\mathcal G:=+\lambda D_\chi|_D$, $\lambda>0$, is anti-symmetric on $C_c^\infty(D)$
+($D_\chi^*=-D_\chi$) and supported in $D$, but $e^{s\mathcal G}$ is the half-density
+push-forward along the flow of $+\lambda\chi$, i.e.\ $x\mapsto x/(1-s\lambda x)$, which
+maps $D=(0,1)$ \emph{onto} $(0,\frac1{1-s\lambda})\supsetneq D$: it is not an operator on
+$\hh_D$, and its boundary form is $\Re\langle-\lambda D_\chi g,g\rangle
+=+\frac\lambda2|g(1)|^2>0$, violating item~(1).  It is therefore \emph{not} admissible ---
+which the document itself says in Remark~3.13 (``the opposite sign $\lambda<0$
+(decompression) is inadmissible: it points out of $D$'').  The two statements contradict
+each other, and the wrong one is load-bearing: with $\zeta=+\lambda D_\chi$ one gets
+$\Aop_{AD}=-\lambda Q_{AD}D_\chi=-\lambda\dot\delta_{AD}$, $\Aop_{DD}=\lambda[Q_{DD},D_\chi]=0$,
+hence $\delta^{(1)}=(1-\lambda)\dot\delta$ and $g_Q(\delta^{(1)})=(1-\lambda)^2g_Q(\dot\delta)
+\to0$ as $\lambda\to1$: the enlarged cone has tangent value $T=0$, i.e.\
+$\kappa_{\rm opt}=0$.  (No contradiction with reality: for that family $U_s$ is a
+contraction, not an isometry, the true channel is $X^*=$ the restriction $\hh_D\to\hh_B$,
+its defect block is $Q_{AC}$ with $\|Q_{AC}\|_2^2=O(s)$, and $g_Q(\delta(s))=O(s)\ne O(s^2)$:
+H1 fails for it, catastrophically.)
+\emph{What is true:} $\mathcal C\subseteq\{\Aop(\mathcal G,N_1',Y_1)\}$ with $\mathcal G$
+anti-symmetric \emph{and an isometry generator} and $N_1'\ge0$ a form.  That class is a
+one-sided cone, not a linear space.  Repair R7.
+\end{verdictbreak}
+
+\paragraph{(3$'$) The ``closure'' claim of F1 \S7 item 4 is also wrong in the other
+direction.}  The boundary elements are not in the $g_Q$-closure of the operator directions:
+for $N_1^{(n)}:=\lambda n\mathbf1_{(1-1/n,1)}\rightharpoonup\lambda\delta_1\otimes\delta_1$
+one has $\|Q_{AD}N_1^{(n)}\|_2^2\approx\lambda^2n/(4\pi^2)\to\infty$, so
+$\Aop(0,N_1^{(n)},0)$ diverges in $g_Q$.  The singular directions sit at infinity, not in
+the closure.
+
+\paragraph{(4) Bounded $\zeta\Rightarrow\sigma=0$.}  Correct and independent of
+Lumer--Phillips: $\operatorname{dom}\zeta=\hh_D$, $\Re\langle\zeta f,f\rangle=0$ for all
+$f$, and a bounded symmetric operator is self-adjoint, so $\zeta^*=-\zeta$.
+\textbf{Stands.}  This is the one part of \S3.3 that survives intact, and it is worth
+stating as the headline of the section: \emph{bounded} isometry families give nothing
+beyond S10's class; \emph{unbounded} ones are an extra one-sided cone that must be tested
+separately (\S\ref{sec:kkt}).  Remark~3.13 (over-compression) was verified in full:
+$\delta^{(1)}=(1+\lambda)\dot\delta$, one-sided derivative $2\lambda g_Q(\dot\delta)>0$.
+
+\section{\S3.4: the lower bound, H2, and the honesty of Remark 3.15}\label{sec:lower}
+
+\paragraph{Prop.~3.14.}  $a(1-b)+b(1-a)=a+b-2ab$ is affine in each variable, so on
+$[0,1]^2$ it is maximised at a vertex, with values $0,1,1,0$; hence $w_{ik}\ge1$ and
+$g_Q\ge\frac14\|\cdot\|_2^2$.  (In fact $w_{ik}=1+\cosh\frac{\kappa_i+\kappa_k}2/
+\cosh\frac{\kappa_i-\kappa_k}2>1$ strictly --- verified numerically.)  The block bounds
+\eqref{eq:HSref} follow since each block norm is $\le\|\delta\|_2$.  \textbf{Stands.}
+\begin{equation}\label{eq:HSref}
+ \|Q_{AD}-Q_{AB}X^*\|_2\le2\sqrt Cs,\qquad \|Q_{DD}-XQ_{BB}X^*-Y\|_2\le2\sqrt Cs .
+\end{equation}
+
+\paragraph{Remark~3.15 --- mandated check (viii), the essential-spectrum obstruction.}
+The remark is \textbf{honest and correct}, and is the best part of the lower-bound
+discussion.  Three points, all of which I confirm: (i) to turn \eqref{eq:HSref} into
+$\|X-X_c\|=O(s)$ one must invert $Q_{AB}$ from the left; (ii) $Q_{AB}=E_APE_B$ is the
+off-diagonal block of $Q=E_IPE_I$ for two intervals sharing the endpoint $0$, whose
+modular spectrum fills $(0,1)$, so the singular values of $Q_{AB}$ accumulate at $0$ and no
+bounded left inverse exists --- the invisible directions of Phase~4 are exactly the
+unresolved ones; (iii) the $DD$ estimate controls only the combination $XQ_{BB}X^*+Y$, so
+$N$ and $Y$ are not separately localised.  Nothing is claimed that is not proved.
+
+\paragraph{H2 (Def.~3.16) and Theorem~3.17.}  The $\liminf$ step is the triangle
+inequality again and is correct.  But H2 as formulated assumes (a) that a minimiser
+\emph{exists} at each small $s$, (b) that it is \emph{of the form} \eqref{eq:scaledref}
+with a first-order datum, (c) uniformly bounded $\|N_1^{(s)}\|+\|Y_1^{(s)}\|$ and
+(d) a uniform $o(s^2)$ remainder.  That is very close to assuming the conclusion: (b)+(d)
+already say that the minimiser is a differentiable curve through the compression with the
+tangent structure of \S3.1.  The document labels it a hypothesis and repeats the label in
+the abstract, in the verdict box after Thm.~4.4 and in \S7, so there is no dishonesty ---
+but it should be said explicitly that H2 is not a regularity assumption, it is the lower
+bound in disguise.  Repair R8.
+\begin{equation}\label{eq:scaledref}
+ X(s)=(1-sN_1)^{1/2}V(s),\quad V(s)^*=W_sU_s,\quad Z(s)=X(s)Q_{BB}X(s)^*+sY_1 .
+\end{equation}
+
+\paragraph{Remark~3.18 (the unconditional route).}  The displayed formula for $\sup_\cF L$
+was rederived: with S10's $V=X^*$, $L=2\Re\Tr(t_{DA}Q_{AB}V)+\Tr(t_{DD}V^*R_+V)+\Tr(t_{DD}Y)$
+and $\sup_{0\le Y\le1-V^*V}\Tr(t_{DD}Y)=\Tr[((1-V^*V)^{1/2}t_{DD}(1-V^*V)^{1/2})_+]$ by the
+Douglas argument of Thm.~4.4$\langle1\rangle1$.  Correct.  One caveat to add: the weak
+duality bound $\min_\cF g_Q\ge\Delta_z(t)^2/(8V(t))$ requires $\Delta_z(t)\ge0$ (otherwise
+$\inf_\cF(\Tr t\delta)^2$ is not bounded below by $\Delta_z(t)^2$); for $t=t_c$ this is
+S10 Cor.~3.3, but for a general $t$ it must be checked.  Repair R9.
+
+\section{\S4: the KKT criterion (Lemma 4.2, Prop.~4.3, Thm.~4.4, Cor.~4.5, Prop.~4.6)}\label{sec:kkt}
+
+\paragraph{Lemma~4.2, derivative formula --- mandated check (v), first part.}
+Recomputed from scratch.  $\frac{\dd}{\dd\sigma}g_Q(\delta_*+\sigma\eta)|_0=\frac12\Tr(t_*\eta)$
+(Lemma~\ref{lem:norm}), and with $\Aop_{AA}=0$,
+\begin{align*}
+ \Tr(t_*\Aop)&=\Tr\bigl(t_{*,AD}\tfrac12N_1Q_{DA}\bigr)+\Tr\bigl(t_{*,DA}\tfrac12Q_{AD}N_1\bigr)
+  +\Tr\bigl(t_{*,DD}(\tfrac12\{N_1,Q_{DD}\}-Y_1)\bigr)\\
+ &=\Tr\bigl(N_1\Herm(t_{*,DA}Q_{AD})\bigr)+\Tr\bigl(N_1\Herm(t_{*,DD}Q_{DD})\bigr)-\Tr(Y_1\tau_*)
+  =\Tr(N_1M_*)-\Tr(Y_1\tau_*),
+\end{align*}
+using $Q_{DA}t_{*,AD}=(t_{*,DA}Q_{AD})^*$ and $(t_*Q)_{DD}=t_{*,DA}Q_{AD}+t_{*,DD}Q_{DD}$
+(valid because $E_A+E_D=1_{\hh_I}$).  So the derivative is
+$\frac12[\Tr(N_1M_*)-\Tr(Y_1\tau_*)]$ with $M_*=E_D\Herm(t_*Q)E_D$, $\tau_*=E_Dt_*E_D$,
+exactly as claimed; the \emph{normalisation} is F1's (Lemma~\ref{lem:norm}), i.e.\ a factor
+$2$ larger than it would be in S10's convention --- see \S\ref{sec:norm}.  Numerically
+(random $Q$, $\delta_*$, $N_1\ge0$, $Y_1=0.3N_1$, $n=9$) the symmetric difference quotient
+of $g_Q$ agrees with the formula to $10^{-9}$ relative, and the two definitions of $M_*$
+(blockwise and $\frac12E_D(t_*Q+Qt_*)E_D$) agree to machine precision.  \textbf{Stands.}
+
+\begin{verdictbreak}[\;The last clause of Lemma~4.2 is false]
+``Along the isometric directions $\Aop(\mathcal G,0,0)$ ($\mathcal G$ anti-symmetric) the
+derivative vanishes'' --- take $\mathcal G=-\lambda D_\chi|_D$, $\lambda>0$, which is
+anti-symmetric, supported in $D$, and \emph{admissible} (it generates the inward
+compression semigroup; this is the document's own Remark~3.13).  Then
+$\Aop(\mathcal G,0,0)=\lambda\dot\delta$ and the derivative is
+\[ \tfrac12\Tr(t_*\lambda\dot\delta)=2\lambda\,b(\delta_*,\dot\delta)
+ =2\lambda\bigl[g_Q(\delta_*)-b(\delta_*,[Q,\mathcal G_*])\bigr]=2\lambda(1-\theta)g_Q(\dot\delta)>0 , \]
+using the normal equation $b(\delta_*,[Q,\mathcal G])=0$ for $\mathcal G$ in the class over
+which $\delta_*$ is optimal.  The justification given ($\mathcal G\mapsto\Aop(\mathcal G,0,0)$
+takes values in a \emph{linear space} $L$ on which $\delta_*$ minimises) fails precisely
+because the admissible anti-symmetric generators form a one-sided cone, not a linear space
+(\S\ref{sec:bdry}).  Repair R10: state the clause for $\mathcal G$ in the linear class of
+S10 (bounded anti-self-adjoint, or the closed subspace $\overline{\mathcal Y}$), and treat
+the unbounded ones as one-sided directions with their own sign condition
+$-b(\delta_*,[Q,\zeta])\ge0$.  Note that this extra condition \emph{holds} for the
+over-compression direction (the display above is $>0$), so nothing is broken numerically;
+what is broken is the claim that Thm.~4.4(a) is \emph{complete}.
+\end{verdictbreak}
+
+\paragraph{Prop.~4.3.}  $\Tr(t_*[\mathcal G,Q])=\Tr(E_D[Q,t_*]E_D\,\mathcal G)$;
+$C:=E_D[Q,t_*]E_D$ is anti-Hermitian and $\Tr(C\mathcal G)=0$ for all anti-Hermitian
+$\mathcal G$ forces $C=0$ (take $\mathcal G=C$: $\Tr(C^2)=-\|C\|_2^2$), whence
+$(t_*Q)_{DD}=(t_*Q)_{DD}^*=M_*$.  Correct, with two caveats: the test direction
+$\mathcal G=C$ must itself be admissible (bounded, supported in $D$) --- true if $C$ is
+bounded, otherwise a density argument is needed --- and ``stationary along the isometric
+directions'' must again mean the linear class.  \textbf{Stands with repair (R10).}
+
+\paragraph{Theorem~4.4, (a)$\Leftrightarrow$(c) --- mandated check (v), second part.}
+Both directions were rederived and are airtight.  (a)$\Rightarrow$(c): for $0\le Y_1\le N_1$,
+$\Tr(Y_1\tau_*)\le\Tr(Y_1M_*)\le\Tr(N_1M_*)$ (traces of products of positive operators are
+$\ge0$), and the middle term is maximised by Douglas: $Y_1\le N_1\Rightarrow
+Y_1^{1/2}=N_1^{1/2}K$, $\|K\|\le1$, so $Y_1=N_1^{1/2}CN_1^{1/2}$ with $C=KK^*\in[0,1]$ and
+$\max_C\Tr(C\,N_1^{1/2}\tau_*N_1^{1/2})=\Tr[(N_1^{1/2}\tau_*N_1^{1/2})_+]$ at
+$C=\mathbf1_{(0,\infty)}$.  (c)$\Rightarrow$(a): rank-one $N_1=|\psi\rangle\langle\psi|$ is
+a projection, $N_1^{1/2}\tau_*N_1^{1/2}=\langle\psi,\tau_*\psi\rangle N_1$, and (c) reads
+$\langle\psi,M_*\psi\rangle\ge\max\{0,\langle\psi,\tau_*\psi\rangle\}$.  (b)$\Rightarrow$(a)
+is immediate from $(\tau_*)_+\ge\max\{0,\tau_*\}$, and is strictly stronger because the
+operator order is not a lattice order.
+\textbf{Counterexample search (mandated):} see \S\ref{sec:numcheck}; none exists, as the
+proof predicts.
+
+
+\subsection{Numerical counterexample search for (a)$\Leftrightarrow$(c)}\label{sec:numcheck}
+$40\,000$ random pairs $(M_*,\tau_*)$ of Hermitian $2\times2$ and $3\times3$ matrices with
+random $N_1\ge0$ (ranks $1$ and $m$), all generically non-commuting (typical
+$\|[M_*,\tau_*]\|\sim6$, $\|[M_*,N_1]\|\sim2$): \textbf{zero} cases where (a) holds and (c)
+fails, and in all $39\,278$ cases where (a) failed the rank-one witness of
+Thm.~4.4$\langle1\rangle3$ (the bottom eigenvector of $M_*$ or of $M_*-\tau_*$) detected it.
+A second, independent run with a different seed and sample size reproduced this
+($0/20\,000$, $2938/2938$).  The Douglas step was checked separately: over $60$ random
+$(N_1,\tau_*)$ with $800$ random admissible $Y_1$ each, no $Y_1$ ever beat
+$\Tr[(N_1^{1/2}\tau_*N_1^{1/2})_+]$ (worst excess $0.000\rm e{+}00$).
+\textbf{No counterexample exists, in agreement with the proof.}
+
+\subsection{Robustness: is $M_*\ge0$ meaningful in the continuum?}\label{sec:robust}
+This is where I part company with the document's presentation, and it bears directly on
+F2's negative result.  $t_*=\SLD^{-1}\delta_*$ has
+$\|t_*\|_2^2=\sum_{ik}w_{ik}^2|\widetilde{(\delta_*)}_{ik}|^2$ while
+$g_Q(\delta_*)=\frac14\sum_{ik}w_{ik}|\widetilde{(\delta_*)}_{ik}|^2<\infty$; since
+$w_{ik}=1+\cosh\frac{\kappa_i+\kappa_k}2/\cosh\frac{\kappa_i-\kappa_k}2$ is unbounded,
+$\delta_*\in\mathfrak F$ does \emph{not} imply $t_*\in\Stwo$, let alone trace class.  So
+$M_*$ and $\tau_*$ are in general \emph{quadratic forms}, not operators, $\Tr(N_1M_*)$ is
+not a trace, and ``$M_*\ge0$'' has no spectral meaning without a domain.  The repair is
+available inside the document's own framework and costs nothing: define
+\begin{equation}\label{eq:formdef}
+ \langle\psi,M_*\psi\rangle:=4\,b\bigl(\delta_*,\Aop(0,|\psi\rangle\langle\psi|,0)\bigr),\qquad
+ \langle\psi,\tau_*\psi\rangle:=-4\,b\bigl(\delta_*,\Aop(0,0,|\psi\rangle\langle\psi|)\bigr),
+\end{equation}
+on $\mathfrak D:=\{\psi:\Aop(0,|\psi\rangle\langle\psi|,0)\in\mathfrak F\}$.  These are
+finite for every $\psi\in\mathfrak D$ by Cauchy--Schwarz for $b$, they agree with
+Def.~4.1 whenever $t_*$ is trace class, and (a) becomes the pair of \emph{form}
+inequalities on $\mathfrak D$.  With that reading Thm.~4.4 is a correct statement;
+$\lambda_{\min}(M_*)$ of \S5 item~4 is then $\inf\{\langle\psi,M_*\psi\rangle:\psi\in\mathfrak D,\|\psi\|=1\}$
+and may be $-\infty$.  Repair R11.
+
+\begin{verdictgap}[\;Corollary 4.5: the gain can vanish, so strictness needs care]
+The algebra is right: $g_Q(\delta_*+\sigma d)=g_Q(\delta_*)+2\sigma\Delta+\sigma^2g_Q(d)$ is
+minimised at $\sigma_{\rm opt}=-\Delta/g_Q(d)>0$ with value $g_Q(\delta_*)-\Delta^2/g_Q(d)$,
+and Lemma~3.2 makes the improved datum a genuine channel.  But the conclusion
+``$\kappa_{\rm opt}<1-\theta$ strictly'' needs \emph{one} admissible $\psi$ with
+$\Delta<0$ \emph{and} $g_Q(d)<\infty$.  If the form \eqref{eq:formdef} is unbounded below
+only along a sequence $\psi_n$ with $\Delta_n^2/g_Q(d_n)\to0$, then
+$T=(1-\theta)g_Q(\dot\delta)$ still, with the infimum not attained, and
+$\kappa_{\rm opt}=1-\theta$.  This is exactly the configuration F2 reports (T2:
+$\lambda_{\min}(M_*)<0$ and $\lambda_{\min}(M_*-\tau_*)<0$ at every $L$, but achievable
+rank-one gain $\sim10^{-10}g_Q(\dot\delta)$, and a violation that scales with the weight
+cap, i.e.\ with the modular-UV cutoff that regularises $w$).  \textbf{F2's numbers do not
+establish $\kappa_{\rm opt}<1-\theta$}; they are equally consistent with a form that is
+unbounded below in the modular ultraviolet with vanishing achievable gain.  What would
+settle it: $\sup_\psi\Delta^2/g_Q(d)$ as a function of $L$ \emph{and} of the weight cap
+$\kappa_c$, with a limit bounded away from $0$.  A second caveat for F2: the circle model
+violates M\"obius rigidity at $O(1/L)$, and rigidity ($E_D\dot\delta E_D=0$, Lemma~3.3) is
+used in Prop.~3.4$\langle1\rangle5$; the document's own free check
+$\mathrm{AntiHerm}((t_*Q)_{DD})=0$ (\S5 item~6) is the right arbiter and must be reported
+alongside the two eigenvalues.
+\end{verdictgap}
+
+\paragraph{Prop.~4.6 and Remark~4.7 --- mandated check (vi).}
+$\Sigma_2=t_{DA}Q_{AB}V_c+t_{DD}V_c^*R_+V_c$ and $V_c=W\to1$, $Q_{AB}\to Q_{AD}$,
+$V_c^*R_+V_c=Z_c\to Q_{DD}$ strongly, so $\Sigma_2\to(tQ)_{DD}$ and
+$\Sigma_1=\Sigma_2-t_{DD}\to(tQ)_{DD}-t_{DD}$: correct (I checked S10 Def.~3.1 and
+Thm.~3.2 at the cited places).  The identification $\Sigma_2^{(0)}=M$ requires (S), as
+stated.  Remark~4.7's ``verbatim'' claim was verified in detail: with $\gamma\ge0$ on
+$\hh_B$, $N_1:=X_c\gamma X_c^*$, $\sigma_2=X_c^*\Sigma_2X_c$, $\hat t=X_c^*t_{DD}X_c$ and
+$X_c$ \emph{unitary}, one has $\Tr(\sigma_2\gamma)=\Tr(\Sigma_2N_1)$ and
+$X_c(\gamma^{1/2}\hat t\gamma^{1/2})X_c^*=N_1^{1/2}t_{DD}N_1^{1/2}$, so S10
+Thm.~3.2$\langle1\rangle8$ is literally criterion~(c) at the compression.  \textbf{Stands},
+with three caveats to record: the limits are strong (only ``$\ge0$ for all $s$'' passes to
+the limit); (S) is needed for $\Sigma_2^{(0)}=M$; and S10's certificate assumes $t$ trace
+class, which $t_*$ need not be (\S\ref{sec:robust}).
+
+\section{\S6: the modular frame (Lemma 6.1, Prop.~6.2) and the superseded $\theta$-diagnosis}\label{sec:theta}
+
+\paragraph{Lemma~6.1.}  $D_\chi$ is local and $\chi\in C^{1,1}$ vanishes to second order at
+$0$, so $D_\chi f$ is supported in $\operatorname{supp}f$; hence
+$(1-E_I)D_\chi E_I=0=E_ID_\chi(1-E_I)$ and, inserting $1=E_I+(1-E_I)$ between $P$ and
+$D_\chi$ in both terms of $E_I[P,D_\chi]E_I$, $\dot\delta=Qd-dQ=[Q,d]$ with $d=E_ID_\chi E_I$.
+Recomputed, correct.  \textbf{Stands.}
+
+\paragraph{Proposition~6.2 --- mandated check (vii).}  All three ingredients were
+recomputed from scratch.
+\emph{(a) The change of variables.}  $y=-\log(1-x)$ maps $I=(-\infty,1)$ onto $\mathbb R$
+with $A\mapsto\{y<0\}$, $D\mapsto\{y>0\}$; $\dd y/\dd x=1/(1-x)$.
+\emph{(b) The push-forward of the field.}  A vector field $\chi\partial_x$ becomes
+$w\partial_y$ with $w=\chi\,\dd y/\dd x=\chi/(1-x)$, and the half-density push-forward
+intertwines $D_\chi$ with $D_w$ (both are the generators of the respective flows on
+half-densities).  With the \emph{same} $\chi$ as S10~(N5) --- $\chi=-x^2\mathbf1_{x>0}$,
+the generator of $x\mapsto x/(1+sx)$, so that $B=(0,\frac1{1+s})$; checked at the cited
+place --- and $x=1-e^{-y}$:
+\[ w=-\frac{x^2}{1-x}=-(1-e^{-y})^2e^{y}=-(e^{y/2}-e^{-y/2})^2=-4\sinh^2\tfrac y2 , \]
+supported in $y>0$, $\sim-y^2$ at $0$ (so $C^{1,1}$) and $\sim-e^{y}$ at $+\infty$.
+\textbf{Confirmed, including the sign.}
+\emph{(c) The kernel.}  $\widetilde{[Q,X]}_{ik}=(q_i-q_k)\widetilde X_{ik}$ and, with
+$a=\kappa_i$, $b=\kappa_k$, $\mathsf s=\frac{a+b}2$, $\mathsf t=\frac{a-b}2$,
+$(1+e^a)(1+e^b)=2e^{\mathsf s}(\cosh\mathsf s+\cosh\mathsf t)$, $e^b-e^a=-2e^{\mathsf s}\sinh\mathsf t$,
+$e^a+e^b=2e^{\mathsf s}\cosh\mathsf t$, so
+$q_i-q_k=-\sinh\mathsf t/(\cosh\mathsf s+\cosh\mathsf t)$,
+$w_{ik}^{-1}=\cosh\mathsf t/(\cosh\mathsf s+\cosh\mathsf t)$ and
+$w_{ik}(q_i-q_k)^2=\sinh^2\mathsf t/[\cosh\mathsf t(\cosh\mathsf s+\cosh\mathsf t)]$
+(verified numerically at random $(a,b)$ to $10^{-15}$).  With $\kappa=-2\pi p$ this is the
+displayed $K(p,p')$; both arguments enter through even functions, so the sign convention in
+\eqref{eq:Qmultref} is indeed immaterial --- I checked that $K$ is invariant under
+$(p,p')\mapsto(-p,-p')$.  \textbf{Prop.~6.2 stands.}  Two things to state that are
+currently implicit: the Plancherel normalisation in which
+$\Tr(X^*X)=\iint|\widehat X|^2$, and that $g_Q$ is frame-independent because it is built
+from the spectral data of $Q$ alone (the document says this in $\langle1\rangle1$).
+\begin{equation}\label{eq:Qmultref}
+ Q=(1+e^{-2\pi\mathsf p})^{-1},\qquad \mathsf p=-i\partial_y,\qquad \kappa=-2\pi p .
+\end{equation}
+
+\begin{verdictbreak}[\;Remark 6.4 and the closed-form verdict box are superseded by F3]
+The document's structural diagnosis is: ``the discrepancy is a statement about how much
+weight the region $y\gg1$ carries \dots\ the two discretisations are not expected to agree
+before $h$ resolves $e^{-y}$-scales.  \textbf{Status: unresolved}; $\theta$ is known only
+as $0.30\lesssim\theta\lesssim0.40$.''  Track F3 (\texttt{numerics/optimality\_all/f3\_t0.py},
+\texttt{F3\_RESULTS.md}) has since refuted both halves: the modular Galerkin frame and a
+direct discretisation of \emph{this document's own} Prop.~6.2 frame agree to $0.001$ at
+matched $h$ and extrapolate to $\theta=0.384\pm0.003$ (measured order $h^{0.77}$, five mesh families; quoted as $0.385\pm0.005$ in the hand-off); the modular window $\Lambda$ is
+irrelevant; the residual $h$-dependence is a \emph{bulk} effect, the endpoint piece being
+saturated already at coarse $h$ --- i.e.\ the opposite of ``governed by the region
+$y\gg1$''.  S10's $0.300\pm0.005$ is not a competing estimate but a \emph{taper-suppressed
+lower bound}: relaxing the circle model's smoothstep ultraviolet taper moves $\theta$ at
+$L=256$ from $0.2896$ to $0.36$ and beyond.  Required repairs (R12): replace the window
+$0.30$--$0.40$ by $\theta=0.384\pm0.003$; replace the diagnosis of Remark~6.4; record that
+the three circulated candidates are now \emph{excluded} ($3/\pi^2=0.30396$, $1/3$,
+$1-2/\pi=0.36338$ lie $4\sigma$ to $26\sigma$ below the reconciled value, the closest being $1-2/\pi$);
+and update the two numerical asides ``$1-\theta\ge0.66$ in both models'' $\to$
+$1-\theta=0.616\pm0.003$, and $\kappa_{\rm opt}=1-\theta=0.616\pm0.003$ if the criterion
+holds.  \emph{Nothing else in \S6 depends on them}: Lemma~6.1, Prop.~6.2 and Remark~6.3 are
+pure algebra plus S10 Cor.~11.2, all unaffected, and the document's refusal to select a
+closed form was and remains the correct stance.  The one sentence of Remark~6.4 that
+survives is $K(p,p')\to1$ as $|p-p'|\to\infty$ at fixed $p+p'$ (verified); note also
+$K\to0$ as $|p+p'|\to\infty$ at fixed $p-p'$, which is the direction the circle model's
+taper suppresses --- consistent with F3's finding that the taper biases $\theta$ downwards.
+\end{verdictbreak}
+
+\section{Open-hypothesis bookkeeping (H1, H2)}\label{sec:hyp}
+
+\paragraph{Is anything used that is neither proved nor declared?}  Mandated check~(viii).
+Six items, in decreasing order of seriousness.
+\begin{enumerate}[leftmargin=1.8em,itemsep=1pt]
+\item \emph{Semigroup property of $(U_s)$} --- used through Lumer--Phillips in
+ Thm.~3.11(1), not in Def.~3.1(1).  Undeclared.  (R6)
+\item \emph{Attainment of the orbit optimum} --- \S4 posits ``$\zeta_*=-\mathcal G_*$ with
+ $\mathcal G_*$ the minimiser of Cor.~3.10'', but Cor.~3.10 gives an infimum over a class
+ whose image $\{v_{\mathcal G}\}$ is not claimed closed.  Undeclared.  The repair is free:
+ define $\delta_*$ as the $g_Q$-orthogonal residual of $-\dot\delta$ on
+ $\overline{\mathcal Y}$, which always exists, and $t_*:=\SLD^{-1}\delta_*$; the normal
+ equation $b(\delta_*,[Q,\mathcal G])=0$ then holds by construction.  (R15)
+\item \emph{$t_*$ trace class / $M_*,\tau_*$ operators} --- assumed throughout \S4--\S5
+ (``both self-adjoint on $\hh_D$'', $\Tr(N_1M_*)$, $\lambda_{\min}$), but
+ $\delta_*\in\mathfrak F$ does not give $t_*\in\Stwo$ (\S\ref{sec:robust}).  Undeclared.  (R11)
+\item \emph{Linearity of the isometric direction space} --- used in Lemma~4.2$\langle1\rangle6$
+ and Thm.~4.4$\langle1\rangle4$; false for the admissible class (\S\ref{sec:bdry}).  (R10)
+\item \emph{$N_1$ a bounded operator} --- Def.~3.1(2) says ``quadratic forms'', but
+ Def.~3.2 needs $(1-sN_1)^{1/2}$ and Lemma~3.2 needs $s\|N_1\|<1$.  Internal
+ inconsistency, undeclared.  (R13)
+\item \emph{$\Delta_z(t)\ge0$} in the weak-duality remark 3.18.  (R9)
+\end{enumerate}
+H1 and H2 themselves are declared, repeated in the abstract, in the verdict box after
+Thm.~4.4 and in \S7, and their roles (upper resp.\ lower bound) are stated correctly; the
+document never claims a result that secretly uses them.  \textbf{No circularity with S10 or
+E1 was found}: the upper bound (Thm.~3.9) uses only Lemma~3.2, H1 and the triangle
+inequality; Cor.~3.10 imports $\theta$ from S10 Thm.~6.2, which is proved independently of
+anything here; Prop.~4.6 compares with S10 Thm.~3.2 but does not use it; E1 Cor.~7.5 is not
+used in any proof.
+
+\section{Verdict table}\label{sec:table}
+\newcommand{\vS}{\textsc{stands}}
+\newcommand{\vR}{\textsc{stands w/ repair}}
+\newcommand{\vF}{\textsc{fails}}
+{\small\begin{tabular}{@{}llp{7.6cm}@{}}
+\hline
+Item & Verdict & Precise point\\ \hline
+Lemma 1.1 & \vS & $\Tr(t_\delta\delta)=4g_Q$, $V(t_\delta)=2g_Q$; verified numerically\\
+Remark 1.2 & \vR & right conclusion, inverted parenthetical: $\SLD(t)=\frac12\delta$ (R1); the slip is S10~(C4)'s (R2)\\
+Lemma 2.1 & \vS & both directions are the same two inequalities\\
+Lemma 2.2 & \vS & (1)--(3) correct for the polar $V$; abstract overclaims (R3)\\
+Remark 2.3 & \vS & shift counterexample reproduced\\
+Lemma 2.4, Prop.~2.5 & \vS & recomputed blockwise, exact at finite $s$\\
+Def.~3.1 & \vR & no semigroup (R6); $N_1$ form vs operator (R13)\\
+Lemma 3.2 & \vS & exact feasibility at finite $s$ verified from scratch\\
+Lemma 3.3 & \vS & imported from S10 Lemma 11.1, correctly cited\\
+Prop.~3.4 & \vS & all blocks, all signs recomputed; form statement only (R4)\\
+Lemma 3.6 & \vR & cone is not a linear space and not closed\\
+Thm.~3.9 (upper bd) & \vS & given H1; constructive, no circularity\\
+Cor.~3.10 & \vS & class of $\mathcal G$ checked against S10 Thm.~6.2\\
+Thm.~3.11(1) & \vR & Lumer--Phillips needs a semigroup (R6)\\
+Thm.~3.11(2) & \vR & algebra correct, vacuous on $C_c^\infty$ (R5)\\
+\textbf{Thm.~3.11(3)} & \vF & $+\lambda D_\chi|_D$ is anti-symmetric but not admissible; the claimed cone equality gives $T=0$ (R7)\\
+Thm.~3.11(4) & \vS & bounded $\Rightarrow\sigma=0$; independent of (1)'s proof\\
+Rem.~3.12, 3.13 & \vS & boundary form and over-compression recomputed\\
+Prop.~3.14 & \vS & $w_{ik}\ge1$; block bounds\\
+Rem.~3.15 & \vS & honest and correct about the essential-spectrum obstruction\\
+H2, Thm.~3.17 & \vS & correct given H2; but H2 is the lower bound in disguise (R8)\\
+Rem.~3.18 & \vR & needs $\Delta_z(t)\ge0$ (R9)\\
+Def.~4.1 & \vR & $M_*,\tau_*$ are forms, not operators (R11)\\
+Lemma 4.2 (formula) & \vS & recomputed; verified numerically to $10^{-9}$\\
+\textbf{Lemma 4.2 (last clause)} & \vF & derivative $=2\lambda(1-\theta)g_Q(\dot\delta)>0$ along $\mathcal G=-\lambda D_\chi$ (R10)\\
+Prop.~4.3 & \vR & correct on the linear class; test direction must be admissible (R10)\\
+Thm.~4.4 (a)$\Leftrightarrow$(b),(c) & \vS & both directions airtight; no counterexample in $60\,000$ random trials\\
+Thm.~4.4 (c)$\Leftrightarrow$(d) & \vR & incomplete: the one-sided boundary directions are not covered (R7, R10)\\
+Cor.~4.5 & \vR & gain may vanish in the continuum limit (R14)\\
+Prop.~4.6, Rem.~4.7 & \vS & limits and the conjugation by $X_c$ verified verbatim\\
+\S5 (recipe for F2) & \vS & correct; add the rigidity arbiter and the cap scan (R14)\\
+Lemma 6.1, Prop.~6.2 & \vS & $y$, $w=-4\sinh^2\frac y2$, $K$ all recomputed\\
+Rem.~6.3 & \vS & numbers superseded (R12)\\
+\textbf{Rem.~6.4, closed-form box} & \vF & diagnosis and window refuted by F3 (R12)\\
+\S7 item 1 & \vR & ``co-isometry iff $1\notin\sigma_p(N)$'' (R3)\\
+\textbf{\S7 item 4} & \vF & same as Thm.~3.11(3) (R7)\\
+\hline
+\end{tabular}}
+
+\section{Required repairs}\label{sec:repairs}
+
+\begin{enumerate}[leftmargin=2.6em,itemsep=1pt,label=\textbf{R\arabic*.}]
+\item Remark~1.2: the parenthetical must read $\SLD(t)=\frac12\delta$ (equivalently
+ $2\SLD(t)=\delta$), not $\SLD(t)=2\delta$.
+\item For the S10 errata log (not this document): S10~(C4) is internally inconsistent ---
+ with its own eq.~(5) $\SLD(t)=\delta$ the correct relations are $\Tr(t_\delta\delta)=4g_Q$,
+ $V(t_\delta)=2g_Q$.  All S10 conclusions survive (the Legendre ratio and every sign
+ condition are homogeneous).  F2 must state which normalisation its ``units of
+ $g_Q(\dot\delta)$'' use.
+\item Lemma~2.2(1), the abstract and \S7 item~1: ``$V$ co-isometry iff $1\notin\sigma_p(N)$''
+ holds for the \emph{polar} $V$; the existence of \emph{some} co-isometric factor is
+ $\dim\ker(1-N)\le\dim\ker X$.
+\item Prop.~3.4: move ``as sesquilinear forms on $C_c^\infty$'' into the statement and add
+ that H1 is what upgrades it to $g_Q$.
+\item Define $\sigma$ by the boundary form $\langle\sigma g,g\rangle:=\Re\langle\zeta^*g,g\rangle$
+ on $\operatorname{dom}\zeta^*$; ``$\frac12(\zeta+\zeta^*)$'' is not defined there.
+\item Def.~3.1(1): require $(U_s)$ to be a $C_0$-semigroup of isometries (or assume the
+ adjoint family weakly differentiable); without it Thm.~3.11(1) has no proof.
+\item \textbf{Thm.~3.11(3) and \S7 item~4:} replace the cone \emph{equality} by the
+ inclusion $\mathcal C\subseteq\{\Aop(\mathcal G,N_1',Y_1)\}$ with $\mathcal G$
+ anti-symmetric \emph{and} an isometry generator (equivalently: $\mathcal G^*$ dissipative),
+ $N_1'\ge0$ a form; delete ``(indeed unitary) $e^{s\mathcal G}$''.  State that the
+ admissible $\mathcal G$ form a one-sided cone and that the enlarged cone would give $T=0$.
+\item Say explicitly that H2 is not a regularity assumption but the lower bound in disguise
+ (it assumes existence, the scaled form, boundedness and uniformity).
+\item Remark~3.18: the weak-duality bound needs $\Delta_z(t)\ge0$.
+\item \textbf{Lemma~4.2 (last clause), Prop.~4.3, Thm.~4.4(d):} restrict ``the derivative
+ vanishes'' to the linear class $\overline{\mathcal Y}$, and add the missing one-sided
+ conditions $-b(\delta_*,[Q,\zeta])\ge0$ for the boundary-moving isometry generators.
+ Record that they hold for the over-compression direction ($=2\lambda(1-\theta)g_Q(\dot\delta)>0$),
+ so the completed criterion is (a) \emph{plus} an endpoint condition.
+\item Define $M_*,\tau_*$ as quadratic forms through $b(\delta_*,\cdot)$ (eq.~\eqref{eq:formdef}),
+ state the domain $\mathfrak D$, and read (a) as a form inequality; $\lambda_{\min}$ is then
+ an infimum that may be $-\infty$.
+\item \S6.3: replace $0.30\lesssim\theta\lesssim0.40$ by $\theta=0.384\pm0.003$ (F3),
+ replace the ``$y\gg1$ / $h$ cannot resolve $e^{-y}$'' diagnosis (the frames agree at
+ matched $h$; the $h$-dependence is bulk; S10's $0.300$ is a taper-suppressed lower bound),
+ and record that $3/\pi^2$, $1/3$ and $1-2/\pi$ are now excluded.  $1-\theta=0.616\pm0.003$.
+\item Def.~3.1(2) vs Def.~3.2: $N_1$ must be a bounded operator for the scaled family to
+ exist; ``quadratic forms'' is inconsistent with $(1-sN_1)^{1/2}$.
+\item Cor.~4.5 and \S5: strictness $\kappa_{\rm opt}<1-\theta$ needs one admissible $\psi$
+ with $\Delta<0$ \emph{and} $g_Q(d)<\infty$; ask F2 for $\sup_\psi\Delta^2/g_Q(d)$ as a
+ function of $L$ and of the weight cap, together with
+ $\|\mathrm{AntiHerm}((t_*Q)_{DD})\|$ as the M\"obius-rigidity arbiter.
+\item \S4 preamble: define $\delta_*$ as the $g_Q$-orthogonal residual of $-\dot\delta$ on
+ $\overline{\mathcal Y}$ (always exists) instead of positing a minimiser $\mathcal G_*$.
+\end{enumerate}
+
+\section{Summary}\label{sec:summary}
+\begin{enumerate}[leftmargin=1.8em,itemsep=0pt]
+\item The exact chart of $\cF$ (Lemmas~2.1--2.4, Prop.~2.5) and the exact feasibility of
+ the scaled family at finite $s$ (Lemma~3.2) are correct and are the document's strongest
+ contribution: every competitor is a genuine channel, so the upper bound is constructive.
+\item Prop.~3.4 was recomputed block by block: $\Aop_{AD}=-Q_{AD}\zeta+\frac12Q_{AD}N_1$,
+ $\Aop_{DD}=-(\zeta^*Q_{DD}+Q_{DD}\zeta)+\frac12\{N_1,Q_{DD}\}-Y_1$, all signs, the
+ hermitisation and the factor $\frac12$ confirmed.  It is a \emph{form} identity.
+\item Thm.~3.11(3) is false: $+\lambda D_\chi|_D$ is anti-symmetric but generates an
+ outward flow, is not an isometry generator, and the claimed cone equality would force
+ $T=0$.  Only the inclusion survives; the admissible anti-symmetric generators are a
+ one-sided cone.  Item (4) (bounded $\Rightarrow$ nothing new) stands.
+\item Consequently the last clause of Lemma~4.2 is false ($2\lambda(1-\theta)g_Q(\dot\delta)>0$
+ along the over-compression direction) and Thm.~4.4(d) is incomplete: the criterion
+ $M_*\ge0$, $M_*\ge\tau_*$ must be supplemented by an endpoint condition.
+\item The derivative formula $\frac12[\Tr(N_1M_*)-\Tr(Y_1\tau_*)]$ and the equivalence
+ (a)$\Leftrightarrow$(c) are correct; $60\,000$ random non-commuting $2\times2$/$3\times3$
+ trials produced no counterexample, as the proof predicts.
+\item $M_*$ and $\tau_*$ are in general only quadratic forms ($t_*\notin\Stwo$), so
+ ``$M_*\ge0$'' needs a domain, $\lambda_{\min}$ may be $-\infty$, and Cor.~4.5's strict
+ improvement needs a violating direction of \emph{finite} $g_Q$-norm.  F2's violations
+ (gain $\sim10^{-10}g_Q(\dot\delta)$, collapsing by eight orders when the weight cap is
+ raised, while the violation itself grows) therefore do not establish
+ $\kappa_{\rm opt}<1-\theta$; F2's own ``artefact-suspect'' verdict on T2 is the right one.
+\item Prop.~4.6 and Remark~4.7 are correct: S10's $\Sigma_2\ge0$ is the $N_1$ condition,
+ $\Sigma_1\ge0$ the $Y_1$ condition, $\Sigma_1=\Sigma_1^*$ the rotation condition.
+\item Prop.~6.2 (modular frame) is correct in all three ingredients; the $\theta$-diagnosis
+ of Remark~6.4 is superseded by F3 ($\theta=0.384\pm0.003$, $1-\theta=0.616\pm0.003$).
+\item H1 and H2 are honestly declared and the lower-bound discussion is honest about the
+ essential-spectrum obstruction; six undeclared assumptions are listed in \S\ref{sec:hyp}.
+ No circularity with S10 or E1.
+\end{enumerate}
+
+\section{Summary}\label{sec:summary}
+\end{document}

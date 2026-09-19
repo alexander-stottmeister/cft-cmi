@@ -1,0 +1,10 @@
+max |Q_box_mp - Q_box(double)| = 4.687e-11  (max|Q| = 9.989e-01)
+min eig (mp) = 2.774132e-13   1-max = 2.774132e-13
+min eig (double) = 2.775006e-13
+exp(-kappa_max) = 1.384e-13
+
+1/kappa_c law for S, Lam=60 kmax=29.6:
+  from kc=(18.421,25.328): C=1.9511e-05  S_inf=5.69246e-06
+  predicted S at kc=29.61: 5.03354e-06
+  full 91-mode compression (results_final.txt, double precision): 5.020734e-06
+  -> agreement 0.26%

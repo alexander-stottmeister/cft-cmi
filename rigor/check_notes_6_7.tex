@@ -1,0 +1,1003 @@
+\documentclass[11pt]{article}\input{rigor_preamble}
+\newcommand{\Wh}{\widehat W}\newcommand{\gh}{\widehat{\widetilde g}}\newcommand{\gt}{\widetilde g}\newcommand{\Diff}{\mathrm{Diff}}
+\title{\vspace{-1.4cm}\color{navy}\bfseries Referee report V5:\\ Note~7 (\texttt{universality\_normalization}) and the mathematical claims of Note~6 (\texttt{strategy\_open\_problems})\\[.3em]\large Lamport-style verification of $f_2=c/(12\pi^2)$, $s_2=c/12$}
+\author{}\date{2026-09-05 (text as of the 16:13 errata)}
+\begin{document}\maketitle
+\vspace{-1.2em}
+\begin{abstract}\noindent
+Every displayed formula of Note~7 that enters the derivation of $f_2=c/(12\pi^2)$ and $s_2=c/12$ has been
+re-derived from scratch and, where possible, independently checked numerically.  \textbf{The two closed forms are
+correct.}  The load-bearing normalization $\langle T(x)T(y)\rangle=\frac{c}{8\pi^2}(x-y-i0)^{-4}$ is confirmed by an
+explicit Wick computation for the free complex chiral fermion in the generator normalization (Theorem~\ref{thm:TT}
+below), independently of the note; so are $\widehat W$, $\widehat{\widetilde g}$, the kernel of the first-order
+defect, the two spectral integrals, and the whole factor bookkeeping of Theorem~A.  The auxiliary integral
+$\int w^2(\cosh w+\cosh a)^{-1}dw=\frac{2a(a^2+\pi^2)}{3\sinh a}$, which the note only verifies numerically, is
+proved here by residues.  What remains open is not arithmetic but functional analysis: for the zero-collar
+representative $T(g)\Omega\notin\mathcal H$ and $T(g)\notin\cM$, so Lemma~3.1(2) --- whose KMS symmetry Sections~4.2--4.3
+use --- is not applicable to it, and the general route of Sections~3--4 is a formal computation validated
+\emph{a posteriori} by the free-fermion route of Section~5.  Three further defects are recorded: a false
+boundedness claim after eq.~(13); a modular-flow sign left as ``$\pm$'' and then fixed by an argument that
+presupposes what is at issue (repairable --- the sign is derived here from Bisognano--Wichmann); and, in Note~6,
+an internal clash between the BPZ two-point function in \S2 step~3 and the generator convention in step~4,
+plus an energy formula that is the energy of $U(\varphi^{-1})\Omega$, not of $U(\varphi)\Omega$.
+\end{abstract}
+\tableofcontents
+\bigskip
+\begin{center}\footnotesize
+\begin{tabular}{llp{6.3cm}}\toprule
+Location & Verdict & One line\\\midrule
+N7 eq.~(1) $\langle TT\rangle=\frac{c}{8\pi^2}u^{-4}$ & \textbf{verified} & independent Wick computation, $c=1$ Dirac\\
+N7 eq.~(2),(3) $\xi$-frame, $W(u)$ & \textbf{verified} & incl.\ $(x-y)/\sqrt{\beta\beta'}=2\sinh\frac{\xi-\xi'}2$\\
+N7 \S1 ``$\xi\mapsto\xi\pm2\pi t$'' & gap & sign left open; it is $\xi\mapsto\xi-2\pi t$\\
+N7 Lemma~2.1, eq.~(6),(7) & \textbf{verified} & $\widetilde g=-4\sinh^2\frac\xi2$, $\widehat{\widetilde g}=\frac{-2i}{k(k^2+1)}$\\
+N7 eq.~(8),(9) defect kernel & \textbf{verified} & sign of $\mathfrak g$ and $\widetilde D^{(1)}$ re-derived\\
+N7 Lemma~3.1 (1),(2),(3) & \textbf{verified} & all standard-form identities check out\\
+N7 text after eq.~(13) & \textbf{break (local)} & ``both [weights] are bounded by $1+\lambda$'' is false for KM\\
+N7 Lemma~3.2 & gap & one hypothesis vacuous; not applicable to the note's own $A$\\
+N7 Lemma~4.1, eq.~(14) & \textbf{verified} & contour shift legitimate; $\widehat W$ correct\\
+N7 \S4.2 eq.~(15) & gap & KMS sign-fixing presupposes $T(g)\in\cM$, which is false\\
+N7 \S4.3 eq.~(16)--(18) & \textbf{verified} & all prefactors and the sum $=2$\\
+N7 \S4.4 universality & gap & logic valid but the load is carried by \S5, not by ``agreement''\\
+N7 Lemma~5.1, eq.~(20)--(23) & \textbf{verified} & pointwise identity, weights, $|\mathfrak g|^2$, $V(u)$\\
+N7 Theorem~5.2 & \textbf{verified} & assembly correct, $4/\pi^2\to1/\pi^2$ erratum confirmed\\
+N7 Cor.~6.1 & \textbf{verified} & VWZ conversion and $12/(\pi^2c)$ correct (chiral)\\
+N6 \S2 step~3 ($\frac c{32}$) & \textbf{break (local)} & BPZ constant inside a generator-normalized argument\\
+N6 \S2 eq.~(2),(4) & \textbf{verified} & metrics and both integrals correct\\
+N6 \S3 eq.~(5) energy & minor & it is $E(\varphi^{-1})$; combination does vanish on $\mathrm{PSL}(2,\mathbb R)$\\
+N6 \S3 Route~B & gap & unbounded ``compact'' set; two uncited theorems; strong additivity\\
+N6 \S4.1 $c/18$ per chirality & \textbf{verified} & consistent with the two-branch law\\
+\bottomrule\end{tabular}\end{center}
+\clearpage
+\section{Section 1 of Note 7: conventions and the two-point normalization}\label{sec:conv}
+
+The whole numerical value of $f_2$ and $s_2$ hangs on the constant in
+\begin{quote}\itshape
+``$T(f)=\int T(x)f(x)\,dx$ is normalized as the \emph{generator}: $e^{isT(f)}$ implements the flow of the vector
+field $f\partial_x$, so that $T(1)$ is the light-ray momentum.  In this normalization
+$\langle\Omega,T(x)T(y)\Omega\rangle=\frac{c}{8\pi^2}\frac1{(x-y-i0)^4}$'' \hfill (N7, eq.~(1)).
+\end{quote}
+A factor $\alpha$ here multiplies $\widehat W$, hence $g_B$ and $g_{\mathrm{KM}}$, hence $f_2$ and $s_2$, by
+$\alpha$.  We verify it from first principles for the free complex (Dirac) chiral fermion, for which $c=1$.
+
+\begin{definition}[Fermion conventions]\label{def:ferm}
+$\psi$ is the chiral Fermi field on $\mathbb R$ with $\{\psi(x),\psi^\dagger(y)\}=\delta(x-y)$,
+$\{\psi(x),\psi(y)\}=0$, acting on the Fock space of the Fermi sea, $\Omega$ the vacuum.  Write
+$\psi(x)=\int\frac{dp}{2\pi}e^{ipx}c(p)$ with $\{c(p),c(q)^\dagger\}=2\pi\delta(p-q)$.  The stress tensor is
+$T=\tfrac i2\bigl(:\!\psi^\dagger\partial\psi\!:-:\!\partial\psi^\dagger\,\psi\!:\bigr)$.
+\end{definition}
+
+\begin{theorem}[Normalization of eq.~(1)]\label{thm:TT}
+With Definition~\ref{def:ferm} and the requirement that $P:=T(\mathbf 1)$ satisfy $[P,\psi(x)]=-i\psi'(x)$,
+$P\ge0$, $P\Omega=0$:
+\begin{equation}\label{eq:v-prop}
+ \langle\Omega,\psi(x)\psi^\dagger(y)\Omega\rangle=\langle\Omega,\psi^\dagger(x)\psi(y)\Omega\rangle
+ =\frac1{2\pi i}\,\frac1{x-y-i0}=:A(x-y),
+\end{equation}
+\begin{equation}\label{eq:v-TT}
+ \langle\Omega,T(x)T(y)\Omega\rangle=\tfrac12\bigl[A'(u)^2-A(u)A''(u)\bigr]=\frac1{8\pi^2}\,\frac1{(x-y-i0)^4},
+ \qquad u=x-y .
+\end{equation}
+Hence N7 eq.~(1) holds with $c=1$ for the Dirac fermion, i.e.\ with $c$ the central charge in the convention
+$c=r$ for $r$ complex components.
+\end{theorem}
+
+\lstep{1}{1}{$[P,c(p)]=p\,c(p)$, and therefore $c(p)\Omega=0$ for $p<0$ and $c(p)^\dagger\Omega=0$ for $p>0$.}
+\lproof
+\lstep{2}{1}{$-i\psi'(x)=-i\int\frac{dp}{2\pi}(ip)e^{ipx}c(p)=\int\frac{dp}{2\pi}p\,e^{ipx}c(p)$.}
+\lby{differentiating under the integral sign in Definition~\ref{def:ferm}}
+\lstep{2}{2}{Comparing $\langle2\rangle1$ with $[P,\psi(x)]=\int\frac{dp}{2\pi}e^{ipx}[P,c(p)]$ and using that the
+$e^{ipx}$ are a complete system gives $[P,c(p)]=p\,c(p)$.}
+\lby{$\langle2\rangle1$ and Fourier inversion}
+\lstep{2}{3}{$c(p)$ raises the $P$-eigenvalue by $p$; since $P\ge0$ and $P\Omega=0$, $c(p)\Omega$ has
+$P$-eigenvalue $p$, which is inadmissible for $p<0$; likewise $c(p)^\dagger$ lowers it by $p$, inadmissible for
+$p>0$.}
+\lby{$\langle2\rangle2$, $P\ge0$, $P\Omega=0$}
+\lqed{2}{4}
+\lby{$\langle2\rangle3$}
+\lstep{1}{2}{$\langle\psi(x)\psi^\dagger(y)\rangle=\int_{-\infty}^0\frac{dp}{2\pi}e^{ip(x-y)}=\frac{1}{2\pi i}(x-y-i0)^{-1}$.}
+\lproof
+\lstep{2}{1}{$\langle c(p)c(q)^\dagger\rangle=2\pi\delta(p-q)\mathbf 1_{q<0}$.}
+\lby{$\langle1\rangle1$ and the CAR of Definition~\ref{def:ferm}}
+\lstep{2}{2}{$\int_{-\infty}^0e^{ipu+\eps p}dp=\frac1{iu+\eps}=\frac{-i}{u-i\eps}$ for $\eps>0$.}
+\lby{elementary integration; the regulator $e^{\eps p}$ is the adiabatic cutoff, and the limit $\eps\downarrow0$
+is taken in $\mathcal S'(\mathbb R)$}
+\lqed{2}{3}
+\lby{$\langle2\rangle1$, $\langle2\rangle2$}
+\lstep{1}{3}{$\langle\psi^\dagger(x)\psi(y)\rangle=A(x-y)$ as well.}
+\lproof
+\lstep{2}{1}{$\langle\psi^\dagger(y)\psi(x)\rangle=\int_0^\infty\frac{dp}{2\pi}e^{ip(x-y)}=\frac{i}{2\pi}(x-y+i0)^{-1}$.}
+\lby{$\langle1\rangle1$ (now $c(p)\Omega=0$ for $p<0$) and $\int_0^\infty e^{ipu-\eps p}dp=\frac i{u+i\eps}$}
+\lstep{2}{2}{Exchanging the names $x\leftrightarrow y$ in $\langle2\rangle1$:
+$\langle\psi^\dagger(x)\psi(y)\rangle=\frac i{2\pi}(y-x+i0)^{-1}=\frac{-i}{2\pi}(x-y-i0)^{-1}=A(x-y)$.}
+\lby{$\langle2\rangle1$}
+\lqed{2}{3}
+\lby{$\langle2\rangle2$}
+\lstep{1}{4}{The conventions are consistent: $\langle\{\psi(x),\psi^\dagger(y)\}\rangle
+=\frac1{2\pi i}\bigl[(x-y-i0)^{-1}-(x-y+i0)^{-1}\bigr]=\delta(x-y)$.}
+\lby{$\langle1\rangle2$, $\langle1\rangle3$ and the Sokhotski formula $(u\mp i0)^{-1}=\mathrm{PV}\frac1u\pm i\pi\delta(u)$}
+\lstep{1}{5}{$T(\mathbf 1)=i\int:\!\psi^\dagger\psi'\!:dx$ and $[T(\mathbf 1),\psi(y)]=-i\psi'(y)$, so the
+normalization of Definition~\ref{def:ferm} is the generator normalization of N7 \S1.}
+\lproof
+\lstep{2}{1}{$\int(-\partial\psi^\dagger\,\psi)dx=\int\psi^\dagger\partial\psi\,dx$, hence
+$T(\mathbf 1)=\frac i2\int(\psi^\dagger\psi'-\psi^{\dagger\prime}\psi)=i\int\psi^\dagger\psi'$.}
+\lby{integration by parts; the boundary terms vanish in the sense of distributions on test functions of compact
+support, and for $f\equiv\mathbf 1$ on the Fock domain of finite-energy vectors}
+\lstep{2}{2}{$[\psi^\dagger(x)\psi'(x),\psi(y)]=\psi^\dagger(x)\{\psi'(x),\psi(y)\}-\{\psi^\dagger(x),\psi(y)\}\psi'(x)=-\delta(x-y)\psi'(x)$.}
+\lby{$[AB,C]=A\{B,C\}-\{A,C\}B$ and the CAR}
+\lqed{2}{3}
+\lby{$\langle2\rangle1$, $\langle2\rangle2$: $[T(\mathbf 1),\psi(y)]=i\int(-\delta(x-y)\psi'(x))dx=-i\psi'(y)$}
+\lstep{1}{6}{$\langle\Omega,T(x)T(y)\Omega\rangle=\frac12\bigl[A'(u)^2-A(u)A''(u)\bigr]$.}
+\lproof
+\lstep{2}{1}{Write $T=\frac i2\sum_a s_a:\!\partial^{m_a}\psi^\dagger\,\partial^{n_a}\psi\!:$ with
+$(m,n,s)=(0,1,+1)$ and $(1,0,-1)$.}
+\lby{Definition~\ref{def:ferm}}
+\lstep{2}{2}{For each pair $(a,b)$ the connected Wick contraction is
+$\langle\partial^{m_a}\psi^\dagger(x)\,\partial^{n_b}\psi(y)\rangle\,\langle\partial^{n_a}\psi(x)\,\partial^{m_b}\psi^\dagger(y)\rangle
+=(-1)^{m_b+n_b}A^{(m_a+n_b)}(u)A^{(n_a+m_b)}(u)$, with a $+$ sign.}
+\lproof
+\lstep{3}{1}{$\langle 1234\rangle=\langle12\rangle\langle34\rangle-\langle13\rangle\langle24\rangle+\langle14\rangle\langle23\rangle$
+with $1=\psi^\dagger(x),2=\psi(x),3=\psi^\dagger(y),4=\psi(y)$; the middle term vanishes because
+$\langle\psi^\dagger\psi^\dagger\rangle=\langle\psi\psi\rangle=0$, and the first is the disconnected term removed
+by normal ordering.}
+\lby{Wick's theorem for quasi-free states and $\langle\psi\psi\rangle=0$ in the gauge-invariant vacuum}
+\lstep{3}{2}{Differentiating $\langle\psi^\dagger(x)\psi(y)\rangle=A(x-y)$ (step $\langle1\rangle3$) gives
+$\partial_x^m\partial_y^{n}A(x-y)=(-1)^{n}A^{(m+n)}(u)$; same for $\langle\psi(x)\psi^\dagger(y)\rangle$.}
+\lby{$\langle1\rangle2$, $\langle1\rangle3$, chain rule}
+\lqed{3}{3}\lby{$\langle3\rangle1$, $\langle3\rangle2$}
+\lstep{2}{3}{$m_b+n_b=1$ for both $b$, so $(-1)^{m_b+n_b}=-1$; with the prefactor $(\frac i2)^2=-\frac14$ one gets
+$\langle TT\rangle_c=\frac14\sum_{a,b}s_as_b\,A^{(m_a+n_b)}A^{(n_a+m_b)}$.}
+\lby{$\langle2\rangle1$, $\langle2\rangle2$}
+\lstep{2}{4}{The four terms are $(A')^2,\;-AA'',\;-A''A,\;(A')^2$, so
+$\langle TT\rangle_c=\frac14\bigl[2(A')^2-2AA''\bigr]$.}
+\lby{$\langle2\rangle3$ with $(m_a,n_a),(m_b,n_b)\in\{(0,1),(1,0)\}$}
+\lqed{2}{5}\lby{$\langle2\rangle4$}
+\lstep{1}{7}{With $A=a/u$, $a=(2\pi i)^{-1}$: $(A')^2-AA''=\frac{a^2}{u^4}-\frac{2a^2}{u^4}=-\frac{a^2}{u^4}$, so
+$\langle TT\rangle=-\frac{a^2}{2u^4}=\frac1{8\pi^2}\frac1{u^4}$, $u=x-y-i0$.}
+\lby{$\langle1\rangle6$, $A'=-a/u^2$, $A''=2a/u^3$, $a^2=-1/(4\pi^2)$}
+\lqed{1}{8}
+\lby{$\langle1\rangle5$, $\langle1\rangle7$}
+
+\begin{verdictok}
+N7 eq.~(1) is correct.  Numerically: $-a^2/2=0.0126651479552922=1/(8\pi^2)$ to 15 digits, and a finite-difference
+evaluation of $\frac12[(A')^2-AA'']$ at $u=1.3-0.001i$ reproduces $\frac1{8\pi^2}u^{-4}$ to 10 digits
+(\texttt{numerics/v5chk.py}).  Two independent corroborations follow below: the flat-space Fourier transform
+in Lemma~\ref{lem:What7} and, decisively, the free-fermion computation of N7 \S5, which produces
+$g_B=\frac2{3\pi^2}$ with no free constant and therefore \emph{fixes} $\alpha=\frac1{8\pi^2}$ at $c=1$.
+The parenthesis ``the BPZ field $2\pi T$ has $\frac c2(x-y)^{-4}$'' is correct: $(2\pi)^2\frac c{8\pi^2}=\frac c2$.
+\end{verdictok}
+
+\begin{verdictok}
+$T(f)\Omega=0$ for $f\in\operatorname{span}\{1,x,x^2\}$ is correct: these are exactly the generators of the
+M\"obius subgroup $\mathrm{PSL}(2,\mathbb R)$ of $\mathrm{Diff}_+(S^1)$ acting on the line (translation, dilation, special
+conformal), $U(s)\Omega=\Omega$ for the corresponding one-parameter groups, and $T(f)=-i\frac{d}{ds}U(s)|_{s=0}$
+on the domain of the generator.  Note that this is the only place where the \emph{unsubtracted} $T$ occurs;
+$\langle T(x)\rangle=0$ on the line is consistent with $T(\mathbf 1)\Omega=P\Omega=0$.
+\end{verdictok}
+
+\begin{lemma}[N7 eq.~(2)--(3)]\label{lem:W}
+With $\xi=-\log\frac{L-x}{L}$, $\beta=\frac{dx}{d\xi}=L-x=Le^{-\xi}$, $x=L(1-e^{-\xi})$ one has
+$\frac{x-y}{\sqrt{\beta\beta'}}=2\sinh\frac{\xi-\xi'}2$ and, with $\widetilde T(\xi)=\beta^2T(x)$,
+$W(u)=\langle\widetilde T\widetilde T\rangle_{\mathrm{conn}}=\frac{c}{128\pi^2}\sinh^{-4}\frac{u-i0}2$.
+\end{lemma}
+\lstep{1}{1}{$\beta=dx/d\xi=Le^{-\xi}=L-x$ and $\xi<0\Leftrightarrow x<0$, $\xi>0\Leftrightarrow 0<x<L$.}
+\lby{differentiating $x=L(1-e^{-\xi})$; $\xi\mapsto x$ is an increasing bijection $\mathbb R\to(-\infty,L)$}
+\lstep{1}{2}{$x-y=Le^{-(\xi+\xi')/2}\bigl(e^{(\xi-\xi')/2}-e^{-(\xi-\xi')/2}\bigr)=2\sqrt{\beta\beta'}\sinh\frac{\xi-\xi'}2$.}
+\lby{$x-y=L(e^{-\xi'}-e^{-\xi})$ and $\sqrt{\beta\beta'}=Le^{-(\xi+\xi')/2}$}
+\lstep{1}{3}{$\widetilde T(\xi)=\beta^2T(x)$ is the weight-2 density: $T(f)=\int T(x)f(x)dx=\int\widetilde T(\xi)\widetilde g(\xi)d\xi$
+with $\widetilde g=g/\beta$.}
+\lby{$T(x)g(x)dx=\beta^{-2}\widetilde T(\xi)g(x(\xi))\beta\,d\xi$}
+\lstep{1}{4}{$\dfrac{\beta^2\beta'^2}{(x-y-i0)^4}=\Bigl(\dfrac{\sqrt{\beta\beta'}}{x-y-i0}\Bigr)^4
+=\dfrac1{16\sinh^4\frac{u-i0}2}$, so $W(u)=\frac{c}{8\pi^2}\cdot\frac1{16}\sinh^{-4}\frac{u-i0}2$.}
+\lby{$\langle1\rangle2$, eq.~(1); $\beta\beta'>0$, so the $-i0$ prescription passes unchanged to $u$}
+\lqed{1}{5}\lby{$\langle1\rangle4$, $\frac{c}{128\pi^2}=\frac{c}{8\pi^2\cdot16}$}
+\begin{verdictok}
+Eqs.~(2) and (3) verified, including the $i0$ prescription.  $\langle\widetilde T\rangle=\beta^2\langle T\rangle=0$,
+so the subtraction in ``$\widetilde T_0=\widetilde T-\langle\widetilde T\rangle$'' (N7, after eq.~(6)) is vacuous
+in the note's own convention $\widetilde T=\beta^2T$; it would be non-vacuous only if $\widetilde T$ were defined
+with the Schwarzian term.  Harmless either way: the difference is a $c$-number, which drops out of the commutator
+of Lemma~2.1 and, since $(S^*-1)\Omega=0$, also out of $\eta$.
+\end{verdictok}
+\subsection{The modular frame: the sign of the flow}\label{sec:bwsign}
+N7 \S1 says: ``\emph{The modular group of $(\cA(I),\Omega)$ is the dilation about $L$ (Bisognano--Wichmann), a
+translation $\xi\mapsto\xi\pm2\pi t$ for $\Delta^{it}$}''.  The $\pm$ is not innocuous: it decides whether the
+spectral parameter is $u=+2\pi k$ or $u=-2\pi k$ in eq.~(15), i.e.\ whether the Bures weight is evaluated at
+$\lambda=e^{2\pi k}$ or $e^{-2\pi k}$.  N7 \S4.2 fixes it by KMS; \S\ref{sec:kmssign} below shows that this
+argument presupposes $T(g)\in\cM$, which is false.  The sign is however determined outright:
+
+\begin{lemma}[Modular flow of the half-line $I=(-\infty,L)$]\label{lem:bw}
+For a M\"obius covariant net on the line with Haag duality, $\Delta_{\cA(I)}^{it}$ implements the point map
+$\varphi_t(x)=L+e^{2\pi t}(x-L)$, i.e.\ $\xi\mapsto\xi-2\pi t$, and consequently
+$\Delta^{it}\widetilde T_0(\xi)\Delta^{-it}=\widetilde T_0(\xi-2\pi t)$.
+\end{lemma}
+\lstep{1}{1}{For $M=\cA((0,\infty))$, $\Delta_M^{it}$ implements $x\mapsto e^{-2\pi t}x$.}
+\lby{Bisognano--Wichmann for conformal nets: Brunetti--Guido--Longo, CMP \textbf{156} (1993), Thm.~2.4 /
+Prop.~1.1 (\texttt{refs/BGL93\_funct-an-9302008.pdf}); equivalently Borchers, CMP \textbf{143} (1992):
+$\Delta^{it}U(a)\Delta^{-it}=U(e^{-2\pi t}a)$, which is exactly the conjugation of a translation by the
+dilation $x\mapsto e^{-2\pi t}x$}
+\lstep{1}{2}{$\cA((-\infty,L))=\cA((L,\infty))'$ and $\Delta_{M'}=\Delta_M^{-1}$.}
+\lby{Haag duality on the line for M\"obius covariant nets (BGL93, Thm.~2.19(b)) and Tomita--Takesaki}
+\lstep{1}{3}{Hence $\Delta_{\cA(I)}^{it}=\Delta_{\cA((L,\infty))}^{-it}$ implements $x-L\mapsto e^{+2\pi t}(x-L)$,
+i.e.\ $L-x\mapsto e^{2\pi t}(L-x)$, i.e.\ $\beta\mapsto e^{2\pi t}\beta$, i.e.\ $\xi=-\log(\beta/L)\mapsto\xi-2\pi t$.}
+\lby{$\langle1\rangle1$, $\langle1\rangle2$ and eq.~(2)}
+\lstep{1}{4}{If $U$ implements the point map $\phi$ (so that $U\cA(I)U^*=\cA(\phi(I))$) then
+$U\,O(x)\,U^*=\phi'(x)^{h}O(\phi(x))$ for a weight-$h$ density.}
+\lby{fixed by two special cases: $U(a)=e^{iaP}$, $[P,\psi]=-i\psi'$ gives $U(a)\psi(x)U(a)^*=\psi(x+a)$;
+the dilation $\phi(x)=\lambda x$ requires $U_\lambda\psi(x)U_\lambda^*=\lambda^{1/2}\psi(\lambda x)$ for the CAR
+$\{\cdot,\cdot\}=\delta$ to be preserved, which is $h=\frac12$}
+\lqed{1}{5}
+\lby{$\langle1\rangle3$, $\langle1\rangle4$ with $h=2$, $\phi_t'\equiv1$ in the $\xi$-chart; the Schwarzian of the
+translation vanishes}
+\begin{verdictgap}
+The $\pm$ should be a $-$.  The consequence is that
+$\langle T(g)\Omega,\Delta^{it}T(g)\Omega\rangle=\iint\widetilde g\widetilde g'\,W(\xi-\xi'+2\pi t)
+=\frac1{2\pi}\int dk\,\widehat W(k)|\widehat{\widetilde g}(k)|^2e^{+2\pi ikt}$, i.e.\ $u=\log\lambda=+2\pi k$,
+which is the sign N7 uses.  \textbf{The note's answer is right; the argument it gives for it is not
+(see \S\ref{sec:kmssign}), but this Lemma repairs it.}  Repair: replace ``$\pm$'' by ``$-$'' and cite BGL93
+Thm.~2.19(b) for Haag duality; drop the appeal to KMS in \S4.2.
+\end{verdictgap}
+
+\section{Section 2 of Note 7: the tangent vector}\label{sec:tangent}
+
+\begin{verdictgap}
+\textbf{Lemma~2.1} is correct as an identity of functionals but its proof has two soft spots.
+(i) ``\emph{both sides are normal in $X$ because $T(g)\Omega$ is a vector ($g$ is smooth and compactly
+supported)}'': for the collar representative $g=f\chi$ this is fine, and normality of
+$X\mapsto i\langle T(g)\Omega,X\Omega\rangle-i\langle S^*T(g)\Omega,X\Omega\rangle$ follows from
+$T(g)\Omega\in\mathcal H$; but ``$g$ smooth and compactly supported $\Rightarrow$ $T(g)\Omega\in\mathcal H$''
+needs the linear energy bound $\|T(f)\psi\|\le C\|f\|_{3/2}\|(1+L_0)\psi\|$ of Carpi--Weiner (= CDIT
+Prop.~2.2(4)), not Fewster--Hollands (cf.\ finding [R4] on N6).  It is \emph{not} available for the zero-collar
+representative used from eq.~(6) on --- see \S\ref{sec:normdiv}.
+(ii) ``$\frac d{ds}\omega(x_AU(s)y_DU(s)^*)|_0=i\omega(x_A[T(f),y_D])$'' requires differentiability of
+$s\mapsto U(s)y_DU(s)^*$ in the relevant topology; $U(s)$ is a M\"obius one-parameter group and $y_D\in\cA(D)$,
+so this is standard, but $T(f)$ is unbounded and the commutator is to be read as a form on $\cA(D)\Omega$.
+Neither point affects the conclusion.
+\end{verdictgap}
+
+\begin{verdictok}
+\textbf{The second representative.}  ``$i\omega(x_AT(f)y_D)=i\omega([x_A,T(f)]y_D)$'' uses $T(f)\Omega=0$ twice
+($\omega(x_AT(f)y_D)=\langle x_A^*\Omega,T(f)y_D\Omega\rangle$ and $T(f)^*\Omega=0$), and the conclusion
+$g\rightsquigarrow-f(1-\chi)$ is right.  In the $\xi$-chart the two representatives are
+$\widetilde g=-4\sinh^2\frac\xi2\mathbf 1_{\xi>0}$ and $\widetilde g_2=+4\sinh^2\frac\xi2\mathbf 1_{\xi<0}$, which
+differ by $\widetilde g_2-\widetilde g=4\sinh^2\frac\xi2$, the $\xi$-image of the M\"obius field $x^2/L$
+(indeed $\frac{x^2}{L(L-x)}=4\sinh^2\frac\xi2$).  Both have the same Fourier transform,
+$\widehat{\widetilde g_2}(k)=-\widehat{\widetilde g}(-k)=\frac{-2i}{k(k^2+1)}=\widehat{\widetilde g}(k)$,
+hence the same spectral density --- a consistency check the note does not make but which holds.
+\end{verdictok}
+\begin{lemma}[N7 eq.~(6),(7)]\label{lem:gt}
+$\widetilde g(\xi)=-4\sinh^2\frac\xi2$ for $\xi>0$, and
+$\widehat{\widetilde g}(k)=\lim_{\eps\downarrow0}\int_0^\infty e^{-(ik+\eps)\xi}\widetilde g\,d\xi\bigr|_{\text{cont.\ from }\eps>1}
+=\frac{-2i}{k(k^2+1)}$, $|\widehat{\widetilde g}(k)|^2=\frac4{k^2(k^2+1)^2}$.
+\end{lemma}
+\lstep{1}{1}{$\widetilde g=g/\beta=\frac{-x^2/L}{L-x}=-\frac{L^2(1-e^{-\xi})^2}{L\cdot Le^{-\xi}}=-(e^{\xi/2}-e^{-\xi/2})^2=-4\sinh^2\frac\xi2$.}
+\lby{Lemma~\ref{lem:W}$\langle1\rangle3$, eq.~(2), $f(x)=-x^2/L$}
+\lstep{1}{2}{$-4\sinh^2\frac\xi2=-e^\xi-e^{-\xi}+2$.}
+\lby{$4\sinh^2\frac\xi2=2\cosh\xi-2$}
+\lstep{1}{3}{For $\eps>1$, $\int_0^\infty e^{-(ik+\eps)\xi}e^{a\xi}d\xi=(ik+\eps-a)^{-1}$ converges absolutely for
+$a\in\{1,-1,0\}$; hence the integral equals $-\frac1{ik+\eps-1}-\frac1{ik+\eps+1}+\frac2{ik+\eps}$, a rational
+function of $\eps$ regular at $\eps=0$.}
+\lby{$\langle1\rangle2$, elementary integration, $\operatorname{Re}(ik+\eps-a)=\eps-a>0$}
+\lstep{1}{4}{At $\eps=0$: $-2\bigl[\frac12\bigl(\frac1{ik-1}+\frac1{ik+1}\bigr)-\frac1{ik}\bigr]
+=-2\bigl[\frac{-ik}{k^2+1}+\frac ik\bigr]=-2\cdot\frac{i}{k(k^2+1)}$.}
+\lby{$\langle1\rangle3$, $\frac12\bigl(\frac1{ik-1}+\frac1{ik+1}\bigr)=\frac{ik}{(ik)^2-1}=\frac{-ik}{k^2+1}$ and
+$\frac1{ik}=-\frac ik$; then $\frac1k-\frac k{k^2+1}=\frac1{k(k^2+1)}$}
+\lqed{1}{5}\lby{$\langle1\rangle4$; $|{-2i}/(k(k^2+1))|^2=4/(k^2(k^2+1)^2)$}
+\begin{verdictok}
+Eqs.~(6) and (7) verified exactly as printed, including the analytic-continuation prescription, which is
+unambiguous because the $\eps$-integral is a \emph{rational} function of $\eps$ (step $\langle1\rangle3$): the
+continuation from $\eps>1$ to $\eps=0$ is unique.  This is worth saying in the note --- ``analytic continuation''
+alone would not fix a function up to an entire additive term; rationality does.
+\end{verdictok}
+
+\begin{lemma}[N7 eq.~(8),(9)]\label{lem:D1}
+With $V_s\phi(z)=\phi(h_s^{-1}(z))/\sqrt{h_s'(h_s^{-1}(z))}$, $h_s(x)=\frac{Lx}{L+sx}$, $f=\frac d{ds}h_s|_0=-x^2/L$:
+$\mathfrak g:=-\frac{dW_s}{ds}|_0=(g\partial_x+\frac12g')E_D$ and $D^{(1)}=\mathfrak g^*Q+Q\mathfrak g$; and in the
+$\xi$-frame $\widetilde D^{(1)}(\xi,\xi')=-\frac i{2\pi}\frac{\sinh\frac\xi2\sinh\frac{\xi'}2}{\sinh^2\frac{\xi-\xi'}2}$
+for $\xi<0<\xi'$.
+\end{lemma}
+\lstep{1}{1}{$h_s(x)=x+sf(x)+O(s^2)$ with $f=-x^2/L$, hence $h_s^{-1}(z)=z-sf(z)+O(s^2)$ and
+$\sqrt{h_s'(h_s^{-1}(z))}=1+\frac s2f'(z)+O(s^2)$.}
+\lby{$\frac{d}{ds}\frac{Lx}{L+sx}\big|_0=-\frac{Lx^2}{L^2}=-\frac{x^2}L$; inverse-function expansion; $h_s'=1+sf'+O(s^2)$}
+\lstep{1}{2}{$(V_s\phi)(z)=\phi(z)-s\bigl(f\phi'+\frac12f'\phi\bigr)(z)+O(s^2)$, so
+$-\frac{dV_s}{ds}\big|_0=f\partial+\frac12f'$; restricted to $D$ this is $\mathfrak g$ of eq.~(8) with $g=f|_D$.}
+\lby{$\langle1\rangle1$ and $W_s=1_{H_A}\oplus V_s$}
+\lstep{1}{3}{$D^{(1)}=\frac d{ds}(Q-W_s^*QW_s)|_0=-\bigl(\tfrac{dW^*}{ds}Q+Q\tfrac{dW}{ds}\bigr)\big|_0
+=\mathfrak g^*Q+Q\mathfrak g$; it is self-adjoint.}
+\lby{$\langle1\rangle2$, product rule, $Q=Q^*$}
+\lstep{1}{4}{$D^{(1)}$ vanishes on $A\times A$ and on $D\times D$.}
+\lby{$h_s$ is a global M\"obius map and $P_+$ is M\"obius invariant; $h_s(D)\subset D$, so for $\phi,\phi'$
+supported in $D$, $\langle\phi,W_s^*P_+W_s\phi'\rangle=\langle V_s\phi,P_+V_s\phi'\rangle=\langle\phi,P_+\phi'\rangle$,
+and $W_s=1$ on $A$}
+\lstep{1}{5}{Setting $u=-x=L(e^{-\xi}-1)$, $v=y=L(1-e^{-\xi'})$: $u=-2Le^{-\xi/2}\sinh\frac\xi2$,
+$v=2Le^{-\xi'/2}\sinh\frac{\xi'}2$, $u+v=L(e^{-\xi}-e^{-\xi'})=-2Le^{-(\xi+\xi')/2}\sinh\frac{\xi-\xi'}2$.}
+\lby{$e^{-\xi}-1=-2e^{-\xi/2}\sinh\frac\xi2$, $1-e^{-\xi'}=2e^{-\xi'/2}\sinh\frac{\xi'}2$ and Lemma~\ref{lem:W}$\langle1\rangle2$}
+\lqed{1}{6}
+\lby{$\widetilde D^{(1)}=\sqrt{\beta\beta'}\,\frac i{2\pi L}\frac{uv}{(u+v)^2}$ with $\sqrt{\beta\beta'}=Le^{-(\xi+\xi')/2}$
+and $\langle1\rangle5$: $\frac{uv}{(u+v)^2}=\frac{-4L^2e^{-(\xi+\xi')/2}\sinh\frac\xi2\sinh\frac{\xi'}2}{4L^2e^{-(\xi+\xi')}\sinh^2\frac{\xi-\xi'}2}
+=-e^{(\xi+\xi')/2}\frac{\sinh\frac\xi2\sinh\frac{\xi'}2}{\sinh^2\frac{\xi-\xi'}2}$}
+\begin{verdictok}
+Eqs.~(8) and (9) verified, \emph{including the sign of $\mathfrak g$}, which is the one place where a slip would
+flip the sign of $D^{(1)}$ (and would be invisible in $|D^{(1)}|^2$, so it does not endanger $f_2$ anyway).
+The claimed decay $e^{-|\xi|/2}e^{-\xi'/2}$ and boundedness are correct: for $\xi<0<\xi'$,
+$|\sinh\frac\xi2\sinh\frac{\xi'}2|\le\sinh^2\frac{\xi'-\xi}4\le\sinh^2\frac{\xi'-\xi}2$ by AM--GM, so
+$|\widetilde D^{(1)}|\le\frac1{2\pi}$.  Step $\langle1\rangle4$ (``on $A\times A$ and $D\times D$ both sides
+vanish'') is asserted without proof in the note; the M\"obius-invariance argument above supplies it.
+\end{verdictok}
+\section{Section 3 of Note 7: the modular quadratic forms}\label{sec:lem31}
+
+\begin{lemma}[N7 \S3.1 and Lemma 3.1: all identities]\label{lem:std}
+In the finite-dimensional standard form of N7 \S3.1: (a) $\Delta=\rho\otimes\bar\rho^{-1}$, $S=J\Delta^{1/2}$,
+$S^*=\Delta^{1/2}J$; (b) $\eta_{i\bar\jmath}=d\rho_{ij}/\sqrt{p_j}$ is the unique vector with
+$\Tr(d\rho X)=\langle\eta,X\Omega\rangle$; (c) eq.~(11) holds, i.e.\
+$g_B=2\langle\eta,(\Delta+1)^{-1}\eta\rangle$ and $g_{\mathrm{KM}}=\langle\eta,\frac{\log\Delta}{\Delta-1}\eta\rangle$;
+(d) $\eta=i(S^*-1)A\Omega$ and consequences (1)--(3); (e) $d\mu(\lambda^{-1})=\lambda\,d\mu(\lambda)$;
+(f) $w(\lambda^{-1})=w(\lambda)/\lambda$ for both weights.
+\end{lemma}
+\lstep{1}{1}{(a) $J(|i\rangle\otimes|\bar\jmath\rangle)=|j\rangle\otimes|\bar\imath\rangle$ antilinearly and
+$\Delta^{1/2}|i\bar\jmath\rangle=\sqrt{p_i/p_j}|i\bar\jmath\rangle$ give
+$J\Delta^{1/2}(X\Omega)=X^*\Omega$ for $X=|a\rangle\langle b|$: $X\Omega=\sqrt{p_b}|a\bar b\rangle\mapsto
+\sqrt{p_b}\sqrt{p_a/p_b}|b\bar a\rangle=\sqrt{p_a}|b\bar a\rangle=X^*\Omega$.  $S^*=\Delta^{1/2}J$ because
+$J^*=J=J^{-1}$ and $J\Delta J=\Delta^{-1}$.}
+\lby{direct computation; $\{|a\rangle\langle b|\}$ spans $\cM$}
+\lstep{1}{2}{(b) $\Tr(d\rho X)=\sum_{ij}(d\rho)_{ji}X_{ij}$ and $\langle\eta,X\Omega\rangle=\sum_{ij}\overline{\eta_{i\bar\jmath}}X_{ij}\sqrt{p_j}$;
+equating and using $d\rho=d\rho^*$ gives $\eta_{i\bar\jmath}=d\rho_{ij}/\sqrt{p_j}$.  Uniqueness: $\Omega$ is
+cyclic for $\cM$.}
+\lby{comparison of coefficients; $\cM\Omega$ dense}
+\lstep{1}{3}{(c) $\langle\eta,(\Delta+1)^{-1}\eta\rangle=\sum_{ij}\frac{|d\rho_{ij}|^2}{p_j}\frac{1}{p_i/p_j+1}
+=\sum_{ij}\frac{|d\rho_{ij}|^2}{p_i+p_j}$, which is $\frac12g_B$; and
+$\langle\eta,\frac{\log\Delta}{\Delta-1}\eta\rangle=\sum\frac{|d\rho_{ij}|^2}{p_j}\frac{\log\lambda}{\lambda-1}
+=\sum|d\rho_{ij}|^2\ell(p_i,p_j)=g_{\mathrm{KM}}$, $\lambda=p_i/p_j$.}
+\lby{$\langle1\rangle2$, eq.~(10), and $p_j\ell(p_i,p_j)=\frac{\log\lambda}{\lambda-1}$ (the note's own identity,
+correct)}
+\lstep{1}{4}{The auxiliary identity of the note,
+$(1\otimes\bar\rho^{1/2})(\rho\otimes1+1\otimes\bar\rho)^{-1}(1\otimes\bar\rho^{1/2})=(\Delta+1)^{-1}$, holds:
+on $|i\bar\jmath\rangle$ both sides are $p_j/(p_i+p_j)$.}
+\lby{spectral computation}
+\lstep{1}{5}{(d) $\varphi(X)=i\langle A\Omega,X\Omega\rangle-i\langle X^*\Omega,A\Omega\rangle$ and
+$\langle X^*\Omega,A\Omega\rangle=\langle J\Delta^{1/2}X\Omega,A\Omega\rangle=\langle JA\Omega,\Delta^{1/2}X\Omega\rangle
+=\langle\Delta^{1/2}JA\Omega,X\Omega\rangle=\langle S^*A\Omega,X\Omega\rangle$, so
+$\varphi(X)=\langle i(S^*-1)A\Omega,X\Omega\rangle$.}
+\lby{$\langle Jx,y\rangle=\overline{\langle x,Jy\rangle}=\langle Jy,x\rangle$ for antiunitary $J$, and
+$\Delta^{1/2}=(\Delta^{1/2})^*$; antilinearity of $\eta\mapsto\langle\eta,\cdot\rangle$ turns
+$i\langle A\Omega,\cdot\rangle$ into $\langle-iA\Omega,\cdot\rangle$}
+\lstep{1}{6}{(1): for $B=B^*\in\cM'$, $S^*$ is the Tomita operator of $\cM'$, so $S^*B\Omega=B^*\Omega=B\Omega$
+and $(S^*-1)B\Omega=0$.  (2): $JX\Omega=\Delta^{1/2}X^*\Omega$ (apply $J$ to $J\Delta^{1/2}X^*\Omega=X\Omega$),
+hence $S^*X\Omega=\Delta X^*\Omega$, and $A=A^*\in\cM$ gives $\eta=i(\Delta-1)A\Omega$; substituting in
+$\langle1\rangle3$ gives eq.~(13).  (3): $(1+\Delta)^{-1/2}\Delta^{1/2}=(1+\Delta^{-1})^{-1/2}$ and
+$J(1+\Delta)^{-1/2}J=(1+\Delta^{-1})^{-1/2}$ give $(1+\Delta)^{-1/2}\Delta^{1/2}J=J(1+\Delta)^{-1/2}$.}
+\lby{Tomita--Takesaki for $\cM'$; $J\Delta J=\Delta^{-1}$; functional calculus}
+\lstep{1}{7}{(e) $\mu=\sum_{ij}|A_{ij}|^2p_j\,\delta_{p_i/p_j}$; exchanging $i\leftrightarrow j$ and using
+$|A_{ji}|=|A_{ij}|$ gives $\int F(\lambda)d\mu=\int\lambda F(1/\lambda)d\mu$, i.e.\ $d\mu(1/\lambda)=\lambda d\mu(\lambda)$.}
+\lby{$A=A^*$}
+\lstep{1}{8}{(f) $w_B(1/\lambda)=\frac{(1/\lambda-1)^2}{1/\lambda+1}=\frac{(1-\lambda)^2}{\lambda(1+\lambda)}=w_B(\lambda)/\lambda$;
+$w_{\mathrm{KM}}(1/\lambda)=(1/\lambda-1)\log(1/\lambda)=\frac{(\lambda-1)\log\lambda}{\lambda}=w_{\mathrm{KM}}(\lambda)/\lambda$.
+Combined with (e) this gives ``twice the contribution of $\{\lambda<1\}$''.}
+\lby{algebra; $\int_{\lambda>1}w\,d\mu=\int_{\lambda<1}\lambda w(1/\lambda)d\mu=\int_{\lambda<1}w\,d\mu$ by (e),(f)}
+\lqed{1}{9}\lby{$\langle1\rangle1$--$\langle1\rangle8$}
+\begin{verdictok}
+Every identity of N7 \S3.1 and Lemma~3.1, including all three consequences, the eigenbasis formula, the KMS
+property and both weight symmetries, is verified.  The finite-dimensional inputs eq.~(10) (SLD quantum Fisher
+information $=2\sum|d\rho_{ij}|^2/(p_i+p_j)$ with $-\log\Fid=\frac{s^2}8g_B+o(s^2)$, and the Kubo--Mori Hessian
+of the relative entropy) are Note~5's Prop.~2.3, independently verified by [V3] and [R3].
+\end{verdictok}
+\subsection{A false boundedness claim}\label{sec:bound}
+\begin{issue}[N7, sentence after eq.~(13)]\label{iss:bound}
+``\emph{Both weights in \textup{(13)} satisfy $w(\lambda^{-1})=w(\lambda)/\lambda$, so each integral is twice the
+contribution of $\{\lambda<1\}$; and both are bounded by $1+\lambda$, which is why $g_B\le4\|A\Omega\|^2$
+(equality for pure states) and why the second variations are finite whenever $A\Omega$ is a vector.}''
+\end{issue}
+\lstep{1}{1}{$w_B(\lambda)=\frac{(\lambda-1)^2}{\lambda+1}\le1+\lambda$ for $\lambda\ge0$, with equality only at
+$\lambda=0$; hence $g_B=2\int w_Bd\mu\le2\int(1+\lambda)d\mu=2(\|A\Omega\|^2+\|\Delta^{1/2}A\Omega\|^2)=4\|A\Omega\|^2$.}
+\lby{$(\lambda-1)^2\le(1+\lambda)^2$ for $\lambda\ge0$; $\|\Delta^{1/2}A\Omega\|=\|J\Delta^{1/2}A\Omega\|=\|A^*\Omega\|=\|A\Omega\|$ for $A=A^*\in\cM$}
+\lstep{1}{2}{$w_{\mathrm{KM}}(\lambda)=(\lambda-1)\log\lambda$ is \emph{not} bounded by $1+\lambda$:
+$w_{\mathrm{KM}}(\lambda)/(1+\lambda)\to\infty$ as $\lambda\to\infty$.  Explicitly at $\lambda=e^2=7.389$:
+$w_{\mathrm{KM}}=12.7780>8.3891=1+\lambda$; at $\lambda=100$: $455.91>101$.}
+\lby{numerical evaluation, \texttt{numerics/v5chk.py}}
+\lstep{1}{3}{Consequently $g_{\mathrm{KM}}=\int(\lambda-1)\log\lambda\,d\mu$ can diverge for $A\Omega\in\mathcal H$:
+finiteness needs the extra moment $\int\lambda\log\lambda\,d\mu<\infty$, i.e.\ $A\Omega$ in the form domain of
+$\Delta\log\Delta$, which is exactly the hypothesis Lemma~3.2 has to impose separately.}
+\lby{$\langle1\rangle2$; e.g.\ $d\mu$ with density $\propto\lambda^{-2}(\log\lambda)^{-2}$ on $\lambda>e$ has
+$\int d\mu<\infty$, $\int\lambda\log\lambda\,d\mu=\infty$}
+\lqed{1}{4}\lby{$\langle1\rangle1$--$\langle1\rangle3$}
+\begin{verdictbreak}
+The clause ``\emph{and both are bounded by $1+\lambda$ \dots\ and why the second variations are finite whenever
+$A\Omega$ is a vector}'' is \textbf{false} for the Kubo--Mori weight, and the finiteness conclusion it draws is
+false for $g_{\mathrm{KM}}$.  It is a side remark and does not enter any computation --- $g_{\mathrm{KM}}$ is
+evaluated by an explicit convergent integral in \S4.3 and \S5 --- so no result of the note falls.  But it is
+inconsistent with Lemma~3.2, which (correctly) imposes ``$\eta$ in the form domain of $\log\Delta/(\Delta-1)$''
+precisely because boundedness fails.  Repair: replace by ``the Bures weight is bounded by $1+\lambda$, whence
+$g_B\le4\|A\Omega\|^2$; the Kubo--Mori weight is not, and $g_{\mathrm{KM}}<\infty$ requires the extra condition
+$A\Omega\in\mathcal Q(\Delta\log\Delta)$.''  Also ``equality for pure states'' is loose: a pure state is not
+faithful and has no standard form of the type used.
+\end{verdictbreak}
+
+\subsection{$\|T(g)\Omega\|=\infty$, and what it costs}\label{sec:normdiv}
+\begin{proposition}\label{prop:infnorm}
+For $\widetilde g=-4\sinh^2\frac\xi2\mathbf 1_{\xi>0}$ the formal spectral integral
+$\int d\mu=\frac1{2\pi}\int_{\mathbb R}\widehat W(k)|\widehat{\widetilde g}(k)|^2dk$ diverges, and no representative
+$g$ of the tangent functional with $g=f$ on a neighbourhood of $\overline D$ lies in $\cA(I)$.
+\end{proposition}
+\lstep{1}{1}{$\widehat W(0)=\frac{c}{48\pi^2}>0$ and $|\widehat{\widetilde g}(k)|^2=\frac4{k^2(k^2+1)^2}\sim\frac4{k^2}$
+as $k\to0$, so the integrand behaves like $\frac{c}{24\pi^3}k^{-2}$, which is not integrable at $0$ (the
+singularity is even and positive: no principal value helps).}
+\lby{Lemma~\ref{lem:What7} below and Lemma~\ref{lem:gt}; numerically $\widehat W(0)=0.00211085799255=1/(48\pi^2)$
+at $c=1$}
+\lstep{1}{2}{Adding to $g$ any of $1,x,x^2$ does not change $T(g)\Omega$ (they annihilate $\Omega$), so the
+divergence cannot be removed inside the $\xi$-chart.}
+\lby{N7 \S1, M\"obius invariance of $\Omega$}
+\lstep{1}{3}{The $\xi$-chart covers only $x<L$; a representative with $T(g)\Omega\in\mathcal H$ must be obtained by
+cutting $g$ off \emph{beyond} $L$, i.e.\ outside the chart, and then $\operatorname{supp}g\not\subset I$, so
+$T(g)$ is not affiliated with $\cA(I)$.}
+\lby{$\xi=-\log\frac{L-x}L$ maps $(-\infty,L)$ onto $\mathbb R$; Lemma~2.1 forces $g=f$ on a neighbourhood of
+$\overline D=[0,L]$, hence $g\ne0$ on $(L,L+\delta)$}
+\lqed{1}{4}\lby{$\langle1\rangle1$--$\langle1\rangle3$}
+\begin{verdictgap}
+Confirms [V6].  Two consequences the note should draw explicitly.
+(i) \textbf{Lemma~3.1(2) does not apply to $A=T(g)$}: it assumes $A\in\cM$, and step $\langle1\rangle3$ shows no
+admissible representative is.  Since \S4.2--4.3 use precisely eq.~(13) --- the $A\in\cM$ formula --- the general
+route rests on a formula whose hypothesis fails.  Lemma~3.1(3) is the correct general statement, and it is
+representative-independent by Lemma~3.1(1) (two admissible $g$'s differ by a function supported in $(L,\infty)$,
+so $T(g_1)-T(g_2)$ is self-adjoint and affiliated with $\cA((L,\infty))=\cA(I)'$ by Haag duality).
+(ii) \textbf{The two formulas do agree here}, which is why the answer survives: for $A\in\cM$ one has
+$g_B=4\|\chi\|^2-4\operatorname{Re}\langle J\chi,\chi\rangle=4\int\frac{1-\lambda}{1+\lambda}d\mu$, and the KMS
+symmetry (Lemma~\ref{lem:std}(e)) turns this into $2\int\frac{(\lambda-1)^2}{1+\lambda}d\mu$; and the note's
+$d\mu$, although it is not the spectral measure of a vector, does satisfy the KMS relation, because
+$\widehat W(-k)=e^{2\pi k}\widehat W(k)$ and $|\widehat{\widetilde g}(-k)|=|\widehat{\widetilde g}(k)|$.  Note that
+$4\int\frac{1-\lambda}{1+\lambda}d\mu$ is only conditionally convergent at $k=0$ (odd integrand $\sim -1/k$) while
+the symmetrized $2\int\frac{(\lambda-1)^2}{1+\lambda}d\mu$ is absolutely convergent: the symmetrization is what
+makes the formal computation finite.  This is the honest description of \S4, and it is a \emph{gap}, not a break.
+\end{verdictgap}
+\subsection{Lemma 3.2: is it well posed?}
+\begin{verdictgap}
+The statement is \emph{almost} well posed; three defects.
+\begin{enumerate}[leftmargin=1.6em]
+\item ``\emph{a self-adjoint $A$ affiliated with a von Neumann algebra containing $\cM$}'' is a vacuous
+hypothesis: every self-adjoint operator on $\mathcal H$ is affiliated with $B(\mathcal H)\supseteq\cM$.  What is
+presumably meant, and what the proof will need, is $A$ affiliated with $\cA(\widehat I)$ for some interval
+$\widehat I\supset I$, so that locality and the Reeh--Schlieder property are available.  As written the
+hypothesis carries no information, and in particular gives no control of $S^*A\Omega$.
+\item ``\emph{$o(s)$ is controlled in the norm of the tangent space}'' is not a definition.  The tangent space
+here is $\cM_*$ (or its completion in the relevant metric); which norm, and uniformity over which set of $X$,
+must be specified --- this is exactly the point where the finite-dimensional Taylor expansion is transferred.
+\item The condition ``$\eta$ in the form domain of $\log\Delta/(\Delta-1)$'' is the right one for
+$g_{\mathrm{KM}}$; for $g_B$ nothing is needed beyond $\eta\in\mathcal H$, since $(1+\Delta)^{-1}$ is bounded.
+Worth splitting.
+\end{enumerate}
+\textbf{Consistency with Lemma 3.1}: good.  Lemma~3.2 refers to eq.~(11) (the $\eta$-form), not eq.~(13) (the
+$A\in\cM$ spectral form), so it is compatible with $A\notin\cM$; and it requires $\Omega\in D(A)$, which is
+exactly what Prop.~\ref{prop:infnorm} says fails for the zero-collar $\xi$-frame representative.  So Lemma~3.2,
+even once proved, will \emph{not} directly license \S4.2--4.3; it licenses Lemma~3.1(3) for a compactly
+supported $g$, and the passage from there to the $\xi$-frame integrals is a separate (missing) step.  The note's
+own caveat in \S3.3 now says this; the caveat should be repeated at eq.~(15), where the damage is done.
+The corrected proof route (sup formula, Alberti--Uhlmann 2002 Thm.~2(3)) is right --- the previously stated
+$\Fid=\langle\Omega,\Delta_{\omega_s,\omega}^{1/2}\Omega\rangle$ is indeed $Q_{1/2}$, not the fidelity [R3];
+I confirm that refutation and add that the note's remaining phrase ``\emph{and the finite-dimensional variational
+characterization of the Bures metric}'' is doing a lot of unstated work.
+\end{verdictgap}
+
+\section{Section 4 of Note 7: the modular-frame evaluation}\label{sec:step3}
+
+\begin{lemma}[N7 Lemma 4.1]\label{lem:What7}
+$\displaystyle\Wh(k)=\int_{\mathbb R}e^{-iku}W(u)du=\frac{c}{24\pi}\frac{k(k^2+1)}{e^{2\pi k}-1}$, with
+$\Wh(-k)=e^{2\pi k}\Wh(k)$, $\Wh\ge0$, $\Wh(0)=\frac c{48\pi^2}$, and $\Wh(k)\simeq\frac c{24\pi}|k|^3\theta(-k)$
+as $|k|\to\infty$.
+\end{lemma}
+\lstep{1}{1}{$W$ is the boundary value from $\operatorname{Im}z<0$ of $\frac{c}{128\pi^2}\sinh^{-4}(z/2)$, whose
+poles are the fourth-order poles $z\in2\pi i\mathbb Z$; the strip $-2\pi<\operatorname{Im}z<0$ is pole free, so the
+contour may be moved to $\operatorname{Im}u=-\pi$.}
+\lby{Lemma~\ref{lem:W}; $\sinh(z/2)=0\Leftrightarrow z/2\in i\pi\mathbb Z$}
+\lstep{1}{2}{The two vertical segments $\operatorname{Re}u=\pm R$, $-\pi\le\operatorname{Im}u\le0$ contribute $0$ in
+the limit $R\to\infty$.}
+\lby{$|\sinh\frac{\pm R+iy}2|^2=\sinh^2\frac R2\cos^2\frac y2+\cosh^2\frac R2\sin^2\frac y2\ge\sinh^2\frac R2$, so
+$|\sinh^{-4}|\le\sinh^{-4}\frac R2=O(e^{-2R})$, while $|e^{-iku}|\le\max(1,e^{\pi k})$ and the segment length is $\pi$}
+\lstep{1}{3}{On $u=v-i\pi$: $\sinh\frac{v-i\pi}2=\sinh\frac v2\cos\frac\pi2-i\cosh\frac v2\sin\frac\pi2=-i\cosh\frac v2$,
+so $\sinh^4=\cosh^4\frac v2$, and $e^{-ik(v-i\pi)}=e^{-ikv}e^{-\pi k}$.  Hence
+$\Wh(k)=\frac{c}{128\pi^2}e^{-\pi k}\int e^{-ikv}\cosh^{-4}\frac v2\,dv$.}
+\lby{$\langle1\rangle1$, $\langle1\rangle2$, $\sinh(a-i\pi/2)=-i\cosh a$}
+\lstep{1}{4}{$\int_{\mathbb R}e^{-ikv}\cosh^{-2h}\frac v2\,dv=\frac{2^{2h}}{\Gamma(2h)}|\Gamma(h+ik)|^2$; for $h=2$
+this is $\frac{16}6|\Gamma(2+ik)|^2=\frac83|\Gamma(2+ik)|^2$.}
+\lby{standard beta-integral (Gradshteyn--Ryzhik 3.985.1); verified numerically below}
+\lstep{1}{5}{$|\Gamma(2+ik)|^2=|1+ik|^2|\Gamma(1+ik)|^2=(1+k^2)\frac{\pi k}{\sinh\pi k}$.}
+\lby{$\Gamma(2+ik)=(1+ik)\Gamma(1+ik)$ and the reflection formula $|\Gamma(1+ik)|^2=\pi k/\sinh\pi k$}
+\lstep{1}{6}{$\Wh(k)=\frac{c}{128\pi^2}e^{-\pi k}\cdot\frac83\cdot\frac{\pi k(k^2+1)}{\sinh\pi k}
+=\frac{ck(k^2+1)}{48\pi}\cdot\frac{e^{-\pi k}}{\sinh\pi k}=\frac{c}{24\pi}\frac{k(k^2+1)}{e^{2\pi k}-1}$.}
+\lby{$\langle1\rangle3$--$\langle1\rangle5$, $\frac{e^{-\pi k}}{\sinh\pi k}=\frac2{e^{2\pi k}-1}$}
+\lstep{1}{7}{$\Wh\ge0$ (numerator and denominator have the same sign); $\Wh(0)=\frac c{24\pi}\cdot\frac1{2\pi}=\frac c{48\pi^2}$;
+$\Wh(-k)/\Wh(k)=\frac{-k}{e^{-2\pi k}-1}\cdot\frac{e^{2\pi k}-1}k=e^{2\pi k}$.}
+\lby{$\langle1\rangle6$, l'H\^opital at $k=0$}
+\lstep{1}{8}{As $k\to-\infty$, $e^{2\pi k}-1\to-1$ and $\Wh\to\frac{c}{24\pi}|k|^3$; as $k\to+\infty$, $\Wh\to0$
+exponentially.  The flat-space check: $\int e^{-ipu}(u-i0)^{-4}du=2\pi i\,\theta(-p)\frac{(-ip)^3}{3!}=\frac{2\pi}{3!}|p|^3\theta(-p)$,
+so $\frac c{8\pi^2}\cdot\frac{2\pi}{6}|p|^3=\frac{c}{24\pi}|p|^3$ for $p<0$, matching.}
+\lby{$\langle1\rangle6$; $(u-i0)^{-n}=\frac{(-1)^{n-1}}{(n-1)!}\partial_u^{n-1}(u-i0)^{-1}$,
+$\int e^{-ipu}(u-i0)^{-1}du=2\pi i\theta(-p)$ (close in the upper half plane), and
+$\int e^{-ipu}f^{(m)}=(ip)^m\int e^{-ipu}f$}
+\lqed{1}{9}\lby{$\langle1\rangle6$--$\langle1\rangle8$}
+\begin{verdictok}
+Lemma~4.1 is correct in every detail: the contour shift, the identity $\sinh\frac{v-i\pi}2=-i\cosh\frac v2$, the
+$\cosh^{-2h}$ transform, $|\Gamma(2+ik)|^2$, the KMS relation and the flat-space cross-check.  Numerically the
+contour-shifted quadrature reproduces $\frac{c}{24\pi}\frac{k(k^2+1)}{e^{2\pi k}-1}$ to 14 digits at
+$k=-1.3,0.25,1.0$; $|\Gamma(2+ik)|^2=\pi k(1+k^2)/\sinh\pi k$ to 12 digits; and the flat-space transform of
+$(u-i0)^{-4}$ agrees with $\frac{2\pi}6|p|^3\theta(-p)$ (5.14486 vs 5.14488 at $p=-1.7$; $-1.6\times10^{-5}$ vs
+$0$ at $p=+0.9$).  \textbf{The flat-space check is an independent confirmation of eq.~(1)}: the coefficient
+$\frac c{24\pi}$ of $|k|^3$ is the same one Theorem~\ref{thm:TT} produces.
+\end{verdictok}
+\subsection{The KMS sign in \S4.2}\label{sec:kmssign}
+\begin{issue}[N7 eq.~(15) and the sentence following it]
+``\emph{the sign being fixed by the KMS asymmetry $d\mu(-u)=e^ud\mu(u)$ of \textup{(13)}, which is
+$\Wh(-k)=e^{2\pi k}\Wh(k)$}.''
+\end{issue}
+\lstep{1}{1}{The KMS relation $d\mu(-u)=e^ud\mu(u)$ of eq.~(13) is a property of the spectral measure of $A\Omega$
+for $A\in\cM$ (Lemma~\ref{lem:std}(e)); the proof uses $|A_{ij}|^2p_i=\lambda|A_{ij}|^2p_j$, i.e.\ that $A$ is a
+matrix over the \emph{same} algebra whose density matrix defines $\Delta$.}
+\lby{Lemma~\ref{lem:std}(e) and its proof}
+\lstep{1}{2}{$A=T(g)\notin\cM$ and $A\Omega\notin\mathcal H$.}
+\lby{Prop.~\ref{prop:infnorm}}
+\lstep{1}{3}{Hence the argument of the issue is circular in the following precise sense: it invokes a property
+that holds for vectors $A\Omega$, $A\in\cM$, in order to determine the modular flow direction for an $A$ that is
+not in $\cM$ and whose $A\Omega$ is not a vector.}
+\lby{$\langle1\rangle1$, $\langle1\rangle2$}
+\lstep{1}{4}{The sign is nevertheless the one the note uses: by Lemma~\ref{lem:bw},
+$\Delta^{it}\widetilde T_0(\xi)\Delta^{-it}=\widetilde T_0(\xi-2\pi t)$, so
+$\langle T(g)\Omega,\Delta^{it}T(g)\Omega\rangle=\iint\gt\gt'W(\xi-\xi'+2\pi t)
+=\frac1{2\pi}\int\Wh(k)|\gh(k)|^2e^{2\pi ikt}dk$, and comparing with $\int e^{iut}d\mu(u)$ gives $u=2\pi k$.}
+\lby{Lemma~\ref{lem:bw}; $\Delta^{\pm it}\Omega=\Omega$; $W(u)=\frac1{2\pi}\int\Wh(k)e^{iku}dk$;
+$\int\gt(\xi)e^{ik\xi}d\xi=\overline{\gh(k)}$ since $\gt$ is real}
+\lqed{1}{5}\lby{$\langle1\rangle3$, $\langle1\rangle4$}
+\begin{verdictgap}
+The \emph{result} of \S4.2 is correct ($u=\log\lambda=2\pi k$), but the justification offered is not valid: it
+uses a KMS symmetry that is a theorem only for $A\in\cM$, in a situation where $A\notin\cM$.  Replace by
+Lemma~\ref{lem:bw} (Bisognano--Wichmann plus Haag duality), which settles the sign with no reference to the
+tangent vector at all.  The note's own added caveat --- ``\emph{the total mass $\int d\mu$ diverges \dots\ and
+$T(g)\Omega$ is not a vector for this representative}'' --- is correct and confirmed by
+Prop.~\ref{prop:infnorm}$\langle1\rangle1$; it should be sharpened to say that eq.~(13), not merely the total
+mass, is what is unavailable.
+\end{verdictgap}
+
+\subsection{The two integrals of \S4.3}
+\begin{lemma}[N7 eqs.~(16)--(19)]\label{lem:ints}
+With $d\mu(u)=\frac1{2\pi}\Wh(k)|\gh(k)|^2dk$, $u=2\pi k$, $\lambda=e^{2\pi k}$:
+$g_B=\frac c{6\pi^2}\int_{\mathbb R}\frac{\tanh\pi k}{k(k^2+1)}dk=\frac{2c}{3\pi^2}$ and
+$g_{\mathrm{KM}}=\frac c{6\pi}\int_{\mathbb R}\frac{dk}{k^2+1}=\frac c6$; and
+$\int_0^\infty\frac{\tanh\pi k}{k(k^2+1)}dk=2$.
+\end{lemma}
+\lstep{1}{1}{$g_B=2\int\frac{(\lambda-1)^2}{\lambda+1}d\mu=\frac1\pi\int dk\,\Wh|\gh|^2\frac{(e^{2\pi k}-1)^2}{e^{2\pi k}+1}$.}
+\lby{eq.~(13) and $d\mu=\frac1{2\pi}\Wh|\gh|^2dk$; $2\cdot\frac1{2\pi}=\frac1\pi$}
+\lstep{1}{2}{$\frac1\pi\cdot\frac c{24\pi}\frac{k(k^2+1)}{e^{2\pi k}-1}\cdot\frac{(e^{2\pi k}-1)^2}{e^{2\pi k}+1}\cdot\frac4{k^2(k^2+1)^2}
+=\frac{c}{6\pi^2}\frac{\tanh\pi k}{k(k^2+1)}$.}
+\lby{$\frac{4}{24\pi^2}=\frac1{6\pi^2}$; $\frac{k(k^2+1)}{k^2(k^2+1)^2}=\frac1{k(k^2+1)}$;
+$\frac{e^{2\pi k}-1}{e^{2\pi k}+1}=\tanh\pi k$}
+\lstep{1}{3}{$g_{\mathrm{KM}}=\int(\lambda-1)\log\lambda\,d\mu=\frac1{2\pi}\int dk\,\Wh|\gh|^2(e^{2\pi k}-1)2\pi k
+=\frac c{6\pi}\int\frac{dk}{k^2+1}=\frac c6$.}
+\lby{$\frac{2\pi}{2\pi}\cdot\frac{c}{24\pi}\cdot4\cdot\frac{k\cdot k(k^2+1)}{k^2(k^2+1)^2}=\frac{c}{6\pi}\frac1{k^2+1}$;
+$\int_{\mathbb R}\frac{dk}{k^2+1}=\pi$}
+\lstep{1}{4}{$\tanh\pi k=\sum_{n\ge0}\frac{2k/\pi}{k^2+(n+\frac12)^2}$.}
+\lby{$\tanh z=\sum_{n\ge0}\frac{2z}{z^2+(n+\frac12)^2\pi^2}$ (Mittag-Leffler) at $z=\pi k$}
+\lstep{1}{5}{$\int_0^\infty\frac{dk}{(k^2+a^2)(k^2+b^2)}=\frac\pi{2ab(a+b)}$ for $a,b>0$.}
+\lby{partial fractions $\frac1{(k^2+a^2)(k^2+b^2)}=\frac1{b^2-a^2}\bigl(\frac1{k^2+a^2}-\frac1{k^2+b^2}\bigr)$ and
+$\int_0^\infty\frac{dk}{k^2+a^2}=\frac\pi{2a}$; the case $a=b$ by continuity}
+\lstep{1}{6}{$\int_0^\infty\frac{\tanh\pi k}{k(k^2+1)}dk=\sum_{n\ge0}\frac2\pi\cdot\frac\pi{2(n+\frac12)(n+\frac32)}
+=\sum_{n\ge0}\frac4{(2n+1)(2n+3)}=2$.}
+\lby{$\langle1\rangle4$, $\langle1\rangle5$ with $a=n+\frac12$, $b=1$; interchange of $\sum$ and $\int$ by Tonelli
+(all terms $\ge0$); $\sum_{n\ge0}\frac4{(2n+1)(2n+3)}=2\sum_{n\ge0}\bigl(\frac1{2n+1}-\frac1{2n+3}\bigr)=2$}
+\lqed{1}{7}\lby{$\langle1\rangle2$, $\langle1\rangle6$ (the integrand is even, so $\int_{\mathbb R}=4$),
+$g_B=\frac c{6\pi^2}\cdot4=\frac{2c}{3\pi^2}$, and $\langle1\rangle3$}
+\begin{verdictok}
+Eqs.~(16)--(19) verified, every factor.  $f_2=g_B/8=\frac{c}{12\pi^2}=0.0084434\,c$ and
+$s_2=g_{\mathrm{KM}}/2=\frac c{12}$, so eq.~(19) is right, as is $s_2/f_2=\pi^2$.  Numerically
+$\int_0^\infty\frac{\tanh\pi k}{k(k^2+1)}dk=2.0$ to 15 digits.  The remark that ``\emph{the pole of $|\gh|^2$ at
+$k=0$ \dots\ is cancelled by $\tanh\pi k$ and by $k$ respectively}'' is exactly right and is what makes the
+divergence of Prop.~\ref{prop:infnorm} harmless; ``\emph{the kink of $\gt$ at the touching point gives the
+$k^{-3}$ decay}'' is also right ($\gt\in C^{1,1}$ at $0$ $\Rightarrow$ $\gh=O(k^{-3})$).
+\end{verdictok}
+\subsection{\S4.4: is the universality argument valid?}
+\begin{proposition}[Linearity in $c$]\label{prop:lin}
+Fix the geometry $(A,D,I)$ and a compactly supported representative $g$.  Then, granting Lemma~3.2, $g_B$ and
+$g_{\mathrm{KM}}$ depend on the net only through the connected two-point function of $T$, hence are exactly
+proportional to $c$; and $J\,T(g)\,J=T(g\circ r)$ with $r(x)=2L-x$.
+\end{proposition}
+\lstep{1}{1}{$g_B=4\|\chi\|^2-4\operatorname{Re}\langle J\chi,\chi\rangle$ with $\chi=(1+\Delta)^{-1/2}T(g)\Omega$.}
+\lby{Lemma~\ref{lem:std}(d)(3); $\|(1-J)\chi\|^2=2\|\chi\|^2-2\operatorname{Re}\langle J\chi,\chi\rangle$, using
+$\|J\chi\|=\|\chi\|$ and $\langle\chi,J\chi\rangle=\overline{\langle J\chi,\chi\rangle}$}
+\lstep{1}{2}{$\|\chi\|^2=\int\frac{d\mu(\lambda)}{1+\lambda}$ and $\langle J\chi,\chi\rangle=\int\frac{\lambda\,d\mu(\lambda)}{1+\lambda}$,
+both determined by the spectral measure of $T(g)\Omega$ with respect to $\Delta$.}
+\lby{functional calculus; for the second, $J(1+\Delta)^{-1/2}=(1+\Delta^{-1})^{-1/2}J$ and, in the eigenbasis,
+$\langle J\chi,\chi\rangle=\sum|A_{ij}|^2\sqrt{p_ip_j}(1+\lambda^{-1})^{-1/2}(1+\lambda)^{-1/2}=\int\frac{\lambda}{1+\lambda}d\mu$}
+\lstep{1}{3}{That spectral measure is the Fourier transform of $t\mapsto\langle T(g)\Omega,\Delta^{it}T(g)\Omega\rangle$,
+which by Lemma~\ref{lem:bw} is $\iint g\,g'\,\langle T T\rangle_{\mathrm{conn}}$ evaluated on translated
+arguments; it is therefore linear in the constant of eq.~(1), i.e.\ in $c$.  $\Delta$, $J$ and the geometric
+action are independent of $c$ (BGL93).}
+\lby{$\langle1\rangle2$, Lemma~\ref{lem:bw}, eq.~(1); no correlator of order $>2$ occurs because $\eta$ is linear
+in $T(g)\Omega$ and both forms are quadratic in $\eta$}
+\lstep{1}{4}{$J$ implements $r(x)=2L-x$ antiunitarily, $r'=-1$, $\{r;x\}=0$, and $T$ has weight $2$, so
+$JT(x)J=T(2L-x)$ and $JT(f)J=\int \overline{f(x)}T(2L-x)dx=\int f(2L-y)T(y)dy=T(f\circ r)$ for real $f$.}
+\lby{BGL93 (geometric modular conjugation); the reflection lies in the extended M\"obius group, so its
+Schwarzian cocycle vanishes; $J$ antilinear and $f$ real}
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$}
+\begin{verdictgap}
+\textbf{The mathematics of \S4.4 is correct}; the \emph{logic} as narrated is not quite what carries the weight.
+\begin{itemize}[leftmargin=1.5em]
+\item Linearity in $c$: valid (Prop.~\ref{prop:lin}), and there is no hidden $c$-dependence.  The Schwarzian
+constant does not enter: $\widetilde T=\beta^2T$ differs from a Schwarzian-shifted field by a $c$-number, and
+$(S^*-1)\Omega=0$, so $\eta$ --- hence both metrics --- is unchanged.  The choice of continuation of $g$ beyond
+$L$ does not enter either: two admissible $g$'s differ by a function supported in $(L,\infty)$, so
+$T(g_1)-T(g_2)$ is self-adjoint and affiliated with $\cA(I)'$, and Lemma~3.1(1) applies.  Both points should be
+\emph{stated}, since a reader will ask.
+\item ``\emph{The agreement of the two fixes the constant unambiguously}'' overstates what the agreement does.
+Logically: (i) Prop.~\ref{prop:lin} gives $g_B=\kappa c$ for a universal $\kappa$; (ii) N7 \S5 computes
+$g_B=\frac2{3\pi^2}$ for the Dirac fermion, which has $c=1$; therefore $\kappa=\frac2{3\pi^2}$.  The general
+route of \S4 is \emph{not} needed for this and is not an independent determination of $\kappa$ --- it is a check
+that the analytic-continuation prescription reproduces the answer.  Two computations that agree do not by
+themselves ``fix'' anything unambiguously; what fixes it is (i)+(ii), and (i) is conditional on Lemma~3.2.
+\item Consequently \textbf{Theorem B is conditional on Lemma~3.2 alone} (given Prop.~\ref{prop:lin} and
+Theorem~A), which is a cleaner statement than the note's, and one that does not depend on the formal status of
+\S4.2--4.3 at all.  I recommend restructuring \S4.4 along these lines.
+\end{itemize}
+\end{verdictgap}
+
+\section{Section 5 of Note 7: the free fermion}\label{sec:fermion5}
+
+\begin{lemma}[N7 Lemma 5.1(i), pointwise]\label{lem:point}
+With $\widetilde Q(u)=-\frac i{4\pi}\sinh^{-1}\frac u2$, $u=\xi-\xi'$, and $\mathfrak g=\gt\partial_{\xi'}+\frac12\gt'$
+acting on the second variable, $(Q\mathfrak g)(\xi,\xi')=\widetilde D^{(1)}(\xi,\xi')$ on $\xi<0<\xi'$.
+\end{lemma}
+\lstep{1}{1}{The kernel of the composition is $(Q\mathfrak g)(\xi,\xi')=-\frac12\gt'(\xi')\widetilde Q(u)-\gt(\xi')\partial_{\xi'}\widetilde Q(u)$.}
+\lby{the kernel of $\partial$ is $-\partial_{\xi'}\delta(\eta-\xi')$; $\int Q(\xi,\eta)\gt(\eta)\partial_\eta\delta(\eta-\xi')d\eta
+=-\partial_{\xi'}[Q(\xi,\xi')\gt(\xi')]$, and adding $\frac12\gt'Q$ leaves $-\frac12\gt'Q-\gt\partial_{\xi'}Q$.
+\emph{This is where the transposition must be watched}: acting on the second variable produces $-\frac12$, not
+$+\frac12$, of $\gt'$}
+\lstep{1}{2}{$\gt'(\xi')=-2\sinh\xi'$, so $-\frac12\gt'\widetilde Q=\sinh\xi'\cdot\bigl(-\frac i{4\pi}\bigr)\sinh^{-1}\frac u2$;
+and $\partial_{\xi'}\widetilde Q=-\partial_u\widetilde Q=-\frac i{8\pi}\frac{\cosh\frac u2}{\sinh^2\frac u2}$, so
+$-\gt\partial_{\xi'}\widetilde Q=-\frac i{4\pi}\cdot\frac{2\sinh^2\frac{\xi'}2\cosh\frac u2}{\sinh^2\frac u2}$.}
+\lby{$\frac d{d\xi'}(-4\sinh^2\frac{\xi'}2)=-2\sinh\xi'$; $\partial_u\sinh^{-1}\frac u2=-\frac12\frac{\cosh\frac u2}{\sinh^2\frac u2}$;
+$\gt(\xi')=-4\sinh^2\frac{\xi'}2$}
+\lstep{1}{3}{With $s=\frac{\xi'}2$, $U=\frac u2$:
+$\frac{\sinh\xi'}{\sinh U}+\frac{2\sinh^2 s\cosh U}{\sinh^2U}=\frac{2\sinh s}{\sinh^2U}\bigl[\cosh s\sinh U+\sinh s\cosh U\bigr]
+=\frac{2\sinh s\,\sinh(s+U)}{\sinh^2U}$.}
+\lby{$\sinh\xi'=2\sinh s\cosh s$; addition theorem}
+\lqed{1}{4}
+\lby{$\langle1\rangle2$, $\langle1\rangle3$, $s+U=\frac{\xi'+\xi-\xi'}2=\frac\xi2$: the total is
+$-\frac i{4\pi}\cdot\frac{2\sinh\frac{\xi'}2\sinh\frac\xi2}{\sinh^2\frac u2}
+=-\frac i{2\pi}\frac{\sinh\frac\xi2\sinh\frac{\xi'}2}{\sinh^2\frac{\xi-\xi'}2}$, which is
+eq.~(9) by Lemma~\ref{lem:D1}}
+\begin{lemma}[N7 Lemma 5.1(ii), matrix elements]\label{lem:me}
+With $\psi_\kappa(\xi)=\frac1{2\pi}e^{i\kappa\xi/2\pi}$ (the normalization forced by $\int d\kappa|\psi_\kappa\rangle\langle\psi_\kappa|=1$),
+$\langle\psi_\kappa,\mathfrak g\psi_{\kappa'}\rangle=i\,\mathfrak g(\kappa,\kappa')$ with
+$\mathfrak g(\kappa,\kappa')=\frac1{(2\pi)^2}\gh\bigl(\frac{\kappa-\kappa'}{2\pi}\bigr)\frac{\kappa+\kappa'}{4\pi}$,
+and $D^{(1)}(\kappa,\kappa')=i(q_\kappa-q_{\kappa'})\mathfrak g(\kappa,\kappa')$.
+\end{lemma}
+\lstep{1}{1}{$\int d\kappa\,\psi_\kappa(\xi)\overline{\psi_\kappa(\xi')}=C^2\int d\kappa\,e^{i\kappa(\xi-\xi')/2\pi}
+=C^2(2\pi)^2\delta(\xi-\xi')$, so $C=\frac1{2\pi}$.}
+\lby{$\int e^{i\kappa a}d\kappa=2\pi\delta(a)$ and $\delta(y/2\pi)=2\pi\delta(y)$}
+\lstep{1}{2}{$\langle\psi_\kappa,\mathfrak g\psi_{\kappa'}\rangle=\frac1{(2\pi)^2}\int_0^\infty e^{-ik\xi}\bigl[\tfrac{i\kappa'}{2\pi}\gt+\tfrac12\gt'\bigr]d\xi$
+with $k=\frac{\kappa-\kappa'}{2\pi}$.}
+\lby{$\langle1\rangle1$; $\mathfrak g$ is supported on $\xi>0$}
+\lstep{1}{3}{$\int_0^\infty e^{-ik\xi}\gt'd\xi=\bigl[e^{-ik\xi}\gt\bigr]_0^\infty+ik\gh(k)=ik\,\gh(k)$.}
+\lby{integration by parts; $\gt(0)=0$; the boundary term at $\infty$ vanishes in the regularization
+$\eps>1$ of Lemma~\ref{lem:gt}, which is exactly what the ``analytic continuation'' prescription encodes ---
+this is the one step of the note that is a \emph{prescription} rather than a theorem}
+\lstep{1}{4}{Hence $\langle\psi_\kappa,\mathfrak g\psi_{\kappa'}\rangle=\frac1{(2\pi)^2}\frac i{2\pi}\bigl[\kappa'+\tfrac{\kappa-\kappa'}2\bigr]\gh(k)
+=i\,\frac1{(2\pi)^2}\gh(k)\frac{\kappa+\kappa'}{4\pi}$.}
+\lby{$\langle1\rangle2$, $\langle1\rangle3$; $\kappa'+\frac{\kappa-\kappa'}2=\frac{\kappa+\kappa'}2$}
+\lstep{1}{5}{$\mathfrak g^*=-\mathfrak g$ on $(0,\infty)$, so
+$\langle\psi_\kappa,(Q\mathfrak g+\mathfrak g^*Q)\psi_{\kappa'}\rangle=(q_\kappa-q_{\kappa'})\langle\psi_\kappa,\mathfrak g\psi_{\kappa'}\rangle$.}
+\lby{$\langle\phi,\mathfrak g\psi\rangle=-\langle\mathfrak g\phi,\psi\rangle$ by parts (boundary terms at $0$ vanish
+because $\gt(0)=0$; at $\infty$ by the same regularization); $Q\psi_\kappa=q_\kappa\psi_\kappa$}
+\lstep{1}{6}{$D^{(1)}(\kappa,\kappa')$ so defined is Hermitian: $\overline{D^{(1)}(\kappa',\kappa)}=D^{(1)}(\kappa,\kappa')$
+because $\overline{\gh(-k)}=\gh(k)$.}
+\lby{$\gh(k)=\frac{-2i}{k(k^2+1)}$ is odd and purely imaginary}
+\lqed{1}{7}\lby{$\langle1\rangle4$, $\langle1\rangle5$}
+\begin{verdictok}
+Lemma~5.1 verified, in both parts, with the one caveat that $\langle1\rangle3$ and $\langle1\rangle5$ discard a
+boundary term at $\xi'=\infty$ under the same prescription as eq.~(7).  The note is candid about this and now
+cites \texttt{rigor/kernel\_identity.tex} for an unconditional proof (digamma series), replacing the earlier claim
+of a contour shift --- which I confirm does \emph{not} work: shifting $\xi'\to\xi'-i\pi$ moves the contour off the
+half-line $\xi'>0$ on which $\gt$ is supported, so the shifted contour is not closed by a vanishing arc.  My own
+numerics reproduce the note's four test points at $(\kappa,\kappa')=(1,3),(2.5,-1),(4,4.5),(-3,0.7)$.
+\end{verdictok}
+
+\begin{lemma}[N7 eq.~(22), the weights]\label{lem:wt}
+With $u=\kappa-\kappa'$, $v=\kappa+\kappa'$, $q_\kappa=(1+e^\kappa)^{-1}$, $N=q_\kappa(1-q_{\kappa'})+q_{\kappa'}(1-q_\kappa)$:
+$q_\kappa-q_{\kappa'}=-\frac{2e^{v/2}\sinh\frac u2}{(1+e^\kappa)(1+e^{\kappa'})}$,
+$(1+e^\kappa)(1+e^{\kappa'})=2e^{v/2}(\cosh\frac v2+\cosh\frac u2)$,
+$\frac{(q_\kappa-q_{\kappa'})^2}N=\frac{\sinh^2\frac u2}{\cosh\frac u2(\cosh\frac v2+\cosh\frac u2)}$, and
+$(q_\kappa-q_{\kappa'})^2[\ell(q,q')+\ell(1-q,1-q')]=\frac{u\sinh\frac u2}{\cosh\frac v2+\cosh\frac u2}$.
+\end{lemma}
+\lstep{1}{1}{$q_\kappa-q_{\kappa'}=\frac{e^{\kappa'}-e^\kappa}{(1+e^\kappa)(1+e^{\kappa'})}$ and
+$e^{\kappa'}-e^\kappa=e^{v/2}(e^{-u/2}-e^{u/2})=-2e^{v/2}\sinh\frac u2$.}
+\lby{$\kappa=\frac{v+u}2$, $\kappa'=\frac{v-u}2$; \emph{the minus sign is the one the 16:13 erratum inserted, and
+it is correct}}
+\lstep{1}{2}{$\cosh\frac\kappa2\cosh\frac{\kappa'}2=\frac12(\cosh\frac v2+\cosh\frac u2)$ and
+$(1+e^\kappa)(1+e^{\kappa'})=4e^{v/2}\cosh\frac\kappa2\cosh\frac{\kappa'}2$.}
+\lby{product-to-sum; $1+e^\kappa=2e^{\kappa/2}\cosh\frac\kappa2$}
+\lstep{1}{3}{$N=\frac{e^\kappa+e^{\kappa'}}{(1+e^\kappa)(1+e^{\kappa'})}$ and $e^\kappa+e^{\kappa'}=2e^{v/2}\cosh\frac u2$.}
+\lby{$1-q_\kappa=\frac{e^\kappa}{1+e^\kappa}$}
+\lstep{1}{4}{$\frac{(q-q')^2}N=\frac{4e^v\sinh^2\frac u2}{\mathcal D^2}\cdot\frac{\mathcal D}{2e^{v/2}\cosh\frac u2}
+=\frac{2e^{v/2}\sinh^2\frac u2}{\cosh\frac u2\cdot2e^{v/2}(\cosh\frac v2+\cosh\frac u2)}$, $\mathcal D:=(1+e^\kappa)(1+e^{\kappa'})$.}
+\lby{$\langle1\rangle1$--$\langle1\rangle3$}
+\lstep{1}{5}{$(q-q')^2[\ell(q,q')+\ell(1-q,1-q')]=(q_\kappa-q_{\kappa'})\bigl[\log\frac{q_\kappa}{1-q_\kappa}-\log\frac{q_{\kappa'}}{1-q_{\kappa'}}\bigr]
+=(q_\kappa-q_{\kappa'})(\kappa'-\kappa)$.}
+\lby{$\ell(a,b)=\frac{\log a-\log b}{a-b}$, $(1-q_\kappa)-(1-q_{\kappa'})=-(q_\kappa-q_{\kappa'})$, and
+$\log\frac{q}{1-q}=-\kappa$}
+\lqed{1}{6}
+\lby{$\langle1\rangle5$ with $\langle1\rangle1$: $(-\frac{2e^{v/2}\sinh\frac u2}{\mathcal D})(-u)
+=\frac{u\sinh\frac u2}{\cosh\frac v2+\cosh\frac u2}$, manifestly $\ge0$ for both signs of $u$}
+\begin{verdictok}
+Eq.~(22) verified, both lines, including the identity $\cosh\frac\kappa2\cosh\frac{\kappa'}2=\frac12(\cosh\frac v2+\cosh\frac u2)$
+and the sign corrected by the erratum.  Also verified: $|\mathfrak g|^2=\frac{|\gh(u/2\pi)|^2v^2}{256\pi^6}$
+(from $\mathfrak g=\frac1{4\pi^2}\gh\cdot\frac v{4\pi}$, $16\pi^4\cdot16\pi^2=256\pi^6$),
+$|\gh(\frac u{2\pi})|^2=\frac{256\pi^6}{u^2(u^2+4\pi^2)^2}$ (from $|\gh(k)|^2=\frac4{k^2(k^2+1)^2}$ at $k=\frac u{2\pi}$),
+and $d\kappa\,d\kappa'=\frac12du\,dv$.
+\end{verdictok}
+\begin{lemma}[N7 eq.~(23): the base integral, proved]\label{lem:base}
+For real $a\ne0$, $\displaystyle\int_{\mathbb R}\frac{w^2\,dw}{\cosh w+\cosh a}=\frac{2a(a^2+\pi^2)}{3\sinh a}$,
+and consequently $V(u)=\int_{\mathbb R}\frac{v^2dv}{\cosh\frac v2+\cosh\frac u2}=\frac{2u(u^2+4\pi^2)}{3\sinh\frac u2}$.
+\end{lemma}
+\lstep{1}{1}{$F(z)=\frac{z^3}{\cosh z+\cosh a}$ has, in the strip $0<\operatorname{Im}z<2\pi$, exactly the two
+simple poles $z_\pm=\pm a+i\pi$, with $\cosh'(z_\pm)=\sinh(\pm a+i\pi)=\mp\sinh a$.}
+\lby{$\cosh z=-\cosh a=\cosh(a+i\pi)\Leftrightarrow z\in\{\pm(a+i\pi)\}+2\pi i\mathbb Z$; simplicity because $\sinh a\ne0$}
+\lstep{1}{2}{Over the rectangle $[-R,R]\times[0,2\pi]$, the two horizontal edges give
+$\int_{\mathbb R}\frac{w^3-(w+2\pi i)^3}{\cosh w+\cosh a}dw=-6\pi i\,I+12\pi^2\!\!\int\!\frac{w\,dw}{\cosh w+\cosh a}+8\pi^3i\,I_0
+=-6\pi i\,I+8\pi^3i\,I_0$, where $I=\int\frac{w^2dw}{\cosh w+\cosh a}$, $I_0=\int\frac{dw}{\cosh w+\cosh a}$.}
+\lby{$\cosh(z+2\pi i)=\cosh z$; binomial expansion; the $w$-integral vanishes by oddness}
+\lstep{1}{3}{The vertical edges vanish as $R\to\infty$.}
+\lby{$|\cosh(\pm R+iy)|\ge\sinh R$, numerator $O(R^3)$, edge length $2\pi$}
+\lstep{1}{4}{$2\pi i\bigl[\operatorname{Res}_{z_+}+\operatorname{Res}_{z_-}\bigr]
+=2\pi i\frac{-(a+i\pi)^3+(-a+i\pi)^3}{\sinh a}=2\pi i\frac{-2a^3+6\pi^2a}{\sinh a}$.}
+\lby{$\langle1\rangle1$; $(a+i\pi)^3=a^3+3i\pi a^2-3\pi^2a-i\pi^3$ and $(-a+i\pi)^3=-a^3+3i\pi a^2+3\pi^2a-i\pi^3$}
+\lstep{1}{5}{The same argument with $F(z)=\frac{z}{\cosh z+\cosh a}$ gives $-2\pi i\,I_0=2\pi i\frac{-2a}{\sinh a}$,
+i.e.\ $I_0=\frac{2a}{\sinh a}$.}
+\lby{$\langle1\rangle2$--$\langle1\rangle4$ with $z^3$ replaced by $z$}
+\lstep{1}{6}{$-6\pi I+8\pi^3I_0=2\pi\frac{-2a^3+6\pi^2a}{\sinh a}$, hence
+$-6\pi I=\frac{-4\pi a^3+12\pi^3a-16\pi^3a}{\sinh a}=\frac{-4\pi a(a^2+\pi^2)}{\sinh a}$, i.e.\
+$I=\frac{2a(a^2+\pi^2)}{3\sinh a}$.}
+\lby{$\langle1\rangle2$, $\langle1\rangle4$, $\langle1\rangle5$; divide by $i$}
+\lqed{1}{7}
+\lby{$\langle1\rangle6$; substituting $v=2w$ in $V(u)$ gives $8\int\frac{w^2dw}{\cosh w+\cosh\frac u2}
+=8\cdot\frac{2\cdot\frac u2(\frac{u^2}4+\pi^2)}{3\sinh\frac u2}=\frac{2u(u^2+4\pi^2)}{3\sinh\frac u2}$}
+\begin{verdictok}
+The note calls eq.~(23) ``\emph{verified numerically}''; it is now proved.  Numerical confirmation:
+$a=0.5$: $6.4732908384842$ both sides; $a=2$: $5.0988468781728$ both sides;
+$V(0.7)=52.218545714491$, $V(3)=45.53504471981$, both matching the closed form to 14 digits.
+\end{verdictok}
+
+\begin{theorem}[N7 Theorem 5.2]\label{thm:A5}
+For the $r$-component free chiral fermion, $g_B=\frac23\int_{\mathbb R}\frac{\tanh\frac u2}{u(u^2+4\pi^2)}du\cdot r=\frac{2r}{3\pi^2}$
+and $g_{\mathrm{KM}}=\frac13\int_{\mathbb R}\frac{du}{u^2+4\pi^2}\cdot r=\frac r6$.
+\end{theorem}
+\lstep{1}{1}{$g_B=2\iint d\kappa d\kappa'\frac{|D^{(1)}|^2}N=\iint du\,dv\,|\mathfrak g|^2\frac{(q_\kappa-q_{\kappa'})^2}N
+=\frac1{256\pi^6}\int du\,|\gh(\tfrac u{2\pi})|^2\frac{\sinh^2\frac u2}{\cosh\frac u2}V(u)$.}
+\lby{eq.~(20), Lemma~\ref{lem:me}, Lemma~\ref{lem:wt}, $d\kappa d\kappa'=\frac12dudv$ ($2\cdot\frac12=1$), and the
+$v$-integral of Lemma~\ref{lem:base}}
+\lstep{1}{2}{$\frac1{256\pi^6}\cdot\frac{256\pi^6}{u^2(u^2+4\pi^2)^2}\cdot\frac{\sinh^2\frac u2}{\cosh\frac u2}
+\cdot\frac{2u(u^2+4\pi^2)}{3\sinh\frac u2}=\frac23\frac{\tanh\frac u2}{u(u^2+4\pi^2)}$.}
+\lby{$\langle1\rangle1$, Lemma~\ref{lem:wt}, Lemma~\ref{lem:base}: all powers of $\pi$ cancel, as the note says}
+\lstep{1}{3}{With $u=2\pi k$: $\int_{\mathbb R}\frac{\tanh\frac u2}{u(u^2+4\pi^2)}du
+=\int\frac{2\pi\,dk\,\tanh\pi k}{2\pi k\cdot8\pi^2(k^2+1)}\cdot\frac{8\pi^2}{8\pi^2}
+=\frac1{4\pi^2}\int_{\mathbb R}\frac{\tanh\pi k}{k(k^2+1)}dk=\frac1{4\pi^2}\cdot4=\frac1{\pi^2}$.}
+\lby{$u(u^2+4\pi^2)=2\pi k\cdot4\pi^2(k^2+1)=8\pi^3k(k^2+1)$, $du=2\pi dk$, so the prefactor is
+$\frac{2\pi}{8\pi^3}=\frac1{4\pi^2}$; and Lemma~\ref{lem:ints}$\langle1\rangle6$ gives $\int_{\mathbb R}=4$}
+\lstep{1}{4}{$g_{\mathrm{KM}}=\iint d\kappa d\kappa'|\mathfrak g|^2(q_\kappa-q_{\kappa'})^2[\ell+\ell]
+=\frac1{512\pi^6}\int du\,|\gh|^2u\sinh\tfrac u2\,V(u)=\frac13\int\frac{du}{u^2+4\pi^2}=\frac13\cdot\frac12=\frac16$.}
+\lby{Lemma~\ref{lem:wt} second line, $\frac12$ from the Jacobian, Lemma~\ref{lem:base}; the $\sinh\frac u2$
+cancels against $V(u)$'s $1/\sinh\frac u2$, leaving $\frac1{512\pi^6}\cdot256\pi^6\cdot\frac23\frac{u^2}{u^2(u^2+4\pi^2)}$;
+$\int_{\mathbb R}\frac{du}{u^2+4\pi^2}=\frac\pi{2\pi}=\frac12$}
+\lqed{1}{5}\lby{$\langle1\rangle2$--$\langle1\rangle4$; $g_B=\frac23\cdot\frac1{\pi^2}=\frac2{3\pi^2}$; components add}
+\begin{verdictok}
+Theorem~5.2 verified.  Numerically $\int_{\mathbb R}\frac{\tanh(u/2)}{u(u^2+4\pi^2)}du=0.101321183642338=1/\pi^2$
+to 15 digits, $g_B=0.0675474557615585=2/(3\pi^2)$, $\int_{\mathbb R}\frac{du}{u^2+4\pi^2}=0.5$,
+$g_{\mathrm{KM}}=0.1666666666\ldots$.  \textbf{I confirm the erratum}: the proof text must read
+$\frac1{4\pi^2}\int_{\mathbb R}\frac{\tanh\pi k}{k(k^2+1)}dk=\frac1{\pi^2}$, and the version now on disk does.
+(The earlier ``$\frac1{\pi^2}\int\ldots=\frac4{\pi^2}$'' was wrong by a factor $4$ in \emph{both} the prefactor
+and the value, so the product --- and the boxed result --- was always right.)  Note also that
+Theorem~5.2's $g_B$ is \emph{exactly} $c=1$ of eq.~(17): $\frac1{6\pi^2}\int_{\mathbb R}\frac{\tanh\pi k}{k(k^2+1)}dk
+=\frac23\cdot\frac1{4\pi^2}\int_{\mathbb R}(\cdots)$, the same integral --- so the two routes really do coincide
+integrand by integrand, not merely in the final number.
+\end{verdictok}
+\section{Section 7 of Note 7: Corollary 6.1}\label{sec:cor}
+\begin{verdictok}
+The conversions are correct.  Per chirality, $\zeta_0=z(1+e^0)=2z$ and $-\log\Fid=\frac c{12\pi^2}(2z)^2=\frac c{3\pi^2}z^2$;
+with $z=\eta_{\mathrm V}/(1-\eta_{\mathrm V})=\eta_{\mathrm V}+O(\eta_{\mathrm V}^2)$ the two chiralities give
+$\frac{c+\bar c}{3\pi^2}\eta^2$, numerically $\frac2{3\pi^2}c=0.067547\,c$ (the note's $0.06755$);
+$D=\frac c{12}(2z)^2\cdot2=\frac{c+\bar c}3\eta^2=0.6667\,c\eta^2$.  With $I=\frac c6\log(1+z)=\frac c6z+O(z^2)$,
+i.e.\ $z=6I/c+O(I^2)$, one gets $-\log\Fid=\frac c{3\pi^2}\frac{36I^2}{c^2}=\frac{12}{\pi^2c}I^2$.  The
+two-branch law $-\log F^{(\lambda)}=\Phi_c(z(1+e^{-\pi\lambda}))+\Phi_{\bar c}(z(1+e^{\pi\lambda}))$ is even in
+$\lambda$ for $c=\bar c$ and, since $\frac d{d\lambda}[(1+e^{-\pi\lambda})^2+(1+e^{\pi\lambda})^2]
+=2\pi[e^{\pi\lambda}+e^{2\pi\lambda}-e^{-\pi\lambda}-e^{-2\pi\lambda}]>0$ for $\lambda>0$, minimal at $\lambda=0$;
+so ``the ordinary Petz map is the optimum of the family'' is right at quadratic order.  The chiral factor-$4$
+statement ($\zeta_t\downarrow z$) is right and now correctly labelled chiral-only.
+\end{verdictok}
+\begin{verdictgap}
+Two presentational risks.  (i) ``$-\log\Fid\simeq\frac{12}{\pi^2c}I^2$'' sits immediately after the
+two-dimensional discussion but is the \emph{chiral} law ($I=\frac c6\log(1+z)$ is the chiral CMI); for a 2D CFT
+with $c=\bar c$ and $I_{\mathrm{tot}}=\frac c3\log(1+z)$ the same computation gives
+$-\log F=\frac6{\pi^2c}I_{\mathrm{tot}}^2$, i.e.\ $\frac{12}{\pi^2c_{\mathrm{tot}}}I_{\mathrm{tot}}^2$ with
+$c_{\mathrm{tot}}=c+\bar c$.  One sentence would remove the ambiguity.  (ii) The corollary is stated ``for every
+diffeomorphism covariant chiral net'' but is conditional on Lemma~3.2 (Theorem~B) and, for the free fermion, on
+Note~5 Cor.~4.2 (the interchange of the compression limit with the second-order expansion) --- the main box now
+says this for Theorem~A, but Corollary~6.1 itself only says ``(Theorem~B; rigorous for the free fermion with
+$c=r$)'', which overstates the free-fermion case: what is rigorous there is the pair of \emph{metrics}, not yet
+$\lim\Phi/\zeta^2$.
+\end{verdictgap}
+
+\section{Note 6: the mathematical and citation claims}\label{sec:n6}
+
+\subsection{\S2 (P1): an internal normalization clash}
+\begin{issue}[N6 \S2, step 3 vs step 4]
+Step~3 states ``$\langle\widetilde T(\xi)\widetilde T(\xi')\rangle=\frac c{32}\sinh^{-4}\frac{\xi-\xi'-i0}2$'';
+step~4 (as amended) states ``\emph{With the generator normalization $\langle T(x)T(y)\rangle=\frac c{8\pi^2}(x-y-i0)^{-4}$
+(Note~7, eq.~(1))}''.
+\end{issue}
+\lstep{1}{1}{By Lemma~\ref{lem:W}, the generator normalization gives
+$\langle\widetilde T\widetilde T\rangle=\frac c{128\pi^2}\sinh^{-4}\frac{u-i0}2$.}
+\lby{Lemma~\ref{lem:W}}
+\lstep{1}{2}{$\frac c{32}\big/\frac c{128\pi^2}=4\pi^2$, which is the ratio $\bigl(\frac{c/2}{c/8\pi^2}\bigr)$
+between the BPZ and the generator two-point constants.}
+\lby{arithmetic; $(2\pi)^2=4\pi^2$}
+\lqed{1}{3}\lby{$\langle1\rangle1$, $\langle1\rangle2$: step~3 uses $\langle TT\rangle=\frac c2(x-y)^{-4}$}
+\begin{verdictbreak}
+\textbf{Confirms [V6].}  The 16:13 erratum fixed step~4 but left step~3 at the BPZ constant $\frac c{32}$, so the
+two steps of the \emph{same} argument now use two normalizations differing by $4\pi^2$.  Nothing downstream in
+Note~6 is numerically wrong --- eq.~(4) is stated with ``$\propto$'' and the final numbers are imported from
+Note~7 --- but as it stands \S2 does not derive what it claims to derive, and a reader following step~3 into
+step~4 will land on $f_2=4\pi^2\cdot\frac c{12\pi^2}=\frac c3$.  Repair: $\frac c{32}\to\frac c{128\pi^2}$, and
+correspondingly ``the weight-2 thermal spectral density $\propto c\,k(k^2+1)/(1-e^{-2\pi k})$'' should be given
+with its constant, $\Wh(k)=\frac c{24\pi}\frac{k(k^2+1)}{e^{2\pi k}-1}$ (Lemma~\ref{lem:What7}).  Also: the
+sentence in step~4 ``\emph{This step has so far been fixed by matching the free-fermion number}'' is now stale ---
+Note~7 derives it; and ``\emph{deriving it directly from the spectral density of $\widetilde T$ is the first task
+below}'' should be marked done.
+\end{verdictbreak}
+\begin{verdictok}
+The rest of N6 \S2 checks out.  Eq.~(2): $g_B=2\sum|A_{ij}|^2\frac{(p_i-p_j)^2}{p_i+p_j}=2\langle A\Omega,\frac{(\Delta-1)^2}{\Delta+1}A\Omega\rangle$
+and $g_{\mathrm{KM}}=\sum|A_{ij}|^2(p_i-p_j)\log\frac{p_i}{p_j}=\langle A\Omega,(\Delta-1)\log\Delta\,A\Omega\rangle$
+are both correct (put $p_jF(\lambda)$ equal to the summand as in Lemma~\ref{lem:std}$\langle1\rangle3$);
+they are the $A\in\cM$ specializations of N7 eq.~(13), and carry the same caveat.
+Eq.~(4): $\int_0^\infty\frac{\tanh(\kappa/2)}{\kappa(\kappa^2+4\pi^2)}d\kappa=\frac1{4\pi^2}\int_0^\infty\frac{\tanh\pi k}{k(k^2+1)}dk=\frac2{4\pi^2}=\frac1{2\pi^2}$,
+so $\int_{\mathbb R}=\frac1{\pi^2}$ as stated; $\tanh\frac\kappa2=\sum_{n\ge0}\frac{4\kappa}{\kappa^2+(2n+1)^2\pi^2}$
+is the Mittag-Leffler series at $z=\kappa/2$; $\sum_{n\ge0}\frac1{(2n+1)(2n+3)}=\frac12$; and
+$\int_{\mathbb R}\frac{d\kappa}{\kappa^2+4\pi^2}=\frac12$.  The ``ratio of the two integrals \dots\ is exactly
+$\pi^2$, independent of normalizations'' is correct.
+\end{verdictok}
+\subsection{\S3 (P2): Observation 1, the energy formula, Route B}
+
+\begin{verdictok}[Observation 1, first arrow]
+``$k_s$ is $C^{1,1}$ at the touching point'' is right: $h_s(0)=0$, $h_s'(x)=\frac{L^2}{(L+sx)^2}$ so $h_s'(0)=1$,
+$h_s''(0)=-2s/L\ne0=\mathrm{id}''(0)$, so the glued map has a jump of the second derivative and no worse.
+``$\log\widetilde k'$ Lipschitz, hence in $H^1(S^1)\subset H^{1/2}(S^1)$'' is right: $\widetilde k'$ is Lipschitz
+and bounded away from $0$ on the compact $S^1$, so $\log\widetilde k'$ is Lipschitz, its distributional derivative
+is in $L^\infty\subset L^2(S^1)$, and $H^1(S^1)\hookrightarrow H^{1/2}(S^1)$ by the Fourier characterization.
+Existence of the extension $\widetilde k$ is also right (prescribe the $1$-jets at both endpoints of $I'$ and
+interpolate); it is far from unique, but $\operatorname{Ad}U(\widetilde k)|_{\cA(I)}$ is independent of the choice
+(two extensions differ by a diffeomorphism trivial on $I$, whose implementer lies in $\cA(I)'$), while the
+\emph{vector} $U(\widetilde k)^*\Omega$ is not --- which is why Conjecture~3.2's ``optimized over the extension''
+is the right formulation.
+\end{verdictok}
+\begin{verdictgap}[Observation 1, the implementability arrow]
+I confirm [R4]: ``WP $\Rightarrow$ implementable in the fermionic Fock space'' is not supplied by the cited
+sources, and the amended text now says so.  Two additions.  (i) The theorem that is actually wanted is
+Shale--Stinespring: a Bogoliubov transformation of the CAR algebra is unitarily implementable in the Fock
+representation of $P_+$ iff $[P_+,\Gamma]$ is Hilbert--Schmidt; the missing link is that the \emph{weight-$\frac12$}
+action $\phi\mapsto(\phi\circ\varphi^{-1})\sqrt{(\varphi^{-1})'}$ has HS off-diagonal blocks iff
+$\log\varphi'\in H^{1/2}$.  (ii) The sentence ``\emph{So $U(\widetilde k)$ exists in the fermionic Fock space}''
+still begins with ``So'', i.e.\ still presents as a deduction what the preceding sentence has just declared
+missing; it should read ``Granting this, $U(\widetilde k)$ exists\ldots''.
+\end{verdictgap}
+
+\begin{lemma}[N6 eq.~(5)]\label{lem:energy}
+Let $L_0=\int_0^{2\pi}\mathcal T(\theta)d\theta$ be the conformal Hamiltonian ($L_0\Omega=0$, $\langle\mathcal T\rangle=0$).
+Then, for $\varphi\in\Diff_+(S^1)$ and $\psi:=\varphi^{-1}$,
+\[
+ E(\varphi)=\langle U(\varphi)\Omega,L_0U(\varphi)\Omega\rangle=\frac c{48\pi}\int_0^{2\pi}\bigl(\partial_\theta\log\psi'\bigr)^2d\theta
+ =\frac c{48\pi}\int_0^{2\pi}\Bigl[\bigl(\partial_\theta\log\psi'\bigr)^2-\bigl(\psi'^2-1\bigr)\Bigr]d\theta
+ +\frac c{48\pi}\int_0^{2\pi}(\psi'^2-1)d\theta .
+\]
+\end{lemma}
+\lstep{1}{1}{$U(\varphi)^*\mathcal T(\theta)U(\varphi)=\bigl(\psi'(\theta)\bigr)^2\mathcal T(\psi(\theta))+A\{\psi;\theta\}$
+with $A=-\frac c{24\pi}$.}
+\lby{weight-2 covariance (Lemma~\ref{lem:bw}$\langle1\rangle4$) plus the Virasoro cocycle; $A$ is fixed by the
+$c$-number part of $[\mathcal T(\theta'),\mathcal T(\theta)]$, which by eq.~(1) is
+$\frac c{8\pi^2}\bigl[(u-i0)^{-4}-(u+i0)^{-4}\bigr]=-\frac{ic}{24\pi}\delta'''(\theta'-\theta)$, giving
+$\langle[T(h),\mathcal T(\theta)]\rangle=\frac{ic}{24\pi}h'''(\theta)=-iAh'''(\theta)$}
+\lstep{1}{2}{$\langle\mathcal T\rangle=0$ by rotation invariance and $L_0\Omega=0$, so
+$E(\varphi)=A\int_0^{2\pi}\{\psi;\theta\}d\theta$.}
+\lby{$\langle1\rangle1$; the first term has vanishing vacuum expectation}
+\lstep{1}{3}{With $\Lambda=\log\psi'$: $\{\psi;\theta\}=\Lambda''-\frac12(\Lambda')^2$, and
+$\int_0^{2\pi}\Lambda''=0$, so $\int\{\psi;\theta\}d\theta=-\frac12\int(\Lambda')^2d\theta$.}
+\lby{$\frac{\psi'''}{\psi'}=\Lambda''+(\Lambda')^2$ and $\frac32\bigl(\frac{\psi''}{\psi'}\bigr)^2=\frac32(\Lambda')^2$;
+periodicity}
+\lqed{1}{4}\lby{$\langle1\rangle2$, $\langle1\rangle3$: $E=-\frac c{24\pi}\cdot(-\frac12)\int(\Lambda')^2=\frac c{48\pi}\int(\Lambda')^2$}
+\begin{verdictgap}
+Two findings.
+(i) \textbf{The displayed combination is correct} in the convention in which $L_0$ is the CFT generator with
+$\langle T_{\mathrm{cyl}}\rangle=-\frac c{24}$ per $2\pi$, i.e.\ eq.~(5) computes the energy \emph{relative to the
+Casimir value}; equivalently, with the AQFT $L_0$ ($L_0\Omega=0$) the two forms agree because
+$-\frac c{48\pi}\int(\psi'^2-1)d\theta$ is exactly the difference of the two conventions.  Numerically I confirm
+that the combination vanishes identically on $\mathrm{PSL}(2,\mathbb R)$: for the M\"obius circle maps
+$\tan\frac\varphi2=\lambda\tan\frac\theta2$, $\lambda=1.7$ and $\lambda=1/1.7$,
+$\int(\partial\log\varphi')^2=\int(\varphi'^2-1)=0.905517882505$, difference $<3\times10^{-21}$.  So the note's
+hedge ``\emph{the sign of the second term depends on conventions}'' can be replaced by the assertion that the
+displayed sign is the right one.
+(ii) \textbf{The argument is $\varphi^{-1}$, not $\varphi$.}  $E(\varphi)$ involves $\log(\varphi^{-1})'$, and the
+two are genuinely different: for $\varphi(\theta)=\theta+0.21\sin2\theta$ the bracket integrates to
+$2.006827$ with $\varphi$ and $2.325495$ with $\varphi^{-1}$.  Since Route~B applies the bound to
+$U(\varphi_n^{-1})\Omega$, the practical consequence is nil, but eq.~(5) as displayed is $E(\varphi^{-1})$.
+Repair: write $\psi=\varphi^{-1}$ in eq.~(5), or state $E(\varphi)=\frac c{48\pi}\int[(\partial\log\varphi')^2-(\varphi'^2-1)]d\theta$
+for $\langle U(\varphi)^*\Omega,L_0U(\varphi)^*\Omega\rangle$.
+(iii) ``\emph{It is finite iff $\log\varphi'\in H^1$}'' is right for the first term; the second needs only
+$\varphi'\in L^2$, automatic for a $C^1$ diffeomorphism.  ``$C^{1,1}$'' suffices, as claimed.
+\end{verdictgap}
+\begin{verdictgap}[Route B: the compactness step]
+``\emph{the set $\{\psi:\langle\psi,L_0\psi\rangle\le E\}$ is norm-compact}'' is \textbf{false as written}: the
+set contains $\mathbb C\Omega$ (since $L_0\Omega=0$) and is therefore unbounded.  What is true, and what the
+argument uses, is that $\{\psi:\|\psi\|\le1,\ \langle\psi,L_0\psi\rangle\le E\}$ is norm-compact when $L_0$ has
+compact resolvent: with $P_N$ the spectral projection of $L_0$ onto $[0,N]$, $\|(1-P_N)\psi\|^2\le E/N$ uniformly
+on the set, so it is totally bounded, and it is norm-closed because $\psi\mapsto\langle\psi,L_0\psi\rangle$ is
+norm-lower-semicontinuous.  The vectors $U(\varphi_n^{-1})\Omega$ are unit vectors, so the repair is one clause.
+Also, ``finite-dimensional $L_0$-eigenspaces'' alone does not give compact resolvent; one needs in addition that
+the eigenvalues accumulate only at $+\infty$, which does hold for the vacuum module of a unitary VOA of CFT type
+($\mathrm{spec}\,L_0\subset\mathbb Z_{\ge0}$ with finite multiplicities).
+\end{verdictgap}
+\begin{verdictgap}[Route B: the identification step]
+``\emph{the implementers of diffeomorphisms that are trivial on a region commute with its algebra}'' is correct
+but is a \emph{theorem}, not a definition, and is uncited: for a diffeomorphism covariant net,
+$\operatorname{supp}\varphi\subset K$ implies $U(\varphi)\in\cA(K)$; hence $\varphi|_J=\mathrm{id}$ gives
+$U(\varphi)\in\cA(J')\subset\cA(J)'$.  Locator to add: Carpi--Weiner, CMP \textbf{258} (2005), Prop.~3.7 (or
+D'Antoni--Fredenhagen--K\"oster, Lett.\ Math.\ Phys.\ \textbf{67} (2004)).  Two further hypotheses are used but
+not carried in Conjecture~3.2: \emph{strong additivity} (to make $\cA(A)\vee\cA(D)=\cA(I)$ and hence the
+$*$-algebra $\bigcup_{A'\Subset A,D'\Subset D}\cA(A')\vee\cA(D')$ weakly dense in $\cA(I)$ --- the note invokes it
+in the text but the conjecture says only ``finite $L_0$-multiplicities''), and \emph{Haag duality}.  The final
+inference is sound: $\omega\circ\beta_s$ is only a positive functional on the dense $*$-algebra, but it agrees
+there with the normal state $\omega_\Psi$, so it \emph{is} $\omega_\Psi$ and is normal.  The step
+``independence of the subsequence'' is listed as to-be-done in the programme, correctly.
+\end{verdictgap}
+
+\subsection{\S4.1 (P3) and the CMI-squared coefficient}
+\begin{verdictok}
+The conversion of Vardhan--Wei--Zou's $-\log F^{(0)}=-\frac c9\log(1-\eta)+O(1)$ into
+$\Phi(\zeta)\simeq\frac c{18}\log\zeta$ per chirality is correct and, importantly, remains correct under the
+corrected two-branch law: at $\lambda=0$ both chiralities carry the same $\zeta_\pm=2z$, so
+$-\log F^{(0)}=2\Phi_c(2z)=\frac c9\log\zeta+O(1)$, matching $-\frac c9\log(1-\eta)=\frac c9\log(1+z)$ with
+$1-\eta=(1+z)^{-1}$ and $\zeta=2z$.  The coefficient $\frac{12}{\pi^2c}$ of $I^2$ in N6 \S1 and Conjecture~2.1 is
+the chiral one, consistent with N7 Cor.~6.1 and with $z=6I/c+O(I^2)$; for a 2D CFT the same statement reads
+$\frac{12}{\pi^2(c+\bar c)}I_{\mathrm{tot}}^2$.
+\end{verdictok}
+\begin{verdictgap}
+Conjecture~2.1 still asserts ``$-\log\Fid=\frac c{12\pi^2}\zeta_t^2[1+O(\log^{-2}(1/\zeta_t))]$'' and ``for a
+two-dimensional CFT the two chiralities add'', without the opposite-rotation qualification that the 16:13 errata
+put into N5 Cor.~5.1 and N7 Cor.~6.1; and its ``$\zeta=2z$'' is the $\lambda=0$ value only.  For consistency
+across the series, Conjecture~2.1 should carry the two-branch form
+$-\log F^{(\lambda)}=\Phi_c(z(1+e^{-\pi\lambda}))+\Phi_{\bar c}(z(1+e^{\pi\lambda}))$.
+\end{verdictgap}
+
+\section{Summary of findings}\label{sec:summary}
+\begin{enumerate}[leftmargin=1.6em]
+\item[\textbf{BREAK}] \textbf{N7, sentence after eq.~(13)}: ``both are bounded by $1+\lambda$ \dots\ the second
+variations are finite whenever $A\Omega$ is a vector''.  False for the Kubo--Mori weight
+($(\lambda-1)\log\lambda/(1+\lambda)\to\infty$).  Local; no result falls.  (\S\ref{sec:bound})
+\item[\textbf{BREAK}] \textbf{N6 \S2 step 3}: ``$\langle\widetilde T\widetilde T\rangle=\frac c{32}\sinh^{-4}$''
+is the BPZ constant, $4\pi^2$ times the generator-normalized value $\frac c{128\pi^2}$ that step~4 now invokes.
+The two halves of one argument use two normalizations.  (\S\ref{sec:n6})
+\item[\textbf{GAP}] \textbf{N7 \S4.2}: the KMS sign-fixing presupposes $T(g)\in\cM$, which is false; the sign is
+nevertheless the note's, by Bisognano--Wichmann (Lemma~\ref{lem:bw}).  (\S\ref{sec:kmssign})
+\item[\textbf{GAP}] \textbf{N7 \S1}: ``a translation $\xi\mapsto\xi\pm2\pi t$'' --- the sign must be fixed, and
+it is $-$.  (\S\ref{sec:bwsign})
+\item[\textbf{GAP}] \textbf{N7 \S4.2--4.3 as a whole}: eq.~(13) is the $A\in\cM$ formula and no admissible
+representative is in $\cM$; the general route is formal and is validated only by \S5.  (\S\ref{sec:normdiv})
+\item[\textbf{GAP}] \textbf{N7 Lemma 3.2}: ``affiliated with a von Neumann algebra containing $\cM$'' is a
+vacuous hypothesis; ``$o(s)$ controlled in the norm of the tangent space'' is undefined; the form-domain
+condition is needed only for $g_{\mathrm{KM}}$.
+\item[\textbf{GAP}] \textbf{N7 \S4.4}: ``the agreement of the two fixes the constant unambiguously'' --- what
+fixes it is linearity in $c$ (Prop.~\ref{prop:lin}) plus Theorem~5.2; \S4 is a check, not a determination.
+\item[\textbf{GAP}] \textbf{N6 \S3 Route B}: the ``norm-compact'' set is unbounded as written; two uncited
+theorems (implementers of localized diffeomorphisms; compact resolvent from VOA gradation); strong additivity
+missing from Conjecture~3.2's hypotheses.
+\item[\textbf{MINOR}] \textbf{N6 eq.~(5)}: the displayed functional is $E(\varphi^{-1})$, not $E(\varphi)$; the
+relative sign of the two terms is however correct and the combination does vanish on $\mathrm{PSL}(2,\mathbb R)$.
+\item[\textbf{MINOR}] N7 after eq.~(6): $\langle\widetilde T\rangle=0$ in the note's own convention, so
+``$\widetilde T_0=\widetilde T-\langle\widetilde T\rangle$'' is vacuous; N7 Lemma~5.1(i): ``on $A\times A$ and
+$D\times D$ both sides vanish'' needs the M\"obius-invariance argument; N7 Cor.~6.1: the $\frac{12}{\pi^2c}$ law
+is chiral; N6 Conjecture~2.1 lacks the two-branch qualification; N6 Observation~1: ``So $U(\widetilde k)$
+exists'' still reads as a deduction from what was just declared missing.
+\item[\textbf{OK}] Everything else, in particular: eq.~(1) (proved independently, Theorem~\ref{thm:TT}),
+eqs.~(2),(3),(6)--(9), Lemma~3.1 in full, Lemma~4.1, eqs.~(16)--(19), Lemma~5.1, eqs.~(22),(23), Theorem~5.2 and
+its corrected $\frac1{\pi^2}$, Cor.~6.1's conversions, N6 eqs.~(2),(4) and the $c/18$ conversion.
+\end{enumerate}
+\end{document}

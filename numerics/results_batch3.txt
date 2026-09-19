@@ -1,0 +1,9 @@
+exact_s0.025_Lam60_k30: N=91 Lam=60.0 zeta=0.00833  -logF=-6.54030981e+00  S=5.02073382e-06  -logF/zeta^2=-94180.461230  S/zeta^2=0.072299  S/(-logF)=-0.0000  (-2logF)/CMI=-18875.30691  
+exact_s0.05_Lam60_k30: N=91 Lam=60.0 zeta=0.01667  -logF=1.33893257e-01  S=1.97999171e-05  -logF/zeta^2=482.015724  S/zeta^2=0.071280  S/(-logF)=0.0001  (-2logF)/CMI=193.60854  
+exact_s0.1_Lam60_k30: N=91 Lam=60.0 zeta=0.03333  -logF=3.06108867e+00  S=7.71782603e-05  -logF/zeta^2=2754.979806  S/zeta^2=0.069460  S/(-logF)=0.0000  (-2logF)/CMI=2222.29978  
+exact_s0.2_Lam60_k30: N=91 Lam=60.0 zeta=0.06667  -logF=-8.50441940e+00  S=2.94396477e-04  -logF/zeta^2=-1913.494366  S/zeta^2=0.066239  S/(-logF)=-0.0000  (-2logF)/CMI=-3112.33865  
+exact_s0.4_Lam60_k30: N=91 Lam=60.0 zeta=0.13333  -logF=-9.36089296e+00  S=1.07954771e-03  -logF/zeta^2=-526.550229  S/zeta^2=0.060725  S/(-logF)=-0.0001  (-2logF)/CMI=-1740.52199  
+exact_s0.8_Lam60_k30: N=91 Lam=60.0 zeta=0.26667  -logF=-8.45504682e+00  S=3.69568373e-03  -logF/zeta^2=-118.899096  S/zeta^2=0.051971  S/(-logF)=-0.0004  (-2logF)/CMI=-810.62651  
+exact_s1.6_Lam60_k30: N=91 Lam=60.0 zeta=0.53333  -logF=-8.93041936e-01  S=1.13303569e-02  -logF/zeta^2=-3.139601  S/zeta^2=0.039833  S/(-logF)=-0.0127  (-2logF)/CMI=-45.33423  
+first_s1.0_Lam60_k30: N=91 Lam=60.0  QFI:  c2/zeta^2 = f2 = 0.00836978   [eig(Q_N) in (2.78e-13,1.000000)]
+mobius_a2L1_s0.1_Lam60_k30: N=91 Lam=60.0 zeta=0.06667  -logF=-8.80904000e+00  S=2.94396477e-04  -logF/zeta^2=-1982.034001  S/zeta^2=0.066239  S/(-logF)=-0.0000  (-2logF)/CMI=-3223.81980  

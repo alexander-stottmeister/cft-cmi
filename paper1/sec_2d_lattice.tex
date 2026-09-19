@@ -1,0 +1,153 @@
+% !TeX root = main.tex
+\label{sec:2d}
+\subsection{The two-chirality law}
+Let $\cA=\cA_{\rm chiral}\otimes\overline{\cA}_{\rm chiral}$ be a
+two-dimensional CFT with chiral halves of central charges $c$ and $\bar c$, and
+let $A,B,C$ be three adjacent intervals of a fixed time slice.  The double-cone
+algebras factorize over the two light-ray coordinates $x^\pm$, and the modular
+group of a double cone is the Bisognano--Wichmann boost, which acts on the two
+light rays by \emph{opposite} dilations.  Consequently the rotated Petz map with
+parameter $t$ is the pair of chiral rotated Petz maps with parameters $t$ and
+$-t$.
+
+\begin{proposition}[Two-chirality law]\label{prop:twobranch}
+Write $\lambda=2t$ for the rotation parameter in the convention of \cite{VWZ},
+\begin{equation}\label{eq:vwz-channel}
+ P^{(\lambda)}_{B\to BC}(\cdot)=\rho_{BC}^{1/2-i\lambda/2}\rho_B^{-1/2+i\lambda/2}
+ (\cdot)\,\rho_B^{-1/2-i\lambda/2}\rho_{BC}^{1/2+i\lambda/2},
+\end{equation}
+and let
+$\eta_{\rm V}=\frac{L_AL_C}{(L_A+L_B)(L_B+L_C)}=1-\eta$ be their cross ratio, so
+that $z=\eta_{\rm V}/(1-\eta_{\rm V})$.  Then
+\begin{equation}\label{eq:twobranch}
+ \boxed{\;-\log F^{(\lambda)}(\eta_{\rm V})
+ =\Phi_{c}\bigl(z(1+e^{-\pi\lambda})\bigr)
+ +\Phi_{\bar c}\bigl(z(1+e^{\pi\lambda})\bigr).\;}
+\end{equation}
+For $c=\bar c$ this is even in $\lambda$, with its unique minimum at
+$\lambda=0$, and
+\begin{equation}\label{eq:twobranch-small}
+ -\log F^{(\lambda)}
+ =f_2\,\eta_{\rm V}^2\bigl[2+4\cosh\pi\lambda+2\cosh2\pi\lambda\bigr]
+ +O(\eta_{\rm V}^3),
+ \qquad
+ -\log F^{(0)}=\frac{c+\bar c}{3\pi^2}\,\eta_{\rm V}^2+O(\eta_{\rm V}^3),
+\end{equation}
+with $f_2=c/(12\pi^2)$ per chiral component.  The relative entropy obeys the same
+law with $\Phi$ replaced by $\cD$ and $f_2$ by $s_2=c/12$, i.e.\
+$D=\frac{c+\bar c}3\eta_{\rm V}^2+\dots$ at $\lambda=0$.
+\end{proposition}
+
+\begin{proof}
+The recovery channel \eqref{eq:vwz-channel} is built from the modular data of
+$\cA(B)\subset\cA(BC)$, which for a two-dimensional CFT is the tensor product of
+the chiral modular data, and the state is the product vacuum.  Fidelity is
+multiplicative over the tensor factors, so $-\log F^{(\lambda)}$ is the sum of the
+two chiral contributions.  By \cref{cor:collapse} the chiral contribution with
+rotation parameter $t$ is $\Phi(z(1+e^{-2\pi t}))$; the boost acts with $+t$ on
+one light ray and $-t$ on the other, and $\lambda=2t$, which gives
+\eqref{eq:twobranch}.  Evenness for $c=\bar c$ is the exchange of the two branches
+under $\lambda\to-\lambda$.  Expanding with \cref{thm:main} and $z=\eta_{\rm V}
++O(\eta_{\rm V}^2)$ gives
+$f_2z^2\bigl[(1+e^{-\pi\lambda})^2+(1+e^{\pi\lambda})^2\bigr]$, which is
+\eqref{eq:twobranch-small}; at $\lambda=0$ the bracket is $8$ and
+$8f_2=2c/(3\pi^2)$ per chirality.  Minimality at $\lambda=0$ follows because
+$\lambda\mapsto2+4\cosh\pi\lambda+2\cosh2\pi\lambda$ is strictly increasing in
+$|\lambda|$ and, beyond leading order, because $\Phi$ is nondecreasing
+(\cref{prop:monotone}) and the pair $(\zeta_-,\zeta_+)$ moves outward from the
+symmetric point as $|\lambda|$ grows.
+\end{proof}
+
+\begin{remark}
+The collapse \eqref{eq:collapse} onto a single function of one variable is a
+statement about \emph{one} chirality.  On a lattice it can be tested directly only
+in a chiral or parity-broken model; in a parity-invariant model one sees the sum
+\eqref{eq:twobranch}, and a single-branch fit is badly wrong (see below).  Real
+lattice states satisfy $F^{(\lambda)}=F^{(-\lambda)}$ exactly, which is the
+lattice counterpart of the evenness in \cref{prop:twobranch}.
+\end{remark}
+
+\subsection{The lattice test}
+The two-chirality law was tested on the complex free-fermion hopping chain at half
+filling ($c=\bar c=1$), with the exact infinite-chain correlator
+$C_{ij}=\sin(\pi(i-j)/2)/(\pi(i-j))$ and three adjacent blocks $L_A=L_C=L$,
+$L_B=b$.  The rotated Petz map \eqref{eq:vwz-channel} is a composition of
+number-conserving Gaussian operators; with $T=e^X$ the composition rule is
+$T_1T_2$, $\Tr=K\det(1+T)$ and $C=T(1+T)^{-1}$, so that with $\alpha=(1-i\lambda)/2$
+\begin{equation}\label{eq:lattice-T}
+ \widetilde T=\bigl[1_A\oplus T_{BC}^{\alpha}\bigr]
+ \bigl[1_{AC}\oplus T_B^{-\alpha}\bigr]
+ \bigl[T_{AB}\oplus 1_C\bigr]
+ \bigl[1_{AC}\oplus T_B^{-\bar\alpha}\bigr]
+ \bigl[1_A\oplus T_{BC}^{\bar\alpha}\bigr],
+\end{equation}
+which is Hermitian positive definite, $\widetilde Q=\widetilde T(1+\widetilde
+T)^{-1}$; fidelity and relative entropy then come from \cref{thm:fidfd}.  All
+linear algebra was done in \texttt{python-flint} ball arithmetic at
+$3\kappa_{\max}/\log2+250$ bits with $\kappa_{\max}\approx1.8n$.  This resolves
+the eigenvalue-floor problem that restricted \cite{VWZ} to $L_A,L_B\le8$: here
+$n=L_A+L_B+L_C\le72$.  The Gaussian pipeline was validated against exact $2^n$
+many-body density matrices for $n=8,9,10$ at $\lambda=0,0.5,1,1.5$ (relative
+entropies to $10^{-15}$, $-\log F$ to the accuracy of \texttt{sqrtm}), and the
+normalization identity $K\det(1+\widetilde T)=1$ holds to working precision at
+every point.
+
+\paragraph{Findings.}
+\begin{enumerate}[label=(L\arabic*),leftmargin=2.6em]
+\item \emph{Apparent exponents.}  Least-squares fits of
+$-\log F^{(\lambda)}\sim\eta_{\rm V}^{\,p}$ on the window $\eta_{\rm V}\le0.1$ give
+\[
+ p=1.986,\ 1.912,\ 1.635,\ 1.151\quad\text{at }\lambda=0,\ 0.5,\ 1,\ 1.5,
+\]
+to be compared with the values $2.0$, $1.9$, $1.7$, $1.2$ read off in \cite{VWZ}.
+The exponents are strongly window dependent (on $0.05\le\eta_{\rm V}\le0.5$ they
+become $2.051$, $1.715$, $1.125$, $0.678$), which is exactly what
+\eqref{eq:twobranch} predicts: there is no power law, only a sum of two branches,
+the second of which is pushed into the crossover region of $\Phi$ as $\lambda$
+grows.
+\item \emph{The two-branch law holds; the single-branch law does not.}  Feeding
+the lattice's own $\Phi_{\rm lat}$ into \eqref{eq:twobranch} reproduces the
+measured $-\log F^{(\lambda)}$ with a ratio that is \emph{constant in
+$\eta_{\rm V}$} and equal to $1-0.15/L$ at fixed block size $L$ --- i.e.\ the law
+is exact in the continuum limit and the deviation is a pure finite-size effect
+($0.962$ at $L=4$).  The single-branch expression
+$\Phi(z(1+e^{-\pi\lambda}))$ alone is off by factors between $4$ and $7600$ over
+the same data.
+\item \emph{Finite-size drift.}  At fixed $\eta_{\rm V}$ and growing $n$ the
+lattice value decreases monotonically towards a limit; e.g.\ at
+$\eta_{\rm V}=0.25$, $-\log F^{(0)}=4.872,\,4.599,\,4.530,\,4.476,\,4.451,\,4.438,
+\,4.429$ ($\times10^{-3}$) at $n=12,18,24,36,48,60,72$.
+\item \emph{Continuum comparison at small $\zeta$.}  $\Phi_{\rm lat}(\zeta)$ agrees
+with the continuum Table~\ref{tab:scan} to $5$--$7\%$ at $\zeta\approx0.01$, the
+residual being the same $1/L$ drift.
+\end{enumerate}
+
+\begin{remark}[Large $\zeta$]\label{rem:largezeta}
+The second branch of \eqref{eq:twobranch} probes $\zeta\gtrsim1$, where the
+continuum $\Phi$ is not yet certified.  The rigorous lower bounds from
+\cref{thm:detrep} give $\Phi_{\rm sub}=4.230\times10^{-3},\,1.012\times10^{-2},
+\,2.010\times10^{-2},\,3.343\times10^{-2},\,4.779\times10^{-2}$ at
+$\zeta=1.067,\,2.133,\,4.267,\,8.533,\,17.07$; the certified extrapolations of
+\cref{tab:largezeta} give $\Phi(2.13)=1.0797(50)\times10^{-2}$ ($0.5\%$) and
+$\Phi(8.53)=3.974(72)\times10^{-2}$ ($1.8\%$), with a local log-slope falling from
+$1.29$ at $\zeta\approx1$ to $0.69$ at $\zeta\approx17$.  The lattice finds
+$\Phi_{\rm lat}\sim\zeta^{1.1}$ up to $\zeta\approx23$, with
+$\Phi_{\rm lat}(1.986)=1.004\times10^{-2}$ and
+$\Phi_{\rm lat}(11.52)=5.61\times10^{-2}$, i.e.\ above the continuum best
+estimates by $1\%$ and $14\%$ respectively, the finite-size drift of (L3).
+The small-$\zeta$ tail correction of \cref{sec:numerics} is meaningless in this
+regime (at $\zeta=17$ it exceeds the raw value), and we quote brackets, not
+values.  Certifying $\Phi$ for $\zeta\gtrsim1$ to $1\%$ requires larger boxes in
+high-precision arithmetic and a fitted tail law; it is left open.
+\end{remark}
+
+\begin{remark}[Precision in \cite{VWZ}]
+The limitation $L_A,L_B\le8$ in \cite{VWZ} is the double-precision eigenvalue
+floor of $\rho_B^{-1/2\pm i\lambda/2}$: the smallest eigenvalues of the correlation
+matrix are $O(e^{-\kappa_{\max}})$ with $\kappa_{\max}\approx1.8n$, and the
+inverse powers amplify them.  Ball arithmetic at
+$3\kappa_{\max}/\log2+250$ bits removes the obstruction and is what allows
+$n\le72$ here.  With that resolution the measured exponents move towards the
+two-branch prediction and the residual discrepancy is accounted for by the $1/L$
+drift of (L2)--(L3).
+\end{remark}

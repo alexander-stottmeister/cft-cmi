@@ -1,0 +1,84 @@
+=== A. the mass of a single parabolic corner is -2 sigma from either side (Lem 4.3) ===
+PASS  2000 random corners: C^1 at p and [v]_p = -2 sigma for R and for L (0 bad)
+   sign convention: kappa := -[v]_p/2 = +sigma > 0 for a compression toward p from EITHER side.
+
+=== B. random protocols: exact masses vs Thm 5.2 / Thm 5.3, and (H) ===
+   class i_single_start2   protocols 400 | Thm5.2 exact 400 | naive(Thm5.3) exact 400 | (H) holds 400
+   class ii_single_start1  protocols 400 | Thm5.2 exact 400 | naive(Thm5.3) exact 191 | (H) holds 191
+   class iii_union         protocols 400 | Thm5.2 exact 400 | naive(Thm5.3) exact 201 | (H) holds 201
+PASS    i_single_start2 : Thm 5.2 (general rule) exact in every case
+PASS    i_single_start2 : under (H) the naive corner measure is exact in every case
+PASS    ii_single_start1: Thm 5.2 (general rule) exact in every case
+PASS    ii_single_start1: under (H) the naive corner measure is exact in every case
+PASS    iii_union       : Thm 5.2 (general rule) exact in every case
+PASS    iii_union       : under (H) the naive corner measure is exact in every case
+PASS  class (i)  single-interval conditioning + start >= 2 intervals  ==> (H) ALWAYS (Prop 5.4(a))
+PASS  class (ii) single-interval conditioning + SINGLE-interval start ==> (H) sometimes FAILS
+PASS  class (iii) union conditioning ==> (H) sometimes FAILS
+PASS  whenever (H) FAILS the naive corner measure is WRONG in at least one case
+   (H) fails in 408 of 1200 protocols; of those the naive measure still happens to be right in 0
+
+=== C. REF-P6-0's counterexample, recomputed from scratch (exact) ===
+PASS  sigma_1 = 2 l_4/(l_3(l_3+l_4)) = 1.452991  (document 1.452991)
+PASS  sigma_2 = 2 l_1/((l_2+l_3)(l_1+l_2+l_3)) = 0.201550  (document 0.201550)
+PASS  (H) fails: p_3 = 3.4 is interior to M_2 = (0.0, 4.3)
+   exact masses of Phi : {3.200568181818182: -1.947338593742055, 4.3: -0.40310077519379844}
+   Thm 5.2 prediction  : {3.200568181818182: -1.947338593742055, 4.3: -0.40310077519379844}
+PASS  mass at x_0 = k_2^{-1}(p_3) = 3.200568  (document 3.200568)
+PASS  k_2'(x_0) = 0.670114  (document 0.670114) and mass = -2 sigma_1 k_2'(x_0) = -1.947339 (document -1.947339)
+PASS  NO mass at the junction p_3 (exact: 0)
+PASS  mass -2 sigma_2 at p_4 = -0.403101
+PASS  total mass -2.350439 is 71.03% of the naive -3.309084 (document: 71%)
+PASS  control (A_B = A_2, single): both corners at p_3 and the masses ADD exactly ({3.4: -3.6342742225095166})
+
+=== D. Example 5.6 (swallowed corner) recomputed ===
+PASS  both conditioning regions are single chain intervals, yet (H) FAILS
+PASS  sigma_1 = sigma_2 = 1
+PASS  S(Phi) = -2 delta_{p_3} only (exact: {2.0: -2.0}); the first corner contributes NOTHING
+PASS  range of k_2 is (4/3, 2), which does NOT contain p_2 = 1
+
+=== E. VWZ protocols (exact) ===
+PASS  1(B) = 1(A): 2c/(b(b+c)) + 2d/((b+c)(b+c+d)) = 2(c+d)/(b(b+c+d))
+PASS    ... identically in 20000 random rational (b,c,d) (0 bad)
+PASS  1(B) and 1(A) are the SAME point map, exactly (not merely modulo Moebius)
+PASS  Protocol 3: sigma_1 = 2a/(b(a+b)) and sigma_2 = 2d/(c(c+d))
+PASS  Protocol 3 in either order: LITERALLY the same point map (exact, 36 points)
+PASS  S(Phi^(3)) = -2(sigma_1+sigma_2) delta_{p_3}
+PASS  s' = (sigma_1+sigma_2)(c+d) >= 2 lambda' = 2d/c  (s' = 12164/6345, 2d/c = 32/27)
+PASS  s' > 2 lambda' STRICTLY for all a,b,c,d > 0 (50000 rational cases, 0 bad)
+PASS  zeta_eff = (sigma_1+sigma_2) beta_I(p_3) = 24328/26235
+PASS  the Moebius factor M has its pole at p_3 + 1/sigma_1 = 2773/672, outside the image (max 2376461/1036504)
+
+=== F. Tables 1-3 of the document, re-enumerated independently ===
+PASS  n=4: 4 protocols with a starting pair, 3 distinct corner measures (claim n-1 = 3)
+PASS  n=4: the corner measure depends only on the starting pair
+PASS    n=4 start A_1A_2: exact S(Phi) = naive corner measure, and (H) holds
+PASS    n=4 start A_1A_2: zeta^(I) = {2: '0.75', 3: '1'}  (table: {2: '0.75', 3: '1'})
+PASS    n=4 start A_2A_3: exact S(Phi) = naive corner measure, and (H) holds
+PASS    n=4 start A_2A_3: zeta^(I) = {3: '2'}  (table: {3: '2'})
+PASS    n=4 start A_3A_4: exact S(Phi) = naive corner measure, and (H) holds
+PASS    n=4 start A_3A_4: zeta^(I) = {3: '1', 4: '0.75'}  (table: {3: '1', 4: '0.75'})
+PASS  n=5: 8 protocols with a starting pair, 4 distinct corner measures (claim n-1 = 4)
+PASS  n=5: the corner measure depends only on the starting pair
+PASS    n=5 start A_1A_2: exact S(Phi) = naive corner measure, and (H) holds
+PASS    n=5 start A_1A_2: zeta^(I) = {2: '0.4487', 3: '2.961', 4: '0.5789'}  (table: {2: '0.4487', 3: '2.9614', 4: '0.5789'})
+PASS    n=5 start A_2A_3: exact S(Phi) = naive corner measure, and (H) holds
+PASS    n=5 start A_2A_3: zeta^(I) = {3: '3.91', 4: '0.5789'}  (table: {3: '3.9101', 4: '0.5789'})
+PASS    n=5 start A_3A_4: exact S(Phi) = naive corner measure, and (H) holds
+PASS    n=5 start A_3A_4: zeta^(I) = {3: '0.9487', 4: '3.365'}  (table: {3: '0.9487', 4: '3.3647'})
+PASS    n=5 start A_4A_5: exact S(Phi) = naive corner measure, and (H) holds
+PASS    n=5 start A_4A_5: zeta^(I) = {3: '0.9487', 4: '2.786', 5: '0.2546'}  (table: {3: '0.9487', 4: '2.7857', 5: '0.2546'})
+   Table 3 (union-conditioning variants, n=4):
+PASS        1(A) P_{B->BCD}: one corner at p_2 with sigma = 2(c+d)/(b(b+c+d)), (H) holds
+      NOTE: 1(A) has A_new = CD, a UNION of two chain intervals; (C3) of the document
+            admits only a single chain interval as A_new, so 1(A) needs the coarse chain.
+      1(B)  P_{B->BC},P_{BC->BCD}    corners [0.42857142857142855]  (H)=True  exact==naive: True
+PASS        1(B)  P_{B->BC},P_{BC->BCD}    (H) and the corner measure as claimed
+      2     P_{B->BC},P_{C->CD}      corners [0.42857142857142855, 1.6785714285714286]  (H)=True  exact==naive: True
+PASS        2     P_{B->BC},P_{C->CD}      (H) and the corner measure as claimed
+      3     P_{B->AB},P_{C->CD}      corners [1.6785714285714286]  (H)=True  exact==naive: True
+PASS        3     P_{B->AB},P_{C->CD}      (H) and the corner measure as claimed
+      --    P_{C->CD},P_{BC->ABC}    corners [1.6785714285714286, 2.8035714285714284]  (H)=False  exact==naive: False
+PASS        --    P_{C->CD},P_{BC->ABC}    (H) and the corner measure as claimed
+
+0 FAILURES

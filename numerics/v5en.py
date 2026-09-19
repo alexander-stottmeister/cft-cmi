@@ -1,0 +1,25 @@
+import mpmath as mp
+mp.mp.dps=20; pi=mp.pi
+# Moebius circle map: tan(phi/2)=lam tan(theta/2);  phi'(th)=lam/(cos^2+lam^2 sin^2)
+lam=mp.mpf('1.7')
+def php(t): return lam/(mp.cos(t/2)**2+lam**2*mp.sin(t/2)**2)
+def L(t): return mp.log(php(t))
+def dL(t): return mp.diff(L,t)
+A=mp.quad(lambda t: dL(t)**2,[0,pi,2*pi]); B=mp.quad(lambda t: php(t)**2-1,[0,pi,2*pi])
+print("Moebius lam=1.7: int (dlog phi')^2 =",mp.nstr(A,12)," int(phi'^2-1) =",mp.nstr(B,12)," difference =",mp.nstr(A-B,10))
+# inverse map has lam -> 1/lam ; by symmetry same value
+lam=mp.mpf('1')/mp.mpf('1.7')
+A2=mp.quad(lambda t: dL(t)**2,[0,pi,2*pi]); B2=mp.quad(lambda t: php(t)**2-1,[0,pi,2*pi])
+print("  inverse (lam=1/1.7): A=",mp.nstr(A2,12)," B=",mp.nstr(B2,12)," A-B=",mp.nstr(A2-B2,10))
+# non-Moebius test: phi(th)=th+e*sin(2th)
+e=mp.mpf('0.21')
+def php2(t): return 1+2*e*mp.cos(2*t)
+def L2(t): return mp.log(php2(t))
+A3=mp.quad(lambda t: mp.diff(L2,t)**2,[0,pi,2*pi]); B3=mp.quad(lambda t: php2(t)**2-1,[0,pi,2*pi])
+print("phi=th+0.21 sin2th: A=",mp.nstr(A3,10)," B=",mp.nstr(B3,10)," A-B=",mp.nstr(A3-B3,10))
+# same functional on the inverse map psi=phi^{-1}
+def phi(t): return t+e*mp.sin(2*t)
+def psi(x): return mp.findroot(lambda t: phi(t)-x, x)
+def psip(x): return 1/php2(psi(x))
+A4=mp.quad(lambda x: mp.diff(lambda y: mp.log(psip(y)),x)**2,[0,pi,2*pi]); B4=mp.quad(lambda x: psip(x)**2-1,[0,pi,2*pi])
+print("   inverse:            A=",mp.nstr(A4,10)," B=",mp.nstr(B4,10)," A-B=",mp.nstr(A4-B4,10))

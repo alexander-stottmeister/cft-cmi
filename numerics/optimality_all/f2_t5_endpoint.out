@@ -1,0 +1,141 @@
+=== T5a: h-ladder at Y = Ymax = 10 ===
+h=0.2400 Y=10 Ymax=10 N=84 m=42: theta=0.31367 g_Q(ddot)=7.745294e-03 g(d_*)/g0=0.686328 | ||AntiHerm((t_*Q)_DD)||/||M_*||=2.762e-09 lam_min(M_*)/||M_*||=-4.0756e-03
+   (i-a) E(zeta_inf)/g_Q(ddot) = (1/2)Tr(t_* ddot)/g_Q = 1.37265519   exact 2(1-theta) = 1.37265519   rel.dev +2.22e-16
+   cyclicity Tr(t_*[Q,X]) = 2Tr(X AntiHerm((t_*Q)_DD)): rel.dev 1.35e-07
+   (trace formula) E(zeta_0)/g_Q(ddot) = fwd: +6.8792e-09  bwd: +6.8792e-09  ctr: +6.8792e-09   | same formula for zeta_inf (discretised D_w): -9.1398e-06 [true 1.37266] -> BLIND
+   (e) zeta_0 = -S[fwd]: E/g_Q(ddot) = -3.412233e+01 (eq:Ablocks) = -3.412233e+01 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 2.0e-10 | eig(sigma) in [+1.112e-02,+8.322e+00] -> NOT admissible
+   (e) zeta_0 = -S[bwd]: E/g_Q(ddot) = +3.412233e+01 (eq:Ablocks) = +3.412233e+01 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 2.0e-10 | eig(sigma) in [-8.322e+00,-1.112e-02] -> ADMISSIBLE (sigma<=0)
+   (e) zeta_0 = -S[ctr]: E/g_Q(ddot) = +6.879239e-09 (eq:Ablocks) = +0.000000e+00 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 1.0e+00 | eig(sigma) in [-0.000e+00,-0.000e+00] -> ADMISSIBLE (sigma<=0)
+   (e) BOUNDARY FORM  E(zeta_0)/g_Q(ddot) = (1/2)(M_*)_00/h /g_Q = +1.030375e+01   [sign >= 0 OK]
+   (ii) M_* diagonal / cell width, first 4: ['+1.5961e-01', '+1.1097e-01', '+8.4551e-02', '+6.7138e-02']  last 4: ['+9.0939e-03', '+8.1645e-03', '+6.5362e-03', '+3.1767e-03']  (far end -> zeta_inf, must be > 0)
+   [0s]
+h=0.1200 Y=10 Ymax=10 N=166 m=83: theta=0.34236 g_Q(ddot)=8.104737e-03 g(d_*)/g0=0.657639 | ||AntiHerm((t_*Q)_DD)||/||M_*||=8.468e-08 lam_min(M_*)/||M_*||=-1.8586e-03
+   (i-a) E(zeta_inf)/g_Q(ddot) = (1/2)Tr(t_* ddot)/g_Q = 1.31527744   exact 2(1-theta) = 1.31527744   rel.dev -9.99e-16
+   cyclicity Tr(t_*[Q,X]) = 2Tr(X AntiHerm((t_*Q)_DD)): rel.dev 6.50e-10
+   (trace formula) E(zeta_0)/g_Q(ddot) = fwd: +3.5853e-07  bwd: +3.5853e-07  ctr: +3.5853e-07   | same formula for zeta_inf (discretised D_w): +1.8750e-04 [true 1.31528] -> BLIND
+   (e) zeta_0 = -S[fwd]: E/g_Q(ddot) = -6.687314e+01 (eq:Ablocks) = -6.687314e+01 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 5.4e-09 | eig(sigma) in [+5.827e-03,+1.666e+01] -> NOT admissible
+   (e) zeta_0 = -S[bwd]: E/g_Q(ddot) = +6.687314e+01 (eq:Ablocks) = +6.687314e+01 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 5.4e-09 | eig(sigma) in [-1.666e+01,-5.827e-03] -> ADMISSIBLE (sigma<=0)
+   (e) zeta_0 = -S[ctr]: E/g_Q(ddot) = +3.585314e-07 (eq:Ablocks) = +0.000000e+00 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 1.0e+00 | eig(sigma) in [+0.000e+00,+0.000e+00] -> ADMISSIBLE (sigma<=0)
+   (e) BOUNDARY FORM  E(zeta_0)/g_Q(ddot) = (1/2)(M_*)_00/h /g_Q = +1.609641e+01   [sign >= 0 OK]
+   (ii) M_* diagonal / cell width, first 4: ['+2.6091e-01', '+1.9941e-01', '+1.6342e-01', '+1.3862e-01']  last 4: ['+1.2113e-02', '+1.0576e-02', '+8.2107e-03', '+3.9243e-03']  (far end -> zeta_inf, must be > 0)
+   [2s]
+h=0.0600 Y=10 Ymax=10 N=334 m=167: theta=0.35934 g_Q(ddot)=8.288391e-03 g(d_*)/g0=0.640663 | ||AntiHerm((t_*Q)_DD)||/||M_*||=1.519e-07 lam_min(M_*)/||M_*||=-8.2282e-04
+   (i-a) E(zeta_inf)/g_Q(ddot) = (1/2)Tr(t_* ddot)/g_Q = 1.28132522   exact 2(1-theta) = 1.28132522   rel.dev -3.33e-16
+   cyclicity Tr(t_*[Q,X]) = 2Tr(X AntiHerm((t_*Q)_DD)): rel.dev 1.67e-09
+   (trace formula) E(zeta_0)/g_Q(ddot) = fwd: +2.3023e-06  bwd: +2.3023e-06  ctr: +2.3023e-06   | same formula for zeta_inf (discretised D_w): -9.9225e-03 [true 1.28133] -> BLIND
+   (e) zeta_0 = -S[fwd]: E/g_Q(ddot) = -1.312980e+02 (eq:Ablocks) = -1.312980e+02 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 1.8e-08 | eig(sigma) in [+2.914e-03,+3.333e+01] -> NOT admissible
+   (e) zeta_0 = -S[bwd]: E/g_Q(ddot) = +1.312980e+02 (eq:Ablocks) = +1.312980e+02 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 1.8e-08 | eig(sigma) in [-3.333e+01,-2.914e-03] -> ADMISSIBLE (sigma<=0)
+   (e) zeta_0 = -S[ctr]: E/g_Q(ddot) = +2.302341e-06 (eq:Ablocks) = +0.000000e+00 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 1.0e+00 | eig(sigma) in [+0.000e+00,+0.000e+00] -> ADMISSIBLE (sigma<=0)
+   (e) BOUNDARY FORM  E(zeta_0)/g_Q(ddot) = (1/2)(M_*)_00/h /g_Q = +2.467239e+01   [sign >= 0 OK]
+   (ii) M_* diagonal / cell width, first 4: ['+4.0899e-01', '+3.3312e-01', '+2.8560e-01', '+2.5158e-01']  last 4: ['+1.4334e-02', '+1.2289e-02', '+9.3512e-03', '+4.4140e-03']  (far end -> zeta_inf, must be > 0)
+   [17s]
+h=0.0300 Y=10 Ymax=10 N=666 m=333: theta=0.36945 g_Q(ddot)=8.375284e-03 g(d_*)/g0=0.630546 | ||AntiHerm((t_*Q)_DD)||/||M_*||=3.499e-07 lam_min(M_*)/||M_*||=-3.6671e-04
+   (i-a) E(zeta_inf)/g_Q(ddot) = (1/2)Tr(t_* ddot)/g_Q = 1.26109117   exact 2(1-theta) = 1.26109117   rel.dev -1.11e-15
+   cyclicity Tr(t_*[Q,X]) = 2Tr(X AntiHerm((t_*Q)_DD)): rel.dev 1.59e-10
+   (trace formula) E(zeta_0)/g_Q(ddot) = fwd: -1.9419e-05  bwd: -1.9419e-05  ctr: -1.9419e-05   | same formula for zeta_inf (discretised D_w): +7.4197e-02 [true 1.26109] -> BLIND
+   (e) zeta_0 = -S[fwd]: E/g_Q(ddot) = -2.579982e+02 (eq:Ablocks) = -2.579981e+02 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 7.5e-08 | eig(sigma) in [+1.475e-03,+6.667e+01] -> NOT admissible
+   (e) zeta_0 = -S[bwd]: E/g_Q(ddot) = +2.579981e+02 (eq:Ablocks) = +2.579981e+02 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 7.5e-08 | eig(sigma) in [-6.667e+01,-1.475e-03] -> ADMISSIBLE (sigma<=0)
+   (e) zeta_0 = -S[ctr]: E/g_Q(ddot) = -1.941938e-05 (eq:Ablocks) = +0.000000e+00 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 1.0e+00 | eig(sigma) in [+0.000e+00,+0.000e+00] -> ADMISSIBLE (sigma<=0)
+   (e) BOUNDARY FORM  E(zeta_0)/g_Q(ddot) = (1/2)(M_*)_00/h /g_Q = +3.720950e+01   [sign >= 0 OK]
+   (ii) M_* diagonal / cell width, first 4: ['+6.2328e-01', '+5.3042e-01', '+4.6924e-01', '+4.2411e-01']  last 4: ['+1.6062e-02', '+1.3609e-02', '+1.0220e-02', '+4.7805e-03']  (far end -> zeta_inf, must be > 0)
+   [183s]
+
+# h      N   theta   E(z0)/gQ[bwd,admissible]  E(z0)/gQ[ctr]  E(z0)/gQ[fwd,inadm]  corner (1/2)(M)_00/h/gQ  E(zinf)/gQ  2(1-theta)  Etr(naive)  anti/||M||
+0.2400    84 0.31367 +3.412233e+01 +6.879e-09 -3.412233e+01 +1.030375e+01 1.372655 1.372655 +6.88e-09 2.76e-09
+0.1200   166 0.34236 +6.687314e+01 +3.585e-07 -6.687314e+01 +1.609641e+01 1.315277 1.315277 +3.59e-07 8.47e-08
+0.0600   334 0.35934 +1.312980e+02 +2.302e-06 -1.312980e+02 +2.467239e+01 1.281325 1.281325 +2.30e-06 1.52e-07
+0.0300   666 0.36945 +2.579981e+02 -1.942e-05 -2.579982e+02 +3.720950e+01 1.261091 1.261091 -1.94e-05 3.50e-07
+
+=== T5b: Ymax scan at h = 0.12, Y = 6 ===
+h=0.1200 Y=6 Ymax=6 N=100 m=50: theta=0.33984 g_Q(ddot)=8.013109e-03 g(d_*)/g0=0.660155 | ||AntiHerm((t_*Q)_DD)||/||M_*||=2.066e-08 lam_min(M_*)/||M_*||=-3.0144e-03
+   (i-a) E(zeta_inf)/g_Q(ddot) = (1/2)Tr(t_* ddot)/g_Q = 1.32031012   exact 2(1-theta) = 1.32031012   rel.dev +6.66e-16
+   cyclicity Tr(t_*[Q,X]) = 2Tr(X AntiHerm((t_*Q)_DD)): rel.dev 2.12e-09
+   (trace formula) E(zeta_0)/g_Q(ddot) = fwd: -3.3309e-07  bwd: -3.3309e-07  ctr: -3.3309e-07   | same formula for zeta_inf (discretised D_w): +6.5041e-06 [true 1.32031] -> BLIND
+   (e) zeta_0 = -S[fwd]: E/g_Q(ddot) = -6.689925e+01 (eq:Ablocks) = -6.689925e+01 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 5.0e-09 | eig(sigma) in [+1.581e-02,+1.665e+01] -> NOT admissible
+   (e) zeta_0 = -S[bwd]: E/g_Q(ddot) = +6.689924e+01 (eq:Ablocks) = +6.689925e+01 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 5.0e-09 | eig(sigma) in [-1.665e+01,-1.581e-02] -> ADMISSIBLE (sigma<=0)
+   (e) zeta_0 = -S[ctr]: E/g_Q(ddot) = -3.330867e-07 (eq:Ablocks) = +0.000000e+00 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 1.0e+00 | eig(sigma) in [-0.000e+00,-0.000e+00] -> ADMISSIBLE (sigma<=0)
+   (e) BOUNDARY FORM  E(zeta_0)/g_Q(ddot) = (1/2)(M_*)_00/h /g_Q = +1.646069e+01   [sign >= 0 OK]
+   (ii) M_* diagonal / cell width, first 4: ['+2.6380e-01', '+2.0426e-01', '+1.6946e-01', '+1.4549e-01']  last 4: ['+2.0367e-02', '+1.7692e-02', '+1.3672e-02', '+6.5284e-03']  (far end -> zeta_inf, must be > 0)
+   [0s]
+h=0.1200 Y=6 Ymax=10 N=133 m=83: theta=0.34235 g_Q(ddot)=8.058682e-03 g(d_*)/g0=0.657651 | ||AntiHerm((t_*Q)_DD)||/||M_*||=8.494e-08 lam_min(M_*)/||M_*||=-1.8645e-03
+   (i-a) E(zeta_inf)/g_Q(ddot) = (1/2)Tr(t_* ddot)/g_Q = 1.31530166   exact 2(1-theta) = 1.31530166   rel.dev +2.22e-16
+   cyclicity Tr(t_*[Q,X]) = 2Tr(X AntiHerm((t_*Q)_DD)): rel.dev 4.37e-10
+   (trace formula) E(zeta_0)/g_Q(ddot) = fwd: +3.6451e-07  bwd: +3.6451e-07  ctr: +3.6451e-07   | same formula for zeta_inf (discretised D_w): +1.7652e-04 [true 1.31530] -> BLIND
+   (e) zeta_0 = -S[fwd]: E/g_Q(ddot) = -6.706637e+01 (eq:Ablocks) = -6.706637e+01 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 5.4e-09 | eig(sigma) in [+5.827e-03,+1.666e+01] -> NOT admissible
+   (e) zeta_0 = -S[bwd]: E/g_Q(ddot) = +6.706637e+01 (eq:Ablocks) = +6.706637e+01 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 5.4e-09 | eig(sigma) in [-1.666e+01,-5.827e-03] -> ADMISSIBLE (sigma<=0)
+   (e) zeta_0 = -S[ctr]: E/g_Q(ddot) = +3.645138e-07 (eq:Ablocks) = +0.000000e+00 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 1.0e+00 | eig(sigma) in [+0.000e+00,+0.000e+00] -> ADMISSIBLE (sigma<=0)
+   (e) BOUNDARY FORM  E(zeta_0)/g_Q(ddot) = (1/2)(M_*)_00/h /g_Q = +1.614547e+01   [sign >= 0 OK]
+   (ii) M_* diagonal / cell width, first 4: ['+2.6022e-01', '+1.9873e-01', '+1.6276e-01', '+1.3799e-01']  last 4: ['+1.2076e-02', '+1.0545e-02', '+8.1871e-03', '+3.9133e-03']  (far end -> zeta_inf, must be > 0)
+   [1s]
+h=0.1200 Y=6 Ymax=14 N=167 m=117: theta=0.34328 g_Q(ddot)=8.059617e-03 g(d_*)/g0=0.656717 | ||AntiHerm((t_*Q)_DD)||/||M_*||=1.885e-07 lam_min(M_*)/||M_*||=-1.3388e-03
+   (i-a) E(zeta_inf)/g_Q(ddot) = (1/2)Tr(t_* ddot)/g_Q = 1.31343344   exact 2(1-theta) = 1.31343344   rel.dev +2.22e-16
+   cyclicity Tr(t_*[Q,X]) = 2Tr(X AntiHerm((t_*Q)_DD)): rel.dev 1.02e-09
+   (trace formula) E(zeta_0)/g_Q(ddot) = fwd: +1.4776e-06  bwd: +1.4776e-06  ctr: +1.4776e-06   | same formula for zeta_inf (discretised D_w): -1.1596e-01 [true 1.31343] -> BLIND
+   (e) zeta_0 = -S[fwd]: E/g_Q(ddot) = -6.723128e+01 (eq:Ablocks) = -6.723128e+01 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 2.2e-08 | eig(sigma) in [+2.953e-03,+1.666e+01] -> NOT admissible
+   (e) zeta_0 = -S[bwd]: E/g_Q(ddot) = +6.723128e+01 (eq:Ablocks) = +6.723128e+01 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 2.2e-08 | eig(sigma) in [-1.666e+01,-2.953e-03] -> ADMISSIBLE (sigma<=0)
+   (e) zeta_0 = -S[ctr]: E/g_Q(ddot) = +1.477603e-06 (eq:Ablocks) = +0.000000e+00 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 1.0e+00 | eig(sigma) in [-0.000e+00,-0.000e+00] -> ADMISSIBLE (sigma<=0)
+   (e) BOUNDARY FORM  E(zeta_0)/g_Q(ddot) = (1/2)(M_*)_00/h /g_Q = +1.603456e+01   [sign >= 0 OK]
+   (ii) M_* diagonal / cell width, first 4: ['+2.5846e-01', '+1.9615e-01', '+1.5971e-01', '+1.3462e-01']  last 4: ['+8.5506e-03', '+7.4769e-03', '+5.8136e-03', '+2.7814e-03']  (far end -> zeta_inf, must be > 0)
+   [3s]
+h=0.1200 Y=6 Ymax=20 N=217 m=167: theta=0.34395 g_Q(ddot)=8.059634e-03 g(d_*)/g0=0.656047 | ||AntiHerm((t_*Q)_DD)||/||M_*||=1.744e-07 lam_min(M_*)/||M_*||=-9.4589e-04
+   (i-a) E(zeta_inf)/g_Q(ddot) = (1/2)Tr(t_* ddot)/g_Q = 1.31209307   exact 2(1-theta) = 1.31209307   rel.dev +6.66e-16
+   cyclicity Tr(t_*[Q,X]) = 2Tr(X AntiHerm((t_*Q)_DD)): rel.dev 1.80e-10
+   (trace formula) E(zeta_0)/g_Q(ddot) = fwd: -2.7937e-07  bwd: -2.7937e-07  ctr: -2.7937e-07   | same formula for zeta_inf (discretised D_w): -6.3146e+01 [true 1.31209] -> BLIND
+   (e) zeta_0 = -S[fwd]: E/g_Q(ddot) = -6.735583e+01 (eq:Ablocks) = -6.735583e+01 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 4.1e-09 | eig(sigma) in [+1.457e-03,+1.667e+01] -> NOT admissible
+   (e) zeta_0 = -S[bwd]: E/g_Q(ddot) = +6.735583e+01 (eq:Ablocks) = +6.735583e+01 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 4.1e-09 | eig(sigma) in [-1.667e+01,-1.457e-03] -> ADMISSIBLE (sigma<=0)
+   (e) zeta_0 = -S[ctr]: E/g_Q(ddot) = -2.793723e-07 (eq:Ablocks) = +0.000000e+00 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 1.0e+00 | eig(sigma) in [+0.000e+00,+0.000e+00] -> ADMISSIBLE (sigma<=0)
+   (e) BOUNDARY FORM  E(zeta_0)/g_Q(ddot) = (1/2)(M_*)_00/h /g_Q = +1.595497e+01   [sign >= 0 OK]
+   (ii) M_* diagonal / cell width, first 4: ['+2.5718e-01', '+1.9428e-01', '+1.5749e-01', '+1.3218e-01']  last 4: ['+5.9854e-03', '+5.2387e-03', '+4.0772e-03', '+1.9520e-03']  (far end -> zeta_inf, must be > 0)
+   [11s]
+h=0.1200 Y=6 Ymax=30 N=300 m=250: theta=0.34447 g_Q(ddot)=8.059634e-03 g(d_*)/g0=0.655528 | ||AntiHerm((t_*Q)_DD)||/||M_*||=3.591e-07 lam_min(M_*)/||M_*||=-6.3597e-04
+   (i-a) E(zeta_inf)/g_Q(ddot) = (1/2)Tr(t_* ddot)/g_Q = 1.31105525   exact 2(1-theta) = 1.31105525   rel.dev -9.99e-16
+   cyclicity Tr(t_*[Q,X]) = 2Tr(X AntiHerm((t_*Q)_DD)): rel.dev 1.43e-10
+   (trace formula) E(zeta_0)/g_Q(ddot) = fwd: -4.3826e-06  bwd: -4.3826e-06  ctr: -4.3826e-06   | same formula for zeta_inf (discretised D_w): -1.5721e+06 [true 1.31106] -> BLIND
+   (e) zeta_0 = -S[fwd]: E/g_Q(ddot) = -6.745304e+01 (eq:Ablocks) = -6.745303e+01 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 6.5e-08 | eig(sigma) in [+6.527e-04,+1.667e+01] -> NOT admissible
+   (e) zeta_0 = -S[bwd]: E/g_Q(ddot) = +6.745303e+01 (eq:Ablocks) = +6.745303e+01 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 6.5e-08 | eig(sigma) in [-1.667e+01,-6.527e-04] -> ADMISSIBLE (sigma<=0)
+   (e) zeta_0 = -S[ctr]: E/g_Q(ddot) = -4.382632e-06 (eq:Ablocks) = +0.000000e+00 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 1.0e+00 | eig(sigma) in [+0.000e+00,+0.000e+00] -> ADMISSIBLE (sigma<=0)
+   (e) BOUNDARY FORM  E(zeta_0)/g_Q(ddot) = (1/2)(M_*)_00/h /g_Q = +1.589332e+01   [sign >= 0 OK]
+   (ii) M_* diagonal / cell width, first 4: ['+2.5619e-01', '+1.9283e-01', '+1.5578e-01', '+1.3029e-01']  last 4: ['+3.9961e-03', '+3.5000e-03', '+2.7258e-03', '+1.3056e-03']  (far end -> zeta_inf, must be > 0)
+   [44s]
+
+=== T5c: Y scan at h = 0.12, Ymax = 10 ===
+h=0.1200 Y=6 Ymax=10 N=133 m=83: theta=0.34235 g_Q(ddot)=8.058682e-03 g(d_*)/g0=0.657651 | ||AntiHerm((t_*Q)_DD)||/||M_*||=8.480e-08 lam_min(M_*)/||M_*||=-1.8645e-03
+   (i-a) E(zeta_inf)/g_Q(ddot) = (1/2)Tr(t_* ddot)/g_Q = 1.31530166   exact 2(1-theta) = 1.31530166   rel.dev +4.44e-16
+   cyclicity Tr(t_*[Q,X]) = 2Tr(X AntiHerm((t_*Q)_DD)): rel.dev 4.75e-11
+   (trace formula) E(zeta_0)/g_Q(ddot) = fwd: +3.6534e-07  bwd: +3.6534e-07  ctr: +3.6534e-07   | same formula for zeta_inf (discretised D_w): +1.7696e-04 [true 1.31530] -> BLIND
+   (e) zeta_0 = -S[fwd]: E/g_Q(ddot) = -6.706637e+01 (eq:Ablocks) = -6.706637e+01 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 5.4e-09 | eig(sigma) in [+5.827e-03,+1.666e+01] -> NOT admissible
+   (e) zeta_0 = -S[bwd]: E/g_Q(ddot) = +6.706637e+01 (eq:Ablocks) = +6.706637e+01 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 5.4e-09 | eig(sigma) in [-1.666e+01,-5.827e-03] -> ADMISSIBLE (sigma<=0)
+   (e) zeta_0 = -S[ctr]: E/g_Q(ddot) = +3.653357e-07 (eq:Ablocks) = +0.000000e+00 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 1.0e+00 | eig(sigma) in [+0.000e+00,+0.000e+00] -> ADMISSIBLE (sigma<=0)
+   (e) BOUNDARY FORM  E(zeta_0)/g_Q(ddot) = (1/2)(M_*)_00/h /g_Q = +1.614547e+01   [sign >= 0 OK]
+   (ii) M_* diagonal / cell width, first 4: ['+2.6022e-01', '+1.9873e-01', '+1.6276e-01', '+1.3799e-01']  last 4: ['+1.2076e-02', '+1.0545e-02', '+8.1871e-03', '+3.9133e-03']  (far end -> zeta_inf, must be > 0)
+   [1s]
+h=0.1200 Y=10 Ymax=10 N=166 m=83: theta=0.34236 g_Q(ddot)=8.104737e-03 g(d_*)/g0=0.657639 | ||AntiHerm((t_*Q)_DD)||/||M_*||=8.474e-08 lam_min(M_*)/||M_*||=-1.8586e-03
+   (i-a) E(zeta_inf)/g_Q(ddot) = (1/2)Tr(t_* ddot)/g_Q = 1.31527744   exact 2(1-theta) = 1.31527744   rel.dev -8.88e-16
+   cyclicity Tr(t_*[Q,X]) = 2Tr(X AntiHerm((t_*Q)_DD)): rel.dev 2.39e-09
+   (trace formula) E(zeta_0)/g_Q(ddot) = fwd: +3.5744e-07  bwd: +3.5744e-07  ctr: +3.5744e-07   | same formula for zeta_inf (discretised D_w): +1.8718e-04 [true 1.31528] -> BLIND
+   (e) zeta_0 = -S[fwd]: E/g_Q(ddot) = -6.687314e+01 (eq:Ablocks) = -6.687314e+01 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 5.3e-09 | eig(sigma) in [+5.827e-03,+1.666e+01] -> NOT admissible
+   (e) zeta_0 = -S[bwd]: E/g_Q(ddot) = +6.687314e+01 (eq:Ablocks) = +6.687314e+01 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 5.3e-09 | eig(sigma) in [-1.666e+01,-5.827e-03] -> ADMISSIBLE (sigma<=0)
+   (e) zeta_0 = -S[ctr]: E/g_Q(ddot) = +3.574358e-07 (eq:Ablocks) = +0.000000e+00 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 1.0e+00 | eig(sigma) in [+0.000e+00,+0.000e+00] -> ADMISSIBLE (sigma<=0)
+   (e) BOUNDARY FORM  E(zeta_0)/g_Q(ddot) = (1/2)(M_*)_00/h /g_Q = +1.609641e+01   [sign >= 0 OK]
+   (ii) M_* diagonal / cell width, first 4: ['+2.6091e-01', '+1.9941e-01', '+1.6342e-01', '+1.3862e-01']  last 4: ['+1.2113e-02', '+1.0576e-02', '+8.2107e-03', '+3.9243e-03']  (far end -> zeta_inf, must be > 0)
+   [2s]
+h=0.1200 Y=14 Ymax=10 N=200 m=83: theta=0.34236 g_Q(ddot)=8.105683e-03 g(d_*)/g0=0.657639 | ||AntiHerm((t_*Q)_DD)||/||M_*||=8.423e-08 lam_min(M_*)/||M_*||=-1.8584e-03
+   (i-a) E(zeta_inf)/g_Q(ddot) = (1/2)Tr(t_* ddot)/g_Q = 1.31527825   exact 2(1-theta) = 1.31527825   rel.dev -9.99e-16
+   cyclicity Tr(t_*[Q,X]) = 2Tr(X AntiHerm((t_*Q)_DD)): rel.dev 2.60e-10
+   (trace formula) E(zeta_0)/g_Q(ddot) = fwd: +3.6189e-07  bwd: +3.6189e-07  ctr: +3.6189e-07   | same formula for zeta_inf (discretised D_w): +1.8927e-04 [true 1.31528] -> BLIND
+   (e) zeta_0 = -S[fwd]: E/g_Q(ddot) = -6.686926e+01 (eq:Ablocks) = -6.686926e+01 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 5.4e-09 | eig(sigma) in [+5.827e-03,+1.666e+01] -> NOT admissible
+   (e) zeta_0 = -S[bwd]: E/g_Q(ddot) = +6.686926e+01 (eq:Ablocks) = +6.686926e+01 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 5.4e-09 | eig(sigma) in [-1.666e+01,-5.827e-03] -> ADMISSIBLE (sigma<=0)
+   (e) zeta_0 = -S[ctr]: E/g_Q(ddot) = +3.618881e-07 (eq:Ablocks) = +0.000000e+00 (absorption (1/2)Tr(-2sigma M_*))  rel.dev 1.0e+00 | eig(sigma) in [+0.000e+00,+0.000e+00] -> ADMISSIBLE (sigma<=0)
+   (e) BOUNDARY FORM  E(zeta_0)/g_Q(ddot) = (1/2)(M_*)_00/h /g_Q = +1.609555e+01   [sign >= 0 OK]
+   (ii) M_* diagonal / cell width, first 4: ['+2.6093e-01', '+1.9943e-01', '+1.6344e-01', '+1.3863e-01']  last 4: ['+1.2114e-02', '+1.0577e-02', '+8.2112e-03', '+3.9245e-03']  (far end -> zeta_inf, must be > 0)
+   [2s]
+
+# cutoff summary: Ymax, Y, E(z0)[bwd]/gQ, corner/gQ, E(zinf)/gQ, 2(1-theta), anti
+Ymax=  6.0 Y=  6.0 E_bwd=+6.689924e+01 corner=+1.646069e+01 Einf=1.320310 2(1-th)=1.320310 anti=2.1e-08
+Ymax= 10.0 Y=  6.0 E_bwd=+6.706637e+01 corner=+1.614547e+01 Einf=1.315302 2(1-th)=1.315302 anti=8.5e-08
+Ymax= 14.0 Y=  6.0 E_bwd=+6.723128e+01 corner=+1.603456e+01 Einf=1.313433 2(1-th)=1.313433 anti=1.9e-07
+Ymax= 20.0 Y=  6.0 E_bwd=+6.735583e+01 corner=+1.595497e+01 Einf=1.312093 2(1-th)=1.312093 anti=1.7e-07
+Ymax= 30.0 Y=  6.0 E_bwd=+6.745303e+01 corner=+1.589332e+01 Einf=1.311055 2(1-th)=1.311055 anti=3.6e-07
+Ymax= 10.0 Y=  6.0 E_bwd=+6.706637e+01 corner=+1.614547e+01 Einf=1.315302 2(1-th)=1.315302 anti=8.5e-08
+Ymax= 10.0 Y= 10.0 E_bwd=+6.687314e+01 corner=+1.609641e+01 Einf=1.315277 2(1-th)=1.315277 anti=8.5e-08
+Ymax= 10.0 Y= 14.0 E_bwd=+6.686926e+01 corner=+1.609555e+01 Einf=1.315278 2(1-th)=1.315278 anti=8.4e-08

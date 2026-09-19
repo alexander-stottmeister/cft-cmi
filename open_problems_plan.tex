@@ -1,0 +1,382 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[margin=0.92in,headheight=14pt]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{bm}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{booktabs,tabularx,array}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,decorations.pathreplacing}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+\definecolor{navy}{HTML}{17365D}
+\definecolor{teal}{HTML}{117A8B}
+\definecolor{ink}{HTML}{2C3138}
+\definecolor{lightblue}{HTML}{EEF5FA}
+\definecolor{lightgray}{HTML}{F4F5F7}
+\definecolor{softgreen}{HTML}{EEF7F2}
+\definecolor{greenframe}{HTML}{3C735B}
+\definecolor{warm}{HTML}{FFF7E8}
+\definecolor{warmframe}{HTML}{A86E20}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=navy,
+  citecolor=teal,
+  urlcolor=teal,
+  pdftitle={Open Problems after the Audit: Plan and Strategy (CMI--Petz Recovery Program)},
+  pdfauthor={Technical research note}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}Note 8: plan after the audit}
+\fancyhead[R]{\small\color{ink}Open problems and strategy}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newtheoremstyle{accent}
+  {8pt}{8pt}{\itshape}{}
+  {\color{navy}\bfseries}{.}{0.5em}{}
+\theoremstyle{accent}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\cM}{\mathfrak{M}}
+\newcommand{\cN}{\mathfrak{N}}
+\newcommand{\cR}{\mathcal{R}}
+\newcommand{\CAR}{\operatorname{CAR}}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\Ad}{\operatorname{Ad}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\Ran}{\operatorname{Ran}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\pv}{\operatorname{pv}}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\one}{\mathbf{1}}
+\newcommand{\Sone}{\mathfrak{S}_1}
+\newcommand{\Stwo}{\mathfrak{S}_2}
+\newcommand{\Fid}{\operatorname{F}}
+\newcommand{\MI}{\operatorname{MI}}
+\newcommand{\CMI}{I}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\ip}[2]{\left\langle #1,#2\right\rangle}
+
+\newtcolorbox{mainbox}{
+  enhanced,
+  colback=lightblue,
+  colframe=navy,
+  boxrule=0.85pt,
+  arc=2mm,
+  left=5mm,right=5mm,top=3.8mm,bottom=3.8mm,
+  title={\bfseries Main result},
+  coltitle=white,
+  colbacktitle=navy,
+  attach boxed title to top left={xshift=4mm,yshift=-2mm}
+}
+
+\newtcolorbox{proofbox}[1][]{
+  enhanced,
+  breakable,
+  colback=softgreen,
+  colframe=greenframe,
+  boxrule=0.65pt,
+  arc=1.5mm,
+  left=4mm,right=4mm,top=2.8mm,bottom=2.8mm,
+  title={\bfseries #1},
+  coltitle=white,
+  colbacktitle=greenframe
+}
+
+\newtcolorbox{caveatbox}{
+  enhanced,
+  breakable,
+  colback=warm,
+  colframe=warmframe,
+  boxrule=0.65pt,
+  arc=1.5mm,
+  left=4mm,right=4mm,top=2.8mm,bottom=2.8mm,
+  title={\bfseries Precise scope},
+  coltitle=white,
+  colbacktitle=warmframe
+}
+
+\setlist[itemize]{leftmargin=1.5em,itemsep=2.5pt,topsep=4pt}
+\setlist[enumerate]{leftmargin=1.8em,itemsep=3pt,topsep=4pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5.2pt}
+\allowdisplaybreaks
+\emergencystretch=2em
+\raggedbottom
+
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{problem}[theorem]{Problem}
+\newcommand{\Diff}{\operatorname{Diff}}
+
+\title{\color{navy}\bfseries Open problems after the audit:\\[2pt]
+\large a plan and a strategy for the CMI--Petz recovery program}
+\author{}
+\date{September 2026 (Note~8)}
+
+
+%%% BODY
+\begin{document}
+\maketitle
+\vspace{-1.55em}
+
+\begin{abstract}
+The audit of Notes~1--7 (rigor/, 93 findings, 120 applied errata) left the program in a sharper state than before: the free-fermion recovery problem is solved at the one-particle level with the closed forms \(f_2=c/(12\pi^2)\), \(s_2=c/12\) confirmed by three independent routes, the lower half of the quadratic law and the fidelity half of the type-III second-variation lemma are proved unconditionally, and every remaining gap is now stated precisely.  This note lists the open problems in that precise form, assesses each by impact, difficulty and time, orders them by dependencies, and proposes a phased strategy with fallbacks.  The two decisive problems are the rigorous ultraviolet tail (which closes Theorem~A of Note~7 and fixes the numerical systematics at once) and the zero-collar identification of the tangent functional (on which the universality Theorem~B for general nets hinges).
+\end{abstract}
+
+\begin{mainbox}
+\textbf{Ranked priorities (details in Sections~\ref{sec:problems}--\ref{sec:strategy}).}
+\begin{enumerate}[leftmargin=1.6em,itemsep=1pt]
+\item \textbf{O1+O4: complete Theorem~A.}  Prove the ultraviolet tail bound of Note~5, Prop.~4.1 rigorously; it yields the missing interchange for \(\limsup\Phi/\zeta^2\le g_B/8\), the \(\zeta^2\log^{-2}\) rate, and a certified error bar for the numerics.  Medium difficulty, 3--4 weeks, highest impact per week.
+\item \textbf{O3+O5: existence and identification at zero collar for general nets.}  \emph{Status 2026-09-08: closed in the reformulated form — Theorem~B holds for every diffeomorphism covariant net (\texttt{rigor/universality\_theorem\_B.tex}, \texttt{rigor/implementation\_C11.tex}, both refereed).}  Compute the collar family \(g_B^{(\eps)}\) explicitly, prove \(g_B^{(\eps)}\to g_B\) via the proved monotone convergence plus a dominated-convergence bound on the cut-off tangents; close the existence question through the CDIT extension (Route~A) or the corrected energy-compactness argument (Route~B).  Medium--high, 6--10 weeks; this makes Theorem~B a theorem.
+\item \textbf{O2: Kubo--Mori half of the second-variation lemma.}  Mimic the Bures proof: two variational formulas for the Araki relative entropy (Kosaki's for the value, Petz--Donald's for a supremum).  High difficulty; the program does not depend on it (universality of \(f_2\) stands without it), 4--8 weeks, can run in parallel.
+\item \textbf{O7: lattice test of the two-branch law} and \textbf{O6: a bosonic check} of universality (U(1) current net).  Low--medium difficulty, 3--5 weeks each, high external impact.
+\item \textbf{O8: second-order optimality} of the Petz map among all recovery channels, then the extensions O9--O11 (thermal states and RG, separated intervals and networks, sectors).
+\end{enumerate}
+\end{mainbox}
+
+\paragraph{Status after the first day of Phase~1 (2026-09-08).} O1 is closed by a route not foreseen in Section~\ref{sec:O1}: Uhlmann's inequality applied to the vector representative \(\Gamma(\widetilde W_s)^*\Omega\) of the recovered state, where \(\widetilde W_s\) is the half-density push-forward along an extension of the compression map to a diffeomorphism (the flow of \(-x^2\partial_x\) on \(D\)), gives \(\Fid\ge\det(1-V^*V)^{1/2}\) with \(V=P_-\widetilde W_sP_+\); its expansion in \(\zeta\), minimized over the extension, is exactly \(\tfrac18g_B\) by the three-way identity, so \(\limsup\Phi/\zeta^2\le g_B/8\) without any interchange of limits or tail bound (\texttt{rigor/uhlmann\_upper\_bound.tex}, refereed in \texttt{rigor/referee\_uhlmann\_upper\_bound.tex}, three repairs applied).  Together with the lower bound of \texttt{rigor/quadratic\_limit.tex}: \(\lim_{\zeta\to0}\Phi/\zeta^2=c/(12\pi^2)\) is a theorem.  Numerically the bound exceeds \(\Phi\) by \(0.2\%\) at \(\zeta=1/120\) and its first-order infimum gives \(c/(12\pi^2)\) to \(0.04\%\) (\texttt{numerics/p1\_bogoliubov.out}).  O7(a) is done (Section~\ref{sec:O7}).  O4 is now needed only for the rate and for certified error bars; the \(\eps=10^{-14}\) runs and a large-\(\zeta\) study are in \texttt{numerics/README.md}.  The same Uhlmann--Bogoliubov construction gives, for every diffeomorphism covariant net in which the extended map is implemented, the universal upper bound \(\Phi\le-\log|\langle\Omega,U(\widetilde k_\zeta)\Omega\rangle|\) (a Virasoro coherent-state overlap, linear in \(c\) at second order), which is the natural attack on the upper half of Theorem~B and reorders Phase~2: O5 (existence and implementation of \(U(\widetilde k)\)) now yields the universality upper bound directly, while O3 is needed only for the lower bound.
+
+\tableofcontents
+\clearpage
+
+\section{Where the program stands after the audit}\label{sec:status}
+
+\paragraph{Proved (with referee).}
+\begin{itemize}[leftmargin=1.6em,itemsep=1pt]
+\item Longo--Xu conditional mutual information for adjacent intervals in the \(r\)-fermion net, \(I=\frac r6\log\frac{(a+b)(b+c)}{b(a+b+c)}\), and its reading as a Markov defect (Notes~1--2; V1, R1, R2).
+\item The normal zero-collar Petz map of the free fermion, its exact trace-norm defect \(\frac12\log(1+\zeta)\), quasi-equivalence, and the fidelity bound; the rotation convention \(s_t=\lambda(1+e^{-2\pi t})\) derived explicitly (Note~4; V2, R3).
+\item The finite-dimensional quasi-free fidelity formula and the limit theorem over compressions (Note~5, Thms~3.1--3.2; V3).
+\item The one-particle Bures and Kubo--Mori metrics of the recovery curve, \(g_B=2c/(3\pi^2)\), \(g_{\mathrm{KM}}=c/6\), by three routes: the modular-frame spectral integrals (Note~7, Thm~5.2; V5), the kernel identity with closed form (P3, refereed by V8), and the \(x\)-space Mellin route (P4b).  Hence \(f_2=c/(12\pi^2)\), \(s_2=c/12\) at the one-particle level.
+\item \(\liminf_{\zeta\to0}\Phi/\zeta^2\ge g_B/8\) unconditionally, and \(\Phi\le\tau/(1-\tau)\) with \(\tau=\frac r{2\pi}\log(1+\zeta)\) (P2, refereed by V7).
+\item The fidelity half of the type-III second-variation lemma for every von Neumann algebra with cyclic separating vector (P1).
+\item Numerics: \(f_2=0.008444(1)\), \(s_2=0.0837(5)\) against \(0.0084434\) and \(0.083333\), corrected-basis runs (Note~5; V4).
+\end{itemize}
+
+\paragraph{Proved modulo one precisely stated gap.}
+\begin{itemize}[leftmargin=1.6em,itemsep=1pt]
+\item \(\limsup\Phi/\zeta^2\le2\log2\cdot g_B/8\): needs the interchange \(\sup_n\lim_\zeta\leftrightarrow\lim_\zeta\sup_n\) (P2, Lemma~6.7).  The sharp bound \(\limsup\le g_B/8\) is open (P2, Problem~6.8).
+\item Theorem~B of Note~7 (universality of \(f_2\) for diffeomorphism covariant nets): the Bures half of the lemma is proved; what is missing is the identification of the zero-collar tangent functional with the spectral integral (\(T(g)\Omega\notin\mathcal H\); obstruction localized at \(g(L)\neq0\) by P4b) and the existence of the zero-collar recovered state for general nets.
+\item The Kubo--Mori statement of Theorem~B: proved in finite dimensions only.
+\item The \(O(\zeta^2\log^{-2}(1/\zeta))\) remainder (Note~5, Cor.~4.2): needs a cubic estimate for the compressed curves (P2, Problem~7.2); the ultraviolet tail \(\frac2{15}\zeta^2\kappa^{-3}\) (Prop.~4.1) is a sketch, although the exact first-order kernel is known (V3).
+\end{itemize}
+
+\paragraph{Corrected during the audit and now settled.}
+Two-chirality law for 2D CFTs (\(-\log F^{(\lambda)}=\Phi(\zeta_-)+\Phi(\zeta_+)\), even in \(\lambda\), optimum at the ordinary Petz map, in agreement with Vardhan--Wei--Zou); the false \(\Delta^{1/2}\) fidelity formula; the basis-phase bug of the numerics; the stress-tensor normalization chain.
+
+\paragraph{Assets available for the next phase.}
+The exact first-order kernel and its closed forms; the Mellin machinery in \(x\)-space; the Legendre form of the SLD metric with quadratic test operators; the three-way identity for the Bures form; the 40-digit compression pipeline with spectral windows; the Lamport/referee workflow of rigor/ (write-first, screenshots, findings ledger), which caught every error listed above.
+
+\section{The open problems, stated precisely}\label{sec:problems}
+
+Notation as in Notes~5 and~7: \(\Phi(\zeta)=-\log\Fid(\omega,\widetilde\omega)\) for the zero-collar free-fermion recovery at cross-ratio variable \(\zeta=as/(a+L)\); \(g_B\), \(g_{\mathrm{KM}}\) the one-particle metrics; \(f_2=g_B/8\), \(s_2=g_{\mathrm{KM}}/2\).  Each problem carries a \emph{definition of done}, an assessment (impact for the program / general impact / difficulty / time), and the route we propose.
+
+\subsection{O1: the sharp quadratic law for the free fermion}\label{sec:O1}
+\textbf{Statement.} Prove \(\lim_{\zeta\to0}\Phi(\zeta)/\zeta^2=g_B/8=r/(12\pi^2)\), i.e.\ the missing upper half \(\limsup\Phi/\zeta^2\le g_B/8\), together with the remainder \(\Phi=f_2\zeta^2[1+O(\log^{-2}(1/\zeta))]\) claimed in Note~5, Cor.~4.2.
+
+\textbf{Known.} \(\liminf\ge g_B/8\) (P2, Thm~4.2); \(\limsup\le2\log2\cdot g_B/8\) modulo the interchange of Lemma~6.7; the Hellinger route cannot give the sharp constant (\(1/W\neq1/N\) off the diagonal); cutoff error \(g_B-g_B^{(\Lambda)}=0.513\,r\Lambda^{-2}\) exactly (P2/V7).
+
+\textbf{Why it matters.} Theorem~A of Note~7 is stated as a limit; without O1 the closed form is a theorem about the one-particle metric and a numerically confirmed statement about \(\Phi\).  The same estimate certifies the numerical error bars.
+
+\textbf{Route.} Do not attack the interchange abstractly; prove the ultraviolet tail bound (O4) in the form
+\[
+ 0\le\Phi(\zeta)-\Phi_{\kappa_c}(\zeta)\le C\,\zeta^2\kappa_c^{-2}\qquad(\zeta\le\zeta_0,\ \kappa_c\ge\kappa_*(\zeta)),
+\]
+uniformly in \(\zeta\), where \(\Phi_{\kappa_c}\) is the spectral-window compression of Note~5, \S6.  The exact first-order kernel (V3, \texttt{check\_note5\_theory.tex}) gives the second-order tail \(\frac2{15}\zeta^2\kappa^{-3}\) explicitly; what is needed is a bound on the \emph{full} tail, not only on its second-order part.  Two ingredients suffice: (i) monotonicity of \(\Phi_{\kappa_c}\) in the window (data processing) and (ii) a bound of the discarded modes' contribution by the trace norm of the defect restricted to \(|\kappa|>\kappa_c\), using the exact trace-class control of Note~4 (\(\|R_s\|_1=\frac12\log(1+\zeta)\)) together with the Powers--St\o rmer-type inequality \(-\log\Fid\le\frac12\|\rho-\sigma\|_1\)-type bounds \emph{on the window complement}, where occupations are within \(e^{-\kappa_c}\) of \(0\) or \(1\).  With the tail bound in hand, the finite-window curves \(\Phi_{\kappa_c}\) are real-analytic with uniformly controlled cubic terms (P2, Problem~7.2, becomes a finite-dimensional estimate), and \(\lim\Phi/\zeta^2\) follows by letting \(\kappa_c\to\infty\) with \(\zeta\), which also produces the \(\log^{-2}\) rate through \(\kappa_*(\zeta)\approx2\log(1/\zeta)\) (with the constant corrected as in V7's remark).
+
+\textbf{Definition of done.} A Lamport proof of the tail bound and of the sharp limit, refereed; the certified error bar of the tabulated \(\Phi\) values replaces the heuristic \(0.3\)--\(1\%\).  \emph{Status (2026-09-08): the sharp limit is proved by a different route, Uhlmann's inequality with a Bogoliubov extension of the compression map (\texttt{rigor/uhlmann\_upper\_bound.tex}, refereed), which needs no tail bound and no interchange.  The tail bound itself is proved in \texttt{rigor/tail\_bound.tex}: \(0\le\Phi-\Phi_W\le0.173\zeta^2/\kappa_c+0.88\zeta^2/\kappa_c^2\), with Prop.~4.1 of Note~5 upgraded to a theorem with explicit remainder; certified brackets follow; after the refinements of \texttt{rigor/certified\_numerics.tex} (weighted Sylvester identity, cross term removed) the certified a priori bracket is \(\Phi_W\le\Phi^{\rm box}\le1.20\,\Phi_W\), and the 60-digit evaluation (referee-approved arithmetic) gives enclosures of the box value of width \(0.71\)--\(1.01\%\); the \(\widehat D\) quadrature and the box cutoff are the remaining uncertified pieces.  The \(\log^{-2}\) rate claimed in Note~5 is refuted: with the flow extension the Uhlmann bound is global, \(\Phi\le-\frac12\log(1-2f_2\zeta^2)\), even in \(s\), and the expansion proceeds in integer powers with \(c_3=-0.99(1)\), \(c_4=+0.9(1)\) (\texttt{rigor/rate\_of\_remainder.tex}, refereed).  The unweighted quadratic square-root bound is false; the weighted Sylvester identity replaces it (\texttt{rigor/certified\_numerics.tex}).}
+
+\textbf{Assessment.} Program impact: high (closes Theorem~A).  General impact: medium (a clean example of a Bures-metric limit theorem for quasi-free states).  Difficulty: medium.  Time: 3--4 weeks including the numerics update.
+
+\subsection{O2: the Kubo--Mori half of the second-variation lemma}\label{sec:O2}
+\textbf{Statement.} For a faithful normal state \(\omega\) of a von Neumann algebra in standard form and the curve \(\omega_s=\omega\circ\Ad e^{isA}\) (or any curve with tangent \(i\omega([A,\cdot])\)), prove \(D(\omega_s\Vert\omega)=\frac{s^2}2g_{\mathrm{KM}}+o(s^2)\) with \(g_{\mathrm{KM}}=\int(\lambda-1)\log\lambda\,d\mu(\lambda)\), under hypotheses of the type \(A\Omega\in D(\Delta^{1/2})\) up to a logarithm (Note~7, corrected sentence after eq.~(13)).
+
+\textbf{Known.} Finite dimensions (P1, Prop.~``Relative entropy''); Kosaki's variational formula returns \(\frac14g_B\), Araki~1977 gives only the wrong-direction bound; the Kubo--Mori weight is not bounded by \(1+\lambda\), so the vector hypothesis alone is insufficient (V5).
+
+\textbf{Why it matters.} Universality of \(s_2=c/12\) for general nets; and \(s_2/f_2=\pi^2\) is the cleanest signature to test on a lattice (ratio of relative entropy to \(-\log\Fid\)).  The universality of \(f_2\) does \emph{not} depend on it.
+
+\textbf{Route (revised 2026-09-08 after \texttt{rigor/kubo\_mori\_second\_variation.tex}).} The variational route proposed earlier is refuted: Kosaki's and Petz--Donald's expressions are suprema, so every trial function yields a lower bound, never an upper one.  For unitary orbits with \(A\) affiliated with \(\cM\) there is instead an exact identity, \(D(\omega\Vert\omega_s)=\|h(\Delta)^{1/2}(e^{isA}-1)\Omega\|^2\) with \(h(\lambda)=\lambda-1-\log\lambda\), from \(\Delta_{u\Omega,\Omega}=u\Delta u^*\) for \(u\in U(\cM)\), together with the sum rule \(\int(\lambda-1)\,d\nu_s=0\) and \(g_{\mathrm{KM}}=2\int h\,d\mu\).  It gives \(\liminf s^{-2}D\ge\frac12g_{\mathrm{KM}}\) with no hypothesis (lower semicontinuity of a closed form), and \(D=\frac{s^2}2g_{\mathrm{KM}}+o(s^2)\) whenever \(\|\Delta^{-\eps/2}(e^{isA}-1)\Omega\|=O(s)\) for some \(\eps>0\), e.g.\ for \(A\) analytic for the modular group in a strip of any width.  What remains for Theorem~B is that \(A=T(g_{\rm tot})\) is not affiliated with \(\cA(I)\).  The natural route via restriction from a larger interval algebra \(\cA(K)\) (where the recovery unitary is affiliated) gives an exact unconditional upper bound, but the corresponding gauge lemma is \emph{false}: the infimum over admissible gauges is \((11+5\sqrt5)c/12\approx11.09\cdot c/6\) (\texttt{rigor/kubo\_mori\_gauge\_lemma.tex}); the proved bracket is \(0.034c\le\liminf s^{-2}D\le\limsup s^{-2}D\le0.924c\), the upper half under a uniform-integrability hypothesis.  The value \(c/6\) of Note~7 is the analytic continuation of a divergent integral (the field does not vanish at the moving endpoint); a proof of \(s_2=c/12\) for general nets must renormalise this, e.g.\ through the collar family, or find a route with the sharp cancellation of the free-fermion kernel identity.
+
+\textbf{Definition of done.} Lamport proof with explicit hypothesis, verified numerically on random finite-dimensional examples and on the free-fermion curve.
+
+\textbf{Assessment.} Program impact: medium.  General impact: medium--high (second variation of Araki entropy along unitary orbits is of independent interest).  Difficulty: high.  Time: 4--8 weeks; runs in parallel with everything else.
+
+\subsection{O3: the zero-collar tangent functional and its spectral integral}\label{sec:O3}
+\textbf{Statement.} For a diffeomorphism covariant net and the zero-collar recovery curve, prove that the Bures form of the tangent functional \(\varphi=i\omega([T(g),\cdot])\) equals the spectral integral \(\int\widehat W|\widehat{\widetilde g}|^2w_B\,dk\) of Note~7, although \(T(g)\Omega\notin\mathcal H\) for every admissible representative.
+
+\textbf{Known.} For collar \(\eps>0\) the curve is \(\omega\circ\Ad e^{isT(g_\eps)}\) with a strongly continuous group (P1, using Carpi--Weiner), and everything is legitimate; \(g_B^{(\eps)}\uparrow g_B\) along increasing algebras (P1); the identification is reduced to uniform convergence of the cut-off tangents on Bures balls (P1, ``Stability'' proposition); the obstruction is exactly \(g(L)\neq0\): the Mellin--Barnes strips are disjoint, and a field vanishing to second order at the moving endpoint would make the identity absolutely convergent (P4b).  For the free fermion the kernel identity bypasses the issue and gives the right answer.
+
+\textbf{Why it matters.} It is the last conceptual step between Theorem~B and a theorem.
+
+\textbf{Route.} Work with the collar family, not with the singular limit.  (i) Compute \(g_B^{(\eps)}\) for the free fermion analytically with the Mellin machinery (the collar replaces \(g\) by a smooth \(g_\eps\) with \(\widehat{\widetilde g_\eps}(k)\) decaying faster than \(k^{-1}\)); show \(g_B^{(\eps)}\to2c/(3\pi^2)\) and identify the rate (expected \(O(\eps\log\eps)\) from the endpoint).  (ii) For general nets, show that the spectral integral with \(\widehat{\widetilde g_\eps}\) is the Bures form of \(\varphi_\eps\) (legitimate, since \(T(g_\eps)\Omega\in\mathcal H\)), then pass to \(\eps\to0\) on both sides: the left by monotone convergence (proved), the right by dominated convergence with the explicit \(\widehat W\) and the uniform bound \(|\widehat{\widetilde g_\eps}(k)|\le C/(|k|(k^2+1))^{1/2}\dots\) to be established from the \(\eps\)-regularized Mellin transform (P4b's rational continuation gives the pointwise limit).  (iii) The definition of the zero-collar Bures form itself: take Lemma~3.1(3) of Note~7 as the definition (P1), so that no vector \(T(g)\Omega\) is needed; what must be shown is that the \emph{curve} \(\omega_s\) at zero collar has \(\varphi\) as its tangent in the sense of Lemma~3.2, which is where O5 enters.
+
+\textbf{Definition of done.} Theorem: for every diffeomorphism covariant net with the properties of O5, \(g_B(\varphi)=\frac{2c}{3\pi^2}\); Lamport proof refereed; free-fermion collar family computed as a check.
+
+\textbf{Assessment.} Program impact: very high.  General impact: medium (a technique for singular tangent functionals of geometric modular flows).  Difficulty: medium--high.  Time: 4--6 weeks after O5's existence part, partly in parallel.
+
+\subsection{O4: the rigorous ultraviolet tail and certified numerics}\label{sec:O4}
+\textbf{Statement.} Turn Note~5, Prop.~4.1 into a theorem with an explicit remainder, and derive a certified bound for the windowed numerics (Table~2 of Note~5).
+
+\textbf{Known.} Exact first-order kernel and \(c_2=-\zeta^2/30\) (V3); the analytic tail correction is 12--56\,\% off at \(\eps=10^{-8}\) because \(\kappa_c<\kappa_*(\zeta)\) for small \(\zeta\) (V4); the windowed first-order coefficients converge cleanly once \(\kappa_c\ge25\) (Note~5, Table~2).
+
+\textbf{Route.} As in O1; in addition move the exact evaluation to \(\eps=10^{-14}\) with \(Q\) in extended precision (already possible with \texttt{fidelity\_hp.py}), and Richardson-extrapolate in \(\kappa_c^{-1}\) for \(s_2\).  Deliver a table with proved error bars.
+
+\textbf{Assessment.} Program impact: high (prerequisite of O1; upgrades all numbers in the paper).  Difficulty: low--medium.  Time: 1--2 weeks; do first.
+
+\subsection{O5: existence of the zero-collar recovered state for general nets}\label{sec:O5}
+\textbf{Statement.} For a diffeomorphism covariant net with finite \(L_0\)-multiplicities (and strong additivity), prove that the zero-collar Petz map exists as a normal map and that the recovered state is the vector state of a finite-energy vector, as in Note~6, Conjecture~3.2.
+
+\textbf{Known.} The map is implemented by the piecewise-M\"obius \(k_s\in C^{1,1}\); for the Dirac fermion Route~A is closed (CDIT extension to \(D^s\), \(s>2\), for Fock representations with integer central charge; CDIT Prop.~2.3 covers piecewise smooth \(C^1\) fields); for general nets the energy bound \(\|T(f)\psi\|\le C\|f\|_{3/2}\|(1+L_0)\psi\|\) holds for piecewise smooth \(C^1\) \(f\) (Carpi--Weiner; CDIT); Route~B's compact set needs the norm bound (V5).
+
+\textbf{Route.} Route~A first: show directly that \(e^{isT(g)}\) with \(g\) piecewise smooth and \(C^{1,1}\) is a strongly continuous one-parameter group implementing the flow of \(g\) on the net, for every net satisfying the Carpi--Weiner energy bounds (this is CDIT's method with their Prop.~2.3 replacing the Sobolev embedding); the recovered state is then \(\omega\circ\Ad e^{isT(g)}\), finite energy by the energy bound.  Route~B (energy compactness with the norm bound) as fallback for the state-level statement only.
+
+\textbf{Definition of done.} Theorem with hypotheses matching CDIT's; free-fermion consistency (the map of Note~4) checked.
+
+\textbf{Assessment.} Program impact: high (Theorem~B's existence part).  General impact: medium (extends known diffeomorphism-extension results to the concrete \(C^{1,1}\) class).  Difficulty: medium--high.  Time: 4--8 weeks.
+
+\subsection{O6: universality tested on a second solvable net (bosonic)}\label{sec:O6}
+\textbf{Statement.} Compute the zero-collar recovery error for the \(U(1)\) current net (chiral free boson, \(c=1\)) and compare with \(f_2=1/(12\pi^2)\), \(s_2=1/12\).
+
+\textbf{Why it matters.} Every confirmation so far uses the free fermion (or its Majorana half, which is not independent).  A bosonic Gaussian net has different statistics, a different one-particle structure (symplectic rather than orthogonal), and the current algebra is a proper subnet of the Dirac net, so its Petz map is \emph{not} the restriction of the fermionic one.  Agreement would be the first non-trivial evidence for Theorem~B beyond the analytic one-particle argument; disagreement would falsify the universality claim before any general proof is attempted.
+
+\textbf{Route.} Bosonic quasi-free (Gaussian) states are determined by a covariance operator on the one-particle symplectic space; the geometric compression \(\overline\beta_s\) acts by the symplectic push-forward along \(k_s\) (weight-1 densities for the current), and the recovered state is Gaussian with an explicit covariance.  Fidelity and relative entropy of Gaussian states have closed determinant formulas (symplectic eigenvalues; Banchi--Braunstein--Pirandola for the fidelity).  The compression machinery of Note~5 transfers with \(\tanh\) replaced by \(\coth\) in the modular weights.  Finiteness of the Longo--Xu CMI for the boson follows from monotonicity under the subnet inclusion \(U(1)_1\subset\) Dirac; its value is expected to be \(\frac16\log(\dots)\) as well (Longo--Xu treat this case via the fermion), which fixes the normalization of the comparison.
+
+\textbf{Definition of done.} Numerical \(f_2,s_2\) to \(10^{-3}\) for the boson, and the analytic one-particle metric via the kernel identity in the bosonic modular frame (which should again give \(2c/(3\pi^2)\) by the same \(\widehat W\), since the stress tensor two-point function is universal).  \emph{Status (2026-09-08, \texttt{numerics/boson}): done.  In the modular frame the restricted bosonic vacuum has covariance symbol \(\pi\kappa\coth\pi\kappa\) (the Bose analogue of the Fermi symbol); Hermite-mode compression with a window gives \(f_2=0.00844(2)\) and \(s_2=0.083(2)\) against \(1/(12\pi^2)=0.0084434\) and \(1/12=0.083333\); the whole systematics is the window (tail exponents \(2.3\) for \(f_2\), \(1.15\) for \(s_2\)).  Because \(k_s\) is a global M\"obius map on \(D\), the covariance defect reduces to a single non-singular \(A\times D\) integral and no extension is needed.  The \(c\)-linearity of the vacuum overlap is proved analytically at second order: for \(\varphi=x+sg\) both the bosonic and the fermionic \(-\log|\langle\Omega,\Gamma\Omega\rangle|\) equal \(\frac{s^2}{96\pi^2}\int_0^\infty k^3|\hat g(k)|^2dk\).  Decision point of week 8 resolved: proceed to paper~2.}
+
+\textbf{Assessment.} Program impact: high (independent evidence).  General impact: medium.  Difficulty: medium.  Time: 3--5 weeks.
+
+\subsection{O7: lattice tests of the two-branch law and of the chiral collapse}\label{sec:O7}
+\textbf{Statement.} (a) Verify on the lattice that the rotated-Petz family of a 2D free-fermion chain obeys \(-\log F^{(\lambda)}=\Phi(z(1+e^{-\pi\lambda}))+\Phi(z(1+e^{\pi\lambda}))\) with the \emph{same} \(\Phi\) as the continuum, including the apparent exponents at \(\lambda=0,0.5,1,1.5\) that reproduce Vardhan--Wei--Zou's fits (done 2026-09-08, \texttt{numerics/lattice}: \(1.99,1.91,1.64,1.15\); two-branch ratio \(1-0.15/L\) constant in \(\eta_{\mathrm V}\); the continuum \(\Phi\) for \(\zeta\ge1\) is now certified to \(0.5\)--\(2\%\) up to \(\zeta=8.5\) and \(6.6\%\) at \(\zeta=17\) (\texttt{numerics/results\_largezeta\_certified.txt}; fitted window exponent drifting from \(2.5\) to \(1.2\)), which also settles the large-cross-ratio law of Note~6 numerically).  (b) Test the single-chirality collapse \(-\log F=\Phi(z(1+e^{-2\pi t}))\) on a chiral lattice model.
+
+\textbf{Route.} (a) Gaussian lattice states with the rotated Petz map require the modular flow of the lattice reduced state (not geometric), so the recovery map must be constructed from the lattice modular data: for Gaussian states this is the one-particle modular operator of the correlation matrix, which is explicit (Peschel), and the rotated Petz map is again Gaussian.  Use the 40-digit compression pipeline to go beyond the \(L_A,L_B\le8\) of Vardhan--Wei--Zou (their precision loss is exactly the eigenvalue-floor problem solved in Note~5).  (b) A chiral lattice model: the edge of a Chern insulator on a cylinder, or a Wilson-fermion chain with a single Fermi point; the vacuum correlation matrix restricted to the edge is a lattice regularization of the chiral fermion.
+
+\textbf{Definition of done.} Collapse plots with the continuum \(\Phi\) overlaid, exponents reproduced, and the finite-size correction law identified.
+
+\textbf{Assessment.} Program impact: medium--high (connects to the existing lattice literature, sharpens the claim in the paper).  General impact: high (falsifiable prediction for the lattice community).  Difficulty: low--medium.  Time: 3--4 weeks.
+
+\subsection{O8: second-order optimality of the Petz map}\label{sec:O8}
+\textbf{Statement.} Among all recovery channels \(\cR:\cA(AB)\to\cA(ABC)\) (normal, unital, completely positive, restricting to the identity on \(\cA(AB)\)), determine \(\inf_{\cR}[-\log\Fid(\omega,\omega_{AB}\circ\cR)]\) to second order in \(\zeta\), and decide whether the ordinary Petz map (\(\lambda=0\) for 2D, \(t\to\infty\) per chirality) attains it.
+
+\textbf{Known.} For a single chirality the geometric compression is the optimum of the \emph{rotated} family, better than the Petz map by a factor \(4\) in \(-\log\Fid\); for 2D CFT the Petz map is the optimum of the family; the CMI bound is loose by a power of \(\zeta\) (error \(\sim\zeta^2\) against CMI \(\sim\zeta\)), so no information-theoretic bound presently constrains the optimum.
+
+\textbf{Route.} At second order the problem is a minimum-distance problem in the Bures geometry: the recovered states form, to first order, an affine family of tangent vectors \(\varphi_{\cR}\), and the minimal \(g_B\) over channels that fix \(\cA(AB)\) is a convex problem on the tangent space (the set of admissible tangents is convex because channels can be mixed).  Compute the minimum first within the natural geometric family (compressions composed with unitaries of the commutant, which by Lemma~3.1(1) do not change the tangent) and within the ``twirled'' family of Note~4; then attack a lower bound through the data-processing inequality for the SLD metric applied to the restriction to \(\cA(C)\) alone: any recovery must reproduce \(\omega|_{\cA(C)}\) from \(\omega|_{\cA(AB)}\), and the Bures distance between \(\omega\) and states of the form \(\omega_{AB}\circ\cR\) is bounded below by a quantity computable from the vacuum two-point function of the stress tensor on \(C\) alone.
+
+\textbf{Definition of done.} Either a matching lower bound (Petz optimal at second order) or an explicit better channel.
+
+\textbf{Assessment.} Program impact: high (the ``Petz is optimal'' question of Note~3).  General impact: high.  Difficulty: high.  Time: 2--3 months; start after Phase~1.  \emph{Status (2026-09-09, \texttt{rigor/optimality\_second\_order.tex}, \texttt{numerics/optimality}): the second-order problem over quasi-free channels is an exact semidefinite programme in the one-particle data \((X,Z)\) (complete positivity \(\iff Y\ge0,\ XX^*+Y\le1\), verified against a Stinespring dilation); its optimum is \(E_{\rm opt}=(1.00\pm0.15)f_2z^2\) per chirality against \(4f_2z^2\) for the Petz map, i.e.\ exactly the two-chirality geometric-compression value, never below it (lattice: best/Petz \(=0.27\)--\(0.28\)).  The optimal channel is a near-isometric squeeze that does \emph{not} reproduce the \(BC\) marginal, so the defining Petz property is strictly suboptimal.  The lower-bound route through the \(A\)--\(C\) restriction gives exactly zero (the vacuum \(A\)--\(C\) state is itself \(B\)-mediated), and gauge twirling reduces only to gauge-covariant, not to quasi-free, channels: only \(E_{\rm opt}\ge0\) is proved.  Verdict: Petz is not second-order optimal; the geometric compression is consistent with being optimal but unproved (routes: a dual certificate at the saturated constraint \(XX^*=1\); whether every achievable recovered symbol is quasi-free-achievable).}
+
+\subsection{O9: thermal states and the Markov c-function}\label{sec:O9}
+\textbf{Statement.} (a) For KMS states of the free fermion at inverse temperature \(\beta\), compute \(\Phi_\beta(\zeta;\,\beta/L)\) and the crossover from the vacuum law to the exponential shielding \(\Phi\sim e^{-2\pi b/\beta}\) expected when the middle interval exceeds the thermal length.  (b) For the massive Dirac fermion, compute the Markov c-function \(c_{\mathrm M}(R)\) of Note~3 along the RG flow and compare with the entropic \(c_{\mathrm E}=3RS'\).
+
+\textbf{Route.} Both are quasi-free with explicit symbols (Fermi function; Bessel kernels); the Petz map at finite temperature is no longer geometric, but the compression pipeline computes fidelity and relative entropy for any pair of quasi-free states, and the Petz map of a quasi-free reference state is quasi-free with an explicit one-particle formula (the Gaussianity item of Note~3, proved for the fermion by the construction of Note~4).
+
+\textbf{Assessment.} Program impact: medium.  General impact: medium (first controlled computation of recovery error away from criticality).  Difficulty: low--medium.  Time: 3--6 weeks.  \emph{Status (2026-09-09, \texttt{numerics/lattice/petz\_thermal\_rg.py}, \texttt{rigor/thermal\_rg\_gap\_summary.md}): done on the lattice.  Thermal: the vacuum two-branch law holds verbatim at the thermal cross ratio \(\eta_\beta=\sinh(\pi a/\beta_\ell)\sinh(\pi c/\beta_\ell)/[\sinh(\pi(a+b)/\beta_\ell)\sinh(\pi(b+c)/\beta_\ell)]\) (ratio \(0.98\)--\(1.01\) over five decades), and for \(L_B\gg\beta\) the error is shielded exponentially with rate \(2\pi\) for \(-\log F\) and \(\pi\) for the CMI in units of the thermal length; the small-\(L_B/\beta\) correction of the CMI is \(-\pi^2L_AL_C/(36\beta_\ell^2)\).  Massive flow: \(c_M\ge c_E\), both decrease monotonically from \(c\) to \(0\), \(c_M/c_E\to mR\).  Away from criticality the recovery error is \emph{linear} in the CMI (ratio \(0.10\)--\(0.17\)), so the quadratic law is a fixed-point-plus-adjacency statement.}
+
+\subsection{O10: separated intervals, multi-interval networks}\label{sec:O10}
+\textbf{Statement.} Extend \(\Phi\) to \(A\), \(C\) separated by a gap \(d\) (recovery of \(ABC\) from \(AB\) with \(B\) not touching \(A\)), and to chains \(A_1\dots A_n\) (Markov networks: the holonomy of the recovery maps of Note~3).
+
+\textbf{Route.} The zero-collar construction of Note~4 uses a common endpoint; with a gap the modular flow of \(\cF(B)\subset\cF(D)\) is still geometric but the Petz map involves the modular flow of a two-interval algebra only if \(A\) and \(BC\) are treated jointly; for the compression-based channel the gap simply changes the M\"obius data.  Numerically straightforward with the existing pipeline.
+
+\textbf{Assessment.} Program impact: low--medium.  Difficulty: low.  Time: 2 weeks.  \emph{Status (2026-09-09): gap geometry done on the lattice: \(I(A{:}C|B)=\frac13\log\frac{(a+g+b)(g+b+c)}{(g+b)(a+g+b+c)}\) exactly (the adjacent law with \(L_B\to L_B+L_G\), confirmed to \(0.06\%\)), so \(I\sim L_G^{-2}\); \(-\log F\) decays with the same power and \(-\log F/I\to0.09\): linear in the CMI, as in the massive case.}
+
+\subsection{O11: sectors, state dependence, and the collar Gaussianity}\label{sec:O11}
+Charged sectors and excited states change the reference state; the Markov defect then acquires a sector-dependent contribution (Note~3, N7 of Note~6).  For the free fermion all of this is quasi-free or a finite-rank perturbation and can be computed with the same tools.  The Gaussianity of the collar-regularized Petz map (\(\eps>0\)) is elementary for split inclusions with product reference states and should be written down once (half a page) because O3 relies on the collar family.
+
+\textbf{Assessment.} Program impact: low--medium.  Difficulty: low.  Time: 2--3 weeks, opportunistic.
+
+\section{Strategy}\label{sec:strategy}
+
+\subsection{Dependencies}
+\begin{itemize}[leftmargin=1.6em,itemsep=1pt]
+\item \textbf{O4 \(\to\) O1.} The tail bound is the only missing ingredient of the sharp limit and of the rate; O1 without O4 means fighting the interchange abstractly, which P2 showed to be the wrong battlefield.
+\item \textbf{O5 \(\to\) O3 \(\to\) Theorem~B (Bures).} Existence of the zero-collar curve for general nets (O5) is needed to say what the tangent of \emph{the} curve is; the identification (O3) then upgrades the one-particle computation to a statement about \(\Phi\) for every net.  O3's analytic part (collar family in the free fermion) can start immediately.
+\item \textbf{O2 \(\to\) Theorem~B (Kubo--Mori).} Independent of O3/O5; a parallel track.
+\item \textbf{O1+O3+O5 \(\to\) O8.} Optimality at second order needs the second-order theory to be rigorous first, but its exploratory computations (geometric and twirled families) need only the tools of Note~4--5.
+\item \textbf{O6, O7, O9, O10} depend only on the numerical pipeline and can run in parallel at any time; O7(a) should run early because it protects the paper's lattice comparison.
+\end{itemize}
+
+\subsection{Phases and milestones}
+\paragraph{Phase~1 (weeks 1--4): make Theorem~A a theorem and certify the numbers.}
+O4 then O1; in parallel O7(a) and the elementary O11 write-up.  Milestone~M1: refereed proof of \(\lim\Phi/\zeta^2=c/(12\pi^2)\) for the free fermion with certified numerics; lattice two-branch collapse reproduced.  Deliverable: paper~1, ``Exact recovery error of the vacuum in chiral CFT: the free fermion'' (Notes~4, 5, 7 free-fermion part, the three-route evaluation of \(g_B\), the two-branch law and the lattice comparison).  Paper~1 does not need Theorem~B.
+
+\paragraph{Phase~2 (weeks 5--14): universality.}
+O5 (Route~A) and O3 in sequence, O2 and O6 in parallel.  Milestone~M2: Theorem~B (Bures) with hypotheses; bosonic check at \(10^{-3}\).  Milestone~M2': Kubo--Mori half, if O2 succeeds; otherwise state universality for \(f_2\) and leave \(s_2\) as a conjecture supported by the free fermion, the boson, and the lattice ratio \(s_2/f_2=\pi^2\).  Deliverable: paper~2, ``Universality of the Petz recovery error in conformal nets'' (Note~7 general part, P1, O3, O5, O6).
+
+\paragraph{Phase~3 (months 4--6): optimality and extensions.}
+O8 as the main target; O9 and O10 as bounded side projects.  Milestone~M3: either a second-order optimality theorem or an explicit better channel.  Deliverable: paper~3 or a section of paper~2, depending on the outcome; a short note on thermal states (O9).
+
+\subsection{Parallel tracks and effort}
+Three tracks can run simultaneously: (i) analysis (O4, O1, then O5, O3, O2); (ii) numerics (O7, O6, O9, O10, certified tables); (iii) writing and refereeing (papers~1--2; every new proof passes through the Lamport/referee workflow of rigor/).  Expected total effort to M2: 14 weeks of one person plus agent support; the audit showed that agents are most effective on bounded, write-first tasks (independent numerics, cross-checks of cited results, refereeing of a single document) and least effective on open-ended synthesis.
+
+\subsection{Risks and fallbacks}
+\begin{itemize}[leftmargin=1.6em,itemsep=1pt]
+\item \textbf{O4 harder than expected} (the full tail, not only its second-order part, must be bounded).  Fallback: prove the interchange for the \emph{Hellinger} route first (P2 already has \(\limsup\le2\log2\,f_2\) modulo it), which fixes the order \(\zeta^2\) rigorously with a constant off by \(2\log2\); the sharp constant then remains a numerically confirmed statement.  Paper~1 survives with the weaker theorem.
+\item \textbf{O3 fails at zero collar.} Fallback: Theorem~B for every collar \(\eps>0\) (fully rigorous) plus the proved monotone convergence and the explicit free-fermion limit; universality is then a statement about \(\lim_{\eps\to0}g_B^{(\eps)}\), which is what any experiment or lattice computation measures anyway.
+\item \textbf{O5 fails for general nets.} Fallback: restrict Theorem~B to nets whose vacuum representation extends to \(D^s\), \(s>2\) (CDIT's class: Fock representations with integer central charge and their extensions), which includes all free-field and lattice-relevant examples.
+\item \textbf{O6 disagrees with \(c/(12\pi^2)\).} Then Theorem~B is false as stated; the boson result localizes the failure (statistics or subnet effects), and the program changes to characterizing the dependence on the net.  This is the most valuable possible outcome of Phase~2 and the reason O6 runs early.
+\item \textbf{O2 stays open.} Accept; \(s_2\) universality is not needed for the main claims.
+\item \textbf{Agent-related risk.} Output-cap and rate-limit deaths cost the audit about a day; every agent task must create its files in the first three tool calls and write in small chunks (rigor/README\_AGENTS.md).
+\end{itemize}
+
+\subsection{Verification protocol}
+Every proof produced in Phases~1--3 goes through: (1) Lamport-style structured write-up in rigor/ with explicit hypotheses; (2) independent numerical check where the object is computable (the free-fermion curve, random finite-dimensional examples); (3) a referee agent with a bounded scope and screenshots of every cited result; (4) entry in the findings ledger and, if it changes a note, an errata-log line.  The audit found that steps (2) and (3) each caught errors the other missed (the basis-phase bug versus the false \(\Delta^{1/2}\) formula), so neither is optional.
+
+\section{Assessment table, decision points, summary}\label{sec:ranking}
+
+\begin{small}
+\begin{tabular}{@{}l p{0.34\textwidth} c c c c l@{}}
+\toprule
+ & Problem & Program & General & Difficulty & Weeks & Depends on \\
+\midrule
+O4 & Rigorous UV tail, certified numerics & high & low & low--med & 1--2 & --- \\
+O1 & Sharp quadratic law \(\lim\Phi/\zeta^2=c/(12\pi^2)\) & high & med & med & 3--4 & O4 \\
+O7 & Lattice: two-branch law, chiral collapse & med--high & high & low--med & 3--4 & pipeline \\
+O5 & Existence at zero collar, general nets & high & med & med--high & 4--8 & --- \\
+O3 & Zero-collar tangent = spectral integral & very high & med & med--high & 4--6 & O5 (partly) \\
+O6 & Bosonic check of universality & high & med & med & 3--5 & pipeline \\
+O2 & Kubo--Mori second variation, type III & med & med--high & high & 4--8 & --- \\
+O8 & Second-order optimality of Petz & high & high & high & 8--12 & O1, O3, O5 \\
+O9 & Thermal states, Markov c-function & med & med & low--med & 3--6 & pipeline \\
+O10 & Separated intervals, networks & low--med & low & low & 2 & pipeline \\
+O11 & Sectors, collar Gaussianity & low--med & low & low & 2--3 & --- \\
+\bottomrule
+\end{tabular}
+\end{small}
+
+\paragraph{Decision points.}
+\begin{itemize}[leftmargin=1.6em,itemsep=1pt]
+\item \emph{End of week 2 (O4).} If the full tail cannot be bounded by \(C\zeta^2\kappa_c^{-2}\), switch O1 to the Hellinger fallback and accept the \(2\log2\) constant for the theorem; keep the sharp constant as numerics.
+\item \emph{End of week 6 (O5).} If Route~A does not extend to general nets, restrict Theorem~B's hypotheses to CDIT's class and proceed with O3; do not spend more than two further weeks on Route~B.
+\item \emph{Bosonic result (O6, week 8).} Agreement: proceed to paper~2 as planned.  Disagreement: stop O3/O5, diagnose, and re-plan around the net-dependence.
+\item \emph{End of Phase~2 (week 14).} If O2 is still open, publish universality for \(f_2\) with \(s_2\) conjectural; start O8.
+\end{itemize}
+
+\paragraph{What to do this week.}
+(1) O4: write the tail bound as a Lamport document with the trace-norm restriction to the window complement; run the \(\eps=10^{-14}\) exact evaluation with \(Q\) in extended precision and Richardson in \(\kappa_c^{-1}\).  (2) Start O7(a): Gaussian lattice states, modular data of the correlation matrix, rotated Petz map, first collapse plot at \(L_A,L_B\le12\).  (3) Write the half-page collar-Gaussianity lemma (O11) and the collar family \(g_B^{(\eps)}\) for the free fermion by the Mellin route (start of O3).  (4) Open the paper~1 skeleton from Notes~4, 5, 7 and the corrected findings.
+
+\paragraph{One-line summary.}
+Close Theorem~A with the ultraviolet tail bound, then make Theorem~B a theorem by working with the collar family instead of the singular zero-collar tangent, test universality on the boson and on the lattice while the analysis runs, and only then turn to optimality; every step through the write-first Lamport/referee workflow that carried the audit.
+
+\end{document}

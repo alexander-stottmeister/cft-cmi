@@ -1,0 +1,44 @@
+=== (B) analytic Gram diagonalisation (all L); ranks at relative tolerance ===
+gains of  l -> P^perp l P  are sqrt(den_ij/2), of  Z -> P^perp Z P  are sqrt(denc_ij/2);
+max gain = 1/sqrt(2) = 0.7071.  rank(tau) := #{gains > tau * maxgain}.
+L=  96 m=  56 |Ic|=  40 k=  48 dim S2=  4608 | EXACT prediction: dim N = m^2-2z^2 = 3008, dim N^perp = dim S2 - dim N = 1600 = (L-m)^2 = 1600 = dim Ext (max possible)
+      tau=1e-06:  rank N=  2558  dim N^perp=  2050  rank Ext=  1438   (rank Ext)-(dim N^perp) =   -612
+      tau=1e-08:  rank N=  3028  dim N^perp=  1580  rank Ext=  1568   (rank Ext)-(dim N^perp) =    -12
+      tau=1e-10:  rank N=  3071  dim N^perp=  1537  rank Ext=  1568   (rank Ext)-(dim N^perp) =     31
+      tau=1e-12:  rank N=  3071  dim N^perp=  1537  rank Ext=  1568   (rank Ext)-(dim N^perp) =     31
+      log10 gain quantiles  Ext:  -8.13  -7.40  -2.54  -0.30  -0.15  -0.15   |  N:  -8.33  -7.86  -3.85  -0.30  -0.15  -0.15
+L= 128 m=  76 |Ic|=  52 k=  64 dim S2=  8192 | EXACT prediction: dim N = m^2-2z^2 = 5488, dim N^perp = dim S2 - dim N = 2704 = (L-m)^2 = 2704 = dim Ext (max possible)
+      tau=1e-06:  rank N=  4320  dim N^perp=  3872  rank Ext=  2256   (rank Ext)-(dim N^perp) =  -1616
+      tau=1e-08:  rank N=  5325  dim N^perp=  2867  rank Ext=  2559   (rank Ext)-(dim N^perp) =   -308
+      tau=1e-10:  rank N=  5355  dim N^perp=  2837  rank Ext=  2559   (rank Ext)-(dim N^perp) =   -278
+      tau=1e-12:  rank N=  5355  dim N^perp=  2837  rank Ext=  2559   (rank Ext)-(dim N^perp) =   -278
+      log10 gain quantiles  Ext:  -8.13  -7.83  -2.93  -0.30  -0.15  -0.15   |  N:  -8.15  -7.83  -4.18  -0.19  -0.15  -0.15
+L= 192 m= 114 |Ic|=  78 k=  96 dim S2= 18432 | EXACT prediction: dim N = m^2-2z^2 = 12348, dim N^perp = dim S2 - dim N = 6084 = (L-m)^2 = 6084 = dim Ext (max possible)
+      tau=1e-06:  rank N=  8948  dim N^perp=  9484  rank Ext=  4628   (rank Ext)-(dim N^perp) =  -4856
+      tau=1e-08:  rank N= 11892  dim N^perp=  6540  rank Ext=  5725   (rank Ext)-(dim N^perp) =   -815
+      tau=1e-10:  rank N= 11996  dim N^perp=  6436  rank Ext=  5823   (rank Ext)-(dim N^perp) =   -613
+      tau=1e-12:  rank N= 11996  dim N^perp=  6436  rank Ext=  5823   (rank Ext)-(dim N^perp) =   -613
+      log10 gain quantiles  Ext:  -9.04  -7.81  -4.31  -0.30  -0.15  -0.15   |  N:  -8.28  -7.84  -6.18  -0.16  -0.15  -0.15
+L= 256 m= 153 |Ic|= 103 k= 128 dim S2= 32768 | EXACT prediction: dim N = m^2-2z^2 = 22159, dim N^perp = dim S2 - dim N = 10609 = (L-m)^2 = 10609 = dim Ext (max possible)
+      tau=1e-06:  rank N= 15471  dim N^perp= 17297  rank Ext=  7721   (rank Ext)-(dim N^perp) =  -9576
+      tau=1e-08:  rank N= 21301  dim N^perp= 11467  rank Ext=  9809   (rank Ext)-(dim N^perp) =  -1658
+      tau=1e-10:  rank N= 21548  dim N^perp= 11220  rank Ext=  9920   (rank Ext)-(dim N^perp) =  -1300
+      tau=1e-12:  rank N= 21548  dim N^perp= 11220  rank Ext=  9920   (rank Ext)-(dim N^perp) =  -1300
+      log10 gain quantiles  Ext:  -8.35  -7.96  -5.41  -0.17  -0.15  -0.15   |  N:  -8.56  -7.83  -7.44  -0.16  -0.15  -0.15
+L= 384 m= 230 |Ic|= 154 k= 192 dim S2= 73728 | EXACT prediction: dim N = m^2-2z^2 = 50012, dim N^perp = dim S2 - dim N = 23716 = (L-m)^2 = 23716 = dim Ext (max possible)
+      tau=1e-06:  rank N= 32500  dim N^perp= 41228  rank Ext= 15780   (rank Ext)-(dim N^perp) = -25448
+      tau=1e-08:  rank N= 48851  dim N^perp= 24877  rank Ext= 22489   (rank Ext)-(dim N^perp) =  -2388
+      tau=1e-10:  rank N= 49170  dim N^perp= 24558  rank Ext= 22740   (rank Ext)-(dim N^perp) =  -1818
+      tau=1e-12:  rank N= 49170  dim N^perp= 24558  rank Ext= 22740   (rank Ext)-(dim N^perp) =  -1818
+      log10 gain quantiles  Ext:  -9.11  -7.89  -7.51  -0.20  -0.15  -0.15   |  N:  -9.16  -7.91  -7.54  -0.15  -0.15  -0.15
+
+=== (A) brute force: explicit bases, SVD ranks, principal angles ===
+L= 32 m= 18 mc= 14 dimS2=  512 | rank N=  316 (pred   316)  rank Ext=  196 (pred   196)  dim N^perp=  196
+      Ext vs N^perp: cos(angle) min=1.0000000000 max=1.0000000000   |  Ext vs N overlap max=1.847e-10   [Ext=N^perp iff all cos=1]
+      basis sv of Ext: max=1.0000e+00 min(kept)=1.4929e-05 first dropped=nan
+L= 48 m= 27 mc= 21 dimS2= 1152 | rank N=  711 (pred   711)  rank Ext=  441 (pred   441)  dim N^perp=  441
+      Ext vs N^perp: cos(angle) min=1.0000000000 max=1.0000000000   |  Ext vs N overlap max=2.578e-07   [Ext=N^perp iff all cos=1]
+      basis sv of Ext: max=1.0000e+00 min(kept)=1.2958e-08 first dropped=nan
+L= 64 m= 37 mc= 27 dimS2= 2048 | rank N= 1297 (pred  1319)  rank Ext=  727 (pred   729)  dim N^perp=  751
+      Ext vs N^perp: cos(angle) min=1.0000000000 max=1.0000000000   |  Ext vs N overlap max=1.294e-06   [Ext=N^perp iff all cos=1]
+      basis sv of Ext: max=1.0000e+00 min(kept)=7.9621e-10 first dropped=4.4103e-11

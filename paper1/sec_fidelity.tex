@@ -1,0 +1,289 @@
+% !TeX root = main.tex
+\label{sec:fidelity}
+The two quantities studied from now on are the root fidelity and the Araki
+relative entropy of the two faithful normal states $\omega$ and
+$\widetilde\omega_s=\omega\circ\overline\beta_s$ on the type III$_1$ factor
+$\cF_r(I)$,
+\begin{equation}\label{eq:targets}
+ \Phi(\zeta):=-\log\Fid_{\cF_r(I)}(\omega,\widetilde\omega_s),
+ \qquad
+ \cD(\zeta):=D_{\cF_r(I)}(\omega\Vert\widetilde\omega_s).
+\end{equation}
+Here $\Fid(\varphi,\psi)=\sup|\langle\xi_\varphi,\xi_\psi\rangle|$ over vector
+representatives in a standard form; in a fixed standard form
+$\Fid(\omega_\psi,\omega)=\sup_{u'\in U(\cM')}|\langle\Omega,u'\psi\rangle|$
+\cite[Thm.~2(3)]{AU02}, equivalently
+$\Fid(\varphi,\psi)=\inf_{x>0}\frac12\bigl(\varphi(x)+\psi(x^{-1})\bigr)$
+\cite[Thm.~2]{AU02} in the arithmetic-mean form of \cite{Uhl11}.  Root fidelity is
+nondecreasing under unital completely positive maps, and $\Fid=1$ iff the states
+coincide.  That $\Phi$ and $\cD$ are well defined as functions of $\zeta$ alone is
+the content of the following lemma.
+
+\begin{lemma}[M\"obius reduction; {\cite[Lemma~1.1]{Note5}}]\label{lem:mobius}
+$\Phi$ and $\cD$ depend on $(a,L,s)$ only through $\zeta=as/(a+L)$.  More
+precisely, $1+\zeta$ is the cross ratio of the four points
+$-a<0<\frac L{1+s}<L$:
+\begin{equation}\label{eq:crossratio}
+ \frac{\bigl(\frac L{1+s}+a\bigr)(L-0)}{\bigl(\frac L{1+s}-0\bigr)(L+a)}
+ =1+\frac{as}{a+L} .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Let $g$ be a M\"obius transformation of the line with $g(I)$ bounded.  Its
+half-density action $U(g)$ on $L^2(\mathbb R;\mathbb C^r)$ commutes with $P_+$, the
+induced Bogoliubov automorphism preserves the vacuum, and it carries $\cF_r(X)$
+onto $\cF_r(g(X))$.  The family $h_s$ is the parabolic subgroup fixing the
+touching point $0$ with $h_s'(0)=1$; its conjugate $g\circ h_s\circ g^{-1}$ is the
+parabolic subgroup fixing $g(0)$, i.e.\ the Borchers translations of the
+half-sided modular inclusion $\cF_r(g(B))\subset\cF_r(g(D))$.  Hence
+$\operatorname{Ad}U(g)$ intertwines the construction of $\widetilde\omega_s$ for
+$(A,D,h_s)$ with that for $(g(A),g(D),gh_sg^{-1})$, and both fidelity and relative
+entropy are invariant under a common automorphism.  The transformed configuration
+is again four ordered points on the line, whose only invariant is the cross ratio
+\eqref{eq:crossratio}.
+\end{proof}
+
+The trace norm \eqref{eq:Rtrace} is consistent with the lemma.
+
+\subsection{Finite dimensions}
+Let $\mathfrak h$ be finite dimensional, $\Gamma(X)=\bigoplus_nX^{\wedge n}$ the
+Fock functor, so $\Gamma(X)\Gamma(Y)=\Gamma(XY)$, $\Gamma(X)^*=\Gamma(X^*)$,
+$\Gamma(X)^{1/2}=\Gamma(X^{1/2})$ for $X\ge0$, and $\Tr\Gamma(X)=\det(1+X)$.  For
+$0<Q<1$ the gauge-invariant quasi-free state $\omega_Q$ has density matrix
+\begin{equation}\label{eq:rhoQ}
+ \rho_Q=\det(1-Q)\,\Gamma(G_Q),\qquad G_Q=Q(1-Q)^{-1}.
+\end{equation}
+
+\begin{theorem}[Root fidelity of quasi-free states; {\cite[Thm.~2.1]{Note5}}]\label{thm:fidfd}
+For $0<Q_1,Q_2<1$ on finite-dimensional $\mathfrak h$, with $G_i=Q_i(1-Q_i)^{-1}$,
+\begin{equation}\label{eq:fidfd}
+ \Fid(\omega_{Q_1},\omega_{Q_2})
+ =\det\bigl[(1-Q_1)(1-Q_2)\bigr]^{1/2}
+ \det\Bigl[1+\bigl(G_1^{1/2}G_2G_1^{1/2}\bigr)^{1/2}\Bigr].
+\end{equation}
+Equivalently, with $S_i=Q_i^{1/2}$, $C_i=(1-Q_i)^{1/2}$ and $U$ the unitary in the
+polar decomposition $G_1^{1/2}G_2^{1/2}=U|G_1^{1/2}G_2^{1/2}|$,
+$\Fid=\det(S_1S_2+C_1UC_2)/\det U$.
+\end{theorem}
+
+\begin{proof}
+By \eqref{eq:rhoQ}, $\rho_1^{1/2}=\det(1-Q_1)^{1/2}\Gamma(G_1^{1/2})$, so
+$\rho_1^{1/2}\rho_2\rho_1^{1/2}=\det(1-Q_1)\det(1-Q_2)\Gamma(T)$ with
+$T=G_1^{1/2}G_2G_1^{1/2}\ge0$; taking the square root and the trace gives
+\eqref{eq:fidfd}.  For the second form put $X=G_1^{1/2}G_2^{1/2}=U|X|$; then
+$T=XX^*=U|X|^2U^*$, hence
+$\det(1+T^{1/2})=\det(1+|X|)=\det(U+X)/\det U$, and
+$C_1(U+X)C_2=C_1UC_2+S_1S_2$ because $C_1XC_2=S_1S_2$.
+\end{proof}
+
+\begin{proposition}[Relative entropy; {\cite[Prop.~2.2]{Note5}}]\label{prop:relentfd}
+$S(\omega_{Q_1}\Vert\omega_{Q_2})=\Tr\bigl[Q_1(\log Q_1-\log Q_2)
++(1-Q_1)(\log(1-Q_1)-\log(1-Q_2))\bigr]$.
+\end{proposition}
+
+\begin{proposition}[Second order; {\cite[Prop.~2.3]{Note5}}]\label{prop:secondorder}
+Let $Q_2=Q_1+\eps D$, $D=D^*$, with matrix elements $D_{ik}$ in an eigenbasis of
+$Q_1$ with eigenvalues $q_i$.  Then, as $\eps\to0$,
+\begin{align}
+ -\log\Fid(\omega_{Q_1},\omega_{Q_1+\eps D})
+ &=\frac{\eps^2}4\sum_{i,k}\frac{|D_{ik}|^2}{N(q_i,q_k)}+O(\eps^3),
+ && N(q_i,q_k)=q_i(1-q_k)+q_k(1-q_i),\label{eq:qfi}\\
+ S(\omega_{Q_1}\Vert\omega_{Q_1+\eps D})
+ &=\frac{\eps^2}2\sum_{i,k}|D_{ik}|^2
+ \bigl[\ell(q_i,q_k)+\ell(1-q_i,1-q_k)\bigr]+O(\eps^3),\label{eq:km}
+\end{align}
+where $\ell(p,q)=\frac{\log p-\log q}{p-q}$, $\ell(p,p)=1/p$.  In the modular
+variables $q_i=(1+e^{\kappa_i})^{-1}$,
+\begin{equation}\label{eq:weight}
+ \frac1{N(q_i,q_k)}=1+\frac{\cosh\frac{\kappa_i+\kappa_k}2}
+ {\cosh\frac{\kappa_i-\kappa_k}2},
+\end{equation}
+which grows like $e^{\min(|\kappa_i|,|\kappa_k|)}$ when
+$\kappa_i,\kappa_k\to\pm\infty$ with the same sign.
+\end{proposition}
+
+The proof is an expansion of \eqref{eq:fidfd}; it is reproduced in
+\cref{app:secondorder}.  The exponential growth of the weight \eqref{eq:weight} is
+the source of all the difficulty at zero collar: matrix elements of the defect
+between two nearly empty (or two nearly filled) modular modes are amplified
+exponentially, so finiteness of the second-order coefficient is a statement about
+the decay of the defect in the modular eigenbasis.
+
+\subsection{The compression theorem}
+Both $\omega$ and $\widetilde\omega_s$ are faithful on $\cF_r(I)$: one has
+$\ker Q=\ker(1-Q)=\{0\}$ because a Hardy-space function vanishing on an interval
+vanishes identically, and $\widetilde Q_s=W_s^*Q_{J_s}W_s$ with $W_s$ isometric
+inherits both properties.
+
+\begin{theorem}[Determinant representation; {\cite[Thm.~3.1]{Note5}}]\label{thm:detrep}
+Let $P_1\le P_2\le\cdots$ be finite-rank projections on $H_I$ with $P_n\uparrow1$
+strongly, and put $Q_n=P_nQP_n$, $\widetilde Q_n=P_n\widetilde Q_sP_n$ on $P_nH_I$.
+Then $0<Q_n,\widetilde Q_n<1$ and
+\begin{align}
+ \Fid_{\cF_r(I)}(\omega,\widetilde\omega_s)
+ &=\lim_n\ \det\bigl[(1-Q_n)(1-\widetilde Q_n)\bigr]^{1/2}
+ \det\Bigl[1+\bigl(G_n^{1/2}\widetilde G_nG_n^{1/2}\bigr)^{1/2}\Bigr],
+ \label{eq:detrepF}\\
+ D_{\cF_r(I)}(\omega\Vert\widetilde\omega_s)
+ &=\lim_n\ \Tr\Bigl[Q_n(\log Q_n-\log\widetilde Q_n)
+ +(1-Q_n)\bigl(\log(1-Q_n)-\log(1-\widetilde Q_n)\bigr)\Bigr].
+ \label{eq:detrepS}
+\end{align}
+The sequence in \eqref{eq:detrepF} is nonincreasing and that in \eqref{eq:detrepS}
+nondecreasing; in particular every term of \eqref{eq:detrepF} is a rigorous upper
+bound for the fidelity and every term of \eqref{eq:detrepS} a rigorous lower bound
+for the relative entropy.
+\end{theorem}
+
+\begin{proof}
+Let $M_n=\pi_\omega(\CAR(P_nH_I))''$, a finite-dimensional factor.  The
+restriction of a gauge-invariant quasi-free state with symbol $X$ to
+$\CAR(P_nH_I)$ is quasi-free with symbol $P_nXP_n$, and
+$\ker P_nXP_n\cap P_nH_I=\{0\}$ whenever $\ker X=\{0\}$, since
+$\langle f,Xf\rangle=0$ forces $X^{1/2}f=0$.  Thus \cref{thm:fidfd} and
+\cref{prop:relentfd} give the terms on the right.  The $M_n$ increase and their
+union is strongly dense in $\cF_r(I)$ because $\bigcup_n\CAR(P_nH_I)$ is norm
+dense in $\CAR(H_I)$.  Root fidelity is nonincreasing along increasing
+subalgebras and continuous from below \cite[Lemma~10.1]{Note4}; Araki relative
+entropy is nondecreasing along increasing subalgebras and
+$D_M=\lim_nD_{M_n}$ for an increasing sequence of approximately finite
+subalgebras with strongly dense union (Araki's martingale convergence,
+\cite[Thm.~3.9(2) with Thm.~3.8(2)($\gamma$)]{Araki77}); the $M_n$ here are
+finite dimensional.
+\end{proof}
+
+\begin{remark}[The recovery is a compression]
+Since $\overline\beta_s$ is a normal $*$-isomorphism onto $\cF_r(J_s)$ and
+$\widetilde\omega_s=\omega\circ\overline\beta_s$, one has
+$\Fid_{\cF_r(I)}(\omega,\widetilde\omega_s)
+=\Fid_{\cF_r(J_s)}(\omega\circ\overline\beta_s^{-1},\omega)$: the fidelity between
+the vacuum on the smaller interval $J_s\subset AB$ and the vacuum of $ABC$ pulled
+through the compression.  Nothing is gained analytically, but it explains why the
+answer depends only on the cross ratio of $J_s$ and $I$.
+\end{remark}
+
+\subsection{The box compression}\label{sec:box}
+The compressions actually used are adapted to the modular frame.  In the
+coordinate $\xi=\log\frac{x+a}{L-x}$ with the half-density identification
+$f\mapsto\beta^{1/2}f$, $\beta=dx/d\xi$, the vacuum symbol becomes the
+translation-invariant kernel
+\begin{equation}\label{eq:thermal-kernel}
+ \widetilde Q(\xi,\xi')=\frac12\delta(\xi-\xi')
+ -\frac i{4\pi}\,\mathrm{p.v.}\frac1{\sinh\frac{\xi-\xi'}2},
+\end{equation}
+i.e.\ the Fermi function $q_\kappa=(1+e^\kappa)^{-1}$ in the conjugate variable:
+the vacuum is a thermal state of the modular Hamiltonian at inverse temperature
+$1$ in $\kappa$, equivalently $2\pi$ in modular time.  Truncating $\xi$ to a box
+$[-\Lambda/2,\Lambda/2]$ and keeping the Fourier modes with
+$|\kappa|\le\kappa_{\max}$ defines a finite-rank projection $P_{\Lambda,
+\kappa_{\max}}$, and
+\begin{equation}\label{eq:Qbox}
+ Q_N=P_{\Lambda,\kappa_{\max}}\,\widetilde Q\,P_{\Lambda,\kappa_{\max}},
+ \qquad
+ \widetilde Q_{s,N}=P_{\Lambda,\kappa_{\max}}\,\widetilde{\widetilde Q}_s\,
+ P_{\Lambda,\kappa_{\max}} .
+\end{equation}
+These projections increase to $1$ as $\Lambda,\kappa_{\max}\to\infty$, so
+\cref{thm:detrep} applies and every finite box gives a two-sided control: an upper
+bound on the fidelity and a lower bound on the relative entropy.  The
+implementation is described in \cref{sec:numerics}.
+
+\subsection{The modular eigenbasis and the ultraviolet tail}
+The eigenfunctions of $Q=E_IP_+E_I$ are the Casini--Huerta modes \cite{CH}
+\begin{equation}\label{eq:modes}
+ \psi_\kappa(x)=\frac1{2\pi}\beta(x)^{-1/2}e^{i\kappa\xi(x)/2\pi},\qquad
+ \xi(x)=\log\frac{x+a}{L-x},\qquad
+ \beta(x)=\frac{(x+a)(L-x)}{a+L}=\frac{dx}{d\xi},
+\end{equation}
+normalized by $\int d\kappa\,|\psi_\kappa\rangle\langle\psi_\kappa|=1$ on $L^2(I)$,
+with $Q\psi_\kappa=q_\kappa\psi_\kappa$, $q_\kappa=(1+e^\kappa)^{-1}$.  Thus
+$\kappa$ is the one-particle modular Hamiltonian $K=\log\frac{1-Q}Q$ and
+$\kappa\to+\infty$ labels the nearly empty modes.  For a symbol $X$ with bounded
+kernel, $X(\kappa,\kappa')=\langle\psi_\kappa,X\psi_{\kappa'}\rangle$ is continuous
+and bounded, and $X(\kappa,\kappa)$ is the occupation density per unit modular
+energy.
+
+\begin{proposition}[Ultraviolet tail; {\cite[Prop.~4.1]{Note5}}]\label{prop:tail}
+Let $\beta_0=\beta(0)=aL/(a+L)$.  As $\kappa\to+\infty$,
+\begin{equation}\label{eq:tail}
+ \widetilde Q_s(\kappa,\kappa)-q_\kappa
+ =\frac2{15}\frac{s^2\beta_0^2}{L^2}\frac1{\kappa^3}+O(\kappa^{-5})
+ =\frac2{15}\frac{\zeta^2}{\kappa^3}+O(\kappa^{-5}),
+\end{equation}
+and by particle--hole symmetry the same holds for holes as $\kappa\to-\infty$.
+The first-order (in $s$) part of the defect does not contribute: its diagonal
+decays like $e^{-\kappa}$ up to powers.
+\end{proposition}
+
+\begin{remark}[Status]\label{rem:tail-status}
+The argument in \cite{Note5} is a sketch; a complete proof with explicit remainder,
+$|\Sigma(\kappa_c)-\zeta^2/(15\kappa_c^2)|\le0.46\,\zeta^2\kappa_c^{-3}+0.051\,\zeta(1+\kappa_c)e^{-\kappa_c}$,
+together with the unconditional full-tail bound $0\le\Phi-\Phi_W\le0.173\,\zeta^2/\kappa_c+0.88\,\zeta^2/\kappa_c^2$
+for $\kappa_c\ge\max\{10,2\log(1/\zeta)+2\log(1+\kappa_c)+3\}$, is given in \cite{RigorTB}.
+\Cref{prop:tail} is \emph{not used} in any of the theorems of
+\cref{sec:quadratic}; it enters only the tail correction of the numerics
+(\cref{sec:numerics}), where its accuracy is quantified honestly.
+\end{remark}
+
+The tail \eqref{eq:tail} says that the recovered state populates the nearly empty
+modular modes with an occupation decaying only algebraically, while the vacuum
+occupation $q_\kappa\sim e^{-\kappa}$ is exponentially small.  Modes with
+$\kappa>\kappa_*(\zeta)$, where $\frac2{15}\zeta^2\kappa_*^{-3}=e^{-\kappa_*}$,
+i.e.\ $\kappa_*=2\log(1/\zeta)+O(\log\log)$, contribute
+$\frac12\int_{\kappa_*}^\infty\frac2{15}\zeta^2\kappa^{-3}d\kappa
+=\zeta^2/(30\kappa_*^2)\approx\zeta^2/(120\log^2(1/\zeta))$ per component.  This is
+the heuristic reason to expect
+\begin{equation}\label{eq:expansion-structure}
+ \Phi(\zeta)=f_2\zeta^2\bigl[1+c_3\zeta+c_4\zeta^2+O(\zeta^3)\bigr],\qquad c_3=-0.99(1),\ c_4=+0.9(1):
+\end{equation}
+an expansion in integer powers with a negative cubic coefficient (a $\log^{-2}(1/\zeta)$ correction from the saturated ultraviolet modes, claimed in an earlier version, double-counted a contribution already contained in $\tfrac{\zeta^2}{8}(g_B-g_B^{(\kappa_*)})$ and is excluded by the global bound $\Phi\le-\tfrac12\log(1-2f_2\zeta^2)$ of \cref{sec:quadratic}).  The quadratic coefficient itself is proved unconditionally in
+\cref{sec:quadratic}; the cubic coefficient is established numerically \cite{RigorRR}.  For positive collar
+$\eps>0$ the defect kernel is smooth up to the edges and all modular matrix
+elements decay exponentially: the collar is a UV regulator of the recovery
+problem.
+
+\subsection{Collapse of the rotated family}
+
+\begin{corollary}[Collapse; {\cite[Cor.~5.1]{Note5}}]\label{cor:collapse}
+For every modular rotation parameter $t\in\mathbb R$, the recovered state
+$\widetilde\omega_t=\omega\circ\overline\beta_{s_t}$ satisfies
+\begin{equation}\label{eq:collapse}
+ -\log\Fid(\omega,\widetilde\omega_t)=\Phi(\zeta_t),\qquad
+ \zeta_t=z\,(1+e^{-2\pi t}),\qquad z=\frac{ac}{b(a+b+c)}=\frac1\eta-1,
+\end{equation}
+and likewise for the relative entropy.  In particular the whole one-parameter
+family is one function of one variable; the ordinary Petz map ($t=0$) sits at
+$\zeta_0=2z$; for a single chirality the family is monotone in $t$ and its best
+member is the limit $t\to+\infty$, where $\zeta_t\downarrow z$ and the recovery
+map becomes the pure geometric compression $\overline\beta_\lambda$ of $ABC$ onto
+$AB$.  For a single chirality and small $z$ the ordinary Petz map is therefore
+worse than the optimal rotation by a factor $4$ in $-\log\Fid$.
+\end{corollary}
+
+\begin{proof}
+$\widetilde\omega_t$ is the recovered state of the geometric map with parameter
+$s=s_t$ by \cref{thm:normal}; the fidelity depends only on $\zeta$ by
+\cref{lem:mobius}; and $as_t/(a+L)=z(1+e^{-2\pi t})$ by \eqref{eq:st} and
+$\lambda=c/b$.  Monotonicity of $\Phi$ is \cref{prop:monotone}.
+\end{proof}
+
+\begin{proposition}[Monotonicity]\label{prop:monotone}
+$\Phi$ is nondecreasing on $(0,\infty)$.
+\end{proposition}
+
+\begin{proof}
+Proved in the verification document \cite{RigorCN5}; the argument compares the
+pairs $(\omega,\widetilde\omega_s)$ and $(\omega,\widetilde\omega_{s'})$ for
+$s\le s'$ through the semigroup law $h_{s'}=h_{s'-s}\circ h_s$ of \eqref{eq:hs}
+and the monotonicity of root fidelity under the resulting compression.  It is also
+visible in \cref{tab:scan}.
+\end{proof}
+
+\begin{remark}\label{rem:twirled}
+For the modular average with the density $p(t)=\pi/(1+\cosh2\pi t)$ the
+Faulkner--Hollands--Swingle--Wang bound is weaker than for the best fixed $t$.
+Whether the averaged channel itself is worse is \emph{not} decided by
+$\int p(t)\Phi(\zeta_t)\,dt$, which by concavity of the root fidelity is only an
+upper bound on its error.
+\end{remark}

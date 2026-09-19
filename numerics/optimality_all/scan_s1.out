@@ -1,0 +1,6 @@
+# s=1.0 kind=exact  zeta=0.333333  f2 zeta^2=9.381591e-04
+# hA  hB  hC  LamA LamC |  N  nA nB nC |  g_Q(d_c)/(f2 z^2) | min_F g_Q/(f2 z^2) | min/g(d_c) | KKTgap | dual/min | Tr(1-XX*) | t
+/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/optimality_all/kkt_continuum.py:135: UserWarning: Solution may be inaccurate. Try another solver, adjusting the solver settings, or solve with verbose=True for more information.
+  pr.solve(solver=solver)
+0.500 0.350 0.500  8.0  6.0 |   32  16   4  12 | 0.680779 | 1.976589 | 2.903421 | -1.90e-07 | 1.000000 | 13.500 | 55s optimal
+0.400 0.200 0.500  8.0  6.0 |   39  20   7  12 | 0.717531 | 1.169608 | 1.630045 | -3.30e-07 | 1.000001 | 15.360 | 234s optimal

@@ -1,0 +1,1521 @@
+\documentclass[11pt]{article}\input{rigor_preamble}
+\newcommand{\HS}{\mathrm{HS}}\newcommand{\Om}{\Omega}
+\newcommand{\Pp}{P_+}\newcommand{\Pm}{P_-}
+\newcommand{\Wt}{\widetilde W}\newcommand{\kt}{\widetilde k}
+\newcommand{\Gm}{\Gamma}
+\DeclareMathOperator{\Fock}{\mathcal F}
+\providecommand{\ket}[1]{|#1\rangle}\providecommand{\bra}[1]{\langle #1|}
+\newcommand{\CAR}{\operatorname{CAR}}\newcommand{\Stwo}{\mathfrak S_2}\newcommand{\Sone}{\mathfrak S_1}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\ip}[2]{\left\langle #1,#2\right\rangle}\newcommand{\one}{\mathbf 1}
+\newcommand{\Msa}{\cM_{\mathrm{sa}}}\newcommand{\Mpsa}{\cM'_{\mathrm{sa}}}
+\DeclareMathOperator{\dist}{dist}\DeclareMathOperator{\Var}{Var}\DeclareMathOperator*{\slim}{s\text{-}lim}
+
+\title{The sharp Uhlmann upper bound for the zero-collar recovery curve\\
+\large $\limsup_{\zeta\to0}\Phi(\zeta)/\zeta^{2}\le g_B/8$ for the free chiral fermion}
+\author{Agent PA (Phase 1, analysis track)}\date{2026-09-08}
+\begin{document}\maketitle
+\begin{abstract}
+We prove the upper half of Theorem~A of the CMI/Petz program for the free chiral fermion:
+along the zero-collar recovery curve of Note~4, with cross-ratio parameter $\zeta$,
+$\limsup_{\zeta\to0}\Phi(\zeta)/\zeta^{2}\le g_B/8=1/(12\pi^{2})$.
+The route avoids every interchange of limits: the recovery Bogoliubov map is extended to a
+$C^{1,1}$ diffeomorphism of $\mathbb R$, second-quantised by Shale--Stinespring, and the
+fidelity is bounded \emph{below} by a single vacuum overlap
+$|\langle\Om,\Gm(U)\Om\rangle|=\det(1-V^{*}V)^{1/2}$, $V=\Pm U\Pp$, using Uhlmann's supremum
+formula over the commutant.  A quadratic expansion of $\|V_\zeta\|_2^{2}$ and the
+variational ("three faces") characterisation of the Bures form identify the optimal
+constant.  Combined with \texttt{rigor/quadratic\_limit.tex} Thm~4.2 this gives
+$\lim_{\zeta\to0}\Phi(\zeta)/\zeta^{2}=1/(12\pi^{2})$ modulo the gaps recorded below.
+\end{abstract}
+\tableofcontents
+\section{Conventions, fixed once}\label{sec:conv}
+Throughout, $r=1$ (one complex chiral fermion, $c=1$); every quantity below is
+proportional to $r$ and the general case is obtained by multiplying $g_B$, $f_2$ and all
+Hilbert--Schmidt norms squared by $r$.
+
+\paragraph{(C1) One-particle space and Hardy projection.}
+$H:=L^2(\mathbb R;\mathbb C)$ with $\ip fg=\int\overline{f}g$.  Fourier convention
+$\hat f(k)=\int f(x)e^{-ikx}\dd x$; $\Pp$ is the projection onto $\{\hat f \text{ supported in }k<0\}$
+(the positive-energy subspace in the light-ray coordinate used in Note~4, \S1.1), and $\Pm:=1-\Pp$.
+Its distributional kernel is
+\begin{equation}\label{eq:hardy}
+ \Pp(x,y)=\tfrac12\delta(x-y)-\frac{i}{2\pi}\operatorname{pv}\frac1{x-y},
+ \qquad
+ \Pm(x,y)=\tfrac12\delta(x-y)+\frac{i}{2\pi}\operatorname{pv}\frac1{x-y}.
+\end{equation}
+This is \emph{one} convention and it is used everywhere below; it is the convention of
+Note~4 eq.~(1.1).
+
+\paragraph{(C2) Fock space and the vacuum.}
+$\Fock:=\Lambda\bigl(\Pp H\oplus\overline{\Pm H}\bigr)$ with vacuum $\Om$, and the Fock
+representation of $\CAR(H)$ determined by
+\begin{equation}\label{eq:qf}
+ \omega\bigl(a^*(f)a(g)\bigr)=\ip{g}{\Pp f},\qquad \omega(\cdot)=\ip{\Om}{\,\cdot\,\Om}.
+\end{equation}
+$a^*$ is complex linear, $a$ antilinear.  For $X\subset\mathbb R$ open, $\cF(X):=\CAR(L^2(X))''$
+in this representation; $\Om$ is cyclic and separating for $\cF(X)$ when $X$ and its complement
+have nonempty interior (Reeh--Schlieder).
+
+\paragraph{(C3) Half-density push-forward.}
+For an orientation-preserving $C^1$ diffeomorphism $\phi$ of $\mathbb R$,
+\begin{equation}\label{eq:pushforward}
+ (W_\phi f)(y):=f\bigl(\phi^{-1}(y)\bigr)\,\bigl((\phi^{-1})'(y)\bigr)^{1/2},
+ \qquad W_\phi W_\psi=W_{\phi\circ\psi},\qquad W_\phi^*=W_{\phi^{-1}},
+\end{equation}
+a unitary of $H$.  If $\phi$ maps $X$ onto $Y$ then $W_\phi$ maps $L^2(X)$ onto $L^2(Y)$.
+
+\paragraph{(C4) Geometry and the recovery curve.}
+We use the half-line configuration of Note~7 \S1 (legitimate by Note~5 Lemma~1.1: all the
+quantities below depend on $(a,L,s)$ only through the cross ratio $\zeta=as/(a+L)$, and
+$a=\infty$ gives $\zeta=s$), and we scale $L=1$ (dilation covariance):
+\begin{equation}\label{eq:geom}
+ A=(-\infty,0),\quad D=(0,1),\quad I=AD=(-\infty,1),\quad I'=(1,\infty),\quad \zeta=s .
+\end{equation}
+The recovery map of Note~4 eq.~(5.1) is the push-forward along
+\begin{equation}\label{eq:ks}
+ k_s(x)=\begin{cases} x,& x\le 0,\\[1mm] h_s(x)=\dfrac{x}{1+sx},& 0\le x<1,\end{cases}
+ \qquad h_s'(x)=\frac1{(1+sx)^2},
+\end{equation}
+$k_s:I\to J_s=(-\infty,\tfrac1{1+s})$, and $\widetilde\omega_s:=\omega_{J_s}\circ\beta_s$,
+$\beta_s(a(f))=a(W_{k_s}f)$.  Finally
+\begin{equation}\label{eq:Phi}
+ \Phi(\zeta):=-\log\Fid_{\cF(I)}\bigl(\omega,\widetilde\omega_s\bigr)\big|_{s=\zeta},
+ \qquad \Fid(\varphi,\psi)=\text{root fidelity }\;\Tr|\rho_\varphi^{1/2}\rho_\psi^{1/2}|
+ \text{ in finite dimensions.}
+\end{equation}
+
+\paragraph{(C5) Target constant.}
+$g_B=\frac{2c}{3\pi^2}=\frac2{3\pi^2}$ (Note~7 eq.~(20), verified independently in
+\texttt{rigor/quadratic\_limit.tex} Prop.~5.1 and \texttt{rigor/collar\_and\_invariant\_formula.tex}),
+so
+\begin{equation}\label{eq:target}
+ \frac{g_B}8=\frac1{12\pi^2}=0.008443431\ldots,\qquad \frac{g_B}4=\frac1{6\pi^2}=0.016886863\ldots
+\end{equation}
+
+\paragraph{(C6) Notation for Hilbert--Schmidt classes.}
+$\Stwo$ is the ideal of Hilbert--Schmidt operators, $\norm\cdot_2$ its norm, $\norm\cdot$ the
+operator norm.  For $T\in\Stwo$ we freely identify $\Pm T\Pp$ with the corresponding element of
+$\Stwo(\Pp H,\Pm H)$.
+
+\section{Step 1: a $C^{1,1}$ extension to $\mathbb R$ and its implementability}\label{sec:step1}
+
+\subsection{The extension}
+\begin{definition}[The extended flow]\label{def:ext}
+Fix once and for all $\beta\in C^\infty(\mathbb R;[0,1])$ with $\beta\equiv1$ on $(-\infty,0]$,
+$\beta\equiv0$ on $[1,\infty)$, $\beta'\le0$, and put
+\begin{equation}\label{eq:chi}
+ \chi(x):=\begin{cases}0,&x\le0,\\ x^2\,\beta(x-1),&x>0,\end{cases}
+ \qquad\text{so}\qquad
+ \chi(x)=x^2 \text{ on }[0,1],\quad \operatorname{supp}\chi=[0,2].
+\end{equation}
+Let $\kt_s$ be the flow of the vector field $-\chi\,\partial_x$:
+\begin{equation}\label{eq:flow}
+ \partial_s\kt_s(x)=-\chi\bigl(\kt_s(x)\bigr),\qquad \kt_0=\mathrm{id}.
+\end{equation}
+\end{definition}
+
+\begin{lemma}[Properties of the extension]\label{lem:ext}
+$\chi\in C^{1,1}(\mathbb R)$ with $\chi\ge0$, $\operatorname{supp}\chi=[0,2]$, and $\chi$ is
+$C^\infty$ on $\mathbb R\setminus\{0\}$; $\chi''$ has a single jump, at $x=0$, of size $2$.
+The flow \eqref{eq:flow} is complete, $(\kt_s)_{s\in\mathbb R}$ is a one-parameter group of
+$C^{1,1}$ increasing bijections of $\mathbb R$, and for every $s\ge0$:
+\begin{enumerate}[label=(E\arabic*),leftmargin=3em]
+\item $\kt_s(x)=x$ for $x\le0$ and for $x\ge2$;\label{E1}
+\item $\kt_s(x)=h_s(x)=\dfrac x{1+sx}$ for $x\in[0,1]$, hence $\kt_s|_I=k_s$ of \eqref{eq:ks};\label{E2}
+\item $\kt_s'(x)=\exp\bigl(-\int_0^s\chi'(\kt_\sigma(x))\dd\sigma\bigr)>0$, and with
+ $\Lambda_0:=\norm{\chi'}_\infty$, $\Lambda_1:=\operatorname{ess\,sup}|\chi''|$,
+ \[
+  e^{-s\Lambda_0}\le\kt_s'\le e^{s\Lambda_0},\qquad
+  \norm{\kt_s''}_\infty\le s\Lambda_1e^{2s\Lambda_0},\qquad
+  \norm{x-\kt_s(x)}_\infty\le s\norm\chi_\infty;\label{E3}
+ \]
+\item $\kt_s(x)-x=-s\chi(x)+\rho_s(x)$ with
+ $\norm{\rho_s}_\infty\le\tfrac12s^2\Lambda_0\norm\chi_\infty$ and
+ $\norm{\rho_s'}_\infty\le\tfrac12 s^2 e^{s\Lambda_0}(\Lambda_0^2+\Lambda_1\norm\chi_\infty)$.\label{E4}
+\end{enumerate}
+\end{lemma}
+
+\lstep{1}{1}{$\chi\in C^{1,1}$, $\chi\ge0$, $\operatorname{supp}\chi=[0,2]$, $\chi''$ jumps only at $0$.}
+\lproof
+\lstep{2}{1}{On $(0,\infty)$, $\chi=x^2\beta(x-1)$ is $C^\infty$; on $(-\infty,0)$, $\chi=0$.}
+\lby{products of $C^\infty$ functions}
+\lstep{2}{2}{$\chi(0^+)=0=\chi(0^-)$ and $\chi'(0^+)=\bigl(2x\beta(x-1)+x^2\beta'(x-1)\bigr)_{x=0}=0=\chi'(0^-)$;
+ $\chi''(0^+)=2\beta(-1)=2$ while $\chi''(0^-)=0$.}
+\lby{$\beta\equiv1$ near $x-1=-1$, so $\beta'(-1)=\beta''(-1)=0$ and $\beta(-1)=1$}
+\lstep{2}{3}{$\chi''$ is bounded on $\mathbb R$ and continuous off $0$; hence $\chi'$ is Lipschitz,
+ i.e.\ $\chi\in C^{1,1}$.}
+\lby{$\chi''=2\beta(x-1)+4x\beta'(x-1)+x^2\beta''(x-1)$ on $(0,\infty)$, a continuous function
+ supported in $[0,2]$, and $\chi''=0$ on $(-\infty,0)$}
+\lstep{2}{4}{$\chi\ge0$ and $\chi(x)=0\iff x\le0$ or $x\ge2$.}
+\lby{$x^2\ge0$, $\beta\ge0$, $\beta>0$ on $(-\infty,1)$ is not needed: $\beta\equiv1$ on $[0,1]$ gives
+ $\chi=x^2>0$ there, and $\beta\equiv0$ on $[1,\infty)$ gives $\chi=0$ on $[2,\infty)$}
+\lqed{2}{5}\lby{$\langle2\rangle1$--$\langle2\rangle4$}
+\lstep{1}{2}{The flow \eqref{eq:flow} exists globally and $(\kt_s)$ is a one-parameter group of
+ increasing bijections of $\mathbb R$, and \ref{E1} holds.}
+\lproof
+\lstep{2}{1}{$-\chi$ is bounded and globally Lipschitz.}
+\lby{$\langle1\rangle1$: $\chi\in C^{1,1}$ with compact support}
+\lstep{2}{2}{Picard--Lindel\"of gives a unique global flow, a one-parameter group of homeomorphisms;
+ each $\kt_s$ is increasing because distinct integral curves of an autonomous scalar ODE do not cross.}
+\lby{uniqueness of solutions, $\langle2\rangle1$}
+\lstep{2}{3}{$\chi(x_0)=0$ implies $\kt_s(x_0)=x_0$ for all $s$; hence $\kt_s=\mathrm{id}$ on
+ $(-\infty,0]\cup[2,\infty)$ and $\kt_s\bigl((0,2)\bigr)=(0,2)$.}
+\lby{constant curves solve \eqref{eq:flow}, uniqueness, and $\langle1\rangle1$ ($\chi=0$ exactly there)}
+\lqed{2}{4}\lby{$\langle2\rangle2$, $\langle2\rangle3$}
+\lstep{1}{3}{\ref{E2}: $\kt_s(x)=h_s(x)$ for $x\in[0,1]$, $s\ge0$.}
+\lproof
+\lstep{2}{1}{$[0,1]$ is forward invariant: $\kt_s([0,1])\subseteq[0,1]$ for $s\ge0$.}
+\lby{$0$ is a fixed point by $\langle1\rangle2$ and $\partial_s\kt_s\le0$ since $\chi\ge0$}
+\lstep{2}{2}{On $[0,1]$, $\chi(y)=y^2$, so on that set \eqref{eq:flow} reads $\partial_s y=-y^2$.}
+\lby{\eqref{eq:chi} and $\beta\equiv1$ on $[-1,0]$}
+\lstep{2}{3}{The solution of $\partial_sy=-y^2$, $y(0)=x\ge0$, is $y(s)=x/(1+sx)=h_s(x)$.}
+\lby{separation of variables: $\partial_s(1/y)=1$, $1/y(s)=1/x+s$; for $x=0$, $y\equiv0=h_s(0)$}
+\lqed{2}{4}\lby{$\langle2\rangle1$--$\langle2\rangle3$ and uniqueness}
+\lstep{1}{4}{\ref{E3}.}
+\lproof
+\lstep{2}{1}{$\partial_s\kt_s'(x)=-\chi'(\kt_s(x))\,\kt_s'(x)$, whence
+ $\kt_s'(x)=\exp\bigl(-\int_0^s\chi'(\kt_\sigma(x))\dd\sigma\bigr)$.}
+\lby{differentiating \eqref{eq:flow} in $x$ (legitimate: $\chi\in C^1$, so the flow is $C^1$ in $x$
+ with the variational equation) and solving the linear ODE}
+\lstep{2}{2}{$e^{-s\Lambda_0}\le\kt_s'\le e^{s\Lambda_0}$.}
+\lby{$\langle2\rangle1$ and $|\chi'|\le\Lambda_0$}
+\lstep{2}{3}{$\partial_s\kt_s''=-\chi''(\kt_s)(\kt_s')^2-\chi'(\kt_s)\kt_s''$ a.e., and $\kt_0''=0$;
+ hence $|\kt_s''|\le\int_0^s\Lambda_1e^{2\sigma\Lambda_0}e^{(s-\sigma)\Lambda_0}\dd\sigma
+ \le s\Lambda_1e^{2s\Lambda_0}$.}
+\lby{differentiating $\langle2\rangle1$ once more (a.e.; $\chi'$ is Lipschitz) and Gr\"onwall with
+ $\langle2\rangle2$}
+\lstep{2}{4}{$|x-\kt_s(x)|=\bigl|\int_0^s\chi(\kt_\sigma(x))\dd\sigma\bigr|\le s\norm\chi_\infty$.}
+\lby{\eqref{eq:flow}}
+\lqed{2}{5}\lby{$\langle2\rangle1$--$\langle2\rangle4$}
+\lstep{1}{5}{\ref{E4}.}
+\lproof
+\lstep{2}{1}{$\rho_s(x):=\kt_s(x)-x+s\chi(x)=\int_0^s\bigl[\chi(x)-\chi(\kt_\sigma(x))\bigr]\dd\sigma$.}
+\lby{\eqref{eq:flow} integrated}
+\lstep{2}{2}{$|\chi(x)-\chi(\kt_\sigma(x))|\le\Lambda_0|x-\kt_\sigma(x)|\le\Lambda_0\sigma\norm\chi_\infty$,
+ so $|\rho_s|\le\frac12s^2\Lambda_0\norm\chi_\infty$.}
+\lby{$\langle1\rangle4$ $\langle2\rangle4$ and $|\chi'|\le\Lambda_0$}
+\lstep{2}{3}{$\rho_s'(x)=\int_0^s\bigl[\chi'(x)-\chi'(\kt_\sigma(x))\kt_\sigma'(x)\bigr]\dd\sigma$ and
+ $|\chi'(x)-\chi'(\kt_\sigma)\kt_\sigma'|\le|\chi'(x)-\chi'(\kt_\sigma)|+|\chi'(\kt_\sigma)||1-\kt_\sigma'|
+ \le\Lambda_1\sigma\norm\chi_\infty+\Lambda_0(e^{\sigma\Lambda_0}-1)$.}
+\lby{$\langle2\rangle1$ differentiated, $|\chi''|\le\Lambda_1$ a.e., $\langle1\rangle4$}
+\lstep{2}{4}{Integrating $\langle2\rangle3$ over $\sigma\in[0,s]$ and using $e^{u}-1\le ue^{u}$
+ gives $\norm{\rho_s'}_\infty\le\frac12s^2\bigl(\Lambda_1\norm\chi_\infty+\Lambda_0^2e^{s\Lambda_0}\bigr)
+ \le\frac12s^2e^{s\Lambda_0}\bigl(\Lambda_1\norm\chi_\infty+\Lambda_0^2\bigr)$.}
+\lby{$\langle2\rangle3$}
+\lqed{2}{5}\lby{$\langle2\rangle1$--$\langle2\rangle4$}
+\lqed{1}{6}\lby{$\langle1\rangle1$--$\langle1\rangle5$}
+
+\begin{remark}\label{rem:why-flow}
+Defining the extension as a \emph{flow} rather than by gluing a cut-off displacement buys three
+things at once: (i) $\kt_s|_{[0,1]}=h_s$ \emph{exactly} (Lemma~\ref{lem:ext}\ref{E2}), because the
+M\"obius semigroup $h_s$ \emph{is} the flow of $-x^2\partial_x$; (ii) $\Wt_s:=W_{\kt_s}$ is a
+one-parameter unitary \emph{group}, so all $s$-expansions below are expansions of $e^{sD}$; (iii)
+the displacement is supported in $[0,2]$ for all $s$, so no decay hypothesis at infinity is needed.
+The only non-smooth point of the whole construction is $x=0$, the touching point, where $\chi''$
+jumps --- exactly the kink announced in the brief.
+\end{remark}
+
+\subsection{The transported Hardy projection}
+\begin{lemma}[Kernel of the projection defect]\label{lem:kernel}
+Let $\phi$ be an increasing $C^{1,1}$ diffeomorphism of $\mathbb R$ with $\phi=\mathrm{id}$ outside a
+compact set and $\inf\phi'>0$.  Then
+\begin{equation}\label{eq:Gphi}
+ G_\phi:=\Pp-W_\phi^*\,\Pp\,W_\phi
+\end{equation}
+is the integral operator with kernel
+\begin{equation}\label{eq:kphi}
+ G_\phi(x,y)=\frac i{2\pi}\,\kappa_\phi(x,y),\qquad
+ \kappa_\phi(x,y):=\frac{\sqrt{\phi'(x)\phi'(y)}}{\phi(x)-\phi(y)}-\frac1{x-y}\quad(x\ne y),
+\end{equation}
+and $\kappa_\phi$ is real-valued, symmetric, and bounded:
+\begin{equation}\label{eq:kbound}
+ \norm{\kappa_\phi}_\infty\le\frac{3\Lambda}{2c},\qquad
+ \Lambda:=\operatorname{ess\,sup}|\phi''|,\quad c:=\inf\phi' .
+\end{equation}
+\end{lemma}
+\lstep{1}{1}{$W_\phi^*\Pp W_\phi$ has distributional kernel
+ $\sqrt{\phi'(x)\phi'(y)}\;\Pp\bigl(\phi(x),\phi(y)\bigr)$.}
+\lproof
+\lstep{2}{1}{For $f,g\in C_c^\infty$: $\ip{f}{W_\phi^*\Pp W_\phi g}=\ip{W_\phi f}{\Pp W_\phi g}
+ =\iint\overline{(W_\phi f)(u)}\,\Pp(u,v)\,(W_\phi g)(v)\dd u\dd v$.}
+\lby{(C3) and \eqref{eq:hardy}, both sides being continuous sesquilinear forms on $C_c^\infty$}
+\lstep{2}{2}{Substituting $u=\phi(x)$, $v=\phi(y)$ and $(W_\phi f)(\phi(x))=f(x)\phi'(x)^{-1/2}$ turns
+ $\langle2\rangle1$ into $\iint\overline{f(x)}\,\sqrt{\phi'(x)\phi'(y)}\,\Pp(\phi(x),\phi(y))\,g(y)\dd x\dd y$.}
+\lby{$\dd u\dd v=\phi'(x)\phi'(y)\dd x\dd y$ and $(\phi^{-1})'(\phi(x))=1/\phi'(x)$, so
+ $(W_\phi f)(\phi(x))=f(x)\phi'(x)^{-1/2}$}
+\lqed{2}{3}\lby{$\langle2\rangle1$, $\langle2\rangle2$}
+\lstep{1}{2}{$\sqrt{\phi'(x)\phi'(y)}\cdot\frac12\delta(\phi(x)-\phi(y))=\frac12\delta(x-y)$.}
+\lby{$\delta(\phi(x)-\phi(y))=\delta(x-y)/\phi'(x)$ for an increasing $C^1$ diffeomorphism,
+ and $\sqrt{\phi'(x)\phi'(y)}\,\delta(x-y)=\phi'(x)\delta(x-y)$}
+\lstep{1}{3}{For $g\in C^1_c$ and every $x$,
+ $\operatorname{pv}\!\int\frac{\sqrt{\phi'(x)\phi'(y)}}{\phi(x)-\phi(y)}g(y)\dd y$ converges and equals
+ $\int\bigl[\frac{\sqrt{\phi'(x)\phi'(y)}}{\phi(x)-\phi(y)}-\frac1{x-y}\bigr]g(y)\dd y
+ +\operatorname{pv}\!\int\frac{g(y)}{x-y}\dd y$.}
+\lproof
+\lstep{2}{1}{$m(x,y):=\dfrac{(x-y)\sqrt{\phi'(x)\phi'(y)}}{\phi(x)-\phi(y)}$ extends continuously to
+ $y=x$ with $m(x,x)=1$, and $|m(x,y)-1|\le\frac{3\Lambda}{2c}|x-y|$.}
+\lproof
+\lstep{3}{1}{$F(x,y):=\frac{\phi(x)-\phi(y)}{x-y}=\int_0^1\phi'\bigl(y+t(x-y)\bigr)\dd t$, so $F\ge c$ and
+ $|F(x,y)-\phi'(y)|\le\frac\Lambda2|x-y|$.}
+\lby{fundamental theorem of calculus and $|\phi'(u)-\phi'(y)|\le\Lambda|u-y|$}
+\lstep{3}{2}{$\bigl|\sqrt{\phi'(x)\phi'(y)}-\phi'(y)\bigr|
+ =\sqrt{\phi'(y)}\frac{|\phi'(x)-\phi'(y)|}{\sqrt{\phi'(x)}+\sqrt{\phi'(y)}}\le\Lambda|x-y|$.}
+\lby{$\sqrt{ab}-b=\sqrt b(\sqrt a-\sqrt b)=\sqrt b\,(a-b)/(\sqrt a+\sqrt b)$ and
+ $\sqrt{\phi'(y)}\le\sqrt{\phi'(x)}+\sqrt{\phi'(y)}$}
+\lstep{3}{3}{$\bigl|\sqrt{\phi'(x)\phi'(y)}-F(x,y)\bigr|\le\frac32\Lambda|x-y|$, hence
+ $|m-1|=\bigl|\frac{\sqrt{\phi'(x)\phi'(y)}-F}{F}\bigr|\le\frac{3\Lambda}{2c}|x-y|$.}
+\lby{$\langle3\rangle1$, $\langle3\rangle2$, triangle inequality, and $m=\sqrt{\phi'(x)\phi'(y)}/F$}
+\lqed{3}{4}\lby{$\langle3\rangle3$}
+\lstep{2}{2}{$\kappa_\phi(x,y)=\frac{m(x,y)-1}{x-y}$, so $\kappa_\phi$ is bounded by
+ $\frac{3\Lambda}{2c}$ and extends continuously across the diagonal.}
+\lby{$\langle2\rangle1$ and the definition \eqref{eq:kphi}}
+\lqed{2}{3}\lby{$\langle2\rangle2$: the integrand splits into a bounded (absolutely integrable) part
+ and the principal value of $g(y)/(x-y)$}
+\lstep{1}{4}{Combining, $W_\phi^*\Pp W_\phi=\Pp-\frac i{2\pi}\kappa_\phi$ as quadratic forms on
+ $C_c^\infty$, which is \eqref{eq:Gphi}--\eqref{eq:kphi}.}
+\lby{$\langle1\rangle1$--$\langle1\rangle3$ and \eqref{eq:hardy}: the transported kernel is
+ $\frac12\delta(x-y)-\frac i{2\pi}\bigl[\kappa_\phi(x,y)+\operatorname{pv}\frac1{x-y}\bigr]$}
+\lstep{1}{5}{$\kappa_\phi$ is real and symmetric.}
+\lby{$\phi,\phi'$ are real and \eqref{eq:kphi} is invariant under $x\leftrightarrow y$}
+\lqed{1}{6}\lby{$\langle1\rangle4$, $\langle1\rangle5$, $\langle2\rangle2$ of $\langle1\rangle3$}
+
+\subsection{Hilbert--Schmidt property and second quantization}
+\begin{proposition}[Explicit Hilbert--Schmidt bound]\label{prop:HS}
+Let $\phi$ be as in Lemma~\ref{lem:kernel} with $\phi=\mathrm{id}$ outside $K=[0,2]$, and set
+$\eta:=\norm{\mathrm{id}-\phi}_\infty$, $\delta:=\norm{\sqrt{\phi'}-1}_\infty$,
+$\Lambda:=\operatorname{ess\,sup}|\phi''|$, $c:=\inf\phi'$.  If $\eta\le\frac12$ then
+\begin{equation}\label{eq:HSbound}
+ \norm{G_\phi}_2^2=\frac1{4\pi^2}\iint_{\mathbb R^2}\kappa_\phi(x,y)^2\dd x\dd y
+ \ \le\ \frac1{4\pi^2}\Bigl[\frac{36\,\Lambda^2}{c^2}+64\,\delta^2+\tfrac{64}3\eta^2\Bigr]\ <\ \infty .
+\end{equation}
+Consequently $V_\phi:=\Pm W_\phi\Pp\in\Stwo$ with $\norm{V_\phi}_2\le\norm{G_\phi}_2$.  For
+$\phi=\kt_s$, $0\le s\le1$, all four quantities are $O(s)$, and there is an explicit $C_0$ with
+$\norm{G_{\kt_s}}_2\le C_0\,s$.
+\end{proposition}
+\lstep{1}{1}{$\kappa_\phi(x,y)=0$ whenever $x\notin K$ and $y\notin K$; hence
+ $\operatorname{supp}\kappa_\phi\subseteq(K\times\mathbb R)\cup(\mathbb R\times K)$.}
+\lby{$\phi(x)=x,\phi(y)=y,\phi'=1$ there, so the two terms of \eqref{eq:kphi} cancel}
+\lstep{1}{2}{With $K_1:=[-1,3]$: $\iint_{K_1\times K_1}\kappa_\phi^2\le|K_1|^2\bigl(\tfrac{3\Lambda}{2c}\bigr)^2
+ =\dfrac{36\Lambda^2}{c^2}$.}
+\lby{\eqref{eq:kbound} and $|K_1|=4$}
+\lstep{1}{3}{For $x\in K$ and $y\notin K_1$:
+ $|\kappa_\phi(x,y)|\le\dfrac{2\delta}{|x-y|}+\dfrac{2\eta}{|x-y|^2}$.}
+\lproof
+\lstep{2}{1}{$\phi(y)=y$, $\phi'(y)=1$, so
+ $\kappa_\phi(x,y)=\dfrac{(\sqrt{\phi'(x)}-1)(x-y)+(x-\phi(x))}{(\phi(x)-y)(x-y)}$.}
+\lby{\eqref{eq:kphi}: put the two fractions over the common denominator $(\phi(x)-y)(x-y)$ and use
+ $\sqrt{\phi'(x)\cdot1}(x-y)-(\phi(x)-y)=(\sqrt{\phi'(x)}-1)(x-y)+x-\phi(x)$}
+\lstep{2}{2}{$|x-y|\ge1$ and $|\phi(x)-y|\ge|x-y|-\eta\ge\frac12|x-y|$.}
+\lby{$x\in K\subset K_1$, $y\notin K_1$, so $\operatorname{dist}(x,y)\ge1$; and $\eta\le\frac12\le\frac12|x-y|$}
+\lqed{2}{3}\lby{$\langle2\rangle1$, $\langle2\rangle2$, and the triangle inequality in the numerator}
+\lstep{1}{4}{$\displaystyle\int_{|t|\ge1}\Bigl(\frac{2\delta}{|t|}+\frac{2\eta}{t^2}\Bigr)^2\dd t
+ \le16\delta^2+\tfrac{16}3\eta^2$.}
+\lby{$(p+q)^2\le2p^2+2q^2$, $\int_{|t|\ge1}t^{-2}\dd t=2$, $\int_{|t|\ge1}t^{-4}\dd t=\frac23$}
+\lstep{1}{5}{$\displaystyle\iint_{K\times(\mathbb R\setminus K_1)}\kappa_\phi^2
+ +\iint_{(\mathbb R\setminus K_1)\times K}\kappa_\phi^2\le2\cdot|K|\cdot\bigl(16\delta^2+\tfrac{16}3\eta^2\bigr)
+ =64\delta^2+\tfrac{64}3\eta^2$.}
+\lby{$\langle1\rangle3$, $\langle1\rangle4$, $|K|=2$, and the symmetry of $\kappa_\phi$}
+\lstep{1}{6}{\eqref{eq:HSbound} holds.}
+\lby{$\langle1\rangle1$ gives
+ $\mathbb R^2\cap\operatorname{supp}\kappa_\phi\subseteq(K_1\times K_1)\cup(K\times K_1^c)\cup(K_1^c\times K)$,
+ then $\langle1\rangle2$ and $\langle1\rangle5$; the prefactor $\frac1{4\pi^2}$ is $|i/2\pi|^2$}
+\lstep{1}{7}{$\Wt^*_\phi V_\phi=G_\phi\Pp$ where $\Wt_\phi:=W_\phi$; hence
+ $\norm{V_\phi}_2=\norm{G_\phi\Pp}_2\le\norm{G_\phi}_2$.}
+\lby{$W_\phi^*\Pm W_\phi\Pp=(1-W_\phi^*\Pp W_\phi)\Pp=(\Pp-W_\phi^*\Pp W_\phi)\Pp$ since $\Pm\Pp=0$
+ and $\Pp^2=\Pp$; $W_\phi$ is unitary, and $\norm{TP}_2\le\norm T_2\norm P$}
+\lstep{1}{8}{For $\phi=\kt_s$, $0\le s\le1$: $\Lambda\le s\Lambda_1e^{2\Lambda_0}$,
+ $c\ge e^{-\Lambda_0}$, $\eta\le s\norm\chi_\infty$, $\delta\le\frac s2\Lambda_0e^{\Lambda_0/2}$,
+ so $\norm{G_{\kt_s}}_2\le C_0s$ with
+ $C_0^2=\frac1{4\pi^2}\bigl[36\Lambda_1^2e^{6\Lambda_0}+16\Lambda_0^2e^{\Lambda_0}
+ +\frac{64}3\norm\chi_\infty^2\bigr]$.}
+\lby{Lemma~\ref{lem:ext}\ref{E3}, $|\sqrt u-1|\le e^{\Lambda_0 s/2}-1\le\frac s2\Lambda_0e^{\Lambda_0s/2}$
+ for $e^{-s\Lambda_0}\le u\le e^{s\Lambda_0}$, and \eqref{eq:HSbound}}
+\lqed{1}{9}\lby{$\langle1\rangle6$--$\langle1\rangle8$}
+
+\begin{remark}[Where the two dangerous places went]\label{rem:danger}
+The kink at $x=0$ enters only through $\Lambda_1=\operatorname{ess\,sup}|\chi''|<\infty$: a
+$C^{1,1}$ (not $C^2$) diffeomorphism already gives a \emph{bounded} kernel $\kappa_\phi$ by
+\eqref{eq:kbound}, which is all that \eqref{eq:HSbound} uses; a merely $C^1$ map would give
+$\kappa_\phi\notin L^\infty$ near the diagonal and the argument would fail.  The behaviour at
+infinity enters only through $\langle1\rangle3$: because the displacement is compactly supported the
+kernel decays like $\delta/|y|$ (not merely $O(1)$), and $\delta/|y|\in L^2(|y|\ge1)$.  If one insists
+on an extension with non-compact displacement, \eqref{eq:HSbound} must be replaced by a decay
+hypothesis $\int(|\mathrm{id}-\phi|^2+|\sqrt{\phi'}-1|^2)<\infty$; the flow construction of
+Definition~\ref{def:ext} avoids the issue.
+\end{remark}
+
+\begin{citedbox}{Shale--Stinespring 1965 (implementability); Araki's form}
+\textbf{Statement (faithful paraphrase).}  Let $U$ be a unitary of $H$ and let $\Pp$ be an orthogonal
+projection.  The Bogoliubov automorphism $\beta_U(a(f))=a(Uf)$ of $\CAR(H)$ is unitarily implementable
+in the Fock representation with symbol $\Pp$ if and only if $\Pm U\Pp$ is Hilbert--Schmidt; the
+implementer $\Gm(U)$ is then unique up to a phase, is even, and satisfies
+$\Gm(U)a(f)\Gm(U)^*=a(Uf)$.  \emph{Locator}: D.~Shale and W.~F.~Stinespring, ``Spinor representations'',
+J.\ Math.\ Mech.\ \textbf{14} (1965) 315--322, Theorem~3; H.~Araki, ``On quasifree states of CAR and
+Bogoliubov automorphisms'', Publ.\ RIMS \textbf{6} (1970/71) 385--442, Lemma~6.3 and Theorem~6.5
+(the criterion in the equivalent form $\norm{[\Pp,U]}_2<\infty$: for a \emph{linear}, i.e.\
+gauge-invariant, $U$ one has $\norm{[\Pp,U]}_2^2=\norm{\Pm U\Pp}_2^2+\norm{\Pp U\Pm}_2^2$, and
+$\Pp U\Pm=-(\Pm U^*\Pp)^*$, so either summand being finite for both $U$ and $U^*$ is the same
+condition).  \emph{Use here}: with $U=\Wt_s$ and Proposition~\ref{prop:HS} it yields the implementer
+$\Gm(\Wt_s)$.  \emph{Screenshot}: NOT OBTAINED (neither source is available online in this
+environment; see \S\ref{sec:used}).  \emph{Verdict on the usage}: hypotheses verified
+(Proposition~\ref{prop:HS} gives $\Pm\Wt_s\Pp\in\Stwo$, and $\Wt_{-s}=\Wt_s^{-1}$ is of the same form,
+so the criterion holds symmetrically); conventions match, since Note~4 and this document use the same
+Fock representation \eqref{eq:qf}.
+\end{citedbox}
+
+\begin{corollary}[The implementer]\label{cor:implementer}
+For every $s\in\mathbb R$ there is a unitary $\Gm(\Wt_s)$ of $\Fock$, unique up to a phase, with
+$\Gm(\Wt_s)a(f)\Gm(\Wt_s)^*=a(\Wt_sf)$ for all $f\in H$.  The same holds for
+$U=\Wt_s\,(\one_{L^2(I)}\oplus W')$ with $W'$ any unitary of $L^2(I')$ such that
+$\Pm(\one\oplus W')\Pp\in\Stwo$.
+\end{corollary}
+\lstep{1}{1}{$\Pm\Wt_s\Pp\in\Stwo$.}\lby{Proposition~\ref{prop:HS}}
+\lstep{1}{2}{$\Pm U\Pp=\Pm\Wt_s\Pp\cdot\Pp(\one\oplus W')\Pp+\Pm\Wt_s\Pm\cdot\Pm(\one\oplus W')\Pp\in\Stwo$.}
+\lby{inserting $\one=\Pp+\Pm$, $\langle1\rangle1$, the hypothesis on $W'$, and the fact that $\Stwo$ is
+an ideal}
+\lqed{1}{3}\lby{$\langle1\rangle1$, $\langle1\rangle2$, and the cited Shale--Stinespring criterion}
+
+\begin{verdictok}
+Step~1 of the brief is proved, and in a stronger form than requested: the extension is a
+\emph{one-parameter group} of $C^{1,1}$ diffeomorphisms whose displacement is supported in the fixed
+compact set $[0,2]$, it restricts to $k_s$ on $I$ exactly, and the Hilbert--Schmidt norm of the
+projection defect is bounded explicitly by \eqref{eq:HSbound}, with all constants controlled by
+$\norm\chi_\infty,\norm{\chi'}_\infty,\norm{\chi''}_\infty$.  The kink at the touching point $x=0$
+costs nothing beyond $\chi\in C^{1,1}$; the behaviour at infinity is trivialised by the compact
+support of the displacement.  The only imported ingredient is the Shale--Stinespring criterion, whose
+statement we could not screenshot.
+\end{verdictok}
+
+\section{Step 2: the vector representative and the Uhlmann inequality}\label{sec:step2}
+
+\begin{proposition}[Vector representative]\label{prop:vector}
+Put $\cM:=\cF(I)$ and $\Psi_s:=\Gm(\Wt_s)^*\Om$.  Then $\Psi_s$ is a unit vector and
+\begin{equation}\label{eq:vecrep}
+ \ip{\Psi_s}{X\Psi_s}=\widetilde\omega_s(X)\qquad\text{for all }X\in\cM .
+\end{equation}
+In particular $\widetilde\omega_s$ is normal on $\cM$.
+\end{proposition}
+\lstep{1}{1}{For $f\in L^2(I)$: $\Wt_sf=W_{k_s}f$.}
+\lby{Lemma~\ref{lem:ext}\ref{E2}: $\kt_s|_I=k_s$, and \eqref{eq:pushforward} is local in the sense
+ that $(W_\phi f)(y)$ for $y\in\phi(I)$ depends only on $f|_I$ and $\phi|_I$}
+\lstep{1}{2}{$\Gm(\Wt_s)X\Gm(\Wt_s)^*=\beta_s(X)$ for $X$ in the $*$-algebra generated by
+ $\{a(f):f\in L^2(I)\}$, with $\beta_s(a(f))=a(W_{k_s}f)$ (Note~4 eq.~(5.2)).}
+\lby{Corollary~\ref{cor:implementer} on generators, $\langle1\rangle1$, and multiplicativity}
+\lstep{1}{3}{\eqref{eq:vecrep} holds for such $X$.}
+\lby{$\ip{\Psi_s}{X\Psi_s}=\ip{\Om}{\Gm(\Wt_s)X\Gm(\Wt_s)^*\Om}=\omega(\beta_s(X))=\widetilde\omega_s(X)$
+ by $\langle1\rangle2$ and the definition $\widetilde\omega_s=\omega_{J_s}\circ\beta_s$ of Note~4 eq.~(5.4) ($\omega_{J_s}$ is the vacuum restricted to
+ $\CAR(H_{J_s})$, and $\beta_s(X)\in\CAR(H_{J_s})$)}
+\lstep{1}{4}{\eqref{eq:vecrep} holds for all $X\in\cM$.}
+\lby{both sides are $\sigma$-weakly continuous on $\cM$ --- the left side because it is a vector
+ state, the right side because it \emph{is defined} as the left side on the generating $*$-algebra,
+ which is $\sigma$-weakly dense in $\cM=\CAR(L^2(I))''$ by von Neumann's density theorem ---
+ and they agree on a $\sigma$-weakly dense $*$-subalgebra by $\langle1\rangle3$}
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$; $\norm{\Psi_s}=\norm\Om=1$ as $\Gm(\Wt_s)$ is unitary}
+
+\begin{lemma}[Commutant elements from $I'$]\label{lem:commutant}
+Let $W'$ be a unitary of $L^2(I')$ with $\Pm(\one\oplus W')\Pp\in\Stwo$, and write
+$\widehat W':=\one_{L^2(I)}\oplus W'$.  Then any implementer $\Gm(\widehat W')$ lies in $\cM'$.
+\end{lemma}
+\lstep{1}{1}{$\Gm(\widehat W')a(f)\Gm(\widehat W')^*=a(\widehat W'f)=a(f)$ for every $f\in L^2(I)$.}
+\lby{Corollary~\ref{cor:implementer} and $\widehat W'f=f$ for $f\in L^2(I)$}
+\lstep{1}{2}{$\Gm(\widehat W')$ commutes with every $a(f)$, $f\in L^2(I)$, hence with $\cM$.}
+\lby{$\langle1\rangle1$ (multiply on the right by $\Gm(\widehat W')$), then take commutants: the set
+ $\{a(f):f\in L^2(I)\}''=\cM$}
+\lqed{1}{3}\lby{$\langle1\rangle2$}
+
+\begin{remark}[The graded structure]\label{rem:klein}
+No Klein transformation is needed here.  Twisted duality $\cF(I)'=Z\,\cF(I')\,Z^*$ (with
+$Z=(1+iV)/(1+i)$, $V$ the parity unitary) is a \emph{theorem} about the full commutant and will be
+used only in \S\ref{sec:step5}; for Lemma~\ref{lem:commutant} the elementary inclusion
+$\Gm(\widehat W')\in\cM'$ suffices, and it holds because $\Gm(\widehat W')$ is an \emph{even}
+element: it implements a linear (gauge-invariant) Bogoliubov automorphism, so it commutes with the
+odd generators $a(f)$, $f\in L^2(I)$, on the nose rather than up to a sign.  The odd part of
+$\cF(I')$, which does \emph{not} lie in $\cF(I)'$, never enters the variational family.
+\end{remark}
+
+\begin{citedbox}{Alberti--Uhlmann 2002, Theorem 2(3)}
+\textbf{Statement (transcribed).}  ``Let $M$ be a $W^*$-algebra, and be $\nu,\varrho\in M_*^+$.
+\dots\ if $\{\pi,K\}$ is any unital $*$-representation of $M$ over some Hilbert space $K$ such that
+$S_{\pi,M}(\nu)\neq\emptyset$ and $S_{\pi,M}(\varrho)\neq\emptyset$ are fulfilled, then the following
+is fulfilled: (3) $\sqrt{P_M(\nu,\varrho)}=\sup_{\psi\in S_{\pi,M}(\varrho)}|\langle\psi,\phi\rangle|$,
+$\forall\phi\in S_{\pi,M}(\nu)$.''  Here $S_{\pi,M}(\nu)$ is the set of vector representatives of
+$\nu$ in $\pi$, and $P_M$ is the transition probability, so $\sqrt{P_M}$ is the root fidelity
+$\Fid$.  \emph{Locator}: P.~M.~Alberti, A.~Uhlmann, ``On Bures distance and $*$-algebraic transition
+probability between inner derived positive linear forms'', \texttt{math-ph/0202038}, p.~7,
+Theorem~2(3).\\
+\includegraphics[width=\textwidth]{shots/PA_AU02_thm2.png}\\
+\emph{Use here}: only the trivial half ``$\ge$'': every $u'\Psi_s$ with $u'\in U(\cM')$ is a vector
+representative of $\widetilde\omega_s$, so $\Fid\ge|\ip{\Om}{u'\Psi_s}|$.  \emph{Verdict}: hypotheses
+satisfied ($\cM$ is a $W^*$-algebra; $\Om$ and $\Psi_s$ are vector representatives of $\omega$ and
+$\widetilde\omega_s$ by Proposition~\ref{prop:vector}); the normalisation matches
+$\Fid=\Tr|\rho^{1/2}\sigma^{1/2}|$ used in \eqref{eq:Phi}.
+\end{citedbox}
+
+\begin{proposition}[Uhlmann lower bound for the fidelity]\label{prop:uhlmann}
+Let $W'$ be as in Lemma~\ref{lem:commutant} and let $U:=\Wt_s\widehat W'$, with implementer
+$\Gm(U)=\Gm(\Wt_s)\Gm(\widehat W')$ (a choice of phases).  Then
+\begin{equation}\label{eq:uhl}
+ \Fid\bigl(\omega|_\cM,\widetilde\omega_s|_\cM\bigr)\ \ge\ \bigl|\ip{\Om}{\Gm(U)\Om}\bigr| .
+\end{equation}
+\end{proposition}
+\lstep{1}{1}{$u':=\Gm(\widehat W')^*\in U(\cM')$.}
+\lby{Lemma~\ref{lem:commutant} and $\cM'$ is a $*$-algebra}
+\lstep{1}{2}{$u'\Psi_s\in S_{\pi,\cM}(\widetilde\omega_s)$.}
+\lby{$\ip{u'\Psi_s}{Xu'\Psi_s}=\ip{\Psi_s}{u'^*Xu'\Psi_s}=\ip{\Psi_s}{X\Psi_s}=\widetilde\omega_s(X)$
+ for $X\in\cM$, by $\langle1\rangle1$ and Proposition~\ref{prop:vector}}
+\lstep{1}{3}{$\Fid\ge|\ip{\Om}{u'\Psi_s}|$.}
+\lby{Alberti--Uhlmann Theorem~2(3) with $\phi=\Om\in S_{\pi,\cM}(\omega)$ and $\psi=u'\Psi_s$,
+ $\langle1\rangle2$}
+\lstep{1}{4}{$\ip{\Om}{u'\Psi_s}=\ip{\Om}{\Gm(\widehat W')^*\Gm(\Wt_s)^*\Om}
+ =\overline{\ip{\Om}{\Gm(U)\Om}}$.}
+\lby{$\Psi_s=\Gm(\Wt_s)^*\Om$, $\Gm(U)=\Gm(\Wt_s)\Gm(\widehat W')$, and
+ $\ip{\Om}{T^*\Om}=\overline{\ip{\Om}{T\Om}}$}
+\lqed{1}{5}\lby{$\langle1\rangle3$, $\langle1\rangle4$}
+
+\begin{verdictok}
+Step~2 is proved.  Two points deserve emphasis.  (i) The inequality \eqref{eq:uhl} uses only the
+elementary half of the Alberti--Uhlmann supremum formula, so no completeness or attainability
+statement about $S_{\pi,\cM}$ is needed; in particular we never assert that the optimal $u'$ is of
+the quasi-free form $\Gm(\widehat W')$ --- only that these are admissible trial unitaries.
+(ii) $\Gm(\widehat W')\in\cM'$ is elementary and Klein-free (Remark~\ref{rem:klein}); the graded
+subtlety $\cF(I)'\ne\cF(I')$ is postponed to \S\ref{sec:step5}, where it appears in the direction
+that \emph{helps} (a larger commutant makes the distance in Theorem~\ref{thm:three-faces} smaller,
+and we must show it is not too small).
+\end{verdictok}
+
+\section{Step 3: the vacuum overlap of a Bogoliubov unitary}\label{sec:step3}
+
+\begin{theorem}[Vacuum overlap]\label{thm:det}
+Let $U$ be a unitary of $H$ with $V:=\Pm U\Pp$ and $A:=\Pp U\Pm$ both Hilbert--Schmidt and
+$\norm V<1$, $\norm A<1$.  Let $\Gm(U)$ be any implementer.  Then
+\begin{equation}\label{eq:det}
+ \bigl|\ip{\Om}{\Gm(U)\Om}\bigr|=\det\bigl(\one-V^*V\bigr)^{1/2},
+\end{equation}
+the right-hand side being the Fredholm determinant of the identity-plus-trace-class operator
+$\one-V^*V$ on $\Pp H$.  (We do \emph{not} write the classical middle term
+$|\det(\Pp U\Pp|_{\Pp H})|$: $V\in\Stwo$ makes $X^*X=\one-V^*V$ of the form $\one+\Sone$ but does
+\emph{not} make $X=\Pp U\Pp$ so, and the Fredholm determinant of $X$ is then undefined.  Under the
+extra hypothesis $\Pp(U-\one)\Pp\in\Sone$ the middle term is defined and the equality follows from
+$\langle1\rangle6$--$\langle1\rangle7$ below; that hypothesis is never used.)
+\end{theorem}
+\lstep{1}{1}{\ldefine $X:=\Pp U\Pp|_{\Pp H}$, $Y:=\Pm U\Pm|_{\Pm H}$.  Then $X^*X=\one-V^*V$,
+ $XX^*=\one-AA^*$, and $X$ is boundedly invertible on $\Pp H$ with
+ $\norm{X^{-1}}\le(1-\norm V^2)^{-1/2}$.}
+\lby{$\Pp=\Pp U^*U\Pp=X^*X+V^*V$ and $\Pp=\Pp UU^*\Pp=XX^*+AA^*$; the two lower bounds
+ $X^*X\ge1-\norm V^2>0$ and $XX^*\ge1-\norm A^2>0$ make $X$ injective with dense range and bounded
+ below, hence invertible}
+\lstep{1}{2}{$\one-V^*V=\one+(\text{trace class})$ and $\det(\one-V^*V)\ge(1-\norm V^2)>0$ is well
+ defined.}
+\lby{$V\in\Stwo\Rightarrow V^*V\in\Sone$; the Fredholm determinant of $\one-V^*V$ is
+ $\prod_j(1-\sigma_j^2)$ over the singular values $\sigma_j<1$ of $V$, a convergent product since
+ $\sum\sigma_j^2<\infty$}
+\lstep{1}{3}{$Y$ is boundedly invertible on $\Pm H$, and with $Z:=VX^{-1}\in\Stwo(\Pp H,\Pm H)$
+ one has $AY^{-1}=-Z^*$.}
+\lby{$\Pm=\Pm U^*U\Pm=A^*A+Y^*Y$ and $\Pm=\Pm UU^*\Pm=VV^*+YY^*$ give $Y^*Y\ge1-\norm A^2>0$ and
+ $YY^*\ge1-\norm V^2>0$; and $0=\Pp U^*U\Pm=X^*A+V^*Y$ gives $A=-X^{-*}V^*Y$, i.e.\
+ $AY^{-1}=-X^{-*}V^*=-(VX^{-1})^*$}
+\lstep{1}{4}{$\Phi:=\Gm(U)\Om$ satisfies, with $a(f)=b(\Pp f)+d^*(\overline{\Pm f})$ the particle/hole
+ decomposition of $\Fock=\Lambda(\Pp H)\otimes\Lambda(\overline{\Pm H})$,
+ \begin{equation}\label{eq:annih}
+  \bigl[b(h)+d^*(\overline{Zh})\bigr]\Phi=0,\qquad
+  \bigl[d(\bar k)-b^*(Z^*k)\bigr]\Phi=0
+  \qquad (h\in\Pp H,\ k\in\Pm H).
+ \end{equation}}
+\lproof
+\lstep{2}{1}{$a(g)\Om=0$ for $g\in\Pp H$ and $a^*(g)\Om=0$ for $g\in\Pm H$; hence $a(Uf)\Phi=0$ for
+ $f\in\Pp H$ and $a^*(Ug)\Phi=0$ for $g\in\Pm H$.}
+\lby{$a(g)=b(g)$ and $b(g)\Om=0$; $a^*(g)=d(\bar g)$ and $d(\bar g)\Om=0$; then apply $\Gm(U)$ and
+ $\Gm(U)a^{\#}(f)\Gm(U)^*=a^{\#}(Uf)$}
+\lstep{2}{2}{$a(Uf)=b(Xf)+d^*(\overline{Vf})$ for $f\in\Pp H$, and
+ $a^*(Ug)=b^*(Ag)+d(\overline{Yg})$ for $g\in\Pm H$.}
+\lby{$\Pp Uf=Xf$, $\Pm Uf=Vf$, $\Pp Ug=Ag$, $\Pm Ug=Yg$}
+\lstep{2}{3}{Substituting $f=X^{-1}h$ and $g=Y^{-1}k$ gives \eqref{eq:annih}.}
+\lby{$\langle2\rangle1$, $\langle2\rangle2$, $\langle1\rangle1$, $\langle1\rangle3$: $VX^{-1}=Z$ and
+ $AY^{-1}=-Z^*$}
+\lqed{2}{4}\lby{$\langle2\rangle3$}
+\lstep{1}{5}{Up to a scalar, $\Phi$ is the unique solution of \eqref{eq:annih}; explicitly, with a
+ singular value decomposition $Z=\sum_{j\ge1}z_j\ket{f_j}\bra{e_j}$ ($z_j>0$, $\sum_jz_j^2<\infty$,
+ $\{e_j\}\subset\Pp H$, $\{f_j\}\subset\Pm H$ orthonormal),
+ \[
+  \Phi=c\bigotimes_{j\ge1}\bigl(\one-z_j\,b_j^*d_j^*\bigr)\Om,\qquad c=\ip{\Om}{\Phi},\qquad
+  b_j:=b(e_j),\quad d_j:=d(\bar f_j).
+ \]}
+\lproof
+\lstep{2}{1}{\lpick the singular value decomposition; it exists because $Z\in\Stwo$ is compact.}
+\lby{the singular value decomposition of a compact operator; $\sum z_j^2=\norm Z_2^2<\infty$}
+\lstep{2}{2}{$\Fock=\bigl(\bigotimes_{j\ge1}\Fock_j\bigr)\otimes\Fock_0$ with $\Fock_j$ the
+ four-dimensional Fock space of the pair $(b_j,d_j)$, and \eqref{eq:annih} is equivalent to
+ $b_j\Phi=-z_jd_j^*\Phi$, $d_j\Phi=z_jb_j^*\Phi$ $(j\ge1)$, together with $b(h)\Phi=0$ for
+ $h\perp\{e_j\}$ and $d(\bar k)\Phi=0$ for $k\perp\{f_j\}$.}
+\lby{the CAR algebra over an orthogonal direct sum is the graded tensor product of the factors, all
+ constraints in \eqref{eq:annih} being of even degree in pairs; testing \eqref{eq:annih} on
+ $h=e_j$, $k=f_j$ and on the orthogonal complements, using $Ze_j=z_jf_j$, $Z^*f_j=z_je_j$,
+ $Zh=0$ for $h\perp\{e_j\}$, $Z^*k=0$ for $k\perp\{f_j\}$}
+\lstep{2}{3}{In $\Fock_j$ the solution set is the line $\mathbb C(\one-z_jb_j^*d_j^*)\Om_j$; in
+ $\Fock_0$ it is $\mathbb C\Om_0$.}
+\lby{writing $\Phi_j=\alpha\Om+\beta b^*\Om+\gamma d^*\Om+\delta b^*d^*\Om$ (indices $j$ suppressed):
+ $b\Phi_j=\beta\Om+\delta d^*\Om$, $d^*\Phi_j=\alpha d^*\Om-\beta b^*d^*\Om$, so
+ $b\Phi_j=-zd^*\Phi_j$ forces $\beta=0$ and $\delta=-z\alpha$; and
+ $d\Phi_j=\gamma\Om-\delta b^*\Om$, $b^*\Phi_j=\alpha b^*\Om+\gamma b^*d^*\Om$, so
+ $d\Phi_j=zb^*\Phi_j$ forces $\gamma=0$ and $-\delta=z\alpha$, consistently; on $\Fock_0$,
+ $b\Phi_0=d\Phi_0=0$ means $\Phi_0\in\mathbb C\Om_0$}
+\lstep{2}{4}{The product converges in $\Fock$.}
+\lby{$\prod_j(1+z_j^2)<\infty$ because $\sum_jz_j^2<\infty$; the partial products form a Cauchy
+ sequence after normalisation}
+\lqed{2}{5}\lby{$\langle2\rangle2$--$\langle2\rangle4$}
+\lstep{1}{6}{$1=\norm\Phi^2=|c|^2\prod_{j}(1+z_j^2)=|c|^2\det(\one+Z^*Z)$.}
+\lby{$\langle1\rangle5$, orthogonality of $\Om_j$ and $b_j^*d_j^*\Om_j$, and $\det(\one+Z^*Z)=\prod_j(1+z_j^2)$ from the singular value decomposition}
+\lstep{1}{7}{$\det(\one+Z^*Z)=\det(\one-V^*V)^{-1}$.}
+\lby{$\one+Z^*Z=\one+X^{-*}V^*VX^{-1}=X^{-*}(X^*X+V^*V)X^{-1}=X^{-*}X^{-1}=(XX^*)^{-1}$, so
+ $\det(\one+Z^*Z)=\det(XX^*)^{-1}$; and $\det(XX^*)=\det(X^*X)$ because the two are similar
+ through the boundedly invertible $X$ of $\langle1\rangle1$ ($X^*X=X^{-1}(XX^*)X$) and the
+ Fredholm determinant on $\one+\Sone$ is invariant under similarity by bounded invertibles;
+ finally $\det(X^*X)=\det(\one-V^*V)$ by $\langle1\rangle1$}
+\lqed{1}{8}\lby{$\langle1\rangle6$, $\langle1\rangle7$: $|\ip{\Om}{\Gm(U)\Om}|=|c|
+ =\det(\one+Z^*Z)^{-1/2}=\det(\one-V^*V)^{1/2}$}
+
+\begin{remark}[One-mode check]\label{rem:onemode}
+Let $H=\mathbb C^2$, $\Pp=\ket{e}\bra{e}$, $\Pm=\ket{f}\bra{f}$, and
+$U=\begin{psmallmatrix}\cos\theta&-\sin\theta\\ \sin\theta&\cos\theta\end{psmallmatrix}$ in the basis
+$(e,f)$.  Then $V=\Pm U\Pp=\sin\theta$, $A=\Pp U\Pm=-\sin\theta$, $X=\cos\theta$, and
+$\det(\one-V^*V)^{1/2}=|\cos\theta|$.  On the other side $Z=VX^{-1}=\tan\theta$ and, by
+$\langle1\rangle5$--$\langle1\rangle6$, $\Gm(U)\Om=c(\Om-\tan\theta\,b^*d^*\Om)$ with
+$|c|^2(1+\tan^2\theta)=1$, i.e.\ $|c|=|\cos\theta|$.  Both sides of \eqref{eq:det} equal
+$|\cos\theta|$, as they must: $\Fock=\mathbb C^4$, $\Gm(U)$ is the spin representation of the
+rotation by $\theta$ and its vacuum overlap is $\cos\theta$.  Note that $\norm V=|\sin\theta|<1$
+fails exactly at $\theta=\pi/2$, where $X$ is not invertible and the overlap vanishes --- consistent
+with \eqref{eq:det} but outside the hypotheses of the proof.
+\end{remark}
+
+\begin{citedbox}{Ruijsenaars 1977 / Berezin 1966 (the classical form of Theorem~\ref{thm:det})}
+\textbf{Statement (paraphrase of the classical result).}  For a unitary $U$ of $H$ with
+$\Pm U\Pp\in\Stwo$, the implementer $\Gm(U)$ of the (gauge-invariant) Bogoliubov automorphism
+satisfies $\ip{\Om}{\Gm(U)\Om}=\det(\Pp U\Pp)$ up to a phase, the determinant being the Fredholm
+determinant on $\Pp H$; equivalently $|\ip{\Om}{\Gm(U)\Om}|=\det(\one-V^*V)^{1/2}$, $V=\Pm U\Pp$.
+\emph{Locators}: S.~N.~M.~Ruijsenaars, ``On Bogoliubov transformations for systems of relativistic
+charged particles'', J.\ Math.\ Phys.\ \textbf{18} (1977) 517--526 (Sec.~2, the formula for the
+vacuum expectation of the implementer and the determinant/"$\det(1-\ldots)$'' normalisation);
+F.~A.~Berezin, \emph{The Method of Second Quantization}, Academic Press 1966, Ch.~II \S5.
+\emph{Screenshot}: \textbf{NOT OBTAINED}.  The AIP page for J.~Math.\ Phys.\ 18, 517 is paywalled and
+no open-access copy of either source could be retrieved in this environment (attempts:
+\texttt{pubs.aip.org} article PDF endpoint, OSTI mirror --- both returned HTML, not PDF).
+\emph{Consequence}: we do \emph{not} rely on the citation.  Theorem~\ref{thm:det} above is proved from
+scratch (annihilation characterisation, singular value decomposition, one-mode computation, Fredholm
+determinant identity) under the extra hypotheses $\norm V<1$, $\norm A<1$, which are satisfied in the
+application by Proposition~\ref{prop:HS}.  The one-mode case of Remark~\ref{rem:onemode} is the
+independent cross-check requested by the brief.
+\end{citedbox}
+
+\begin{corollary}[Master upper bound]\label{cor:master}
+Let $U$ be as in Theorem~\ref{thm:det} with $U=\Wt_s\widehat W'$ as in
+Proposition~\ref{prop:uhlmann}, and $V=\Pm U\Pp$.  Then
+\begin{equation}\label{eq:master}
+ \Phi(s)\ \le\ -\tfrac12\log\det(\one-V^*V)\ \le\ \frac{\norm V_2^2}{2\,(1-\norm V^2)} .
+\end{equation}
+\end{corollary}
+\lstep{1}{1}{$\Phi(s)=-\log\Fid\le-\log|\ip{\Om}{\Gm(U)\Om}|=-\frac12\log\det(\one-V^*V)$.}
+\lby{Proposition~\ref{prop:uhlmann} and Theorem~\ref{thm:det}; $-\log$ is decreasing}
+\lstep{1}{2}{$-\log\det(\one-V^*V)=\sum_j-\log(1-\sigma_j^2)
+ \le\sum_j\frac{\sigma_j^2}{1-\sigma_j^2}\le\frac{\norm V_2^2}{1-\norm V^2}$,
+ $\sigma_j$ the singular values of $V$.}
+\lby{$\det(\one-V^*V)=\prod_j(1-\sigma_j^2)$; $-\log(1-t)\le t/(1-t)$ for $0\le t<1$ (both sides
+ vanish at $t=0$ and $\frac1{1-t}\le\frac1{(1-t)^2}$); $\sigma_j\le\norm V$ and
+ $\sum_j\sigma_j^2=\norm V_2^2$}
+\lqed{1}{3}\lby{$\langle1\rangle1$, $\langle1\rangle2$, divided by $2$}
+
+\begin{verdictok}
+Step~3 is proved, and made independent of the unobtainable references: Theorem~\ref{thm:det} is
+proved here from the annihilation equations \eqref{eq:annih}, whose derivation uses only
+$\Gm(U)a^{\#}(f)\Gm(U)^*=a^{\#}(Uf)$ and the invertibility of the diagonal blocks, guaranteed by
+$\norm V,\norm A<1$.  The one-mode example reproduces $\cos\theta$.  The only loss relative to the
+classical statement is the hypothesis $\norm V<1$ (and $\norm A<1$), harmless here because
+$\norm{V_s}\le\norm{V_s}_2\le C_0s\to0$.
+\end{verdictok}
+
+\section{Step 4: the quadratic expansion of $\norm{V_\zeta}_2^2$}\label{sec:step4}
+
+\begin{lemma}[The generator]\label{lem:gen}
+$s\mapsto\Wt_s:=W_{\kt_s}$ is a strongly continuous one-parameter unitary group, $\Wt_s=e^{sD}$, with
+skew-adjoint generator
+\begin{equation}\label{eq:D}
+ D=\chi\,\partial_x+\tfrac12\chi',\qquad D^*=-D,\qquad
+ \mathcal D:=H^1_c(\mathbb R)\subset D(D)\ \text{a core,}
+\end{equation}
+where $H^1_c(\mathbb R)$ is the space of compactly supported $H^1$ functions.
+\end{lemma}
+\lstep{1}{1}{$\Wt_s\Wt_t=\Wt_{s+t}$ and each $\Wt_s$ is unitary.}
+\lby{Lemma~\ref{lem:ext} ($\kt$ is a flow, so $\kt_s\circ\kt_t=\kt_{s+t}$) and
+ \eqref{eq:pushforward} ($W_\phi W_\psi=W_{\phi\circ\psi}$)}
+\lstep{1}{2}{For $f\in C_c^1$: $\frac{\dd}{\dd s}(\Wt_sf)(y)\big|_{s=0}=\chi(y)f'(y)+\frac12\chi'(y)f(y)$.}
+\lby{$(\Wt_sf)(y)=f(\kt_{-s}(y))\,\kt_{-s}'(y)^{1/2}$, $\partial_s\kt_{-s}(y)|_0=+\chi(y)$ and
+ $\partial_s\kt_{-s}'(y)|_0=+\chi'(y)$ by Lemma~\ref{lem:ext}\ref{E3}}
+\lstep{1}{3}{$\mathcal D=H^1_c$ is dense in $H$, $D\mathcal D\subset L^2$, and $D$ is
+ skew-symmetric on $\mathcal D$.}
+\lby{$C_c^\infty\subset\mathcal D$ is dense; $Df=\chi f'+\frac12\chi'f\in L^2$ because
+ $\chi,\chi'\in L^\infty$ and $f,f'\in L^2$; and for $f,g\in\mathcal D$ the product $\chi\overline fg$
+ is a compactly supported $W^{1,1}$ function, so
+ $\ip f{Dg}+\ip{Df}g=\int\chi(\overline fg)'+\int\chi'\overline fg=\int(\chi\overline fg)'=0$}
+\lstep{1}{4}{$\Wt_s\mathcal D=\mathcal D$ for every $s$.}
+\lby{$\kt_{\pm s}$ is a bi-Lipschitz bijection of $\mathbb R$ with Lipschitz derivative bounded above
+ and below (Lemma~\ref{lem:ext}\ref{E3}), so $f\mapsto f\circ\kt_{-s}\cdot(\kt_{-s}')^{1/2}$ maps
+ $H^1$ into $H^1$ (chain rule for Lipschitz-composed Sobolev functions; the factor
+ $(\kt_{-s}')^{1/2}$ is Lipschitz and bounded away from $0$) and preserves compactness of supports}
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$: $\Wt$ is a strongly continuous unitary group
+ by $\langle1\rangle1$ and Lemma~\ref{lem:ext}, its generator is skew-adjoint by Stone's theorem and
+ agrees with $D$ on $C_c^1$ by $\langle1\rangle2$; $\mathcal D$ is a dense, $\Wt$-invariant subspace
+ of $D(D)$ on which $D$ is skew-symmetric, hence a core by Nelson's invariant-domain theorem
+ (E.~Nelson, Ann.\ of Math.\ \textbf{70} (1959) 572, Cor.~9.2)}
+
+\begin{lemma}[Exact integral representation of the defect kernel]\label{lem:integralrep}
+Define
+\begin{equation}\label{eq:k1}
+ \kappa^{(1)}(x,y):=\frac1{x-y}\Bigl[\frac{\chi(x)-\chi(y)}{x-y}-\frac{\chi'(x)+\chi'(y)}2\Bigr]
+ \qquad(x\ne y),
+\end{equation}
+and let $G^{(1)}$ be the integral operator with kernel $\frac i{2\pi}\kappa^{(1)}$.  Then
+$\norm{\kappa^{(1)}}_\infty\le\Lambda_1$, $\kappa^{(1)}\in L^2(\mathbb R^2)$, and for all $s$ and all
+$x\ne y$,
+\begin{equation}\label{eq:intrep}
+ \kappa_{\kt_s}(x,y)=\int_0^s\sqrt{\kt_\sigma'(x)\,\kt_\sigma'(y)}\;
+ \kappa^{(1)}\bigl(\kt_\sigma(x),\kt_\sigma(y)\bigr)\dd\sigma,
+ \qquad\text{i.e.}\qquad
+ G_s=\int_0^s\Wt_\sigma^*\,G^{(1)}\,\Wt_\sigma\dd\sigma
+\end{equation}
+as a Bochner integral in $\Stwo$, where $G_s:=G_{\kt_s}$ of \eqref{eq:Gphi}.  Moreover
+$G^{(1)}=[\Pm,D]$ and
+\begin{equation}\label{eq:PDP}
+ \Pm D\Pp=G^{(1)}\Pp,\qquad
+ \norm{\Pm D\Pp}_2^2=\tfrac12\norm{G^{(1)}}_2^2
+ =\frac1{8\pi^2}\iint_{\mathbb R^2}\kappa^{(1)}(x,y)^2\dd x\dd y .
+\end{equation}
+\end{lemma}
+\lstep{1}{1}{$|\kappa^{(1)}|\le\Lambda_1$ and $\operatorname{supp}\kappa^{(1)}\subseteq
+ (K\times\mathbb R)\cup(\mathbb R\times K)$, $K=[0,2]$; for $x\in K$, $|y|\ge3$,
+ $|\kappa^{(1)}(x,y)|\le\frac{\norm\chi_\infty}{(x-y)^2}+\frac{\Lambda_0}{2|x-y|}$; hence
+ $\kappa^{(1)}\in L^2(\mathbb R^2)$.}
+\lby{$\bigl|\frac{\chi(x)-\chi(y)}{x-y}-\chi'(y)\bigr|\le\frac{\Lambda_1}2|x-y|$ and
+ $\bigl|\frac{\chi'(x)+\chi'(y)}2-\chi'(y)\bigr|\le\frac{\Lambda_1}2|x-y|$ give the sup bound;
+ $\chi=\chi'=0$ off $K$ gives the support statement and, for $y\notin K$, the explicit decay from
+ \eqref{eq:k1} with $\chi(y)=\chi'(y)=0$; square-integrability then follows exactly as in
+ $\langle1\rangle2$--$\langle1\rangle5$ of Proposition~\ref{prop:HS}}
+\lstep{1}{2}{\ldefine $\Psi_s(x,y):=\dfrac{\sqrt{\kt_s'(x)\kt_s'(y)}}{\kt_s(x)-\kt_s(y)}$.  Then
+ $\kappa_{\kt_s}=\Psi_s-\Psi_0$ and
+ $\partial_s\Psi_s=\sqrt{\kt_s'(x)\kt_s'(y)}\;\kappa^{(1)}(\kt_s(x),\kt_s(y))$.}
+\lproof
+\lstep{2}{1}{$\partial_s\kt_s(x)=-\chi(\kt_s(x))$ and $\partial_s\kt_s'(x)=-\chi'(\kt_s(x))\kt_s'(x)$.}
+\lby{\eqref{eq:flow} and its $x$-derivative (Lemma~\ref{lem:ext}\ref{E3})}
+\lstep{2}{2}{With $X:=\kt_s(x)$, $Y:=\kt_s(y)$:
+ $\partial_s\log\sqrt{\kt_s'(x)\kt_s'(y)}=-\frac12\bigl[\chi'(X)+\chi'(Y)\bigr]$ and
+ $\partial_s\log(X-Y)=-\frac{\chi(X)-\chi(Y)}{X-Y}$.}
+\lby{$\langle2\rangle1$}
+\lstep{2}{3}{$\partial_s\Psi_s=\Psi_s\Bigl[\frac{\chi(X)-\chi(Y)}{X-Y}-\frac{\chi'(X)+\chi'(Y)}2\Bigr]
+ =\Psi_s\,(X-Y)\,\kappa^{(1)}(X,Y)=\sqrt{\kt_s'(x)\kt_s'(y)}\,\kappa^{(1)}(X,Y)$.}
+\lby{$\langle2\rangle2$, the definition \eqref{eq:k1}, and $\Psi_s(X-Y)=\sqrt{\kt_s'(x)\kt_s'(y)}$}
+\lqed{2}{4}\lby{$\langle2\rangle3$ and $\Psi_0=1/(x-y)$}
+\lstep{1}{3}{The first identity in \eqref{eq:intrep} holds pointwise, and the second holds in $\Stwo$.}
+\lby{$\langle1\rangle2$ integrated in $s$ (the integrand is continuous in $\sigma$ for $x\ne y$);
+ the kernel of $\Wt_\sigma^*G^{(1)}\Wt_\sigma$ is
+ $\frac i{2\pi}\sqrt{\kt_\sigma'(x)\kt_\sigma'(y)}\kappa^{(1)}(\kt_\sigma(x),\kt_\sigma(y))$ by
+ $\langle1\rangle1$ of Lemma~\ref{lem:kernel}; that operator has HS norm $\norm{G^{(1)}}_2$ for every
+ $\sigma$ (unitary conjugation), and $\sigma\mapsto\Wt_\sigma^*G^{(1)}\Wt_\sigma$ is HS-continuous by
+ $\langle1\rangle4$ below, so the Bochner integral exists and its kernel is the pointwise integral}
+\lstep{1}{4}{$\sigma\mapsto\Wt_\sigma^*T\Wt_\sigma$ is $\norm\cdot_2$-continuous for every
+ $T\in\Stwo$.}
+\lby{$\Wt_\sigma\to\Wt_{\sigma_0}$ strongly and $\Wt_\sigma^*\to\Wt_{\sigma_0}^*$ strongly
+ (Lemma~\ref{lem:gen}); for $T$ finite rank the claim is immediate, and finite-rank operators are
+ $\norm\cdot_2$-dense in $\Stwo$ while $\norm{\Wt^*T\Wt}_2=\norm T_2$}
+\lstep{1}{5}{$G^{(1)}=[\Pm,D]$, $\Pm D\Pp=G^{(1)}\Pp$, and
+ $\norm{G^{(1)}}_2^2=2\norm{\Pm D\Pp}_2^2$.}
+\lproof
+\lstep{2}{1}{$G^{(1)}=\frac{\dd}{\dd s}G_s\big|_{s=0}$ in $\Stwo$, and
+ $\frac{\dd}{\dd s}\bigl(\Pp-\Wt_s^*\Pp\Wt_s\bigr)\big|_{s=0}=-(-D\Pp+\Pp D)=[\Pm,D]$ weakly on
+ $C_c^\infty$.}
+\lby{\eqref{eq:intrep} at $s\to0$ with $\langle1\rangle4$ for the first claim; for the second,
+ differentiate $\Wt_s^*\Pp\Wt_s$ on the core, $\Wt_s^*=e^{-sD}$, giving $-D\Pp+\Pp D=[\Pp,D]^{-}
+ =-[\Pm,D]$ since $\Pp+\Pm=\one$}
+\lstep{2}{2}{$[\Pm,D]=\Pm D\Pp-\Pp D\Pm$, hence $G^{(1)}\Pp=\Pm D\Pp$ and
+ $\Pp D\Pm=-(\Pm D\Pp)^*$.}
+\lby{insert $\one=\Pp+\Pm$ on both sides of $\Pm D-D\Pm$; and $D^*=-D$}
+\lqed{2}{3}\lby{$\langle2\rangle2$: the two off-diagonal blocks are HS-orthogonal, so
+ $\norm{G^{(1)}}_2^2=\norm{\Pm D\Pp}_2^2+\norm{\Pp D\Pm}_2^2=2\norm{\Pm D\Pp}_2^2$}
+\lqed{1}{6}\lby{$\langle1\rangle1$--$\langle1\rangle5$; the last equality in \eqref{eq:PDP} is
+ $\norm{G^{(1)}}_2^2=\frac1{4\pi^2}\iint(\kappa^{(1)})^2$}
+
+\begin{definition}[Admissible commutant generators]\label{def:admissible}
+$\mathcal A':=\bigl\{h'\in\cB(H):h'=h'^*,\ h'=E_{I'}h'E_{I'},\ \Pm h'\Pp\in\Stwo\bigr\}$, where
+$E_{I'}$ is multiplication by $\one_{I'}$, $I'=(1,\infty)$.  For $h'\in\mathcal A'$ put
+$\mu:=\norm{h'}$, $N:=\Pm h'\Pp$, $\nu:=\norm N_2$, and
+\begin{equation}\label{eq:Us}
+ U_s:=\Wt_s\,e^{ish'},\qquad V_s^{\mathrm{tot}}:=\Pm U_s\Pp .
+\end{equation}
+Since $h'$ vanishes on $L^2(I)$, $e^{ish'}=\one_{L^2(I)}\oplus e^{ish'|_{L^2(I')}}$ is of the form
+$\widehat W'$ of Lemma~\ref{lem:commutant}, so $\Gm(U_s)$ exists and
+Propositions~\ref{prop:uhlmann}, \ref{cor:master} apply.
+\end{definition}
+
+\begin{proposition}[Quadratic expansion, with error bound]\label{prop:expansion}
+Let $h'\in\mathcal A'$, $K:=D+ih'$ (skew-adjoint) and
+$\epsilon(s):=\sup_{0\le\sigma\le s}\norm{\Wt_\sigma^*G^{(1)}\Wt_\sigma-G^{(1)}}_2$.  Then
+$\epsilon(s)\to0$ as $s\downarrow0$ and, for $0\le s\le1$,
+\begin{equation}\label{eq:expansion}
+ \Bigl|\;\norm{V_s^{\mathrm{tot}}}_2-s\,\norm{\Pm K\Pp}_2\;\Bigr|
+ \ \le\ s\,\epsilon(s)+C_4\,s^2,\qquad
+ C_4:=C_0\mu+C_0\nu e^{\mu}+\nu\mu e^{\mu},
+\end{equation}
+with $C_0$ from Proposition~\ref{prop:HS}.  Moreover
+$\norm{\Pm K\Pp}_2^2=\frac12\norm{[\Pm,K]}_2^2$ and $\norm{V^{\mathrm{tot}}_s}\to0$,
+$\norm{\Pp U_s\Pm}\to0$ as $s\to0$.
+\end{proposition}
+\lstep{1}{1}{$\epsilon(s)\to0$.}\lby{Lemma~\ref{lem:integralrep} $\langle1\rangle4$ at $\sigma_0=0$}
+\lstep{1}{2}{$\norm{G_s\Pp-s\,\Pm D\Pp}_2\le s\,\epsilon(s)$.}
+\lby{\eqref{eq:intrep}: $G_s-sG^{(1)}=\int_0^s(\Wt_\sigma^*G^{(1)}\Wt_\sigma-G^{(1)})\dd\sigma$, so
+ $\norm{G_s-sG^{(1)}}_2\le s\epsilon(s)$; then multiply by $\Pp$ ($\norm\Pp=1$) and use
+ $G^{(1)}\Pp=\Pm D\Pp$ from \eqref{eq:PDP}}
+\lstep{1}{3}{\ldefine $Z_s:=\Pm e^{ish'}\Pp$.  Then $\norm{Z_s}_2\le\nu se^{s\mu}$ and
+ $\norm{Z_s-isN}_2\le\nu\mu s^2e^{s\mu}$.}
+\lproof
+\lstep{2}{1}{$Z_s=i\int_0^s\bigl[N\,\Pp e^{i\sigma h'}\Pp+\Pm h'\Pm\,Z_\sigma\bigr]\dd\sigma$.}
+\lby{$e^{ish'}-\one=i\int_0^sh'e^{i\sigma h'}\dd\sigma$ (norm-convergent), $\Pm\Pp=0$, and inserting
+ $\one=\Pp+\Pm$ between $h'$ and $e^{i\sigma h'}$}
+\lstep{2}{2}{$\norm{Z_s}_2\le\int_0^s(\nu+\mu\norm{Z_\sigma}_2)\dd\sigma$, hence
+ $\norm{Z_s}_2\le\frac\nu\mu(e^{s\mu}-1)\le\nu se^{s\mu}$.}
+\lby{$\langle2\rangle1$, $\norm{TB}_2\le\norm T_2\norm B$, $\norm{e^{i\sigma h'}}=1$, and Gr\"onwall}
+\lstep{2}{3}{$Z_s-isN=i\int_0^s\bigl[N(\Pp e^{i\sigma h'}\Pp-\Pp)+\Pm h'\Pm Z_\sigma\bigr]\dd\sigma$
+ and $\norm{\Pp(e^{i\sigma h'}-\one)\Pp}\le\sigma\mu$.}
+\lby{$\langle2\rangle1$ and $\norm{e^{i\sigma h'}-\one}\le\sigma\norm{h'}$}
+\lqed{2}{4}\lby{$\langle2\rangle2$, $\langle2\rangle3$:
+ $\norm{Z_s-isN}_2\le\int_0^s(\nu\sigma\mu+\mu\nu\sigma e^{\sigma\mu})\dd\sigma\le\nu\mu s^2e^{s\mu}$}
+\lstep{1}{4}{$\Wt_s^*V_s^{\mathrm{tot}}=G_s\Pp+Z_s+E_s$ with
+ $\norm{E_s}_2\le C_0\mu s^2+C_0\nu s^2e^{s\mu}$.}
+\lproof
+\lstep{2}{1}{$\Wt_s^*V^{\mathrm{tot}}_s=\Wt_s^*\Pm\Wt_s\,e^{ish'}\Pp
+ =(\Pm+G_s)\,e^{ish'}\Pp$.}
+\lby{$U_s=\Wt_se^{ish'}$ and $\Wt_s^*\Pm\Wt_s=\one-\Wt_s^*\Pp\Wt_s=\Pm+G_s$ by \eqref{eq:Gphi}}
+\lstep{2}{2}{$\Pm e^{ish'}\Pp=Z_s$ and
+ $G_se^{ish'}\Pp=G_s\Pp+G_s\Pp(e^{ish'}-\one)\Pp+G_s\Pm e^{ish'}\Pp$.}
+\lby{definition of $Z_s$; and inserting $\one=\Pp+\Pm$ after $G_s$}
+\lstep{2}{3}{$\norm{G_s\Pp(e^{ish'}-\one)\Pp}_2\le C_0s\cdot s\mu$ and
+ $\norm{G_s\Pm e^{ish'}\Pp}_2=\norm{G_sZ_s}_2\le C_0s\cdot\nu se^{s\mu}$.}
+\lby{Proposition~\ref{prop:HS} ($\norm{G_s}_2\le C_0s$, so also $\norm{G_s}\le C_0s$),
+ $\langle1\rangle3$, and $\norm{TB}_2\le\norm T_2\norm B$, $\norm{TB}_2\le\norm T\norm B_2$}
+\lqed{2}{4}\lby{$\langle2\rangle1$--$\langle2\rangle3$}
+\lstep{1}{5}{\eqref{eq:expansion}.}
+\lby{$\norm{V^{\mathrm{tot}}_s}_2=\norm{\Wt_s^*V^{\mathrm{tot}}_s}_2$ and, by
+ $\langle1\rangle2$--$\langle1\rangle4$,
+ $\norm{\Wt_s^*V^{\mathrm{tot}}_s-s(\Pm D\Pp+iN)}_2\le s\epsilon(s)+\nu\mu s^2e^{s\mu}
+ +C_0\mu s^2+C_0\nu s^2e^{s\mu}$; finally $\Pm K\Pp=\Pm D\Pp+iN$ and the reverse triangle
+ inequality}
+\lstep{1}{6}{$\norm{\Pm K\Pp}_2^2=\frac12\norm{[\Pm,K]}_2^2$, and
+ $\norm{V^{\mathrm{tot}}_s}+\norm{\Pp U_s\Pm}\to0$.}
+\lby{$K^*=-K$ gives $[\Pm,K]=\Pm K\Pp-\Pp K\Pm$ with $\Pp K\Pm=-(\Pm K\Pp)^*$, and the two blocks are
+ HS-orthogonal; the second claim from $\norm{V^{\mathrm{tot}}_s}\le\norm{V^{\mathrm{tot}}_s}_2\to0$
+ by \eqref{eq:expansion} and, symmetrically, $\Wt_s\Pp U_s\Pm=(\Pp+G_s^{\vee})e^{ish'}\Pm$ with
+ $\norm{G^\vee_s}_2=\norm{\Pp-\Wt_s\Pp\Wt_s^*}_2=\norm{G_{-s}}_2\le C_0s$}
+\lqed{1}{7}\lby{$\langle1\rangle1$--$\langle1\rangle6$}
+
+\begin{corollary}[The variational upper bound]\label{cor:varupper}
+For every $h'\in\mathcal A'$,
+\begin{equation}\label{eq:varupper}
+ \limsup_{\zeta\downarrow0}\frac{\Phi(\zeta)}{\zeta^2}\ \le\ \tfrac12\,\norm{\Pm(D+ih')\Pp}_2^2 ,
+ \qquad\text{hence}\qquad
+ \limsup_{\zeta\downarrow0}\frac{\Phi(\zeta)}{\zeta^2}\ \le\
+ \tfrac12\inf_{h'\in\mathcal A'}\norm{\Pm(D+ih')\Pp}_2^2 .
+\end{equation}
+\end{corollary}
+\lstep{1}{1}{For $\zeta=s$ small enough, $\norm{V^{\mathrm{tot}}_s}<1$ and $\norm{\Pp U_s\Pm}<1$, so
+ Corollary~\ref{cor:master} applies and
+ $\Phi(\zeta)\le\frac{\norm{V^{\mathrm{tot}}_\zeta}_2^2}{2(1-\norm{V^{\mathrm{tot}}_\zeta}^2)}$.}
+\lby{Proposition~\ref{prop:expansion} $\langle1\rangle6$, Theorem~\ref{thm:det},
+ Corollary~\ref{cor:master}; recall $\zeta=s$ by (C4)}
+\lstep{1}{2}{$\limsup_{s\downarrow0}\norm{V_s^{\mathrm{tot}}}_2^2/s^2\le\norm{\Pm K\Pp}_2^2$.}
+\lby{\eqref{eq:expansion}: $\norm{V^{\mathrm{tot}}_s}_2/s\le\norm{\Pm K\Pp}_2+\epsilon(s)+C_4s$ and
+ $\epsilon(s)\to0$}
+\lqed{1}{3}\lby{$\langle1\rangle1$, $\langle1\rangle2$ and
+ $1-\norm{V^{\mathrm{tot}}_\zeta}^2\to1$; then take the infimum over $h'$}
+
+\begin{remark}[Cross-check against Note~4]\label{rem:crosscheck}
+Restricted to $A\times D$ the kernel $\frac i{2\pi}\kappa^{(1)}$ must equal
+$-\frac{\dd}{\dd s}\Delta_s\big|_{s=0}$ of Note~4 eq.~(6.6), because
+$G_s|_{I\times I}=Q_I-\widetilde Q_s$ by \eqref{eq:Gphi} and $\widetilde Q_s=W_{k_s}^*Q_{J_s}W_{k_s}$.
+With $x=-u<0<y=v<1$ one has $\chi(x)=\chi'(x)=0$, $\chi(y)=v^2$, $\chi'(y)=2v$, so \eqref{eq:k1} gives
+\[
+ \kappa^{(1)}(-u,v)=\frac1{-(u+v)}\Bigl[\frac{-v^2}{-(u+v)}-v\Bigr]
+ =\frac{-1}{u+v}\cdot\frac{v^2-v(u+v)}{u+v}=\frac{uv}{(u+v)^2},
+\]
+while Note~4's $R_s(u,v)=\frac{suv}{(u+v)(u+v+suv)}$ (at $L=1$) has
+$\partial_sR_s|_{s=0}=\frac{uv}{(u+v)^2}$: the two agree, including the sign and the factor
+$\frac i{2\pi}$.  The contribution of the two off-diagonal blocks $A\times D$ and $D\times A$ to
+\eqref{eq:PDP} is therefore
+\begin{equation}\label{eq:AD-block}
+ \frac1{8\pi^2}\cdot2\int_0^\infty\!\!\dd u\int_0^1\!\!\dd v\,\frac{u^2v^2}{(u+v)^4}
+ =\frac1{8\pi^2}\cdot2\int_0^1 v^2\frac{\dd v}{3v}=\frac1{8\pi^2}\cdot\frac13=\frac1{24\pi^2},
+\end{equation}
+using $\int_0^\infty u^2(u+v)^{-4}\dd u=v^{-1}B(3,1)=\frac1{3v}$.  Since
+$\frac{g_B}4=\frac1{6\pi^2}=4\cdot\frac1{24\pi^2}$, the touching-point block alone accounts for one
+quarter of the optimal value; the remaining three quarters come from the far endpoint $x=1$ and are
+the part that the commutant unitary $h'$ can (and must not entirely) cancel.  This is a strong
+quantitative consistency test of \S\ref{sec:step5}, and it is verified numerically in
+\S\ref{sec:numerics}.
+\end{remark}
+
+\begin{verdictok}
+Step~4 is proved with the error bound \eqref{eq:expansion}.  The analytic core turned out to be an
+exact identity rather than an estimate: \eqref{eq:intrep} expresses the whole $s$-dependence of the
+defect kernel as the flow-average of the \emph{single} kernel $\kappa^{(1)}$, so no second-order
+Taylor expansion of $\kappa_{\kt_s}$ (which would have required $\chi\in C^{2,1}$, false at the kink)
+is needed.  Only $\epsilon(s)\to0$ is qualitative; it is the $L^2$-continuity of composition with the
+flow, and a rate $O(s\log\frac1s)$ can be extracted if desired.  The $A\times D$ cross-check against
+Note~4 fixes all signs and normalisations.
+\end{verdictok}
+
+\section{The circle chart, and which extensions are admissible}\label{sec:circle}
+
+This section records the correction communicated by the numerics track (agent PN,
+\texttt{numerics/p1\_bogoliubov.out}) and fixes the geometry of the variational problem.  Nothing in
+\S\S\ref{sec:step1}--\ref{sec:step4} changes; what changes is the \emph{interpretation} of
+Definition~\ref{def:ext} as one convenient base point of a much larger admissible family, and the
+statement of the correct family.
+
+\subsection{Cayley transform}
+Let $\theta\mapsto x=\tan\frac\theta2$ map $S^1=\mathbb R\cup\{\infty\}$ onto $\mathbb R\cup\{\infty\}$,
+$\theta=\pi\leftrightarrow x=\infty$, and let
+\begin{equation}\label{eq:cayley}
+ (\mathcal Cf)(\theta):=f\bigl(\tan\tfrac\theta2\bigr)\Bigl(\frac{\dd x}{\dd\theta}\Bigr)^{1/2}
+ =f\bigl(\tan\tfrac\theta2\bigr)\bigl(\tfrac12\sec^2\tfrac\theta2\bigr)^{1/2}
+\end{equation}
+be the half-density push-forward, a unitary $L^2(\mathbb R)\to L^2(S^1)$.  Then
+$\mathcal C\Pp\mathcal C^*$ is the Hardy projection of the circle, with kernel
+\begin{equation}\label{eq:circleP}
+ \Pm^{S^1}(\theta,\theta')=\tfrac12\delta(\theta-\theta')
+ +\frac i{2\pi}\operatorname{pv}\frac1{2\sin\frac{\theta-\theta'}2},
+\end{equation}
+because $\Pp$ is invariant under the M\"obius group $\mathrm{PSL}(2,\mathbb R)$ acting on half-densities
+and \eqref{eq:cayley} is the corresponding intertwiner; equivalently, the elementary identity
+$\frac{\sqrt{x'(\theta)x'(\theta')}}{x(\theta)-x(\theta')}=\frac1{2\sin\frac{\theta-\theta'}2}$ turns
+\eqref{eq:hardy} into \eqref{eq:circleP}.  Consequently, for a $C^{1,1}$ circle diffeomorphism $\psi$
+and its line counterpart $\phi$,
+\begin{equation}\label{eq:circlekernel}
+ \kappa^{S^1}_\psi(\theta,\theta')
+ =\frac{\sqrt{\psi'(\theta)\psi'(\theta')}}{2\sin\frac{\psi(\theta)-\psi(\theta')}2}
+ -\frac1{2\sin\frac{\theta-\theta'}2},
+ \qquad
+ \norm{G_\psi}_2^2=\frac1{4\pi^2}\iint_{S^1\times S^1}\bigl(\kappa^{S^1}_\psi\bigr)^2
+ \dd\theta\dd\theta' ,
+\end{equation}
+and $\norm{G_\psi}_2=\norm{G_\phi}_2$ whenever $\phi$ and $\psi$ correspond.  Two consequences:
+\begin{enumerate}[label=(\roman*),leftmargin=2.2em]
+\item \emph{The Hilbert--Schmidt property is automatic on the circle}: the bound
+ $|\kappa^{S^1}_\psi|\le\frac{3\Lambda}{2c}$ of Lemma~\ref{lem:kernel} holds verbatim (the proof only
+ used $\phi'$ Lipschitz and $\inf\phi'>0$, and $\frac{u}{2\sin(u/2)}$ is smooth and bounded away from
+ $0$ on $(-\pi,\pi)$), and $S^1\times S^1$ has finite measure.  So \emph{every} $C^{1,1}$
+ diffeomorphism of $S^1$ is Shale--Stinespring implementable.  Proposition~\ref{prop:HS} is the
+ line-chart version of this, and its $\langle1\rangle3$--$\langle1\rangle5$ are exactly the price of
+ insisting on the line chart.
+\item \emph{M\"obius maps cost nothing}: $\kappa^{S^1}_\psi\equiv0$ for $\psi\in\mathrm{PSL}(2,\mathbb R)$,
+ which is Note~4 eq.~(6.2) in circle form (PN verified $|\kappa|\le1.8\cdot10^{-10}$
+ numerically).  A M\"obius map \emph{of the line} with a pole is not a diffeomorphism of the line but
+ is one of the circle; this is precisely the mechanism by which the correct extensions ``move the
+ point at infinity''.
+\end{enumerate}
+
+\subsection{The admissible family and the two configurations}
+By Note~5 Lemma~1.1 all quantities depend on $(a,L,s)$ only through $\zeta$; the three marked points
+$(-a,0,L)$ of the finite configuration are carried to $(\infty,0,1)$ of the half-line configuration
+(C4) by a M\"obius map $m$, and $\Pp$, $\omega$, $\Phi$ and all Hilbert--Schmidt norms above are
+$m$-invariant.  In the half-line chart the geometry is
+\[
+ I=(-\infty,1)\ \widehat=\ \text{arc }(-\pi,\tfrac\pi2),\qquad
+ I'=(1,\infty)\ \widehat=\ \text{arc }(\tfrac\pi2,\pi),
+\]
+with endpoints $\theta=\frac\pi2$ ($x=1$) and $\theta=\pi$ ($x=\infty$).  The first-order field of the
+recovery curve is $g=-\chi$ with
+\begin{equation}\label{eq:class}
+ \mathcal X:=\Bigl\{\chi:\ \widetilde\chi:=\chi\,\tfrac{\dd\theta}{\dd x}\in C^{1,1}(S^1),\quad
+ \chi=0\ \text{on }(-\infty,0],\quad \chi(x)=x^2\ \text{on }[0,1]\Bigr\},
+\end{equation}
+free on $I'$.  Since $\widetilde\chi\equiv0$ on the arc $(-\pi,0)$, the $C^{1,1}$ matching at
+$\theta=\pi$ forces $\widetilde\chi(\pi)=\widetilde\chi'(\pi)=0$ but leaves
+$\widetilde\chi''(\pi^+)$ free; in the line chart this says
+\begin{equation}\label{eq:alpha}
+ \chi(x)\longrightarrow\alpha\in\mathbb R\quad(x\to+\infty),\qquad
+ \alpha=\tfrac12\widetilde\chi''(\pi^+),
+\end{equation}
+i.e.\ \emph{the displacement tends to a nonzero constant}: the extension is asymptotically a
+translation, not the identity.  Definition~\ref{def:ext} is the special case $\alpha=0$ (compactly
+supported displacement).
+
+\begin{proposition}[Steps 1--4 for the full family]\label{prop:fullfamily}
+Let $\chi\in\mathcal X$, let $\kt_s$ be the flow of $-\chi\partial_x$ and $\Wt_s:=W_{\kt_s}$.  Then all
+of Lemma~\ref{lem:ext} (except the statement $\kt_s=\mathrm{id}$ for $x\ge2$),
+Lemma~\ref{lem:kernel}, Corollary~\ref{cor:implementer}, Proposition~\ref{prop:vector},
+Theorem~\ref{thm:det}, Corollary~\ref{cor:master}, Lemma~\ref{lem:gen},
+Lemma~\ref{lem:integralrep}, Proposition~\ref{prop:expansion} and Corollary~\ref{cor:varupper} hold
+verbatim, with the Hilbert--Schmidt bound \eqref{eq:HSbound} replaced by its circle form
+\eqref{eq:circlekernel}, i.e.\
+$\norm{G_{\kt_s}}_2\le\frac1{2\pi}\bigl(2\pi\bigr)\frac{3\Lambda_s}{2c_s}$ with
+$\Lambda_s=\operatorname{ess\,sup}_{S^1}|\widetilde{\kt}_s''|$, $c_s=\inf_{S^1}\widetilde{\kt}_s'$.
+In particular
+\begin{equation}\label{eq:geomupper}
+ \limsup_{\zeta\downarrow0}\frac{\Phi(\zeta)}{\zeta^2}\ \le\
+ \frac12\,\inf_{\chi\in\mathcal X}\ \norm{\Pm D_\chi\Pp}_2^2 ,
+ \qquad D_\chi=\chi\partial_x+\tfrac12\chi' .
+\end{equation}
+\end{proposition}
+\lstep{1}{1}{$\chi$ is bounded and Lipschitz on $\mathbb R$, so the flow is complete and
+ Lemma~\ref{lem:ext}\ref{E2},\ref{E3},\ref{E4} and the group property hold; \ref{E1} survives in the
+ form $\kt_s=\mathrm{id}$ on $(-\infty,0]$.}
+\lby{$\widetilde\chi\in C^{1,1}(S^1)$ and \eqref{eq:alpha} give $\chi\in C^{1,1}(\mathbb R)\cap
+ L^\infty$, and $\chi=0$ on $(-\infty,0]$; the proofs of Lemma~\ref{lem:ext} used only these}
+\lstep{1}{2}{$\kt_s$ induces a $C^{1,1}$ diffeomorphism $\widetilde{\kt}_s$ of $S^1$, and
+ $G_{\kt_s}\in\Stwo$ with $\norm{G_{\kt_s}}_2^2=\frac1{4\pi^2}\iint_{S^1\times S^1}
+ (\kappa^{S^1}_{\widetilde\kt_s})^2\le\frac{(2\pi)^2}{4\pi^2}\bigl(\tfrac{3\Lambda_s}{2c_s}\bigr)^2$.}
+\lby{$\widetilde\chi\in C^{1,1}(S^1)$ generates a $C^{1,1}$ circle flow; then \eqref{eq:circlekernel}
+ and item~(i) after it}
+\lstep{1}{3}{All the remaining statements used only: $\Wt$ is a unitary group with
+ $\Wt_s|_{L^2(I)}=W_{k_s}$; $G_{\kt_s}\in\Stwo$; the pointwise identity of
+ Lemma~\ref{lem:integralrep} $\langle1\rangle2$; and $\kappa^{(1)}\in L^2$.}
+\lby{inspection of the proofs; $\kappa^{(1)}\in L^2$ follows from its circle form, which is bounded
+ on the compact $S^1\times S^1$ by $\operatorname{ess\,sup}|\widetilde\chi''|$}
+\lqed{1}{4}\lby{$\langle1\rangle1$--$\langle1\rangle3$ and Corollary~\ref{cor:varupper} with $h'=0$}
+
+\begin{remark}[Logical dependency; not used downstream]\label{rem:notused}
+Proposition~\ref{prop:fullfamily} and the geometric bound \eqref{eq:geomupper} are \emph{not} used in
+the proof of Theorem~\ref{thm:main-upper}.  That proof runs entirely on the single base extension of
+Definition~\ref{def:ext} (compactly supported displacement, $\alpha=0$) together with the operator
+freedom $h'\in\mathcal A'$ of Definition~\ref{def:admissible}; the circle class \eqref{eq:class} is
+recorded because it is the class in which the \emph{geometric} infimum is attained (\ref{N4}) and
+because it explains PN's factor $8$ (\ref{N5}).  Readers checking Theorem~\ref{thm:main-upper} may
+skip this section; readers reproducing \texttt{p1\_bogoliubov.out} need it.
+\end{remark}
+
+\begin{lemma}[Fourier form of the first-order functional]\label{lem:fourier}
+For $\chi\in\mathcal X$ (or any $C^{1,1}$ circle field), with $\hat\chi(k)=\int\chi(x)e^{-ikx}\dd x$ and
+$\widetilde\chi(\theta)=\sum_n\widetilde\chi_ne^{in\theta}$,
+\begin{equation}\label{eq:Q}
+ \norm{\Pm D_\chi\Pp}_2^2
+ =\frac1{8\pi^2}\iint_{\mathbb R^2}\kappa^{(1)}(x,y)^2\dd x\dd y
+ =\frac1{48\pi^2}\int_0^\infty k^3\,|\hat\chi(k)|^2\dd k
+ =\frac1{12}\sum_{n\ge2}(n^3-n)\,|\widetilde\chi_n|^2 =: Q[\chi].
+\end{equation}
+\end{lemma}
+\begin{verdictok}
+The first equality is \eqref{eq:PDP}, proved here.  The second and third are the standard
+central-charge normalisation of the one-particle Virasoro cocycle; they are \emph{not} reproved in
+this document, but they are verified numerically to $10$ significant digits, three independent ways
+(real-space kernel, line Fourier integral, circle Fourier sum), in
+\texttt{numerics/p1\_bogoliubov.out} \S1(d) for $\chi=e^{-x^2/2}$, and the present author reproduced
+the first-vs-second equality independently for the compactly supported $\chi$ of
+Definition~\ref{def:ext} (adaptive quadrature, ratio $0.4945$ against the erroneous prefactor
+$\frac1{24\pi^2}$, i.e.\ $0.989$ against $\frac1{48\pi^2}$, limited by the quadrature of the
+$1/|x-y|$-type integrand).  The M\"obius invariance of $Q$ (equality of the line and circle forms) is
+the invariance of $\Pp$ and is verified to $10$ digits in ibid.\ \S1(c).
+\end{verdictok}
+
+\subsection{Numerical facts imported from the numerics track}\label{sec:numerics}
+From \texttt{numerics/p1\_bogoliubov.out} (agent PN; configuration $a=1$, $L=2$, $\zeta=s/3$, so its
+$Q$ must be multiplied by $((a+L)/a)^2=9$ to reach the $\zeta$-normalisation used here):
+\begin{enumerate}[label=(N\arabic*),leftmargin=3em]
+\item $E(s):=\norm{\Pm\Wt_s\Pp}_2^2=\frac1{8\pi^2}\iint\kappa_{\kt_s}^2$ and
+ $E=\frac12\norm{G_{\kt_s}}_2^2$; this is \eqref{eq:PDP} at finite $s$ (the extra input being
+ $\norm{\Pp\Wt_s\Pm}_2=\norm{\Pm\Wt_s\Pp}_2$, which holds because $G$ has a continuous kernel
+ vanishing on the diagonal).  Our Proposition~\ref{prop:HS} $\langle1\rangle7$ only uses the weaker
+ $\norm{V}_2\le\norm G_2$, which is safe.\label{N1}
+\item $E(s)/s^2$ is constant to $3$ digits over $s\in[0.025,0.8]$, and the bound
+ $\Phi\le\frac12E$ of Corollary~\ref{cor:master} holds for \emph{every} extension tested.\label{N2}
+\item With the optimal extension, $\frac12E/\Phi=1.0022,\,1.0045,\,1.0130,\,1.0414$ at
+ $\zeta=\frac1{120},\frac1{60},\frac1{30},\frac1{15}$: the Uhlmann bound is asymptotically
+ \emph{sharp}.\label{N3}
+\item $\inf_{\chi}\frac12Q[\chi]$ over the full circle class equals $0.0084465$ (Richardson
+ extrapolated $0.00844649$) against $g_B/8=0.00844343$, an agreement of $0.04\%$.\label{N4}
+\item Over the restricted class ``$\widetilde\chi(\pi)=\widetilde\chi'(\pi)=0$ at the point at
+ infinity of \emph{that} chart'' the infimum is $0.0678$, a factor $8.03$ too large.\label{N5}
+\end{enumerate}
+
+\begin{remark}[What \ref{N5} does and does not say]\label{rem:factor8}
+In PN's chart $I'=(-\infty,-a]\cup[L,\infty)$ is the single arc \emph{through} $x=\infty$, so
+$\theta=\pi$ is an interior point of $I'$ and $\widetilde\chi(\pi)$ is a free parameter; demanding
+that the extension tend to the identity at infinity kills it and costs the factor $8$.  Under the
+M\"obius map $m$ to the half-line chart (C4), $m(\infty_{\mathrm{PN}})$ is an \emph{interior} point
+$p^*$ of $I'=(1,\infty)$, and the restriction becomes ``$\widetilde\chi$ vanishes to second order at
+$p^*$'', an unnatural interior constraint.  Conversely the endpoint $-a$ of PN's chart is
+$m^{-1}(\infty)$ in ours, so \emph{our} point at infinity is an endpoint of $I'$, where
+$\widetilde\chi(\pi)=\widetilde\chi'(\pi)=0$ is forced anyway, and the free datum is
+$\widetilde\chi''(\pi^+)=2\alpha$ of \eqref{eq:alpha}.  Hence in the half-line chart the correct
+class is ``$\chi$ bounded with an arbitrary limit $\alpha$ at $+\infty$'', and
+Definition~\ref{def:ext} ($\alpha=0$) is a proper --- and, by \ref{N5}, expensive --- subclass.
+Numerically, for the particular $\chi$ of Definition~\ref{def:ext},
+$Q[\chi]=0.1926$ versus $g_B/4=0.016887$.
+\end{remark}
+
+\begin{verdictgap}
+The document as first drafted (Definition~\ref{def:ext}) used a compactly supported displacement.
+That choice is \emph{sound but not optimal}: every statement of
+\S\S\ref{sec:step1}--\ref{sec:step4} is true for it, and Corollary~\ref{cor:varupper} still yields
+the sharp constant \emph{provided} the infimum is taken over the full commutant class
+$\mathcal A'$ of Definition~\ref{def:admissible} (bounded self-adjoint $h'$ supported in $I'$), which
+is what \S\ref{sec:step5} does.  It would \emph{not} yield the sharp constant if one restricted to
+geometric $h'$ with compactly supported displacement: by \ref{N5} that route loses a factor
+$\approx8$.  The repaired geometric statement is \eqref{eq:geomupper} with the class
+\eqref{eq:class}, and by \ref{N4} it does reach $g_B/8$.  Both routes are recorded; the
+$\mathcal A'$ route is the one that is \emph{proved} below, the geometric route is the one that is
+\emph{computed} in \texttt{p1\_bogoliubov.out}.
+\end{verdictgap}
+
+\section{Step 5: the infimum is $g_B/4$}\label{sec:step5}
+
+\subsection{The two imported theorems}
+\begin{theorem}[Three faces of the Bures form; \texttt{rigor/lemma\_second\_variation.tex},
+theorem ``Three faces of the Bures form'']\label{thm:three-faces}
+Let $\cM$ be a von Neumann algebra with cyclic separating $\Om$, let $a\in\Fock$ with
+$\operatorname{Im}\ip\Om a=0$, and put $\varphi(K):=-2\operatorname{Im}\ip a{K\Om}$ for $K\in\Msa$.
+Then
+\[
+ \tfrac14g_B(a)=\tfrac12\bigl\|(1-J)(1+\Delta)^{-1/2}a\bigr\|^2
+ =\dist\bigl(a,\overline{\Mpsa\Om}\bigr)^2
+ =\sup_{K\in\Msa}\bigl[\varphi(K)-\Var_\omega(K)\bigr].
+\]
+No domain hypothesis on $a$ is needed.
+\end{theorem}
+\begin{theorem}[Value of the quasi-free supremum; \texttt{rigor/quadratic\_limit.tex},
+Def.~4.1 and Prop.~5.1]\label{thm:gBvalue}
+With $Q=E_I\Pp E_I$ the vacuum symbol of $I$, $\dot Q=\frac{\dd}{\dd s}\widetilde Q_s|_{s=0}$ the
+one-particle defect of the recovery curve in the $\zeta$-normalisation, and
+$\Omega(\ell):=2\Tr(\dot Q\ell)-\Tr(Q\ell(1-Q)\ell)$ (\texttt{quadratic\_limit.tex} writes
+$D^{(1)}:=\partial_\zeta(Q-\widetilde Q_\zeta)|_0=-\dot Q$ and hence $2\Tr(D^{(1)}\ell)$ for the
+linear term; since $\ell\mapsto-\ell$ is a bijection of the trial set, the two suprema coincide),
+\[
+ g_B:=\sup\{\Omega(\ell):\ell=\ell^*\ \text{finite rank on }L^2(I)\}=\frac{2r}{3\pi^2}=\frac2{3\pi^2}
+ \quad(r=1),
+\]
+verified independently in \texttt{rigor/quadratic\_limit.tex} \S5 and
+\texttt{rigor/collar\_and\_invariant\_formula.tex}.
+\end{theorem}
+
+\subsection{The tangent vector}
+\begin{lemma}\label{lem:tangentvec}
+Define $a\in\mathcal H^{(1,1)}$ to be the vector corresponding to $-i\,\Pm D\Pp\in
+\Stwo(\Pp H,\Pm H)$ under $\mathcal H^{(1,1)}\cong\Stwo(\Pp H,\Pm H)$, and
+$\varphi(K):=-2\operatorname{Im}\ip a{K\Om}$ for $K\in\Msa$.  Then $a$ is a bona fide vector with
+$\norm a=\norm{\Pm D\Pp}_2<\infty$, $Ea=a$, $\ip\Om a=0$, and for every finite-rank $\ell=\ell^*$
+with $\ell=E_I\ell E_I$,
+\begin{equation}\label{eq:phi}
+ \frac{\dd}{\dd s}\widetilde\omega_s\bigl(\dd\Gm(\ell)\bigr)\Big|_{s=0}
+ =\Tr(\dot Q\ell)=-2\operatorname{Im}\ip a{\dd\Gm(\ell)\Om}=\varphi\bigl(\dd\Gm(\ell)\bigr),
+ \qquad
+ \Var_\omega\bigl(\dd\Gm(\ell)\bigr)=\Tr\bigl(Q\ell(1-Q)\ell\bigr)=\norm{\Pm\ell\Pp}_2^2 .
+\end{equation}
+\end{lemma}
+\begin{remark}[Why $a$ is defined directly, and normal ordering]\label{rem:normalorder}
+One would like to write $a=-i\,\dd\Gm(D)\Om$ with $\Gm(\Wt_s)=e^{s\dd\Gm(D)}$.  That is
+\emph{illegitimate}: with $\dd\Gm(T)=\sum_{ij}T_{ij}a_i^*a_j$ the terms with both indices in $\Pp H$
+contribute $\Tr(\Pp D\Pp)\Om$, and $\Pp D\Pp$ is not trace class ($D=\chi\partial_x+\frac12\chi'$ is
+not even bounded), so $\dd\Gm(D)\Om$ does not exist.  The object that does exist is the
+Wick-ordered $:\!\dd\Gm(D)\!:\,=\dd\Gm(D)-\Tr(\Pp D\Pp)$, whose formal action on $\Om$ is exactly
+the block $\Pm D\Pp$; the subtraction is a real constant, so it changes neither $\varphi$ nor any
+commutator.  Rather than construct $:\!\dd\Gm(D)\!:$ as a self-adjoint operator (which for unbounded
+$D$ is the positive-energy representation theory of $\mathrm{Diff}(S^1)$, Goodman--Wallach,
+Carpi--Weiner), we define $a$ directly as the Hilbert--Schmidt vector $-i\,\Pm D\Pp$: this is all
+that Theorem~\ref{thm:three-faces} and Proposition~\ref{prop:infimum} use.  Correspondingly
+\eqref{eq:phi} is asserted only for quasi-free $K=\dd\Gm(\ell)$, which is the only case used
+(Proposition~\ref{prop:infimum} $\langle1\rangle6$); Theorem~\ref{thm:three-faces} takes $\varphi$ as
+\emph{defined} by $a$ and needs no differentiation.  No choice of phase for $\Gm(\Wt_s)$ is made
+anywhere: Proposition~\ref{prop:vector} and Proposition~\ref{prop:uhlmann} are phase-independent.
+\end{remark}
+\lstep{1}{1}{$\Pm D\Pp\in\Stwo$, so $a$ is a vector of $\mathcal H^{(1,1)}$ with
+ $\norm a=\norm{\Pm D\Pp}_2$, $Ea=a$ and $\ip\Om a=0$; and $\dd\Gm(m)\Om=\Pm m\Pp$ for every bounded
+ $m$ with $\Pm m\Pp\in\Stwo$.}
+\lby{\eqref{eq:PDP} and Proposition~\ref{prop:HS}; $\mathcal H^{(1,1)}\perp\mathbb C\Om$; for the last
+ clause, $\dd\Gm(m)=\sum_{ij}m_{ij}a_i^*a_j$ applied to $\Om$ leaves only the terms with $a_i^*$
+ creating a particle and $a_j$ creating a hole (for bounded $m$ the diagonal term $\Tr(\Pp m\Pp)$ is
+ absent after the standard normal ordering, and is in any case a multiple of $\Om$ that $E$ removes)}
+\lstep{1}{2}{$\widetilde Q_s=E_I\Wt_s^*\Pp\Wt_sE_I=Q-E_IG_sE_I$, hence
+ $\dot Q=-E_IG^{(1)}E_I$, the derivative existing in $\Stwo$.}
+\lby{Note~4 eq.~(5.5) $\widetilde Q_s=W_{k_s}^*Q_{J_s}W_{k_s}$ and $\Wt_s|_{L^2(I)}=W_{k_s}$
+ (Proposition~\ref{prop:vector} $\langle1\rangle1$); then \eqref{eq:Gphi} and
+ Proposition~\ref{prop:expansion} $\langle1\rangle2$}
+\lstep{1}{3}{$\Tr(\dot Q\ell)=-\Tr\bigl(G^{(1)}\ell\bigr)
+ =-2\operatorname{Re}\ip{\Pm D\Pp}{\Pm\ell\Pp}_{\Stwo}=-2\operatorname{Im}\ip a{\dd\Gm(\ell)\Om}$.}
+\lby{$\ell=E_I\ell E_I$ removes the $E_I$'s; $G^{(1)}=[\Pm,D]=\Pm D\Pp-\Pp D\Pm$ with
+ $\Pp D\Pm=-(\Pm D\Pp)^*$ (Lemma~\ref{lem:integralrep} $\langle1\rangle5$), so with $M=\Pm D\Pp$,
+ $N=\Pm\ell\Pp=\dd\Gm(\ell)\Om$ and $\Pp\ell\Pm=N^*$ one gets
+ $\Tr(G^{(1)}\ell)=\Tr(MN^*)+\Tr(M^*N)=2\operatorname{Re}\ip MN$; finally $a=-iM$ gives
+ $\ip aN=i\ip MN$ and $-2\operatorname{Im}(i\ip MN)=-2\operatorname{Re}\ip MN$}
+\lstep{1}{4}{$\frac{\dd}{\dd s}\widetilde\omega_s(\dd\Gm(\ell))|_{s=0}=\Tr(\dot Q\ell)$ and
+ $\Var_\omega(\dd\Gm(\ell))=\Tr(Q\ell(1-Q)\ell)=\norm{\Pm\ell\Pp}_2^2$.}
+\lby{$\widetilde\omega_s(\dd\Gm(\ell))=\Tr(\widetilde Q_s\ell)$ by quasi-freeness (Note~4 eq.~(5.5)),
+ and $\ell$ is finite rank while $s\mapsto\widetilde Q_s$ is $\Stwo$-differentiable by
+ $\langle1\rangle2$; the variance is the Wick computation of \texttt{rigor/quadratic\_limit.tex}
+ Prop.~3.3 $\langle2\rangle3$, and $\Tr(Q\ell(1-Q)\ell)=\Tr(\Pp\ell\Pm\ell)=\norm{\Pm\ell\Pp}_2^2$
+ because $\ell=E_I\ell E_I$}
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$}
+
+\subsection{The two-particle reduction}
+Let $E$ denote the orthogonal projection of $\Fock$ onto the one-particle--one-hole subspace
+$\mathcal H^{(1,1)}\cong\Stwo(\Pp H,\Pm H)$, and set
+\begin{equation}\label{eq:LK}
+ \mathcal L:=\{\Pm\ell\Pp:\ \ell=\ell^*\ \text{finite rank},\ \ell=E_I\ell E_I\},\qquad
+ \mathcal K:=\{\Pm h'\Pp:\ h'\in\mathcal A'\},
+\end{equation}
+real-linear subspaces of $\mathcal H^{(1,1)}$.
+
+\begin{lemma}[Wick reduction]\label{lem:wick}
+Let $X\in\{I,I'\}$ and $\cN_I:=\cM=\cF(I)$, $\cN_{I'}:=\cM'$.  Then for every $B\in(\cN_X)_{\rm sa}$
+one has $EB\Om\in\overline{\mathcal L}$ if $X=I$ and $EB\Om\in\overline{\mathcal K}$ if $X=I'$.
+Consequently $H_\cM\cap\mathcal H^{(1,1)}=\overline{\mathcal L}$ and
+$H_{\cM'}\cap\mathcal H^{(1,1)}=\overline{\mathcal K}$, where $H_\cN:=\overline{\cN_{\rm sa}\Om}$.
+\end{lemma}
+\lstep{1}{1}{\lcase $X=I'$: it suffices to treat $B=ZbZ^*$ with $b\in\cF(I')_{\rm sa}$, and then
+ $EB\Om=Eb\Om$.}
+\lproof
+\lstep{2}{1}{$\cM'=Z\cF(I')Z^*$ with $Z=\frac{1+iV}{1+i}$, $V$ the parity unitary (twisted duality
+ for the free chiral fermion net).}
+\lby{A.~L.~Foit, ``Abstract twisted duality for quantum free Fermi fields'', Publ.\ RIMS \textbf{19}
+ (1983) 729--741, Theorem~1; for the chiral fermion on the line it is also part of the standard
+ Bisognano--Wichmann package used in Longo--Xu (\texttt{arXiv:1712.07283}) (\emph{screenshot NOT OBTAINED};
+ the statement is used only through $\cM'\subseteq Z\cF(I')Z^*$, i.e.\ the \emph{duality} half)}
+\lstep{2}{2}{$Z\Om=\Om$, $ZE=EZ=E$, hence $EZbZ^*\Om=Eb\Om$.}
+\lby{$V\Om=\Om$ so $Z\Om=\Om$; $V=+1$ on the even subspace, which contains
+ $\mathcal H^{(1,1)}$ and is $E$-invariant, so $Z$ acts as $1$ there}
+\lqed{2}{3}\lby{$\langle2\rangle1$, $\langle2\rangle2$; $b\mapsto ZbZ^*$ preserves self-adjointness}
+\lstep{1}{2}{\lsuffices \lprove the claim for $B$ in the $*$-algebra $\mathfrak A_X$ generated by
+ $\{a(f):f\in L^2(X)\}$, self-adjoint.}
+\lby{Kaplansky's density theorem gives self-adjoint $b_n\in\mathfrak A_X$ with
+ $\norm{b_n}\le\norm B$ and $b_n\to B$ strongly, hence $b_n\Om\to B\Om$ and
+ $Eb_n\Om\to EB\Om$; $\overline{\mathcal L}$, $\overline{\mathcal K}$ are closed}
+\lstep{1}{3}{For $b\in(\mathfrak A_X)_{\rm sa}$ there are $f_i,g_j\in L^2(X)$ and $c_{ij}\in\mathbb C$
+ with $Eb\Om=\Pm h\Pp$, $h=\sum_{ij}c_{ij}\ket{f_i}\bra{g_j}$ finite rank on $L^2(X)$, and $h=h^*$.}
+\lproof
+\lstep{2}{1}{$b$ is a finite linear combination of Wick monomials
+ $:a^{\#}(u_1)\cdots a^{\#}(u_n):$ with $u_i\in L^2(X)$, and this decomposition is unique.}
+\lby{the CAR relations reduce any word to Wick-ordered form with scalar coefficients from
+ $\ip{u}{\Pp v}$; uniqueness because the Wick monomials applied to $\Om$ land in distinct
+ $n$-particle-hole sectors and are linearly independent}
+\lstep{2}{2}{$:a^{\#}(u_1)\cdots a^{\#}(u_n):\Om$ lies in $\bigoplus_{p+q=n}\mathcal H^{(p,q)}$, so
+ only $n=2$ contributes to $\mathcal H^{(1,1)}$, and among the $n=2$ monomials only
+ $:a^*(f)a(g):=\dd\Gm(\ket f\bra g)-\Tr(\Pp\ket f\bra g)$ has a $\mathcal H^{(1,1)}$ component.}
+\lby{$a^*(u)\Om=b^*(\Pp u)\Om$ creates a particle and $a(u)\Om=d^*(\overline{\Pm u})\Om$ a hole, so
+ Wick monomials of degree $n$ create exactly $n$ excitations; $:a^*a^*:\Om\in\mathcal H^{(2,0)}$,
+ $:aa:\Om\in\mathcal H^{(0,2)}$}
+\lstep{2}{3}{Hence $Eb\Om=\Pm h\Pp$ with $h=\sum c_{ij}\ket{f_i}\bra{g_j}$, supported in $X$; and
+ $b=b^*$ forces $h=h^*$.}
+\lby{$\langle2\rangle1$, $\langle2\rangle2$ and $\langle1\rangle1$ of Lemma~\ref{lem:tangentvec};
+ applying $*$ to the Wick decomposition maps the degree-2 charge-$0$ part
+ $\dd\Gm(h)-\Tr(\Pp h)$ to $\dd\Gm(h^*)-\overline{\Tr(\Pp h)}$, and uniqueness in
+ $\langle2\rangle1$ gives $h=h^*$}
+\lqed{2}{4}\lby{$\langle2\rangle3$}
+\lstep{1}{4}{$H_\cN\cap\mathcal H^{(1,1)}=\overline{\mathcal L}$ resp.\ $\overline{\mathcal K}$.}
+\lby{``$\supseteq$'': $\dd\Gm(\ell)\in\Msa$ for $\ell=\ell^*$ supported in $I$ and
+ $\dd\Gm(h')\in\Mpsa$ for $h'\in\mathcal A'$ (Lemma~\ref{lem:commutant} applied to
+ $e^{ith'}$), and $\dd\Gm(m)\Om=\Pm m\Pp$.  ``$\subseteq$'': if $\xi\in H_\cN\cap\mathcal H^{(1,1)}$
+ then $\xi=E\xi=\lim EB_n\Om$ for $B_n\in\cN_{\rm sa}$, and each $EB_n\Om$ is in the closed set by
+ $\langle1\rangle1$--$\langle1\rangle3$}
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$}
+
+\subsection{The identification}
+\begin{proposition}[The infimum]\label{prop:infimum}
+\begin{equation}\label{eq:infimum}
+ \inf_{h'\in\mathcal A'}\norm{\Pm(D+ih')\Pp}_2^2=\frac{g_B}4=\frac1{6\pi^2}=0.016886863\ldots
+\end{equation}
+\end{proposition}
+\lstep{1}{1}{$\inf_{h'\in\mathcal A'}\norm{\Pm(D+ih')\Pp}_2^2=\dist\bigl(a,\overline{\mathcal K}\bigr)^2$.}
+\lby{$a-\dd\Gm(h')\Om=-i\Pm D\Pp-\Pm h'\Pp=-i\,\Pm(D-ih')\Pp$ by Lemma~\ref{lem:tangentvec}
+ $\langle1\rangle1$, and $h'\mapsto-h'$ is a bijection of $\mathcal A'$; the infimum over a set and
+ over its closure agree}
+\lstep{1}{2}{$\dist(a,\overline{\mathcal K})=\dist(a,H_{\cM'})$.}
+\lby{$\overline{\mathcal K}\subseteq H_{\cM'}$ (Lemma~\ref{lem:wick} $\langle1\rangle4$) gives
+ ``$\ge$''; conversely for $\eta\in H_{\cM'}$, $E\eta\in\overline{\mathcal K}$
+ (Lemma~\ref{lem:wick}) and $\norm{a-\eta}^2=\norm{a-E\eta}^2+\norm{(1-E)\eta}^2\ge
+ \norm{a-E\eta}^2$ because $a=Ea$}
+\lstep{1}{3}{$\dist(a,H_{\cM'})^2=\sup_{K\in\Msa}\bigl[\varphi(K)-\Var_\omega(K)\bigr]$.}
+\lby{Theorem~\ref{thm:three-faces}, applicable by Lemma~\ref{lem:tangentvec}
+ ($\operatorname{Im}\ip\Om a=0$) and because $\Om$ is cyclic and separating for $\cM=\cF(I)$
+ (Reeh--Schlieder for the free fermion net, $I$ and $I'$ both nonempty open)}
+\lstep{1}{4}{\ldefine $w:=-ia$.  Then
+ $\sup_{K\in\Msa}[\varphi(K)-\Var_\omega(K)]
+ =\sup_{k\in H_\cM}\bigl[2\operatorname{Re}\ip wk-\norm k^2\bigr]$.}
+\lby{for $K\in\Msa$ put $k:=K\Om-\omega(K)\Om\in\Msa\Om$: then $\Var_\omega(K)=\norm k^2$ and
+ $\varphi(K)=-2\operatorname{Im}\ip a{K\Om}=-2\operatorname{Im}\ip ak=2\operatorname{Re}\ip wk$
+ (using $\ip a\Om=0$); conversely $\one\in\Msa$ so $\{K\Om-\omega(K)\Om:K\in\Msa\}$ and
+ $\Msa\Om$ have the same closed real span $H_\cM$, and the functional is norm-continuous}
+\lstep{1}{5}{$\sup_{k\in H_\cM}[2\operatorname{Re}\ip wk-\norm k^2]
+ =\sup_{k\in\overline{\mathcal L}}[2\operatorname{Re}\ip wk-\norm k^2]$.}
+\lby{$w=Ew$ gives $\operatorname{Re}\ip wk=\operatorname{Re}\ip w{Ek}$ and $\norm k\ge\norm{Ek}$, so
+ replacing $k$ by $Ek$ does not decrease the functional; and
+ $E\,H_\cM\subseteq\overline{\mathcal L}\subseteq H_\cM$ by Lemma~\ref{lem:wick}}
+\lstep{1}{6}{$\sup_{k\in\overline{\mathcal L}}[2\operatorname{Re}\ip wk-\norm k^2]
+ =\sup_{\ell}\bigl[\varphi(\dd\Gm(\ell))-\Var_\omega(\dd\Gm(\ell))\bigr]
+ =\tfrac14\sup_\ell\Omega(\ell)=\tfrac14g_B$.}
+\lby{$\overline{\mathcal L}$ is the closure of $\{\dd\Gm(\ell)\Om-\omega(\dd\Gm(\ell))\Om\}$ and
+ $\langle1\rangle4$ applies verbatim to these $K=\dd\Gm(\ell)$; then Lemma~\ref{lem:tangentvec}
+ $\langle1\rangle4$ gives $\varphi-\Var=\Tr(\dot Q\ell)-\Tr(Q\ell(1-Q)\ell)=\frac14\Omega(2\ell)$,
+ and $\ell\mapsto2\ell$ is a bijection; finally Theorem~\ref{thm:gBvalue}}
+\lqed{1}{7}\lby{$\langle1\rangle1$--$\langle1\rangle6$ and $g_B=\frac2{3\pi^2}$}
+
+\begin{verdictok}
+Step~5 is proved.  The load-bearing new ingredient is Lemma~\ref{lem:wick}: the
+one-particle--one-hole component of $B\Om$ is $\Pm h\Pp$ with $h$ \emph{self-adjoint and localised},
+for every self-adjoint $B$ in $\cF(I)$ resp.\ in $\cF(I)'$.  This is what makes the distance in
+Theorem~\ref{thm:three-faces} computable in the two-particle sector \emph{in both directions} --- the
+$\cM'$ direction gives $\dist(a,\overline{\mathcal K})=\dist(a,H_{\cM'})$, the $\cM$ direction
+identifies the abstract $g_B(a)$ with the quasi-free $g_B$ of
+\texttt{rigor/quadratic\_limit.tex} Def.~4.1 --- so that no density statement is left open and the
+answer is the number $\frac{2}{3\pi^2}$ computed there.  Independent confirmation: in finite
+dimensions the two real subspaces $\mathcal L$ and $i\mathcal K$ are exact orthogonal complements of
+each other inside $\mathcal H^{(1,1)}$ --- checked numerically (\texttt{rigor/pa\_step5\_check.py})
+for $(\dim H,\operatorname{rank}\Pp,\dim L^2(I))=(4,2,2),(5,2,2),(6,3,3),(6,2,3),(7,3,2),(8,4,3)$:
+$\dim_{\mathbb R}\mathcal L+\dim_{\mathbb R}\mathcal K$ equals $2\operatorname{rank}\Pp\cdot
+\operatorname{rank}\Pm$ exactly, the mutual real inner products vanish to $2\cdot10^{-16}$, and the
+Pythagoras identity $\norm{\Pi_{\mathcal L}M}^2+\norm{\Pi_{i\mathcal K}M}^2=\norm M^2$ holds to
+$5\cdot10^{-16}$ on random $M$.  The only external input is twisted duality
+$\cM'=Z\cF(I')Z^*$, cited but not screenshotted.
+\end{verdictok}
+
+\section{The theorem}\label{sec:theorem}
+
+\begin{theorem}[Sharp upper bound]\label{thm:main-upper}
+For the $r$-component free chiral fermion ($c=r$), with $\Phi(\zeta)=-\log\Fid_{\cF_r(I)}
+(\omega,\widetilde\omega_\zeta)$ the zero-collar recovery defect of Note~4 and $\zeta=as/(a+L)$ the
+cross ratio,
+\begin{equation}\label{eq:mainupper}
+ \limsup_{\zeta\downarrow0}\frac{\Phi(\zeta)}{\zeta^2}\ \le\ \frac{g_B}8=\frac r{12\pi^2}.
+\end{equation}
+\end{theorem}
+\lstep{1}{1}{\lsuffices \lprove the case $r=1$.}
+\lby{$H=L^2(\mathbb R;\mathbb C^r)=\bigoplus_{1}^{r}L^2(\mathbb R)$ and all the objects above are
+ direct sums of $r$ identical copies: $\Wt_s$, $\Pp$, $D$ and $h'$ act diagonally, so
+ $\norm{\Pm(D+ih')\Pp}_2^2$ and $g_B$ are both multiplied by $r$, and $\Fid$ is the product of the
+ $r$ fidelities, so $\Phi$ is multiplied by $r$}
+\lstep{1}{2}{For every $h'\in\mathcal A'$,
+ $\limsup_{\zeta\downarrow0}\Phi(\zeta)/\zeta^2\le\frac12\norm{\Pm(D+ih')\Pp}_2^2$.}
+\lby{Corollary~\ref{cor:varupper}}
+\lstep{1}{3}{$\inf_{h'\in\mathcal A'}\frac12\norm{\Pm(D+ih')\Pp}_2^2=\frac12\cdot\frac{g_B}4
+ =\frac{g_B}8=\frac1{12\pi^2}$.}
+\lby{Proposition~\ref{prop:infimum}}
+\lqed{1}{4}\lby{$\langle1\rangle1$--$\langle1\rangle3$}
+
+\begin{theorem}[Theorem A closed]\label{thm:A}
+For the $r$-component free chiral fermion,
+\begin{equation}\label{eq:A}
+ \boxed{\ \lim_{\zeta\downarrow0}\frac{\Phi(\zeta)}{\zeta^2}=\frac{g_B}8=\frac r{12\pi^2}
+ =\frac c{12\pi^2}=f_2 ,\qquad f_2=0.00844343\,r .\ }
+\end{equation}
+\end{theorem}
+\lstep{1}{1}{$\liminf_{\zeta\downarrow0}\Phi(\zeta)/\zeta^2\ge g_B/8$.}
+\lby{\texttt{rigor/quadratic\_limit.tex}, Theorem~4.2 (``Lower bound; unconditional''), together with
+ its Prop.~5.1 ($g_B=2r/(3\pi^2)$); the theorem is recorded as verified in
+ \texttt{rigor/findings\_entries.tex} (entry [V7], all five ingredients re-derived)}
+\lstep{1}{2}{$\limsup_{\zeta\downarrow0}\Phi(\zeta)/\zeta^2\le g_B/8$.}
+\lby{Theorem~\ref{thm:main-upper}}
+\lqed{1}{3}\lby{$\langle1\rangle1$, $\langle1\rangle2$: the limit exists and equals $g_B/8$; the
+ numerical value is $g_B/8=\frac{2r}{3\pi^2}/8=\frac r{12\pi^2}$}
+
+\begin{verdictok}
+Theorem~\ref{thm:A} closes Theorem~A of the programme for the free chiral fermion \emph{as a statement
+about $\Phi$ itself}, not about the quantum Fisher information: no interchange of the compression
+limit with the second-order expansion is used anywhere, and no tail bound is needed.  The two halves
+are logically independent --- the lower bound is a data-processing/Legendre argument in the
+compressed algebras, the upper bound is a single Uhlmann trial vector --- and they meet exactly.
+Consistency with the numerics: \ref{N3} gives $\frac12E/\Phi\to1$ from above, and \ref{N4} gives
+$\frac12\inf E/\zeta^2\to g_B/8$ to $0.04\%$.
+\end{verdictok}
+
+\begin{remark}[What the argument does \emph{not} give]\label{rem:notgive}
+(i) No rate: \eqref{eq:expansion} contains the qualitative $\epsilon(s)$, so
+$\Phi(\zeta)=f_2\zeta^2+o(\zeta^2)$ is all that follows; the tail analysis (O4) is still needed for a
+certified $O(\zeta^3)$ or $O(\zeta^2/\log^2)$ remainder.  (ii) Nothing about the Kubo--Mori/relative
+entropy coefficient $s_2$.  (iii) Nothing beyond the free fermion: Theorem~\ref{thm:gBvalue} and
+Lemma~\ref{lem:wick} are both quasi-free statements.  For a general diffeomorphism covariant net the
+Uhlmann half would need a substitute for Lemma~\ref{lem:wick} (a ``the optimal $u'\in U(\cM')$ may be
+taken of the form $e^{iT(g')}$'' statement), and the implementability of the extension is the
+Carpi--Weiner/Goodman--Wallach positive-energy representation of $\mathrm{Diff}(S^1)$ rather than
+Shale--Stinespring.
+\end{remark}
+
+\section{What is used from where}\label{sec:used}
+
+\paragraph{Proved in this document (no external input beyond textbook facts).}
+\begin{itemize}[leftmargin=1.4em]
+\item Existence of the $C^{1,1}$ extension as a flow, with $\kt_s|_I=k_s$ exactly
+ (Definition~\ref{def:ext}, Lemma~\ref{lem:ext}); the circle class \eqref{eq:class}.
+\item The kernel $\frac i{2\pi}\kappa_\phi$ of $\Pp-W_\phi^*\Pp W_\phi$ and its uniform bound
+ $\frac{3\Lambda}{2c}$ (Lemma~\ref{lem:kernel}); the explicit Hilbert--Schmidt bound
+ \eqref{eq:HSbound}, and its circle form (Proposition~\ref{prop:fullfamily}).
+\item The vector representative $\Psi_s=\Gm(\Wt_s)^*\Om$ and $\Gm(\one\oplus W')\in\cM'$
+ (Proposition~\ref{prop:vector}, Lemma~\ref{lem:commutant}); as a by-product, normality of
+ $\widetilde\omega_s$ (Note~4 \S8 proves this by Powers--St\o rmer; here it is free).
+\item The vacuum-overlap determinant $|\ip\Om{\Gm(U)\Om}|=\det(\one-V^*V)^{1/2}$ under
+ $\norm V,\norm A<1$ (Theorem~\ref{thm:det}), with the one-mode check
+ (Remark~\ref{rem:onemode}) --- i.e.\ the Ruijsenaars/Berezin formula is \emph{reproved}, not cited.
+\item The exact integral representation \eqref{eq:intrep} of the defect kernel along the flow, and
+ the expansion \eqref{eq:expansion} (Lemma~\ref{lem:integralrep},
+ Proposition~\ref{prop:expansion}).
+\item The Wick reduction to the one-particle--one-hole sector, in both $\cM$ and $\cM'$
+ (Lemma~\ref{lem:wick}), and the identification \eqref{eq:infimum}.
+\end{itemize}
+
+\paragraph{Imported, with locator.}
+\begin{itemize}[leftmargin=1.4em]
+\item \emph{Shale--Stinespring implementability} (J.\ Math.\ Mech.\ \textbf{14} (1965) 315, Thm~3;
+ Araki, Publ.\ RIMS \textbf{6} (1970/71) 385, Lem.~6.3/Thm~6.5).  Used in
+ Corollary~\ref{cor:implementer}.  \textbf{Screenshot NOT OBTAINED} (not online here).
+\item \emph{Alberti--Uhlmann 2002, Theorem~2(3)} (\texttt{math-ph/0202038}, p.~7).  Only the
+ elementary half.  Screenshot: \texttt{shots/PA\_AU02\_thm2.png}.
+\item \emph{Twisted duality} $\cF(I)'=Z\cF(I')Z^*$ for the free fermion (Foit, Publ.\ RIMS
+ \textbf{19} (1983) 729, Thm~1).  Used only in Lemma~\ref{lem:wick} $\langle1\rangle1$.
+ \textbf{Screenshot NOT OBTAINED}.
+\item \emph{Reeh--Schlieder} ($\Om$ cyclic separating for $\cF(I)$).  Standard.
+\item \emph{Three faces of the Bures form}: \texttt{rigor/lemma\_second\_variation.tex}, theorem
+ ``Three faces of the Bures form'' (internal, proved there; no domain hypothesis on $a$).
+\item \emph{The number $g_B=2r/(3\pi^2)$}: \texttt{rigor/quadratic\_limit.tex} Def.~4.1 and
+ Prop.~5.1 (internal; independently reconfirmed in
+ \texttt{rigor/collar\_and\_invariant\_formula.tex} and Note~7 \S5).
+\item \emph{Lower bound} $\liminf\Phi/\zeta^2\ge g_B/8$: \texttt{rigor/quadratic\_limit.tex}
+ Thm~4.2 (internal, unconditional, refereed).
+\item \emph{Note~4} for the geometry: $k_s$ (eq.~(5.1)), $\beta_s$ (eq.~(5.2)),
+ $\widetilde\omega_s$ (eq.~(5.4)), the cross-kernel $\Delta_s$ (eq.~(6.6)) --- used as the
+ cross-check of Remark~\ref{rem:crosscheck}.  \emph{Note~5} Lemma~1.1 (dependence on $\zeta$ only)
+ and \emph{Note~7} \S1 (half-line configuration), \S2 (the tangent field $g=-x^2/L$ on $D$, $0$ on
+ $A$), which is our $-\chi|_I$.
+\item \emph{Numerics}: \texttt{numerics/p1\_bogoliubov.out} (agent PN) for \ref{N1}--\ref{N5} and for
+ the second and third equalities of Lemma~\ref{lem:fourier}; \texttt{rigor/pa\_step5\_check.py}
+ (this agent) for the finite-dimensional confirmation of Lemma~\ref{lem:wick}'s consequence.
+\end{itemize}
+
+\paragraph{Not used.}
+The tail bound (O4), the collar limit, the Kubo--Mori half of the second-variation lemma, the
+kernel identity of Note~7 \S4, and any interchange of the compression limit with the small-$\zeta$
+expansion.
+
+
+\section{Hypotheses (H2) and (H3) of the Phase-2 brief, for the free fermion}\label{sec:H2H3}
+Requested by the Phase-2 agent QA (\texttt{rigor/universality\_theorem\_B.tex}), which uses this
+document as the model case for \texttt{rigor/phase2\_brief.md} (H1)--(H3).  Throughout, $\Gm_s$ is the
+implementer of $\Wt_s$ normalised by $\ip\Om{\Gm_s\Om}>0$ (legitimate for $|s|$ small: the overlap is
+$\det(\one-V_s^*V_s)^{1/2}>0$ by Theorem~\ref{thm:det}), and
+$T(g_{\mathrm{tot}}):=-i\!:\!\dd\Gm(D)\!:$ with $g_{\mathrm{tot}}=-\chi$ the first-order field of
+$\kt_s$ (Remark~\ref{rem:normalorder}); recall $\chi=0$ on $A$, $\chi=x^2$ on $D$ ($L=1$).
+
+\begin{lemma}[(H2): norm differentiability on the vacuum]\label{lem:H2}
+For $|s|$ small, $\Gm_s\Om=\Om+s\,\dot\Psi+o(s)$ in the norm of $\Fock$, where $\dot\Psi$ is the
+one-particle--one-hole vector determined by the Hilbert--Schmidt block $\Pm D\Pp$, i.e.\
+$\dot\Psi=\;:\!\dd\Gm(D)\!:\Om=i\,T(g_{\mathrm{tot}})\Om$.  In particular $T(g_{\mathrm{tot}})\Om$ is
+a vector of $\Fock$ with $\norm{T(g_{\mathrm{tot}})\Om}=\norm{\Pm D\Pp}_2<\infty$, and
+$\dot\Psi=\pm i\,a$ with the $a$ of Lemma~\ref{lem:tangentvec} (the sign is that of the
+identification $\mathcal H^{(1,1)}\cong\Stwo(\Pp H,\Pm H)$ fixed there; only norms and real pairings
+enter Proposition~\ref{prop:infimum}, cf.\ the sign remark in Theorem~\ref{thm:gBvalue}).
+\end{lemma}
+\lstep{1}{1}{$\Gm_s\Om=c_s\,\mathcal E(Z_s)$ with $Z_s=V_sX_s^{-1}$, $c_s=\det(\one+Z_s^*Z_s)^{-1/2}>0$,
+ and $\mathcal E(Z)=\Om-\underline Z+R(Z)$, where $\underline Z\in\mathcal H^{(1,1)}$ is the vector of
+ $Z$ and $R(Z)\in\bigoplus_{n\ge2}\mathcal H^{(n,n)}$ with
+ $\norm{R(Z)}^2=\det(\one+Z^*Z)-1-\norm Z_2^2$.}
+\lby{Theorem~\ref{thm:det} $\langle1\rangle5$--$\langle1\rangle6$: expanding
+ $\bigotimes_j(\one-z_jb_j^*d_j^*)\Om$ separates the $(0,0)$, $(1,1)$ and higher $(n,n)$ sectors, and
+ $\norm{\mathcal E(Z)}^2=\prod_j(1+z_j^2)=\det(\one+Z^*Z)$}
+\lstep{1}{2}{For $s$ small, $\norm{Z_s}_2\le2\norm{V_s}_2\le2C_0s$, and
+ $|c_s-1|\le\norm{Z_s}_2^2$, $\norm{R(Z_s)}^2\le\norm{Z_s}_2^4e^{\norm{Z_s}_2^2}$; both are $O(s^2)$.}
+\lby{$\norm{X_s^{-1}}\le(1-\norm{V_s}^2)^{-1/2}\le2$ for $s$ small (Theorem~\ref{thm:det}
+ $\langle1\rangle1$, Proposition~\ref{prop:HS}); $1\le\det(\one+Z^*Z)\le e^{\norm Z_2^2}$ gives
+ $|c_s-1|\le1-e^{-\norm{Z_s}_2^2/2}\le\norm{Z_s}_2^2$, and
+ $\det(\one+Z^*Z)-1-\norm Z_2^2\le e^{\norm Z_2^2}-1-\norm Z_2^2\le\norm Z_2^4e^{\norm Z_2^2}$}
+\lstep{1}{3}{$\norm{Z_s-sM}_2=o(s)$, where $M:=\Pm D\Pp$.}
+\lproof
+\lstep{2}{1}{$\norm{V_s-sM}_2\le s\epsilon(s)+C_4s^2=o(s)$.}
+\lby{Proposition~\ref{prop:expansion} with $h'=0$}
+\lstep{2}{2}{$\norm{Z_s-V_s}_2=\norm{(X_s^{-*}-\Pp)V_s^*}_2
+ \le3\norm{V_s-sM}_2+s\norm{X_s^{-*}}\,\norm{\Pp(\one-\Wt_s^*)\Pp\,M^*}_2$.}
+\lby{$Z_s-V_s=V_s(X_s^{-1}-\Pp)$ and $\norm T_2=\norm{T^*}_2$; then $V_s^*=sM^*+(V_s-sM)^*$,
+ $\norm{X_s^{-*}-\Pp}\le3$ by $\langle1\rangle2$, and
+ $(X_s^{-*}-\Pp)M^*=X_s^{-*}\Pp(\one-\Wt_s^*)\Pp M^*$}
+\lstep{2}{3}{$\norm{\Pp(\one-\Wt_s^*)\Pp M^*}_2\to0$ as $s\to0$.}
+\lby{$\Pp(\one-\Wt_s^*)\Pp\to0$ strongly (Lemma~\ref{lem:gen}) and $M^*\in\Stwo$; dominated
+ convergence for $\norm{B_sT}_2^2=\sum_n\norm{B_sTe_n}^2$ with $\norm{B_s}\le2$, as in
+ Lemma~\ref{lem:integralrep} $\langle1\rangle4$}
+\lqed{2}{4}\lby{$\langle2\rangle1$--$\langle2\rangle3$}
+\lstep{1}{4}{$\norm{\Gm_s\Om-\Om+s\underline M}=o(s)$, $\underline M$ the $(1,1)$-vector of $M$.}
+\lby{$\Gm_s\Om-\Om+\underline{Z_s}=(c_s-1)\mathcal E(Z_s)+c_sR(Z_s)$, of norm $O(s^2)$ by
+ $\langle1\rangle1$--$\langle1\rangle2$; and $\norm{\underline{Z_s}-s\underline M}=\norm{Z_s-sM}_2
+ =o(s)$ by $\langle1\rangle3$}
+\lqed{1}{5}\lby{$\langle1\rangle4$, with $\dot\Psi=-\underline M$ resp.\ $+\underline M$ according to
+ the orientation of the identification; $\norm{\dot\Psi}=\norm M_2$ in either case}
+
+\begin{lemma}[(H3): first-order differentiability of the curve]\label{lem:H3}
+Let $\mathfrak A_I$ be the $*$-algebra generated by the smeared fields $a(f)$, $f\in L^2(I)$, which is
+$\sigma$-strongly dense in $\cM$.  Then for every $X\in\mathfrak A_I$,
+\[
+ \widetilde\omega_s(X)=\omega(X)+s\,\varphi(X)+o(s),\qquad
+ \varphi(X)=i\,\omega\bigl([T(g_{\mathrm{tot}}),X]\bigr)=-2\operatorname{Im}\ip{T(g_{\mathrm{tot}})\Om}{X\Om},
+ \qquad
+ \widetilde\omega_s(X^2)\longrightarrow\omega(X^2).
+\]
+\end{lemma}
+\lstep{1}{1}{$\Psi_s:=\Gm_s^*\Om$ represents $\widetilde\omega_s$ on $\cM$, and
+ $\Psi_s=\Om-s\,\dot\Psi+o(s)$ in norm.}
+\lby{Proposition~\ref{prop:vector}; $\Gm_s^*$ is an implementer of $\Wt_{-s}$ with
+ $\ip\Om{\Gm_s^*\Om}=\overline{c_s}=c_s>0$, so Lemma~\ref{lem:H2} applies at $-s$}
+\lstep{1}{2}{Every $X\in\mathfrak A_I$ is bounded, with $\norm{a(f)}=\norm f$.}
+\lby{the CAR relations: $a(f)^*a(f)+a(f)a(f)^*=\norm f^2\one$}
+\lstep{1}{3}{$\widetilde\omega_s(X)=\ip{\Psi_s}{X\Psi_s}
+ =\omega(X)-2s\operatorname{Re}\ip{\dot\Psi}{X\Om}+o(s)$ and
+ $\widetilde\omega_s(X^2)\to\omega(X^2)$.}
+\lby{$\langle1\rangle1$, $\langle1\rangle2$: expand the sesquilinear form and use
+ $|\ip{\Psi_s}{X\Psi_s}-\ip\Om{X\Om}|\le2\norm X\norm{\Psi_s-\Om}$ for the remainder and the last
+ claim (with $X^2$ in place of $X$)}
+\lqed{1}{4}\lby{$\langle1\rangle3$ and $\dot\Psi=iT(g_{\mathrm{tot}})\Om$ (Lemma~\ref{lem:H2}):
+ $-2\operatorname{Re}\ip{iT(g)\Om}{X\Om}=-2\operatorname{Im}\ip{T(g)\Om}{X\Om}
+ =i\omega([T(g),X])$, the last equality because $T(g)$ is symmetric and $\omega(X^*)=
+ \overline{\omega(X)}$}
+\begin{verdictok}
+(H2) and (H3) hold for the free chiral fermion, with $T(g_{\mathrm{tot}})\Om$ a genuine vector of
+norm $\norm{\Pm D\Pp}_2$.  Two features are special to the free fermion and will not transfer to a
+general net: the smeared fields are \emph{bounded}, so (H3) needs no domain hypothesis; and (H2) is
+proved from the explicit Bogoliubov structure of $\Gm_s\Om$ rather than from $\Om\in D(L_0)$.
+\end{verdictok}
+
+
+\section{Corrections after the referee report (PR)}\label{sec:corrections}
+The referee report \texttt{rigor/referee\_uhlmann\_upper\_bound.tex} (agent PR) found no
+proof-breaking issue; Theorems~\ref{thm:main-upper} and \ref{thm:A} stand.  Three repairs were
+requested and have been applied.
+\begin{enumerate}[label=(R\arabic*),leftmargin=3em]
+\item \emph{The core in Lemma~\ref{lem:gen}.}  Neither $C_c^\infty$ nor $C_c^1$ is invariant under
+ $\Wt_s$ when $\kt_s$ is only $C^{1,1}$ (the derivative of $\Wt_sf$ contains $\kt_{-s}''\in
+ L^\infty$ only), so Nelson's criterion did not apply to the domain named.  The core is now
+ $\mathcal D=H^1_c(\mathbb R)$: it is dense, $D\mathcal D\subset L^2$ ($\chi,\chi'\in L^\infty$),
+ $D$ is skew-symmetric on it, and $\Wt_s\mathcal D=\mathcal D$ because $\kt_{\pm s}$ is bi-Lipschitz
+ with Lipschitz derivative bounded away from $0$.  Lemma~\ref{lem:gen} now has five steps.  Nothing
+ downstream changes: $D$ enters only through the Hilbert--Schmidt block $\Pm D\Pp$ and through the
+ pointwise kernel identity of Lemma~\ref{lem:integralrep}, which uses no core.
+\item \emph{Equation \eqref{eq:det}.}  The middle term $|\det(\Pp U\Pp|_{\Pp H})|$ has been removed:
+ $V\in\Stwo$ makes $X^*X=\one-V^*V$ an identity-plus-trace-class operator but does not make
+ $X=\Pp U\Pp$ one, so its Fredholm determinant is undefined in general.  The theorem now states and
+ proves only $|\ip\Om{\Gm(U)\Om}|=\det(\one-V^*V)^{1/2}$, which is the sole form used
+ (Corollary~\ref{cor:master}); a parenthesis records that the classical middle term is available
+ under the extra hypothesis $\Pp(U-\one)\Pp\in\Sone$, never used here.  In
+ Theorem~\ref{thm:det}~$\langle1\rangle7$ the word ``conjugated'' has been replaced by the explicit
+ similarity argument $X^*X=X^{-1}(XX^*)X$ plus similarity invariance of the Fredholm determinant.
+ PR verified the identity numerically to $10^{-14}$ on $2400$ random Bogoliubov unitaries.
+\item \emph{The tangent vector, Lemma~\ref{lem:tangentvec}.}  As printed, $a=-i\dd\Gm(D)\Om$ was
+ defined by a non-existent operator: $\Tr(\Pp D\Pp)=\infty$, so $\dd\Gm(D)\Om$ does not exist, and
+ only the Wick-ordered $:\!\dd\Gm(D)\!:\,=\dd\Gm(D)-\Tr(\Pp D\Pp)$ has the intended action
+ $\Pm D\Pp$ on $\Om$.  The lemma now \emph{defines} $a$ to be the $\mathcal H^{(1,1)}$-vector
+ $-i\,\Pm D\Pp$ (Hilbert--Schmidt by \eqref{eq:PDP}), which restores $Ea=a$,
+ $\norm a=\norm{\Pm D\Pp}_2$ and $\ip\Om a=0$; the choice of phase $\Gm(\Wt_s)=e^{s\dd\Gm(D)}$ has
+ been dropped (nothing used it).  Equation \eqref{eq:phi} is now asserted and proved only for
+ quasi-free $K=\dd\Gm(\ell)$, by the two-line $\Stwo$ computation
+ $\Tr(\dot Q\ell)=-\Tr(G^{(1)}\ell)=-2\operatorname{Re}\ip{\Pm D\Pp}{\Pm\ell\Pp}
+ =-2\operatorname{Im}\ip a{\dd\Gm(\ell)\Om}$, which is the only case used
+ (Proposition~\ref{prop:infimum} $\langle1\rangle6$); Theorem~\ref{thm:three-faces} takes $\varphi$
+ as defined by $a$ and requires no differentiation.  See Remark~\ref{rem:normalorder}.
+\item \emph{Two clarifications.}  (a) Remark~\ref{rem:notused} now states explicitly that
+ Section~\ref{sec:circle} --- the repaired circle class \eqref{eq:class} and the geometric bound
+ \eqref{eq:geomupper} --- is \emph{not} used in the proof of Theorem~\ref{thm:main-upper}, which
+ runs on Definition~\ref{def:ext} plus the operator class $\mathcal A'$.  (b) The sign mismatch
+ $D^{(1)}=\partial_\zeta(Q-\widetilde Q_\zeta)|_0=-\dot Q$ between
+ \texttt{quadratic\_limit.tex} Def.~4.1 and Theorem~\ref{thm:gBvalue} is now recorded there; the two
+ suprema coincide because $\ell\mapsto-\ell$ is a bijection of the trial set.
+\item \emph{Addition for Phase~2.}  Section~\ref{sec:H2H3} (Lemmas~\ref{lem:H2}, \ref{lem:H3}) was
+ added at the request of agent QA: hypotheses (H2) and (H3) of \texttt{rigor/phase2\_brief.md} are
+ stated and proved for the free fermion.  Nothing in \S\S1--9 depends on them.
+\end{enumerate}
+\end{document}

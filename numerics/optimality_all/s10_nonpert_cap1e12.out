@@ -1,0 +1,4 @@
+theta(CG) = 0.29459   |u|^2=0.007424
+ s=0.001  gQ(compression)=4.434078e-09 (pred 3.711912e-09, ratio 1.1946)  min_eps gQ=4.434078e-09 at eps/s=+0.000   ratio=1.0000   (predicted 1-theta=0.7054)
+ s=0.002  gQ(compression)=2.640355e-08 (pred 1.484765e-08, ratio 1.7783)  min_eps gQ=2.497289e-08 at eps/s=+0.125   ratio=0.9458   (predicted 1-theta=0.7054)
+ s=0.005  gQ(compression)=5.442737e-07 (pred 9.279780e-08, ratio 5.8652)  min_eps gQ=4.382574e-07 at eps/s=+0.188   ratio=0.8052   (predicted 1-theta=0.7054)

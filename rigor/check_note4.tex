@@ -1,0 +1,1815 @@
+\documentclass[11pt]{article}\input{rigor_preamble}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\usepackage{mathrsfs}\usepackage{longtable}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\ip}[2]{\left\langle #1,#2\right\rangle}
+\newcommand{\pv}{\operatorname{pv}}
+\newcommand{\one}{\mathbf 1}
+\newcommand{\Sone}{\mathfrak S_1}
+\newcommand{\Stwo}{\mathfrak S_2}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\Ad}{\operatorname{Ad}}
+\newcommand{\Ran}{\operatorname{Ran}}
+\newcommand{\CAR}{\operatorname{CAR}}
+\newcommand{\MI}{\operatorname{MI}}
+\newcommand{\CMI}{I}
+\renewcommand{\cB}{\mathcal B}
+\renewcommand{\cD}{\mathcal D}
+\renewcommand{\cJ}{\mathcal J}
+\title{Referee report: Lamport-style verification of Note~4\\
+\large \texttt{continuum\_petz\_free\_fermion.tex}\\[.3em]
+\normalsize Zero-collar Petz recovery for the free chiral fermion}
+\author{}\date{}
+\begin{document}\maketitle
+
+\begin{abstract}\noindent
+Every lemma, theorem and displayed formula of Note~4 is checked. The central
+analytic result (\cref{sec:six}: the exact endpoint trace norm
+$\norm{R_s}_1=\tfrac12\log(1+as/(a+L))$) is \emph{correct}, and is confirmed
+here numerically to $10$--$11$ digits. The half-sided modular geometry
+(\cref{sec:two}) is correct, but the note's key convention
+$s_t=\lambda(1+e^{-2\pi t})$ is asserted, not derived; we derive it and show
+that it is right \emph{for this inclusion} --- and that the printed
+Faulkner--Hollands--Swingle--Wang formula \cite[eq.~(167)]{FHSW} which one
+would naively quote for it is itself \textbf{wrong}, in two independent ways.
+One genuine proof-breaking issue is found: the note's normalisation of the
+one-particle space ($r$ \emph{complex} components, gauge-invariant
+$\CAR$) is inconsistent with the Longo--Xu coefficient $r/6$ it imports
+($r$ \emph{Majorana} components), producing a factor $2$ error in
+eqs.~(CMI-LX), (norm-CMI-relation), (small-z), (zero-collar-fidelity) and
+(zero-collar-norm). Several gaps of the ``repairable but unstated'' type are
+listed in \cref{sec:summary}.
+\end{abstract}
+
+\tableofcontents
+\clearpage
+
+\section{Conventions fixed once}\label{sec:conv}
+
+Throughout, \emph{Note} means \texttt{continuum\_petz\_free\_fermion.tex};
+equation tags in typewriter form (\texttt{hardy-kernel},
+\texttt{s-t}, \dots) are the Note's own \verb|\label|s. Our own numbering is
+independent.
+
+\begin{description}[leftmargin=2.4em,style=nextline]
+\item[(C1) Fourier transform.] $\widehat f(k)=\int_{\mathbb R}f(x)e^{-ikx}\dd x$,
+  $f(x)=\frac1{2\pi}\int\widehat f(k)e^{ikx}\dd k$. \emph{The Note never states
+  its convention} (\cref{sec:one} settles which one makes
+  \texttt{hardy-kernel} correct).
+\item[(C2) Translations and energy.] $(T_\sigma f)(x)=f(x-\sigma)$, so
+  $\widehat{T_\sigma f}(k)=e^{-ik\sigma}\widehat f(k)$. Writing
+  $T_\sigma=e^{i\sigma P}$ gives $P=i\partial_x$, i.e.\ multiplication by $-k$
+  on the Fourier side. \emph{Positive energy} means $P\ge0$.
+\item[(C3) $\CAR$.] $f\mapsto a(f)$ antilinear, $a^*(f)=a(f)^*$ linear,
+  $\{a(f),a^*(g)\}=\ip fg\one$ with $\ip\cdot\cdot$ linear in the second
+  entry. A gauge-invariant quasi-free state with symbol $0\le Q\le1$ satisfies
+  $\omega(a^*(f)a(g))=\ip g{Qf}$ (the Note's \texttt{qf-two-point}). Then
+  $\omega(a^*(g)a(g))=\ip g{Qg}\ge0$ and $\omega(a(g)a^*(g))=\ip g{(1-Q)g}\ge0$,
+  so the convention is consistent.
+\item[(C4) Modular objects.] $J_\cM\Delta_\cM^{1/2}x\Omega=x^*\Omega$;
+  $\varsigma_t^\cM=\Ad\Delta_\cM^{it}$. (Identical to \cite[eqs.~(5),(8)]{FHSW}.)
+\item[(C5) Geometric action.] For a point transformation $g$ of $\mathbb R$ we
+  write $\gamma_g$ for the induced algebra map,
+  $\gamma_g(\cF(X))=\cF(g(X))$; then $\gamma_{g_1}\circ\gamma_{g_2}=\gamma_{g_1\circ g_2}$.
+\item[(C6) Half-sided modular sign.] $\cN\subset\cM$ with common cyclic
+  separating $\Omega$ is called \emph{$+$hsm} if
+  $\Delta_\cM^{it}\cN\Delta_\cM^{-it}\subset\cN$ for $t\ge0$, and \emph{$-$hsm}
+  if the same holds for $t\le0$. (\cref{sec:two} shows Note~4's inclusion is
+  $+$hsm and FHSW's \S4.2 model inclusion is $-$hsm.)
+\item[(C7) Schatten.] $\Sone,\Stwo$ = trace class / Hilbert--Schmidt;
+  $\norm\cdot_1,\norm\cdot_2$ their norms. For $T$ between two different
+  Hilbert spaces, $\norm T_1=\sum_k s_k(T)$.
+\item[(C8) Fidelity.] $\Fid$ = \emph{root} fidelity (Uhlmann transition
+  probability), $\Fid(\varphi,\psi)=\sup\{|\ip{\xi_\varphi}{u'\xi_\psi}|\}$ over
+  isometries $u'\in\cM'$ \cite[eq.~(23)]{FHSW}; $\Fid\in[0,1]$, $\Fid=1$ iff
+  $\varphi=\psi$. The Note uses the same convention (\S10).
+\end{description}
+
+Geometry of the Note (unchanged here):
+\[
+ A=(-a,0),\quad B=(0,b),\quad C=(b,b+c),\quad D=BC=(0,L),\quad L=b+c,\quad
+ I=ABC=(-a,L),
+\]
+$H=L^2(\mathbb R;\mathbb C^r)$, $H_X=L^2(X;\mathbb C^r)$,
+$Q_X=E_XP_+E_X|_{H_X}$, and
+$z=\frac{ac}{b(a+b+c)}$, $\eta=(1+z)^{-1}$, $\lambda=c/b$.
+
+\medskip
+Two purely algebraic identities used repeatedly, verified once:
+\[
+ 1+z=\frac{b(a+b+c)+ac}{b(a+b+c)}=\frac{ab+b^2+bc+ac}{b(a+b+c)}
+ =\frac{(a+b)(b+c)}{b(a+b+c)}=\eta^{-1},
+ \qquad
+ \frac{a\,s_{\mathrm P}}{a+L}\Big|_{s_{\mathrm P}=2c/b}=\frac{2ac}{b(a+b+c)}=2z .
+\]
+\begin{verdictok}
+The boxed relations $\eta=1/(1+z)$ of the Note's ``Main result'' box and
+$as_{\mathrm P}/(a+L)=2z$ of \S8 are correct.
+\end{verdictok}
+
+\section{\S1 of the Note: the Hardy kernel and the vacuum symbol}\label{sec:one}
+
+The Note asserts, without stating the convention,
+\begin{equation}\label{eq:hk}\tag{hardy-kernel}
+ P_+(x,y)=\tfrac12\delta(x-y)-\frac i{2\pi}\pv\frac1{x-y}.
+\end{equation}
+
+\begin{lemma}[Which frequencies \eqref{eq:hk} projects on]\label{lem:freq}
+With (C1), \eqref{eq:hk} is the orthogonal projection of $L^2(\mathbb R)$ onto
+$\{f:\supp\widehat f\subset(-\infty,0]\}$, i.e.\ onto the \emph{negative}
+Fourier frequencies. Equivalently, by (C2), it is the projection onto the
+subspace on which the translation generator $P$ is non-negative: it is a
+\emph{positive-energy} projection.
+\end{lemma}
+
+\lstep{1}{1}{\ldefine $\Pi_-:=\mathcal F^{-1}\one_{\{k<0\}}\mathcal F$ with $\mathcal F$ as in (C1).}
+\lby{definition}
+\lstep{1}{2}{$\Pi_-$ has distributional kernel
+ $\Pi_-(x,y)=\frac1{2\pi}\int_{-\infty}^0e^{ik(x-y)}\dd k$.}
+\lproof
+\lstep{2}{1}{$(\Pi_-f)(x)=\frac1{2\pi}\int_{-\infty}^0 e^{ikx}\widehat f(k)\dd k
+ =\frac1{2\pi}\int_{-\infty}^0\!\!\int_{\mathbb R}e^{ik(x-y)}f(y)\dd y\dd k$.}
+\lby{(C1) and Fubini on $\mathcal S(\mathbb R)$}
+\lqed{2}{2}\lby{$\langle2\rangle1$}
+\lstep{1}{3}{$\displaystyle\int_{-\infty}^0e^{ik\xi}\dd k
+ =\lim_{\eps\downarrow0}\int_{-\infty}^0e^{ik\xi+\eps k}\dd k
+ =\lim_{\eps\downarrow0}\frac1{\eps+i\xi}
+ =\pi\delta(\xi)-i\pv\frac1\xi$ in $\mathcal S'(\mathbb R)$.}
+\lproof
+\lstep{2}{1}{$\int_{-\infty}^0e^{(\eps+i\xi)k}\dd k=\frac1{\eps+i\xi}$ for $\eps>0$.}
+\lby{elementary integration; the integrand is $e^{\eps k}$ in modulus, integrable on $(-\infty,0)$}
+\lstep{2}{2}{$\frac1{\eps+i\xi}=\frac{\eps-i\xi}{\eps^2+\xi^2}
+ =\frac{\eps}{\eps^2+\xi^2}-i\frac{\xi}{\eps^2+\xi^2}$.}
+\lby{multiplying by $\overline{(\eps+i\xi)}$}
+\lstep{2}{3}{$\frac{\eps}{\eps^2+\xi^2}\to\pi\delta$ and
+ $\frac{\xi}{\eps^2+\xi^2}\to\pv\frac1\xi$ in $\mathcal S'$ as $\eps\downarrow0$.}
+\lby{the Poisson kernel is an approximate identity of mass
+ $\int\frac{\eps\dd\xi}{\eps^2+\xi^2}=\pi$; the second is the standard
+ Sokhotski--Plemelj limit, $\frac{\xi}{\eps^2+\xi^2}$ being odd with
+ $\int_{|\xi|>\delta}$ converging to the principal value}
+\lqed{2}{4}\lby{$\langle2\rangle1$--$\langle2\rangle3$}
+\lstep{1}{4}{$\Pi_-(x,y)=\frac1{2\pi}\bigl[\pi\delta(x-y)-i\pv\frac1{x-y}\bigr]
+ =\tfrac12\delta(x-y)-\frac i{2\pi}\pv\frac1{x-y}=P_+(x,y)$.}
+\lby{$\langle1\rangle2$, $\langle1\rangle3$ with $\xi=x-y$, and \eqref{eq:hk}}
+\lstep{1}{5}{$P=i\partial_x$ acts as multiplication by $-k$; hence
+ $\ip f{Pf}=\frac1{2\pi}\int_{-\infty}^0(-k)|\widehat f(k)|^2\dd k\ge0$ for
+ $f\in\Ran\Pi_-$.}
+\lby{(C2) and Plancherel}
+\lqed{1}{6}\lby{$\langle1\rangle4$, $\langle1\rangle5$}
+
+\begin{verdictgap}
+\textbf{[MINOR] Note \S1.1, eq.~(hardy-kernel).} The Note writes ``\emph{With
+the Fourier convention used here, its distributional kernel is}
+$P_+(x,y)=\frac12\delta(x-y)-\frac i{2\pi}\pv\frac1{x-y}$'' but never writes
+the convention down. With the commonest convention (C1) the operator called
+$P_+$ is the projection onto $k<0$; it is the projection onto $k>0$ only for
+$\widehat f(k)=\int fe^{+ikx}$. The name ``$P_+$'' is therefore misleading
+under (C1), \emph{but the operator is the right one}: by \cref{lem:freq} it is
+exactly the positive-energy projection for right-translations, which is what
+the vacuum symbol must be. No result is affected; one sentence fixes it.
+\end{verdictgap}
+
+\begin{citedbox}{Longo--Xu 2018, \S3.6, eq.~(9) (arXiv:1712.07283 p.~17)}
+Transcribed: ``\emph{Recall that the Hardy projection on $L^2(\mathbb R,\mathbb C)$
+is given by $Pf(x)=\frac12f(x)+\int\frac i{2\pi}\frac1{(x-y)}f(y)\dd y$, where the
+integral is the singular integral or Hilbert transform. We write the kernel of
+the above integral transformation as $C$:}
+$C(x,y)=\frac12\delta(x-y)-\frac{i}{2\pi}\frac1{(x-y)}$'' (their eq.~(9)).\\[2pt]
+\includegraphics[width=.98\textwidth]{shots/LX_hardy.png}\\[2pt]
+\textbf{Use in the Note:} \eqref{eq:hk} \emph{is verbatim} Longo--Xu's kernel
+$C$; the Note's claim ``Longo and Xu use this Hardy-projection realization''
+is accurate.
+\textbf{Verdict on the usage:} correct. We record for completeness that
+Longo--Xu's own two displays are mutually inconsistent in sign (their $P$
+carries $+\frac i{2\pi}$ inside the integral, their $C$ carries $-\frac
+i{2\pi}$); by \cref{lem:freq} it is $C$ that is the positive-energy projection,
+and all of their subsequent computation, and the Note's, uses $C$.
+\end{citedbox}
+
+\begin{lemma}[Consistency of \eqref{eq:hk} with the Note's later use]\label{lem:crosscheck}
+Let $x=-u\in A$, $y=v\in D$ with $u,v>0$. Then \eqref{eq:hk} gives
+$Q_I(-u,v)=\frac i{2\pi}\frac1{u+v}$, which is the Note's \textup{(true-cross)}.
+\end{lemma}
+\lstep{1}{1}{$x-y=-u-v\ne0$, so the $\delta$-term of \eqref{eq:hk} vanishes on $A\times D$.}
+\lby{$u,v>0$, hence $u+v>0$}
+\lstep{1}{2}{$Q_I(-u,v)=-\frac i{2\pi}\frac1{-(u+v)}=\frac i{2\pi}\frac1{u+v}$.}
+\lby{$\langle1\rangle1$, \eqref{eq:hk}, and \texttt{local-symbol} ($Q_I$ is
+ the restriction of the kernel of $P_+$ to $I\times I$)}
+\lqed{1}{3}\lby{$\langle1\rangle2$}
+
+\begin{verdictok}
+Eq.~(true-cross) is exactly what (hardy-kernel) gives, and
+$Q_X=E_XP_+E_X$ with $\omega(a^*(f)a(g))=\ip g{Q_Xf}$ is a consistent
+(and standard) description of the restricted vacuum, by (C3). The overall sign
+of the off-diagonal kernel is irrelevant downstream, since only
+$|R_s|$ enters the Schatten norms.
+\end{verdictok}
+
+\section{\S2 of the Note: half-sided modular geometry and the Petz maps}\label{sec:two}
+
+\subsection{The translation coordinate (elementary checks)}
+
+\begin{lemma}\label{lem:qh}
+On $D=(0,L)$ put $q(x)=\frac{L-x}{x}$ and $h_s(x)=\frac{Lx}{L+sx}$. Then
+\textup{(i)} $q$ is a decreasing bijection $D\to(0,\infty)$ with
+$q(b)=c/b=\lambda$ and $q(B)=(\lambda,\infty)$;
+\textup{(ii)} $q\circ h_s=q+s$;
+\textup{(iii)} $h_s'(x)=\frac{L^2}{(L+sx)^2}$ and $h_s\circ h_t=h_{s+t}$;
+\textup{(iv)} $D_s:=h_s(D)=\bigl(0,\frac L{1+s}\bigr)$ and $D_\lambda=B$.
+\end{lemma}
+\lstep{1}{1}{(i) $q'(x)=-L/x^2<0$ on $D$; $q(0^+)=+\infty$, $q(L)=0$;
+ $q(b)=\frac{L-b}b=\frac cb=\lambda$ since $L=b+c$; a decreasing bijection maps
+ $(0,b)$ onto $(q(b),q(0^+))=(\lambda,\infty)$.}
+\lby{$q(x)=L/x-1$ and monotonicity}
+\lstep{1}{2}{(ii) Solving $\frac{L-h}h=\frac{L-x}x+s$ gives
+ $\frac Lh=\frac{L-x+sx}{x}+1=\frac{L+sx}{x}$, i.e.\ $h=\frac{Lx}{L+sx}$.}
+\lby{algebra; the Note's \texttt{h-s}}
+\lstep{1}{3}{(iii) $h_s'=\frac{L(L+sx)-Lx\cdot s}{(L+sx)^2}=\frac{L^2}{(L+sx)^2}$;
+ and $q\circ h_s\circ h_t=q\circ h_t+s=q+t+s=q\circ h_{s+t}$, so
+ $h_s\circ h_t=h_{s+t}$ since $q$ is injective.}
+\lby{quotient rule and $\langle1\rangle2$}
+\lstep{1}{4}{(iv) $h_s(0)=0$, $h_s(L)=\frac{L^2}{L+sL}=\frac L{1+s}$, and
+ $h_s'>0$; for $s=\lambda=c/b$, $\frac L{1+\lambda}=\frac{(b+c)b}{b+c}=b$.}
+\lby{$\langle1\rangle3$ and $L=b+c$}
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$}
+\begin{verdictok}Eqs.~(q-coordinate), (lambda), (h-s),
+(h-derivative-semigroup), (D-s) are all correct.\end{verdictok}
+
+\subsection{The sign of the generator: this is \emph{not} FHSW's model inclusion}
+
+Let $U(s)$ be the unitary implementing $\gamma_s:=\gamma_{h_s}$ in the vacuum
+representation (it exists and fixes $\Omega$ because $h_s$ is M\"obius and the
+vacuum is M\"obius invariant: $h_s$ has matrix
+$\left(\begin{smallmatrix}L&0\\s&L\end{smallmatrix}\right)$, $\det=L^2>0$, and
+$s\mapsto h_s$ is a one-parameter subgroup by \cref{lem:qh}(iii)).
+
+\begin{lemma}[Generator of the Borchers translations of $\cF(D)$]\label{lem:gen}
+On the one-particle space, $U(s)=e^{-i(s/L)K}$ where $K=xPx\ge0$ and
+$P=i\partial_x$ is the translation generator of \textup{(C2)}. Hence the
+generator $-K/L$ of $U$ is \emph{non-positive}, and $\widetilde U(\sigma):=U(-\sigma)$
+has non-negative generator with $\Ad\widetilde U(\sigma)\cF(D)\subset\cF(D)$
+for $\sigma\le0$.
+\end{lemma}
+\lstep{1}{1}{The one-particle action of $\gamma_s$ is the half-density push-forward
+ $(V_sf)(z)=\frac1{1-(s/L)z}f\bigl(\frac z{1-(s/L)z}\bigr)$, defined on all of
+ $\mathbb R$ by the same formula.}
+\lby{the Note's \texttt{V-def}/\texttt{V-explicit} with $h_s^{-1}(z)=\frac{Lz}{L-sz}$
+ (check: $h_s\bigl(\frac{Lz}{L-sz}\bigr)=\frac{L\cdot\frac{Lz}{L-sz}}{L+s\frac{Lz}{L-sz}}
+ =\frac{L^2z}{L(L-sz)+sLz}=z$) and $h_s'(h_s^{-1}(z))=\bigl(\frac{L-sz}L\bigr)^2$}
+\lstep{1}{2}{\ldefine $\mathcal K_\tau f(z)=\frac1{1+\tau z}f\bigl(\frac z{1+\tau z}\bigr)$,
+ the half-density push-forward along $\phi_\tau(x)=\frac x{1-\tau x}$. Then
+ $V_s=\mathcal K_{-s/L}$.}
+\lby{$\langle1\rangle1$ with $\tau=-s/L$}
+\lstep{1}{3}{$\partial_\tau|_{\tau=0}(\mathcal K_\tau f)(z)=-zf(z)-z^2f'(z)$.}
+\lproof
+\lstep{2}{1}{$\partial_\tau|_0\frac1{1+\tau z}=-z$ and
+ $\partial_\tau|_0 f\bigl(\frac z{1+\tau z}\bigr)=f'(z)\cdot(-z^2)$.}
+\lby{chain rule, $\partial_\tau|_0\frac z{1+\tau z}=-z^2$}
+\lqed{2}{2}\lby{product rule}
+\lstep{1}{4}{Writing $\mathcal K_\tau=e^{i\tau K}$, $\langle1\rangle3$ gives
+ $iK=-(z+z^2\partial_z)$, i.e.\ $K=i(x+x^2\partial_x)=\frac i2(x^2\partial_x+\partial_xx^2)$.}
+\lby{$\frac{\dd}{\dd x}(x^2f)=x^2f'+2xf$, so $x+x^2\partial_x=\frac12(x^2\partial_x+\partial_xx^2)$}
+\lstep{1}{5}{$K=xPx$.}
+\lproof
+\lstep{2}{1}{$P=i\partial_x$, so $\partial_x=-iP$ and $K=\frac i2(-i)(x^2P+Px^2)=\frac12(x^2P+Px^2)$.}
+\lby{$\langle1\rangle4$}
+\lstep{2}{2}{$[P,x]=i\partial_x x-xi\partial_x=i$, hence
+ $x^2P+Px^2=2xPx+x[x,P]+[P,x]x=2xPx-ix+ix=2xPx$.}
+\lby{commutator algebra}
+\lqed{2}{3}\lby{$\langle2\rangle1$, $\langle2\rangle2$}
+\lstep{1}{6}{$K\ge0$ on the one-particle space $\Ran P_+$.}
+\lby{$\langle1\rangle5$ and \cref{lem:freq}$\langle1\rangle5$: for $f$ with
+ $\widehat f\in C_c^\infty((-\infty,0))$ --- a core --- also
+ $\widehat{xf}=i\partial_k\widehat f$ is supported in $(-\infty,0)$, so
+ $\ip f{Kf}=\ip{xf}{P\,xf}\ge0$}
+\lstep{1}{7}{$V_s=\mathcal K_{-s/L}=e^{-i(s/L)K}$, so the generator of $U$ is $-K/L\le0$.}
+\lby{$\langle1\rangle2$, $\langle1\rangle4$, $\langle1\rangle6$}
+\lstep{1}{8}{$\Ad U(s)\cF(D)=\cF(D_s)\subset\cF(D)$ for $s\ge0$, i.e.\
+ $\Ad\widetilde U(\sigma)\cF(D)\subset\cF(D)$ for $\sigma\le0$.}
+\lby{\cref{lem:qh}(iv) and isotony}
+\lqed{1}{9}\lby{$\langle1\rangle7$, $\langle1\rangle8$}
+
+\begin{citedbox}{Borchers 1992, Theorem II.9 (CMP 143, p.~323)}
+Transcribed: ``\emph{Let $U(a)$, $a\in\mathbb R$ be a continuous unitary one
+parametric group with a positive generator leaving the vector $\Omega$
+invariant.}
+\textbf{(A)} \emph{Assume in addition $\Ad U(a)\cM\subset\cM$ for $a\ge0$; then
+for $(t,a)\in\mathbb R^2$:} (a) $\Delta^{it}U(a)\Delta^{-it}=U(e^{-2\pi t}a)$
+\emph{and} (b) $JU(a)J=U(-a)$.
+\textbf{(B)} \emph{If we assume instead $\Ad U(a)\cM\subset\cM$ for $a\le0$
+then for $(t,a)\in\mathbb R^2$:} (a) $\Delta^{it}U(a)\Delta^{-it}=U(e^{+2\pi t}a)$
+\emph{and} (b) $JU(a)J=U(-a)$.''\\[2pt]
+\includegraphics[width=.85\textwidth]{shots/Borchers_II9.png}\\[2pt]
+\textbf{Use in the Note:} the Note uses only $J_\cA U(s)J_\cA=U(-s)$, which is
+(b) and holds in both cases. It does \emph{not} state which of (A)/(B) applies
+--- but the rotated map depends on exactly that.
+\textbf{Verdict on the usage:} the hypotheses of case (B) are satisfied here
+(\cref{lem:gen}); see \cref{prop:borchers}.
+\end{citedbox}
+
+\begin{proposition}[Borchers relation and hsm sign for $\cF(B)\subset\cF(D)$]\label{prop:borchers}
+With $\cM=\cF(D)$, $\cN=\cF(B)=U(\lambda)\cM U(\lambda)^*$ and $\Omega$ the vacuum:
+\begin{equation}\label{eq:borch}
+ \Delta_\cM^{it}U(s)\Delta_\cM^{-it}=U(e^{+2\pi t}s),\qquad
+ J_\cM U(s)J_\cM=U(-s),
+\end{equation}
+and the inclusion is $+$hsm in the sense of \textup{(C6)}:
+$\Delta_\cM^{it}\cN\Delta_\cM^{-it}\subset\cN$ for $t\ge0$.
+\end{proposition}
+\lstep{1}{1}{$\Omega$ is cyclic and separating for $\cM$ and for $\cN$, and $U(s)\Omega=\Omega$.}
+\lby{Reeh--Schlieder for the free-fermion net on any nonempty open interval;
+ M\"obius invariance of the vacuum}
+\lstep{1}{2}{$\widetilde U(\sigma)=U(-\sigma)$ has non-negative generator and
+ $\Ad\widetilde U(\sigma)\cM\subset\cM$ for $\sigma\le0$.}
+\lby{\cref{lem:gen}}
+\lstep{1}{3}{$\Delta_\cM^{it}\widetilde U(\sigma)\Delta_\cM^{-it}=\widetilde U(e^{2\pi t}\sigma)$ and
+ $J_\cM\widetilde U(\sigma)J_\cM=\widetilde U(-\sigma)$.}
+\lby{Borchers 1992 Thm.~II.9 \textbf{(B)}, applicable by $\langle1\rangle1$, $\langle1\rangle2$}
+\lstep{1}{4}{\eqref{eq:borch} holds.}
+\lby{$\langle1\rangle3$ with $\sigma=-s$}
+\lstep{1}{5}{$\Delta_\cM^{it}\cN\Delta_\cM^{-it}
+ =\Delta^{it}U(\lambda)\Delta^{-it}\,\cM\,\bigl(\Delta^{it}U(\lambda)\Delta^{-it}\bigr)^*
+ =U(e^{2\pi t}\lambda)\cM U(e^{2\pi t}\lambda)^*=\cF(D_{e^{2\pi t}\lambda})$.}
+\lby{$\Delta_\cM^{it}\cM\Delta_\cM^{-it}=\cM$ (Tomita--Takesaki) and $\langle1\rangle4$}
+\lstep{1}{6}{$\cF(D_{s'})\subset\cF(D_\lambda)=\cN$ iff $s'\ge\lambda$; and
+ $e^{2\pi t}\lambda\ge\lambda$ iff $t\ge0$.}
+\lby{\cref{lem:qh}(iv): $s\mapsto D_s$ is decreasing, and isotony}
+\lqed{1}{7}\lby{$\langle1\rangle4$--$\langle1\rangle6$}
+
+\begin{remark}[Cross-check by geometry]
+Independently: by Bisognano--Wichmann for conformal nets \cite{BGL}, $\Delta_{\cF(J)}^{it}$
+acts on an interval $J=(\mathrm a,\mathrm b)$ as $\kappa\mapsto e^{-2\pi t}\kappa$
+with $\kappa(x)=\frac{x-\mathrm a}{\mathrm b-x}$ (normalisation fixed by the half-line
+$J=(0,\infty)$, where $\kappa=x$ and $\Delta^{it}:x\mapsto e^{-2\pi t}x$). For $D=(0,L)$,
+$\kappa=\frac x{L-x}=1/q$, so $\Delta_{\cF(D)}^{it}$ acts as $q\mapsto e^{+2\pi t}q$,
+reproducing \eqref{eq:borch} and $\langle1\rangle6$ above.
+\end{remark}
+
+\begin{verdictgap}
+\textbf{[GAP] Note \S2.1, last sentence, and \S2.2.} ``\emph{The inclusion
+$\cF_r(B)=\gamma_\lambda(\cF_r(D))\subset\cF_r(D)$ is half-sided modular}'' and
+``\emph{In a standard half-sided modular inclusion
+$\cB=U(\lambda)\cA U(\lambda)^*\subset\cA$}''. The statement is \emph{true}
+(\cref{prop:borchers}) but the word ``standard'' hides the crucial point: this
+inclusion has $U$ with \emph{non-positive} generator and satisfies
+\eqref{eq:borch} with $e^{+2\pi t}$, i.e.\ it is the \emph{opposite} sign from
+the model inclusion of \cite[\S4.2]{FHSW}. Since $s_t$ depends on precisely
+this sign, the omission is not cosmetic. Repair: insert \cref{lem:gen} and
+\cref{prop:borchers}.
+\end{verdictgap}
+
+\subsection{The ordinary Petz map}
+
+\begin{citedbox}{FHSW 2020, eqs.~(21)--(22), (25) (arXiv:2006.08002 pp.~5--6)}
+Transcribed: ``\emph{The required recovery channel is related to the so-called
+Petz map, which is defined in the sub-algebra context (and faithful $\sigma$)
+as} $\alpha_\sigma(\cdot)=J_\cB V_\sigma^*J_\cA(\cdot)J_\cA V_\sigma J_\cB$
+\emph{(21). It maps operators on $\mathscr H$ to operators on $\mathscr K$, and
+furthermore} $\alpha_\sigma(\cA)\subset\cB$ \emph{(22).}''\\
+And in Theorem~1: ``\emph{$\alpha^t_\sigma:\cA\to\cB$ is the rotated Petz map,
+defined as} $\alpha^t_\sigma(a)=\varsigma^{\sigma,\cB}_{-t}\bigl(J_\cB V_\sigma^*J_\cA
+\varsigma^{\sigma,\cA}_t(a)J_\cA V_\sigma J_\cB\bigr)$ \emph{(25)}'', with
+$\varsigma_t=\Ad\Delta^{it}$ (their eq.~(8)) and $V_\sigma$ the standard-form
+isometry of their eq.~(16).\\[2pt]
+\includegraphics[width=.98\textwidth]{shots/FHSW_petz.png}\\[2pt]
+\textbf{Use in the Note:} \S3 quotes (21) as
+$\alpha_0(x)=J_\cN V^*J_\cM xJ_\cM VJ_\cN$ --- \emph{identical}; and \S2.2 uses
+$V=1$ and the rotation $\alpha_t=\varsigma^\cN_{-t}\circ\alpha_0\circ\varsigma^\cM_t$
+--- \emph{identical to (25)}.
+\textbf{Verdict on the usage:} correct; the Note's conventions match FHSW's
+exactly, including the direction of the modular rotations.
+\end{citedbox}
+
+\begin{proposition}[Ordinary Petz map]\label{prop:alpha0}
+For $\cM=\cF(D)\supset\cN=\cF(B)=U(\lambda)\cM U(\lambda)^*$ with the vacuum as
+reference state, $V=1$, and
+\[
+ J_\cN=U(2\lambda)J_\cM,\qquad
+ \alpha_0(x)=J_\cN J_\cM xJ_\cM J_\cN=U(2\lambda)xU(2\lambda)^*=\gamma_{2\lambda}(x).
+\]
+\end{proposition}
+\lstep{1}{1}{$\Omega$ is cyclic and separating for both $\cM$ and $\cN$ on the
+ same Hilbert space, so $(\cN,\mathscr H,J_\cN,P^\natural_\cN)$ is a standard
+ form and the FHSW isometry of \cite[eq.~(16)]{FHSW} is $V_\omega=1$.}
+\lby{Reeh--Schlieder; $V_\omega b|\xi^\cN_\omega\rangle=b|\xi^\cM_\omega\rangle$
+ with $\xi^\cN_\omega=\xi^\cM_\omega=\Omega$}
+\lstep{1}{2}{$J_\cN=U(\lambda)J_\cM U(\lambda)^*$.}
+\lby{$\cN=U(\lambda)\cM U(\lambda)^*$, $U(\lambda)\Omega=\Omega$, and uniqueness of
+ the modular conjugation of a pair $(\cM,\Omega)$ under conjugation by a unitary fixing $\Omega$}
+\lstep{1}{3}{$J_\cM U(-\lambda)=U(\lambda)J_\cM$.}
+\lby{\eqref{eq:borch}: $J_\cM U(s)J_\cM=U(-s)$ and $J_\cM^2=1$}
+\lstep{1}{4}{$J_\cN=U(\lambda)J_\cM U(-\lambda)=U(\lambda)U(\lambda)J_\cM=U(2\lambda)J_\cM$.}
+\lby{$\langle1\rangle2$, $\langle1\rangle3$}
+\lstep{1}{5}{$J_\cN J_\cM=U(2\lambda)$ and $J_\cM J_\cN=J_\cM U(2\lambda)J_\cM=U(-2\lambda)=U(2\lambda)^*$.}
+\lby{$\langle1\rangle4$, $J_\cM^2=1$, and \eqref{eq:borch}}
+\lstep{1}{6}{$\alpha_0(x)=U(2\lambda)xU(2\lambda)^*=\gamma_{2\lambda}(x)$, and
+ $\alpha_0(\cM)=\cF(D_{2\lambda})\subset\cF(D_\lambda)=\cN$.}
+\lby{$\langle1\rangle1$, $\langle1\rangle5$, (C5), and $2\lambda>\lambda$ with \cref{lem:qh}(iv)}
+\lqed{1}{7}\lby{$\langle1\rangle1$--$\langle1\rangle6$}
+
+\begin{verdictok}
+The Note's derivation of $J_\cB=U(2\lambda)J_\cA$ and
+$\alpha_0(x)=U(2\lambda)xU(2\lambda)^*=\gamma_{2\lambda}$ is correct, and is
+sign-robust: it uses only $J_\cA U(s)J_\cA=U(-s)$, which holds in both Borchers
+cases. Note also the sanity check
+$\alpha_0(\cM)\subset\cN$ (Petz maps must land in the subalgebra), which the
+Note does not perform but which holds. Eq.~(s-P), $s_{\mathrm P}=2\lambda=2c/b$, follows.
+\end{verdictok}
+
+\subsection{The rotated Petz map: the value of \texorpdfstring{$s_t$}{s\_t}, and an error in FHSW eq.~(167)}
+\label{sec:st}
+
+\begin{theorem}[$s_t$ for this inclusion]\label{thm:st}
+With FHSW's definition \textup{\cite[eq.~(25)]{FHSW}}
+$\alpha_t:=\varsigma^\cN_{-t}\circ\alpha_0\circ\varsigma^\cM_t$ and the Borchers
+relation \eqref{eq:borch} of \cref{prop:borchers},
+\[
+ \boxed{\ \alpha_t=\Ad U(s_t)=\gamma_{s_t},\qquad s_t=\lambda\bigl(1+e^{-2\pi t}\bigr).\ }
+\]
+This is the Note's eq.~\textup{(s-t)}. With the opposite Borchers sign (Borchers
+case \textup{(A)}, i.e.\ FHSW's model inclusion) the same computation gives
+$\lambda(1+e^{+2\pi t})$.
+\end{theorem}
+\lstep{1}{1}{$\alpha_t=\Ad(Y_t)$ with $Y_t=\Delta_\cN^{-it}\,J_\cN J_\cM\,\Delta_\cM^{it}$.}
+\lby{\cite[eq.~(25)]{FHSW}, $V=1$, \cref{prop:alpha0}$\langle1\rangle1$, and
+ $\varsigma_t=\Ad\Delta^{it}$; composition of inner maps
+ $\Ad(g)\circ\Ad(h)=\Ad(gh)$}
+\lstep{1}{2}{$\Delta_\cN^{-it}=U(\lambda)\Delta_\cM^{-it}U(\lambda)^*$.}
+\lby{as in \cref{prop:alpha0}$\langle1\rangle2$: $\cN=U(\lambda)\cM U(\lambda)^*$, $U(\lambda)\Omega=\Omega$}
+\lstep{1}{3}{$Y_t=U(\lambda)\Delta_\cM^{-it}U(-\lambda)U(2\lambda)\Delta_\cM^{it}
+ =U(\lambda)\,\Delta_\cM^{-it}U(\lambda)\Delta_\cM^{it}$.}
+\lby{$\langle1\rangle1$, $\langle1\rangle2$, \cref{prop:alpha0}$\langle1\rangle5$, and $U(-\lambda)U(2\lambda)=U(\lambda)$}
+\lstep{1}{4}{$\Delta_\cM^{-it}U(\lambda)\Delta_\cM^{it}=U(e^{-2\pi t}\lambda)$.}
+\lby{\eqref{eq:borch} with $t\rightsquigarrow-t$}
+\lstep{1}{5}{$Y_t=U(\lambda)U(e^{-2\pi t}\lambda)=U\bigl(\lambda(1+e^{-2\pi t})\bigr)$.}
+\lby{$\langle1\rangle3$, $\langle1\rangle4$, one-parameter group law}
+\lstep{1}{6}{With Borchers case (A) instead, $\langle1\rangle4$ reads
+ $U(e^{+2\pi t}\lambda)$ and $Y_t=U(\lambda(1+e^{2\pi t}))$.}
+\lby{Borchers 1992 Thm.~II.9(A)}
+\lqed{1}{7}\lby{$\langle1\rangle5$, $\langle1\rangle6$}
+
+\begin{corollary}\label{cor:into}
+$s_t>\lambda$ for all $t\in\mathbb R$, hence
+$\alpha_t(\cF_r(D))=\cF_r(D_{s_t})\subset\cF_r(D_\lambda)=\cF_r(B)$: the rotated
+map does land in $\cF_r(B)$, as the Note claims. At $t=0$, $s_0=2\lambda=s_{\mathrm P}$,
+consistent with \cref{prop:alpha0}.
+\end{corollary}
+\lstep{1}{1}{$e^{-2\pi t}>0$ for all real $t$, so $s_t=\lambda(1+e^{-2\pi t})>\lambda$.}
+\lby{positivity of the exponential}
+\lstep{1}{2}{$s\mapsto D_s$ is decreasing (\cref{lem:qh}(iv)), so $D_{s_t}\subset D_\lambda=B$.}
+\lby{$\langle1\rangle1$ and isotony}
+\lqed{1}{3}\lby{$\langle1\rangle1$, $\langle1\rangle2$}
+
+\begin{citedbox}{FHSW 2020, \S4.2 ``Example: half-sided modular inclusions'' (p.~31) --- \textbf{contains an error}}
+Transcribed verbatim: ``\emph{An inclusion $\cB\subset\cA$ \dots\ containing a
+common cyclic and separating vector $|\eta\rangle$. Furthermore, for $t\ge0$, it
+is required that $\Delta^{it}_{\eta,\cA}\cB\Delta^{-it}_{\eta,\cA}\subset\cB$
+\dots\ Wiesbrock's theorem \dots\ there exists a $1$-parameter unitary group
+$U(s)$, $s\in\mathbb R$ with self-adjoint, non-negative generator which can be
+normalized so that}
+\[
+ \Delta^{-it}_{\eta,\cA}\Delta^{it}_{\eta,\cB}=U(e^{2\pi t}-1)\tag{166}
+\]
+\emph{\dots\ in particular $\cB=U(1)\cA U(1)^*$, $J_\cA U(s)J_\cA=U(-s)$.
+\dots\ For a half-sided modular inclusion the embedding is trivial,
+$V_\eta=1$. \dots\ in the case of the half-sided modular inclusions
+$\cA_a=U(a)\cA U(a)^*\subset\cA$, the rotated Petz recovery channel \dots\ is:}
+\[
+ \alpha^t_\eta(x)\equiv U\bigl(a(1+e^{-2\pi t})\bigr)^*\,x\,U\bigl(a(1+e^{-2\pi t})\bigr).\tag{167}
+\]''\\[2pt]
+\includegraphics[width=.98\textwidth]{shots/FHSW_hsm.png}
+\end{citedbox}
+
+\begin{theorem}[Two errors in \protect{\cite[\S4.2]{FHSW}}]\label{thm:fhsw167}
+Within FHSW's own conventions \textup{(8), (25), (166)}:
+\begin{enumerate}[label=\textup{(\roman*)}]
+ \item the definitional inequality ``\emph{for $t\ge0$ \dots\
+ $\Delta^{it}_{\eta,\cA}\cB\Delta^{-it}_{\eta,\cA}\subset\cB$}'' must read
+ ``for $t\le0$'' (equivalently
+ $\Delta^{-it}_{\eta,\cA}\cB\Delta^{it}_{\eta,\cA}\subset\cB$ for $t\ge0$);
+ \item eq.~\textup{(167)} is wrong; the correct formula is
+ \[
+  \alpha_\eta^t(x)=U\bigl(a(1+e^{+2\pi t})\bigr)\,x\,U\bigl(a(1+e^{+2\pi t})\bigr)^*.
+ \]
+ As printed, \textup{(167)} is $\Ad U(-a(1+e^{-2\pi t}))$, which maps $\cA$ into
+ $\cA_{-a(1+e^{-2\pi t})}\supsetneq\cA$ --- i.e.\ \emph{not} into the subalgebra
+ $\cB=\cA_a$, contradicting their own eq.~\textup{(22)}.
+\end{enumerate}
+\end{theorem}
+\lstep{1}{1}{From $\cB=U(1)\cA U(1)^*$ and $U(1)\Omega=\Omega$:
+ $\Delta_\cB^{it}=U(1)\Delta_\cA^{it}U(1)^*$.}
+\lby{as in \cref{prop:alpha0}$\langle1\rangle2$}
+\lstep{1}{2}{(166) is equivalent to $\Delta_\cA^{-it}U(s)\Delta_\cA^{it}=U(e^{2\pi t}s)$,
+ i.e.\ to $\Delta_\cA^{it}U(s)\Delta_\cA^{-it}=U(e^{-2\pi t}s)$ (Borchers case (A)).}
+\lproof
+\lstep{2}{1}{$\Delta_\cA^{-it}\Delta_\cB^{it}=\Delta_\cA^{-it}U(1)\Delta_\cA^{it}U(-1)$.}
+\lby{$\langle1\rangle1$}
+\lstep{2}{2}{Setting this $=U(e^{2\pi t}-1)$ and multiplying by $U(1)$ on the right
+ gives $\Delta_\cA^{-it}U(1)\Delta_\cA^{it}=U(e^{2\pi t})$; the general $s$
+ follows since $\Ad\Delta^{-it}$ is a group automorphism of $\{U(s)\}$.}
+\lby{(166) and the group law}
+\lqed{2}{3}\lby{$\langle2\rangle1$, $\langle2\rangle2$}
+\lstep{1}{3}{(i): $\Delta_\cA^{it}\cB\Delta_\cA^{-it}=U(e^{-2\pi t})\cA U(e^{-2\pi t})^*=\cA_{e^{-2\pi t}}$,
+ and $\cA_{a'}\subset\cA_{a}\iff a'\ge a$; so
+ $\Delta_\cA^{it}\cB\Delta_\cA^{-it}\subset\cB=\cA_1\iff e^{-2\pi t}\ge1\iff t\le0$.}
+\lby{$\langle1\rangle2$ and $\Ad\Delta^{it}_\cA\cA=\cA$; the map $a\mapsto\cA_a$
+ is decreasing because $\Ad U(a)\cA\subset\cA$ for $a\ge0$ (positive generator, case (A))}
+\lstep{1}{4}{(ii): $\alpha^t_\eta=\Ad(Y_t)$ with
+ $Y_t=\Delta_\cB^{-it}J_\cB J_\cA\Delta_\cA^{it}
+ =U(a)\Delta_\cA^{-it}U(a)\Delta_\cA^{it}=U(a)U(e^{2\pi t}a)=U(a(1+e^{2\pi t}))$.}
+\lby{exactly the computation of \cref{thm:st}$\langle1\rangle1$--$\langle1\rangle5$
+ with $\lambda\rightsquigarrow a$ and $\langle1\rangle2$ of the present proof in place of \eqref{eq:borch}}
+\lstep{1}{5}{$\Ad U(a(1+e^{2\pi t}))$ maps $\cA$ onto $\cA_{a(1+e^{2\pi t})}\subset\cA_a=\cB$,
+ whereas (167) as printed maps $\cA$ onto $\cA_{-a(1+e^{-2\pi t})}\supsetneq\cA$.}
+\lby{$a(1+e^{2\pi t})>a$; and $-a(1+e^{-2\pi t})<0<a$}
+\lqed{1}{6}\lby{$\langle1\rangle3$--$\langle1\rangle5$}
+
+\begin{verdictbreak}
+\textbf{[BREAK in the \emph{source}] FHSW \cite[\S4.2, eq.~(167) and the
+definition sentence]{FHSW}.} Both are wrong as printed, by
+\cref{thm:fhsw167}; (167) even violates FHSW's own eq.~(22)
+($\alpha_\sigma(\cA)\subset\cB$). This does \emph{not} invalidate FHSW's
+Theorem~1, which is what the Note actually needs, nor their Corollary~2 (which
+is stated with an integration variable $y\ge a$ and is insensitive to the
+labelling). We record it because the Note's eq.~(s-t) coincides
+\emph{numerically} with the exponent printed in (167), and a reader would
+naturally believe the Note simply copied (167).
+\end{verdictbreak}
+
+\begin{verdictgap}
+\textbf{[GAP, resolved in the Note's favour] Note \S2.2, eq.~(s-t).} The Note
+writes ``\emph{We use the modular-time convention $s_t=\lambda(1+e^{-2\pi t})$
+\dots\ The alternative convention replaces $t$ by $-t$}'' --- i.e.\ it presents
+as a \emph{choice} what is in fact \emph{determined}. \cref{thm:st} settles it:
+$s_t=\lambda(1+e^{-2\pi t})$ is the correct value for
+$\cF_r(B)\subset\cF_r(BC)$ with FHSW's definition (25). The agreement with
+FHSW's printed (167) is an accident: \emph{two} sign discrepancies cancel ---
+(a) the Note's inclusion is Borchers case (B) whereas FHSW's \S4.2 model is
+case (A) (one flip $t\to-t$), and (b) FHSW's (167) is itself wrong by one flip
+$t\to-t$ (plus an adjoint). Consequence: the Note's eqs.~(rotated-cross),
+(rotated-full) are correctly labelled in $t$; and because $p(t)$ is even and
+$s_t\leftrightarrow s_{-t}$ under the flip, the twirled channel of \S10 and
+eq.~(zero-collar-fidelity) would be unaffected even if the labelling were
+reversed.
+\end{verdictgap}
+
+\subsection{One-particle formulae: (V-explicit), Lemma 2.1, (alpha-fields), (reference-recovery)}
+
+\begin{lemma}\label{lem:vexp}
+$h_s^{-1}(z)=\frac{Lz}{L-sz}$ and $(V_sf)(z)=\frac L{L-sz}f\bigl(\frac{Lz}{L-sz}\bigr)$
+for $0<z<\frac L{1+s}$, which is the Note's \textup{(V-explicit)}.
+\end{lemma}
+\lstep{1}{1}{$h_s\bigl(\frac{Lz}{L-sz}\bigr)=\frac{L^2z/(L-sz)}{L+sLz/(L-sz)}
+ =\frac{L^2z}{L(L-sz)+sLz}=\frac{L^2z}{L^2}=z$.}
+\lby{substitution in $h_s(x)=\frac{Lx}{L+sx}$}
+\lstep{1}{2}{$h_s'(h_s^{-1}(z))=\frac{L^2}{(L+s\frac{Lz}{L-sz})^2}
+ =\frac{L^2}{(L^2/(L-sz))^2}=\frac{(L-sz)^2}{L^2}$, so
+ $\sqrt{h_s'(h_s^{-1}(z))}=\frac{L-sz}L$ (positive for $z<L/s$).}
+\lby{\cref{lem:qh}(iii) and $\langle1\rangle1$}
+\lstep{1}{3}{$(V_sf)(z)=\frac{f(h_s^{-1}(z))}{\sqrt{h_s'(h_s^{-1}(z))}}
+ =\frac L{L-sz}f\bigl(\frac{Lz}{L-sz}\bigr)$.}
+\lby{(V-def), $\langle1\rangle1$, $\langle1\rangle2$}
+\lstep{1}{4}{$z<\frac L{1+s}<\frac Ls$ whenever $s>0$, so $L-sz>0$ on $D_s$.}
+\lby{$\frac L{1+s}<\frac Ls$}
+\lqed{1}{5}\lby{$\langle1\rangle3$, $\langle1\rangle4$}
+\begin{verdictok}(V-explicit) verified, including positivity of the square root
+on the whole of $D_s$.\end{verdictok}
+
+\begin{lemma}[Note's Lemma 2.1, restated]\label{lem:V}
+$V_s:H_D\to L^2(D_s;\mathbb C^r)$ is a \emph{surjective} isometry, i.e.\
+unitary; $V_s^*V_s=1_{H_D}$ and $V_sV_s^*=1_{L^2(D_s)}$.
+\end{lemma}
+\lstep{1}{1}{For $f\in C_c(D;\mathbb C^r)$, substituting $z=h_s(x)$, $\dd z=h_s'(x)\dd x$:
+ $\int_{D_s}|(V_sf)(z)|^2\dd z=\int_D\frac{|f(x)|^2}{h_s'(x)}h_s'(x)\dd x=\norm f^2$.}
+\lby{(V-def), $h_s:D\to D_s$ a $C^1$-diffeomorphism (\cref{lem:qh}), change of variables}
+\lstep{1}{2}{$V_s$ extends to an isometry $H_D\to L^2(D_s;\mathbb C^r)$; hence $V_s^*V_s=1$.}
+\lby{$\langle1\rangle1$ and density of $C_c$}
+\lstep{1}{3}{$V_s$ is onto: given $g\in L^2(D_s)$, $f(x):=\sqrt{h_s'(x)}\,g(h_s(x))$
+ lies in $H_D$ with $\norm f=\norm g$ and $V_sf=g$.}
+\lby{the same change of variables run backwards; $h_s$ is a bijection $D\to D_s$}
+\lqed{1}{4}\lby{$\langle1\rangle2$, $\langle1\rangle3$}
+\begin{verdictgap}
+\textbf{[MINOR] Note Lemma 2.1.} The statement ``\emph{is unitary onto its
+range and $V_s^*V_s=1_{H_D}$}'' only asserts isometry; the proof then says
+``\emph{Surjectivity onto $L^2(D_s)$ follows by applying the inverse half-density
+transformation}'' without exhibiting it. The claim is true (\cref{lem:V}) and
+surjectivity is what \S4 actually uses ($W_s$ unitary \emph{onto} $H_{J_s}$),
+so the statement should say ``unitary onto $L^2(D_s;\mathbb C^r)$''.
+\end{verdictgap}
+
+\begin{lemma}\label{lem:alphafields}
+\textup{(alpha-fields)} $\alpha_t^{D\to B}(a(f))=a(V_{s_t}f)$ and
+\textup{(reference-recovery)} $\omega_B\circ\alpha_t^{D\to B}=\omega_D$ hold.
+\end{lemma}
+\lstep{1}{1}{$\alpha_t=\gamma_{s_t}$ is the algebra map induced by the M\"obius
+ transformation $h_{s_t}$ (\cref{thm:st}); on the free-fermion field net a
+ M\"obius transformation $g$ acts on the one-particle space by the half-density
+ push-forward $V_g$ and on the CAR generators by $a(f)\mapsto a(V_gf)$.}
+\lby{definition of the M\"obius-covariant free-fermion net: the vacuum
+ representation of the M\"obius group on $H$ is by half-density push-forward
+ (weight $1/2$), which is exactly $V_s$ of \cref{lem:vexp}, and second
+ quantisation intertwines}
+\lstep{1}{2}{$\omega_B(\alpha_t(a^*(f)a(g)))=\omega(a^*(V_{s_t}f)a(V_{s_t}g))
+ =\ip{V_{s_t}g}{Q\,V_{s_t}f}=\ip{V_{s_t}g}{P_+V_{s_t}f}$.}
+\lby{$\langle1\rangle1$, (C3), and $V_{s_t}f$ supported in $D_{s_t}\subset B$}
+\lstep{1}{3}{$V_{s}^*P_+V_{s}=P_+|_{H_D}$ on $H_D$.}
+\lby{\cref{lem:mobinv} below (the M\"obius invariance of the Cauchy kernel and of
+ the $\delta$-term), proved in \cref{sec:five}}
+\lstep{1}{4}{$\omega_B\circ\alpha_t=\omega_D$ on all of $\CAR(H_D)$.}
+\lby{$\langle1\rangle2$, $\langle1\rangle3$, and the fact that a gauge-invariant
+ quasi-free state is determined by its two-point function}
+\lqed{1}{5}\lby{$\langle1\rangle4$}
+\begin{verdictok}
+(alpha-fields) and (reference-recovery) hold. The Note justifies
+(reference-recovery) by ``\emph{Because the vacuum is M\"obius invariant}'',
+which is correct; the concrete verification is the $D\times D$ block
+computation of \cref{sec:five}, so the two statements are consistent.
+The remark ``\emph{the Heisenberg map is a $*$-homomorphism induced by an
+isometry}'' is correct (\cref{lem:V}).
+\end{verdictok}
+
+\section{\S3 of the Note: positive-collar factorization (Lemma 3.1)}\label{sec:three}
+
+\begin{lemma}[what is actually true]\label{lem:tens}
+Let $\cM_\eps=\cF_r(A_\eps)\vee\cF_r(D)$, $\cN_\eps=\cF_r(A_\eps)\vee\cF_r(B)$,
+$\sigma_\eps=\omega_{A_\eps}\otimes\omega_D$. Assume the identification
+\textup{(split-identifications)} is implemented by a unitary carrying
+$\sigma_\eps$ to the product state and the grading to the product grading.
+Then the rotated Petz map for $\cN_\eps\subset\cM_\eps$ with reference
+$\sigma_\eps$ is $\alpha_{\eps,t}=\id_{\cF_r(A_\eps)}\overline\otimes\,\alpha_t^{D\to B}$.
+\end{lemma}
+\lstep{1}{1}{Write $\cM=\cM_1\otimes\cM_2$, $\cN=\cM_1\otimes\cN_2$ with
+ $\cN_2\subset\cM_2$, and $\sigma=\sigma_1\otimes\sigma_2$ a faithful normal
+ product state, both algebras in standard form on
+ $\mathscr H=\mathscr H_1\otimes\mathscr H_2$, $\mathscr K=\mathscr H_1\otimes\mathscr K_2$.}
+\lby{hypothesis; $\omega_{A_\eps}$ and $\omega_D$ are faithful normal (Reeh--Schlieder)}
+\lstep{1}{2}{$\Delta_\sigma=\Delta_{\sigma_1}\otimes\Delta_{\sigma_2}$ and
+ $J_\cM=J_{\cM_1}\otimes J_{\cM_2}$, $J_\cN=J_{\cM_1}\otimes J_{\cN_2}$.}
+\lby{$S_\sigma=S_{\sigma_1}\otimes S_{\sigma_2}$ on the algebraic tensor product
+ of the two dense domains, hence for the closures; polar decomposition is
+ multiplicative}
+\lstep{1}{3}{$V_\sigma=1_{\mathscr H_1}\otimes V_{\sigma_2}$, where $V_{\sigma_2}$
+ is the standard-form isometry of $\cN_2\subset\cM_2$.}
+\lby{\cite[eq.~(16)]{FHSW}: $V_\sigma b|\xi^\cN_\sigma\rangle=b|\xi^\cM_\sigma\rangle$,
+ checked on $b=b_1\otimes b_2$ using
+ $\xi^\cM_\sigma=\xi_{\sigma_1}\otimes\xi^{\cM_2}_{\sigma_2}$,
+ $\xi^\cN_\sigma=\xi_{\sigma_1}\otimes\xi^{\cN_2}_{\sigma_2}$, and density}
+\lstep{1}{4}{$\alpha_{\sigma,0}=\id\otimes\alpha^{(2)}_{\sigma_2,0}$ on
+ elementary tensors, hence everywhere by normality.}
+\lby{$\langle1\rangle2$, $\langle1\rangle3$ substituted into \cite[eq.~(21)]{FHSW};
+ $\alpha_{\sigma,0}$ is normal \cite[Prop.~8.3 quoted in \S2.2]{FHSW}}
+\lstep{1}{5}{$\varsigma^{\sigma,\cM}_t=\id\otimes\varsigma^{\sigma_2,\cM_2}_t$ and
+ $\varsigma^{\sigma,\cN}_{-t}=\id\otimes\varsigma^{\sigma_2,\cN_2}_{-t}$ (the
+ first factors cancel because $\varsigma^{\sigma_1}_{-t}\circ\varsigma^{\sigma_1}_t=\id$).}
+\lby{$\langle1\rangle2$}
+\lstep{1}{6}{$\alpha_{\sigma,t}=\id\otimes\alpha^{(2)}_{\sigma_2,t}$.}
+\lby{\cite[eq.~(25)]{FHSW}, $\langle1\rangle4$, $\langle1\rangle5$}
+\lqed{1}{7}\lby{$\langle1\rangle6$ with $\cM_2=\cF_r(D)$, $\cN_2=\cF_r(B)$,
+ $\sigma_2=\omega_D$ and \cref{thm:st}}
+
+\begin{verdictgap}
+\textbf{[GAP] Note Lemma~3.1 and eq.~(split-identifications).} Two points are
+asserted rather than proved.\\
+\emph{(a) Gradedness.} (split-identifications) uses the \emph{graded} tensor
+product $\overline\otimes_{\mathrm{gr}}$, but the proof of Lemma~3.1 uses the
+\emph{ordinary} product formulae $J_{A_\eps D}=J_{A_\eps}\otimes J_D$,
+$\Delta_{\sigma_\eps}=\Delta_{\omega_{A_\eps}}\otimes\Delta_{\omega_D}$. These
+do \emph{not} hold verbatim for a graded tensor product: the modular
+conjugation of $\cF_1\hat\otimes\cF_2$ in a product state acquires a Klein
+factor $Z=\frac{1+i\Gamma}{1+i}$. The Note's one-line remark ``\emph{For
+parity-preserving maps one may equivalently use the usual Klein transform and
+ordinary tensor products}'' is the right idea, but it must be executed:
+one has to exhibit the Klein unitary $Z$, check that $\Ad Z$ carries
+$\cF_1\hat\otimes\cF_2$ to $\cF_1\overline\otimes\cF_2$, that it carries
+$\sigma_\eps$ to the product state (it does, because $\sigma_\eps$ is even) and
+that the two Klein factors in $J_\cN V^*J_\cM(\cdot)J_\cM VJ_\cN$ cancel on
+even elements. Only after that does \cref{lem:tens} apply. This is the
+hypothesis I had to assume in \cref{lem:tens}$\langle1\rangle1$.\\
+\emph{(b) Existence of $\sigma_\eps$.} That $\omega_{A_\eps}\otimes\omega_D$ is
+a \emph{normal} state on $\cM_\eps$ requires the split property for
+$\overline{A_\eps}\cap\overline D=\emptyset$; the Note cites ``the split
+property'' but gives no reference for the free-fermion net (it does hold ---
+Buchholz; conformal nets with $\Tr e^{-\beta L_0}<\infty$). One sentence + a
+citation.\\
+Neither point is likely to be false; both are unproved as written.
+\end{verdictgap}
+
+\begin{verdictok}
+Given (a) and (b), the conclusion (collar-map)
+$\alpha_{\eps,t}=\id\overline\otimes\,\alpha_t^{D\to B}$ and the assertion
+``\emph{the nontrivial factor is independent of $\eps$}'' are correct
+(\cref{lem:tens}). The restriction claim ``\emph{Its restriction to $\cN_\eps$
+is $\omega_{A_\eps}\otimes\omega_B$}'' for $\sigma_\eps$ is immediate.
+\end{verdictok}
+
+\section{\S4 of the Note: the glued zero-collar CAR map}\label{sec:four}
+
+\begin{lemma}\label{lem:ks}
+$k_s=\id_A\cup h_s$ of \textup{(k-s)} is a bijection $I\to J_s=(-a,\frac L{1+s})$;
+$J_s\subset AB$ iff $s\ge\lambda$; $k_s\in C^{1,1}(I)\setminus C^2(I)$ for $s>0$;
+$W_s=1_{H_A}\oplus V_s$ is unitary from $H_I$ onto $H_{J_s}$; and
+$\beta_s(a(f))=a(W_sf)$ defines a parity-preserving $C^*$-isomorphism
+$\CAR(H_I)\to\CAR(H_{J_s})$.
+\end{lemma}
+\lstep{1}{1}{$h_s(0)=0$ and $h_s$ is an increasing bijection $D\to D_s$, so $k_s$
+ is a bijection $(-a,L)\to(-a,\frac L{1+s})$.}
+\lby{\cref{lem:qh}(iv); $k_s=\id$ on $(-a,0]$}
+\lstep{1}{2}{$J_s\subset AB=(-a,b)$ iff $\frac L{1+s}\le b$ iff $1+s\ge\frac Lb=1+\lambda$
+ iff $s\ge\lambda$.}
+\lby{$L=b+c$, $\lambda=c/b$}
+\lstep{1}{3}{$k_s'(0^-)=1=h_s'(0)=k_s'(0^+)$, so $k_s\in C^1(I)$; and
+ $k_s''(0^-)=0$ while $h_s''(0)=-\frac{2sL^2}{L^3}=-\frac{2s}L\ne0$, so
+ $k_s\notin C^2$; $k_s'$ is Lipschitz because $|h_s''|=\frac{2sL^2}{(L+sx)^3}$
+ is bounded on $[0,L]$.}
+\lby{\cref{lem:qh}(iii) and differentiation}
+\lstep{1}{4}{$H_{J_s}=H_A\oplus L^2(D_s;\mathbb C^r)$ up to the null set $\{0\}$,
+ and $W_s$ is unitary by \cref{lem:V}.}
+\lby{$J_s=A\cup\{0\}\cup D_s$ and Lebesgue-a.e.\ identification}
+\lstep{1}{5}{A unitary $W:H_1\to H_2$ induces a unique $*$-isomorphism
+ $\CAR(H_1)\to\CAR(H_2)$ with $a(f)\mapsto a(Wf)$, and it commutes with the
+ grading automorphism $a(f)\mapsto-a(f)$.}
+\lby{universality of the CAR algebra: $\{a(Wf),a^*(Wg)\}=\ip{Wf}{Wg}=\ip fg$
+ by unitarity, so the Bogoliubov relations are preserved; injectivity because
+ $\CAR(H)$ is simple}
+\lqed{1}{6}\lby{$\langle1\rangle1$--$\langle1\rangle5$}
+\begin{verdictok}
+Eqs.~(k-s), (J-s), (W-s), (beta-Cstar) and the $C^{1,1}$ remark are all correct.
+($C^{1,1}$ is never used later; it is decorative.)
+\end{verdictok}
+
+\begin{lemma}\label{lem:Qtilde}
+$\widetilde\omega_s=\omega_{J_s}\circ\beta_s$ is the gauge-invariant quasi-free
+state on $\CAR(H_I)$ with symbol $\widetilde Q_s=W_s^*Q_{J_s}W_s$, and
+$0\le\widetilde Q_s\le1$.
+\end{lemma}
+\lstep{1}{1}{$\widetilde\omega_s(a^*(f)a(g))=\omega_{J_s}(a^*(W_sf)a(W_sg))
+ =\ip{W_sg}{Q_{J_s}W_sf}=\ip g{W_s^*Q_{J_s}W_sf}$.}
+\lby{(beta-Cstar), (C3), and $W_s$ bounded}
+\lstep{1}{2}{The $2n$-point functions of $\widetilde\omega_s$ are the
+ corresponding determinants, so $\widetilde\omega_s$ is gauge-invariant quasi-free.}
+\lby{$\beta_s$ is a Bogoliubov $*$-isomorphism and $\omega_{J_s}$ is
+ gauge-invariant quasi-free (Powers--St\o rmer's defining $n$-point structure)}
+\lstep{1}{3}{$0\le\widetilde Q_s\le1$.}
+\lby{$W_s^*W_s=1$ and $0\le Q_{J_s}\le1$: $\ip f{\widetilde Q_sf}=\ip{W_sf}{Q_{J_s}W_sf}
+ \in[0,\norm{W_sf}^2]=[0,\norm f^2]$}
+\lqed{1}{4}\lby{$\langle1\rangle1$--$\langle1\rangle3$}
+\begin{verdictok}(omega-tilde), (Q-tilde) verified.\end{verdictok}
+
+\begin{verdictgap}
+\textbf{[MINOR] Note \S4, sentence after (beta-Cstar).} ``\emph{For every
+$\eps>0$, its restriction to the collar algebra is precisely the map in Lemma
+3.1}''. $\beta_s$ is defined only on the $C^*$-algebra $\CAR(H_I)$, whereas
+$\cM_\eps$ is a von Neumann algebra; the correct statement is the one proved
+later as (restriction-normal-beta), namely that
+$\overline\beta_{s_t}|_{\cM_\eps}=\alpha_{\eps,t}$, and it presupposes
+\cref{thm:normal}. As written the sentence is premature but harmless.
+\end{verdictgap}
+
+\section{\S5 of the Note: the exact covariance defect}\label{sec:five}
+
+\subsection{The diagonal blocks, including the \texorpdfstring{$\delta$}{delta}-term}
+
+\begin{lemma}[M\"obius invariance of the Hardy form]\label{lem:mobinv}
+Let $h=h_s:D\to D_s$. For $f,g\in C_c(D;\mathbb C^r)$,
+\[
+ \ip{V_sf}{P_+V_sg}_{L^2(D_s)}=\ip f{P_+g}_{L^2(D)} .
+\]
+Consequently the $D\times D$ blocks of $Q_I$ and $\widetilde Q_s$ coincide;
+so do the $A\times A$ blocks. Hence \textup{(block-form)} holds:
+$Q_I-\widetilde Q_s=\left(\begin{smallmatrix}0&\Delta_s\\ \Delta_s^*&0\end{smallmatrix}\right)$.
+\end{lemma}
+\lstep{1}{1}{\lsuffices to treat the $\delta$-term and the principal-value term of
+ \eqref{eq:hk} separately.}
+\lby{\eqref{eq:hk} and linearity; both terms are separately well defined on $C_c$}
+\lstep{1}{2}{$\delta$-term: $\frac12\ip{V_sf}{V_sg}_{L^2(D_s)}=\frac12\ip fg_{L^2(D)}$.}
+\lby{$V_s$ is unitary, \cref{lem:V}}
+\lstep{1}{3}{Equivalently at kernel level: with
+ $\widetilde Q_s(x,y)=\sqrt{h'(x)h'(y)}\,P_+(h(x),h(y))$ and
+ $\delta(h(x)-h(y))=\frac{\delta(x-y)}{h'(y)}$ (composition of $\delta$ with a
+ $C^1$ diffeomorphism), the $\delta$-part is
+ $\frac12\sqrt{h'(x)h'(y)}\frac{\delta(x-y)}{h'(y)}=\frac12\delta(x-y)$, since
+ the factor is evaluated on $x=y$ where $\sqrt{h'(x)h'(y)}=h'(y)$.}
+\lby{$\delta(\phi(y))=\sum_{\phi(y_0)=0}\delta(y-y_0)/|\phi'(y_0)|$ with
+ $\phi(y)=h(x)-h(y)$, $\phi'(y)=-h'(y)$, $h'>0$}
+\lstep{1}{4}{(mobius-cauchy): $h(x)-h(y)=\frac{L^2(x-y)}{(L+sx)(L+sy)}$ and
+ $\sqrt{h'(x)h'(y)}=\frac{L^2}{(L+sx)(L+sy)}$, so
+ $\frac{\sqrt{h'(x)h'(y)}}{h(x)-h(y)}=\frac1{x-y}$.}
+\lproof
+\lstep{2}{1}{$\frac{Lx}{L+sx}-\frac{Ly}{L+sy}
+ =\frac{Lx(L+sy)-Ly(L+sx)}{(L+sx)(L+sy)}
+ =\frac{L^2x+Lsxy-L^2y-Lsxy}{(L+sx)(L+sy)}=\frac{L^2(x-y)}{(L+sx)(L+sy)}$.}
+\lby{common denominator; the $Lsxy$ terms cancel}
+\lstep{2}{2}{$\sqrt{h'(x)h'(y)}=\frac L{L+sx}\cdot\frac L{L+sy}$.}
+\lby{\cref{lem:qh}(iii) and $L+sx>0$ on $D$}
+\lqed{2}{3}\lby{$\langle2\rangle1$, $\langle2\rangle2$}
+\lstep{1}{5}{Principal-value term: with $w=h(x)$, $z=h(y)$,
+ $\dd w\dd z=h'(x)h'(y)\dd x\dd y$ and $(V_sf)(h(x))=f(x)/\sqrt{h'(x)}$,
+ \[\pv\!\!\iint_{D_s^2}\frac{\overline{(V_sf)(w)}(V_sg)(z)}{w-z}\dd w\dd z
+ =\lim_{\eps\downarrow0}\iint_{\abs{h(x)-h(y)}>\eps}\frac{\overline{f(x)}g(y)}{x-y}\dd x\dd y .\]}
+\lby{$\langle1\rangle4$ and the change of variables (a $C^1$ diffeomorphism)}
+\lstep{1}{6}{$\displaystyle\lim_{\eps\downarrow0}\iint_{\abs{h(x)-h(y)}>\eps}
+ =\lim_{\delta\downarrow0}\iint_{\abs{x-y}>\delta}$, i.e.\ the deformed excision
+ gives the same principal value.}
+\lproof
+\lstep{2}{1}{Fix $x$; the excluded set is $(y_-,y_+)\ni x$ with $h(y_\pm)=h(x)\mp\eps$.
+ By the mean value theorem $y_\pm-x=\mp\eps/h'(\xi_\pm)$ with $\xi_\pm$ between
+ $x$ and $y_\pm$.}
+\lby{$h$ is a $C^\infty$ diffeomorphism with $h'>0$ bounded away from $0$ on $\overline D$}
+\lstep{2}{2}{Put $\delta_0=\eps/h'(x)$. Then $\bigl||y_\pm-x|-\delta_0\bigr|
+ =\eps\bigl|\frac1{h'(\xi_\pm)}-\frac1{h'(x)}\bigr|\le C\eps\abs{\xi_\pm-x}\le C'\eps^2$.}
+\lby{$h'$ is $C^1$ with $h'\ge\min_{\overline D}h'>0$, and $\abs{\xi_\pm-x}\le\abs{y_\pm-x}=O(\eps)$}
+\lstep{2}{3}{The symmetric-difference region has measure $O(\eps^2)$ and lies at
+ distance $\ge\frac12\delta_0=c\eps$ from the diagonal for $\eps$ small; the
+ integrand is $\le\norm f_\infty\norm g_\infty/(c\eps)$ there, so the difference
+ of the two double integrals is $O(\eps)\to0$.}
+\lby{$\langle2\rangle2$ and $\abs{x-y}^{-1}\le(c\eps)^{-1}$ on that region;
+ $x$ ranges over the bounded set $D$}
+\lqed{2}{4}\lby{$\langle2\rangle1$--$\langle2\rangle3$}
+\lstep{1}{7}{$A\times A$: $W_s|_{H_A}=1$ and $A\subset J_s$, so
+ $\widetilde Q_s|_{A\times A}=P_+(x,y)|_{A\times A}=Q_I|_{A\times A}$.}
+\lby{(W-s), (Q-tilde), (local-symbol)}
+\lqed{1}{8}\lby{$\langle1\rangle2$, $\langle1\rangle5$, $\langle1\rangle6$, $\langle1\rangle7$,
+ and self-adjointness of $Q_I-\widetilde Q_s$ (both are self-adjoint by \cref{lem:Qtilde})}
+
+\begin{verdictgap}
+\textbf{[GAP] Note \S5, first display block.} The Note justifies the $D\times D$
+identity with one sentence --- ``\emph{the fractional-linear identity
+\textup{(mobius-cauchy)} shows that the Cauchy kernel is unchanged}'' --- and
+\emph{never mentions the $\delta$-term at all}, nor the fact that a principal
+value is not automatically preserved by a change of variables. Both are true
+(\cref{lem:mobinv}$\langle1\rangle2$--$\langle1\rangle3$ and
+$\langle1\rangle6$), and the $\delta$-term is in fact the easy half (unitarity
+of $V_s$), but the pv step is a genuine (if standard) estimate. The identity
+(mobius-cauchy) itself is verified above and is correct.
+\end{verdictgap}
+
+\subsection{The cross kernels and \texorpdfstring{$\Delta_s$}{Delta\_s}}
+
+\begin{lemma}\label{lem:cross}
+For $u\in(0,a)$, $v\in(0,L)$, with $x=-u\in A$, $y=v\in D$:
+\[
+ Q_I(-u,v)=\frac i{2\pi}\frac1{u+v},\qquad
+ \widetilde Q_s(-u,v)=\frac i{2\pi}\frac L{L(u+v)+suv},
+\]
+\[
+ \Delta_s(-u,v)=\frac i{2\pi}R_s(u,v),\qquad
+ R_s(u,v)=\frac1{u+v}-\frac L{L(u+v)+suv}
+ =\frac{suv}{(u+v)\bigl(L(u+v)+suv\bigr)} .
+\]
+\end{lemma}
+\lstep{1}{1}{$Q_I(-u,v)=\frac i{2\pi(u+v)}$.}
+\lby{\cref{lem:crosscheck}}
+\lstep{1}{2}{$V_s$ has distributional kernel $V_s(z,y)=\sqrt{h_s'(y)}\,\delta(z-h_s(y))$.}
+\lby{(V-def) gives $V_s(z,y)=\delta(h_s^{-1}(z)-y)/\sqrt{h_s'(h_s^{-1}(z))}$;
+ by the substitution rule $\delta(h_s^{-1}(z)-y)=h_s'(y)\delta(z-h_s(y))$}
+\lstep{1}{3}{$\widetilde Q_s(-u,v)=\int_{D_s}P_+(-u,z)V_s(z,v)\dd z
+ =\sqrt{h_s'(v)}\,P_+(-u,h_s(v))
+ =-\frac i{2\pi}\frac{\sqrt{h_s'(v)}}{-u-h_s(v)}$.}
+\lby{(Q-tilde) with $W_s|_{H_A}=1$, $\langle1\rangle2$, \eqref{eq:hk}, and
+ $-u<0<h_s(v)$ so the $\delta$-term drops}
+\lstep{1}{4}{$-u-h_s(v)=-\frac{u(L+sv)+Lv}{L+sv}=-\frac{L(u+v)+suv}{L+sv}$ and
+ $\sqrt{h_s'(v)}=\frac L{L+sv}$.}
+\lby{\cref{lem:qh}(iii), $h_s(v)=\frac{Lv}{L+sv}$, and $uL+suv+Lv=L(u+v)+suv$}
+\lstep{1}{5}{$\widetilde Q_s(-u,v)=-\frac i{2\pi}\cdot\frac L{L+sv}\cdot
+ \frac{-(L+sv)}{L(u+v)+suv}=\frac i{2\pi}\frac L{L(u+v)+suv}$.}
+\lby{$\langle1\rangle3$, $\langle1\rangle4$}
+\lstep{1}{6}{$\frac1{u+v}-\frac L{L(u+v)+suv}
+ =\frac{L(u+v)+suv-L(u+v)}{(u+v)(L(u+v)+suv)}=\frac{suv}{(u+v)(L(u+v)+suv)}$.}
+\lby{common denominator}
+\lqed{1}{7}\lby{$\langle1\rangle1$, $\langle1\rangle5$, $\langle1\rangle6$}
+\begin{verdictok}
+Eqs.~(true-cross), (recovered-cross), (delta-kernel), (R-difference) are all
+correct, including the intermediate line of (recovered-cross). The remark
+``\emph{The separate terms have the endpoint singularity $(u+v)^{-1}$; their
+difference is bounded}'' is correct (Appendix, \cref{sec:app}).
+\end{verdictok}
+
+\section{\S6 of the Note: Hankel reduction and the exact trace norm}\label{sec:six}
+
+\subsection{The inversion unitaries and the reduction to \texorpdfstring{$H_{\alpha,\beta}$}{H}}
+
+\begin{lemma}[Note's Lemma 6.1]\label{lem:Jd}
+$(\cJ_df)(p)=\frac1pf(1/p)$ is unitary $L^2(0,d)\to L^2(1/d,\infty)$, with
+$\cJ_d^{-1}=\cJ_d^*$ given by the same formula.
+\end{lemma}
+\lstep{1}{1}{$\int_{1/d}^\infty\bigl|\frac1pf(1/p)\bigr|^2\dd p
+ =\int_0^d u^2\abs{f(u)}^2\frac{\dd u}{u^2}=\int_0^d\abs f^2$.}
+\lby{$u=1/p$, $\dd p=-\dd u/u^2$; the limits $p=1/d\mapsto u=d$, $p=\infty\mapsto u=0$}
+\lstep{1}{2}{$\ip{\cJ_df}g_{L^2(1/d,\infty)}=\int_0^d\overline{f(v)}\frac{g(1/v)}v\dd v$,
+ so $(\cJ_d^*g)(v)=\frac1vg(1/v)$; and $\cJ_d\cJ_d^*=1$.}
+\lby{the same substitution applied to the sesquilinear form}
+\lqed{1}{3}\lby{$\langle1\rangle1$, $\langle1\rangle2$}
+\begin{verdictok}Lemma 6.1 and eq.~(J-d) verified.\end{verdictok}
+
+\begin{lemma}[(inverted-kernel) and (H-kernel)]\label{lem:invker}
+The kernel of $\cJ_aR_s\cJ_L^*:L^2(1/L,\infty)\to L^2(1/a,\infty)$ is
+$\frac{R_s(p^{-1},q^{-1})}{pq}=\frac s{(p+q)(L(p+q)+s)}$; after the unitary
+translations $p=\frac1a+x$, $q=\frac1L+y$ onto $L^2(0,\infty)$ it becomes
+$H_{\alpha,\beta}(x,y)=\frac1{x+y+\beta}-\frac1{x+y+\beta+\alpha}$ with
+$\alpha=s/L$, $\beta=\frac1a+\frac1L$. Consequently $R_s$ and $H_{\alpha,\beta}$
+have the same singular values.
+\end{lemma}
+\lstep{1}{1}{$(\cJ_aR_s\cJ_L^*g)(p)=\int_{1/L}^\infty\frac{R_s(p^{-1},q^{-1})}{pq}g(q)\dd q$.}
+\lby{\cref{lem:Jd}: $(\cJ_aR_s\cJ_L^*g)(p)=\frac1p\int_0^LR_s(1/p,v)\frac{g(1/v)}v\dd v$,
+ then $v=1/q$, $\dd v=-\dd q/q^2$, giving $\frac1p\int R_s(1/p,1/q)q\,g(q)\frac{\dd q}{q^2}$}
+\lstep{1}{2}{$R_s(1/p,1/q)=\dfrac{s/(pq)}{\frac{p+q}{pq}\cdot\frac{L(p+q)+s}{pq}}
+ =\dfrac{s\,pq}{(p+q)(L(p+q)+s)}$, hence
+ $\frac{R_s(1/p,1/q)}{pq}=\frac s{(p+q)(L(p+q)+s)}$.}
+\lby{(delta-kernel): $u=1/p$, $v=1/q$ give $uv=\frac1{pq}$, $u+v=\frac{p+q}{pq}$,
+ and $L(u+v)+suv=\frac{L(p+q)+s}{pq}$}
+\lstep{1}{3}{With $p+q=x+y+\beta$:
+ $\frac s{(x+y+\beta)(L(x+y+\beta)+s)}=\frac\alpha{X(X+\alpha)}
+ =\frac1X-\frac1{X+\alpha}$, $X=x+y+\beta$.}
+\lby{$\langle1\rangle2$, dividing numerator and denominator by $L$, and
+ $\frac1X-\frac1{X+\alpha}=\frac\alpha{X(X+\alpha)}$}
+\lstep{1}{4}{$f\mapsto f(\tfrac1a+\cdot)$ is unitary $L^2(1/a,\infty)\to L^2(0,\infty)$
+ (and likewise for $L$); singular values are invariant under composition with
+ unitaries on either side.}
+\lby{translation invariance of Lebesgue measure; $s_k(UTV)=s_k(T)$ for unitaries $U,V$}
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$}
+\begin{verdictok}
+Eqs.~(inverted-kernel-start), (inverted-kernel), (alpha-beta), (H-kernel) all
+verified; the claim ``\emph{$R_s$ and $H_{\alpha,\beta}$ have the same singular
+values}'' is correct. (Numerically confirmed below: the Hilbert--Schmidt norms
+agree to $9$ digits.)
+\end{verdictok}
+
+\subsection{Laplace factorization, positivity, and the trace}
+
+\begin{proposition}\label{prop:laplace}
+For $\alpha,\beta>0$ and $e_\rho(x)=e^{-\rho x}$ on $(0,\infty)$:
+\textup{(i)} $\norm{e_\rho}_2^2=\frac1{2\rho}$;
+\textup{(ii)} $H_{\alpha,\beta}=\int_0^\infty e^{-\beta\rho}(1-e^{-\alpha\rho})
+ \lvert e_\rho\rangle\langle e_\rho\rvert\dd\rho$, the integral converging in
+ $\Sone$; \textup{(iii)} $H_{\alpha,\beta}\ge0$ and
+ $\norm{H_{\alpha,\beta}}_1=\Tr H_{\alpha,\beta}=\frac12\log\frac{\beta+\alpha}\beta$.
+\end{proposition}
+\lstep{1}{1}{(i) $\int_0^\infty e^{-2\rho x}\dd x=\frac1{2\rho}$; hence
+ $\norm{\lvert e_\rho\rangle\langle e_\rho\rvert}_1=\norm{e_\rho}_2^2=\frac1{2\rho}$.}
+\lby{elementary; a rank-one operator $\lvert e\rangle\langle e\rvert$ has trace norm $\norm e^2$}
+\lstep{1}{2}{$\int_0^\infty e^{-\rho(x+y+\beta)}(1-e^{-\alpha\rho})\dd\rho
+ =\frac1{x+y+\beta}-\frac1{x+y+\beta+\alpha}=H_{\alpha,\beta}(x,y)$ for $x,y>0$.}
+\lby{$\int_0^\infty e^{-c\rho}\dd\rho=1/c$ for $c>0$, applied with
+ $c=x+y+\beta$ and $c=x+y+\beta+\alpha$}
+\lstep{1}{3}{$\int_0^\infty e^{-\beta\rho}(1-e^{-\alpha\rho})
+ \norm{\lvert e_\rho\rangle\langle e_\rho\rvert}_1\dd\rho
+ =\frac12\int_0^\infty\frac{e^{-\beta\rho}-e^{-(\beta+\alpha)\rho}}\rho\dd\rho<\infty$.}
+\lproof
+\lstep{2}{1}{The integrand is non-negative and, as $\rho\downarrow0$,
+ $e^{-\beta\rho}-e^{-(\beta+\alpha)\rho}=\alpha\rho+O(\rho^2)$, so
+ $\frac{\cdot}\rho\to\alpha$: integrable near $0$.}
+\lby{Taylor expansion of both exponentials}
+\lstep{2}{2}{For $\rho\ge1$ the integrand is $\le e^{-\beta\rho}$: integrable at $\infty$.}
+\lby{$0\le1-e^{-\alpha\rho}\le1$ and $\frac1\rho\le1$}
+\lqed{2}{3}\lby{$\langle2\rangle1$, $\langle2\rangle2$}
+\lstep{1}{4}{Hence the Bochner integral in (ii) converges absolutely in $\Sone$,
+ and its kernel is the pointwise integral $\langle1\rangle2$.}
+\lby{$\langle1\rangle1$, $\langle1\rangle3$; $\rho\mapsto\lvert e_\rho\rangle\langle e_\rho\rvert$
+ is $\Sone$-continuous, so Bochner-measurable; and $\Sone$-convergence implies
+ convergence of kernels against $L^2\times L^2$}
+\lstep{1}{5}{(iii) positivity: the weight $e^{-\beta\rho}(1-e^{-\alpha\rho})$ is
+ $\ge0$ and each $\lvert e_\rho\rangle\langle e_\rho\rvert\ge0$, so
+ $H_{\alpha,\beta}\ge0$; therefore
+ $\norm{H_{\alpha,\beta}}_1=\Tr H_{\alpha,\beta}$, which by $\langle1\rangle1$
+ and $\langle1\rangle4$ equals the number in $\langle1\rangle3$.}
+\lby{$\Tr$ is $\Sone$-continuous and $\Tr\lvert e_\rho\rangle\langle e_\rho\rvert=\frac1{2\rho}$}
+\lstep{1}{6}{$e^{-\beta\rho}-e^{-(\beta+\alpha)\rho}=\int_0^\alpha\rho e^{-(\beta+t)\rho}\dd t$.}
+\lby{$\partial_t\bigl(-e^{-(\beta+t)\rho}\bigr)=\rho e^{-(\beta+t)\rho}$;
+ fundamental theorem of calculus in $t$}
+\lstep{1}{7}{$\int_0^\infty\frac{e^{-\beta\rho}-e^{-(\beta+\alpha)\rho}}\rho\dd\rho
+ =\int_0^\alpha\!\!\int_0^\infty e^{-(\beta+t)\rho}\dd\rho\dd t
+ =\int_0^\alpha\frac{\dd t}{\beta+t}=\log\frac{\beta+\alpha}\beta$.}
+\lby{$\langle1\rangle6$ and Tonelli's theorem (the integrand
+ $e^{-(\beta+t)\rho}\ge0$ is jointly measurable on $(0,\alpha)\times(0,\infty)$),
+ then $\int_0^\infty e^{-c\rho}\dd\rho=1/c$}
+\lqed{1}{8}\lby{$\langle1\rangle5$, $\langle1\rangle7$}
+\begin{verdictok}
+Eqs.~(e-rho-norm), (laplace-kernel), (rank-one-factorization),
+(trace-integrability), (trace-H), (frullani-eval) are all correct, and the
+Tonelli justification the Note gives (``\emph{to evaluate the integral without
+appealing to an unevaluated Frullani formula}'') is legitimate and complete.
+Positivity of $H_{\alpha,\beta}$ is correctly deduced from the positivity of
+the weight.
+\end{verdictok}
+
+\begin{theorem}[Note's Theorem 6.3]\label{thm:trace}
+For every $s>0$,
+$\norm{R_s}_1=\frac12\log\bigl(1+\frac{as}{a+L}\bigr)$,
+$\norm{\Delta_s}_1=\frac r{4\pi}\log\bigl(1+\frac{as}{a+L}\bigr)$, and
+$\norm{Q_I-\widetilde Q_s}_1=\frac r{2\pi}\log\bigl(1+\frac{as}{a+L}\bigr)$.
+\end{theorem}
+\lstep{1}{1}{$\norm{R_s}_1=\norm{H_{\alpha,\beta}}_1=\frac12\log\frac{\beta+\alpha}\beta$.}
+\lby{\cref{lem:invker} (equal singular values) and \cref{prop:laplace}(iii)}
+\lstep{1}{2}{$\frac\alpha\beta=\frac{s/L}{1/a+1/L}=\frac{s/L}{\frac{L+a}{aL}}=\frac{as}{a+L}$,
+ so $\frac{\beta+\alpha}\beta=1+\frac{as}{a+L}$.}
+\lby{(alpha-beta)}
+\lstep{1}{3}{$\Delta_s=\frac i{2\pi}\,R_s\otimes1_{\mathbb C^r}$, so
+ $\norm{\Delta_s}_1=\frac1{2\pi}\cdot r\cdot\norm{R_s}_1$.}
+\lby{\cref{lem:cross}: the kernel is scalar in the $\mathbb C^r$ index, i.e.\
+ $\Delta_s$ is the direct sum of $r$ copies of $\frac i{2\pi}R_s$; trace norms
+ add over direct summands, and $\abs{i/2\pi}=1/2\pi$}
+\lstep{1}{4}{A self-adjoint block operator
+ $T_\sharp=\left(\begin{smallmatrix}0&T\\T^*&0\end{smallmatrix}\right)$ on
+ $H_1\oplus H_2$ ($T:H_2\to H_1$) has $T_\sharp^2=TT^*\oplus T^*T$, whose
+ non-zero eigenvalues are $\{s_k(T)^2\}$ \emph{twice}; hence
+ $\norm{T_\sharp}_1=2\norm T_1$.}
+\lby{$\abs{T_\sharp}=(T_\sharp^2)^{1/2}=\abs{T^*}\oplus\abs T$ and
+ $\Tr\abs{T^*}=\Tr\abs T=\norm T_1$}
+\lstep{1}{5}{$\norm{Q_I-\widetilde Q_s}_1=2\norm{\Delta_s}_1
+ =\frac r{2\pi}\log(1+\frac{as}{a+L})$.}
+\lby{(block-form) of \cref{lem:mobinv}, $\langle1\rangle3$, $\langle1\rangle4$}
+\lqed{1}{6}\lby{$\langle1\rangle1$--$\langle1\rangle5$}
+\begin{verdictok}
+Theorem 6.3 --- eqs.~(R-trace-norm), (Delta-trace-norm),
+(full-symbol-trace-norm) --- is \textbf{correct}, including the factor $r$ for
+the $r$ components and the doubling from the off-diagonal block structure.
+\end{verdictok}
+
+\subsection{Independent numerical verification}
+
+\begin{proposition}[numerics]\label{prop:num}
+Nystr\"om discretisation of $R_s:L^2(0,L)\to L^2(0,a)$ on a geometrically graded
+($\sigma=0.25$, $14$ panels, $20$-point Gauss--Legendre per panel) mesh, with
+$M_{ij}=\sqrt{w_iw_j}R_s(u_i,v_j)$ and $\norm{R_s}_1\approx\sum_k s_k(M)$,
+reproduces \eqref{eq:trnorm} below. Independently, $H_{\alpha,\beta}$ is
+discretised on $(0,\infty)$ by the substitution $x=\beta t/(1-t)$ with a
+$400$-point Gauss--Legendre rule, and its eigenvalues are computed.
+\end{proposition}
+
+\begin{equation}\label{eq:trnorm}
+ \norm{R_s}_1\overset{?}{=}\tfrac12\log\bigl(1+\tfrac{as}{a+L}\bigr)
+\end{equation}
+
+\begin{center}\small
+\begin{tabular}{llllll}
+\toprule
+$(a,b,c)$ & $s$ & exact $\frac12\log(1+\frac{as}{a+L})$ & $\sum_ks_k(R_s)$ &
+ rel.\ err. & $\lambda_{\min}(H)$\\
+\midrule
+$(1,1,1)$ & $s_{\mathrm P}=2$ & $0.255412811883$ & $0.255412811879$ & $1.6\cdot10^{-11}$ & $-4.5\cdot10^{-17}$\\
+$(1,1,1)$ & $0.5$ & $0.077075339914$ & $0.077075339913$ & $1.3\cdot10^{-11}$ & $-2.2\cdot10^{-17}$\\
+$(1,1,1)$ & $7$ & $0.601986402163$ & $0.601986402149$ & $2.3\cdot10^{-11}$ & $-1.3\cdot10^{-16}$\\
+$(0.7,2.3,0.4)$ & $s_{\mathrm P}=0.347826$ & $0.034581679968$ & $0.034581679967$ & $2.9\cdot10^{-11}$ & $-2.4\cdot10^{-17}$\\
+$(5,0.3,11)$ & $s_{\mathrm P}=73.3\overline3$ & $1.578391422689$ & $1.578391422517$ & $1.1\cdot10^{-10}$ & $-2.4\cdot10^{-16}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+In every case $\Tr H_{\alpha,\beta}$ (computed from the discretised
+$H_{\alpha,\beta}$) agrees with the closed form to $\le3\cdot10^{-14}$
+relative error, $\lambda_{\min}(H_{\alpha,\beta})$ is zero to machine
+precision (\emph{confirming positivity}), and
+$\norm{R_s}_2=\norm{H_{\alpha,\beta}}_2$ to $9$ digits (\emph{confirming the
+unitary equivalence of \cref{lem:invker}}); e.g.\ for $(1,1,1)$, $s=2$:
+$\norm{R_s}_2=\norm{H_{\alpha,\beta}}_2=0.208092516$.
+Script: \texttt{cft\_cmi/numerics/check\_note4\_tracenorm.py}.
+
+\begin{verdictok}
+Theorem 6.3 is confirmed numerically to $10$--$11$ significant digits for three
+parameter sets and three values of $s$ each, together with the two structural
+claims it rests on (positivity of $H_{\alpha,\beta}$ and the unitary
+equivalence $R_s\cong H_{\alpha,\beta}$).
+\end{verdictok}
+
+\section{\S7 of the Note: quasi-equivalence and the normal extension}\label{sec:seven}
+
+\begin{citedbox}{Powers--St\o rmer 1970, Lemma 4.1 (CMP 16, p.~21)}
+Transcribed: ``\emph{Lemma 4.1. Let $A$ and $B$ be positive operators on a
+Hilbert space $K$. Then} $\norm{A-B}_{\mathrm{Tr}}\ge\norm{A^{1/2}-B^{1/2}}^2_{\mathrm{H.S.}}$.''
+The proof begins: ``\emph{If $A-B$ is not of trace class its trace norm is
+infinite, and the lemma is trivial. We therefore assume $A-B$ is of trace
+class, hence it is in particular compact.}''\\[2pt]
+\includegraphics[width=.82\textwidth]{shots/PS_lem41.png}\\[2pt]
+\textbf{Use in the Note:} eq.~(powers-stormer), applied twice: to
+$(Q_I,\widetilde Q_s)$ and to $(1-Q_I,1-\widetilde Q_s)$.
+\textbf{Verdict on the usage:} \textbf{correct, and the hypotheses are exactly
+met.} This is worth stressing: $Q_I$ and $\widetilde Q_s$ are \emph{not} trace
+class, and the frequently quoted ``matrix'' version of the Powers--St\o rmer
+inequality assumes trace-class arguments. Powers--St\o rmer's Lemma 4.1 assumes
+only that $A,B$ are \emph{positive bounded operators}; the trace-class
+hypothesis is on the difference only, and here $Q_I-\widetilde Q_s\in\Sone$ by
+\cref{thm:trace}. Also $(1-Q_I)-(1-\widetilde Q_s)=-(Q_I-\widetilde Q_s)\in\Sone$
+with the same trace norm, so the second application is legitimate with the same
+bound.
+\end{citedbox}
+
+\begin{citedbox}{Powers--St\o rmer 1970, Theorem 5.1 (CMP 16, p.~25)}
+Transcribed: ``\emph{Theorem 5.1. Every gauge invariant generalized free state of
+the CAR-algebra $\mathfrak A(K)$ is a factor state. Two gauge invariant
+generalized free states $\omega_A$ and $\omega_B$ are quasi-equivalent if and
+only if the operators $A^{1/2}-B^{1/2}$ and $(I-A)^{1/2}-(I-B)^{1/2}$ are of
+Hilbert-Schmidt class.}''\\[2pt]
+\includegraphics[width=.82\textwidth]{shots/PS_thm51.png}\\[2pt]
+\textbf{Use in the Note:} input (4) of \S1.2, and the engine of Theorem 7.2.
+\textbf{Verdict on the usage:} the criterion is transcribed by the Note
+\emph{exactly} (both conditions, ``exactly when''). Note that $K$ must be
+separable (PS \S1: ``\emph{If $K$ is a separable (complex) Hilbert space}''),
+which holds for $H_I=L^2(I;\mathbb C^r)$. \emph{Caveat:} PS Theorem 5.1 is for
+the \emph{gauge-invariant} (ordinary, not self-dual) CAR algebra; if the Note's
+$r$ is read as a number of Majorana components (see \cref{sec:nine}) then the
+correct citation is Araki's self-dual criterion, not PS Thm 5.1.
+\end{citedbox}
+
+\begin{corollary}\label{cor:qe}
+$\norm{Q_I^{1/2}-\widetilde Q_s^{1/2}}_2^2\le\frac r{2\pi}\log(1+\frac{as}{a+L})$
+and the same bound for
+$\norm{(1-Q_I)^{1/2}-(1-\widetilde Q_s)^{1/2}}_2^2$; hence $\omega_I$ and
+$\widetilde\omega_s$ are quasi-equivalent.
+\end{corollary}
+\lstep{1}{1}{$Q_I,\widetilde Q_s$ are positive bounded, $1-Q_I,1-\widetilde Q_s$
+ are positive bounded, and $Q_I-\widetilde Q_s\in\Sone$.}
+\lby{\cref{lem:Qtilde} ($0\le\widetilde Q_s\le1$), (local-symbol), \cref{thm:trace}}
+\lstep{1}{2}{Both Hilbert--Schmidt norms are bounded by
+ $\norm{Q_I-\widetilde Q_s}_1=\frac r{2\pi}\log(1+\frac{as}{a+L})$.}
+\lby{PS Lemma 4.1 twice, using $\norm{(1-Q_I)-(1-\widetilde Q_s)}_1=\norm{Q_I-\widetilde Q_s}_1$}
+\lstep{1}{3}{Both differences of square roots are Hilbert--Schmidt; by PS Theorem 5.1
+ $\omega_{Q_I}\sim\omega_{\widetilde Q_s}$ (quasi-equivalent).}
+\lby{$\langle1\rangle2$ finite, $H_I$ separable}
+\lqed{1}{4}\lby{$\langle1\rangle2$, $\langle1\rangle3$}
+\begin{verdictok}Eqs.~(PS-1), (PS-2) and the quasi-equivalence conclusion are correct.\end{verdictok}
+
+\begin{theorem}[Note's Theorem 7.2]\label{thm:normal}
+For every $s\ge\lambda$, $\beta_s$ extends uniquely to a normal,
+parity-preserving $*$-isomorphism
+$\overline\beta_s:\cF_r(I)\to\cF_r(J_s)\subset\cF_r(AB)$, and
+$\overline\beta_{s_t}|_{\cM_\eps}=\alpha_{\eps,t}$ for every $\eps>0$.
+\end{theorem}
+\lstep{1}{1}{Let $\pi_I$, $\pi_{J_s}$ be the restrictions of the vacuum
+ representation to $\CAR(H_I)$, $\CAR(H_{J_s})$; then
+ $\pi_I(\CAR(H_I))''=\cF_r(I)$ and $\pi_{J_s}(\CAR(H_{J_s}))''=\cF_r(J_s)$.}
+\lby{definition of the field net}
+\lstep{1}{2}{$\pi_{J_s}\circ\beta_s$ is (unitarily equivalent to) the GNS
+ representation of $\widetilde\omega_s$, hence the gauge-invariant quasi-free
+ representation with symbol $\widetilde Q_s$.}
+\lby{$\Omega$ is cyclic for $\pi_{J_s}$ (Reeh--Schlieder) with
+ $\langle\Omega,\pi_{J_s}(\beta_s(\cdot))\Omega\rangle=\widetilde\omega_s$; uniqueness of GNS; \cref{lem:Qtilde}}
+\lstep{1}{3}{$\pi_I$ is the quasi-free representation with symbol $Q_I$, and
+ $\pi_I\approx\pi_{J_s}\circ\beta_s$ (quasi-equivalent).}
+\lby{$\langle1\rangle2$ and \cref{cor:qe}}
+\lstep{1}{4}{Quasi-equivalence means precisely: there is a (unique) normal
+ $*$-isomorphism $\theta:\pi_I(\CAR(H_I))''\to(\pi_{J_s}\circ\beta_s)(\CAR(H_I))''$
+ with $\theta\circ\pi_I=\pi_{J_s}\circ\beta_s$.}
+\lby{definition of quasi-equivalence (Dixmier; equivalently, unitary equivalence
+ of amplifications). Uniqueness: two normal maps agreeing on the ultraweakly
+ dense set $\pi_I(\CAR(H_I))$ agree}
+\lstep{1}{5}{$(\pi_{J_s}\circ\beta_s)(\CAR(H_I))''=\pi_{J_s}(\CAR(H_{J_s}))''=\cF_r(J_s)$,
+ because $\beta_s$ is \emph{onto} $\CAR(H_{J_s})$.}
+\lby{\cref{lem:ks}$\langle1\rangle5$: $W_s$ is unitary, hence $\beta_s$ surjective}
+\lstep{1}{6}{$\overline\beta_s:=\theta$ is normal, injective, onto $\cF_r(J_s)$,
+ parity preserving, and $\cF_r(J_s)\subset\cF_r(AB)$ for $s\ge\lambda$.}
+\lby{$\langle1\rangle4$, $\langle1\rangle5$, \cref{lem:ks}$\langle1\rangle2$, isotony;
+ parity is preserved because $\beta_s$ is and the grading is normal}
+\lstep{1}{7}{$\cM_\eps=\{a(f):f\in L^2((A_\eps\cup D);\mathbb C^r)\}''$, on whose
+ generators $\overline\beta_{s_t}$ and $\alpha_{\eps,t}$ agree; both are normal;
+ hence they agree on $\cM_\eps$.}
+\lby{\cref{lem:tens} (which gives $\alpha_{\eps,t}=\id\otimes\alpha_t^{D\to B}$, acting on
+ $a(f)$ by $a(W_{s_t}f)$), $\langle1\rangle6$, and ultraweak density}
+\lqed{1}{8}\lby{$\langle1\rangle6$, $\langle1\rangle7$}
+\begin{verdictok}
+Theorem 7.2 and eqs.~(normal-beta), (restriction-normal-beta) are correct. The
+Note's one-line justification --- ``\emph{A $C^*$-isomorphism whose source
+representation and pulled-back target representation are quasi-equivalent
+extends uniquely to a normal $*$-isomorphism between their von Neumann
+closures}'' --- is exactly $\langle1\rangle4$--$\langle1\rangle5$; the only
+thing it leaves implicit is the \emph{surjectivity} of $\beta_s$
+($\langle1\rangle5$), without which one would only get a normal isomorphism
+onto some subalgebra. The Remark following Theorem 7.2 (``\emph{it proves normal
+extendability of the recovery homomorphism itself}'') is justified.
+\end{verdictok}
+
+\section{\S8 of the Note: ordinary and rotated formulas}\label{sec:eight}
+
+\lstep{1}{1}{$s_{\mathrm P}=2\lambda=2c/b$ gives $\frac{as_{\mathrm P}}{a+L}
+ =\frac{2ac/b}{a+b+c}=\frac{2ac}{b(a+b+c)}=2z$, hence (ordinary-cross)
+ $\norm{\Delta_{\mathrm P}}_1=\frac r{4\pi}\log(1+2z)$ and (ordinary-full)
+ $\norm{Q_I-\widetilde Q_{\mathrm P}}_1=\frac r{2\pi}\log(1+2z)$.}
+\lby{\cref{sec:conv}, \cref{thm:trace}, \cref{prop:alpha0}}
+\lstep{1}{2}{$s_t=\lambda(1+e^{-2\pi t})$ gives $\frac{as_t}{a+L}
+ =\frac{a\lambda(1+e^{-2\pi t})}{a+L}=z(1+e^{-2\pi t})$, hence (rotated-cross),
+ (rotated-full).}
+\lby{$\frac{a\lambda}{a+L}=\frac{ac/b}{a+b+c}=z$ and \cref{thm:trace}}
+\lstep{1}{3}{``\emph{Every fixed rotated state is therefore normal at zero collar}''
+ holds, since $s_t\in(\lambda,\infty)$ for every $t$ and \cref{thm:normal}
+ applies for each $s\ge\lambda$.}
+\lby{\cref{cor:into}, \cref{thm:normal}}
+\lqed{1}{4}\lby{$\langle1\rangle1$--$\langle1\rangle3$}
+\begin{verdictok}
+All four displayed formulas of \S8 are correct.
+\end{verdictok}
+\begin{verdictgap}
+\textbf{[MINOR] Note \S8.} Worth recording (the Note does not): $\norm{\Delta_t}_1
+=\frac r{4\pi}\log[1+z(1+e^{-2\pi t})]\to\infty$ as $t\to-\infty$. So the
+trace-class defect is \emph{not} uniform in $t$, and no $t$-uniform Schatten
+bound is available for the twirled channel of \S10. The Note's claim is
+correctly restricted to \emph{fixed} $t$, but a reader may not notice.
+\end{verdictgap}
+
+\section{\S9 of the Note: the Longo--Xu mutual information --- a factor \texorpdfstring{$2$}{2}}\label{sec:nine}
+
+\begin{citedbox}{Longo--Xu 2018, Definition 3.17 + Theorem 3.18 (arXiv:1712.07283 p.~21)}
+Transcribed: ``\emph{Definition 3.17. If $I=(a_1,b_1)\cup\dots\cup(a_n,b_n)$ in
+increasing order, define}
+$G(I):=\frac16\bigl(\sum_{i,j}\log|b_i-a_j|-\sum_{i<j}\log|a_i-a_j|
+-\sum_{i<j}\log|b_i-b_j|\bigr)$.
+\emph{Theorem 3.18. Let $I=(a_1,b_1)\cup\dots\cup(a_n,b_n)\in\mathcal{PI}$ and
+$I_1\cup I_2=I$, $\overline{I_1}\cap\overline{I_2}=\emptyset$. Then}
+$S_{\mathcal A_r}(\omega,\omega_1\otimes_2\omega_2)=r\bigl(G(I_1)+G(I_2)-G(I_1\cup I_2)\bigr)$.''
+And from their introduction (p.~2): ``\emph{In particular, for the free chiral
+net $\mathcal A_r$ associated with $r$ fermions, and two intervals
+$A=(a_1,b_1)$, $B=(a_2,b_2)$ of the real line, where $b_1<a_2$, the mutual
+information associated with $A,B$ is $F(A,B)=-\frac r6\ln\eta$}''.
+Also (p.~17, §3.6): ``\emph{by Lemma 3.8, the mutual information for $r$ free
+fermion net is $r$ times the mutual information for $1$ free fermion net}.''\\[2pt]
+\includegraphics[width=.98\textwidth]{shots/LX_thm318.png}\\
+\includegraphics[width=.98\textwidth]{shots/LX_MI.png}
+\end{citedbox}
+
+\begin{lemma}[(LX-MI) is exactly Longo--Xu Thm 3.18]\label{lem:lxmi}
+For $I_1=(a_1,b_1)$, $I_2=(a_2,b_2)$, $b_1<a_2$,
+\[
+ \MI_r(I_1,I_2)=\frac r6\log\frac{(a_2-a_1)(b_2-b_1)}{(a_2-b_1)(b_2-a_1)} .
+\]
+\end{lemma}
+\lstep{1}{1}{$G(I_1)=\frac16\log(b_1-a_1)$, $G(I_2)=\frac16\log(b_2-a_2)$.}
+\lby{Def.~3.17 with $n=1$ (no $i<j$ terms)}
+\lstep{1}{2}{$G(I_1\cup I_2)=\frac16\bigl[\log(b_1-a_1)+\log(a_2-b_1)+\log(b_2-a_1)
+ +\log(b_2-a_2)-\log(a_2-a_1)-\log(b_2-b_1)\bigr]$.}
+\lby{Def.~3.17 with $n=2$: $\sum_{i,j}\log|b_i-a_j|$ has four terms
+ $|b_1-a_1|,|b_1-a_2|,|b_2-a_1|,|b_2-a_2|$; $\sum_{i<j}\log|a_i-a_j|=\log|a_1-a_2|$;
+ $\sum_{i<j}\log|b_i-b_j|=\log|b_1-b_2|$}
+\lstep{1}{3}{$\MI_r=r[G(I_1)+G(I_2)-G(I_1\cup I_2)]
+ =\frac r6\log\frac{(a_2-a_1)(b_2-b_1)}{(a_2-b_1)(b_2-a_1)}$.}
+\lby{Thm 3.18, $\langle1\rangle1$, $\langle1\rangle2$; $\log(b_1-a_1)$ and
+ $\log(b_2-a_2)$ cancel}
+\lqed{1}{4}\lby{$\langle1\rangle3$}
+\begin{verdictok}
+Eq.~(LX-MI) of the Note reproduces Longo--Xu's Theorem 3.18 \emph{verbatim} (for
+their net $\mathcal A_r$). We note in passing that Longo--Xu's own
+\emph{introduction} misprints the cross-ratio: with their $\eta=\frac{(b_1-a_2)(b_2-a_1)}
+{(b_1-a_1)(b_2-a_2)}$ and $b_1<a_2$ one gets $\eta<0$, and even after inserting
+absolute values $\eta\notin(0,1)$ (e.g.\ $a_1=0,b_1=1,a_2=2,b_2=3$ gives $3$).
+The correct cross ratio, consistent with Thm 3.18, is
+$\eta=\frac{(a_2-b_1)(b_2-a_1)}{(a_2-a_1)(b_2-b_1)}$. With $I_1=A=(-a,0)$,
+$I_2=C=(b,b+c)$ this is exactly the Note's
+$\eta=\frac{b(a+b+c)}{(a+b)(b+c)}$, so the Note used the right one.
+\end{verdictok}
+
+\begin{lemma}[(LX-collar-MI), (delta-eps), (CMI-LX)]\label{lem:deps}
+With $A_\eps=(-a,-\eps)$ and $D_d=(0,d)$, $\MI_r(A_\eps,D_d)=\frac r6\log\frac{a(d+\eps)}{\eps(a+d)}$;
+hence $\delta_\eps=\MI_r(A_\eps,D)-\MI_r(A_\eps,B)=\frac r6\log\frac{(L+\eps)(a+b)}{(b+\eps)(a+L)}$
+and $\delta_\eps\to\frac r6\log\frac{(a+b)(b+c)}{b(a+b+c)}=\frac r6\log(1+z)=-\frac r6\log\eta$.
+\end{lemma}
+\lstep{1}{1}{Put $(a_1,b_1)=(-a,-\eps)$, $(a_2,b_2)=(0,d)$ in \cref{lem:lxmi}:
+ $a_2-a_1=a$, $b_2-b_1=d+\eps$, $a_2-b_1=\eps$, $b_2-a_1=d+a$.}
+\lby{substitution}
+\lstep{1}{2}{$\delta_\eps=\frac r6\bigl[\log\frac{a(L+\eps)}{\eps(a+L)}
+ -\log\frac{a(b+\eps)}{\eps(a+b)}\bigr]=\frac r6\log\frac{(L+\eps)(a+b)}{(b+\eps)(a+L)}$.}
+\lby{$\langle1\rangle1$ with $d=L$ and $d=b$; $a$ and $\eps$ cancel}
+\lstep{1}{3}{At $\eps=0$: $\frac r6\log\frac{L(a+b)}{b(a+L)}=\frac r6\log\frac{(b+c)(a+b)}{b(a+b+c)}
+ =\frac r6\log\frac1\eta=\frac r6\log(1+z)$.}
+\lby{$L=b+c$, $a+L=a+b+c$, and \cref{sec:conv}}
+\lqed{1}{4}\lby{$\langle1\rangle2$, $\langle1\rangle3$}
+\begin{verdictok}
+The algebra of (LX-collar-MI), (delta-eps), (CMI-LX) is correct, \emph{given}
+the coefficient $r/6$. $\delta_\eps$ is continuous at $\eps=0$ with the stated
+limit, which is what \S10 needs. Also note the by-product
+$\CMI_\omega(A:C\mid B)=\MI_r(A,C)$ here, consistent with $\eta$ being the $A,C$
+cross ratio.
+\end{verdictok}
+
+\begin{theorem}[The normalisation is inconsistent]\label{thm:break}
+Longo--Xu's $\mathcal A_r$ has central charge $c=r/2$: it is the net of $r$
+\emph{Majorana} (real) chiral fermions. The Note's \S1 defines instead the
+\emph{gauge-invariant} $\CAR$ algebra over $H=L^2(\mathbb R;\mathbb C^r)$, i.e.\
+$r$ \emph{complex (Dirac)} chiral fermions, of central charge $c=r$. For that
+net Longo--Xu's theorem gives
+\[
+ \MI(I_1,I_2)=\frac r3\log\frac{(a_2-a_1)(b_2-b_1)}{(a_2-b_1)(b_2-a_1)},
+ \qquad \CMI_\omega(A:C\mid B)=\frac r3\log(1+z),
+\]
+i.e.\ \emph{twice} the value used in the Note.
+\end{theorem}
+\lstep{1}{1}{For $r=1$, Longo--Xu's formula gives $\MI=\frac16\log(\text{cross ratio})$.}
+\lby{\cref{lem:lxmi} with $r=1$; and LX \S3.6 ``\emph{the mutual information for
+ $r$ free fermion net is $r$ times the mutual information for $1$ free fermion net}''}
+\lstep{1}{2}{The universal chiral formula is $\MI=\frac c3\log(\text{cross ratio})$
+ for a theory of central charge $c$.}
+\lby{Casini--Huerta; equivalently $S_{(\mathrm a,\mathrm b)}=\frac c3\log\frac{\mathrm b-\mathrm a}{\epsilon}$
+ plus the free-fermion two-interval entropy, which yields
+ $\MI=\frac c3\log\frac{(a_2-a_1)(b_2-b_1)}{(a_2-b_1)(b_2-a_1)}$; this is the
+ computation LX say their theorem confirms}
+\lstep{1}{3}{Hence LX's ``$1$ free fermion'' has $c=1/2$: it is a chiral
+ \emph{Majorana} fermion, and $\mathcal A_r$ has $c=r/2$.}
+\lby{$\langle1\rangle1$, $\langle1\rangle2$: $\frac c3=\frac16$}
+\lstep{1}{4}{The Note's net (\S1: $\CAR(L^2(X;\mathbb C^r))$, gauge invariant,
+ $\omega(a^*(f)a(g))=\ip g{Q_Xf}$) is $r$ complex chiral fermions, $c=r$,
+ equivalently $2r$ Majorana fermions.}
+\lby{a complex chiral fermion $\psi$ with $\{\psi(x),\psi^*(y)\}=\delta(x-y)$ and
+ gauge-invariant vacuum has $c=1$; $r$ independent copies give $c=r$}
+\lstep{1}{5}{Applying LX to the Note's net therefore requires their $r$ to be
+ $2r$: $\MI=\frac{2r}6\log(\cdot)=\frac r3\log(\cdot)$.}
+\lby{$\langle1\rangle3$, $\langle1\rangle4$}
+\lqed{1}{6}\lby{$\langle1\rangle5$}
+
+\begin{verdictbreak}
+\textbf{[BREAK] Note \S1.1 vs.\ \S9: eqs.~(LX-MI), (LX-collar-MI),
+(delta-eps), (CMI-LX), (norm-CMI-relation), (small-z), and the ``Main result''
+box; propagating to (zero-collar-fidelity) and (zero-collar-norm).}
+The Note writes ``\emph{The one-particle space is $H=L^2(\mathbb R;\mathbb C^r)$}''
+and ``\emph{The vacuum restricted to $\CAR(L^2(X;\mathbb C^r))$ is the
+gauge-invariant quasi-free state with symbol $Q_X$}'' --- $r$ Dirac fermions,
+$c=r$ --- and then imports ``\emph{Longo--Xu give
+$\CMI_\omega(A:C\mid B)=\frac r6\log(1+z)$}'' --- the value for $r$
+\emph{Majorana} fermions, $c=r/2$. Exactly one of the two can be kept. As
+written the following are wrong by a factor $2$ in the exponent/CMI:
+\[
+ \CMI=\tfrac r6\log(1+z)\ \to\ \tfrac r3\log(1+z);\qquad
+ \norm{Q_I-\widetilde Q_{\mathrm P}}_1=\tfrac r{2\pi}\log(2e^{6\CMI/r}-1)
+ \ \to\ \tfrac r{2\pi}\log(2e^{3\CMI/r}-1);
+\]
+\[
+ \CMI=\tfrac r6z+O(z^2)\to\tfrac r3z+O(z^2);\qquad
+ \norm{\cdot}_1=\tfrac6\pi\CMI+O(\cdot)\ \to\ \tfrac3\pi\CMI+O(\cdot);
+\]
+\[
+ \Fid\ge e^{-\CMI/2}=\eta^{r/12}\ \to\ \eta^{r/6};\qquad
+ \norm{\omega-\overline\omega}\le2\sqrt{1-\eta^{r/6}}\ \to\ 2\sqrt{1-\eta^{r/3}} .
+\]
+\textbf{The one-particle results are unaffected}: $\norm{Q_I-\widetilde Q_s}_1
+=\frac r{2\pi}\log(1+\frac{as}{a+L})$ holds under \emph{both} readings, because
+the self-dual one-particle space of $r$ Majoranas and the ordinary one-particle
+space of $r$ Diracs are both $L^2(\cdot;\mathbb C^r)$ carrying the same $Q$.
+Only the \emph{CMI side} of the dictionary moves.\\
+\textbf{Repair (two options).} (a) Keep \S1 (Dirac): replace $r/6$ by $r/3$
+throughout \S9, and $\eta^{r/12}\to\eta^{r/6}$, $\eta^{r/6}\to\eta^{r/3}$ in
+\S10; the boxed ``Main result'' identity becomes
+$\frac r{2\pi}\log(2e^{3\CMI/r}-1)$. (b) Keep $r/6$ (Majorana): rewrite \S1 in
+Araki's \emph{self-dual} CAR formalism (self-dual one-particle space
+$L^2(\mathbb R;\mathbb C^r)$ with conjugation, basis projection $P_+$), and
+replace the Powers--St\o rmer Theorem 5.1 criterion by Araki's self-dual
+quasi-equivalence criterion --- \S7's citation would then be to the wrong
+theorem. Option (a) is the smaller edit.
+\end{verdictbreak}
+
+\section{\S10 of the Note: the normal twirled zero-collar channel}\label{sec:ten}
+
+\subsection{Measurability, boundedness, unitality, complete positivity, normality}
+
+Throughout, $\cF_r(I)$ acts on the separable vacuum Hilbert space, so its
+predual is separable; we use this twice.
+
+\begin{proposition}\label{prop:twirl}
+$t\mapsto\overline\beta_{s_t}(x)$ is ultraweakly measurable and
+$\norm{\overline\beta_{s_t}(x)}\le\norm x$ for every $x\in\cF_r(I)$; the
+ultraweak integral \textup{(twirled-beta)} $\overline\beta(x)=\int p(t)
+\overline\beta_{s_t}(x)\dd t$ defines a unital, completely positive, normal map
+$\cF_r(ABC)\to\cF_r(AB)$.
+\end{proposition}
+\lstep{1}{1}{For $x\in\CAR(H_I)$, $t\mapsto\beta_{s_t}(x)$ is \emph{norm} continuous.}
+\lproof
+\lstep{2}{1}{$\norm{a(f)-a(g)}=\norm{f-g}_{H}$, and $t\mapsto W_{s_t}f$ is
+ $L^2$-continuous for each $f$.}
+\lby{$\norm{a(h)}=\norm h$ in the CAR algebra; $s\mapsto V_s$ is strongly
+ continuous (dominated convergence in (V-explicit)) and $t\mapsto s_t$ is continuous}
+\lstep{2}{2}{Hence $t\mapsto\beta_{s_t}(P)$ is norm continuous for every
+ $*$-polynomial $P$ in the generators, and by density for every $x\in\CAR(H_I)$.}
+\lby{$\langle2\rangle1$, $\beta_s$ is isometric, and polynomials are norm dense in $\CAR(H_I)$}
+\lqed{2}{3}\lby{$\langle2\rangle1$, $\langle2\rangle2$}
+\lstep{1}{2}{For general $x\in\cF_r(I)$ pick a \emph{sequence} $x_n\in\CAR(H_I)$
+ with $\norm{x_n}\le\norm x$ and $x_n\to x$ $\sigma$-strongly.}
+\lby{Kaplansky's density theorem applied to the ultraweakly dense $*$-subalgebra
+ $\CAR(H_I)\subset\cF_r(I)$, plus metrisability of the $\sigma$-strong topology
+ on bounded sets (separable predual), which turns the net into a sequence}
+\lstep{1}{3}{For each $t$ and each normal $\varphi$,
+ $\varphi(\overline\beta_{s_t}(x))=\lim_n\varphi(\overline\beta_{s_t}(x_n))$;
+ each summand is continuous in $t$, so the limit is Borel measurable in $t$.}
+\lby{$\overline\beta_{s_t}$ is normal, hence bounded-$\sigma$-strongly continuous;
+ $\langle1\rangle1$, $\langle1\rangle2$; a pointwise limit of measurable
+ functions is measurable}
+\lstep{1}{4}{$\norm{\overline\beta_{s_t}(x)}\le\norm x$; hence
+ $x\mapsto\int p(t)\varphi(\overline\beta_{s_t}(x))\dd t$ is a well-defined
+ normal-functional-valued pairing with $\abs\cdot\le\norm\varphi\norm x$, so
+ \textup{(twirled-beta)} defines $\overline\beta(x)\in\cF_r(AB)$.}
+\lby{$\overline\beta_{s_t}$ is a unital $*$-isomorphism, hence isometric;
+ $\int p=1$ (Appendix); the map $\varphi\mapsto\int p(t)\varphi\circ
+ \overline\beta_{s_t}\dd t$ is a bounded map $\cF_r(AB)_*\to\cF_r(I)_*$ by
+ Bochner integration (Pettis: weak measurability by $\langle1\rangle3$ +
+ separability), and $\overline\beta$ is its Banach-space adjoint restricted to $\cF_r(AB)$}
+\lstep{1}{5}{$\overline\beta(1)=\int p(t)\,1\,\dd t=1$; and $\overline\beta$ is
+ completely positive.}
+\lby{each $\overline\beta_{s_t}$ is a unital $*$-homomorphism, hence unital and
+ completely positive; $p\ge0$, $\int p=1$; CP is preserved by pointwise
+ ultraweak integrals of CP maps (test against positive elements of $M_n\otimes\cF_r(I)$)}
+\lstep{1}{6}{$\overline\beta$ is normal.}
+\lproof
+\lstep{2}{1}{$\overline\beta$ is the adjoint of the bounded predual map of
+ $\langle1\rangle4$, hence $\sigma$-weakly continuous.}
+\lby{$\langle1\rangle4$: a map is normal iff it is the adjoint of a bounded map
+ of preduals}
+\lstep{2}{2}{Alternatively, the Note's argument: for $0\le x_n\uparrow x$ and
+ $\varphi$ normal positive, $\varphi(\overline\beta_{s_t}(x_n))\uparrow
+ \varphi(\overline\beta_{s_t}(x))$ pointwise in $t$, and the scalar monotone
+ convergence theorem gives $\varphi(\overline\beta(x_n))\uparrow\varphi(\overline\beta(x))$.}
+\lby{normality of each $\overline\beta_{s_t}$; Beppo Levi}
+\lqed{2}{3}\lby{$\langle2\rangle1$}
+\lqed{1}{7}\lby{$\langle1\rangle3$--$\langle1\rangle6$}
+
+\begin{verdictgap}
+\textbf{[GAP, repairable] Note \S10, paragraph before (twirled-beta) and the
+normality argument.}
+(i) ``\emph{One may see this first on the norm-dense CAR algebra}'' --- the CAR
+algebra is \emph{not} norm dense in the von Neumann algebra $\cF_r(I)$; it is
+only ultraweakly dense. (ii) ``\emph{and then on the von Neumann algebra by
+bounded strong approximation from the increasing collar algebras}'' --- bounded
+strong approximation produces a \emph{net}, and measurability is not stable
+under pointwise limits along nets. The repair is
+\cref{prop:twirl}$\langle1\rangle2$: with a \emph{separable} predual, Kaplansky
+gives a \emph{sequence}, and pointwise limits of sequences of measurable
+functions are measurable. (iii) The normality argument is stated for
+\emph{sequences} $0\le x_n\uparrow x$, whereas normality is a statement about
+bounded increasing \emph{nets}; the monotone convergence theorem is false for
+nets (the pointwise supremum need not be measurable). Again separability of the
+predual repairs it (or, cleanly, the predual-adjoint argument
+$\langle2\rangle1$). None of this is deep, but as written the argument is
+incomplete.
+\end{verdictgap}
+
+\subsection{Lemma 10.1: continuity of the fidelity from below}
+
+\begin{citedbox}{Alberti 1983, variational formula --- \textbf{NOT OBTAINED}}
+Alberti, ``A note on the transition probability over $C^*$-algebras'', Lett.\
+Math.\ Phys.\ \textbf{7} (1983) 25--32, is paywalled and no open restatement was
+found in \texttt{refs/} (Alberti--Uhlmann, arXiv:math-ph/0202038, treats the
+Bures distance for inner-derived forms, not this formula). The formula used is
+$\Fid(\varphi,\psi)^2=\inf\{\varphi(x)\psi(x^{-1}):x\in M,\ x>0\text{ invertible}\}$.
+\textbf{Consistency check we \emph{can} perform:} the Note's ``arithmetic''
+version is equivalent to the multiplicative one. Indeed for fixed $x>0$ and
+$c>0$, $\inf_{c>0}\frac12\bigl(c\,\varphi(x)+c^{-1}\psi(x^{-1})\bigr)
+=\sqrt{\varphi(x)\psi(x^{-1})}$ (AM--GM, attained at
+$c=\sqrt{\psi(x^{-1})/\varphi(x)}$), and $x\mapsto cx$ ranges over all positive
+invertible elements; hence
+$\inf_{x>0}\frac12(\varphi(x)+\psi(x^{-1}))=\inf_{x>0}\sqrt{\varphi(x)\psi(x^{-1})}=\Fid(\varphi,\psi)$.
+So the Note's display is correct \emph{given} Alberti's theorem.
+\textbf{Verdict on the usage:} the Note cites nothing at all for this formula.
+[MINOR] --- a citation is needed, with the hypotheses (normal states on a von
+Neumann algebra; $\Fid$ = root fidelity).
+\end{citedbox}
+
+\begin{lemma}[Note's Lemma 10.1]\label{lem:fidbelow}
+Let $M_n\nearrow M$ be an increasing sequence of von Neumann subalgebras of $M$
+with $\bigcup_nM_n$ $\sigma$-strongly dense in $M$, $M$ with separable predual.
+For normal states $\varphi,\psi$ on $M$,
+$\Fid_{M_n}(\varphi|_{M_n},\psi|_{M_n})\downarrow\Fid_M(\varphi,\psi)$.
+\end{lemma}
+\lstep{1}{1}{$\Fid_{M_n}\ge\Fid_{M_{n+1}}\ge\Fid_M$, so the limit exists and is $\ge\Fid_M$.}
+\lby{restriction along an inclusion $M_n\subset M_{n+1}$ is (the adjoint of) a
+ channel, and root fidelity is monotone non-decreasing under channels}
+\lstep{1}{2}{Fix $x\in M$, $x>0$ invertible; then automatically
+ $m\one\le x\le M_0\one$ with $m=\norm{x^{-1}}^{-1}>0$, $M_0=\norm x$.}
+\lby{spectral theorem: $\mathrm{sp}(x)\subset[m,M_0]\subset(0,\infty)$}
+\lstep{1}{3}{There is a sequence $y_k\in\bigcup_nM_n$, $y_k=y_k^*$,
+ $\norm{y_k}\le M_0$, with $y_k\to x$ $\sigma$-strongly.}
+\lby{Kaplansky density (self-adjoint part) applied to the $*$-algebra
+ $\bigcup_nM_n$; sequences suffice by separability of the predual}
+\lstep{1}{4}{Let $f:\mathbb R\to[m,M_0]$ be continuous with $f=\id$ on $[m,M_0]$
+ and set $x_k=f(y_k)\in M_{n_k}$. Then $m\one\le x_k\le M_0\one$,
+ $x_k\to f(x)=x$ and $x_k^{-1}=g(y_k)\to g(x)=x^{-1}$ $\sigma$-strongly,
+ where $g=1/f$.}
+\lby{continuous functional calculus of a self-adjoint element of $M_{n_k}$ stays in
+ $M_{n_k}$; and $y\mapsto f(y)$ is strongly continuous on bounded sets of
+ self-adjoint elements for continuous $f$ (Stone--Weierstrass + boundedness)}
+\lstep{1}{5}{$\varphi(x_k)\to\varphi(x)$ and $\psi(x_k^{-1})\to\psi(x^{-1})$.}
+\lby{$\langle1\rangle4$: bounded $\sigma$-strong convergence implies
+ $\sigma$-weak convergence, and $\varphi,\psi$ are normal}
+\lstep{1}{6}{$\lim_n\Fid_{M_n}\le\liminf_k\Fid_{M_{n_k}}
+ \le\liminf_k\frac12(\varphi(x_k)+\psi(x_k^{-1}))=\frac12(\varphi(x)+\psi(x^{-1}))$.}
+\lby{$\langle1\rangle1$ (monotone), the variational formula applied in $M_{n_k}$
+ with the admissible element $x_k$, and $\langle1\rangle5$}
+\lstep{1}{7}{Taking $\inf$ over $x$: $\lim_n\Fid_{M_n}\le\Fid_M$.}
+\lby{$\langle1\rangle6$ and the variational formula in $M$}
+\lqed{1}{8}\lby{$\langle1\rangle1$, $\langle1\rangle7$}
+\begin{verdictok}
+Lemma 10.1 is correct and the Note's proof sketch is essentially the proof
+above. Its three ingredients hold: (a) $\Fid_{M_n}$ \emph{is} decreasing
+(monotonicity of fidelity under the restriction channel); (b) the restriction
+to $m\one\le x\le M_0\one$ is not a restriction at all --- every positive
+invertible element of a von Neumann algebra is bounded above and below; (c) the
+Kaplansky + functional-calculus step is valid, and the inverses converge because
+of the uniform lower bound $m$. \emph{Caveat:} sequences (rather than nets)
+require the separable predual, which the Note does not mention.
+\end{verdictok}
+
+\begin{lemma}[the hypotheses of \cref{lem:fidbelow} hold for the collar algebras]\label{lem:collardense}
+$\bigcup_{n}\cM_{\eps_n}$ is $\sigma$-strongly dense in $\cF_r(I)$ for any
+$\eps_n\downarrow0$.
+\end{lemma}
+\lstep{1}{1}{$\cM_\eps=\{a(f):f\in L^2(A_\eps\cup D;\mathbb C^r)\}''$ and
+ $\cF_r(I)=\{a(f):f\in L^2(I;\mathbb C^r)\}''$.}
+\lby{definition of the free-fermion field net}
+\lstep{1}{2}{$\bigcup_n L^2(A_{\eps_n}\cup D;\mathbb C^r)$ is dense in
+ $L^2(I;\mathbb C^r)$, because $I\setminus(A_{\eps_n}\cup D)=[-\eps_n,0]$ has
+ measure $\to0$.}
+\lby{dominated convergence}
+\lstep{1}{3}{$f\mapsto a(f)$ is isometric, so
+ $\bigcup_n\CAR(L^2(A_{\eps_n}\cup D))$ is norm dense in $\CAR(L^2(I))$, hence
+ $\sigma$-strongly dense in $\cF_r(I)$.}
+\lby{$\langle1\rangle2$ and von Neumann's density theorem}
+\lqed{1}{4}\lby{$\langle1\rangle3$}
+\begin{verdictok}
+``\emph{As $\eps\downarrow0$, the algebras $\cM_\eps$ increase strongly to
+$\cF_r(I)$}'' is correct. (For a general conformal net this would be
+\emph{strong additivity} at the point $0$, a nontrivial property; for the CAR
+net it is trivial because a point is Lebesgue-null. The Note does not say this.)
+\end{verdictok}
+
+\subsection{The FHSW inequality at the collar and the \texorpdfstring{$\eps\to0$}{eps to 0} limit}
+
+\begin{citedbox}{FHSW 2020, Theorem 1 (arXiv:2006.08002 p.~5, eq.~(24))}
+Transcribed: ``\emph{Theorem 1 (Faithful case). Monotonicity of relative entropy
+can be strengthened to}
+\[
+ S_\cA(\rho|\sigma)-S_\cB(\rho|\sigma)\ \ge\ -2\int_{-\infty}^{\infty}
+ \ln \Fid\bigl(\rho,\rho\circ\iota\circ\alpha^t_\sigma\bigr)\,p(t)\dd t,\tag{24}
+\]
+\emph{where we assume that $\rho,\sigma$ are normal, $\sigma$ is faithful and
+where $\alpha^t_\sigma:\cA\to\cB$ is the rotated Petz map, defined as} (25)
+\emph{\dots\ $p(t)$ is the normalized probability density defined by}
+$p(t)=\frac\pi{\cosh(2\pi t)+1}$ \emph{(26)}.''\\[2pt]
+\includegraphics[width=.98\textwidth]{shots/FHSW_thm1.png}\\[2pt]
+\textbf{Use in the Note:} eq.~(FHWS-collar) with $\cA=\cM_\eps$,
+$\cB=\cN_\eps$, $\rho=\omega$, $\sigma=\sigma_\eps$.
+\textbf{Verdict on the usage:} \textbf{correct}, and this is worth emphasising:
+FHSW prove the \emph{integrated} form $-2\int p(t)\ln\Fid\,\dd t$, which is
+\emph{stronger} than the more familiar $-2\ln\int p(t)\Fid\,\dd t$ (Jensen).
+The Note is entitled to the strong form. Hypotheses: $\rho=\omega|_{\cM_\eps}$
+and $\sigma_\eps$ are normal, and $\sigma_\eps=\omega_{A_\eps}\otimes\omega_D$
+is faithful (both factors are, by Reeh--Schlieder). The Note's
+$p(t)=\frac\pi{1+\cosh 2\pi t}$ matches (26). One notational point: FHSW's
+$\rho\circ\iota\circ\alpha^t_\sigma$ is the Note's $\widetilde\omega_t$
+restricted to $\cM_\eps$ (\cref{thm:normal}).
+\end{citedbox}
+
+\begin{proposition}\label{prop:limit}
+$\CMI_\omega(A:C\mid B)\ge-2\int_{\mathbb R}p(t)\log\Fid_{\cF_r(I)}(\omega,\widetilde\omega_t)\dd t$.
+\end{proposition}
+\lstep{1}{1}{For each $\eps>0$:
+ $\delta_\eps\ge-2\int p(t)\log\Fid_{\cM_\eps}(\omega,\widetilde\omega_t)\dd t$.}
+\lby{FHSW Theorem 1 with $S_{\cM_\eps}(\omega|\sigma_\eps)=\MI_r(A_\eps,D)$ and
+ $S_{\cN_\eps}(\omega|\sigma_\eps)=\MI_r(A_\eps,B)$ --- both by the definition
+ of mutual information as the relative entropy to the product state --- and
+ \cref{lem:tens}, \cref{thm:normal}}
+\lstep{1}{2}{For each fixed $t$,
+ $-\log\Fid_{\cM_{\eps_n}}(\omega,\widetilde\omega_t)\uparrow
+ -\log\Fid_{\cF_r(I)}(\omega,\widetilde\omega_t)\in[0,\infty]$ as $\eps_n\downarrow0$.}
+\lby{\cref{lem:fidbelow} + \cref{lem:collardense}; $-\log$ is decreasing and
+ $\Fid\le1$ so the integrand is $\ge0$}
+\lstep{1}{3}{$\int p(t)\bigl(-\log\Fid_{\cM_{\eps_n}}\bigr)\dd t
+ \uparrow\int p(t)\bigl(-\log\Fid_{\cF_r(I)}\bigr)\dd t$.}
+\lby{monotone convergence theorem (Beppo Levi) --- legitimate because by
+ $\langle1\rangle2$ the integrands are non-negative and increase pointwise
+ along the \emph{sequence} $\eps_n$}
+\lstep{1}{4}{$\delta_{\eps_n}\to\CMI_\omega(A:C\mid B)$.}
+\lby{\cref{lem:deps} --- an explicit continuous function of $\eps$ at $\eps=0$}
+\lstep{1}{5}{$\CMI=\lim_n\delta_{\eps_n}\ge\lim_n\bigl(-2\int p\log\Fid_{\cM_{\eps_n}}\bigr)
+ =-2\int p\log\Fid_{\cF_r(I)}$.}
+\lby{$\langle1\rangle1$ for each $n$, $\langle1\rangle3$, $\langle1\rangle4$}
+\lqed{1}{6}\lby{$\langle1\rangle5$}
+\begin{verdictok}
+Eq.~(fixed-t-integrated-bound) is correct. The monotone-convergence exchange is
+justified: the integrands are non-negative and \emph{increase} (\cref{lem:fidbelow}),
+so Beppo Levi applies; one only needs $\eps$ to run through a sequence, which is
+harmless since $\delta_\eps$ is continuous at $0$. Note that the Note's phrase
+``\emph{monotone convergence and (delta-eps) yield}'' conflates the monotone
+limit of the right-hand side with the (merely continuous, not monotone) limit
+of $\delta_\eps$; the logic $\langle1\rangle5$ above is what is meant and it is
+valid. In fact $\delta_\eps$ \emph{is} decreasing in $\eps$ here
+(differentiating $\log\frac{L+\eps}{b+\eps}$ in $\eps$ gives
+$\frac1{L+\eps}-\frac1{b+\eps}<0$ since $b<L$), so no issue arises.
+\end{verdictok}
+
+\subsection{Concavity, AM--GM, and the final bounds}
+
+\begin{proposition}\label{prop:final}
+$\Fid(\omega,\overline\omega)\ge\int p(t)\Fid(\omega,\widetilde\omega_t)\dd t
+\ge\exp\bigl(\int p(t)\log\Fid(\omega,\widetilde\omega_t)\dd t\bigr)
+\ge e^{-\CMI_\omega(A:C|B)/2}$, and
+$\norm{\omega-\overline\omega}\le2\sqrt{1-\Fid(\omega,\overline\omega)^2}$.
+\end{proposition}
+\lstep{1}{1}{$\overline\omega=\omega|_{\cF_r(AB)}\circ\overline\beta
+ =\int p(t)\widetilde\omega_t\dd t$ as normal states.}
+\lby{(twirled-beta) evaluated against the normal state $\omega|_{\cF_r(AB)}$}
+\lstep{1}{2}{$\psi\mapsto\Fid(\omega,\psi)$ is concave on normal states, and
+ more precisely $\Fid(\omega,\int p\,\psi_t\dd t)\ge\int p\,\Fid(\omega,\psi_t)\dd t$.}
+\lproof
+\lstep{2}{1}{$\Fid(\omega,\psi)=\inf_{x>0}\frac12(\omega(x)+\psi(x^{-1}))$, and for
+ fixed $x$ the map $\psi\mapsto\frac12(\omega(x)+\psi(x^{-1}))$ is affine.}
+\lby{the variational formula (Alberti; see the cited box above)}
+\lstep{2}{2}{$\Fid(\omega,\int p\psi_t)=\inf_x\int p(t)\tfrac12(\omega(x)+\psi_t(x^{-1}))\dd t
+ \ge\int p(t)\inf_x\tfrac12(\omega(x)+\psi_t(x^{-1}))\dd t=\int p\Fid(\omega,\psi_t)$.}
+\lby{$\langle2\rangle1$, $\int p=1$, and $\inf\int\ge\int\inf$}
+\lqed{2}{3}\lby{$\langle2\rangle1$, $\langle2\rangle2$}
+\lstep{1}{3}{$\int p\,\Fid\ge\exp\bigl(\int p\log\Fid\bigr)$.}
+\lby{Jensen's inequality for the concave function $\log$ with the probability
+ measure $p(t)\dd t$: $\log\int p\Fid\ge\int p\log\Fid$ (trivially true if
+ $\Fid=0$ on a set of positive measure)}
+\lstep{1}{4}{$\int p\log\Fid\ge-\frac12\CMI$, hence
+ $\Fid(\omega,\overline\omega)\ge e^{-\CMI/2}$.}
+\lby{\cref{prop:limit}, $\langle1\rangle2$, $\langle1\rangle3$}
+\lstep{1}{5}{$\norm{\omega-\overline\omega}\le2\sqrt{1-\Fid^2}$.}
+\lby{the Fuchs--van de Graaf inequality; in the von Neumann setting it follows
+ from \cite[eq.~(4)]{FHSW},
+ $\norm{\omega_\phi-\omega_\psi}\le\norm{\xi_\phi-\xi_\psi}\norm{\xi_\phi+\xi_\psi}$,
+ with $\xi_\phi,\xi_\psi$ the natural-cone representatives realising $\Fid$:
+ $\norm{\xi_\phi\mp\xi_\psi}^2=2\mp2\Fid$, so the product is
+ $2\sqrt{(1-\Fid)(1+\Fid)}=2\sqrt{1-\Fid^2}$}
+\lqed{1}{6}\lby{$\langle1\rangle4$, $\langle1\rangle5$}
+\begin{verdictok}
+The chain of \S10 is valid: joint concavity of root fidelity (needed only in the
+second argument, and provable in one line from the variational formula, as in
+$\langle1\rangle2$) and the AM--GM/Jensen step are both correct, and the final
+bound $\Fid\ge e^{-\CMI/2}$ follows. Eq.~(zero-collar-norm)'s first inequality
+$\norm{\omega-\overline\omega}\le2\sqrt{1-\Fid^2}$ is correct (and can be cited
+to FHSW eq.~(4)).
+\end{verdictok}
+\begin{verdictgap}
+\textbf{[MINOR] Note \S10, eqs.~(zero-collar-fidelity), (zero-collar-norm).}
+(i) The identifications $e^{-\CMI/2}=\eta^{r/12}$ and $2\sqrt{1-\eta^{r/6}}$ are
+subject to the factor-$2$ issue of \cref{thm:break}: with the Note's own \S1
+they should be $\eta^{r/6}$ and $2\sqrt{1-\eta^{r/3}}$.
+(ii) The Note cites nothing for ``\emph{Joint concavity of root fidelity and the
+arithmetic--geometric mean inequality}'' nor for the Fuchs--van de Graaf step;
+in the von Neumann setting these need Uhlmann/Alberti and FHSW eq.~(4)
+respectively. (iii) A remark the Note might add: the same final bound follows
+from the \emph{weaker} form $\delta_\eps\ge-2\log\int p\Fid$ by
+$\langle1\rangle2$ alone, so the argument is robust against the exact form of
+the FHSW inequality.
+\end{verdictgap}
+
+\section{Appendix of the Note: the two elementary checks}\label{sec:app}
+
+\lstep{1}{1}{$0\le R_s(u,v)\le\frac{suv}{L(u+v)^2}\le\frac s{4L}$.}
+\lproof
+\lstep{2}{1}{$R_s=\frac{suv}{(u+v)(L(u+v)+suv)}\le\frac{suv}{(u+v)\cdot L(u+v)}$.}
+\lby{dropping the non-negative term $suv$ from the denominator}
+\lstep{2}{2}{$4uv\le(u+v)^2$, i.e.\ $\frac{uv}{(u+v)^2}\le\frac14$.}
+\lby{$(u-v)^2\ge0$}
+\lqed{2}{3}\lby{$\langle2\rangle1$, $\langle2\rangle2$}
+\lstep{1}{2}{$\norm{\Delta_s}_2^2=\frac r{4\pi^2}\norm{R_s}_2^2
+ \le\frac r{4\pi^2}\cdot\frac{s^2}{16L^2}\cdot aL=\frac{ras^2}{64\pi^2L}$.}
+\lby{$\Delta_s=\frac i{2\pi}R_s\otimes1_{\mathbb C^r}$ (\cref{lem:cross}),
+ $\norm{R_s}_2^2=\int_0^a\!\!\int_0^LR_s^2\le\bigl(\frac s{4L}\bigr)^2aL$ by $\langle1\rangle1$}
+\lstep{1}{3}{$1+\cosh2x=2\cosh^2x$, so $p(t)=\frac\pi{2\cosh^2(\pi t)}$ and
+ $\int_{\mathbb R}p=\frac\pi2\cdot\frac1\pi\int\operatorname{sech}^2u\dd u
+ =\frac12\cdot2=1$.}
+\lby{$\cosh2x=2\cosh^2x-1$; substitution $u=\pi t$;
+ $\int_{-\infty}^\infty\operatorname{sech}^2u\dd u=[\tanh u]_{-\infty}^\infty=2$}
+\lqed{1}{4}\lby{$\langle1\rangle1$--$\langle1\rangle3$}
+\begin{verdictok}
+Both appendix checks are correct, including the numerical factor
+$\frac{ras^2}{64\pi^2L}$ in (HS-bound-appendix) and the normalisation
+$\int p=1$. The remark ``\emph{Hence the ultraviolet Cauchy singularity cancels
+pointwise}'' is justified: $R_s$ extends continuously by $0$ to the corner
+$(0,0)$ (along any path $u,v\to0$, $R_s\le\frac{s\max(u,v)}{4L}\to0$).
+\end{verdictok}
+
+\section{Summary of findings}\label{sec:summary}
+
+\newcommand{\Bk}{\textcolor{warn}{\textbf{BREAK}}}
+\newcommand{\Gp}{\textcolor{orange!80!black}{\textbf{GAP}}}
+\newcommand{\Mn}{\textbf{MINOR}}
+
+{\small
+\begin{longtable}{@{}p{1.4cm}p{4.5cm}p{9.3cm}@{}}
+\toprule
+Class & Location in Note~4 & Issue\\
+\midrule
+\endfirsthead
+\multicolumn{3}{@{}l}{\itshape (continued)}\\
+\toprule
+Class & Location in Note~4 & Issue\\
+\midrule
+\endhead
+\Bk & \S1.1 (one-particle space) vs.\ \S9 eqs.~(LX-MI), (CMI-LX),
+ (norm-CMI-relation), (small-z); \S10 (zero-collar-fidelity),
+ (zero-collar-norm); ``Main result'' box &
+ $H=L^2(\mathbb R;\mathbb C^r)$ with gauge-invariant $\CAR$ is $r$ \emph{Dirac}
+ fermions ($c=r$), but $\CMI=\frac r6\log(1+z)$ is Longo--Xu's value for $r$
+ \emph{Majorana} fermions ($c=r/2$). Factor $2$: should be $\frac r3\log(1+z)$,
+ $\frac r{2\pi}\log(2e^{3\CMI/r}-1)$, $\frac3\pi\CMI$, $\eta^{r/6}$,
+ $2\sqrt{1-\eta^{r/3}}$. See \cref{thm:break}.\\
+\addlinespace
+\Bk & (in the cited \emph{source}) FHSW \cite[\S4.2, eq.~(167) and the
+ definitional ``$t\ge0$'']{FHSW} &
+ (167) is $\Ad U(-a(1+e^{-2\pi t}))$ and maps $\cA$ \emph{out of} $\cB$,
+ contradicting FHSW's own (22); with their (25)+(166) the correct answer is
+ $\Ad U(a(1+e^{+2\pi t}))$. The hsm definition should read $t\le0$.
+ See \cref{thm:fhsw167}. The Note's (s-t) is nonetheless \emph{correct}
+ (\cref{thm:st}) --- two sign errors cancel.\\
+\addlinespace
+\Gp & \S2.1 last sentence; \S2.2 (s-t) &
+ The hsm \emph{sign} is never identified. $\cF_r(B)\subset\cF_r(D)$ is Borchers
+ case (B) ($+$hsm; $U$ has non-positive generator $-K/L$ with $K=xPx$), not the
+ ``standard'' case (A). $s_t$ is presented as a free convention; it is
+ determined. Derived here: \cref{lem:gen}, \cref{prop:borchers}, \cref{thm:st}.\\
+\addlinespace
+\Gp & \S3, (split-identifications) and Lemma 3.1 &
+ The proof uses ordinary-tensor-product modular data
+ ($J_{A_\eps D}=J_{A_\eps}\otimes J_D$) for a \emph{graded} tensor product;
+ the Klein transformation is invoked in one sentence but never carried out. The
+ split property (for the normality of $\sigma_\eps$) is asserted without citation.\\
+\addlinespace
+\Gp & \S5, first block display &
+ The $\delta$-term of the $D\times D$ block is never discussed
+ (it is invariant --- \cref{lem:mobinv}$\langle1\rangle2$--$\langle1\rangle3$),
+ and the preservation of the \emph{principal value} under the M\"obius change of
+ variables is not addressed (it holds, by an $O(\eps)$ estimate,
+ \cref{lem:mobinv}$\langle1\rangle6$).\\
+\addlinespace
+\Gp & \S10, paragraph before (twirled-beta) and the normality argument &
+ ``the norm-dense CAR algebra'' --- $\CAR(H_I)$ is only \emph{ultraweakly}
+ dense in $\cF_r(I)$; measurability is then argued along \emph{nets}, which is
+ invalid. Normality is argued for sequences but is a statement about nets. All
+ repaired by separability of the predual: \cref{prop:twirl}.\\
+\addlinespace
+\Gp & \S10, Lemma 10.1 (variational formula) &
+ Alberti's formula $\Fid^2=\inf_{x>0}\varphi(x)\psi(x^{-1})$ is used with no
+ citation and no hypotheses. (Alberti 1983 \textbf{NOT OBTAINED} --- paywalled,
+ no open restatement in \texttt{refs/}.) The Note's arithmetic form is
+ equivalent to the multiplicative one; proof supplied.\\
+\midrule
+\Mn & \S1.1 & Fourier convention never stated; under
+ $\widehat f(k)=\int fe^{-ikx}$ the operator called $P_+$ projects on $k<0$
+ (correctly, the positive-energy subspace). \cref{lem:freq}.\\
+\Mn & Lemma 2.1 & ``unitary onto its range and $V_s^*V_s=1$'' only states
+ isometry; surjectivity onto $L^2(D_s)$ is what \S4 uses.\\
+\Mn & \S4, after (beta-Cstar) & ``its restriction to the collar algebra''
+ presupposes Theorem 7.2 (a $C^*$-map has no restriction to a von Neumann algebra).\\
+\Mn & \S7, proof of Thm 7.2 & surjectivity of $\beta_s$ is used implicitly
+ (otherwise one only gets a normal iso onto a subalgebra of $\cF_r(J_s)$).\\
+\Mn & \S8 & $\norm{\Delta_t}_1\to\infty$ as $t\to-\infty$: the trace-class
+ defect is not uniform in $t$, so no Schatten control of the twirled channel.\\
+\Mn & \S10 & no citation for joint concavity of root fidelity, for
+ AM--GM/Jensen, or for the Fuchs--van de Graaf step (zero-collar-norm).\\
+\Mn & \S10, $\eps\to0$ & $\bigvee_\eps\cM_\eps=\cF_r(I)$ is \emph{strong
+ additivity at the point $0$}; trivial for the CAR net but worth saying.\\
+\Mn & (source) Longo--Xu intro, p.~2 & the cross ratio printed there,
+ $\eta=\frac{(b_1-a_2)(b_2-a_1)}{(b_1-a_1)(b_2-a_2)}$, is negative for
+ $b_1<a_2$ and is not in $(0,1)$ even in modulus; Thm 3.18 gives
+ $\eta=\frac{(a_2-b_1)(b_2-a_1)}{(a_2-a_1)(b_2-b_1)}$, which is what the Note
+ in fact uses. \cref{lem:lxmi}.\\
+\bottomrule
+\end{longtable}}
+
+\paragraph{What survives unscathed.} The technical core of the Note is
+\emph{correct}: \cref{lem:qh} (the coordinate $q$ and the flow $h_s$),
+\cref{prop:alpha0} (the ordinary Petz map $=\gamma_{2\lambda}$),
+\cref{thm:st} (the rotated $s_t$), \cref{lem:V}, \cref{lem:ks}
+(the glued $C^*$-map), \cref{lem:mobinv} and \cref{lem:cross} (the block
+structure and $\Delta_s$), \cref{lem:Jd}--\cref{prop:laplace} (the Hankel
+reduction and the Laplace factorisation), \cref{thm:trace} (the exact trace
+norm, confirmed to $10$--$11$ digits numerically), \cref{cor:qe} and
+\cref{thm:normal} (Powers--St\o rmer $\Rightarrow$ normal extension),
+\cref{prop:twirl}--\cref{prop:final} (the twirled channel and the fidelity
+bound). The single genuine error is the factor $2$ of \cref{thm:break}, which
+is a normalisation mismatch and not an error in any operator computation.
+
+\begin{thebibliography}{99}
+\bibitem{FHSW} T.~Faulkner, S.~Hollands, B.~Swingle, Y.~Wang,
+ \emph{Approximate recovery and relative entropy I: general von Neumann
+ subalgebras}, CMP \textbf{389} (2022) 349--397; arXiv:2006.08002
+ (\texttt{refs/FHSW20\_2006.08002.pdf}; all equation numbers refer to the arXiv v1).
+\bibitem{LX} R.~Longo, F.~Xu, \emph{Relative entropy in CFT}, Adv.\ Math.\
+ \textbf{337} (2018) 139--170; arXiv:1712.07283 (\texttt{refs/LongoXu\_1712.07283.pdf}).
+\bibitem{PS} R.~T.~Powers, E.~St\o rmer, \emph{Free states of the canonical
+ anticommutation relations}, CMP \textbf{16} (1970) 1--33
+ (\texttt{refs/PowersStormer70.pdf}).
+\bibitem{Borchers} H.-J.~Borchers, \emph{The CPT-theorem in two-dimensional
+ theories of local observables}, CMP \textbf{143} (1992) 315--332
+ (\texttt{refs/Borchers92\_CMP143.pdf}); Theorem II.9, p.~323.
+\bibitem{BGL} R.~Brunetti, D.~Guido, R.~Longo, \emph{Modular structure and
+ duality in conformal quantum field theory}, CMP \textbf{156} (1993) 201--219;
+ arXiv:funct-an/9302008 (\texttt{refs/BGL93\_funct-an-9302008.pdf}).
+\bibitem{Wiesbrock} H.-W.~Wiesbrock, \emph{Half-sided modular inclusions of von
+ Neumann algebras}, CMP \textbf{157} (1993) 83--92; and CMP \textbf{158} (1993)
+ 537--543. \textbf{NOT OBTAINED} (Project Euclid download failed; the results
+ needed are quoted through \cite[\S4.2]{FHSW} and, in the form actually used
+ here, through Borchers \cite{Borchers} Thm II.9, which is self-contained).
+\bibitem{Alberti} P.~M.~Alberti, \emph{A note on the transition probability over
+ $C^*$-algebras}, Lett.\ Math.\ Phys.\ \textbf{7} (1983) 25--32.
+ \textbf{NOT OBTAINED} (paywalled; no open restatement of the variational
+ formula found in \texttt{refs/}).
+\bibitem{Araki71} H.~Araki, \emph{On quasifree states of CAR and Bogoliubov
+ automorphisms}, PRIMS \textbf{6} (1971) 385--442 (\texttt{refs/Araki71.pdf}).
+\bibitem{CH09} H.~Casini, M.~Huerta, \emph{Reduced density matrix and internal
+ dynamics for multicomponent regions}, CQG \textbf{26} (2009);
+ arXiv:0903.5284 (\texttt{refs/CasiniHuerta09\_0903.5284.pdf}).
+\end{thebibliography}
+
+
+\section*{Orchestrator's correction (added after cross-checking with agent R1 and the Longo--Xu text)}
+\begin{verdictok}
+The item reported above as a proof-breaking issue --- that Longo--Xu's coefficient \(r/6\) refers to \(r\) Majorana fermions so that the notes' Dirac-fermion CMI should carry \(r/3\) --- is \emph{incorrect}.  Longo--Xu, Section~3.6, define their net through \(\mathrm{CAR}(H_i)\) with \(H_i\subset L^2(I_i,\mathbb C^r)\), i.e.\ \(r\) complex (Dirac) chiral fermions with central charge \(c=r\) (their \(\mathcal A_1=U(1)_1\), \S4.4.1; \(U(mn)_1\supset\mathrm{Spin}(2mn)_1\), \S4.4.2); Definition~3.17 and Theorem~3.18 give, for two intervals, \(\frac r6\log\frac{(a_2-a_1)(b_2-b_1)}{(a_2-b_1)(b_2-a_1)}\), which is eq.\ (LX-MI) of Note~4 verbatim.  The chiral value is half of the non-chiral \(\frac c3\log\) (Casini--Huerta eq.~(26)), as confirmed numerically by agent R1 on the half-filled chain.  All coefficients in Notes 1, 2, 4, 5, 7 are correctly normalized.  The remaining findings of this document stand.
+\end{verdictok}
+\end{document}

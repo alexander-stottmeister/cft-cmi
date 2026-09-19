@@ -1,0 +1,6 @@
+# kind=first s=0.1 h=0.4 LamA=8.0 LamC=6.0 N=44 nA=20 nB=9 nC=15 kappa_max=4.546 zeta=0.033333 f2 zeta^2=9.381591e-06
+# compression defect: g_Q(d_c)=8.13854170e-06  g_Q/(f2 zeta^2)=0.867501  V(t_c)=4.069271e-06  Tr t_c d_c=1.627708e-05  ||t_c||_1=1.4670e-02  Legendre=1.0000000000
+# LP at t_c: Delta(t_c)=-1.680609e-04  Delta/(2 g_Q(d_c))=-10.324998  dual=0.000000e+00  dual/(f2 zeta^2)=0.000000  [optimal] 145s
+# PRIMAL: min_F g_Q = 6.72528192e-05 (recomputed 6.72528192e-05)  min/(f2 zeta^2)=7.168594  min/g_Q(d_c)=8.263498  [optimal] 445s
+# KKT at the primal optimum: Delta(t_opt)=1.34506886e-04  2 g=1.34505638e-04  gap=-9.274e-06  dual/min=1.00001855  [optimal] 18s
+# structure: ||d_opt - d_c||_F/||d_c||_F=2.3664  ||d_opt_DD||_F/||d_c||_F=0.0646  ||d_c_DD||=0.00e+00  sv(X_opt) in [0.0069,0.9999]  Tr(1-X X^*)=20.1706

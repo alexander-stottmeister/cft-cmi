@@ -1,0 +1,960 @@
+\documentclass[11pt]{article}
+\input{rigor_preamble}
+\newcommand{\Erecc}{E_{\mathrm{rec}}}
+\newcommand{\Stwo}{\mathfrak S_2}
+
+\title{A dual certificate for the quasi-free second-order recovery programme:\\
+is the zero-collar geometric compression optimal?}
+\author{Track S10 (Phase 3b)}
+\date{2026-09-10}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We study the convex programme
+$E := \inf_{(X,Z)\in\mathcal F} g_Q\bigl(Q-Q_{\rm rec}(X,Z)\bigr)$
+that governs, by Theorem 3.5 and Theorem 4.1 of \texttt{optimality\_all\_channels.tex},
+the second-order recovery defect for the chiral free fermion, and we ask whether its
+value is $f_2\,\zeta^2(1+o(1))$ with $f_2=c/(12\pi^2)$, i.e.\ whether the zero-collar
+geometric compression is the optimum. We set up the Lagrangian/KKT theory of the
+programme, we compute the first variation of the objective at the compression point,
+and we evaluate the Sion dual value on explicit test operators.
+The Verdict section states precisely what is proved and what is not.
+\end{abstract}
+
+\tableofcontents
+
+\section{Conventions and the statement of the programme}\label{sec:conv}
+
+\paragraph{(C1) One-particle space, Hardy projection, geometry.}
+$H:=L^2(\mathbb R)$, $P$ the one-particle vacuum (Hardy) projection of the chiral free
+fermion, $P^\perp:=1-P$; the sign convention ($P=P_+$ as in
+\texttt{uhlmann\_upper\_bound.tex} (C1), or $P=P_-$) is irrelevant below and is fixed
+once by writing $P$.  For a Borel set $S\subseteq\mathbb R$, $E_S$ is multiplication by
+$\mathbf 1_S$.  Geometry (Note~4/Note~5, and S8 \S1): $A=(-a,0)$, $B=(0,b)$, $C=(b,L)$,
+$D:=BC=(0,L)$, $I:=ABC=(-a,L)$, $I':=\mathbb R\setminus\overline I$, $c:=L-b$,
+cross ratio $z=ac/(b(a+b+c))$.  We write $\mathfrak h_S:=L^2(S)$, so
+$\mathfrak h_I=\mathfrak h_A\oplus\mathfrak h_D$ and $\mathfrak h_D=\mathfrak h_B\oplus\mathfrak h_C$,
+and $E_A+E_D=E_I$.  All operators called ``symbols'' act on $\mathfrak h_I$.
+
+\paragraph{(C2) Symbols and the vacuum symbol.}
+A gauge-invariant quasi-free state $\omega_Q$ on $\cA(I)$ has symbol $Q$ determined by
+$\omega_Q(a^*(f)a(g))=\langle g,Qf\rangle$ (S8 \S2).  The vacuum symbol is
+\begin{equation}\label{eq:Qvac}
+ Q=E_IPE_I\quad\text{on }\mathfrak h_I,\qquad 1_{\mathfrak h_I}-Q=E_IP^\perp E_I .
+\end{equation}
+$Q$ is \emph{not} a projection; $0<Q<1$ and its spectrum is the modular spectrum
+$q=(1+e^{\kappa})^{-1}$ of Note~5.
+
+\paragraph{(C3) The feasible set and the recovered symbol.}
+Put $R_+:=Q_{BB}=E_BPE_B$ and $R_-:=1_{\mathfrak h_B}-Q_{BB}=E_BP^\perp E_B$.  With
+$X:\mathfrak h_B\to\mathfrak h_D$ bounded and $Z=Z^*$ on $\mathfrak h_D$,
+\begin{equation}\label{eq:F}
+ \cF:=\bigl\{(X,Z):\ XR_+X^*\le Z\le 1_{\mathfrak h_D}-XR_-X^*\bigr\},\qquad
+ Q_{\rm rec}(X,Z)=\begin{pmatrix}Q_{AA}&Q_{AB}X^*\\ XQ_{BA}&Z\end{pmatrix},
+\end{equation}
+exactly as in S8 Thm.~3.1 and \texttt{optimality\_all\_channels.tex} Thm.~3.5.  It is
+convenient to use also the \emph{Heisenberg} one-particle map
+\begin{equation}\label{eq:V}
+ V:=X^*:\mathfrak h_D\to\mathfrak h_B ,
+\end{equation}
+for which a quasi-free channel acts by $\beta(a(g))=a(Vg)$, $g\in\mathfrak h_D$; then
+$Q_{\rm rec,AD}=Q_{AB}V$, $Q_{\rm rec,DD}=Z$ and $XR_\pm X^*=V^*R_\pm V$.  Feasibility
+forces $XX^*=V^*V\le 1_{\mathfrak h_D}$, i.e.\ $\|V\|\le1$.
+
+\paragraph{(C4) The objective.}
+With $w_{ik}=[q_i(1-q_k)+q_k(1-q_i)]^{-1}$ in an eigenbasis of $Q$ (S8 eq.~(3.9)),
+\begin{equation}\label{eq:gQ}
+ g_Q(\delta)=\tfrac14\sum_{ik}w_{ik}|\widetilde\delta_{ik}|^2
+ =\tfrac18\sup_{t=t^*}\frac{(\Tr t\delta)^2}{V(t)},\qquad
+ V(t):=\Tr\bigl(tQt(1-Q)\bigr),
+\end{equation}
+the supremum being attained at the symmetric logarithmic derivative (SLD) $t=t_\delta$,
+i.e.\ at the unique solution of
+\begin{equation}\label{eq:SLD}
+ \mathcal S_Q(t):=Qt(1-Q)+(1-Q)tQ=\delta ,
+\end{equation}
+and then $\Tr(t_\delta\delta)=2g_Q(\delta)$, $V(t_\delta)=\tfrac12 g_Q(\delta)$.  The
+programme under study is
+\begin{equation}\label{eq:prog}
+ E^{(2)}:=\min_{(X,Z)\in\cF}\ g_Q\bigl(Q-Q_{\rm rec}(X,Z)\bigr).
+\end{equation}
+
+\paragraph{(C5) The zero-collar compression.}
+$h_\lambda(x)=x/(1+\lambda x/L)$, $\lambda=c/b$, maps $D=(0,L)$ \emph{onto} $B=(0,b)$;
+$W_\lambda:=W_{k_\lambda}$ is the half-density push-forward \eqref{eq:pf} along the
+$C^{1,1}$ map $k_\lambda=\mathrm{id}$ on $A$, $=h_\lambda$ on $D$
+(\texttt{uhlmann\_upper\_bound.tex} (C3),(C4)):
+\begin{equation}\label{eq:pf}
+ (W_\phi f)(y)=f(\phi^{-1}(y))\,\bigl((\phi^{-1})'(y)\bigr)^{1/2},\qquad W_\phi^*=W_{\phi^{-1}} .
+\end{equation}
+The compression channel is $\beta_c(a(g))=a(V_cg)$ with $V_c:=E_BW_\lambda E_D$, and
+\begin{equation}\label{eq:comp}
+ X_c:=V_c^*,\qquad Z_c:=V_c^*Q_{BB}V_c,\qquad V_c^*V_c=1_{\mathfrak h_D},\quad V_cV_c^*=1_{\mathfrak h_B}.
+\end{equation}
+Thus $X_cX_c^*=1_{\mathfrak h_D}$ and \emph{both} constraints in \eqref{eq:F} are active:
+the admissible interval for $Z$ collapses to the single point $Z_c$.  Moreover $V_c$ is a
+\emph{unitary} $\mathfrak h_D\to\mathfrak h_B$ (this is a genuinely continuum feature: on a
+lattice $\dim\mathfrak h_B<\dim\mathfrak h_D$ and no such $V_c$ exists).
+
+\section{Working notes: the shape of the computation}\label{sec:notes}
+
+These notes record the derivations that the later sections formalise; they are kept in
+the document deliberately (they contain the algebra, not just the conclusions).
+
+\paragraph{(N1) The linear functional to be maximised.}
+Let $t=t^*$ on $\mathfrak h_I$ (i.e.\ $t=E_ItE_I$, finite rank or trace class).  Since
+$Q_{\rm rec,AA}=Q_{AA}$ for every feasible pair,
+\begin{equation}\label{eq:Lfun}
+ \Tr\bigl(t\,Q_{\rm rec}(X,Z)\bigr)=\Tr(t_{AA}Q_{AA})+L(X,Z),\qquad
+ L(X,Z):=2\Re\Tr\bigl(t_{DA}Q_{AB}X^*\bigr)+\Tr(t_{DD}Z),
+\end{equation}
+and $L$ is a real linear functional of $(X,Z)$.  Hence
+$\Delta_z(t):=\inf_{\cF}\Tr\,t(Q-Q_{\rm rec})=\Tr(tQ)-\Tr(t_{AA}Q_{AA})-\sup_\cF L$.
+
+\paragraph{(N2) Elimination of $Z$.}
+For fixed $X$, $Z$ ranges over $XR_+X^*+[0,\,1-XX^*]$, because
+$(1-XR_-X^*)-XR_+X^*=1-XX^*$.  With
+$\sup\{\Tr(mY):0\le Y\le G\}=\Tr\bigl[(G^{1/2}mG^{1/2})_+\bigr]$ one gets
+\begin{equation}\label{eq:Zelim}
+ \sup_{Z}L(X,Z)=2\Re\Tr(t_{DA}Q_{AB}V)+\Tr(t_{DD}V^*R_+V)
+  +\Tr\Bigl[\bigl((1-V^*V)^{1/2}t_{DD}(1-V^*V)^{1/2}\bigr)_+\Bigr],
+\end{equation}
+$V=X^*$, which is the reduction quoted in the Phase-3b brief.
+
+\paragraph{(N3) Global form.}
+Let $\mathcal V:=1_{\mathfrak h_A}\oplus(\iota_{B\to D}V):\mathfrak h_I\to\mathfrak h_I$, a
+contraction with range in $\mathfrak h_A\oplus\mathfrak h_B$.  Then
+$Q_{\rm rec}(X,Z)=\mathcal V^*Q\mathcal V+0_A\oplus Y$ with $0\le Y\le 1-V^*V$, so
+\begin{equation}\label{eq:global}
+ \Tr(tQ_{\rm rec})=\Tr\bigl(P\,\mathcal Vt\mathcal V^*\bigr)+\Tr(t_{DD}Y),
+\end{equation}
+using $\mathcal Vt\mathcal V^*=E_I\mathcal Vt\mathcal V^*E_I$ and \eqref{eq:Qvac}.  At the
+compression $\mathcal V_c=W_\lambda E_I$ and $Y=0$, so
+$\Tr(tQ_{\rm rec}^c)=\Tr(P\,W_\lambda tW_\lambda^*)$ and
+\begin{equation}\label{eq:deltac}
+ \delta_c:=Q-Q_{\rm rec}(X_c,Z_c)=E_I\bigl(P-W_\lambda^*PW_\lambda\bigr)E_I,\qquad
+ \Tr(t\delta_c)=\Tr\bigl(t(P-W_\lambda^*PW_\lambda)\bigr).
+\end{equation}
+This is \emph{exactly} the defect $Q-\widetilde Q_s$ of
+\texttt{uhlmann\_upper\_bound.tex}, Lemma~5.6 $\langle1\rangle2$, whose Bures norm is
+computed there and in \texttt{quadratic\_limit.tex}.
+
+\paragraph{(N4) Variance of a test operator: no modular weights.}
+If $t=E_ItE_I$ then, by \eqref{eq:Qvac} and $E_It=tE_I=t$,
+\begin{equation}\label{eq:Vt}
+ V(t)=\Tr\bigl(tQt(1-Q)\bigr)=\Tr\bigl(tPtP^\perp\bigr)=\|P^\perp tP\|_2^2 .
+\end{equation}
+(\texttt{uhlmann\_upper\_bound.tex} Lemma~5.6 $\langle1\rangle4$ uses the same identity.)
+Likewise, if $u=E_IuE_I$ is \emph{off-diagonal for $P$} ($PuP=P^\perp uP^\perp=0$) then
+\begin{equation}\label{eq:fixed}
+ \mathcal S_Q(u)=E_I\bigl(PuP^\perp+P^\perp uP\bigr)E_I=u ,
+\end{equation}
+i.e.\ such $u$ are fixed points of the SLD map: they are their own SLD.
+
+\paragraph{(N5) The small parameter and the leading defect.}
+Take the half-line configuration of \texttt{uhlmann\_upper\_bound.tex} (C4)
+($a=\infty$, $L=1$, so $z=\zeta=\lambda=s$, $B=(0,\frac1{1+s})$, $C=(\frac1{1+s},1)$):
+as $s\downarrow0$ the collar $C$ shrinks, $\mathfrak h_B\uparrow\mathfrak h_D$ and
+$W_s=1-sD_\chi+O(s^2)$ with $D_\chi=\chi\partial_x+\frac12\chi'$,
+$\chi(x)=-x^2\mathbf 1_{x>0}$ ($C^{1,1}$, $D_\chi^*=-D_\chi$).  Hence
+\begin{equation}\label{eq:dotdelta}
+ \delta_c=s\,\dot\delta+O(s^2),\qquad \dot\delta:=E_I\Theta E_I,\qquad
+ \Theta:=[P,D_\chi]=PD_\chi P^\perp-P^\perp D_\chi P=\Theta^* .
+\end{equation}
+$\Theta$ is $P$-off-diagonal; $\dot\delta$ is not, because $E_I$ does not commute with $P$.
+By \texttt{quadratic\_limit.tex} Thm.~4.2 and Prop.~5.1 together with
+\texttt{uhlmann\_upper\_bound.tex} Thms.~8.1--8.2,
+\begin{equation}\label{eq:gQdc}
+ g_Q(\delta_c)=\tfrac18 g_B\,s^2\,(1+o(1))=f_2z^2(1+o(1)),\qquad
+ g_B=4\|P^\perp D_\chi P\|_2^2=\tfrac{2c}{3\pi^2},\quad f_2=\tfrac{c}{12\pi^2}.
+\end{equation}
+
+\section{The exact certificate at the compression}\label{sec:kkt}
+
+Throughout this section $t=t^*$ is a fixed trace-class operator on $\mathfrak h_I$ and
+$L$ is the functional \eqref{eq:Lfun}.  Recall (C5): $V_c:\mathfrak h_D\to\mathfrak h_B$ is
+unitary, so $X_c=V_c^*$ is invertible with $X_c^{-1}=V_c$.
+
+\begin{definition}[The two multipliers]\label{def:sigma}
+\begin{equation}\label{eq:sigmas}
+ \Sigma_1:=t_{DA}Q_{AB}V_c-t_{DD}\,V_c^*R_-V_c ,\qquad
+ \Sigma_2:=\Sigma_1+t_{DD}=t_{DA}Q_{AB}V_c+t_{DD}\,V_c^*R_+V_c ,
+\end{equation}
+bounded operators on $\mathfrak h_D$.  (Second equality: $R_++R_-=1_{\mathfrak h_B}$ and
+$V_c^*V_c=1_{\mathfrak h_D}$.)
+\end{definition}
+
+\begin{theorem}[Certificate: necessary and sufficient]\label{thm:kkt}
+$\displaystyle\sup_{(X,Z)\in\cF}L(X,Z)=L(X_c,Z_c)$ holds if and only if
+\begin{equation}\label{eq:cert}
+ \Sigma_1=\Sigma_1^*,\qquad \Sigma_1\ge0,\qquad \Sigma_2\ge0 .
+\end{equation}
+Moreover the multipliers are \emph{unique}: any pair $(\Sigma_1',\Sigma_2')$ of
+self-adjoint operators satisfying the two stationarity relations
+$\Sigma_2'-\Sigma_1'=t_{DD}$ and $\Sigma_1'X_cR_++\Sigma_2'X_cR_-=t_{DA}Q_{AB}$
+equals $(\Sigma_1,\Sigma_2)$.
+\end{theorem}
+
+\begin{proof}
+\lstep{1}{1}{(Uniqueness.)  The two stationarity relations force
+ $\Sigma_1'X_c=t_{DA}Q_{AB}-t_{DD}X_cR_-$, hence
+ $\Sigma_1'=(t_{DA}Q_{AB}-t_{DD}X_cR_-)X_c^{-1}=\Sigma_1$ and $\Sigma_2'=\Sigma_2$.}
+\lby{substituting $\Sigma_2'=\Sigma_1'+t_{DD}$ into the second relation and using
+ $R_++R_-=1$; then $X_c^{-1}=V_c$ (C5) and \eqref{eq:sigmas}}
+\lstep{1}{2}{(Sufficiency.)  \lassume{} \eqref{eq:cert}.  \lprove{} $L\le L(X_c,Z_c)$ on $\cF$.}
+\lproof
+\lstep{2}{1}{\ldefine{} $\mathcal L(X,Z):=L(X,Z)+\Tr\bigl[\Sigma_1(Z-XR_+X^*)\bigr]
+ +\Tr\bigl[\Sigma_2(1-Z-XR_-X^*)\bigr]$ on all pairs $(X,Z)$, $Z=Z^*$.  Then
+ $L\le\mathcal L$ on $\cF$.}
+\lby{on $\cF$ the two operators $Z-XR_+X^*$ and $1-Z-XR_-X^*$ are $\ge0$ and
+ $\Sigma_1,\Sigma_2\ge0$, so both added traces are $\ge0$ (for $S,T\ge0$, $\Tr(ST)\ge0$)}
+\lstep{2}{2}{$\mathcal L$ is concave, and jointly: affine in $Z$, concave in $X$.}
+\lby{$\mathcal L$ is affine in $Z$; its $X$-dependence is
+ $2\Re\Tr(t_{DA}Q_{AB}X^*)-\Tr(\Sigma_1XR_+X^*)-\Tr(\Sigma_2XR_-X^*)$, and for
+ $S\ge0$, $R\ge0$ the map $X\mapsto\Tr(SXRX^*)=\|S^{1/2}XR^{1/2}\|_2^2$ is convex
+ (S8 Thm.~3.1 $\langle1\rangle2$), so its negative is concave}
+\lstep{2}{3}{$\mathcal L$ is stationary at $(X_c,Z_c)$, hence
+ $\mathcal L(X,Z)\le\mathcal L(X_c,Z_c)$ for all $(X,Z)$.}
+\lby{$\partial_Z\mathcal L=t_{DD}+\Sigma_1-\Sigma_2=0$ by Definition~\ref{def:sigma};
+ $\partial_{\overline X}\mathcal L=t_{DA}Q_{AB}-\Sigma_1X_cR_+-\Sigma_2X_cR_-
+ =t_{DA}Q_{AB}-\Sigma_1X_c-t_{DD}X_cR_-=0$ by \eqref{eq:sigmas}, where
+ $\Tr(SXRX^*)$ has $\overline X$-derivative $SXR$; a concave Gateaux-differentiable
+ functional with vanishing derivative attains its global maximum}
+\lstep{2}{4}{$\mathcal L(X_c,Z_c)=L(X_c,Z_c)$.}
+\lby{$Z_c-X_cR_+X_c^*=0$ and $1-Z_c-X_cR_-X_c^*=1-X_cX_c^*=0$ by \eqref{eq:comp}: both
+ constraints are active}
+\lqed{2}{5}\lby{$\langle2\rangle1$, $\langle2\rangle3$, $\langle2\rangle4$}
+\lstep{1}{3}{(Necessity of $\Sigma_1=\Sigma_1^*$.)  \lassume{} $(X_c,Z_c)$ is a maximiser.
+ For unitary $U$ on $\mathfrak h_B$ the pair $(X_cU,\ X_cUR_+U^*X_c^*)$ is in $\cF$.}
+\lby{$(X_cU)(X_cU)^*=X_cX_c^*=1$, so $1-X_cUR_-U^*X_c^*=X_cUR_+U^*X_c^*$ and the
+ admissible interval for $Z$ is again a point}
+\lstep{1}{4}{With $m:=X_c^*t_{DA}Q_{AB}=V_ct_{DA}Q_{AB}$ and
+ $\hat t:=X_c^*t_{DD}X_c=V_ct_{DD}V_c^*$ on $\mathfrak h_B$,
+ $L(X_cU,\cdot)=2\Re\Tr(mU^*)+\Tr(\hat tUR_+U^*)$; its derivative at $U=e^{i\eps H}$,
+ $H=H^*$, is $\eps\Tr\bigl[\bigl(i^{-1}(m-m^*)+i[R_+,\hat t]\bigr)H\bigr]+O(\eps^2)$.}
+\lby{$\Tr(t_{DA}Q_{AB}U^*X_c^*)=\Tr(mU^*)$ (cyclicity), $U^*=1-i\eps H+O(\eps^2)$,
+ $UR_+U^*=R_++i\eps[H,R_+]+O(\eps^2)$, and $\Tr(\hat t\,i[H,R_+])=i\Tr([R_+,\hat t]H)$}
+\lstep{1}{5}{Maximality at $U=1$ forces $i^{-1}(m-m^*)+i[R_+,\hat t]=0$, i.e.\
+ $m-m^*=[R_+,\hat t]$, i.e.\ $X_c^*\Sigma_1X_c=m-\hat tR_-$ is self-adjoint, i.e.\
+ $\Sigma_1=\Sigma_1^*$.}
+\lby{$\langle1\rangle4$: both $\pm H$ are admissible, so the first-order term vanishes for
+ all self-adjoint $H$, and the bracket is self-adjoint; then
+ $(m-\hat tR_-)-(m-\hat tR_-)^*=(m-m^*)-[\hat t,R_-]=(m-m^*)-[R_+,\hat t]$ using
+ $R_-=1-R_+$; finally conjugation by the unitary $X_c$ preserves self-adjointness}
+\lstep{1}{6}{(Necessity of $\Sigma_2\ge0$ and $\Sigma_1\ge0$.)  \lpick{} $\gamma\ge0$ on
+ $\mathfrak h_B$ and $\eps>0$ small.  Then $X_\eps:=X_c(1-\tfrac\eps2\gamma)$ together with
+ any $Z\in[X_\eps R_+X_\eps^*,\,1-X_\eps R_-X_\eps^*]$ is feasible, and
+ $1-X_\eps X_\eps^*=\eps X_c\gamma X_c^*+O(\eps^2)$.}
+\lby{$X_\eps X_\eps^*=X_c(1-\tfrac\eps2\gamma)^2X_c^*\le X_cX_c^*=1$ for
+ $0\le\tfrac\eps2\gamma\le2$, and $1-(1-\tfrac\eps2\gamma)^2=\eps\gamma-\tfrac{\eps^2}4\gamma^2$}
+\lstep{1}{7}{$\displaystyle\sup_{Z}L(X_\eps,Z)-L(X_c,Z_c)
+ =\eps\Bigl(\Tr\bigl[(\gamma^{1/2}\hat t\gamma^{1/2})_+\bigr]-\Tr(\Sigma_1\gamma')-\Tr(\hat t R_+\gamma)\Bigr)+O(\eps^2)$
+ where $\gamma':=X_c\gamma X_c^*$; equivalently the bracket equals
+ $\Tr[(\gamma^{1/2}\hat t\gamma^{1/2})_+]-\Tr(\sigma_2\gamma)$ with
+ $\sigma_2:=X_c^*\Sigma_2X_c=m+\hat tR_+$.}
+\lby{expand \eqref{eq:Zelim} at $X=X_\eps$: the first term gives
+ $-\eps\Re\Tr(m\gamma)$, the second $-\eps\Tr(\hat tR_+\gamma)$ (using
+ $(1-\tfrac\eps2\gamma)R_+(1-\tfrac\eps2\gamma)=R_+-\tfrac\eps2\{\gamma,R_+\}+O(\eps^2)$ and
+ cyclicity), and the third $\eps\Tr[(\gamma^{1/2}\hat t\gamma^{1/2})_+]+O(\eps^2)$ by
+ $\langle1\rangle6$ and homogeneity of $G\mapsto\Tr[(G^{1/2}\hat tG^{1/2})_+]$; then
+ $\Re\Tr(m\gamma)+\Tr(\hat tR_+\gamma)=\Tr(\sigma_2\gamma)$ because $\sigma_2$ is
+ self-adjoint by $\langle1\rangle5$}
+\lstep{1}{8}{Maximality forces
+ $\Tr[(\gamma^{1/2}\hat t\gamma^{1/2})_+]\le\Tr(\sigma_2\gamma)$ for every $\gamma\ge0$;
+ taking $\gamma=|\psi\rangle\langle\psi|$ gives
+ $\max\{0,\langle\psi,\hat t\psi\rangle\}\le\langle\psi,\sigma_2\psi\rangle$ for all
+ $\psi\in\mathfrak h_B$, i.e.\ $\sigma_2\ge0$ and $\sigma_2-\hat t=\sigma_1\ge0$.}
+\lby{$\langle1\rangle7$; for a rank-one $\gamma$, $\gamma^{1/2}\hat t\gamma^{1/2}
+ =\langle\psi,\hat t\psi\rangle\,|\psi\rangle\langle\psi|$ (unit $\psi$)}
+\lqed{1}{9}\lby{$\langle1\rangle2$ (sufficiency), $\langle1\rangle5$ and $\langle1\rangle8$
+ (necessity), conjugating $\sigma_j$ back by the unitary $X_c$}
+\end{proof}
+
+\begin{verdictok}[\;Theorem~\ref{thm:kkt}]
+The certificate is both necessary and sufficient and needs \emph{no} constraint
+qualification: sufficiency is weak duality for a concave Lagrangian, and necessity is
+read off from two explicit families of feasible perturbations (unitary rotations
+$X_c\mapsto X_cU$ inside $B$, and contractions $X_c\mapsto X_c(1-\tfrac\eps2\gamma)$
+with the freed noise budget $Y\le1-XX^*$ used optimally).  Uniqueness of the multipliers
+is a consequence of the invertibility of $X_c$, i.e.\ of the fact that in the
+\emph{continuum} the zero-collar compression is a unitary $\mathfrak h_D\to\mathfrak h_B$.
+Numerically, S11's lattice run confirms strong duality for the same programme
+($\Delta(t_{\rm opt})^2/(8V)=g_Q$ to $10^{-4}$ at $(4,8,2)$), which is the finite-dimensional
+shadow of Theorem~\ref{thm:kkt}.
+\end{verdictok}
+
+\begin{corollary}[What has to be tested]\label{cor:test}
+Let $t_c$ be the SLD \eqref{eq:SLD} of $\delta_c$.  The zero-collar compression is the
+minimiser of the programme \eqref{eq:prog} if and only if \eqref{eq:cert} holds for
+$t=t_c$.  In that case $\Delta_z(t_c)=\Tr(t_c\delta_c)=2g_Q(\delta_c)$,
+$V(t_c)=\tfrac12g_Q(\delta_c)$, and the Sion dual value of
+\texttt{optimality\_all\_channels.tex} Thm.~4.1 is
+$\mathcal D_z\ge\Delta_z(t_c)^2/(8V(t_c))=g_Q(\delta_c)=f_2z^2(1+o(1))$.
+\end{corollary}
+\lby{Theorem~\ref{thm:kkt} applied to $t=t_c$ gives $\sup_\cF L=L(X_c,Z_c)$, i.e.\
+$\Delta_z(t_c)=\Tr(t_c\delta_c)$; the convex programme has a unique value and, $g_Q$
+being a positive quadratic form with $t_c$ its SLD at $\delta_c$, first-order optimality
+of $(X_c,Z_c)$ for $g_Q(Q-Q_{\rm rec}(\cdot))$ is exactly maximality of
+$L(\cdot)=\Tr(t_cQ_{\rm rec}(\cdot))$ (up to the constant $\Tr t_{AA}Q_{AA}$), and for a
+convex programme first-order optimality is global optimality (S8 Thm.~3.1(4));
+the numerical values are \eqref{eq:gQ}}
+
+\section{The Legendre reduction: only one block of a test operator matters}\label{sec:legendre}
+
+\begin{lemma}[Reduction to the off-diagonal block]\label{lem:offdiag}
+Let $t=t^*=E_ItE_I$ be trace class and $N:=P^\perp tP\in\mathfrak S_2$.  Then, with
+$M:=P^\perp D_\chi P$,
+\begin{equation}\label{eq:ratio}
+ V(t)=\|N\|_2^2,\qquad \Tr(t\delta_c)=-2s\,\Re\langle N,M\rangle_{\mathfrak S_2}+O(s^2),
+ \qquad
+ \frac{(\Tr t\delta_c)^2}{8V(t)}=\frac{s^2}{2}\,\frac{(\Re\langle N,M\rangle)^2}{\|N\|_2^2}+O(s^3).
+\end{equation}
+In particular the Legendre ratio depends on $t$ \emph{only} through $N$: the two
+$P$-diagonal blocks $PtP$ and $P^\perp tP^\perp$ are free.
+\end{lemma}
+\begin{proof}
+\lstep{1}{1}{$V(t)=\Tr(tQt(1-Q))=\Tr(PtP^\perp t)=\Tr(N^*N)=\|N\|_2^2$.}
+\lby{\eqref{eq:Qvac} and $E_It=tE_I=t$; then $PtP^\perp tP=(PtP^\perp)(P^\perp tP)=N^*N$}
+\lstep{1}{2}{$\Tr(t\delta_c)=s\Tr(t\Theta)+O(s^2)$ and
+ $\Tr(t\Theta)=\Tr(ND_\chi)-\Tr(N^*D_\chi)=-\Tr(NM^*)-\Tr(N^*M)=-2\Re\langle N,M\rangle$.}
+\lby{\eqref{eq:dotdelta} and $\Tr(tE_I\Theta E_I)=\Tr(t\Theta)$; then
+ $\Theta=PD_\chi P^\perp-P^\perp D_\chi P$, cyclicity, $PD_\chi P^\perp=-M^*$
+ ($D_\chi^*=-D_\chi$), and $\Tr(NM^*)=\overline{\Tr(N^*M)}$}
+\lqed{1}{3}\lby{$\langle1\rangle1$--$\langle1\rangle2$ and \eqref{eq:gQ}}
+\end{proof}
+
+\begin{definition}[The visible space and the Riesz vector]\label{def:visible}
+\begin{equation}\label{eq:NN}
+ \mathcal N:=\bigl\{P^\perp\ell P:\ \ell=\ell^*=E_I\ell E_I,\ \ell\ \text{finite rank}\bigr\}
+ \subseteq\mathfrak S_2(PH,P^\perp H),
+\end{equation}
+a \emph{real}-linear subspace; $\Pi$ denotes the real-orthogonal projection of
+$\mathfrak S_2$ (real inner product $\Re\langle\cdot,\cdot\rangle$) onto
+$\overline{\mathcal N}$, and $u:=\Pi M$.
+\end{definition}
+
+\begin{proposition}[Value of the compression, and extension independence]\label{prop:u}
+\begin{enumerate}[leftmargin=1.6em,itemsep=1pt]
+\item For $N\in\mathcal N$ the number $\Re\langle N,M\rangle$ depends only on
+ $\chi|_{\overline I}$, not on the $C^{1,1}$ extension of $\chi$ to $\mathbb R$; hence so
+ does $u=\Pi M$.
+\item $g_Q(\delta_c)=\frac{s^2}{2}\|u\|_2^2+O(s^3)$, and
+ $\|u\|_2^2=\inf\{\|P^\perp D_{\chi'}P\|_2^2:\chi'\ \text{admissible extension}\}=g_B/4$.
+\item Consequently $g_Q(\delta_c)=\frac{s^2g_B}{8}(1+o(1))=f_2z^2(1+o(1))$.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+\lstep{1}{1}{(1).  $-2\Re\langle N,M\rangle=\Tr(\ell\Theta)=\Tr(\ell[D_\chi,P^\perp])
+ =\Tr(\ell E_ID_\chi P^\perp)-\Tr(D_\chi E_I\ell P^\perp)$, and both $E_ID_\chi$ and
+ $D_\chi E_I$ are determined by $\chi|_{\overline I}$ because $D_\chi$ is a differential
+ operator (local).}
+\lby{Lemma~\ref{lem:offdiag} $\langle1\rangle2$; $[P,D_\chi]=[D_\chi,P^\perp]$;
+ $\ell=E_I\ell=\ell E_I$}
+\lstep{1}{2}{(2), first equality.  $8g_Q(\delta_c)=\sup_t(\Tr t\delta_c)^2/V(t)
+ =4s^2\sup_{N\in\mathcal N}(\Re\langle N,M\rangle)^2/\|N\|_2^2+O(s^3)
+ =4s^2\|\Pi M\|_2^2+O(s^3)$.}
+\lby{\eqref{eq:gQ}, Lemma~\ref{lem:offdiag}, and the elementary Hilbert-space identity
+ $\sup_{0\ne N\in\mathcal N}(\Re\langle N,M\rangle)^2/\|N\|^2=\|\Pi M\|^2$}
+\lstep{1}{3}{(2), second equality, and (3).}
+\lby{\texttt{quadratic\_limit.tex} Thm.~4.2 with Prop.~5.1 and
+ \texttt{uhlmann\_upper\_bound.tex} Prop.~5.9 (``the infimum is $g_B/4$'', \S5), where
+ the infimum runs over the admissible extensions $\mathcal A'$ and equals
+ $\|\Pi M\|_2^2$ because $\mathcal K-\mathcal K\perp\overline{\mathcal N}$
+ (\texttt{uhlmann\_upper\_bound.tex} eq.~(5.6) and \S5.3); $g_B=2c/(3\pi^2)$,
+ $f_2=g_B/8$}
+\lqed{1}{4}
+\end{proof}
+
+\begin{remark}[Why this is the right variable]
+Lemma~\ref{lem:offdiag} says that the \emph{value} of the Legendre form sees only $N$,
+whereas the certificate \eqref{eq:cert} sees all of $t$.  This is the freedom that
+Section~\ref{sec:leading} exploits: the two $P$-diagonal blocks can be chosen at will to
+enforce the two positivity conditions, and exactly one scalar obstruction survives.
+\end{remark}
+
+\section{The certificate at leading order in the collar}\label{sec:leading}
+
+We use the half-line configuration (N5): $A=(-\infty,0)$, $D=(0,1)$, $I=(-\infty,1)$ are
+\emph{fixed}, and only the cut $B=(0,\frac1{1+s})$, $C=(\frac1{1+s},1)$ moves with
+$s=z$.  Write $t=s\,\tau$ with $\tau=\tau^*=E_I\tau E_I$ independent of $s$, and
+$p:=E_DPE_D$ (the modular operator of $D$ inside the vacuum; $0<p<1$).
+
+\begin{lemma}[Leading-order multipliers]\label{lem:sigma0}
+As $s\downarrow0$, $\Sigma_j=s\,\Sigma_j^{(0)}+o(s)$ (strongly) with
+\begin{equation}\label{eq:sigma0}
+ \Sigma_1^{(0)}=-E_D\,\tau\,P^\perp E_D ,\qquad
+ \Sigma_2^{(0)}=\ \ E_D\,\tau\,P\,E_D .
+\end{equation}
+\end{lemma}
+\begin{proof}
+\lstep{1}{1}{$Q_{AB}V_c\to E_APE_D$, $V_c^*R_-V_c\to E_DP^\perp E_D$ strongly as $s\to0$.}
+\lby{$V_c=E_BW_sE_D$ with $W_s\to1$ strongly (C5) and $E_B\to E_D$ strongly
+ ($|C|=1-\frac1{1+s}\to0$); $Q_{AB}=E_APE_B$, $R_-=E_BP^\perp E_B$; products of
+ uniformly bounded strongly convergent nets converge strongly}
+\lstep{1}{2}{Hence $\Sigma_1^{(0)}=E_D\tau E_A\,PE_D-E_D\tau E_D\,P^\perp E_D$.}
+\lby{Definition~\ref{def:sigma} with $t=s\tau$, $t_{DA}=E_D\tau E_A$,
+ $t_{DD}=E_D\tau E_D$, and $\langle1\rangle1$}
+\lstep{1}{3}{$E_D\tau E_APE_D=E_D\tau PE_D-E_D\tau E_DPE_D$.}
+\lby{$E_A=E_I-E_D$ and $\tau E_I=\tau$}
+\lstep{1}{4}{$\Sigma_1^{(0)}=E_D\tau PE_D-E_D\tau E_D=-E_D\tau P^\perp E_D$, and
+ $\Sigma_2^{(0)}=\Sigma_1^{(0)}+E_D\tau E_D=E_D\tau PE_D$.}
+\lby{$\langle1\rangle2$--$\langle1\rangle3$ and
+ $-E_D\tau E_DP^\perp E_D=-E_D\tau E_D+E_D\tau E_DPE_D$}
+\lqed{1}{5}
+\end{proof}
+
+\begin{proposition}[Splitting of the certificate]\label{prop:split}
+Write $\tau_{++}:=P\tau P$, $\tau_{--}:=P^\perp\tau P^\perp$ and $N:=P^\perp\tau P$.
+Then \eqref{eq:cert} at leading order is equivalent to the conjunction of
+\begin{align}
+ \text{\rm(S)}\qquad & E_DNE_D=(E_DNE_D)^* \qquad\text{(self-adjointness)},\label{eq:S}\\
+ \text{\rm(P)}\qquad & -E_D\tau_{++}E_D\ \le\ E_DNE_D\ \le\ -E_D\tau_{--}E_D
+  \qquad\text{(positivity sandwich)} .\label{eq:P}
+\end{align}
+\emph{(S) involves only the off-diagonal block $N$; (P) involves only the free diagonal
+blocks.}
+\end{proposition}
+\begin{proof}
+\lstep{1}{1}{$\Sigma_2^{(0)}=E_D\tau_{++}E_D+E_DNE_D$ and
+ $\Sigma_1^{(0)}=-E_D\tau_{--}E_D-E_DN^*E_D$.}
+\lby{$\tau P=\tau_{++}+N$ and $\tau P^\perp=\tau_{+-}+\tau_{--}$ with
+ $\tau_{+-}=P\tau P^\perp=N^*$; then \eqref{eq:sigma0}}
+\lstep{1}{2}{$\Sigma_1^{(0)},\Sigma_2^{(0)}$ are self-adjoint iff (S) holds.}
+\lby{$\tau_{++}$ and $\tau_{--}$ are self-adjoint because $\tau$ is, so
+ $E_D\tau_{\pm\pm}E_D$ are; hence
+ $\Sigma_2^{(0)}-(\Sigma_2^{(0)})^*=E_DNE_D-(E_DNE_D)^*$, and the same difference (with
+ a sign) for $\Sigma_1^{(0)}$}
+\lstep{1}{3}{Given (S), $\Sigma_2^{(0)}\ge0\iff E_DNE_D\ge-E_D\tau_{++}E_D$ and
+ $\Sigma_1^{(0)}\ge0\iff E_DNE_D\le-E_D\tau_{--}E_D$.}
+\lby{$\langle1\rangle1$ and (S), which gives $E_DN^*E_D=E_DNE_D$}
+\lqed{1}{4}
+\end{proof}
+
+\begin{corollary}[(P) is never the obstruction]\label{cor:Pfree}
+Let $N\in\mathcal N$ be given.  There exist self-adjoint $\tau_{++}=P\tau_{++}P$ and
+$\tau_{--}=P^\perp\tau_{--}P^\perp$ such that {\rm(P)} holds, provided
+$E_DNE_D$ is bounded; e.g.\ $\tau_{\pm\pm}=\mp\mu\,P^{(\pm)}$ with
+$\mu\ge\|E_DNE_D\|\,\|(E_DPE_D)^{-1}\|$ works whenever $p$ and $1-p$ are boundedly
+invertible on the relevant subspace, and in general one may take
+$\tau_{++}=P\,\kappa\,P$, $\tau_{--}=-P^\perp\kappa P^\perp$ with $\kappa$ chosen so that
+$E_D\tau_{++}E_D\ge\|E_DNE_D\|\cdot 1$ and $E_D\tau_{--}E_D\le-\|E_DNE_D\|\cdot1$.
+Changing $\tau_{\pm\pm}$ changes neither $V(t)$ nor $\Tr(t\delta_c)$
+(Lemma~\ref{lem:offdiag}).
+\end{corollary}
+\lby{Proposition~\ref{prop:split} and Lemma~\ref{lem:offdiag}; the displayed choices make
+$\Sigma_2^{(0)}\ge0$ and $\Sigma_1^{(0)}\ge0$ by
+$\pm E_DNE_D\le\|E_DNE_D\|\cdot1$}
+
+\begin{verdictgap}[\;Corollary~\ref{cor:Pfree} is stated for bounded $E_DNE_D$]
+The construction of $\tau_{\pm\pm}$ with $E_D\tau_{++}E_D\ge\lambda 1_D$ requires a
+self-adjoint $\kappa$ supported in $I$ with $E_DP\kappa PE_D\ge\lambda 1_D$; since
+$p=E_DPE_D$ has spectrum accumulating at $0$ and $1$ (the modular ultraviolet), such a
+$\kappa$ must be unbounded, and then $t$ is not trace class and
+Prop.~2.4 of \texttt{optimality\_all\_channels.tex} does not apply verbatim.  This is a
+regularisation issue (cut the modular window at $|\kappa|\le\kappa_c$ and let
+$\kappa_c\to\infty$), \emph{not} a structural obstruction; it is not pursued here
+because condition (S) already decides the question.
+\end{verdictgap}
+
+\section{The isometric orbit and the obstruction}\label{sec:orbit}
+
+The certificate can be tested without ever constructing $\Sigma_1,\Sigma_2$: it suffices
+to look at one explicit two-parameter family of \emph{feasible} channels.
+
+\begin{lemma}[The isometric orbit]\label{lem:orbit}
+Let $\mathcal G$ be bounded, anti-self-adjoint, with $\mathcal G=E_D\mathcal GE_D$, and
+$\eps\in\mathbb R$.  Put $\widetilde W_\eps:=W_s\,e^{-\eps\mathcal G}$.  Then
+\begin{enumerate}[leftmargin=1.6em,itemsep=1pt]
+\item $\widetilde W_\eps$ is a unitary of $L^2(\mathbb R)$, equal to the identity on
+ $L^2(A)$, mapping $L^2(D)$ \emph{onto} $L^2(B)$; hence
+ $V_\eps:=E_B\widetilde W_\eps E_D$ is unitary $\mathfrak h_D\to\mathfrak h_B$ and
+ $(X,Z)=(V_\eps^*,V_\eps^*Q_{BB}V_\eps)\in\cF$;
+\item the corresponding defect is
+ $\delta(\eps)=E_I\bigl(P-e^{\eps\mathcal G}P_se^{-\eps\mathcal G}\bigr)E_I$,
+ $P_s:=W_s^*PW_s$, and
+ \begin{equation}\label{eq:deleps}
+  \delta(\eps)=E_I\bigl[P,\ sD_\chi+\eps\mathcal G\bigr]E_I
+   +O(s^2)+O(\eps^2)+O(\eps s);
+ \end{equation}
+\item consequently, with $u=\Pi M$ and $v_{\mathcal G}:=\Pi(P^\perp\mathcal GP)$,
+ \begin{equation}\label{eq:gain}
+  \min_{\eps}\ g_Q\bigl(\delta(\eps)\bigr)
+   =\frac{s^2}{2}\Bigl(\|u\|_2^2-\frac{(\Re\langle u,v_{\mathcal G}\rangle)^2}{\|v_{\mathcal G}\|_2^2}\Bigr)+o(s^2)
+   =g_Q(\delta_c)\bigl(1-\cos^2\angle(u,v_{\mathcal G})\bigr)+o(s^2).
+ \end{equation}
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+\lstep{1}{1}{(1).}
+\lby{$e^{-\eps\mathcal G}$ is unitary, equals $1$ off $D$ and preserves $L^2(D)$
+ (because $\mathcal G=E_D\mathcal GE_D$); $W_s$ is the push-forward along $k_s$ (C5),
+ which is the identity on $A$ and maps $D$ onto $B$; a composition of such maps has the
+ stated properties; feasibility as in (C5) since $V_\eps^*V_\eps=1$ makes both
+ constraints active}
+\lstep{1}{2}{(2).  $\widetilde W_\eps^*P\widetilde W_\eps=e^{\eps\mathcal G}P_se^{-\eps\mathcal G}$,
+ and $Q_{\rm rec}=E_I\widetilde W_\eps^*P\widetilde W_\eps E_I$.}
+\lby{$(W_se^{-\eps\mathcal G})^*=e^{\eps\mathcal G}W_s^*$; for the second claim compute the
+ three blocks: $E_A\widetilde W^*P\widetilde WE_A=Q_{AA}$ (as $\widetilde WE_A=E_A$),
+ $E_A\widetilde W^*P\widetilde WE_D=Q_{AB}V_\eps$, $E_D\widetilde W^*P\widetilde WE_D=Z$,
+ which is \eqref{eq:F}}
+\lstep{1}{3}{$P-e^{\eps\mathcal G}P_se^{-\eps\mathcal G}=(P-P_s)+\eps[P_s,\mathcal G]+O(\eps^2)$
+ and $P-P_s=s[P,D_\chi]+O(s^2)$, $P_s=P+O(s)$.}
+\lby{$\frac{\dd}{\dd\eps}e^{\eps\mathcal G}Ye^{-\eps\mathcal G}|_0=[\mathcal G,Y]$;
+ (N5): $W_s=1-sD_\chi+O(s^2)$ gives $P_s=P+s[D_\chi,P]+O(s^2)$}
+\lstep{1}{4}{(3).  For a positive quadratic form $g$ with bilinear form $b$,
+ $\min_\eps g(\delta+\eps\eta)=g(\delta)-b(\delta,\eta)^2/g(\eta)$; here
+ $g_Q(E_I[P,\mathcal Z]E_I)=\frac12\|\Pi P^\perp\mathcal ZP\|_2^2$ for anti-self-adjoint
+ $\mathcal Z$, hence by polarisation
+ $b\bigl(E_I[P,\mathcal Z_1]E_I,E_I[P,\mathcal Z_2]E_I\bigr)
+  =\frac12\Re\langle\Pi P^\perp\mathcal Z_1P,\Pi P^\perp\mathcal Z_2P\rangle$.}
+\lby{Prop.~\ref{prop:u}$\langle1\rangle2$ applied with $D_\chi$ replaced by
+ $\mathcal Z$ (the derivation used only $\mathcal Z^*=-\mathcal Z$); the $O(\eps^2)$
+ term of $\langle1\rangle3$ contributes $O(\eps^2 s)+O(\eps^4)=o(s^2)$ at the optimal
+ $\eps=O(s)$}
+\lqed{1}{5}
+\end{proof}
+
+\begin{theorem}[Obstruction $=$ non-self-adjointness of $E_DuE_D$]\label{thm:obstruction}
+Let $R:=E_DuE_D$ and $R_a:=\frac12(R-R^*)$.  Then
+\begin{equation}\label{eq:theta}
+ \theta:=\sup_{\mathcal G}\cos^2\angle(u,v_{\mathcal G})
+  =\frac{\langle R_a,\mathcal A^{-1}R_a\rangle_r}{\|u\|_2^2},\qquad
+ \mathcal A(\mathcal G):=\tfrac12\bigl(E_Dv_{\mathcal G}E_D-(E_Dv_{\mathcal G}E_D)^*\bigr),
+\end{equation}
+$\langle\cdot,\cdot\rangle_r=\Re\Tr(\cdot^*\cdot)$, the supremum over bounded
+anti-self-adjoint $\mathcal G=E_D\mathcal GE_D$.  In particular $\theta=0$ if and only if
+$R_a=0$, i.e.\ if and only if the condition {\rm(S)} of Prop.~\ref{prop:split} holds; and
+if $\theta>0$ then
+\begin{equation}\label{eq:notopt}
+ E^{(2)}\ \le\ (1-\theta)\,f_2z^2\,(1+o(1)),
+\end{equation}
+so the zero-collar compression is \emph{not} second-order optimal.
+\end{theorem}
+\begin{proof}
+\lstep{1}{1}{$\Re\langle u,v_{\mathcal G}\rangle=\Re\langle u,P^\perp\mathcal GP\rangle
+ =\Re\Tr(u^*\mathcal G)=\langle R,\mathcal G\rangle_r=\langle R_a,\mathcal G\rangle_r$.}
+\lby{$u\in\overline{\mathcal N}$ and $v_{\mathcal G}=\Pi(P^\perp\mathcal GP)$ with $\Pi$ an
+ orthogonal projection; $u=P^\perp uP$ so $\Tr(u^*P^\perp\mathcal GP)=\Tr(u^*\mathcal G)$;
+ $\mathcal G=E_D\mathcal GE_D$ gives $\Tr(u^*\mathcal G)=\Tr((E_DuE_D)^*\mathcal G)$; and
+ $\langle R_h,\mathcal G\rangle_r=0$ for $R_h$ self-adjoint and $\mathcal G$
+ anti-self-adjoint}
+\lstep{1}{2}{$\|v_{\mathcal G}\|_2^2=\langle\mathcal G,\mathcal A\mathcal G\rangle_r$, and
+ $\mathcal A$ is a positive symmetric operator on the real space of such $\mathcal G$.}
+\lby{$\|v\|^2=\Re\langle P^\perp\mathcal GP,v\rangle=\Re\Tr(\mathcal G^*E_DvE_D)
+ =\langle\mathcal G,\mathcal A\mathcal G\rangle_r$ by the same manipulations as
+ $\langle1\rangle1$; symmetry and positivity because
+ $\langle\mathcal G_1,\mathcal A\mathcal G_2\rangle_r=\Re\langle v_1,v_2\rangle$}
+\lstep{1}{3}{\eqref{eq:theta} and ``$\theta=0\iff R_a=0$''.}
+\lby{$\sup_x\langle b,x\rangle^2/\langle x,\mathcal Ax\rangle=\langle b,\mathcal A^{-1}b\rangle$
+ (on $\overline{\operatorname{ran}}\mathcal A$; $=+\infty$ if $b\notin\overline{\operatorname{ran}}\mathcal A$,
+ which cannot happen since $\theta\le1$ by Cauchy--Schwarz); $\theta=0$ iff the linear
+ functional $\langle R_a,\cdot\rangle_r$ vanishes, i.e.\ iff $R_a=0$ (take
+ $\mathcal G=R_a$)}
+\lstep{1}{4}{\eqref{eq:notopt}.}
+\lby{Lemma~\ref{lem:orbit}(3), the feasibility in Lemma~\ref{lem:orbit}(1), and
+ Prop.~\ref{prop:u}(3)}
+\lqed{1}{5}
+\end{proof}
+
+\section{Numerics: $\theta$ is not zero}\label{sec:num}
+
+\paragraph{Model.}  $L^2(S^1)$ on an $L$-point grid in the NS sector (half-integer Fourier
+modes $\nu=n+\frac12$), $P=\mathbf 1_{\nu>0}$ an \emph{exact} projection, $E_S$ exact
+diagonal projections.  Cayley chart $x=\tan(\theta/2)$: the line configuration
+$A=(-a,0)$, $D=(0,L_g)$, $I'=\mathbb R\setminus\overline I$ becomes
+$\theta_A=-2\arctan a$, $\theta_D=2\arctan L_g$, and the line M\"obius field $-x^2\partial_x$
+becomes $\chi(\theta)=\cos\theta-1$; $\chi=0$ on $A$ and
+$\chi=(\cos\theta-1)e^{-\alpha(\theta-\theta_D)^2}$ on $I'$ (a $C^\infty$ admissible
+extension, $\alpha$ free).  $D_\chi=\frac12(\chi\partial+\partial\chi)$ with a
+\emph{smoothstep ultraviolet taper} on the spectral derivative, which switches off the
+spurious second Fermi point of the periodic grid.  Scripts:
+\texttt{numerics/optimality\_all/s10\_circle2.py} (validation),
+\texttt{s10\_theta.py}, \texttt{s10\_diag.py} ($\theta$ by conjugate gradients on
+\eqref{eq:theta}), \texttt{s10\_nonpert.py} (non-perturbative check, output
+\texttt{s10\_nonpert.out}).
+
+\paragraph{(a) Validation of the framework.}  With $u$ obtained from
+$\mathcal S_Q(\ell)=-\dot\delta$, $u=P^\perp\ell P$:
+$\|u\|_2^2$ is \emph{independent of the extension} $\alpha\in\{1.5,3,6\}$ to $4$ digits
+and of the weight cap over $10^{4}$--$10^{12}$, whereas $\|M\|_2^2$ varies by $15\%$ --
+exactly as Prop.~\ref{prop:u}(1) predicts.  Quantitatively, with
+$\zeta=aL_gs/(a+L_g)$ and $f_2=1/(12\pi^2)$,
+\[
+ \frac{\tfrac12 s^2\|u\|_2^2}{f_2\zeta^2}=0.984,\ 0.987,\ 0.989,\ 0.991
+ \quad\text{for }L=256,384,512,768\ (a=2,L_g=1),
+\]
+and $0.984$--$0.992$ for $(a,L_g)=(1,1),(4,1),(8,1),(2,\tfrac12)$: the machinery
+reproduces Theorem~A (\texttt{quadratic\_limit.tex} Thm.~4.2 with
+\texttt{uhlmann\_upper\_bound.tex} Thms.~8.1--8.2) to $1\%$, with a clean $O(1/L)$ drift.
+
+\paragraph{(b) The obstruction.}
+$R=E_DuE_D$ is, to the accuracy reached, \emph{purely anti-self-adjoint}:
+$\|R_a\|_2/\|R\|_2=0.976,\,0.989,\,0.994,\,0.997$ for $L=256,384,512,768$.  Condition
+{\rm(S)} of Prop.~\ref{prop:split} therefore fails maximally.
+
+\paragraph{(c) The gain.}  Conjugate gradients on \eqref{eq:theta} (converged: the CG
+ladder is flat after $\sim60$ iterations) gives
+\begin{center}\small
+\begin{tabular}{lccccc}
+\toprule
+ & $L=256$ & $L=384$ & $L=512$ & $(a,L_g)=(1,1)$ & $(4,1)$\\
+\midrule
+$\theta$ & $0.2895$ & $0.2924$ & $0.2950$ & $0.2999$ & $0.2918$\\
+\bottomrule
+\end{tabular}
+\end{center}
+Richardson extrapolation in $1/L$ gives $\theta_\infty=0.300\pm0.005$.  The value is
+independent of the geometry to within the discretisation error, as it must be: two
+adjacent intervals on the circle are a single M\"obius orbit.  It is stable under the
+ultraviolet taper ($\theta=0.2894$ and $0.2946$ for tapers starting at $0.20L$ and
+$0.30L$; the aggressive taper at $0.38L$ is contaminated -- it also spoils
+$\|u\|_2^2$ by $4\%$ -- and is discarded) and under the weight cap
+($10^{6}$ vs $10^{12}$: $0.29462$ vs $0.29459$).  The optimiser is a \emph{bounded}
+rotation: $\|\eps_*\mathcal G_*\|_{\rm op}/s=0.49$, $\|\eps_*\mathcal G_*\|_2/s=0.84$.
+
+\paragraph{(d) Non-perturbative check.}  Building $W_s=e^{-sD_\chi}$ (exactly unitary),
+$\widetilde W=W_se^{-\eps\mathcal G_*}$, the \emph{exact} defect
+$\delta(\eps)=E_I(P-\widetilde W^*P\widetilde W)E_I$ and the \emph{exact} quadratic form
+$g_Q$ (cap $10^4$, $L=512$, $a=2$, $L_g=1$):
+\begin{center}\small
+\begin{tabular}{lccc}
+\toprule
+$s$ & $g_Q(\delta_c)\big/\tfrac12s^2\|u\|_2^2$ & $\min_\eps g_Q(\delta(\eps))/g_Q(\delta_c)$ & optimal $\eps/s$\\
+\midrule
+$0.001$ & $0.9985$ & $0.7050$ & $-1.000$\\
+$0.002$ & $0.9983$ & $0.7046$ & $-1.000$\\
+$0.005$ & $0.9978$ & $0.7038$ & $-1.000$\\
+\bottomrule
+\end{tabular}
+\end{center}
+against the prediction $1-\theta=0.7054$: agreement to $10^{-3}$, with the minimiser at
+the predicted location.  (At $s\ge0.02$ with an uncapped weight the comparison is
+destroyed by the order-of-limits effect of S8's Verdict box -- $g_Q(\delta_c)$ then
+exceeds $\tfrac12s^2\|u\|^2$ by factors $2.8$, $12$, $45$ at $s=0.02,0.05,0.1$ -- which
+is why the check must be run at $s\lesssim5\times10^{-3}$.)
+
+\section{What the obstruction is, structurally}\label{sec:struct}
+
+(Section~\ref{sec:exact} proves the exact identity behind the numerical observation of
+\S\ref{sec:num}(b); this section explains the mechanism first.)
+
+\begin{lemma}[The model computation]\label{lem:model}
+Let $\mathcal G$ be bounded anti-self-adjoint with $\mathcal G=E_D\mathcal GE_D$, and
+$p:=E_DPE_D$.  Then, with $N_{\mathcal G}:=P^\perp\mathcal GP$,
+\begin{equation}\label{eq:model}
+ E_DN_{\mathcal G}E_D-\bigl(E_DN_{\mathcal G}E_D\bigr)^*
+ = p\,\mathcal G\,(1-p)+(1-p)\,\mathcal G\,p=\mathcal S_p(\mathcal G),
+\end{equation}
+which vanishes if and only if $\mathcal G=0$ (because $0<p<1$).
+\end{lemma}
+\lby{$\mathcal G=E_D\mathcal GE_D$ gives $E_DP^\perp\mathcal GPE_D=(E_DP^\perp E_D)\mathcal G(E_DPE_D)=(1-p)\mathcal Gp$
+and $(E_DP^\perp\mathcal GPE_D)^*=E_DP\mathcal G^*P^\perp E_D=-p\,\mathcal G\,(1-p)$; the
+spectrum of the modular operator of an interval fills $(0,1)$, so
+$\mathcal S_p$ is injective}
+
+\begin{remark}[Reading of Lemma~\ref{lem:model} and of the numerics]\label{rem:reading}
+Lemma~\ref{lem:model} is the ``local'' version of the obstruction: for a rotation
+generator \emph{strictly inside} $D$ the $D$-corner of the off-diagonal block is never
+self-adjoint.  The compression direction is not of that form -- $D_\chi$ is a
+differential operator whose vector field does \emph{not} vanish at the right endpoint of
+$D$ (that is exactly why the compression shrinks $I$ and a unitary of $\mathfrak h_D$
+cannot imitate it), and the relevant object is the projected $u=\Pi M$, not $M$.  The
+numerics of \S\ref{sec:num} say that the projection does \emph{not} restore
+self-adjointness: $E_DuE_D$ is, in the continuum limit, purely anti-self-adjoint.
+Equivalently, and this is the sharpest way to say it: \emph{the compression direction
+$u$ has an overlap $\cos^2\angle=\theta\approx0.30$ with the space of directions
+generated by Bogoliubov rotations inside $B$, so $30\%$ of the compression defect can be
+rotated away.}
+\end{remark}
+
+\section{Consequences for the dual value and for the recovery error}\label{sec:conseq}
+
+\begin{theorem}[Second-order value of the programme]\label{thm:value}
+Assume the numerical value $\theta=0.300\pm0.005>0$ of \S\ref{sec:num}.  Then, for the
+chiral free fermion,
+\begin{equation}\label{eq:final}
+ E^{(2)}=\min_{(X,Z)\in\cF}g_Q\bigl(Q-Q_{\rm rec}(X,Z)\bigr)\ \le\ (1-\theta)\,f_2z^2(1+o(1))
+ \ =\ (0.70\pm0.01)\,f_2z^2(1+o(1)),
+\end{equation}
+and consequently
+\begin{enumerate}[leftmargin=1.6em,itemsep=1pt]
+\item the zero-collar geometric compression is \textbf{not} the second-order optimum of
+ the quasi-free programme; the KKT certificate of Theorem~\ref{thm:kkt} does \emph{not}
+ exist at the compression, because condition {\rm(S)} fails;
+\item the Sion dual value satisfies $\mathcal D_z\le E^{(2)}\le0.71f_2z^2$, so
+ \emph{no} test operator $t$ can certify $\Erecc\ge f_2z^2$: route~2 of the Phase-3b brief
+ is closed, and so is the programme
+ ``\,$\liminf z^{-2}\Erecc\ge f_2$\,'' by way of the quasi-free relaxation;
+\item if in addition the optimal rotation $e^{\eps\mathcal G_*}$ is implementable in the
+ Fock representation (Shale--Stinespring: $[P,\mathcal G_*]\in\Stwo$), then the channel
+ $\beta_*=\operatorname{Ad}\Gamma(W_s e^{-\eps\mathcal G_*})|_{\cA(D)}$ is an admissible
+ recovery channel and $\Erecc\le(1-\theta)f_2z^2(1+o(1))$: the geometric compression is
+ beaten by an actual channel, and $\kappa_{\rm opt}\le0.71$ in the notation of S8's
+ Verdict~Q3.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+\lstep{1}{1}{\eqref{eq:final}.}
+\lby{Lemma~\ref{lem:orbit}(1) exhibits feasible points of $\cF$;
+ Lemma~\ref{lem:orbit}(3) and Theorem~\ref{thm:obstruction} evaluate the objective there;
+ Prop.~\ref{prop:u}(3) identifies $g_Q(\delta_c)=f_2z^2(1+o(1))$}
+\lstep{1}{2}{(1).}
+\lby{if the certificate \eqref{eq:cert} held for $t=t_c$ then, by
+ Theorem~\ref{thm:kkt} and Corollary~\ref{cor:test}, $(X_c,Z_c)$ would minimise, so
+ $E^{(2)}=g_Q(\delta_c)=f_2z^2(1+o(1))$, contradicting \eqref{eq:final}}
+\lstep{1}{3}{(2).}
+\lby{\texttt{optimality\_all\_channels.tex} Thm.~4.1$\langle1\rangle3$:
+ $\mathcal D_z\le E^{(2)}$ for every $t$; and \eqref{eq:final}}
+\lstep{1}{4}{(3).}
+\lby{Shale--Stinespring (Araki 1987, Thm.~6.13; Baumg\"artel--Jurke--Lled\'o 2002,
+ Thm.~4.13) makes $\alpha_{e^{-\eps\mathcal G_*}}$ unitarily implementable in the Fock
+ representation; $W_s$ is implementable by
+ \texttt{uhlmann\_upper\_bound.tex} Prop.~1.7; the composite $\widetilde W$ is then
+ implementable, $\operatorname{Ad}\Gamma(\widetilde W)$ restricts to a normal unital
+ $*$-endomorphism $\cA(D)\to\cA(B)$ (Lemma~\ref{lem:orbit}(1)), hence to an admissible
+ recovery channel in the sense of S8 Def.~1.1; its recovered symbol is
+ $Q_{\rm rec}=E_I\widetilde W^*P\widetilde WE_I$ by Lemma~\ref{lem:orbit}(2) and its
+ error is $g_Q(\delta(\eps))(1+o(1))$ by Note~5 Prop.~2.3}
+\lqed{1}{5}
+\end{proof}
+
+\paragraph{(e) Implementability of the optimal rotation.}
+\texttt{s10\_implement.py} gives, for $L=256,384,512$,
+\[
+ \|P^\perp(\eps_*\mathcal G_*)P\|_2/s=0.0608,\ 0.0625,\ 0.0638,\qquad
+ \|\eps_*\mathcal G_*\|_{\rm op}/s=0.482,\ 0.472,\ 0.486,
+\]
+both bounded and converging: $[P,\mathcal G_*]\in\Stwo$, so the Shale--Stinespring
+condition of Theorem~\ref{thm:value}(3) is met.  The single explicit direction
+$\mathcal G=R_a$ already gives $\cos^2\angle(u,v_{R_a})=0.1234,\ 0.1242,\ 0.1250$
+(stable): even the crudest choice beats the compression by $12\%$.
+
+\section{Route 3: what a rigorous lower bound can still give}\label{sec:lower}
+
+By Theorem~\ref{thm:value}(2) the best any dual test operator can certify is
+$\mathcal D_z\le E^{(2)}\le0.71f_2z^2$, so the target $f_2z^2$ is unreachable and the
+correct target is $E^{(2)}$ itself.  Two remarks.
+
+\begin{proposition}[The isometric orbit computes its own value exactly]\label{prop:orbval}
+Let $\mathcal Y:=\overline{\{\Pi(P^\perp\mathcal GP):\mathcal G^*=-\mathcal G\ \text{bounded},\ \mathcal G=E_D\mathcal GE_D\}}$.
+The minimum of $g_Q$ over the isometric orbit
+$\{(V^*,V^*Q_{BB}V):V=E_B\widetilde WE_D,\ \widetilde W\ \text{as in Lemma~\ref{lem:orbit}(1)}\}$
+equals $\frac{s^2}{2}\operatorname{dist}(u,\mathcal Y)^2+o(s^2)=(1-\theta)f_2z^2(1+o(1))$,
+and the minimiser is unique up to the kernel of $\Pi$.
+\end{proposition}
+\lby{Lemma~\ref{lem:orbit}(2)--(3): on the orbit
+$\delta=E_I[P,sD_\chi+\mathcal G]E_I+o(s)$ with $\mathcal G$ arbitrary in the class, and
+$g_Q(E_I[P,\mathcal Z]E_I)=\frac12\|\Pi P^\perp\mathcal ZP\|_2^2$
+(Prop.~\ref{prop:u}$\langle1\rangle2$), so the minimisation is the orthogonal projection
+of $su$ onto $\mathcal Y$; $\theta=\|\Pi_{\mathcal Y}u\|^2/\|u\|^2$ by
+Theorem~\ref{thm:obstruction}}
+
+\begin{verdictgap}[\;The non-isometric directions were not analysed]
+$\cF$ also contains points with $XX^*<1$ and genuine noise $0<Y\le1-XX^*$, i.e.\
+channels that are not $*$-endomorphisms.  Those were not included: $(1-\theta)f_2z^2$ is
+an \emph{upper} bound for $E^{(2)}$, not its value.  A matching lower bound would
+require the full first-order analysis of $\cF$ at the new optimum (whose location is not
+known in closed form).  In S8's lattice numerics the optimal $X$ has singular values
+$0.95$--$1.00$, i.e.\ the optimum is nearly isometric, which suggests that the isometric
+orbit carries most of the gain, but this is not proved.
+\end{verdictgap}
+
+\begin{verdictgap}[\;From $g_Q$ back to $-\log\Fid$ for the rotated channel]
+Theorem~\ref{thm:value}(3) asserts $\Erecc\le(1-\theta)f_2z^2(1+o(1))$.  This uses
+$-\log\Fid=g_Q(\delta)(1+o(1))$ for the rotated channel, i.e.\ the \emph{upper} half of
+the second-order expansion.  In the continuum that half is exactly what
+\texttt{uhlmann\_upper\_bound.tex} had to prove separately for the compression
+(Thms.~8.1--8.2), and it is not automatic (S8's ``order of limits'' Verdict).  The
+lower half, $-\log\Fid\ge g_Q(\delta)(1-o(1))$, holds for every channel
+(\texttt{optimality\_all\_channels.tex} Prop.~2.4), so the \emph{programme} statement
+\eqref{eq:final} and the blocking statement Theorem~\ref{thm:value}(2) are unaffected;
+only the claim that an actual channel realises $0.70f_2z^2$ needs this extra step.
+\end{verdictgap}
+
+\begin{remark}[Tension with S8's lattice numerics, and how to resolve it]\label{rem:tension}
+S8's Verdict~Q3 reports $\kappa_{\rm opt}=1.00\pm0.15$ from six lattice geometries.
+That is not in contradiction with $\kappa_{\rm opt}\le0.71$: S8's channels are produced
+by minimising a \emph{capped} $g_Q$ ($\kappa_c\le12$--$20$) and are then evaluated by the
+exact $-\log\Fid$; the cap removes precisely the modular ultraviolet at the endpoints of
+$D$ where $\mathcal G_*$ lives (the optimal rotation is bounded, but its Riesz vector
+$v_{\mathcal G_*}$ is spread over the whole modular window).  Moreover at $z\simeq1/14$
+the unrestricted $g_Q$ overshoots $-\log\Fid$ by a factor $\simeq28$, so the search is
+not minimising the quantity being reported.  The decisive test is S11's: take the lattice
+$(X_c,Z_c)$ closest to the compression, form $t_c$, and check whether
+$\Tr(t_cQ_{\rm rec})$ is maximised there --- Theorem~\ref{thm:kkt} says it is not, and
+predicts the maximiser to be an (almost) isometric $X_cU$.
+\end{remark}
+
+\section{An exact identity: $E_DuE_D$ is purely anti-self-adjoint}\label{sec:exact}
+
+The numerical observation of \S\ref{sec:num}(b) has an exact explanation, which upgrades
+the obstruction from ``numerically nonzero'' to ``analytically maximal''.
+
+\begin{lemma}[M\"obius rigidity of the $DD$-block]\label{lem:rigid}
+As a sesquilinear form on $C_c^\infty(D)$,
+\begin{equation}\label{eq:rigid}
+ E_D\,\dot\delta\,E_D=E_D[P,D_\chi]E_D=[\,p\,,\,d\,]=0,\qquad p:=E_DPE_D,\quad d:=E_DD_\chi E_D ,
+\end{equation}
+i.e.\ \emph{the $DD$-block of the compression defect vanishes at first order in $s$}.
+\end{lemma}
+\begin{proof}
+\lstep{1}{1}{\lpick{} $f,g\in C_c^\infty(D)$.  Then $E_Dg=g$, $D_\chi g$ is supported in
+ $\operatorname{supp}g\subset D$, and $\chi|_D$ coincides with the \emph{global} M\"obius
+ field $\chi_{\rm glob}(x)=-x^2$ (in the normalisation of (N5)); hence
+ $D_\chi g=D_{\rm glob}g$ and $E_DD_\chi g=D_{\rm glob}g$.}
+\lby{$D_\chi$ is a first-order differential operator, hence local, and $\chi=\chi_{\rm glob}$
+ on $D$ by (N5)}
+\lstep{1}{2}{$\langle f,p\,d\,g\rangle=\langle f,PD_{\rm glob}g\rangle$ and
+ $\langle f,d\,p\,g\rangle=\langle f,D_{\rm glob}Pg\rangle$.}
+\lby{$\langle1\rangle1$ and $E_Df=f$ for the first; for the second,
+ $\langle f,E_DD_\chi E_DPE_Dg\rangle=\langle f,D_\chi(E_DPg)\rangle
+ =-\langle D_\chi f,E_DPg\rangle=-\langle D_\chi f,Pg\rangle=\langle f,D_{\rm glob}Pg\rangle$,
+ using $D_\chi^*=-D_\chi$, that $f$ has compact support inside $D$ (so no boundary term
+ and the distributional jumps of $E_DPg$ at $\partial D$ are annihilated), and
+ $D_\chi f=D_{\rm glob}f$ supported in $D$}
+\lstep{1}{3}{$[P,D_{\rm glob}]=0$.}
+\lby{$D_{\rm glob}=\chi_{\rm glob}\partial_x+\frac12\chi_{\rm glob}'$ with
+ $\chi_{\rm glob}(x)=-x^2$ is the generator of the one-parameter M\"obius group
+ $x\mapsto x/(1+sx)$ acting on $L^2(\mathbb R)$ by the half-density push-forward
+ \eqref{eq:pf}; that action preserves the Hardy space, i.e.\
+ $W_{h_s}^*PW_{h_s}=P$ for all $s$ (M\"obius covariance of the chiral vacuum,
+ \texttt{uhlmann\_upper\_bound.tex} \S6 ``the circle chart''; equivalently the Cayley
+ transform sends $D_{\rm glob}$ to $L_{1}-L_{-1}$-type generators that annihilate the
+ vacuum representation's positive-frequency subspace).  Differentiating at $s=0$ gives
+ $[D_{\rm glob},P]=0$}
+\lstep{1}{4}{\eqref{eq:rigid}.}
+\lby{$\langle1\rangle2$--$\langle1\rangle3$; $\dot\delta$ is Hilbert--Schmidt
+ (Prop.~\ref{prop:u}), so a bounded operator, and a bounded operator whose form vanishes
+ on the dense set $C_c^\infty(D)$ has $E_D\dot\delta E_D=0$}
+\lqed{1}{5}
+\end{proof}
+
+\begin{corollary}[The obstruction is maximal]\label{cor:maximal}
+$E_DuE_D$ is purely anti-self-adjoint:
+$E_DuE_D+(E_DuE_D)^*=E_D\dot\delta E_D\cdot(-1)=0$.  Hence condition {\rm(S)} of
+Prop.~\ref{prop:split} holds if and only if $E_DuE_D=0$, and
+\begin{equation}\label{eq:thetalb}
+ \theta\ \ge\ \frac{\|E_DuE_D\|_2^2}{\|u\|_2^2}\ (>0\ \text{numerically}:\ 0.0143).
+\end{equation}
+\end{corollary}
+\begin{proof}
+\lstep{1}{1}{$E_I(u+u^*)E_I=\mathcal S_Q(\ell_*)=-\dot\delta$, where $u=P^\perp\ell_*P$ and
+ $\mathcal S_Q(\ell_*)=-\dot\delta$ is the normal equation defining $u=\Pi M$.}
+\lby{$\mathcal S_Q(\ell)=E_I(P\ell P^\perp+P^\perp\ell P)E_I$ for $\ell=E_I\ell E_I$ (N4),
+ and $P\ell P^\perp=(P^\perp\ell P)^*=u^*$; the normal equation is
+ $\Re\langle N_\ell,\Pi M\rangle=\Re\langle N_\ell,M\rangle$ for all $\ell$, i.e.\
+ $\frac12\Tr(\ell\,\mathcal S_Q(\ell_*))=-\frac12\Tr(\ell\dot\delta)$ by
+ Lemma~\ref{lem:offdiag}$\langle1\rangle2$ and Prop.~\ref{prop:u}$\langle1\rangle1$}
+\lstep{1}{2}{Compress $\langle1\rangle1$ with $E_D$ and use Lemma~\ref{lem:rigid}.}
+\lby{$E_DE_I=E_D$}
+\lstep{1}{3}{\eqref{eq:thetalb}.}
+\lby{Theorem~\ref{thm:obstruction} with the test direction $\mathcal G=R_a=E_DuE_D$,
+ and $\|v_{\mathcal G}\|\le\|P^\perp\mathcal GP\|\le\|\mathcal G\|_2$}
+\lqed{1}{4}
+\end{proof}
+
+\begin{verdictbreak}[\;(S) fails; the compression is not the optimum of the programme]
+Lemma~\ref{lem:rigid} and Corollary~\ref{cor:maximal} reduce the certificate to the
+single question ``$E_DuE_D=0$?''.  The answer is no: $\|E_DuE_D\|_2^2/\|u\|_2^2=0.0143$
+in the spectral model of \S\ref{sec:num}, stable in $L$, in the weight cap, in the
+ultraviolet taper and in the geometry, and the full supremum is
+$\theta=0.300\pm0.005$.  The non-perturbative check \S\ref{sec:num}(d) reproduces
+$1-\theta$ to $10^{-3}$ from the exact defect of an explicitly constructed feasible
+channel.  Consequently the KKT certificate of Theorem~\ref{thm:kkt} does not exist at the
+zero-collar compression, and \eqref{eq:final} holds.  The one ingredient that is
+numerical rather than proved is the \emph{non-vanishing} of $E_DuE_D$ (equivalently
+$\theta>0$); everything else in the chain is proved above.
+\end{verdictbreak}
+
+\section{Verdict}\label{sec:verdict}
+
+\paragraph{Proved here (unconditionally).}
+\begin{enumerate}[leftmargin=1.8em,itemsep=1pt]
+\item[\textbf{P1}] \emph{Exact certificate.} Theorem~\ref{thm:kkt}: in the continuum,
+ where the zero-collar compression is a \emph{unitary} $V_c:\mathfrak h_D\to\mathfrak h_B$,
+ the point $(X_c,Z_c)$ maximises $\Tr(t\,Q_{\rm rec})$ over $\cF$ \emph{if and only if}
+ the uniquely determined multiplier
+ $\Sigma_1=t_{DA}Q_{AB}V_c-t_{DD}V_c^*R_-V_c$ is self-adjoint and
+ $\Sigma_1\ge0$, $\Sigma_1+t_{DD}\ge0$.  Necessity uses only explicit feasible
+ perturbations (no constraint qualification); sufficiency is weak duality for a concave
+ Lagrangian.  Both LMI constraints are active at the compression and the multipliers are
+ unique.
+\item[\textbf{P2}] \emph{Legendre reduction.} Lemma~\ref{lem:offdiag}: for a test
+ operator supported in $I$, $V(t)=\|P^\perp tP\|_2^2$ and $\Tr(t\delta_c)$ depend only on
+ $N=P^\perp tP$; the two $P$-diagonal blocks are free.  Prop.~\ref{prop:split}: the
+ certificate then splits into (S) ``$E_DNE_D$ self-adjoint'' -- which the free blocks
+ cannot influence -- and (P) a positivity sandwich which they can always satisfy.
+\item[\textbf{P3}] \emph{Value of the compression, intrinsically.}
+ Prop.~\ref{prop:u}: $g_Q(\delta_c)=\frac{s^2}2\|\Pi M\|_2^2+O(s^3)$ with
+ $\Pi M=u$ independent of the $C^{1,1}$ extension, and
+ $\|u\|_2^2=g_B/4$, i.e.\ $g_Q(\delta_c)=f_2z^2(1+o(1))$ -- Theorem~A recovered in the
+ present variables and confirmed numerically to $1\%$.
+\item[\textbf{P4}] \emph{The isometric orbit.} Lemma~\ref{lem:orbit}: for every bounded
+ anti-self-adjoint $\mathcal G$ supported in $D$, $\widetilde W=W_se^{-\eps\mathcal G}$
+ gives a feasible point of $\cF$ with
+ $\min_\eps g_Q=g_Q(\delta_c)(1-\cos^2\angle(u,v_{\mathcal G}))$, and
+ Theorem~\ref{thm:obstruction}: $\sup_{\mathcal G}\cos^2\angle=\theta$ vanishes iff
+ $E_DuE_D$ is self-adjoint, i.e.\ iff (S) holds.
+\item[\textbf{P5}] \emph{M\"obius rigidity.} Lemma~\ref{lem:rigid}: the $DD$-block of the
+ compression defect vanishes at first order, $E_D\dot\delta E_D=[p,d]=0$, because the
+ M\"obius generator commutes with the Hardy projection and is local.  Hence
+ (Cor.~\ref{cor:maximal}) $E_DuE_D$ is \emph{purely anti-self-adjoint}: condition (S) is
+ equivalent to $E_DuE_D=0$, so the certificate either exists trivially or fails
+ maximally.
+\end{enumerate}
+
+\paragraph{Established numerically (spectral model, all diagnostics stable).}
+\begin{enumerate}[leftmargin=1.8em,itemsep=1pt]
+\item[\textbf{N1}] $E_DuE_D\neq0$: $\|E_DuE_D\|_2^2/\|u\|_2^2=0.0143$.
+\item[\textbf{N2}] $\theta=0.300\pm0.005$, geometry independent (as M\"obius invariance
+ demands), cap independent, extension independent, ultraviolet-taper independent.
+\item[\textbf{N3}] Non-perturbative confirmation: the exact defect of the explicitly
+ constructed feasible channel $\widetilde W=W_se^{-\eps\mathcal G_*}$ has
+ $\min_\eps g_Q/g_Q(\delta_c)=0.705$ at $s=10^{-3}$--$5\times10^{-3}$, matching
+ $1-\theta$ to $10^{-3}$.
+\item[\textbf{N4}] $[P,\mathcal G_*]\in\Stwo$ (Shale--Stinespring), so the optimal
+ rotation is implementable and $\beta_*$ is an honest recovery channel.
+\end{enumerate}
+
+\begin{verdictbreak}[\;Answer to the S10 question: \textbf{No}]
+The zero-collar geometric compression is \emph{not} the second-order optimum of the
+quasi-free convex programme.  Modulo the single numerical input N1
+($E_DuE_D\neq0$, equivalently $\theta>0$),
+\[
+ E^{(2)}=\min_{(X,Z)\in\cF}g_Q\bigl(Q-Q_{\rm rec}(X,Z)\bigr)\ \le\ (1-\theta)f_2z^2(1+o(1))
+ \ =\ (0.70\pm0.01)\,f_2z^2(1+o(1)) ,
+\]
+attained (to that order) by \emph{composing the compression with a Bogoliubov rotation
+$e^{\eps\mathcal G_*}$ inside $B$}, $\eps=O(s)$, $\|\eps\mathcal G_*\|_{\rm op}=O(s)$.
+The mechanism is transparent: the compression defect direction $u$ has an angle with the
+span of the rotation directions whose cosine squared is $\theta\approx0.3$, so $30\%$ of
+the second-order defect can be rotated away inside $B$; M\"obius rigidity
+(Lemma~\ref{lem:rigid}) guarantees that the part of $E_DuE_D$ that would have to vanish
+for optimality is precisely the part that survives.
+\end{verdictbreak}
+
+\begin{verdictbreak}[\;Consequence for the Phase-3b programme: route 2 is closed]
+By \texttt{optimality\_all\_channels.tex} Thm.~4.1, $\mathcal D_z\le E^{(2)}$, so
+\emph{no} test operator $t$ -- the compression's SLD included -- can certify
+$\liminf z^{-2}\Erecc\ge f_2$.  The target of the Phase-3b brief
+(``the programme has second-order value $f_2z^2$'') is false as stated; the correct
+target is $E^{(2)}$, which is at most $0.71f_2z^2$.  The all-channel equivalence of
+Thm.~4.1(3) is untouched: it says the all-channel and quasi-free second-order optima
+coincide, and both are now known to be strictly below the compression value.
+\end{verdictbreak}
+
+\begin{verdictgap}[\;What is not settled]
+(i) $\theta>0$ is numerical, not proved; a proof needs
+$E_DuE_D\ne0$, i.e.\ that the Riesz vector of the compression direction has a nonzero
+$DD$-corner.  (ii) $(1-\theta)f_2z^2$ is an \emph{upper} bound for $E^{(2)}$: the
+non-isometric part of $\cF$ (genuine noise $Y>0$) was not analysed, so
+$\kappa_{\rm opt}\le0.71$ but its exact value is open.  (iii) The passage from
+$g_Q$ to $-\log\Fid$ for the rotated channel (the ``upper half'' of the second-order
+expansion) is assumed, as discussed in \S\ref{sec:lower}; the programme statement and
+the blocking statement do not need it.  (iv) Theorem~\ref{thm:kkt} was stated for
+trace-class $t$; the regularisation of the diagonal blocks in Cor.~\ref{cor:Pfree} was
+not carried out (it is not needed for the refutation).
+\end{verdictgap}
+\end{document}

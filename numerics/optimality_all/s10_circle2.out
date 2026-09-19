@@ -1,0 +1,20 @@
+--- convergence in L (Moebius field), a=2, Lg=1 ---
+ L= 256 a= 2.0 Lg= 1.0 al= 3.0 cap= 1e+10 |u|^2=0.001847 pred=0.007505 ratio=0.2461 antiherm/|R|=0.97632 theta_lb=0.01439
+ L= 384 a= 2.0 Lg= 1.0 al= 3.0 cap= 1e+10 |u|^2=0.001853 pred=0.007505 ratio=0.2468 antiherm/|R|=0.98929 theta_lb=0.01424
+ L= 512 a= 2.0 Lg= 1.0 al= 3.0 cap= 1e+10 |u|^2=0.001856 pred=0.007505 ratio=0.2473 antiherm/|R|=0.99396 theta_lb=0.01425
+ L= 768 a= 2.0 Lg= 1.0 al= 3.0 cap= 1e+10 |u|^2=0.001860 pred=0.007505 ratio=0.2478 antiherm/|R|=0.99733 theta_lb=0.01431
+--- extension independence ---
+ L= 512 a= 2.0 Lg= 1.0 al= 1.5 cap= 1e+10 |u|^2=0.001853 pred=0.007505 ratio=0.2469 antiherm/|R|=0.99834 theta_lb=0.01409
+ L= 512 a= 2.0 Lg= 1.0 al= 3.0 cap= 1e+10 |u|^2=0.001856 pred=0.007505 ratio=0.2473 antiherm/|R|=0.99396 theta_lb=0.01425
+ L= 512 a= 2.0 Lg= 1.0 al= 6.0 cap= 1e+10 |u|^2=0.001860 pred=0.007505 ratio=0.2479 antiherm/|R|=0.97772 theta_lb=0.01479
+--- other geometries ---
+ L= 512 a= 1.0 Lg= 1.0 al= 3.0 cap= 1e+10 |u|^2=0.001038 pred=0.004222 ratio=0.2460 antiherm/|R|=0.98925 theta_lb=0.01419
+ L= 512 a= 4.0 Lg= 1.0 al= 3.0 cap= 1e+10 |u|^2=0.002679 pred=0.010808 ratio=0.2479 antiherm/|R|=0.99582 theta_lb=0.01429
+ L= 512 a= 2.0 Lg= 0.5 al= 3.0 cap= 1e+10 |u|^2=0.000670 pred=0.010808 ratio=0.0620 antiherm/|R|=0.99553 theta_lb=0.01389
+ L= 512 a= 8.0 Lg= 1.0 al= 3.0 cap= 1e+10 |u|^2=0.003280 pred=0.013343 ratio=0.2458 antiherm/|R|=0.99659 theta_lb=0.01432
+--- cap ladder ---
+ L= 512 a= 2.0 Lg= 1.0 al= 3.0 cap= 1e+04 |u|^2=0.001853 pred=0.007505 ratio=0.2470 antiherm/|R|=0.99396 theta_lb=0.01426
+ L= 512 a= 2.0 Lg= 1.0 al= 3.0 cap= 1e+06 |u|^2=0.001856 pred=0.007505 ratio=0.2473 antiherm/|R|=0.99396 theta_lb=0.01425
+ L= 512 a= 2.0 Lg= 1.0 al= 3.0 cap= 1e+08 |u|^2=0.001856 pred=0.007505 ratio=0.2473 antiherm/|R|=0.99396 theta_lb=0.01425
+ L= 512 a= 2.0 Lg= 1.0 al= 3.0 cap= 1e+10 |u|^2=0.001856 pred=0.007505 ratio=0.2473 antiherm/|R|=0.99396 theta_lb=0.01425
+ L= 512 a= 2.0 Lg= 1.0 al= 3.0 cap= 1e+12 |u|^2=0.001856 pred=0.007505 ratio=0.2473 antiherm/|R|=0.99396 theta_lb=0.01425

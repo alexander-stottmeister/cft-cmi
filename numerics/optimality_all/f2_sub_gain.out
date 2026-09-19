@@ -1,0 +1,28 @@
+L=64 nD=15 cap=1e+10: theta=0.350955 1-theta=0.649045 g0=3.704112e-03 lam_min(M)=-3.108e-01 lam_min(M-tau)=-3.108e-01
+   sub[eigM]: FAILED ValueError: matmul: Input operand 1 does not have enough dimensions (has 0, gufunc core with signature (n?,k),(k,m?)->(n?,m?) requires 1)
+   sub[eigMtau] k=4: q*=2.448794e+08 [optimal]  recomputed g_red=2.374153e+08 l=-1.0000e+00 -> gain/g0 = 2.842806e-07  kappa <= 0.64904512
+   sub[svdQDA]: FAILED ValueError: matmul: Input operand 1 does not have enough dimensions (has 0, gufunc core with signature (n?,k),(k,m?)->(n?,m?) requires 1)
+/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/optimality_all/f2_sub_gain.py:45: UserWarning: Solution may be inaccurate. Try another solver, adjusting the solver settings, or solve with verbose=True for more information.
+  pr.solve(solver=solver)
+   sub[mix] k=8: q*=6.970011e+05 [optimal_inaccurate]  recomputed g_red=3.204868e+05 l=-1.0000e+00 -> gain/g0 = 2.105939e-04  kappa <= 0.64883481
+   sub[rand]: FAILED ValueError: matmul: Input operand 1 does not have enough dimensions (has 0, gufunc core with signature (n?,k),(k,m?)->(n?,m?) requires 1)
+   BEST gain/g0 = 2.105939e-04  =>  kappa_full <= 0.64883481 (1-theta = 0.64904541)  [670s]
+L=128 nD=31 cap=1e+10: theta=0.291179 1-theta=0.708821 g0=3.679304e-03 lam_min(M)=-3.477e-02 lam_min(M-tau)=-3.476e-02
+   sub[eigM]: FAILED ValueError: matmul: Input operand 1 does not have enough dimensions (has 0, gufunc core with signature (n?,k),(k,m?)->(n?,m?) requires 1)
+   sub[eigMtau]: FAILED ValueError: matmul: Input operand 1 does not have enough dimensions (has 0, gufunc core with signature (n?,k),(k,m?)->(n?,m?) requires 1)
+   sub[svdQDA]: FAILED ValueError: matmul: Input operand 1 does not have enough dimensions (has 0, gufunc core with signature (n?,k),(k,m?)->(n?,m?) requires 1)
+   sub[mix]: FAILED SolverError: Solver 'CLARABEL' failed. Try another solver, or solve with verbose=True for more information.
+   sub[rand]: FAILED ValueError: matmul: Input operand 1 does not have enough dimensions (has 0, gufunc core with signature (n?,k),(k,m?)->(n?,m?) requires 1)
+   BEST gain/g0 = 0.000000e+00  =>  kappa_full <= 0.70882131 (1-theta = 0.70882131)  [1559s]
+L=256 nD=63 cap=1e+10: theta=0.289582 1-theta=0.710418 g0=3.693557e-03 lam_min(M)=-5.864e-02 lam_min(M-tau)=-5.864e-02
+   sub[eigM]: FAILED ValueError: matmul: Input operand 1 does not have enough dimensions (has 0, gufunc core with signature (n?,k),(k,m?)->(n?,m?) requires 1)
+   sub[eigMtau]: FAILED ValueError: matmul: Input operand 1 does not have enough dimensions (has 0, gufunc core with signature (n?,k),(k,m?)->(n?,m?) requires 1)
+   sub[svdQDA]: FAILED ValueError: matmul: Input operand 1 does not have enough dimensions (has 0, gufunc core with signature (n?,k),(k,m?)->(n?,m?) requires 1)
+   sub[mix]: FAILED ValueError: matmul: Input operand 1 does not have enough dimensions (has 0, gufunc core with signature (n?,k),(k,m?)->(n?,m?) requires 1)
+   sub[rand]: FAILED ValueError: matmul: Input operand 1 does not have enough dimensions (has 0, gufunc core with signature (n?,k),(k,m?)->(n?,m?) requires 1)
+   BEST gain/g0 = 0.000000e+00  =>  kappa_full <= 0.71041754 (1-theta = 0.71041754)  [4962s]
+
+#    L     1-theta    max gain/g0    kappa_full <=
+    64 0.649045 2.1059e-04 0.64883481
+   128 0.708821 0.0000e+00 0.70882131
+   256 0.710418 0.0000e+00 0.71041754

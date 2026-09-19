@@ -1,0 +1,1652 @@
+\documentclass[11pt]{article}\input{rigor_preamble}
+\usepackage{longtable}
+\newcommand{\pv}{\operatorname{pv}}
+\newcommand{\ip}[2]{\left\langle #1,#2\right\rangle}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\Ad}{\operatorname{Ad}}
+\newcommand{\CAR}{\operatorname{CAR}}
+\newcommand{\Ran}{\operatorname{Ran}}
+\newcommand{\one}{\mathbf 1}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\Stwo}{\mathfrak S_2}
+\newcommand{\Sone}{\mathfrak S_1}
+\newcommand{\MI}{\operatorname{MI}}
+\title{\color{navy}\bfseries Referee report on Note~5\\[.2em]
+\large\mdseries\emph{Fidelity of the recovered quasi-free state}\\
+Lamport-style verification of Sections 1--5 and 7}
+\author{}\date{}
+\newcommand{\N}[1]{\textsf{[N5,\,#1]}}
+\newcommand{\Nf}[1]{\textsf{[N4,\,#1]}}
+\begin{document}\maketitle
+\vspace{-1.2em}
+\begin{abstract}\noindent
+Every lemma, theorem, proposition, corollary and displayed formula of the theoretical part
+(Sections 1--5 and 7) of \texttt{fidelity\_recovered\_quasifree.tex} (``N5'') is re-derived from
+scratch.  Most of the mathematics survives, and several statements are strengthened here to exact
+identities that N5 only asserts asymptotically: a closed form for the defect kernel in the modular
+coordinate that makes the M\"obius reduction manifest, exactness in $\zeta$ of the ultraviolet
+tail $\tfrac2{15}\zeta^2\kappa^{-3}$, an exact $C\kappa e^{-\kappa}$ law for the first-order
+diagonal, and a \emph{proof} of the monotonicity of $\Phi$ that N5 only confirms numerically.
+
+One issue is proof-breaking: the $\lambda$-dependent half of Corollary 5.1's translation to
+Vardhan--Wei--Zou.  For a two-dimensional CFT the two chiralities carry \emph{opposite} modular
+rotations, so $-\log \Fid^{(\lambda)}=\Phi(\zeta_-)+\Phi(\zeta_+)$ is \emph{even} in $\lambda$ and
+the ordinary Petz map \emph{is} optimal in the family.  N5's central qualitative claim --- that the
+best rotated map is the geometric compression of $ABC$ onto $AB$, improving on the ordinary Petz
+map by a factor $4$ --- therefore holds only for a single chiral component, and is already
+falsified for the physical theory by VWZ's own Fig.~3 and item 3.
+
+Two further defects: the box-mode matrix elements (\texttt{Qbox}) omit the phase
+$e^{i(k_l-k_j)\xi_0}$ required by N5's own definition of $e_j$, and are combined in the numerics
+with a defect matrix that \emph{does} carry it, so $Q_N-\widehat D$ is not literally a compression
+(the numerical effect on $\Phi$ is $0.005\%$); and the last sentence of Corollary 5.1 uses an
+upper bound as if it were a lower bound.  The cited ``Ohya--Petz Cor.\ 5.12'' could not be
+obtained; the correct locator is Araki 1977, Thm.\ 3.9(2) with Thm.\ 3.8(2)($\gamma$), which does
+supply exactly what is needed.
+\end{abstract}
+\tableofcontents
+\bigskip
+
+\section*{Conventions and scope}
+\addcontentsline{toc}{section}{Conventions and scope}
+Throughout, N5 refers to \texttt{fidelity\_recovered\_quasifree.tex} and N4 to
+\texttt{continuum\_petz\_free\_fermion.tex}.  Equation tags in typewriter face are N5's own
+labels, e.g.\ (\texttt{tail}) means N5's \texttt{eq:tail}.  The following conventions are
+fixed once and cited thereafter:
+
+\begin{itemize}
+\item[(C1)] \Nf{eq:hardy-kernel} \emph{Hardy kernel.}
+$P_+(x,y)=\tfrac12\delta(x-y)-\tfrac{i}{2\pi}\pv\frac1{x-y}$.  With
+$\widehat g(p)=\int g(x)e^{-ipx}dx$ this is multiplication by $\mathbf 1_{\{p<0\}}$, hence a
+projection; the opposite Fourier convention gives $\mathbf 1_{\{p>0\}}$.  Either way all
+statements below are internally consistent with (C1), which is what matters.
+\item[(C2)] \emph{Two-point convention.} $\omega_Q(a^*(f)a(g))=\ip{g}{Qf}$, i.e.\
+$\omega(a_i^*a_j)=Q_{ji}$ in an orthonormal basis.  (Verified against brute-force Fock space in
+\texttt{numerics/test\_formula.py}, deviation $\le5\cdot10^{-16}$ for $n\le4$ modes.)
+\item[(C3)] \emph{Geometry.} $A=(-a,0)$, $D=BC=(0,L)$, $I=(-a,L)$, $L=b+c$,
+$h_s(x)=Lx/(L+sx)$, $J_s=(-a,L/(1+s))$, $\zeta=as/(a+L)$, $z=ac/(b(a+b+c))$,
+$\lambda=c/b$, $\beta(x)=(x+a)(L-x)/(a+L)$, $\xi(x)=\log\frac{x+a}{L-x}$, $\xi_0=\log(a/L)$,
+$\beta_0=\beta(0)=aL/(a+L)$.
+\item[(C4)] \emph{Root fidelity.} $\Fid(\rho,\sigma)=\Tr(\rho^{1/2}\sigma\rho^{1/2})^{1/2}
+=\|\sqrt\rho\sqrt\sigma\|_1$; monotone nondecreasing under restriction to a subalgebra; this is
+also VWZ's $F$ (VWZ (2.1)--(2.3), p.~8).
+\item[(C5)] \emph{Two incompatible $\eta$'s.}  N4 (\texttt{eq:CMI-LX}) uses
+$\eta_{\mathrm{LX}}=\frac{b(a+b+c)}{(a+b)(b+c)}=\frac1{1+z}$; VWZ (1.8) and N5's
+\S5 paragraph use $\eta_{\mathrm{V}}=\frac{ac}{(a+b)(b+c)}=\frac{z}{1+z}$.  Thus
+$\eta_{\mathrm{LX}}+\eta_{\mathrm{V}}=1$.  \textbf{N5 uses both letters $\eta$ without warning}
+(see \S\ref{sec:cor51}).  In this report $\eta:=\eta_{\mathrm{V}}$ unless subscripted.
+\end{itemize}
+All numerics quoted below were produced with
+\texttt{scratchpad/venv/bin/python} (numpy 2.5.2, scipy 1.18.1, mpmath 1.3.0, sympy 1.14.0);
+scripts are transient and their outputs are reproduced verbatim.
+
+\section{Lemma 1.1 (M\"obius reduction)}\label{sec:mobius}
+
+\subsection{The cross-ratio identity}
+
+\begin{lemma}[N5 Lemma 1.1, displayed identity]\label{lem:cr}
+For $a,L,s>0$,
+$\displaystyle\frac{\bigl(\frac{L}{1+s}+a\bigr)(L-0)}{\bigl(\frac{L}{1+s}-0\bigr)(L+a)}=1+\frac{as}{a+L}=1+\zeta .$
+\end{lemma}
+
+\lstep{1}{1}{$\bigl(\tfrac{L}{1+s}+a\bigr)L=\tfrac{L}{1+s}\bigl(L+a(1+s)\bigr)$.}
+\lby{$\tfrac{L}{1+s}+a=\tfrac{L+a(1+s)}{1+s}$ and multiplication by $L$}
+\lstep{1}{2}{The quotient equals $\dfrac{L+a(1+s)}{L+a}$.}
+\lby{$\langle1\rangle1$, cancelling the factor $\tfrac{L}{1+s}$ against the denominator
+$\bigl(\tfrac{L}{1+s}-0\bigr)$ and $L+a$ against $L+a$}
+\lstep{1}{3}{$\dfrac{L+a+as}{L+a}=1+\dfrac{as}{a+L}$.}
+\lby{$a(1+s)=a+as$ and distributivity}
+\lqed{1}{4}
+\lby{$\langle1\rangle2$, $\langle1\rangle3$}
+
+Machine check (sympy): \verb|simplify(cr - (1+a*s/(a+L))) = 0|.  Also
+$\zeta|_{s=2c/b}-2z=0$ and $\eta_{\mathrm V}/(1-\eta_{\mathrm V})-z=0$ (same run).
+The four points $-a<0<\frac{L}{1+s}<L$ are the endpoints of $J_s$ and $I$ interleaved, and the
+displayed quantity is the standard cross ratio $(x_1,x_3;x_2,x_4)$ of
+$x_1=-a,x_2=0,x_3=\frac L{1+s},x_4=L$.
+
+\begin{verdictok}
+The cross-ratio identity is correct as displayed, and the two derived identities
+$\zeta_{\mathrm P}=2z$ and $z=\eta_{\mathrm V}/(1-\eta_{\mathrm V})$ used later are correct.
+\end{verdictok}
+
+\subsection{The covariance argument}
+
+N5's proof consists of five assertions.  I check each.
+
+\lstep{1}{1}{\emph{(Half-density action.)} For $g$ M\"obius with $g(I)$ bounded and $g'>0$ on a
+neighbourhood of $\overline I$, $(U(g)f)(y)=g'(g^{-1}y)^{-1/2}f(g^{-1}y)$ is unitary on
+$L^2(\mathbb R;\mathbb C^r)$ and commutes with $P_+$.}
+\lproof
+\lstep{2}{1}{$U(g)$ is unitary: substitute $y=g(x)$, $dy=g'(x)dx$.}
+\lby{the computation in \Nf{lem:V-isometry}, which is the same computation for $g=h_s$}
+\lstep{2}{2}{$U(g)$ preserves the Cauchy kernel: for a M\"obius $g$,
+$\dfrac{\sqrt{g'(x)g'(y)}}{g(x)-g(y)}=\dfrac1{x-y}$.}
+\lby{\Nf{eq:mobius-cauchy}; for $g(x)=\frac{\alpha x+\beta}{\gamma x+\delta}$,
+$g(x)-g(y)=\frac{(\alpha\delta-\beta\gamma)(x-y)}{(\gamma x+\delta)(\gamma y+\delta)}$ and
+$g'(x)=\frac{\alpha\delta-\beta\gamma}{(\gamma x+\delta)^2}$}
+\lstep{2}{3}{Hence $U(g)^*P_+U(g)=P_+$ on the dense set of $f$ with $\supp f$ compact in
+$\mathbb R\setminus\{g^{-1}(\infty)\}$, and therefore everywhere.}
+\lby{$\langle2\rangle2$ applied to the kernel (C1): the $\delta$-part is invariant under any
+half-density push-forward and the $\pv\frac1{x-y}$ part by $\langle2\rangle2$}
+\lqed{2}{4}\lby{$\langle2\rangle1$--$\langle2\rangle3$}
+
+\lstep{1}{2}{\emph{(Vacuum invariance.)} The Bogoliubov automorphism $\theta_g(a(f))=a(U(g)f)$
+preserves the quasi-free vacuum state $\omega$ with symbol $P_+$, and $\theta_g(\cF_r(X))=\cF_r(g(X))$.}
+\lby{$\omega(a^*(f)a(f'))=\ip{f'}{P_+f}$ (C2) and $\langle1\rangle1$; locality of $U(g)$ (it is a
+composition operator, hence maps $L^2(X)$ onto $L^2(g(X))$) gives the second claim}
+
+\lstep{1}{3}{\emph{(Parabolic conjugation.)} $\{h_s\}_{s\ge0}$ is the one-parameter subgroup fixing
+$0$ with $h_s'(0)=1$, and $g\circ h_s\circ g^{-1}$ is the one-parameter subgroup fixing $g(0)$ with
+derivative $1$ there.}
+\lproof
+\lstep{2}{1}{$h_s(0)=0$, $h_s'(0)=L^2/L^2=1$, $h_s\circ h_t=h_{s+t}$.}
+\lby{\Nf{eq:h-derivative-semigroup}}
+\lstep{2}{2}{Conjugation by a M\"obius $g$ is a group automorphism of $\mathrm{PSL}(2,\mathbb R)$
+carrying the stabiliser of $0$ to the stabiliser of $g(0)$ and preserving the parabolic type.}
+\lby{$\mathrm{tr}^2$ of the $\mathrm{SL}(2,\mathbb R)$ representative is a conjugation invariant,
+and $h_s\ne\id$ has a unique fixed point $0$}
+\lqed{2}{3}\lby{$\langle2\rangle1$, $\langle2\rangle2$}
+
+\lstep{1}{4}{\emph{(Intertwining of the construction.)} $\Ad U(g)$ carries the pair
+$(\omega,\widetilde\omega_s)$ for the data $(A,D,h_s)$ to the pair for $(g(A),g(D),gh_sg^{-1})$.}
+\lproof
+\lstep{2}{1}{$k_s=\id_A\sqcup h_s|_D$ and $g\circ k_s\circ g^{-1}=\id_{g(A)}\sqcup (gh_sg^{-1})|_{g(D)}$.}
+\lby{$k_s$ is defined branchwise (\Nf{eq:k-s}) and conjugation is applied branchwise; the two
+branches still join at $g(0)$ with matching derivative by $\langle1\rangle3$}
+\lstep{2}{2}{$W^{g}_s:=U(g)W_sU(g)^{-1}$ is the half-density push-forward of $gk_sg^{-1}$, hence
+$\overline\beta^{\,g}_s=\Ad\theta_g\circ\overline\beta_s\circ\Ad\theta_g^{-1}$.}
+\lby{$\langle2\rangle1$, functoriality of $f\mapsto a(f)$, and uniqueness of the normal extension
+(\Nf{thm:normal-extension})}
+\lstep{2}{3}{$\widetilde\omega^{\,g}_s=\omega\circ\overline\beta^{\,g}_s
+=\omega\circ\theta_g\circ\overline\beta_s\circ\theta_g^{-1}=\widetilde\omega_s\circ\theta_g^{-1}$.}
+\lby{$\langle1\rangle2$ ($\omega\circ\theta_g=\omega$) and $\langle2\rangle2$}
+\lqed{2}{4}\lby{$\langle2\rangle3$ and $\omega=\omega\circ\theta_g^{-1}$}
+
+\lstep{1}{5}{\emph{(Invariance of $\Fid$ and $\mathcal D$ under a common automorphism.)}
+For a normal $*$-isomorphism $\theta$ of $\cM$ onto $\cN$ and normal states $\varphi,\psi$ on
+$\cN$: $\Fid_{\cM}(\varphi\circ\theta,\psi\circ\theta)=\Fid_{\cN}(\varphi,\psi)$ and likewise
+for Araki relative entropy.}
+\lby{monotonicity under the unital normal $*$-homomorphisms $\theta$ and $\theta^{-1}$,
+applied twice}
+
+\lstep{1}{6}{\lsuffices $\Fid$ and $\mathcal D$ are functions of the ordered quadruple
+$(-a,0,\tfrac L{1+s},L)$ modulo $\mathrm{PSL}(2,\mathbb R)$, whose only invariant is the cross ratio.}
+\lby{$\langle1\rangle4$, $\langle1\rangle5$ and Lemma~\ref{lem:cr}}
+\lqed{1}{7}\lby{$\langle1\rangle1$--$\langle1\rangle6$}
+
+\paragraph{Two hypotheses N5 does not state.}
+(a) The M\"obius group acts on $S^1=\mathbb R\cup\{\infty\}$, so $U(g)$ is unitary on
+$L^2(\mathbb R)$ only after the half-density identification; if $g^{-1}(\infty)$ lies in
+$\overline I$ the transformation is still fine on $L^2(I)$ but the sentence ``$g$ with $g(I)$
+bounded'' must be read as ``$g$ maps $\overline I$ into $\mathbb R$'', which is what is used.
+(b) The transitivity step $\langle1\rangle6$ needs \emph{orientation-preserving} $g$ and the
+$4$-transitivity of $\mathrm{PSL}(2,\mathbb R)$ on \emph{ordered} quadruples with fixed cross
+ratio; both hold.  Neither gap is substantive.
+
+\paragraph{Independent confirmation, and a strengthening.}
+The reduction can be verified without any group theory.  In the modular coordinate
+$\xi$ of (C3), put $p=\xi_0-\xi>0$ on the $A$ side and $p'=\xi'-\xi_0>0$ on the $D$ side,
+$M=\tfrac{p+p'}2$, $S_p=\sinh\tfrac p2$.  Then (proved in \S\ref{sec:closed} below)
+\begin{equation}\label{eq:Fclosed}
+ \boxed{\ \widetilde F(p,p'):=\sqrt{\beta(x)\beta(y)}\,R_s(-x,y)
+ =\frac{\zeta\,S_pS_{p'}}{\sinh M\,\bigl(\sinh M+2\zeta\,S_pS_{p'}\bigr)}\ }
+\end{equation}
+\emph{depends on $(a,L,s)$ only through $\zeta$}.  Since the vacuum kernel in the same
+coordinate is the universal $\tfrac12\delta-\tfrac i{4\pi}\operatorname{csch}\frac{\xi-\xi'}2$
+(\S\ref{sec:box}), the \emph{entire pair of symbols} $(\widetilde Q,\widetilde Q-\widetilde D_s)$
+in the $\xi$-representation is a function of $\zeta$ alone --- a much stronger statement than
+Lemma 1.1, and one that covers fidelity, all $\alpha$-R\'enyi divergences, and the relative
+entropy simultaneously.
+
+\begin{verdictok}
+Lemma 1.1 is correct, for both the fidelity and the relative entropy, and the covariance argument
+is repairable to a complete proof exactly as sketched.  Formula \eqref{eq:Fclosed}, verified to
+$4.5\cdot10^{-11}$ relative against the direct kernel at $s\in\{0.2,1,3\}$ and
+$p,p'\in\{10^{-6},\dots,12\}$, gives an independent and stronger proof.  The only omissions are
+the two unstated hypotheses above.
+\end{verdictok}
+
+\section{Section 2: quasi-free fidelity and relative entropy}\label{sec:finite}
+
+\subsection{The Fock functor identities (\texttt{fock-functor}), (\texttt{rho-Q})}
+
+\begin{lemma}[N5 (\texttt{fock-functor})]\label{lem:fock}
+Let $\dim\mathfrak h=n<\infty$, $\Lambda\mathfrak h=\bigoplus_{m=0}^n\Lambda^m\mathfrak h$,
+$\Gamma(X)=\bigoplus_m X^{\wedge m}$ with $X^{\wedge m}(f_1\wedge\dots\wedge f_m)=Xf_1\wedge\dots\wedge Xf_m$
+and $X^{\wedge0}=1$.  Then
+(i) $\Gamma(X)\Gamma(Y)=\Gamma(XY)$; (ii) $\Gamma(X)^*=\Gamma(X^*)$;
+(iii) $X\ge0\Rightarrow\Gamma(X)\ge0$ and $\Gamma(X)^{1/2}=\Gamma(X^{1/2})$;
+(iv) $\Tr\Gamma(X)=\det(1+X)$.
+\end{lemma}
+\lstep{1}{1}{(i) holds on each $\Lambda^m$.}
+\lby{$(XY)f_1\wedge\dots\wedge(XY)f_m=X^{\wedge m}(Yf_1\wedge\dots\wedge Yf_m)$}
+\lstep{1}{2}{(ii) holds on each $\Lambda^m$.}
+\lby{$\ip{g_1\wedge\dots\wedge g_m}{X^{\wedge m}(f_1\wedge\dots\wedge f_m)}=\det[\ip{g_i}{Xf_j}]
+=\overline{\det[\ip{Xf_j}{g_i}]}$, so the adjoint is $(X^*)^{\wedge m}$}
+\lstep{1}{3}{(iii): if $X\ge0$ then $X^{1/2}$ exists, $\Gamma(X^{1/2})^*\Gamma(X^{1/2})=\Gamma(X)$ by
+$\langle1\rangle1$--$\langle1\rangle2$, so $\Gamma(X)\ge0$; and $\Gamma(X^{1/2})\ge0$ by the same
+argument applied to $X^{1/4}$, so $\Gamma(X^{1/2})$ \emph{is} the positive square root.}
+\lby{uniqueness of the positive square root}
+\lstep{1}{4}{(iv): $\Tr X^{\wedge m}=e_m(\text{eigenvalues of }X)$, the $m$-th elementary symmetric
+function, and $\sum_{m=0}^ne_m(x_1,\dots,x_n)=\prod_j(1+x_j)=\det(1+X)$.}
+\lby{choose a basis triangularising $X$; $X^{\wedge m}$ is then triangular with diagonal
+$\prod_{j\in S}x_j$, $|S|=m$}
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$}
+
+\begin{lemma}[N5 (\texttt{rho-Q})]\label{lem:rhoQ}
+For $0<Q<1$ on $\mathfrak h$ and $G=Q(1-Q)^{-1}$, the density matrix of the gauge-invariant
+quasi-free state with two-point function \textup{(C2)} is $\rho_Q=\det(1-Q)\,\Gamma(G)$.
+\end{lemma}
+\lstep{1}{1}{$\Tr\Gamma(G)=\det(1+G)=\det\bigl((1-Q)^{-1}\bigr)=\det(1-Q)^{-1}$, so $\Tr\rho_Q=1$.}
+\lby{Lemma~\ref{lem:fock}(iv) and $1+G=1+Q(1-Q)^{-1}=(1-Q)^{-1}$}
+\lstep{1}{2}{In an eigenbasis of $Q$ with eigenvalues $q_j$, $\Gamma(G)$ is diagonal in the
+occupation basis with eigenvalue $\prod_{j\in S}g_j$ on the state with occupied set $S$, so
+$\rho_Q=\bigotimes_j\bigl((1-q_j)\oplus q_j\bigr)$ and $\omega(a_j^*a_j)=q_j$.}
+\lby{$\langle1\rangle1$, $\det(1-Q)\prod_{j\in S}g_j=\prod_{j\in S}q_j\prod_{j\notin S}(1-q_j)$}
+\lstep{1}{3}{Both sides of \textup{(C2)} are sesquilinear in $(f,g)$ and agree on an eigenbasis
+of $Q$, and $\omega_Q(a_i^*a_j)=0$ for $i\ne j$ by gauge invariance in that basis.}
+\lby{$\langle1\rangle2$}
+\lqed{1}{4}\lby{$\langle1\rangle1$--$\langle1\rangle3$}
+
+\begin{verdictok}
+Both identities hold with N5's conventions.  N5's parenthetical justification
+``$\Gamma(G)=\exp(a^*(\log G)a)$ is the Gibbs operator of $-\log G$'' is correct but requires
+$G>0$, which holds because $0<Q<1$; for $Q$ with $0$ or $1$ in its spectrum the exponential form
+fails while $\det(1-Q)\Gamma(G)$ still makes sense only after a limit --- irrelevant here since
+$0<Q_n<1$ is proved in Theorem 3.1.  Numerically confirmed: \texttt{test\_formula.py} reports
+$\max_{ij}|\Tr(\rho_1a_i^*a_j)-Q_{ji}|\le5.6\cdot10^{-16}$ for $n\le4$.
+\end{verdictok}
+
+\subsection{Theorem 2.1 (root fidelity)}
+
+\begin{theorem}[N5 Theorem 2.1]\label{thm:F}
+For $0<Q_1,Q_2<1$ on finite-dimensional $\mathfrak h$, $G_i=Q_i(1-Q_i)^{-1}$,
+$S_i=Q_i^{1/2}$, $C_i=(1-Q_i)^{1/2}$:
+\[
+ \Fid(\omega_{Q_1},\omega_{Q_2})
+ =\det[(1-Q_1)(1-Q_2)]^{1/2}\det\bigl[1+(G_1^{1/2}G_2G_1^{1/2})^{1/2}\bigr]
+ =\frac{\det(S_1S_2+C_1UC_2)}{\det U},
+\]
+where $G_1^{1/2}G_2^{1/2}=U|G_1^{1/2}G_2^{1/2}|$ is the polar decomposition.
+\end{theorem}
+
+\lstep{1}{1}{$\rho_1^{1/2}=\det(1-Q_1)^{1/2}\Gamma(G_1^{1/2})$.}
+\lby{Lemma~\ref{lem:rhoQ}, Lemma~\ref{lem:fock}(iii), and $(c\,\Gamma(G))^{1/2}=c^{1/2}\Gamma(G)^{1/2}$
+for the scalar $c=\det(1-Q_1)>0$}
+\lstep{1}{2}{$\rho_1^{1/2}\rho_2\rho_1^{1/2}=\det(1-Q_1)\det(1-Q_2)\,\Gamma(T)$, $T=G_1^{1/2}G_2G_1^{1/2}\ge0$.}
+\lby{$\langle1\rangle1$ and Lemma~\ref{lem:fock}(i) applied twice}
+\lstep{1}{3}{$\Fid=\Tr(\rho_1^{1/2}\rho_2\rho_1^{1/2})^{1/2}
+=[\det(1-Q_1)\det(1-Q_2)]^{1/2}\,\Tr\Gamma(T^{1/2})
+=[\det(1-Q_1)\det(1-Q_2)]^{1/2}\det(1+T^{1/2})$.}
+\lby{$\langle1\rangle2$, Lemma~\ref{lem:fock}(iii),(iv), and (C4)}
+\lstep{1}{4}{$\det[(1-Q_1)(1-Q_2)]^{1/2}=\det C_1\det C_2$.}
+\lby{multiplicativity of $\det$; $C_i>0$ so $\det C_i=\det(1-Q_i)^{1/2}>0$}
+\lstep{1}{5}{With $X=G_1^{1/2}G_2^{1/2}$: $T=XX^*$ and $\det(1+T^{1/2})=\det(1+|X|)$.}
+\lby{$XX^*=G_1^{1/2}G_2G_1^{1/2}=T$; $|X^*|=U|X|U^*$ so the two have the same spectrum}
+\lstep{1}{6}{$\det(1+|X|)=\det(U+X)/\det U$.}
+\lby{$U^*(U+X)=1+U^*X=1+|X|$ and multiplicativity of $\det$; $U$ is unitary because
+$G_1,G_2>0$ makes $X$ invertible}
+\lstep{1}{7}{$C_1XC_2=S_1S_2$.}
+\lby{$G_i^{1/2}=S_iC_i^{-1}=C_i^{-1}S_i$ (all functions of $Q_i$ commute), so
+$C_1XC_2=C_1S_1C_1^{-1}\cdot C_2^{-1}S_2C_2=S_1S_2$}
+\lstep{1}{8}{$\det C_1\det C_2\det(U+X)=\det(C_1UC_2+S_1S_2)$.}
+\lby{$C_1(U+X)C_2=C_1UC_2+S_1S_2$ by $\langle1\rangle7$, and multiplicativity}
+\lqed{1}{9}\lby{$\langle1\rangle3$--$\langle1\rangle8$}
+
+\paragraph{Commuting case.}
+If $[Q_1,Q_2]=0$ then $[G_1,G_2]=0$, so $X=G_1^{1/2}G_2^{1/2}>0$ and $U=1$; then
+$\det(S_1S_2+C_1C_2)=\prod_j\bigl(\sqrt{q_jq_j'}+\sqrt{(1-q_j)(1-q_j')}\bigr)$ over joint
+eigenvalues, which is the classical Bhattacharyya coefficient of the product of two-point
+distributions --- correct.
+
+\paragraph{Numerical check.}
+\texttt{numerics/test\_formula.py} builds $\rho_{Q}$ explicitly on $2^n$-dimensional Fock space by
+Jordan--Wigner for random $Q_1,Q_2$ and compares $\Tr|\sqrt{\rho_1}\sqrt{\rho_2}|$ with the
+determinant formula:
+\begin{center}\small
+\begin{tabular}{llll}\toprule
+$n$ & $\Fid$ brute force & $\Fid$ formula & $S$ brute vs.\ formula\\\midrule
+1 & 0.9985513402 & 0.9985513402 & 0.0058796910 / 0.0058796910\\
+2 & 0.4967818539 & 0.4967818539 & 4.0826279457 / 4.0826279457\\
+3 & 0.9032903912 & 0.9032903912 & 0.4289087510 / 0.4289087510\\
+4 & 0.6401145761 & 0.6401145761 & 1.7798854653 / 1.7798854653\\\bottomrule
+\end{tabular}\end{center}
+
+\begin{verdictok}
+Theorem 2.1 is correct, in both forms, and the commuting specialisation is correct.
+One remark: $\det U$ is a unimodular complex number and $\det(S_1S_2+C_1UC_2)$ is complex; only
+their quotient is real and positive.  N5 does not say this, but the formula is right as written.
+\end{verdictok}
+
+\subsection{Proposition 2.2 (relative entropy)}
+
+\begin{proposition}[N5 Prop.\ 2.2]
+$S(\omega_{Q_1}\Vert\omega_{Q_2})=\Tr[Q_1(\log Q_1-\log Q_2)+(1-Q_1)(\log(1-Q_1)-\log(1-Q_2))]$.
+\end{proposition}
+\lstep{1}{1}{$\log\rho_{Q}=\Tr\log(1-Q)\cdot\one+d\Gamma(\log G_Q)$, where
+$d\Gamma(K)=\sum_{ij}K_{ij}a_i^*a_j$.}
+\lby{Lemma~\ref{lem:rhoQ}, $\Gamma(e^K)=e^{d\Gamma(K)}$ (both sides act as
+$\prod_{j\in S}$ of the eigenvalues in a diagonalising basis), $\log\det(1-Q)=\Tr\log(1-Q)$}
+\lstep{1}{2}{$\Tr[\rho_{Q_1}d\Gamma(K)]=\Tr(Q_1K)$.}
+\lby{(C2): $\Tr[\rho_{Q_1}a_i^*a_j]=(Q_1)_{ji}$, so $\sum_{ij}K_{ij}(Q_1)_{ji}=\Tr(KQ_1)$}
+\lstep{1}{3}{$S=\Tr\rho_1(\log\rho_1-\log\rho_2)
+=\Tr\log(1-Q_1)-\Tr\log(1-Q_2)+\Tr\bigl(Q_1[\log G_1-\log G_2]\bigr)$.}
+\lby{$\langle1\rangle1$, $\langle1\rangle2$, $\Tr\rho_1=1$}
+\lstep{1}{4}{$\log G_i=\log Q_i-\log(1-Q_i)$ and substituting gives the claim.}
+\lby{$Q_i$ and $1-Q_i$ commute; then
+$\Tr\log(1-Q_1)-\Tr\log(1-Q_2)-\Tr Q_1\log(1-Q_1)+\Tr Q_1\log(1-Q_2)
+=\Tr(1-Q_1)[\log(1-Q_1)-\log(1-Q_2)]$}
+\lqed{1}{5}\lby{$\langle1\rangle3$, $\langle1\rangle4$}
+
+\begin{verdictok}
+Correct; confirmed to $10$ digits against brute-force $\Tr\rho_1(\log\rho_1-\log\rho_2)$ in the
+table above.
+\end{verdictok}
+
+\subsection{Proposition 2.3 (second order)}\label{sec:secondorder}
+
+Write $Q_2=Q_1+\eps D$, $D=D^*$, and use an eigenbasis of $Q_1$: $q_i$, $c_i=1-q_i$, $g_i=q_i/c_i$,
+$N_{ik}=q_ic_k+q_kc_i$.
+
+\subsubsection*{(a) The perturbative data}
+\lstep{1}{1}{$G_2=G_1+\eps G'+\eps^2G''+O(\eps^3)$ with $G'=(1-Q_1)^{-1}D(1-Q_1)^{-1}$,
+$G''=(1-Q_1)^{-1}D(1-Q_1)^{-1}D(1-Q_1)^{-1}$.}
+\lproof
+\lstep{2}{1}{$(1-Q_1-\eps D)^{-1}=C^{-2}+\eps C^{-2}DC^{-2}+\eps^2C^{-2}DC^{-2}DC^{-2}+O(\eps^3)$,
+$C^2:=1-Q_1$.}
+\lby{Neumann series, convergent for $\eps\|C^{-2}D\|<1$}
+\lstep{2}{2}{$G_2=(Q_1+\eps D)\cdot\langle2\rangle1$; the $O(\eps)$ term is
+$Q_1C^{-2}DC^{-2}+DC^{-2}=(Q_1C^{-2}+1)DC^{-2}=C^{-2}DC^{-2}$.}
+\lby{$Q_1(1-Q_1)^{-1}+1=(1-Q_1)^{-1}$}
+\lstep{2}{3}{The $O(\eps^2)$ term is $Q_1C^{-2}DC^{-2}DC^{-2}+DC^{-2}DC^{-2}=C^{-2}DC^{-2}DC^{-2}$.}
+\lby{same identity as $\langle2\rangle2$}
+\lqed{2}{4}\lby{$\langle2\rangle1$--$\langle2\rangle3$}
+\lstep{1}{2}{$T:=G_1^{1/2}G_2G_1^{1/2}=G_1^2+\eps A_1+\eps^2A_2$, $A_j=G_1^{1/2}G^{(j)}G_1^{1/2}$,
+and $T^{1/2}=G_1+\eps T_1+\eps^2T_2$ with
+$G_1T_1+T_1G_1=A_1$, $G_1T_2+T_2G_1=A_2-T_1^2$.}
+\lby{squaring $G_1+\eps T_1+\eps^2T_2$ and matching orders; $G_1>0$ makes the Sylvester equations
+uniquely solvable}
+\lstep{1}{3}{$(T_1)_{ik}=\dfrac{\sqrt{g_ig_k}\,D_{ik}}{c_ic_k(g_i+g_k)}$.}
+\lby{$\langle1\rangle2$: $(g_i+g_k)(T_1)_{ik}=(A_1)_{ik}=\sqrt{g_ig_k}\,G'_{ik}
+=\sqrt{g_ig_k}D_{ik}/(c_ic_k)$}
+
+This is exactly N5's displayed data (its ``$g_iT_2+T_2g_i=G_1^{1/2}G''G_1^{1/2}-T_1^2$ entrywise''
+is $\langle1\rangle2$ written sloppily but correctly).
+
+\subsubsection*{(b) The algebraic identity}
+\begin{lemma}\label{lem:alg}
+With $c_i=1-q_i$, $c_k=1-q_k$:
+$(q_ic_k+q_kc_i)^2-(q_ic_k^2+q_kc_i^2)-2q_iq_kc_ic_k=-c_ic_k(q_ic_k+q_kc_i)$.
+\end{lemma}
+\lstep{1}{1}{LHS $=q_i^2c_k^2+2q_iq_kc_ic_k+q_k^2c_i^2-q_ic_k^2-q_kc_i^2-2q_iq_kc_ic_k
+=q_i^2c_k^2+q_k^2c_i^2-q_ic_k^2-q_kc_i^2$.}
+\lby{expanding the square, the $2q_iq_kc_ic_k$ terms cancel}
+\lstep{1}{2}{$=c_k^2q_i(q_i-1)+c_i^2q_k(q_k-1)=-c_k^2q_ic_i-c_i^2q_kc_k$.}
+\lby{$q_i-1=-c_i$, $q_k-1=-c_k$}
+\lstep{1}{3}{$=-c_ic_k(q_ic_k+q_kc_i)$.}
+\lby{factoring $-c_ic_k$}
+\lqed{1}{4}\lby{$\langle1\rangle1$--$\langle1\rangle3$}
+Machine check (sympy): \verb|simplify(expand(LHS-RHS)) = 0|.
+
+\begin{lemma}[N5's brace collapses]\label{lem:brace}
+$\dfrac14-\dfrac{\tfrac12(q_ic_k^2+q_kc_i^2)+q_iq_kc_ic_k}{2N_{ik}^2}=-\dfrac{c_ic_k}{4N_{ik}}$.
+\end{lemma}
+\lstep{1}{1}{The left side is $\dfrac{N_{ik}^2-(q_ic_k^2+q_kc_i^2)-2q_iq_kc_ic_k}{4N_{ik}^2}$.}
+\lby{common denominator $4N_{ik}^2$}
+\lstep{1}{2}{The numerator is $-c_ic_kN_{ik}$.}
+\lby{Lemma~\ref{lem:alg}}
+\lqed{1}{3}\lby{$\langle1\rangle1$, $\langle1\rangle2$}
+
+Hence N5's displayed chain
+$\sum_{ik}\frac{|D_{ik}|^2}{c_ic_k}\{\cdots\}=-\frac14\sum_{ik}\frac{|D_{ik}|^2}{N_{ik}}$ is
+\emph{internally consistent}: it is Lemma~\ref{lem:brace} multiplied by $|D_{ik}|^2/(c_ic_k)$
+and summed.  What N5 does \emph{not} do is derive the brace itself; that derivation (collecting
+$\eps^2$ in $\tfrac12\log\det(1-Q_2)+\log\det(1+T^{1/2})$ using
+$\langle1\rangle1$--$\langle1\rangle3$ of (a)) is omitted.  I therefore verify the \emph{result}
+independently and numerically.
+
+\subsubsection*{(c) Independent verification of (\texttt{qfi}) and (\texttt{kubo-mori})}
+For random $Q_1$ (spectrum $1/(1+e^{2g})$, $g$ standard normal) and random $D=D^*$ with
+$\|D\|_{\mathrm F}=1$, comparing $-\log\Fid$ and $S$ computed from Theorem~\ref{thm:F} and
+Prop.\ 2.2 with the predicted quadratic coefficients:
+\begin{center}\small
+\begin{tabular}{r r r r r}\toprule
+$n$ & predicted $\tfrac14\sum\frac{|D_{ik}|^2}{N_{ik}}$ & $\eps$ & $(-\log\Fid)/\eps^2$ ratio & $S/\eps^2$ ratio\\\midrule
+2 & 0.6722448562 & $10^{-3}$ & 0.999463 & 0.999285\\
+2 & & $10^{-4}$ & 0.999946 & 0.999928\\
+3 & 0.5183640619 & $10^{-3}$ & 1.000559 & 1.000625\\
+3 & & $10^{-4}$ & 1.000055 & 1.000062\\
+5 & 0.5109750085 & $10^{-3}$ & 1.000220 & 1.000259\\
+5 & & $10^{-4}$ & 1.000022 & 1.000026\\\bottomrule
+\end{tabular}\end{center}
+(The $S$ column is compared with $\tfrac12\sum|D_{ik}|^2[\ell(q_i,q_k)+\ell(1-q_i,1-q_k)]$.)
+The residuals scale like $\eps$, confirming both coefficients and the $O(\eps^3)$ error.
+
+\subsubsection*{(d) The Bregman/Daleckii--Krein route for (\texttt{kubo-mori})}
+\lstep{1}{1}{$S(\omega_{Q_1}\Vert\omega_{Q_2})=B_f(Q_1,Q_2)+B_f(1-Q_1,1-Q_2)$ where
+$f(X)=\Tr X\log X$ and $B_f(X,Y)=f(X)-f(Y)-Df(Y)[X-Y]$.}
+\lproof
+\lstep{2}{1}{$Df(Y)[H]=\Tr H(\log Y+1)$.}
+\lby{$\frac{d}{dt}\Tr(Y+tH)\log(Y+tH)=\Tr H\log Y+\Tr H$, the second term from
+$\Tr Y\frac{d}{dt}\log(Y+tH)|_0=\Tr H$ (cyclicity under the integral representation of $\log$)}
+\lstep{2}{2}{$B_f(Q_1,Q_2)=\Tr[Q_1\log Q_1-Q_2\log Q_2-(Q_1-Q_2)(\log Q_2+1)]
+=\Tr[Q_1(\log Q_1-\log Q_2)]-\Tr(Q_1-Q_2)$.}
+\lby{$\langle2\rangle1$ and cancelling $Q_2\log Q_2$}
+\lstep{2}{3}{Adding the same with $Q_i\to1-Q_i$ makes the linear terms cancel:
+$-\Tr(Q_1-Q_2)-\Tr((1-Q_1)-(1-Q_2))=0$.}
+\lby{$\langle2\rangle2$}
+\lqed{2}{4}\lby{$\langle2\rangle2$, $\langle2\rangle3$, Prop.\ 2.2}
+\lstep{1}{2}{$B_f(Y+\eps D,Y)=\tfrac{\eps^2}2\,\partial^2f(Y)[D,D]+O(\eps^3)$ and
+$\partial^2f(Y)[D,D]=\sum_{ik}|D_{ik}|^2\,\ell(y_i,y_k)$, $\ell(p,q)=\frac{\log p-\log q}{p-q}$,
+$\ell(p,p)=1/p$.}
+\lby{Taylor with the Bregman remainder; Daleckii--Krein: for $g$ $C^1$,
+$D(\Tr g(Y))$ and $D(g)(Y)[D]_{ik}=g^{[1]}(y_i,y_k)D_{ik}$ with the divided difference
+$g^{[1]}$; with $g=\log$, $\partial^2f(Y)[D,D]=\Tr D\,D\log(Y)[D]=\sum_{ik}|D_{ik}|^2\log^{[1]}(y_i,y_k)$
+and $\log^{[1]}=\ell$}
+\lqed{1}{3}\lby{$\langle1\rangle1$, $\langle1\rangle2$ applied at $Y=Q_1$ and $Y=1-Q_1$
+(note $(1-Q_1)+\eps(-D)$, and $|(-D)_{ik}|^2=|D_{ik}|^2$)}
+
+This is exactly N5's argument, and it is correct.  The Daleckii--Krein input used is the standard
+formula $\bigl(Dg(Y)[H]\bigr)_{ik}=g^{[1]}(y_i,y_k)H_{ik}$ in an eigenbasis of $Y$; no reference
+is given in N5, which is a (minor) citation gap.
+
+\subsubsection*{(e) The modular weight (\texttt{qfi-weight}) and the classical limits}
+\begin{lemma}
+For $q_j=(1+e^{\kappa_j})^{-1}$:
+$\dfrac1{q_ic_k+q_kc_i}=1+\dfrac{\cosh\frac{\kappa_i+\kappa_k}2}{\cosh\frac{\kappa_i-\kappa_k}2}$,
+and this grows like $e^{\min(|\kappa_i|,|\kappa_k|)}$ when $\kappa_i,\kappa_k\to\pm\infty$ with
+the same sign.
+\end{lemma}
+\lstep{1}{1}{$N_{ik}=\dfrac{e^{\kappa_i}+e^{\kappa_k}}{(1+e^{\kappa_i})(1+e^{\kappa_k})}$.}
+\lby{$q_i=\frac1{1+e^{\kappa_i}}$, $c_k=\frac{e^{\kappa_k}}{1+e^{\kappa_k}}$, and adding the two
+cross terms}
+\lstep{1}{2}{$N_{ik}^{-1}=\dfrac{1+e^{\kappa_i}+e^{\kappa_k}+e^{\kappa_i+\kappa_k}}{e^{\kappa_i}+e^{\kappa_k}}
+=1+\dfrac{1+e^{\kappa_i+\kappa_k}}{e^{\kappa_i}+e^{\kappa_k}}$.}
+\lby{$\langle1\rangle1$, expanding the product and splitting off $\frac{e^{\kappa_i}+e^{\kappa_k}}{e^{\kappa_i}+e^{\kappa_k}}$}
+\lstep{1}{3}{$\dfrac{1+e^{\kappa_i+\kappa_k}}{e^{\kappa_i}+e^{\kappa_k}}
+=\dfrac{\cosh\frac{\kappa_i+\kappa_k}2}{\cosh\frac{\kappa_i-\kappa_k}2}$.}
+\lby{dividing numerator and denominator by $e^{(\kappa_i+\kappa_k)/2}$}
+\lstep{1}{4}{For $\kappa_i,\kappa_k\to+\infty$ the ratio is
+$\sim e^{(\kappa_i+\kappa_k-|\kappa_i-\kappa_k|)/2}=e^{\min(\kappa_i,\kappa_k)}$; for both
+$\to-\infty$ it is $\sim e^{-\max(\kappa_i,\kappa_k)}=e^{\min(|\kappa_i|,|\kappa_k|)}$.}
+\lby{$\cosh u\sim\frac12e^{|u|}$}
+\lqed{1}{5}\lby{$\langle1\rangle2$--$\langle1\rangle4$}
+Machine check (sympy): the difference simplifies to $0$.
+
+\paragraph{Classical limits.}
+$[Q_1,D]=0$, $D=\operatorname{diag}(d_i)$:
+(\texttt{qfi}) gives $\frac{\eps^2}4\sum_i\frac{d_i^2}{2q_ic_i}=\frac{\eps^2}8\sum_i\frac{d_i^2}{q_i(1-q_i)}$,
+the classical Fisher information of the two-point family $(q_i,1-q_i)$ with the factor $\tfrac18$
+(Bures metric $=\tfrac14\times$ Fisher, and $-\log\Fid=\tfrac12\times$ Bures$^2$ to this order:
+$-\log\Fid=\tfrac18\sum d_i^2/(q_ic_i)\eps^2$).  (\texttt{kubo-mori}) gives
+$\frac{\eps^2}2\sum_id_i^2(\frac1{q_i}+\frac1{c_i})=\frac{\eps^2}2\sum_i\frac{d_i^2}{q_i(1-q_i)}$,
+the classical relative entropy $\tfrac12\sum(\delta p)^2/p$ of the same family.  Both match N5's
+``familiar factors $\tfrac18$ and $\tfrac12$''.
+
+\begin{verdictok}
+Proposition 2.3 is correct in all its parts: the perturbative data, the algebraic identity
+(Lemma~\ref{lem:alg}), the collapse of the brace (Lemma~\ref{lem:brace}), the Kubo--Mori form via
+Bregman divergences and Daleckii--Krein, formula (\texttt{qfi-weight}) and its growth, and the two
+classical-limit checks.  Confirmed numerically to $5$ digits at $\eps=10^{-4}$.
+\end{verdictok}
+\begin{verdictgap}
+Two presentational gaps.  (i) N5 asserts ``the first-order terms cancel identically ($\Fid\le1$
+with equality at $\eps=0$)''.  This is a correct \emph{reason} only because $\eps\mapsto-\log\Fid$
+is differentiable and non-negative with a zero at $\eps=0$; N5 should say so.  (ii) The
+second-order collection producing the brace
+$\{\tfrac14-\frac{\frac12(q_ic_k^2+q_kc_i^2)+q_iq_kc_ic_k}{2(q_ic_k+q_kc_i)^2}\}$ is not carried
+out anywhere; only its consequence is stated.  Nothing is wrong --- the numerics above confirms
+the endpoint --- but as written the proof has a hole in the middle.  Also, the Daleckii--Krein
+formula is used without a reference.
+\end{verdictgap}
+
+\section{Theorem 3.1 (determinant representation)}\label{sec:detrep}
+
+\subsection{Faithfulness of the two symbols}
+
+\begin{lemma}\label{lem:kerQ}
+$\ker Q_I=\ker(1-Q_I)=\{0\}$ on $H_I=L^2(I;\mathbb C^r)$, and the same for $\widetilde Q_s$.
+\end{lemma}
+\lstep{1}{1}{For $f\in H_I\subset L^2(\mathbb R;\mathbb C^r)$ (extension by $0$),
+$\ip{f}{Q_If}=\|P_+f\|^2$ and $\ip{f}{(1-Q_I)f}=\|(1-P_+)f\|^2$.}
+\lby{$Q_I=E_IP_+E_I$, $E_If=f$, and $P_+^2=P_+=P_+^*$}
+\lstep{1}{2}{$Q_If=0\Rightarrow\ip{f}{Q_If}=0\Rightarrow P_+f=0$.}
+\lby{$\langle1\rangle1$ and positivity}
+\lstep{1}{3}{$P_+f=0$ means $\widehat f$ is supported in a closed half-line, so $f$ is the
+boundary value of a function in a Hardy space $H^2$ of a half-plane.}
+\lby{(C1): $P_+$ is the spectral projection $\mathbf 1_{\{p<0\}}(-i\partial_x)$}
+\lstep{1}{4}{A nonzero $H^2$ function has boundary values that vanish only on a Lebesgue-null
+subset of $\mathbb R$; $f$ vanishes on $\mathbb R\setminus I$, of infinite measure.  Hence $f=0$.}
+\lby{the F.\ and M.\ Riesz / Hardy-space uniqueness theorem (log-integrability of $|f|$ on
+$\mathbb R$ for $0\ne f\in H^2$)}
+\lstep{1}{5}{Same argument with $1-P_+$ gives $\ker(1-Q_I)=\{0\}$.}
+\lby{$1-P_+=\mathbf 1_{\{p>0\}}$ is the Hardy projection of the opposite half-plane}
+\lstep{1}{6}{$W_s:H_I\to H_{J_s}$ is unitary, $\widetilde Q_s=W_s^*Q_{J_s}W_s$ and
+$1-\widetilde Q_s=W_s^*(1-Q_{J_s})W_s$; so $\widetilde Q_sf=0\Rightarrow Q_{J_s}W_sf=0
+\Rightarrow W_sf=0\Rightarrow f=0$, and likewise for $1-\widetilde Q_s$.}
+\lby{\Nf{eq:W-s}, \Nf{eq:Q-tilde}, $W_s^*W_s=1_{H_I}$, $W_sW_s^*=1_{H_{J_s}}$, and
+$\langle1\rangle1$--$\langle1\rangle5$ for the interval $J_s$}
+\lqed{1}{7}\lby{$\langle1\rangle2$--$\langle1\rangle6$}
+
+N5 says only ``$W_s$ isometric inherits both properties''.  For $1-\widetilde Q_s$ one needs
+$W_s$ \emph{unitary onto} $H_{J_s}$ (an isometry with a proper range would give
+$1-W^*XW\ne W^*(1-X)W$); this holds by \Nf{lem:V-isometry}.  Minor.
+
+\subsection{The monotone limit}
+
+\lstep{1}{1}{$0<Q_n:=P_nQP_n<1$ on $P_nH_I$, and likewise $\widetilde Q_n$.}
+\lby{for $0\ne f\in P_nH_I$, $\ip{f}{Q_nf}=\ip{f}{Qf}=\|Q^{1/2}f\|^2>0$ by
+Lemma~\ref{lem:kerQ}; and $\ip{f}{(1-Q_n)f}=\|(1-Q)^{1/2}f\|^2>0$; finite-dimensionality turns
+strict positivity of the quadratic form into $Q_n>0$, $Q_n<1$}
+\lstep{1}{2}{The restriction of $\omega_X$ to $\CAR(P_nH_I)$ is the gauge-invariant quasi-free
+state with symbol $P_nXP_n$.}
+\lby{(C2): for $f,g\in P_nH_I$, $\omega_X(a^*(f)a(g))=\ip{g}{Xf}=\ip{g}{P_nXP_nf}$; and a
+gauge-invariant quasi-free state is determined by its two-point function}
+\lstep{1}{3}{$M_n=\pi_\omega(\CAR(P_nH_I))''=\pi_\omega(\CAR(P_nH_I))\cong M_{2^{d_n}}(\mathbb C)$,
+$d_n=\dim P_nH_I$; $\omega|_{M_n}$ and $\widetilde\omega_s|_{M_n}$ are the faithful density-matrix
+states $\rho_{Q_n}$, $\rho_{\widetilde Q_n}$.}
+\lby{$\CAR$ of a $d$-dimensional space is $M_{2^d}$, hence simple and finite-dimensional, so
+$\pi_\omega$ is faithful and its image is already weakly closed; $\langle1\rangle1$,
+$\langle1\rangle2$ and Lemma~\ref{lem:rhoQ}}
+\lstep{1}{4}{$M_n\subset M_{n+1}$ and $\bigcup_nM_n$ is $\sigma$-strongly dense in $\cF_r(I)$.}
+\lby{$P_n\le P_{n+1}$; $\|a(f)-a(g)\|\le\|f-g\|$ and $P_nf\to f$ give norm density of
+$\bigcup_n\CAR(P_nH_I)$ in $\CAR(H_I)$, and $\cF_r(I)=\pi_\omega(\CAR(H_I))''$}
+\lstep{1}{5}{$\Fid_{M_n}\downarrow\Fid_{\cF_r(I)}$.}
+\lby{\Nf{lem:fidelity-below} (see the cited-results box below)}
+\lstep{1}{6}{$D_{M_n}\uparrow D_{\cF_r(I)}$.}
+\lby{Araki 1977, Thm.\ 3.8(2)($\gamma$) + Thm.\ 3.9(2) (cited-results box below); the $M_n$ are
+finite dimensional, hence AF, and form a monotone increasing sequence generating $\cF_r(I)$ by
+$\langle1\rangle4$; $\cF_r(I)$ has separable predual}
+\lstep{1}{7}{Each term of (\texttt{det-rep-F}) is $\ge\Fid$ and each term of (\texttt{det-rep-S})
+is $\le D$.}
+\lby{$\langle1\rangle5$, $\langle1\rangle6$ and monotonicity}
+\lqed{1}{8}\lby{$\langle1\rangle1$--$\langle1\rangle7$ with Theorem~\ref{thm:F} and Prop.\ 2.2
+supplying the finite-dimensional expressions}
+
+\begin{verdictok}
+Theorem 3.1 is correct.  All hypotheses hold: $P_n$ finite rank increasing to $1$ strongly;
+$\ker Q=\ker(1-Q)=\ker\widetilde Q_s=\ker(1-\widetilde Q_s)=0$; $M_n$ finite dimensional (hence
+AF, hence admissible in Araki's Thm.\ 3.8(2)($\gamma$)); $\cF_r(I)$ with separable predual.
+\end{verdictok}
+\begin{verdictgap}
+The cited locator ``Ohya--Petz, Cor.~5.12'' could \textbf{not} be verified: the book is not
+obtainable (see \texttt{refs/REFERENCES.md}); \textbf{NOT OBTAINED}.  The Araki reference is
+correct but has no theorem number in N5.  The precise statement needed is Araki 1977,
+\emph{Theorem 3.9(2)} together with \emph{Theorem 3.8(2)($\gamma$)}, and these do supply exactly
+the martingale convergence used.  N5 should quote them.  Note also the convention: Araki's
+$S(\varphi/\psi)$ equals $D(\psi\Vert\varphi)$ in N5's notation, which is immaterial here because
+both states are restricted simultaneously, but should be stated.
+\end{verdictgap}
+
+\begin{citedbox}{Araki 1977 (PRIMS 13, 173--192), Theorems 3.8(2) and 3.9}
+\textbf{Transcribed} (p.~181, OCR of \texttt{refs/Araki77\_PRIMS13.pdf}, PDF p.~9):
+
+\emph{Theorem 3.8.} (2) Let $N$ be a von Neumann subalgebra of $M$ and $E_N(\phi)$ denote the
+restriction of a functional $\phi$ to $N$.  Then
+\[ S(E_N\phi/E_N\psi)\le S(\phi/\psi)\tag{3.9}\]
+if $N$ is any one of the following type: ($\alpha$) $N=\mathfrak A'\cap M$ for a finite
+dimensional abelian $*$-subalgebra $\mathfrak A$ of $M$; ($\beta$) $M=N\otimes N_1$;
+($\gamma$) $N$ is approximately finite.
+
+\emph{Theorem 3.9.} Let $N_\alpha$ be a monotone increasing net of von Neumann subalgebras of $M$
+generating $M$.  (1) $\liminf S(E_{N_\alpha}\phi/E_{N_\alpha}\psi)\ge S(\phi/\psi)$.
+(2) If $N_\alpha$ is an AF algebra for all $\alpha$, then
+$\lim S(E_{N_\alpha}\phi/E_{N_\alpha}\psi)=S(\phi/\psi)$.
+
+\textbf{Standing hypothesis} (p.~191): the results of \S3 apply when $M$ has a separable predual.
+
+\begin{center}\includegraphics[width=.92\textwidth]{shots/V3_Araki77_thm38.png}\\[2pt]
+\includegraphics[width=.92\textwidth]{shots/V3_Araki77_thm39.png}\end{center}
+
+\textbf{Use in N5:} Theorem 3.1, eq.\ (\texttt{det-rep-S}).
+\textbf{Verdict on the usage:} hypotheses satisfied ($M_n$ finite dimensional $\Rightarrow$ AF;
+increasing; generating; separable predual).  N5's locator is imprecise (no theorem number, plus
+an unverifiable book reference).
+\end{citedbox}
+
+\begin{citedbox}{N4 Lemma 10.1 (\texttt{lem:fidelity-below}), continuity of fidelity from below}
+\textbf{Statement (N4).}  If $M_n\nearrow M$ is increasing with strongly dense union and
+$\varphi,\psi$ are normal states on $M$, then
+$\Fid_{M_n}(\varphi|_{M_n},\psi|_{M_n})\downarrow\Fid_M(\varphi,\psi)$.
+
+\textbf{Check of N4's proof.}  ``$\ge$'' is data processing.  For ``$\le$'' N4 uses Alberti's
+variational formula $\Fid_M(\varphi,\psi)=\inf_{x\in M,x>0}\tfrac12(\varphi(x)+\psi(x^{-1}))$,
+restricts to $m\one\le x\le M_0\one$, and approximates by Kaplansky density.  Two steps deserve
+a remark: (a) that the infimum over all $x>0$ equals the infimum over $x$ bounded above and
+below is not proved in N4, though it is true (truncate $x$ by
+$x_\delta=\min(\max(x,\delta),\delta^{-1})$ via continuous functional calculus and let
+$\delta\downarrow0$, using normality); (b) continuous functional calculus is not strongly
+continuous in general, but \emph{is} on norm-bounded sets, because $x_k\to x$ strongly with
+$\sup_k\|x_k\|<\infty$ gives $x_k^2\to x^2$ strongly, hence $p(x_k)\to p(x)$ for polynomials $p$
+and then for continuous $f$ by uniform approximation on a common compact spectrum window.
+\textbf{Verdict on the usage:} valid; the two remarks are gaps in N4, not in N5.
+\emph{Alberti 1983 itself is paywalled: \textbf{NOT OBTAINED}}; the variational formula is
+standard and is quoted correctly by both notes.
+\end{citedbox}
+
+\subsection{Remark ``the ordinary Petz map is a compression''}
+$\Fid_{\cF_r(I)}(\omega,\widetilde\omega_s)=\Fid_{\cF_r(J_s)}(\omega\circ\overline\beta_s^{-1},\omega)$
+follows from step $\langle1\rangle5$ of \S\ref{sec:mobius} applied to $\theta=\overline\beta_s^{-1}$
+(a normal $*$-isomorphism $\cF_r(J_s)\to\cF_r(I)$) together with
+$\widetilde\omega_s\circ\overline\beta_s^{-1}=\omega|_{\cF_r(J_s)}$, which is the definition
+$\widetilde\omega_s=\omega\circ\overline\beta_s$.  Correct.  The sentence ``it explains why the
+result is a function of the single cross ratio $1+\zeta$ of $J_s$ and $I$'' is a heuristic, not a
+proof (the pair $(J_s\subset I)$ has \emph{no} M\"obius invariant --- two nested intervals sharing
+no endpoint have exactly one, namely the cross ratio of the four endpoints, which is what
+Lemma 1.1 already used).  Harmless.
+
+\section{Section 3.1: the box compression}\label{sec:box}
+
+\subsection{The thermal kernel}
+
+\begin{lemma}\label{lem:sinh}
+$\dfrac{x-y}{\sqrt{\beta(x)\beta(y)}}=2\sinh\dfrac{\xi(x)-\xi(y)}2$ exactly, for all
+$x,y\in I$.
+\end{lemma}
+\lstep{1}{1}{$e^{\xi(x)/2}=\sqrt{\tfrac{x+a}{L-x}}$, so
+$2\sinh\tfrac{\xi-\xi'}2=\sqrt{\tfrac{(x+a)(L-y)}{(L-x)(y+a)}}-\sqrt{\tfrac{(L-x)(y+a)}{(x+a)(L-y)}}$.}
+\lby{definition of $\xi$ in (C3) and $2\sinh u=e^u-e^{-u}$}
+\lstep{1}{2}{$=\dfrac{(x+a)(L-y)-(L-x)(y+a)}{\sqrt{(x+a)(L-x)(y+a)(L-y)}}$.}
+\lby{common denominator}
+\lstep{1}{3}{$(x+a)(L-y)-(L-x)(y+a)=(x-y)(L+a)$.}
+\lby{expand: $xL-xy+aL-ay-Ly-La+xy+xa=(x-y)(L+a)$}
+\lstep{1}{4}{$\sqrt{(x+a)(L-x)(y+a)(L-y)}=(a+L)\sqrt{\beta(x)\beta(y)}$.}
+\lby{$\beta(x)=(x+a)(L-x)/(a+L)$}
+\lqed{1}{5}\lby{$\langle1\rangle2$--$\langle1\rangle4$}
+
+\begin{corollary}[N5 (\texttt{thermal-kernel})]
+Under $f\mapsto\beta^{1/2}f$ the kernel of $Q$ becomes
+$\widetilde Q(\xi,\xi')=\tfrac12\delta(\xi-\xi')-\tfrac i{4\pi}\operatorname{csch}\frac{\xi-\xi'}2$.
+\end{corollary}
+\lstep{1}{1}{$\widetilde Q(\xi,\xi')=\sqrt{\beta(x)\beta(y)}\,Q(x,y)$.}
+\lby{the half-density identification: if $F=\beta^{1/2}f$ then $\int Q(x,y)f(y)dy$ becomes
+$\int\sqrt{\beta(x)\beta(y)}Q(x,y)F(\xi')d\xi'$ using $dy=\beta(y)d\xi'$}
+\lstep{1}{2}{$\sqrt{\beta\beta'}\cdot\tfrac12\delta(x-y)=\tfrac12\delta(\xi-\xi')$.}
+\lby{$\delta(x-y)=\delta(\xi-\xi')/\beta(x)$}
+\lstep{1}{3}{$\sqrt{\beta\beta'}\cdot\bigl(-\tfrac i{2\pi(x-y)}\bigr)
+=-\tfrac i{2\pi}\cdot\tfrac1{2\sinh\frac{\xi-\xi'}2}=-\tfrac i{4\pi\sinh\frac{\xi-\xi'}2}$.}
+\lby{(C1) and Lemma~\ref{lem:sinh}}
+\lqed{1}{4}\lby{$\langle1\rangle1$--$\langle1\rangle3$}
+
+\begin{verdictok}
+Lemma~\ref{lem:sinh} and (\texttt{thermal-kernel}) are exact.  The KMS interpretation and the
+attribution to Casini--Huerta / Longo--Xu are appropriate.
+\end{verdictok}
+
+\subsection{The matrix elements (\texttt{Qbox}): a phase is missing}\label{sec:qboxphase}
+
+N5 defines
+$e_j=\Lambda^{-1/2}e^{ik_j\xi}\one_{[\xi_0-\Lambda/2,\ \xi_0+\Lambda/2]}$, $k_j=2\pi j/\Lambda$,
+and asserts
+\begin{align}
+ (Q_N)_{jj}&=\tfrac12-\tfrac1{2\pi\Lambda}\int_0^\Lambda\tfrac{(\Lambda-t)\sin(k_jt)}{\sinh(t/2)}dt,
+ \label{eq:qboxd}\\
+ (Q_N)_{jl}&=-\tfrac{(-1)^{j-l}}{2\pi\Lambda(k_j-k_l)}\int_0^\Lambda\tfrac{\cos(k_jt)-\cos(k_lt)}{\sinh(t/2)}dt
+ \qquad(j\ne l).\label{eq:qboxo}
+\end{align}
+
+\begin{proposition}\label{prop:qbox}
+With $e_j$ as defined by N5, the diagonal is exactly \eqref{eq:qboxd}, but the off-diagonal is
+\[
+ (Q_N)_{jl}=e^{i(k_l-k_j)\xi_0}\cdot\Bigl[-\frac{(-1)^{j-l}}{2\pi\Lambda(k_j-k_l)}
+ \int_0^\Lambda\frac{\cos(k_jt)-\cos(k_lt)}{\sinh(t/2)}\,dt\Bigr].
+\]
+Equation \eqref{eq:qboxo} is the matrix of $Q$ in the shifted modes
+$\Lambda^{-1/2}e^{ik_j(\xi-\xi_0)}\one_{[-\Lambda/2,\Lambda/2]}(\xi-\xi_0)$.
+\end{proposition}
+
+\lstep{1}{1}{Write $\xi=\xi_0+\alpha$, $\xi'=\xi_0+\alpha'$, $\alpha,\alpha'\in[-\Lambda/2,\Lambda/2]$,
+$K(t)=-\tfrac i{4\pi}\operatorname{csch}\tfrac t2$.  Then
+$(Q_N)_{jl}=\tfrac12\delta_{jl}+\tfrac{e^{i(k_l-k_j)\xi_0}}\Lambda
+\iint e^{-ik_j\alpha}K(\alpha-\alpha')e^{ik_l\alpha'}d\alpha\,d\alpha'$.}
+\lby{substituting into $\ip{e_j}{\widetilde Qe_l}$; $e^{-ik_j\xi}e^{ik_l\xi'}
+=e^{i(k_l-k_j)\xi_0}e^{-ik_j\alpha}e^{ik_l\alpha'}$, and the $\delta$-part gives
+$\tfrac1\Lambda\int e^{i(k_l-k_j)\alpha}d\alpha\cdot\tfrac12=\tfrac12\delta_{jl}$
+because $(k_l-k_j)\Lambda\in2\pi\mathbb Z$}
+\lstep{1}{2}{With $t=\alpha-\alpha'$ and $\Delta k=k_l-k_j$, the double integral is
+$\int_{-\Lambda}^\Lambda dt\,K(t)e^{-ik_lt}\,\Theta(t)$ where
+$\Theta(t)=\int_{\max(-\Lambda/2,\,-\Lambda/2+t)}^{\min(\Lambda/2,\,\Lambda/2+t)}e^{i\Delta k\alpha}d\alpha$.}
+\lby{Fubini after the change of variables $(\alpha,\alpha')\mapsto(t,\alpha)$, whose Jacobian is $1$}
+\lstep{1}{3}{For $\Delta k=0$: $\Theta(t)=\Lambda-|t|$; hence
+$(Q_N)_{jj}=\tfrac12+\tfrac1\Lambda\int_{-\Lambda}^\Lambda K(t)e^{-ik_jt}(\Lambda-|t|)dt
+=\tfrac12-\tfrac1{2\pi\Lambda}\int_0^\Lambda\tfrac{(\Lambda-t)\sin(k_jt)}{\sinh(t/2)}dt$.}
+\lby{$K$ is odd, so the $\cos$ part of $e^{-ik_jt}$ drops out (principal value) and
+$\int_{-\Lambda}^\Lambda K(t)(-i\sin k_jt)(\Lambda-|t|)dt=-2i\int_0^\Lambda K(t)\sin(k_jt)(\Lambda-t)dt
+=-\tfrac1{2\pi}\int_0^\Lambda\tfrac{(\Lambda-t)\sin k_jt}{\sinh(t/2)}dt$}
+\lstep{1}{4}{For $\Delta k\ne0$: $\Theta(t)=\operatorname{sgn}(t)\,(-1)^{l-j}\dfrac{1-e^{i\Delta kt}}{i\Delta k}$.}
+\lby{for $t>0$, $\int_{-\Lambda/2+t}^{\Lambda/2}e^{i\Delta k\alpha}d\alpha
+=\frac{e^{i\Delta k\Lambda/2}-e^{i\Delta k(t-\Lambda/2)}}{i\Delta k}$ and
+$e^{\pm i\Delta k\Lambda/2}=e^{\pm i\pi(l-j)}=(-1)^{l-j}$; for $t<0$ the same with the opposite sign}
+\lstep{1}{5}{$K(t)\Theta(t)$ is even in $t$, and
+$e^{-ik_lt}(1-e^{i\Delta kt})=e^{-ik_lt}-e^{-ik_jt}$, whose even part is $\cos k_lt-\cos k_jt$.}
+\lby{$K$ odd, $\operatorname{sgn}$ odd}
+\lstep{1}{6}{Hence the double integral equals
+$\tfrac{(-1)^{l-j}}{i\Delta k}\cdot2\int_0^\Lambda K(t)[\cos k_lt-\cos k_jt]dt
+=-\tfrac{(-1)^{l-j}}{2\pi\Delta k}\int_0^\Lambda\tfrac{\cos k_lt-\cos k_jt}{\sinh(t/2)}dt$.}
+\lby{$\langle1\rangle4$, $\langle1\rangle5$, $2K(t)=-\tfrac i{2\pi\sinh(t/2)}$ and
+$\tfrac1{i}\cdot(-i)=-1$}
+\lstep{1}{7}{Dividing by $\Lambda$, restoring the prefactor of $\langle1\rangle1$ and using
+$-\tfrac1{\Delta k}[\cos k_lt-\cos k_jt]=-\tfrac1{k_j-k_l}[\cos k_jt-\cos k_lt]$ gives the claim.}
+\lby{$\langle1\rangle1$, $\langle1\rangle6$, $\Delta k=k_l-k_j$}
+\lqed{1}{8}\lby{$\langle1\rangle3$, $\langle1\rangle7$}
+
+\paragraph{Consequence for the numerics.}
+A diagonal unitary $U=\operatorname{diag}(e^{ik_j\xi_0})$ implements the change of convention:
+$Q^{\mathrm{true}}=U^*Q^{(0)}U$, where $Q^{(0)}$ denotes the right-hand sides
+\eqref{eq:qboxd}--\eqref{eq:qboxo}.  \emph{Fidelity and relative entropy are invariant under a
+\underline{simultaneous} conjugation of $Q_N$ and $\widetilde Q_N$}, so the omission would be
+purely cosmetic \emph{if} the defect matrix used the same convention.  It does not.  In
+\texttt{numerics/defect\_matrix.py} the phases are
+\verb|EA=exp(-1j*outer(k,xi0-p))|, \verb|ED=exp(1j*outer(k,xi0+p))|, i.e.
+$\widehat D^{\mathrm{code}}=U^*\widehat D^{(0)}U$, whereas
+\texttt{numerics/compression\_box.py} (\verb|Q_box|) and \texttt{numerics/fidelity\_hp.py}
+(\verb|Q_box_mp|) implement \eqref{eq:qboxd}--\eqref{eq:qboxo} verbatim, i.e.\ $Q^{(0)}$.
+The pair actually fed into Theorem~2.1 is therefore
+$(Q^{(0)},\,Q^{(0)}-U^*\widehat D^{(0)}U)$, whereas the correct pair is (up to a common unitary)
+$(Q^{(0)},\,Q^{(0)}-\widehat D^{(0)})$.  These are genuinely different matrices: $Q^{(0)}$ is not
+Toeplitz, so $UQ^{(0)}U^*\ne Q^{(0)}$.
+
+\emph{How much does it matter?}  I re-ran N5's own high-precision pipeline
+(\texttt{fidelity\_hp.py}, $30$ digits, $a=1$, $L=2$, $s=0.2$, $\Lambda=60$,
+$\kappa_{\max}=30$, $\eps=10^{-8}$, $n_{\mathrm{sub}}=61$) in both conventions:
+\begin{center}\small
+\begin{tabular}{lll}\toprule
+convention & $\Phi_{\mathrm{sub}}(1/15)$ & \\\midrule
+as coded ($Q^{(0)}$ with $\widehat D^{\mathrm{code}}$) & $3.432123\cdot10^{-5}$ & (N5 Table~1 row 1: $3.43212\cdot10^{-5}$)\\
+phase-consistent ($Q^{(0)}$ with $U\widehat D^{\mathrm{code}}U^*$) & $3.431959\cdot10^{-5}$ & \\\bottomrule
+\end{tabular}\end{center}
+The two differ by $4.8\cdot10^{-5}$ \emph{relative}, i.e.\ $0.005\%$, an order of magnitude below
+the $\pm0.06\%$ spread N5 itself quotes.  The reason is that $Q^{(0)}$ is nearly diagonal (its
+off-diagonal entries are the $O(1/\Lambda)$ box-edge terms), and a diagonal matrix commutes with
+$U$; the mismatch is therefore second order in the small off-diagonal part of $Q_N$.
+
+\begin{verdictgap}
+\textbf{(Qbox) as displayed is not the matrix of $Q$ in the modes $e_j$ that N5 defines.}
+Quoting N5: ``\emph{$\mathfrak h_N=\operatorname{span}\{e_j=\Lambda^{-1/2}e^{ik_j\xi}
+\mathbf 1_{[\xi_0-\Lambda/2,\xi_0+\Lambda/2]}\}$}'' together with ``\emph{$(Q_N)_{jl}
+=-\frac{(-1)^{j-l}}{2\pi\Lambda(k_j-k_l)}\int_0^\Lambda\frac{\cos(k_jt)-\cos(k_lt)}{\sinh(t/2)}dt$}''.
+The factor $e^{i(k_l-k_j)\xi_0}$ is missing (the diagonal is unaffected).  Read instead as a
+statement about the modes $e^{ik_j(\xi-\xi_0)}$, the formula is exactly right --- but then N5's
+defect matrix, which does carry the $\xi_0$ phase, is in the other basis, so the two objects
+combined in Section~6 are expressed in different orthonormal bases and
+$Q_N-\widehat D$ is \emph{not} the compression of $\widetilde Q_s$.  Empirically the resulting
+error in $\Phi$ is $0.005\%$, i.e.\ harmless at the quoted precision, so this is a
+\emph{correctness-of-statement} defect rather than a numerical one; but the claim ``\emph{$\widetilde
+Q_N=Q_N-\widehat D$ is exactly the compression of $\widetilde Q_s$}'' is false as coded, and with
+it the claim that every reported value is a \emph{rigorous} bound.  The fix is one line
+($\widehat D\mapsto U\widehat D U^*$).  \emph{Not} affected at all: Table~2 and the coefficients
+$f_2$, $s_2$, since the ``line'' evaluation uses $Q=\operatorname{diag}(q_j)$, which commutes with
+$U$, and the quantum-Fisher sum $\tfrac14\sum|\widehat D_{jl}|^2/N_{jl}$ depends only on
+$|\widehat D_{jl}|$.
+\end{verdictgap}
+
+\paragraph{The $t\to0$ limit $2\Lambda k_j$.}
+$\lim_{t\to0}\frac{(\Lambda-t)\sin(k_jt)}{\sinh(t/2)}=\Lambda\cdot\frac{k_jt}{t/2}=2\Lambda k_j$.
+Correct (and correctly implemented as the $t=0$ node weight in \verb|Q_box|).  The off-diagonal
+integrand tends to $0$ like $(k_l^2-k_j^2)t$, so no special treatment is needed there.
+\begin{verdictok}The $t\to0$ value $2\Lambda k_j$ is right.\end{verdictok}
+
+\paragraph{Box-edge occupation and the ``trap'' remark.}
+N5: ``\emph{at finite $\Lambda$ the sharp box edge injects an occupation
+$\approx(\pi\Lambda k_j)^{-1}$ into the high modes}''.  This is the standard leading term:
+for $k_j\Lambda\gg1$ the diagonal is
+$\tfrac12-\tfrac1{2\pi\Lambda}\int_0^\Lambda\frac{(\Lambda-t)\sin(k_jt)}{\sinh(t/2)}dt$; extending
+the integral to $\infty$ with weight $\Lambda$ gives the exact Fermi value
+$\tfrac12-\tfrac12\tanh(\pi k_j)$, and the correction from the $-t$ term is
+$\tfrac1{2\pi\Lambda}\int_0^\infty\frac{t\sin(k_jt)}{\sinh(t/2)}dt\cdot(-1)$ plus the tail;
+$\int_0^\infty\frac{t\sin(k_jt)}{\sinh(t/2)}dt=\pi^2\operatorname{sech}^2(\pi k_j)\to0$
+exponentially, so the surviving $O(1/\Lambda)$ piece comes from the truncation at $t=\Lambda$ and
+is $\sim\frac1{\pi\Lambda k_j}\cdot$const.  The order of magnitude is right; N5's constant is not
+derived and I do not certify it.  The \emph{logic} of the trap remark --- that
+$\operatorname{diag}(\widehat q)-\widehat D$ need not be positive while
+$Q_N-\widehat D$ is, because positivity of $\widetilde Q_s$ on the line is an exact interplay
+between the two --- is sound: $Q_N-\widehat D=P_N\widetilde Q_sP_N$ \emph{is} a compression of a
+positive operator, hence positive, whereas replacing $Q_N$ by a different matrix destroys that
+argument.  (The quoted numbers $10^{-11}$, $\kappa_{\max}\gtrsim24$ and the $\kappa^{-2}$ decay
+of $\widehat D_{jl}$ are numerical claims that I have not reproduced; the $\kappa^{-2}$ rate is
+however consistent with \S\ref{sec:tail}: the leading corner term of $\widetilde F$ is
+homogeneous of degree $0$, whose two-dimensional Fourier transform decays like $|\kappa|^{-2}$.)
+\begin{verdictok}
+The trap remark is logically correct.  It applies verbatim to the phase mismatch of
+\S\ref{sec:qboxphase}: with mismatched bases $Q^{(0)}-U^*\widehat D^{(0)}U$ is not the compression
+of a positive operator either, and positivity is then not guaranteed a priori (in the case tested
+its eigenvalues did stay in $(0,1)$).
+\end{verdictok}
+
+\section{Section 4.1: modular modes and the sign of $\kappa$}\label{sec:modes}
+
+\subsection{Normalisation}
+\begin{lemma}[N5 (\texttt{modes})]
+With $\psi_\kappa(x)=\tfrac1{2\pi}\beta(x)^{-1/2}e^{i\kappa\xi(x)/2\pi}$ one has
+$\ip{\psi_\kappa}{\psi_{\kappa'}}=\delta(\kappa-\kappa')$ and
+$\int_{\mathbb R}d\kappa\,|\psi_\kappa\rangle\langle\psi_\kappa|=1$ on $L^2(I)$.
+\end{lemma}
+\lstep{1}{1}{In the half-density representation $F(\xi)=\beta^{1/2}f(x(\xi))$, $\psi_\kappa$
+becomes $\Psi_\kappa(\xi)=\tfrac1{2\pi}e^{i\kappa\xi/2\pi}$, and $f\mapsto F$ is unitary
+$L^2(I,dx)\to L^2(\mathbb R,d\xi)$.}
+\lby{$dx=\beta\,d\xi$; $\int|f|^2dx=\int|f|^2\beta\,d\xi=\int|F|^2d\xi$}
+\lstep{1}{2}{$\ip{\Psi_\kappa}{\Psi_{\kappa'}}=\tfrac1{4\pi^2}\int e^{i(\kappa'-\kappa)\xi/2\pi}d\xi
+=\tfrac1{4\pi^2}\cdot2\pi\,\delta\bigl(\tfrac{\kappa'-\kappa}{2\pi}\bigr)=\delta(\kappa-\kappa')$.}
+\lby{$\int e^{iu\xi}d\xi=2\pi\delta(u)$ with $u=(\kappa'-\kappa)/2\pi$, and
+$\delta(v/2\pi)=2\pi\delta(v)$}
+\lstep{1}{3}{$\int d\kappa\,\Psi_\kappa(\xi)\overline{\Psi_\kappa(\xi')}
+=\tfrac1{4\pi^2}\int d\kappa\,e^{i\kappa(\xi-\xi')/2\pi}=\delta(\xi-\xi')$.}
+\lby{the same two identities with the roles of $\kappa$ and $\xi$ exchanged}
+\lqed{1}{4}\lby{$\langle1\rangle1$--$\langle1\rangle3$}
+\begin{verdictok}The normalisation, and the formula (\texttt{mode-kernel}) for
+$X(\kappa,\kappa')$ that follows from it, are correct.  So is
+``$\Tr X=\int d\kappa\,X(\kappa,\kappa)$ for trace-class $X$''.  The parenthetical reason
+``since $\beta^{-1/2}\in L^1(I)$'' justifies only boundedness/continuity of $X(\kappa,\kappa')$
+for bounded kernels, which is what it is used for.\end{verdictok}
+
+\subsection{The sign of $\kappa$ --- settled by direct computation}
+N5 writes: ``\emph{The sign convention in \textup{(\texttt{modes})} is fixed below by positivity of
+$\widetilde Q_s$}''.  This is unnecessary; the sign follows from (C1) alone.
+
+\begin{proposition}\label{prop:sign}
+With the Hardy kernel \textup{(C1)} and $\psi_\kappa\propto e^{+i\kappa\xi/2\pi}$,
+$Q\psi_\kappa=q_\kappa\psi_\kappa$ with $q_\kappa=\tfrac1{1+e^\kappa}$.  Hence
+$\kappa\to+\infty$ labels the \emph{nearly empty} modes, and
+$K=\log\frac{1-Q}Q$ has eigenvalue $\kappa$.
+\end{proposition}
+\lstep{1}{1}{$\widetilde Q\Psi_\kappa(\xi)=\Psi_\kappa(\xi)\Bigl[\tfrac12
+-\tfrac i{4\pi}\,\pv\!\!\int_{\mathbb R}\tfrac{e^{-i\kappa t/2\pi}}{\sinh(t/2)}dt\Bigr]$.}
+\lby{translation invariance of $\widetilde Q$: put $t=\xi-\xi'$, so
+$\Psi_\kappa(\xi')=\Psi_\kappa(\xi)e^{-i\kappa t/2\pi}$}
+\lstep{1}{2}{$\pv\!\int_{\mathbb R}\tfrac{e^{-i\omega t}}{\sinh(t/2)}dt=-2\pi i\tanh(\pi\omega)$.}
+\lby{$\operatorname{csch}$ is odd so the $\cos$ part vanishes in the principal value; and
+$\int_0^\infty\frac{\sin(\omega t)}{\sinh(bt)}dt=\frac\pi{2b}\tanh\frac{\pi\omega}{2b}$ with
+$b=\tfrac12$ gives $\int_{-\infty}^\infty\frac{\sin\omega t}{\sinh(t/2)}dt=2\pi\tanh(\pi\omega)$}
+\lstep{1}{3}{With $\omega=\kappa/2\pi$: $q_\kappa=\tfrac12-\tfrac i{4\pi}(-2\pi i)\tanh\tfrac\kappa2
+=\tfrac12-\tfrac12\tanh\tfrac\kappa2$.}
+\lby{$\langle1\rangle1$, $\langle1\rangle2$, $-i\cdot(-2\pi i)=-2\pi$}
+\lstep{1}{4}{$\tfrac12\bigl(1-\tanh\tfrac\kappa2\bigr)=\tfrac12\cdot\tfrac{2}{1+e^\kappa}
+=\tfrac1{1+e^\kappa}$.}
+\lby{$1-\tanh u=\frac{e^{-u}}{\cosh u}=\frac2{e^{2u}+1}$}
+\lqed{1}{5}\lby{$\langle1\rangle3$, $\langle1\rangle4$}
+
+\begin{verdictok}
+The sign convention of (\texttt{modes}) is correct and is \emph{forced} by (C1); the appeal to
+positivity of $\widetilde Q_s$ can be deleted.  (Independent agent R1 reached the same conclusion
+from the Hardy kernel, with $\kappa=-2\pi s_{\mathrm{CH}}$ relative to Casini--Huerta's variable.)
+The identification of $\kappa$ with the one-particle modular Hamiltonian $\log\frac{1-Q}Q$ is
+immediate from $q_\kappa=(1+e^\kappa)^{-1}$.
+\end{verdictok}
+
+\subsection{The defect in the mode basis}
+$\delta_s(\kappa,\kappa')=\tfrac i{2\pi}[J(\kappa,\kappa')-\overline{J(\kappa',\kappa)}]$ with
+$J$ as in (\texttt{J-def}) is correct: the block structure (\texttt{defect-recall}) gives
+$\delta_s(x,y)=\tfrac i{2\pi}R_s(-x,y)$ on $A\times D$ and
+$-\tfrac i{2\pi}R_s(-y,x)$ on $D\times A$ (because $R_s$ is real and
+$\delta_s^*=\delta_s$); inserting into (\texttt{mode-kernel}) and renaming $\xi\leftrightarrow\xi'$
+in the second block produces exactly $-\tfrac i{2\pi}\overline{J(\kappa',\kappa)}$.  On the
+diagonal this gives $\delta_s(\kappa,\kappa)=-\tfrac1\pi\operatorname{Im}J(\kappa,\kappa)$ and
+hence (\texttt{occupation}), $\widetilde Q_s(\kappa,\kappa)-q_\kappa=\tfrac1\pi\operatorname{Im}J$.
+\begin{verdictok}(\texttt{J-def}) and (\texttt{occupation}) are correct.\end{verdictok}
+
+\section{Proposition 4.1 (exact ultraviolet tail)}\label{sec:tail}
+
+\subsection{A closed form for the defect kernel}\label{sec:closed}
+
+\begin{proposition}\label{prop:closed}
+With $p=\xi_0-\xi>0$, $p'=\xi'-\xi_0>0$, $M=\tfrac{p+p'}2$, $S_p=\sinh\tfrac p2$,
+$\zeta=s\beta_0/L=as/(a+L)$:
+\[
+ \widetilde F(p,p'):=\sqrt{\beta(x)\beta(y)}\;R_s(-x,y)
+ =\frac{\zeta\,S_pS_{p'}}{\sinh M\,(\sinh M+2\zeta\,S_pS_{p'})}.
+\]
+\end{proposition}
+\lstep{1}{1}{$u:=-x=2\sqrt{\beta(x)\beta_0}\,S_p$ and $v:=y=2\sqrt{\beta(y)\beta_0}\,S_{p'}$.}
+\lby{Lemma~\ref{lem:sinh} with the pair $(x,0)$: $\frac{x-0}{\sqrt{\beta(x)\beta(0)}}
+=2\sinh\frac{\xi-\xi_0}2=-2S_p$; and with $(y,0)$: $\frac{y}{\sqrt{\beta(y)\beta_0}}=2S_{p'}$}
+\lstep{1}{2}{$u+v=2\sqrt{\beta(x)\beta(y)}\,\sinh M$.}
+\lby{Lemma~\ref{lem:sinh} with the pair $(x,y)$: $\frac{x-y}{\sqrt{\beta(x)\beta(y)}}
+=2\sinh\frac{\xi-\xi'}2=-2\sinh M$, and $x-y=-(u+v)$}
+\lstep{1}{3}{$uv=4\beta_0\sqrt{\beta(x)\beta(y)}\,S_pS_{p'}$.}
+\lby{multiplying the two identities of $\langle1\rangle1$}
+\lstep{1}{4}{$\sqrt{\beta(x)\beta(y)}\,R_s=\dfrac{s\,\sqrt{\beta\beta'}\;uv}
+{(u+v)\bigl(L(u+v)+s\,uv\bigr)}
+=\dfrac{s\beta_0\,S_pS_{p'}}{\sinh M\bigl(L\sinh M+2s\beta_0S_pS_{p'}\bigr)}$.}
+\lby{substituting $\langle1\rangle2$, $\langle1\rangle3$ into (\texttt{defect-recall}); every
+factor $\sqrt{\beta(x)\beta(y)}$ cancels}
+\lstep{1}{5}{Dividing numerator and denominator by $L$ gives the claim.}
+\lby{$\zeta=s\beta_0/L$}
+\lqed{1}{6}\lby{$\langle1\rangle4$, $\langle1\rangle5$}
+
+\emph{Numerical check.}  $|\widetilde F_{\text{closed}}/\widetilde F_{\text{direct}}-1|
+\le4.5\cdot10^{-11}$ (rounding at $p=10^{-6}$) for $s\in\{0.2,1,3\}$, $a=1$, $L=2$,
+$p\in\{10^{-6},0.01,0.3,1,4,12\}$, $p'\in\{10^{-6},0.02,0.5,2,9\}$.
+
+\subsection{The diagonal profile and the parity rule}
+\lstep{1}{1}{With $m=\xi-\xi'=-(p+p')$, $n=\tfrac12(\xi+\xi')-\xi_0=\tfrac{p'-p}2$, the map
+$(p,p')\mapsto(m,n)$ has unit Jacobian and $|n|<|m|/2$; hence
+$J(\kappa,\kappa)=(2\pi)^{-2}\int_0^\infty e^{i\kappa t/2\pi}P(-t)\,dt$ with
+$P(-t)=t\int_0^1\widetilde F(t\sigma,t(1-\sigma))\,d\sigma$ (put $\sigma=p/t$).}
+\lby{$dp\,dp'=dm\,dn$ by direct computation of the $2\times2$ Jacobian, $|n|=t|1-2\sigma|/2$,
+$|dn|=t\,d\sigma$; and (\texttt{J-def}) with $\kappa'=\kappa$ so the phase is $e^{-i\kappa m/2\pi}$}
+\lstep{1}{2}{$\widetilde F(t\sigma,t(1-\sigma))=\sum_{d\ge0}t^d\,h_d(\sigma)$, convergent for
+small $t$ uniformly in $\sigma\in[0,1]$; hence $P(-t)=\sum_{k\ge1}c_kt^k$ with
+$c_{d+1}=\int_0^1h_d(\sigma)d\sigma$, real-analytic near $t=0$.}
+\lby{Proposition~\ref{prop:closed}: $S_{t\sigma}$, $S_{t(1-\sigma)}$, $\sinh(t/2)$ are entire odd
+functions of $t$ with simple zeros at $t=0$, so numerator and denominator each carry a factor
+$t^2$ which cancels, leaving a ratio of convergent power series with non-vanishing denominator at
+$t=0$}
+\lstep{1}{3}{$|P(-t)|\le C(1+t)e^{-t/2}$ as $t\to\infty$, and $P\in C^\infty([0,\infty))$.}
+\lby{$\beta(x(\xi_0-p))\sim(L+a)e^{-p}\cdot$const as $p\to\infty$ so
+$\sqrt{\beta\beta'}\lesssim e^{-(p+p')/2}$ while $R_s$ is bounded; equivalently, from
+Proposition~\ref{prop:closed}, $S_pS_{p'}/\sinh^2M\le e^{-|p-p'|/2}\cdot O(1)$ and
+$\widetilde F\le\zeta\,e^{-\ldots}$, with the $t$-integral over $\sigma$ contributing the factor $t$}
+\lstep{1}{4}{$\int_0^\infty t^ke^{i\omega t}dt=k!\,i^{k+1}\omega^{-(k+1)}$ (Abel-regularised),
+so that odd $k$ contribute only to $\operatorname{Re}J$ and even $k$ only to $\operatorname{Im}J$.}
+\lby{$\int_0^\infty t^ke^{-\lambda t}dt=k!\lambda^{-(k+1)}$ at $\lambda=\epsilon-i\omega$,
+$\epsilon\downarrow0$, and $(-i)^{-(k+1)}=i^{k+1}$; $i^{k+1}$ is real for odd $k$ and imaginary
+for even $k$}
+\lstep{1}{5}{Repeated integration by parts is legitimate: $P(0)=0$ and all derivatives of $P$ are
+integrable, so $J(\kappa,\kappa)=(2\pi)^{-2}\sum_{k=1}^{N}c_kk!\,i^{k+1}(2\pi/\kappa)^{k+1}
++O(\kappa^{-N-2})$.}
+\lby{$\langle1\rangle2$, $\langle1\rangle3$ and Watson's lemma for oscillatory integrals}
+\lqed{1}{6}\lby{$\langle1\rangle1$--$\langle1\rangle5$}
+
+\begin{verdictok}
+Every structural step of N5's ``proof sketch'' is correct: the $(m,n)$ change of variables, the
+exponential decay of $P$, the regularised moment integral $k!\,i^{k+1}(2\pi/\kappa)^{k+1}$, and the
+parity rule ``odd $k\to\operatorname{Re}$, even $k\to\operatorname{Im}$''.  N5 does not state
+the analyticity of $P$ at $t=0^-$ nor justify the asymptotic expansion; both are supplied above and
+both hold.
+\end{verdictok}
+
+\subsection{The coefficients $c_1$, $c_2$: N5's route and an exact one}
+
+\paragraph{N5's local expansions, checked term by term.}
+$x(\xi_0+\epsilon)=\beta_0\epsilon+\tfrac12\beta_0\beta_0'\epsilon^2+O(\epsilon^3)$ because
+$\frac{dx}{d\xi}=\beta$ and $\frac{d\beta}{d\xi}=\beta'\beta$; with $\epsilon=-p$ and $\epsilon=p'$
+this is N5's $u=\beta_0p-\tfrac12\beta_0\beta_0'p^2+\dots$,
+$v=\beta_0p'+\tfrac12\beta_0\beta_0'p'^2+\dots$.  Next,
+$\beta(x(\xi_0\mp p))=\beta_0(1\mp\beta_0'p)+O(p^2)$, so
+$\sqrt{\beta\beta'}=\beta_0(1+\tfrac12\beta_0'(p'-p)+\dots)$.  And
+$\beta_0'=\beta'(0)=\frac{L-2\cdot0-a}{a+L}=\frac{L-a}{a+L}$.  All four expansions are correct.
+Finally $R_s=\frac sLg-\frac{s^2}{L^2}\frac{u^2v^2}{(u+v)^3}+O(s^3)$ with $g=\frac{uv}{(u+v)^2}$
+is the geometric series of $\bigl(1+\frac{suv}{L(u+v)}\bigr)^{-1}$: correct, and $g$ is
+homogeneous of degree $0$.
+
+\lstep{1}{1}{$c_1=\zeta/6$.}
+\lproof
+\lstep{2}{1}{The degree-$0$ part of $\widetilde F$ is
+$\beta_0\frac sLg(\beta_0p,\beta_0p')=\frac{s\beta_0}L\frac{pp'}{(p+p')^2}$.}
+\lby{$g$ homogeneous of degree $0$, so the factors $\beta_0$ cancel}
+\lstep{2}{2}{$\int_0^1\sigma(1-\sigma)d\sigma=\tfrac16$.}
+\lby{$B(2,2)=1/6$; equivalently $\int_{-1/2}^{1/2}(\tfrac14-n^2)dn=\tfrac14-\tfrac1{12}=\tfrac16$}
+\lqed{2}{3}\lby{$\langle2\rangle1$, $\langle2\rangle2$ and
+$c_1=\int_0^1h_0$; $h_0(\sigma)=\zeta\sigma(1-\sigma)$}
+
+\lstep{1}{2}{\emph{(The $O(s)$ cancellation at degree $1$.)}
+$\tfrac12\beta_0'(p'-p)\,g+\bigl(-\tfrac12\beta_0'p^2\partial_pg+\tfrac12\beta_0'p'^2\partial_{p'}g\bigr)=0$
+identically.}
+\lproof
+\lstep{2}{1}{$\partial_pg=\dfrac{p'(p'-p)}{(p+p')^3}$, $\partial_{p'}g=\dfrac{p(p-p')}{(p+p')^3}$.}
+\lby{quotient rule on $g=pp'/(p+p')^2$}
+\lstep{2}{2}{$-\tfrac12\beta_0'p^2\partial_pg+\tfrac12\beta_0'p'^2\partial_{p'}g
+=\tfrac12\beta_0'\dfrac{pp'(p-p')(p+p')}{(p+p')^3}=\tfrac12\beta_0'\dfrac{pp'(p-p')}{(p+p')^2}$.}
+\lby{$\langle2\rangle1$, factoring $pp'(p-p')$}
+\lstep{2}{3}{This is exactly $-\tfrac12\beta_0'(p'-p)g$.}
+\lby{$g=pp'/(p+p')^2$}
+\lqed{2}{4}\lby{$\langle2\rangle2$, $\langle2\rangle3$}
+
+N5's displayed intermediate expression
+``$\tfrac12\beta_0'\frac{pp'(p-p')}{(p+p')^2}$'' is therefore \emph{exactly right}, and the
+cancellation is pointwise, not merely after the $n$-integration.  Its interpretation
+(``$\beta_0'$ is not a conformal invariant'') is confirmed by Proposition~\ref{prop:closed}:
+$\beta_0'$ does not appear in $\widetilde F$ at all.
+
+\lstep{1}{3}{$c_2=-\zeta^2/30$, \emph{exactly}, with no corrections of higher order in $\zeta$.}
+\lproof
+\lstep{2}{1}{From Proposition~\ref{prop:closed} with $p=t\sigma$, $p'=t(1-\sigma)$:
+$S_p=\tfrac{t\sigma}2(1+O(t^2))$, $S_{p'}=\tfrac{t(1-\sigma)}2(1+O(t^2))$,
+$\sinh M=\tfrac t2(1+O(t^2))$, hence
+$\widetilde F=\dfrac{\zeta\sigma(1-\sigma)}{1+\zeta t\sigma(1-\sigma)}+O(t^2)$.}
+\lby{substituting: numerator $\zeta t^2\sigma(1-\sigma)/4$, denominator
+$\tfrac t2\bigl(\tfrac t2+\tfrac{\zeta t^2\sigma(1-\sigma)}2\bigr)
+=\tfrac{t^2}4(1+\zeta t\sigma(1-\sigma))$; the $O(t^2)$ relative corrections from
+$\sinh u=u+u^3/6$ affect $h_2$, not $h_0,h_1$}
+\lstep{2}{2}{$h_0(\sigma)=\zeta\sigma(1-\sigma)$ and $h_1(\sigma)=-\zeta^2\sigma^2(1-\sigma)^2$.}
+\lby{$\langle2\rangle1$ and the geometric expansion $\frac1{1+\zeta t\sigma(1-\sigma)}
+=1-\zeta t\sigma(1-\sigma)+O(t^2)$}
+\lstep{2}{3}{$\int_0^1\sigma^2(1-\sigma)^2d\sigma=B(3,3)=\dfrac{2!\,2!}{5!}=\dfrac1{30}$,
+equivalently $\int_{-1/2}^{1/2}(\tfrac14-n^2)^2dn=\tfrac1{16}-\tfrac1{24}+\tfrac1{80}
+=\tfrac{15-10+3}{240}=\tfrac1{30}$.}
+\lby{Beta integral; the second form is N5's, and it agrees}
+\lqed{2}{4}\lby{$c_2=\int_0^1h_1=-\zeta^2/30$}
+
+\lstep{1}{4}{$\operatorname{Im}J(\kappa,\kappa)=-4\pi c_2\kappa^{-3}+O(\kappa^{-5})
+=\dfrac{2\pi\zeta^2}{15}\kappa^{-3}+O(\kappa^{-5})$, hence
+$\widetilde Q_s(\kappa,\kappa)-q_\kappa=\tfrac1\pi\operatorname{Im}J
+=\dfrac{2}{15}\dfrac{\zeta^2}{\kappa^3}+O(\kappa^{-5})$.}
+\lby{$\langle1\rangle3$ and \S\ref{sec:tail}$\langle1\rangle4$: the $k=2$ term is
+$(2\pi)^{-2}c_2\cdot2!\cdot i^3(2\pi/\kappa)^3=-2i\,c_2(2\pi)/\kappa^3$, whose imaginary part is
+$-4\pi c_2\kappa^{-3}$; the $k=3$ term is real, so the next imaginary contribution is $k=4$,
+i.e.\ $O(\kappa^{-5})$}
+\lqed{1}{5}\lby{$\langle1\rangle3$, $\langle1\rangle4$; and $s\beta_0/L=\zeta$ because
+$\beta_0/L=a/(a+L)$}
+
+\begin{verdictok}
+Proposition 4.1 is correct, including the numerical coefficient $2/15$, the $\zeta^2$
+(equivalently $s^2\beta_0^2/L^2$) dependence, the sign, the vanishing of the $O(s)$ contribution
+to $c_2$, and the error term $O(\kappa^{-5})$.  Two strengthenings:
+(i) the tail coefficient is \emph{exact in $\zeta$}, not merely the leading term of an $s$-expansion
+(the higher orders in $s$ enter $h_1$ not at all, by
+$\langle1\rangle3\langle2\rangle2$);
+(ii) N5's ``the sign is the one required by $\widetilde Q_s\ge0$'' can be dropped: the sign is
+computed, $c_2<0\Rightarrow\operatorname{Im}J>0\Rightarrow$ positive occupation excess.
+\end{verdictok}
+
+\subsection{The first-order kernel: an exact proof of exponential decay}\label{sec:first}
+
+N5 asserts: ``\emph{The first-order (in $s$) part of the defect does not contribute to
+\textup{(\texttt{tail})}: its diagonal decays like $e^{-\kappa}$ up to powers.}''  This can be
+proved exactly.
+
+\begin{proposition}\label{prop:first}
+Let $\widetilde F^{(1)}=\zeta\,S_pS_{p'}/\sinh^2M$ be the $O(s)$ part of $\widetilde F$.  Then
+\[
+ P^{(1)}(-t)=\zeta\,\frac{t\cosh\frac t2-2\sinh\frac t2}{2\sinh^2\frac t2},
+\]
+an \emph{odd} function of $t$, meromorphic with double poles at $t\in2\pi i\mathbb Z\setminus\{0\}$.
+Consequently all even Taylor coefficients $c^{(1)}_{2k}$ vanish, $\operatorname{Im}J^{(1)}$ has no
+power-law part, and $\operatorname{Im}J^{(1)}(\kappa,\kappa)=O(\kappa\,e^{-\kappa})$.
+\end{proposition}
+\lstep{1}{1}{$P^{(1)}(-t)=\dfrac\zeta{\sinh^2\frac t2}\displaystyle\int_{-t/2}^{t/2}
+\sinh\tfrac{t/2-n}2\sinh\tfrac{t/2+n}2\,dn$.}
+\lby{$p=\tfrac t2-n$, $p'=\tfrac t2+n$, $\sinh M=\sinh\tfrac t2$ is independent of $n$}
+\lstep{1}{2}{$\sinh A\sinh B=\tfrac12[\cosh(A+B)-\cosh(A-B)]$ with $A+B=\tfrac t2$, $A-B=-n$.}
+\lby{product-to-sum}
+\lstep{1}{3}{$\int_{-t/2}^{t/2}\tfrac12[\cosh\tfrac t2-\cosh n]dn
+=\tfrac12\bigl[t\cosh\tfrac t2-2\sinh\tfrac t2\bigr]$.}
+\lby{$\int_{-t/2}^{t/2}dn=t$, $\int_{-t/2}^{t/2}\cosh n\,dn=2\sinh\tfrac t2$}
+\lstep{1}{4}{The result is odd in $t$: numerator odd, denominator even.}
+\lby{$t\cosh\frac t2$ odd, $\sinh\frac t2$ odd, $\sinh^2\frac t2$ even}
+\lstep{1}{5}{Hence $c_k^{(1)}=0$ for all even $k$ and, by
+\S\ref{sec:tail}$\langle1\rangle4$, $\operatorname{Im}J^{(1)}=O(\kappa^{-N})$ for every $N$.}
+\lby{$\langle1\rangle4$ and the parity rule}
+\lstep{1}{6}{At $t=2\pi i$: $\sinh(\pi i)=0$ (double zero of the denominator) and the numerator is
+$2\pi i\cos\pi-0=-2\pi i\ne0$; the nearest singularities are $t=\pm2\pi i$.  Shifting the contour
+of $\int_0^\infty e^{i\kappa t/2\pi}P^{(1)}(-t)dt$ to $\operatorname{Im}t=2\pi^-$ therefore gives
+$O(\kappa e^{-\kappa})$.}
+\lby{$e^{i\kappa t/2\pi}$ has modulus $e^{-\kappa\operatorname{Im}t/2\pi}$; a double pole
+contributes the extra factor $\kappa$}
+\lqed{1}{7}\lby{$\langle1\rangle5$, $\langle1\rangle6$}
+
+\emph{Numerical confirmation} (mpmath, $30$ digits, $a=1$, $L=2$, $s=0.2$):
+\begin{center}\small
+\begin{tabular}{r l l}\toprule
+$\kappa$ & $\widetilde Q^{(1)}(\kappa,\kappa)-q_\kappa$ & $\div\ \kappa e^{-\kappa}$\\\midrule
+4 & $2.3861417\cdot10^{-4}$ & 0.00325697\\
+8 & $9.0577807\cdot10^{-6}$ & 0.00337511\\
+12 & $2.4901249\cdot10^{-7}$ & 0.00337733\\
+16 & $6.0811704\cdot10^{-9}$ & 0.00337737\\
+20 & $1.3922568\cdot10^{-10}$ & 0.00337737\\\bottomrule
+\end{tabular}\end{center}
+The ratio is constant to $6$ digits: the law is exactly $C\kappa e^{-\kappa}$, confirming
+Proposition~\ref{prop:first}.  N5's own quadrature (``$2.4\cdot10^{-4}$ at $\kappa=4$ to
+$5.7\cdot10^{-9}$ at $\kappa=16$, i.e.\ like $e^{-0.9\kappa}$'') agrees at $\kappa=4$ but is
+$6\%$ low at $\kappa=16$ and the fitted rate $0.9$ is a finite-range artefact; the true rate is $1$.
+
+\subsection{The claimed numerical confirmations}
+Recomputing $\tfrac1\pi\operatorname{Im}J$ directly from Proposition~\ref{prop:closed}
+(mpmath, 30 digits, exact 1-d $\sigma$-integral, half-period-by-half-period oscillatory sum):
+\begin{center}\small
+\begin{tabular}{r l l l}\toprule
+$\kappa$ & $\zeta=1/30$ & $\zeta=1/15$ & $\zeta=1/5$\\
+& ratio to $\tfrac2{15}\zeta^2\kappa^{-3}$ & & \\\midrule
+20 & 1.11411 & 1.11186 & 1.10718\\
+40 & 1.02380 & 1.02375 & 1.02320\\
+60 & 1.01035 & 1.01033 & 1.01010\\\bottomrule
+\end{tabular}\end{center}
+The excess over $1$ scales as $\kappa^{-2}$ ($0.1141/0.0238=4.79$ vs $(40/20)^2=4$;
+$0.0238/0.0103=2.31$ vs $(60/40)^2=2.25$), i.e.\ the absolute error is $O(\kappa^{-5})$, exactly as
+claimed.  The $s^2$ scaling is confirmed to $4$ digits: at $\kappa=40$,
+$9.47917\cdot10^{-9}/2.36991\cdot10^{-9}=4.0000$ between $s=0.2$ and $s=0.1$.
+\begin{verdictgap}
+N5 quotes ``\emph{the ratio $\dots$ is $1.11,1.05,1.06,1.06$ at $\kappa=20,30,40,60$, approaching
+$1$ from above}'' and ``\emph{the density scales as $s^2$ $\dots$ (ratio $3.97$)}''.  The
+qualitative statements are right, but the quoted ratios at $\kappa=40,60$ are wrong: the correct
+values are $1.024$ and $1.010$, not $1.06$.  N5's quadrature
+(\texttt{numerics/uv\_tail\_v2.py}, trapezoid on a geometric mesh, $h=0.004$, cut $=38$) has an
+error of a few percent there; my values come from the exact profile of
+Proposition~\ref{prop:closed}.  This does not affect any conclusion --- if anything it improves the
+agreement --- but the numbers in the text should be replaced.  The $s^2$ ratio is $4.000$, not $3.97$.
+\end{verdictgap}
+
+\section{Corollary 4.2 (structure of the small-$\zeta$ expansion)}\label{sec:cor42}
+
+Four assertions must be separated.
+
+\paragraph{(A1) ``The second-order coefficient of $-\log\Fid$ is finite.''}
+This is the only genuinely load-bearing statement, and N5's justification is one clause:
+``\emph{$D$ the first-order defect $\partial_s\delta_s|_{s=0}$, whose modular matrix decays
+exponentially so that the weight \textup{(\texttt{qfi-weight})} is harmless}''.  The claim is
+\emph{true}, but the reason needs the off-diagonal, two-variable statement, not the diagonal one
+proved in \S\ref{sec:first}.  Here is the argument.
+
+\lstep{1}{1}{$\delta^{(1)}_s(\kappa,\kappa')
+=-\tfrac1{\pi(2\pi)^2}e^{i(\kappa'-\kappa)\xi_0/2\pi}\operatorname{Im}\mathcal J(\kappa,\kappa')$,
+where $\mathcal J(\kappa,\kappa')=\iint_{p,p'>0}\widetilde F^{(1)}(p,p')
+e^{i(\kappa p+\kappa'p')/2\pi}dp\,dp'$.}
+\lby{(\texttt{J-def}) with $\xi=\xi_0-p$, $\xi'=\xi_0+p'$ gives
+$J=(2\pi)^{-2}e^{i(\kappa'-\kappa)\xi_0/2\pi}\mathcal J$; $\widetilde F^{(1)}$ is real and
+\emph{symmetric} in $(p,p')$, so $\mathcal J(\kappa',\kappa)=\mathcal J(\kappa,\kappa')$ and
+$J-\overline{J(\kappa',\kappa)}=(2\pi)^{-2}e^{i(\kappa'-\kappa)\xi_0/2\pi}\cdot2i\operatorname{Im}\mathcal J$}
+\lstep{1}{2}{$\widetilde F^{(1)}(t\sigma,t(1-\sigma))$ is an \emph{even} function of $t$.}
+\lby{Proposition~\ref{prop:first}: $S_{-p}S_{-p'}=S_pS_{p'}$ and $\sinh^2(-M)=\sinh^2M$}
+\lstep{1}{3}{Hence in the homogeneous expansion $\widetilde F^{(1)}=\sum_dt^dh^{(1)}_d(\sigma)$
+all \emph{odd} $d$ vanish; and
+$\mathcal J\sim\sum_d(d+1)!\,i^{d+2}\int_0^1\frac{h_d^{(1)}(\sigma)}{\omega(\sigma)^{d+2}}d\sigma$
+with $\omega(\sigma)=\frac{\kappa\sigma+\kappa'(1-\sigma)}{2\pi}$, in which even $d$ gives a real
+and odd $d$ an imaginary term.}
+\lby{$\mathcal J=\int_0^1d\sigma\int_0^\infty t\,\widetilde F^{(1)}e^{it\omega(\sigma)}dt$ after
+$p=t\sigma$, $p'=t(1-\sigma)$; then \S\ref{sec:tail}$\langle1\rangle4$}
+\lstep{1}{4}{Therefore $\operatorname{Im}\mathcal J(\kappa,\kappa')=O(|\kappa|^{-N})$ for every
+$N$, and by shifting both contours to $\operatorname{Im}p=\operatorname{Im}p'=\pi-\epsilon$
+(legitimate: $\widetilde F^{(1)}$ is analytic in $0<\operatorname{Im}(p+p')<2\pi$ and decays)
+$|\operatorname{Im}\mathcal J|\lesssim e^{-(1-\epsilon')(\kappa+\kappa')/2}$ for
+$\kappa,\kappa'\to+\infty$.}
+\lby{$\langle1\rangle3$; the singularities of $\widetilde F^{(1)}$ are the zeros
+$p+p'\in2\pi i\mathbb Z\setminus\{0\}$ of $\sinh^2M$}
+\lstep{1}{5}{The quantum-Fisher integrand
+$|\delta^{(1)}(\kappa,\kappa')|^2/N(\kappa,\kappa')$ is then
+$\lesssim e^{-(\kappa+\kappa')}e^{\min(\kappa,\kappa')}=e^{-\max(\kappa,\kappa')}$, integrable;
+by particle--hole symmetry the same holds for $\kappa,\kappa'\to-\infty$, and in the mixed
+region the weight is $O(1)$.}
+\lby{$\langle1\rangle4$ and the growth law of \S\ref{sec:secondorder}(e)}
+\lqed{1}{6}\lby{$\langle1\rangle1$--$\langle1\rangle5$}
+
+\begin{verdictgap}
+(A1) is true, and the exponential decay of the \emph{off-diagonal} modular matrix elements of the
+first-order defect --- which is what is needed --- does hold, but only because
+$\widetilde F^{(1)}$ happens to be even under $(p,p')\to(-p,-p')$
+(Proposition~\ref{prop:first}), a fact N5 never states.  Without it, the corner singularity of
+$\widetilde F^{(1)}$ (homogeneous of degree $0$) would give only $|\kappa|^{-2}$ decay and the
+weight $e^{\min(\kappa,\kappa')}$ would make $f_2$ divergent.  N5's one-clause justification is a
+gap; the repair is above.  Step $\langle1\rangle4$'s contour shift is stated, not proved in
+detail here either; I regard the conclusion as established at the level of rigour of N5 but not
+beyond.
+\end{verdictgap}
+
+\paragraph{(A2) ``The fourth-order coefficient is infinite.''}
+This is a heuristic, and N5's own wording (``\emph{Indeed the modes with $\kappa>\kappa_*$
+\dots\ contributing \dots}'') is a plausibility estimate, not a proof: it identifies a
+\emph{contribution} of size $\zeta^2/(30\kappa_*^2)$ but does not show that the fourth-order
+Taylor coefficient of $\zeta\mapsto\Phi(\zeta)$ fails to exist (that would require, e.g., a lower
+bound on $\Phi(\zeta)-f_2\zeta^2$ of the stated order together with an upper bound on all other
+contributions).  Flagged as heuristic.
+
+\paragraph{(A3) The estimates.}
+\lstep{1}{1}{$\kappa_*=2\log(1/\zeta)+O(\log\log(1/\zeta))$, where
+$\tfrac2{15}\zeta^2\kappa_*^{-3}=e^{-\kappa_*}$.}
+\lby{taking logs: $\kappa_*=2\log(1/\zeta)+3\log\kappa_*+\log\tfrac{15}2$; iterating once,
+$\kappa_*=2\log(1/\zeta)(1+o(1))$ so $3\log\kappa_*=3\log(2\log(1/\zeta))+o(1)
+=O(\log\log(1/\zeta))$}
+\lstep{1}{2}{$\tfrac12\int_{\kappa_*}^\infty\tfrac2{15}\tfrac{\zeta^2}{\kappa^3}d\kappa
+=\tfrac1{15}\zeta^2\cdot\tfrac1{2\kappa_*^2}=\dfrac{\zeta^2}{30\kappa_*^2}$.}
+\lby{$\int_{\kappa_*}^\infty\kappa^{-3}d\kappa=\tfrac1{2\kappa_*^2}$}
+\lstep{1}{3}{$\approx\dfrac{\zeta^2}{30\cdot4\log^2(1/\zeta)}=\dfrac{\zeta^2}{120\log^2(1/\zeta)}$.}
+\lby{$\langle1\rangle1$}
+\lstep{1}{4}{The factor $\tfrac12$: for a mode with $q_\kappa\approx0$ and recovered occupation
+$\tilde q$, $-\log(\sqrt{q\tilde q}+\sqrt{(1-q)(1-\tilde q)})\to-\tfrac12\log(1-\tilde q)
+=\tfrac{\tilde q}2+O(\tilde q^2)$.}
+\lby{Theorem~\ref{thm:F}, commuting case, at $q=0$}
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$}
+\begin{verdictok}All three arithmetical statements of (A3) are correct, including the factor
+$\tfrac12$ and the constant $120$.\end{verdictok}
+
+\paragraph{(A4) The collar statement.}
+``\emph{for $\eps>0$ the defect kernel is smooth up to the edges of the two-interval region and all
+modular matrix elements decay exponentially, so the collar acts as a UV regulator}''.  Plausible
+and consistent with \S\ref{sec:closed} (the corner at $p=p'=0$ is removed when the two intervals
+are separated, so $\widetilde F$ becomes smooth there and its Fourier transform decays
+exponentially), but not proved in N5 and not proved here.  Heuristic.
+
+\section{Corollary 5.1 (collapse of the rotation family) and the VWZ translation}\label{sec:cor51}
+
+\subsection{$\zeta_t=z(1+e^{-2\pi t})$}
+\lstep{1}{1}{$s_t=\lambda(1+e^{-2\pi t})$ with $\lambda=c/b$.}
+\lby{\Nf{eq:s-t}, the convention fixed in N4}
+\lstep{1}{2}{$\zeta_t=\dfrac{as_t}{a+L}=\dfrac{a(c/b)(1+e^{-2\pi t})}{a+b+c}=z\,(1+e^{-2\pi t})$,
+$z=\dfrac{ac}{b(a+b+c)}$.}
+\lby{$\langle1\rangle1$, $L=b+c$, definition of $z$}
+\lstep{1}{3}{$t=0$ gives $\zeta_0=2z$; $t\to+\infty$ gives $\zeta_t\downarrow z$ and
+$s_t\downarrow\lambda$, i.e.\ $J_{s_t}\uparrow J_\lambda=(-a,\tfrac L{1+\lambda})=(-a,b)=AB$.}
+\lby{$\tfrac L{1+c/b}=\tfrac{Lb}{b+c}=b$ since $L=b+c$}
+\lqed{1}{4}\lby{$\langle1\rangle1$--$\langle1\rangle3$}
+\begin{verdictok}Correct, including the identification of the $t\to+\infty$ limit with the pure
+geometric compression of $ABC$ onto $AB$.  (Strictly, $t=+\infty$ is a limit point, not a member
+of the family; ``its best member is the limit $t\to+\infty$'' should read ``the infimum over the
+family is attained only in the limit''.)\end{verdictok}
+
+\subsection{Monotonicity of $\Phi$ --- N5 leaves it numerical; here is a proof}
+
+N5: ``\emph{Monotonicity of $\Phi$ in $\zeta$ \dots\ holds for the trace norm exactly and is
+confirmed numerically for $\Phi$ in Section 6.}''  It can be proved.
+
+\begin{proposition}\label{prop:mono}
+$\Phi$ is nondecreasing on $(0,\infty)$, and so is $\zeta\mapsto\mathcal D(\zeta)$.
+\end{proposition}
+\lstep{1}{1}{Fix $L,s$ and $0<a_1<a_2$.  Put $I_i=(-a_i,L)$, so $I_1\subset I_2$ and
+$\cF_r(I_1)\subset\cF_r(I_2)$.}
+\lby{isotony of the net}
+\lstep{1}{2}{$k_s$ does not depend on $a$; $k_s(I_1)=J^{(1)}_s=(-a_1,\tfrac L{1+s})\subset
+J^{(2)}_s$, and $\overline\beta^{(2)}_s\big|_{\cF_r(I_1)}=\overline\beta^{(1)}_s$.}
+\lby{(\texttt{k-s}): $k_s=\id$ on the $A$-branch and $h_s$ on $(0,L)$, both independent of $a$;
+uniqueness of the normal extension}
+\lstep{1}{3}{$\widetilde\omega^{(2)}_s\big|_{\cF_r(I_1)}=\widetilde\omega^{(1)}_s$ and
+$\omega\big|_{\cF_r(I_1)}=\omega$.}
+\lby{$\widetilde\omega^{(i)}_s=\omega\circ\overline\beta^{(i)}_s$ and $\langle1\rangle2$; the
+vacuum restricted to a subalgebra is the vacuum}
+\lstep{1}{4}{Hence $\Fid_{\cF_r(I_1)}\ge\Fid_{\cF_r(I_2)}$ and $\mathcal D_{I_1}\le\mathcal D_{I_2}$,
+i.e.\ $\Phi(\zeta(a_1,L,s))\le\Phi(\zeta(a_2,L,s))$.}
+\lby{monotonicity of root fidelity and of Araki relative entropy under restriction, (C4) and
+Araki 1977 Thm.\ 3.8(2)($\gamma$)}
+\lstep{1}{5}{For any $0<\zeta_1<\zeta_2$ there exist $L,s,a_1<a_2$ realising them.}
+\lby{pick $s>\zeta_2$, $L=1$, $a_i=\zeta_i/(s-\zeta_i)>0$; then $\zeta(a_i,1,s)=\zeta_i$ and
+$a_1<a_2$ because $\zeta\mapsto\zeta/(s-\zeta)$ is increasing on $(0,s)$}
+\lqed{1}{6}\lby{$\langle1\rangle4$, $\langle1\rangle5$ and Lemma~1.1 (that $\Phi$ depends on
+$(a,L,s)$ only through $\zeta$)}
+\begin{verdictok}
+Monotonicity of $\Phi$ and of $\mathcal D$ in $\zeta$ is a theorem, not a numerical observation;
+the proof uses only isotony, Lemma~1.1 and data processing.  N5's stated reason (``a larger
+compression of $D$ into $B$ gives a larger covariance defect'') is not an argument, since a larger
+covariance defect does not by itself imply a smaller fidelity.
+\end{verdictok}
+
+\subsection{The last sentence: the modular average}
+N5: ``\emph{the modular average with the density $p(t)=\pi/(1+\cosh2\pi t)$ is worse than the
+ordinary Petz map because $\int p(t)\,\Phi(\zeta_t)\,dt$ receives contributions from arbitrarily
+large $\zeta_t$.}''
+
+\lstep{1}{1}{$\int p(t)\Phi(\zeta_t)dt$ is \emph{not} $-\log\Fid(\omega,\overline\omega)$ for the
+twirled state $\overline\omega=\int p(t)\widetilde\omega_t\,dt$ of \Nf{eq:twirled-normal-map}.
+Joint concavity gives only
+$-\log\Fid(\omega,\overline\omega)\le\int p(t)\Phi(\zeta_t)dt$ (N4, above
+\texttt{eq:zero-collar-fidelity}).}
+\lby{$\Fid(\omega,\overline\omega)\ge\int p\,\Fid(\omega,\widetilde\omega_t)dt\ge
+\exp\int p\log\Fid$}
+\lstep{1}{2}{Hence the sentence, read as a statement about the twirled \emph{channel}, is
+unproved: an upper bound on $-\log\Fid(\omega,\overline\omega)$ cannot show it exceeds $\Phi(2z)$.}
+\lby{$\langle1\rangle1$}
+\lstep{1}{3}{Read instead as a statement about the quantity
+$\int p(t)(-\log\Fid(\omega,\widetilde\omega_t))dt$ that appears in the FHSW bound (and in VWZ
+(2.12)), the claim is correct and the reason is right.  With $w=e^{-2\pi t}$,
+$\int p\,\Phi\,dt=\int_1^\infty\Phi(z(1+w))\frac{dw}{w^2}\cdot(1+o(1))$, which for small $z$ is
+$O(z)$: the range $1\le w\lesssim1/z$ contributes $\approx f_2z$ and $w\gtrsim1/z$ contributes
+$\approx z/9$ if $\Phi(\zeta)\sim\tfrac1{18}\log\zeta$ (per chiral component) at large $\zeta$.
+Compare $\Phi(2z)=4f_2z^2$: linear beats quadratic.}
+\lby{$p(t)\simeq2\pi e^{-2\pi|t|}$ for large $|t|$ and the substitution above; the large-$\zeta$
+law is VWZ (1.10)}
+\lqed{1}{4}\lby{$\langle1\rangle2$, $\langle1\rangle3$}
+
+\begin{verdictgap}
+The sentence is \emph{wrong as an argument about the twirled recovery channel} (the inequality
+runs the wrong way) and \emph{right as an arithmetic statement about $\int p\,\Phi$}, which is what
+VWZ measure: their (2.12) with $\overline{-\log F}=f\,c\,\eta$, $f\approx0.055$, is indeed linear in
+$\eta$ against the quadratic $f_2c\eta^2$ at $\lambda=0$.  N5 should say which quantity it means.
+(Independently flagged by agent V6.)
+\end{verdictgap}
+
+\subsection{Two incompatible uses of the letter $\eta$}
+Corollary 5.1 states ``$z=\frac{ac}{b(a+b+c)}=\frac1\eta-1$'', which is true for
+$\eta=\eta_{\mathrm{LX}}=1/(1+z)$ (N4's $\eta$, defined by
+$I_\omega(A{:}C|B)=-\tfrac r6\log\eta$).  Four lines later the VWZ paragraph states
+``$\eta=\frac{L_AL_C}{(L_A+L_B)(L_B+L_C)}=x$, for which $z=\eta/(1-\eta)$'', which is true for
+$\eta=\eta_{\mathrm V}=z/(1+z)$.  These are different: $\eta_{\mathrm{LX}}+\eta_{\mathrm V}=1$.
+The abstract and the Main-result box also use $\eta_{\mathrm V}$ (``$\zeta=2z=\frac{2\eta}{1-\eta}$'').
+\begin{verdictgap}
+A notation clash inside one corollary.  Each formula is individually correct; nothing downstream
+is numerically wrong, because $\S7$ consistently uses $\eta_{\mathrm V}$.  But
+``$z=\frac1\eta-1$'' and ``$z=\frac\eta{1-\eta}$'' three lines apart will mislead every reader.
+Fix: call N4's variable $\eta_{\mathrm{LX}}=1-\eta$.  (Also flagged by agent V6.)
+\end{verdictgap}
+
+\subsection{The Vardhan--Wei--Zou dictionary}
+\begin{citedbox}{Vardhan--Wei--Zou, arXiv:2307.14434 --- the items N5 uses}
+\textbf{(1.3)}, p.~3: $P^{(\lambda)}_{B\to BC}(\cdot)=\rho_{BC}^{\frac12-\frac{i\lambda}2}
+\rho_B^{-\frac12+\frac{i\lambda}2}(\cdot)\rho_B^{-\frac12-\frac{i\lambda}2}
+\rho_{BC}^{\frac12+\frac{i\lambda}2}$ --- transcribed \emph{verbatim} by N5.  \checkmark
+
+\textbf{(1.8)}, p.~4: $I(A{:}C|B)=-\tfrac c3\log(1-\eta)$,
+$\eta=\frac{L_AL_C}{(L_A+L_B)(L_B+L_C)}$.  With $1-\eta=1/(1+z)$ this is $\tfrac c3\log(1+z)$,
+matching \Nf{eq:CMI-LX} $\tfrac r6\log(1+z)$ iff $r=2c$: the full Dirac fermion ($c=1$)
+corresponds to $r=2$ chiral components.  \checkmark
+
+\textbf{(2.1)--(2.3)}, p.~8: $F(\rho,\sigma)=\Tr[(\rho\sigma)^{1/2}]$, the same root fidelity
+as N5's (C4).  \checkmark
+
+\textbf{(2.7)}, p.~9: $\beta(\lambda)=\frac\pi2\frac1{1+\cosh(\pi\lambda)}$.  With $\lambda=2t$,
+$\beta(\lambda)d\lambda=\frac{\pi\,dt}{1+\cosh2\pi t}=p(t)dt$: N5's $p(t)$ and VWZ's
+$\beta(\lambda)$ agree.  \checkmark
+
+\textbf{(2.13)}, p.~12: $-\log F^{(\lambda=0)}=f_2c\eta^2+O(\eta^4)$, $f_2\approx0.070$.  \checkmark
+
+\textbf{(2.14)}: $\overline{-\log F}=fc\eta+O(\eta^2)$, $f\approx0.055$.
+
+\textbf{item 3}, p.~12: ``\emph{$-\log F^{(\lambda)}(\eta)/c$ has a non-trivial dependence on
+$\lambda$, with the largest fidelity achieved at $\lambda=0$ for all $\eta$, and decreasing
+monotonically with increase in $\lambda$.}''
+\begin{center}\includegraphics[width=.93\textwidth]{shots/V3_VWZ_lambda.png}\end{center}
+
+\textbf{Fig.~5}, p.~12: fitted exponents $p\approx2.0,1.9,1.7,1.2$ at $\lambda=0,0.5,1,1.5$.  \checkmark
+
+\textbf{(1.10)}, p.~5: $-\log F=-\tfrac c9\log(1-\eta)+O(1)$ as $\eta\to1$.  \checkmark
+
+\textbf{(3.15)/(3.24)}, pp.~35, 37: $D_\alpha=d_\alpha c\eta^2$ and
+$\sqrt{\tfrac{\log2}2 d_1}\approx0.44$, whence $d_1=2(0.44)^2/\log2=0.559$ --- N5's ``$\approx0.56$''
+is arithmetically right.  \emph{Caveat:} $d_1$ is only inferred; VWZ's Fig.~19 inset plots
+$d_\alpha c$ on a scale reaching $0.2$, which for the Ising model ($c=\tfrac12$) suggests
+$d_1\lesssim0.4$.  I cannot resolve this from the figure, so the ``$20\%$'' discrepancy of \S7.1
+carries an unquantified uncertainty.
+
+\textbf{Models}: Ising ($c=\tfrac12$), tricritical Ising, XXZ free boson ($c=1$) --- all
+\emph{non-chiral} $1{+}1$-dimensional CFTs with real ground states (pp.~9--10).
+\end{citedbox}
+
+\subsubsection*{$\lambda=2t$}
+Setting $t'=-\lambda/2$ turns VWZ (1.3) into
+$\rho_{BC}^{1/2+it'}\rho_B^{-1/2-it'}(\cdot)\rho_B^{-1/2+it'}\rho_{BC}^{1/2-it'}$, the standard
+rotated Petz map at modular time $t'$.  So $|\lambda|=2|t|$ with a convention-dependent sign,
+which N5 correctly leaves open by writing $1+e^{\mp\pi\lambda}$.  \checkmark
+
+\subsection{The factorisation into chiralities: N5's claim is wrong for $\lambda\neq0$}
+\label{sec:chirality}
+
+N5 asserts: ``\emph{A full (non-chiral) free Dirac fermion, $c=1$, is the tensor product of two
+such components in the factorized vacuum, so $-\log F^{(0)}_{\mathrm{Dirac}}=8f_2\eta^2$}'', and
+then draws two $\lambda$-dependent conclusions: (i) ``\emph{the fidelity decreases monotonically
+with $\lambda$ on the side where $e^{\mp\pi\lambda}$ grows}''; (ii) ``\emph{the prediction that the
+opposite sign of $\lambda$ improves the recovery down to $\Phi(z)$ \dots\ [is] testable on the
+lattice}''.  The $\lambda=0$ statement is right; (i) and (ii) are false.
+
+\begin{proposition}\label{prop:chirality}
+For the $1{+}1$-dimensional massless Dirac fermion the rotated Petz map of the inclusion
+$\cF(O_B)\subset\cF(O_{BC})$ factorises as $\alpha_t^{(+)}\otimes\alpha_t^{(-)}$, and the two
+factors are the geometric maps $\gamma_{s_t^{\pm}}$ with
+\[
+ s_t^{(+)}=\lambda(1+e^{-2\pi t}),\qquad s_t^{(-)}=\lambda(1+e^{+2\pi t}).
+\]
+Consequently
+$-\log \Fid^{(t)}_{\mathrm{Dirac}}=\Phi\bigl(z(1+e^{-2\pi t})\bigr)+\Phi\bigl(z(1+e^{2\pi t})\bigr)$,
+which is \emph{even} in $t$ (hence in $\lambda$) and minimised at $t=0$.
+\end{proposition}
+
+\lstep{1}{1}{At $t=0$ the one-particle space of the $1{+}1$-dimensional Dirac fermion on a spatial
+interval $X$ is $L^2(X)\otimes\mathbb C^2$, and the vacuum symbol is
+$Q^{(+)}_X\oplus Q^{(-)}_X$ with $Q^{(+)}_X=E_XP_+E_X$ and $Q^{(-)}_X=E_X(1-P_+)E_X=1-Q^{(+)}_X$.}
+\lby{right movers $\psi_R(x-t)$ have positive-energy modes of one sign of momentum, left movers
+$\psi_L(x+t)$ of the other; so the two chiral Fermi seas are the two complementary spectral
+projections of $-i\partial_x$, i.e.\ $P_+$ and $1-P_+$}
+\lstep{1}{2}{The one-particle modular Hamiltonian of $\cF^{(\pm)}(X)$ is
+$K^{(\pm)}=\log\frac{1-Q^{(\pm)}}{Q^{(\pm)}}$, so $K^{(-)}=-K^{(+)}$ and
+$\Delta_{(-)}^{it}=\Delta_{(+)}^{-it}$ on the respective factors.}
+\lby{Proposition~\ref{prop:sign} identifies $K$ for a gauge-invariant quasi-free state with symbol
+$X$ as $\log\frac{1-X}{X}$; substituting $X=1-Q$ gives $\log\frac{Q}{1-Q}=-K$}
+\lstep{1}{3}{The rotated Petz map of $\cN\subset\cM$ is built from $\Delta_{\cM}^{it}\Delta_{\cN}^{-it}$
+(FHSW); replacing both modular operators by their inverses is the substitution $t\mapsto-t$.}
+\lby{\Nf{eq:s-t} and its FHSW source}
+\lstep{1}{4}{Hence $\alpha^{(-)}_t=\alpha^{(+)}_{-t}=\gamma_{s_{-t}}$, i.e.\
+$s^{(-)}_t=\lambda(1+e^{+2\pi t})$.}
+\lby{$\langle1\rangle2$, $\langle1\rangle3$, \Nf{eq:s-t}}
+\lstep{1}{5}{Both factors are implemented by the \emph{same} family of point transformations $h_s$
+of the spatial line, so the recovered symbols are $\widetilde Q_{s^{(+)}_t}$ and
+$1-\widetilde Q_{s^{(-)}_t}$.}
+\lby{$W_s^*E_{J_s}(1-P_+)E_{J_s}W_s=W_s^*W_s-\widetilde Q_s=1-\widetilde Q_s$ since $W_s$ is
+unitary onto $H_{J_s}$}
+\lstep{1}{6}{$\Fid(\omega_{1-Q_1},\omega_{1-Q_2})=\Fid(\omega_{Q_1},\omega_{Q_2})$.}
+\lby{the particle--hole Bogoliubov automorphism $a(f)\mapsto a^*(\overline f)$ of
+$\CAR(\mathfrak h)$ maps $\omega_Q$ to $\omega_{1-\overline Q}$; conjugating both states by one
+automorphism leaves $\Fid$ invariant (step $\langle1\rangle5$ of \S\ref{sec:mobius}), and the extra complex
+conjugation is implemented by an antiunitary, under which $\Fid$ is also invariant}
+\lstep{1}{7}{$-\log\Fid_{\mathrm{Dirac}}^{(t)}=\Phi(\zeta(s^{(+)}_t))+\Phi(\zeta(s^{(-)}_t))
+=\Phi(z(1+e^{-2\pi t}))+\Phi(z(1+e^{2\pi t}))$.}
+\lby{$\Fid$ of a tensor product of states in a factorised vacuum is the product of the factors;
+$\langle1\rangle4$--$\langle1\rangle6$ and Corollary 5.1 for each chiral factor}
+\lstep{1}{8}{$g(t):=\Phi(\zeta_-)+\Phi(\zeta_+)$ with $\zeta_\mp=z(1+e^{\mp2\pi t})$ satisfies
+$g(-t)=g(t)$, $g'(0)=0$, and $g'(t)>0$ for $t>0$.}
+\lby{evenness is the interchange $\zeta_+\leftrightarrow\zeta_-$;
+$g'(t)=2\pi z\bigl[e^{2\pi t}\Phi'(\zeta_+)-e^{-2\pi t}\Phi'(\zeta_-)\bigr]$, and for $t>0$ we
+have $\zeta_+>\zeta_-$ with $\Phi'$ nondecreasing (Proposition~\ref{prop:mono} plus convexity of
+$\Phi$ at small $\zeta$, $\Phi\simeq f_2\zeta^2$), so both factors are larger}
+\lqed{1}{9}\lby{$\langle1\rangle7$, $\langle1\rangle8$}
+
+\paragraph{An independent, model-free confirmation.}
+For any lattice model whose ground state and reduced density matrices are real symmetric in some
+basis (the transverse-field Ising chain, the XXZ chain and the free-fermion chain all are),
+complex conjugation $K$ is an antiunitary symmetry with
+$K\widetilde\rho^{(\lambda)}K=\overline{\widetilde\rho^{(\lambda)}}=\widetilde\rho^{(-\lambda)}$
+and $K\rho K=\rho$; since $\Fid$ is invariant under a common antiunitary,
+$-\log F^{(\lambda)}=-\log F^{(-\lambda)}$ \emph{identically}.  This reproduces
+Proposition~\ref{prop:chirality} without any modular theory and explains VWZ's item 3
+(``largest fidelity achieved at $\lambda=0$'').
+
+\begin{verdictbreak}
+\textbf{The $\lambda$-dependent half of Corollary 5.1's VWZ paragraph is wrong.}  Quoting N5:
+``\emph{the fidelity decreases monotonically with $\lambda$ on the side where $e^{\mp\pi\lambda}$
+grows}'' and ``\emph{the prediction that the opposite sign of $\lambda$ improves the recovery down
+to $\Phi(z)$ \dots [is] testable on the lattice}''.  For a single chiral component
+(\texttt{eq:collapse}) N5 is correct.  But VWZ study \emph{non-chiral} $1{+}1$-dimensional CFTs,
+for which the two chiralities carry opposite modular rotations
+(Proposition~\ref{prop:chirality}), so
+$-\log F^{(\lambda)}=\Phi\bigl(\tfrac{\eta}{1-\eta}(1+e^{-\pi\lambda})\bigr)
++\Phi\bigl(\tfrac{\eta}{1-\eta}(1+e^{\pi\lambda})\bigr)$ is \emph{even} in $\lambda$ with a
+\emph{minimum} at $\lambda=0$.  The prediction is not merely untested, it is already falsified by
+VWZ item 3 (p.~12), quoted in the box above.  Consequently the abstract's
+``\emph{the ordinary Petz map is not optimal, the best rotated map is the pure geometric
+compression of $ABC$ onto $AB$}'', the identical sentence in the Main-result box, in
+\S7.2 (``\emph{the optimal rotation improves this by a further factor $4$}'') and in the third
+summary bullet of \S8, are all false \emph{for the physical two-dimensional theory}; they are true
+only for one chirality in isolation, which is not a state of any $1{+}1$-dimensional CFT.
+Independently found by agent R2 and confirmed here from N5's own one-particle formalism.
+\end{verdictbreak}
+\begin{verdictok}
+What survives, unchanged: (a) the $\lambda=0$ statement
+$-\log F^{(0)}_{\mathrm{Dirac}}=2\Phi(2z)=8f_2\eta^2+O(\eta^3)$, since $\zeta_+=\zeta_-=2z$ there;
+(b) the explanation of VWZ's Fig.~5 exponents, because for $\lambda>0$ the term $\Phi(\zeta_+)$
+dominates and $\zeta_+/\zeta_0=(1+e^{\pi\lambda})/2\approx3,\,12,\,56$ at
+$\lambda=0.5,1,1.5$ --- exactly N5's numbers; (c) the \emph{collapse} onto a function of one
+variable per chirality, i.e.\ the statement that the family is a two-parameter reparametrisation
+$(\zeta_-,\zeta_+)$ of $t$.  What must be corrected: ``\emph{the collapse \dots\ holds for every
+conformal net}'' (\S7.1) should read ``for every \emph{chiral} M\"obius-covariant net''; a
+two-dimensional net gives $\Phi(\zeta_-)+\Phi(\zeta_+)$ (or, for a non-factorising net, no such
+formula at all, since the rotated Petz map need not be geometric).
+\end{verdictok}
+
+\section{Section 7 (Discussion): the claims that rest on the above}\label{sec:discussion}
+
+\subsection{\S7.1, comparison with VWZ}
+\lstep{1}{1}{$8f_2=8\times0.008444=0.067552$, so ``$0.0676(1)\eta^2$'' is right; and
+$8s_2=8\times0.0834=0.6672$, so ``$0.667(4)\eta^2$'' is right.}
+\lby{arithmetic; the factor $8$ is $2$ chiralities $\times$ $(\zeta/\eta)^2=4$ at $\lambda=0$}
+\lstep{1}{2}{``The fidelity coefficients agree to $4\%$'':
+$(0.070-0.0676)/0.070=3.4\%$.  \checkmark\ ``The relative-entropy coefficients differ by about
+$20\%$'': $(0.667-0.559)/0.559=19\%$.  \checkmark}
+\lby{VWZ (2.13) and (3.24) as transcribed above}
+\lstep{1}{3}{``the exact reduction $\zeta=2\eta/(1-\eta)$ produces an $\eta^3$ term of relative
+size $2\eta$'': $\zeta^2=4\eta^2(1-\eta)^{-2}=4\eta^2(1+2\eta+\dots)$.  \checkmark}
+\lby{binomial expansion}
+\lqed{1}{4}\lby{$\langle1\rangle1$--$\langle1\rangle3$}
+
+The \emph{explanation} offered for the $20\%$ gap --- that the Kubo--Mori coefficient converges
+like $\kappa_{\max}^{-1}$ while the Bures one converges like $\kappa_{\max}^{-2}$, and that a
+lattice of $L$ sites cuts off $\kappa$ at $\sim\log L$ --- is consistent with the weights computed
+in \S\ref{sec:secondorder}: for an infrared--ultraviolet pair
+$\ell(q_i,q_k)\approx|\kappa_i-\kappa_k|/\max(q_i,q_k)$ grows linearly in modular energy while
+$1/N_{ik}\le1+\cosh\frac{\kappa_i+\kappa_k}2/\cosh\frac{\kappa_i-\kappa_k}2$ stays bounded for a
+fixed infrared partner.  It remains a plausibility argument (the fitted laws
+$f_2-0.066\kappa_{\max}^{-2}$, $s_2-0.29\kappa_{\max}^{-1}$ are empirical), and it is weakened by
+the uncertainty in $d_1$ noted above.  Heuristic, not proved.
+
+\subsection{\S7.2, the recovery bounds}
+\lstep{1}{1}{$-2\int p(t)\log\Fid(\omega,\widetilde\omega_t)dt\le I_\omega(A{:}C|B)=\tfrac r6\log(1+z)$
+is \Nf{eq:fixed-t-integrated-bound} combined with \Nf{eq:CMI-LX}.  \checkmark}
+\lby{N4; the FHSW strengthened DPI, transported to zero collar by monotone convergence}
+\lstep{1}{2}{``$(-2\log\Fid)/I$ \dots\ is $\approx0.20\zeta$ for small $\zeta$''.  Per component
+($r=1$), $\frac{2f_2\zeta^2}{\frac16\log(1+z)}\to\frac{2f_2\zeta^2}{z/6}
+=\frac{2f_2\zeta^2\cdot6}{\zeta/2}=24f_2\zeta=0.2027\,\zeta$.  \checkmark\ Table~3 row 1:
+$0.0017$ vs $0.20\times0.0083=0.00166$.  \checkmark}
+\lby{$z=\zeta/2$ for the ordinary map}
+\lstep{1}{3}{``in the small-$z$ regime it is $96f_2z\approx0.81z$''.  This is \emph{wrong by a
+factor $2$}: $24f_2\zeta=24f_2(2z)=48f_2z=0.4053\,z$.}
+\lby{$\langle1\rangle2$ with $\zeta=2z$}
+\lstep{1}{4}{``$-\log\Fid\simeq f_2(12/r)^2I_\omega^2$''.  With $I=\tfrac r6\log(1+z)\approx\tfrac r6z$
+one gets $\zeta=2z\approx12I/r$; for $r$ components $-\log\Fid=r f_2\zeta^2=144f_2I^2/r$, not
+$f_2(12/r)^2I^2=144f_2I^2/r^2$.  Correct only at $r=1$.}
+\lby{$\Phi$ is defined ``per fermion component''}
+\lqed{1}{5}\lby{$\langle1\rangle2$--$\langle1\rangle4$}
+\begin{verdictgap}
+Two arithmetic slips in \S7.2: ``$96f_2z\approx0.81z$'' should be ``$48f_2z\approx0.41z$'' (the
+adjacent statement $0.20\zeta$ is right, so this is a transcription error, not a conceptual one);
+and ``$f_2(12/r)^2I^2$'' should be ``$144f_2I^2/r$''.  The qualitative conclusion --- the
+linear-in-CMI bound is loose by a full power of the cross ratio --- is correct and is exactly what
+VWZ Fig.~4 shows.  The sentence ``\emph{By Corollary~5.1, the optimal rotation improves this by a
+further factor $4$, and the modular average is worse than the ordinary Petz map}'' inherits both
+defects found in \S\ref{sec:cor51}: the factor $4$ is chiral-only (see
+Proposition~\ref{prop:chirality}), and ``the modular average'' is ambiguous.
+\end{verdictgap}
+
+\subsection{\S7.3, structure of the expansion and the collar}
+Every sentence here is a restatement of Corollary 4.2, so it inherits its status: the
+$O(\log^{-2}(1/\zeta))$ correction rests on the heuristic (A2) of \S\ref{sec:cor42}, and the
+collar statement (A4) is unproved.  The sharpening of the VWZ puzzle (their OPE analysis
+suggesting faster-than-power convergence versus the observed $\eta^2$) is a correct reading of
+VWZ pp.~28--29 (``\emph{the natural conclusion \dots\ would be that the fidelity approaches $1$
+faster than any power of $\eta$ \dots\ but \dots\ we found $F\propto\eta^2$}''); the proposed
+resolution (infrared Bures metric versus ultraviolet corner) is a physical interpretation, not a
+theorem.  \emph{Heuristic, correctly labelled as discussion.}
+
+\subsection{\S8 summary bullets}
+Bullet 1 (rigorous determinant representation): \textbf{correct} (Theorem 3.1), modulo the basis
+mismatch of \S\ref{sec:qboxphase} which affects the claim that the tabulated values are rigorous
+bounds.  Bullet 2 ($\Phi=f_2\zeta^2[1+O(\log^{-2})]$ and the tail): the tail is \textbf{proved}
+(\S\ref{sec:tail}); the $\log^{-2}$ correction and ``makes the fourth-order coefficient infinite''
+are \textbf{heuristic}.  Bullet 3 (collapse identifies the geometric compression as the best
+member and predicts the lattice $\lambda$-dependence): \textbf{false for the two-dimensional
+theory}, see \S\ref{sec:chirality}.  Open problem (ii) correctly quotes VWZ (1.10).  Open problem
+(i)'s modular-flow representation
+$\sum_{ik}|D_{ik}|^2/N_{ik}=\tfrac12\int dt\,\mathrm{sech}(\pi t)\Tr[\widehat De^{iKt}\widehat De^{-iKt}]$
+is the standard integral representation of $N_{ik}^{-1}$: indeed
+$\int dt\,\mathrm{sech}(\pi t)\,e^{it(\kappa_i-\kappa_k)}=\mathrm{sech}\tfrac{\kappa_i-\kappa_k}2$,
+and with $\widehat D=(Q(1-Q))^{-1/4}D(Q(1-Q))^{-1/4}$ one has
+$|\widehat D_{ik}|^2=|D_{ik}|^2\bigl(q_ic_iq_kc_k\bigr)^{-1/2}$ and
+$\bigl(q_ic_iq_kc_k\bigr)^{-1/2}\mathrm{sech}\frac{\kappa_i-\kappa_k}2=2/N_{ik}$; multiplying by
+$\tfrac12$ reproduces $1/N_{ik}$.  \textbf{Correct.}
+
+\section{Abstract and Main-result box}\label{sec:abstract}
+\begin{itemize}
+\item ``\emph{Both are functions of a single cross ratio $\zeta$}'' --- \textbf{proved}
+(Lemma 1.1, strengthened by Proposition~\ref{prop:closed}).
+\item ``\emph{a rigorous determinant representation as a monotone limit}'' --- \textbf{proved}
+(Theorem 3.1).
+\item ``\emph{prove that \dots\ the recovered state populates the nearly empty modes with the
+algebraic density $\tfrac2{15}\zeta^2\kappa^{-3}$}'' --- \textbf{proved}
+(Proposition 4.1, \S\ref{sec:tail}), and in fact exactly in $\zeta$.
+\item ``\emph{so that the Bures expansion is quadratic but not smooth beyond second order}'' ---
+the quadratic part is \textbf{proved} to be finite (\S\ref{sec:cor42}(A1), with the repair
+supplied there); the non-smoothness is \textbf{heuristic}.
+\item ``$f_2=0.008444(10)$'', ``$s_2=0.0834(5)$'', ``$\Phi(1/15)=3.517(3)\cdot10^{-5}$'' ---
+numerics, outside the scope of this report except that (i) $f_2$ and $s_2$ are \emph{unaffected}
+by the basis mismatch of \S\ref{sec:qboxphase}, (ii) $\Phi(1/15)$ shifts by $0.005\%$ when the
+mismatch is repaired, well inside the quoted error, and (iii) the quoted convergence-check ratios
+of Proposition 4.1 are inaccurate (\S\ref{sec:tail}).
+\item ``\emph{every rotated Petz map of a half-sided modular inclusion is geometric, [so] the whole
+rotation family collapses onto the same function of $\zeta$}'' --- \textbf{true for one chirality}.
+\item ``\emph{the ordinary Petz map is not optimal, the best rotated map is the pure geometric
+compression of $ABC$ onto $AB$}'' --- \textbf{false for the two-dimensional Dirac fermion}
+compared against in the same sentence (\S\ref{sec:chirality}).
+\item ``\emph{the observed lattice dependence on the rotation parameter is a crossover effect}'' ---
+\textbf{correct}, and it survives the correction, because the enhancement factors
+$(1+e^{\pi\lambda})/2\approx3,12,56$ are unchanged.
+\item ``$-\log F^{(0)}=0.0676\,c\,\eta^2$ (lattice $0.070$)'' and ``$D=0.67\,c\,\eta^2$
+(lattice $\approx0.56$)'' --- arithmetic \textbf{correct}; the lattice $d_1$ is an inference from
+VWZ (3.24), see the cited box.
+\end{itemize}
+
+\section{Summary of verdicts}\label{sec:summary}
+\renewcommand{\arraystretch}{1.15}
+\begin{longtable}{@{}p{0.30\textwidth}p{0.10\textwidth}p{0.54\textwidth}@{}}
+\toprule
+\textbf{N5 location} & \textbf{Verdict} & \textbf{Comment}\\\midrule
+\endhead
+Lemma 1.1, cross ratio & OK & symbolically verified\\
+Lemma 1.1, covariance proof & OK & two unstated hypotheses; independent proof via
+Prop.~\ref{prop:closed}\\
+(\texttt{fock-functor}), (\texttt{rho-Q}) & OK & \\
+Thm 2.1 (\texttt{finite-fidelity}), (\texttt{finite-fidelity-2}) & OK & $\det U$ complex; quotient real\\
+Prop 2.2 (\texttt{finite-relent}) & OK & \\
+Prop 2.3 (\texttt{qfi}), (\texttt{kubo-mori}) & OK & result verified to $5$ digits; the
+$O(\eps^2)$ collection producing the brace is omitted in N5\\
+Prop 2.3, algebraic identity & OK & Lemma~\ref{lem:alg}\\
+Prop 2.3 (\texttt{qfi-weight}) + classical limits & OK & \\
+Thm 3.1, faithfulness & OK & needs $W_s$ \emph{unitary}, not merely isometric\\
+Thm 3.1, monotone limit & OK & \\
+Thm 3.1, ``Ohya--Petz Cor.\ 5.12'' & GAP & \textbf{NOT OBTAINED}; correct locator is Araki 1977
+Thm.\ 3.9(2) with Thm.\ 3.8(2)($\gamma$)\\
+\S3.1 (\texttt{thermal-kernel}), $2\sinh\frac{\xi-\xi'}2$ & OK & exact\\
+\S3.1 (\texttt{Qbox}) off-diagonal & GAP & phase $e^{i(k_l-k_j)\xi_0}$ missing; numerics mixes two
+bases; effect on $\Phi$ is $0.005\%$; $f_2,s_2$ unaffected\\
+\S3.1 $t\to0$ limit $2\Lambda k_j$ & OK & \\
+\S3.1 ``A trap'' remark & OK & \\
+\S4.1 mode normalisation & OK & \\
+\S4.1 sign of $\kappa$ & OK & proved directly; N5's appeal to positivity is unnecessary\\
+(\texttt{J-def}), (\texttt{occupation}) & OK & \\
+Prop 4.1 (\texttt{tail}) & OK & proved, and exact in $\zeta$; $O(\kappa^{-5})$ justified\\
+Prop 4.1, ``first order decays like $e^{-\kappa}$'' & OK & proved exactly: $C\kappa e^{-\kappa}$\\
+Prop 4.1, quoted numerical ratios & MINOR & $1.024,1.010$ at $\kappa=40,60$, not $1.06,1.06$;
+$s^2$ ratio $4.000$, not $3.97$\\
+Cor 4.2 (A1) finiteness of $f_2$ & GAP & true, but needs the evenness of $\widetilde F^{(1)}$,
+not stated in N5\\
+Cor 4.2 (A2) ``fourth-order coefficient is infinite'' & GAP & heuristic\\
+Cor 4.2 (A3) $\kappa_*$, $\zeta^2/(30\kappa_*^2)$ & OK & \\
+Cor 4.2 (A4) collar as UV regulator & GAP & heuristic\\
+Cor 5.1, $\zeta_t=z(1+e^{-2\pi t})$ & OK & \\
+Cor 5.1, monotonicity of $\Phi$ & OK & upgraded from ``numerical'' to a proof
+(Prop.~\ref{prop:mono})\\
+Cor 5.1, ``$z=1/\eta-1$'' vs.\ ``$z=\eta/(1-\eta)$'' & GAP & two different $\eta$'s in one corollary\\
+Cor 5.1, last sentence (modular average) & GAP & upper bound used as a lower bound\\
+Cor 5.1 (\texttt{collapse-vwz}), $\lambda$-dependence & \textbf{BREAK} & even in $\lambda$ for the
+2D Dirac fermion; $\lambda=0$ is optimal; contradicts VWZ item 3\\
+Cor 5.1, $\lambda=0$ value $8f_2\eta^2$ & OK & \\
+Cor 5.1, VWZ dictionary ($\lambda=2t$, $p(t)$, $\eta$, $F$) & OK & \\
+\S7.1 numbers ($0.0676$, $0.667$, $4\%$, $20\%$) & OK & $d_1\approx0.56$ is an inference\\
+\S7.1 ``collapse holds for every conformal net'' & GAP & only for chiral nets\\
+\S7.2 ``$96f_2z\approx0.81z$'' & MINOR & should be $48f_2z\approx0.41z$\\
+\S7.2 ``$f_2(12/r)^2I^2$'' & MINOR & should be $144f_2I^2/r$\\
+\S7.2 ``optimal rotation improves by a factor $4$'' & \textbf{BREAK} & chiral-only, see above\\
+\S7.3 & GAP & discussion, correctly labelled\\
+\S8 bullets 1, 2 & OK/GAP & as above\\
+\S8 bullet 3 & \textbf{BREAK} & as above\\
+\S8 open problem (i), modular-flow representation & OK & verified:
+$(q_ic_iq_kc_k)^{-1/2}\mathrm{sech}\frac{\kappa_i-\kappa_k}2=2/N_{ik}$ and
+$\int\mathrm{sech}(\pi t)e^{itu}dt=\mathrm{sech}\frac u2$\\
+Table~1 caption, ``$\zeta^2/(15\kappa_c^2)=8.78\cdot10^{-7}$'' & MINOR & the correct value, and the
+one actually added in the table, is $8.73\cdot10^{-7}$\\
+\bottomrule
+\end{longtable}
+
+\section*{What could not be obtained}
+\addcontentsline{toc}{section}{What could not be obtained}
+\begin{itemize}
+\item \textbf{Ohya--Petz, \emph{Quantum Entropy and Its Use}, Cor.~5.12} --- book, not
+downloadable; \textbf{NOT OBTAINED}.  Replaced by Araki 1977 Thm.\ 3.9(2)+3.8(2)($\gamma$), which
+I did obtain and transcribe.
+\item \textbf{Alberti 1983} (the variational formula for fidelity on a C*-algebra) --- paywalled;
+\textbf{NOT OBTAINED}.  The formula as used by N4/N5 is standard and I have not found any
+discrepancy, but I did not verify the hypotheses against the original.
+\item \textbf{Uhlmann 1976} --- paywalled; \textbf{NOT OBTAINED}.  Only the definition of root
+fidelity is used, and it agrees with VWZ (2.1)--(2.3), which I did read.
+\item VWZ's coefficient $d_1$: read off only indirectly from their (3.24)
+($\sqrt{\tfrac{\log2}2d_1}\approx0.44$); their Fig.~19 inset suggests a possibly smaller value.
+The $20\%$ discrepancy quoted in N5 \S7.1 is therefore uncertain.
+\item Sections 6 (numerics) and the tables were checked only where they bear on the theory
+(the $8.73$ vs $8.78\cdot10^{-7}$ caption, the ratio column, and the phase test); a full audit of
+the quadrature was out of scope.
+\end{itemize}
+\end{document}

@@ -1,0 +1,2223 @@
+\documentclass[11pt]{article}
+\input{rigor_preamble}
+\newcommand{\Sch}{\mathcal S}
+\newcommand{\Mob}{\operatorname{M\ddot ob}}
+\newcommand{\bI}{\beta_I}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Rp}{\mathsf R}
+\newcommand{\Lp}{\mathsf L}
+\newcommand{\Fr}{\cF_r}
+\newcommand{\Bang}{\mathsf A}
+\newcommand{\PP}{\mathcal P}
+\newcommand{\Ad}{\operatorname{Ad}}
+\theoremstyle{definition}\newtheorem{example}[theorem]{Example}
+\newtheorem{hypothesis}[theorem]{Hypothesis}
+
+\title{The corner calculus of sequential one-sided recovery:\\
+Schwarzian point masses, the recovered state, the separation constraint,\\
+and the type-III sequential bound}
+\author{Track G1a (Phase 6, analytic)}
+\date{2026-09-16}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+A \emph{one-sided protocol} on a chain of adjacent intervals $A_1,\dots,A_n$ recovers the vacuum
+on $I=A_1\cup\dots\cup A_n$ from a starting block by a sequence of zero-collar (rotated or
+ordinary) Petz steps, each of which is a parabolic M\"obius compression fixing a junction.  We
+prove: (i) the first-order field of a step is \emph{exactly} $\zeta\,w(y-y_p)\partial_y$ in the
+modular frame of any interval containing the corner, $w(u)=-4\sinh^2(u/2)\mathbf 1_{u>0}$,
+$\zeta=\sigma\bI(p)$ (Lemma~\ref{lem:field}); (ii) the composite point map $\Phi$ is $C^1$
+piecewise-M\"obius and its distributional Schwarzian is a sum of point masses, located at the
+junctions with weights $-2\kappa_k$ under a hypothesis (H) on the protocol, and in general at the
+preimages of the junctions with weights scaled by the derivative of the later maps
+(Theorem~\ref{thm:corner}); we exhibit two failures of (H), one of which shows that
+\emph{single-interval conditioning alone does not imply} (H) --- a correction to the wording of
+W1; (iii) the recovered state depends on $\Phi$ only through $\Sch(\Phi)$
+(Theorem~\ref{thm:state}), it equals the vacuum if and only if $\Phi$ is M\"obius
+(Theorem~\ref{thm:rigidity}), so no protocol whose last step keeps a non-empty part recovers
+exactly; (iv) VWZ Protocol 1(B)
+$=$ 1(A) as point maps, for every common rotation parameter, and VWZ Protocol 3 in either order
+is, up to a global M\"obius map, the over-compressed single step of Theorem~A with
+$\zeta_{\rm eff}=(\sigma_1+\sigma_2)\bI(p_3)$ (\S\ref{sec:vwz}); (v) with single-interval
+conditioning the corner measure --- hence the recovered state --- depends only on the
+\emph{starting block}, not on the order of the steps, which gives the complete tables for $n=4,5$
+(\S\ref{sec:tables}); (vi) the corner strength in the frame of the whole chain is
+$\zeta^{(I)}=\zeta_{\rm step}(1+z')$ (Lemma~\ref{lem:ampl}); (vii) for the left-to-right Petz
+chain the corner data take the purely modular form
+$\zeta_k=\sinh(\Delta_{k+1}/2)/[\sinh(\Delta_k/2)\sinh((\Delta_k+\Delta_{k+1})/2)]$, from which we
+\emph{prove} the separation bound $e^{\Delta_k}\ge2/\eps$ for all-weak protocols
+(Theorem~\ref{thm:sep}), sharp as $\eps\to0$ (the constant $2$ is the $\eps\to0$ limit of the exact numerical minimum);
+(viii) the Bures-angle triangle inequality gives the type-III sequential bound
+$\Bang_{\rm tot}\le\sum_k\Bang_k$ for any chain of von Neumann inclusions
+(Theorem~\ref{thm:w6}) under Hypothesis~(U), and the chordal Bures-distance route gives the
+second-order form $\Phi_{\rm tot}\le(\sum_k\sqrt{\Phi_k})^2(1+o(1))$ with no hypothesis
+(Theorem~\ref{thm:w6chord}, Corollary~\ref{cor:w6-second}(2)).  Every closed-form identity is verified numerically in
+\texttt{rigor/g1a\_calculus.py} and \texttt{rigor/g1a\_separation.py}.
+\end{abstract}
+
+\tableofcontents
+
+\section{Setting, conventions, and the class of protocols}\label{sec:setting}
+
+Every convention is fixed here once and cited afterwards.  They are the conventions of
+\texttt{rigor/phase6\_brief.md} (\S``Setting and conventions''), which in turn follow
+paper~1 (\texttt{paper1/sec\_setting.tex}, \texttt{paper1/sec\_petz.tex}) and Note~4
+(\texttt{continuum\_petz\_free\_fermion.tex}).
+
+\paragraph{(C1) Geometry.}
+Fix $n\ge2$ and points $p_1<p_2<\dots<p_{n+1}$ on the chiral light ray $\mathbb R$.  Put
+\[
+ A_k:=(p_k,p_{k+1}),\quad l_k:=p_{k+1}-p_k>0,\quad
+ L_k:=p_{k+1}-p_1=l_1+\dots+l_k,\quad T:=L_n,\quad I:=(p_1,p_{n+1}).
+\]
+The $p_k$ with $2\le k\le n$ are the \emph{junctions}.  A \emph{block} is a union
+$A_i\cup A_{i+1}\cup\dots\cup A_j$ of consecutive chain intervals, viewed as the open interval
+$(p_i,p_{j+1})$ (the interior junctions are not removed; the local algebras of the interval and
+of the union agree by strong additivity, \texttt{paper1/sec\_setting.tex}, l.~40--42).
+
+\paragraph{(C2) Net, vacuum, one-particle space.}
+$\Fr$ is the net of $r$ chiral free fermions on $\mathbb R$ (Longo--Xu \cite{LX} \S3.1; $c=r$),
+$\omega$ its vacuum state, $H:=L^2(\mathbb R;\mathbb C^r)$, $P$ the Hardy projection,
+$H_J:=L^2(J;\mathbb C^r)$ and $Q_J:=E_JPE_J$ the vacuum symbol of an interval $J$.  For a
+bounded operator $V$ on $H$ preserving $H_J$ we write $\beta_V$ for the Bogoliubov
+$*$-homomorphism determined by $\beta_V(\psi(f))=\psi(Vf)$; $\beta_{V_1}\beta_{V_2}=\beta_{V_1V_2}$.
+For an orientation-preserving $C^1$ diffeomorphism $k:J\to k(J)\subseteq\mathbb R$ we write
+\begin{equation}\label{eq:pushforward}
+ (V_kf)(y):=\bigl((k^{-1})'(y)\bigr)^{1/2}f\bigl(k^{-1}(y)\bigr)\ \ (y\in k(J)),\qquad
+ V_kf:=0 \text{ off } k(J),
+\end{equation}
+the \emph{half-density push-forward}; $V_k:H_J\to H_{k(J)}$ is an isometry and
+\begin{equation}\label{eq:functorial}
+ V_{k_1}V_{k_2}=V_{k_1\circ k_2}
+\end{equation}
+whenever the composition is defined (\S\ref{sec:state}, Lemma~\ref{lem:comp-W}).  All maps
+are orientation preserving, so no signs or phases occur.
+
+\paragraph{(C3) The one-sided step.}
+Let $J$ be a block and $A_{\rm new}$ a chain interval adjacent to $J$ and disjoint from it.  A
+\emph{one-sided step} adjoining $A_{\rm new}$ to $J$ is specified by a \emph{conditioning region}
+$A_B\subseteq J$, which is a block of $J$ containing the endpoint of $J$ shared with
+$A_{\rm new}$, together with a parameter $s$.  Write $l_B:=|A_B|$, $l_{\rm new}:=|A_{\rm new}|$,
+$\lambda:=l_{\rm new}/l_B$ and
+\begin{equation}\label{eq:corner-def}
+ \text{\emph{corner}}\quad p:=\text{the endpoint of $A_B$ \emph{not} shared with $A_{\rm new}$},
+ \qquad
+ M:=A_B\cup A_{\rm new}\ \ (\text{the \emph{moving part}}),
+\end{equation}
+an interval of length $l_B+l_{\rm new}$ with $p$ as one endpoint.  If $A_B\subsetneq J$ then $p$
+is the junction of $A_B$ with the rest of $J$; the degenerate case $A_B=J$ (empty kept part) is
+allowed, and then $p$ is the far endpoint of $J$.  We say a step \emph{keeps a non-empty part} if
+$A_B\subsetneq J$; this is Note~4's hypothesis $a>0$ (Box~[G1]).  With
+\begin{equation}\label{eq:sigma}
+ \sigma:=\frac s{l_B+l_{\rm new}},\qquad s\in[\lambda,2\lambda],
+\end{equation}
+the \emph{step map} $k:J\cup A_{\rm new}\to J$ is
+\begin{equation}\label{eq:step-map}
+ k=\begin{cases}
+ \Rp_{p,\sigma}:\ x\mapsto x\ (x\le p),\quad x\mapsto p+\dfrac{x-p}{1+\sigma(x-p)}\ (x>p),
+ &\text{$A_{\rm new}$ to the right of $p$},\\[2.2ex]
+ \Lp_{p,\sigma}:\ x\mapsto x\ (x\ge p),\quad x\mapsto p+\dfrac{x-p}{1-\sigma(x-p)}\ (x<p),
+ &\text{$A_{\rm new}$ to the left of $p$},
+ \end{cases}
+\end{equation}
+restricted to $J\cup A_{\rm new}$.  It is the identity on $J\setminus A_B$ and compresses $M$
+towards $p$.  $s=2\lambda$ is the ordinary Petz map (VWZ's $\lambda=0$) and
+$s=s_t=\lambda(1+e^{-2\pi t})$ the rotated ones (\texttt{paper1/sec\_petz.tex}
+Def.~$\zeta$, Box~[G2] below; Note~4 Thm.~7.1).  The condition $s\ge\lambda$ is exactly
+$k(M)\subseteq A_B$ (Lemma~\ref{lem:admissible}), which is what Note~4 Thm.~7.1 requires.
+Two conventions that matter and were left tacit in the first version (REF-P6-3 \S7, \S11).
+(i) \emph{Each step is the (rotated) Petz map of the \emph{vacuum} on its own inclusion}
+$\Fr(A_B)\subset\Fr(A_B\cup A_{\rm new})$, applied to whatever state the previous steps have
+produced --- not the Petz map of that intermediate state.  This is also what VWZ do (their
+$P_{R\to RS}$ is built from the vacuum reduced density matrices and then applied to
+$\sigma^{(1)}$, Box~[G6]); the adaptive variant is a different channel and is not treated here.
+(ii) $s\in[\lambda,2\lambda]$ corresponds to $t\in[0,\infty]$.  Nothing below needs the upper
+end: Note~4 Thm.~7.1 needs only $s\ge\lambda$ and the corner calculus only $\sigma>0$, so the
+$t$-average of \S\ref{sec:twirl} over all of $\mathbb R$ (where $s_t>2\lambda$ and
+$\theta_t=\frac12(1+e^{-2\pi t})>1$ for $t<0$) is admissible in that wider sense; statements
+that quote $\theta_t\in(\frac12,1]$ are for $t\ge0$.
+
+\paragraph{(C4) Protocols and the composite point map.}
+A \emph{one-sided protocol} $\PP$ consists of a starting block $J_0$ and steps
+$m=1,\dots,N$, the $m$-th adjoining a chain interval $A^{(m)}_{\rm new}$ to $J_{m-1}$ with
+conditioning region $A^{(m)}_B$, corner $p^{(m)}$, moving part $M_m$, parameter $\sigma_m>0$ and
+step map $k_m:J_m\to J_{m-1}$, where $J_m:=J_{m-1}\cup A^{(m)}_{\rm new}$; the protocol is
+\emph{complete} if $J_N=I$.  The \emph{composite point map} is
+\begin{equation}\label{eq:Phi}
+ \Phi:=k_1\circ k_2\circ\dots\circ k_N:\ J_N\longrightarrow J_0
+ \qquad(\text{the \emph{first} step outermost}),
+\end{equation}
+and the \emph{corner measure} of $\PP$ is the positive measure
+$\kappa_\PP:=\sum_m\sigma_m\delta_{p^{(m)}}$; we write $\kappa_k$ for the mass at the junction
+$p_k$.  Order \eqref{eq:Phi} is forced by (C2): the Heisenberg-picture step map is
+$\beta_m:=\beta_{V_{k_m}}:\Fr(J_m)\to\Fr(J_{m-1})$, so the composite recovery map is
+$\beta_1\circ\beta_2\circ\dots\circ\beta_N=\beta_{V_\Phi}$ by \eqref{eq:functorial}, and the
+recovered state on $\Fr(J_N)$ is $\omega\circ\beta_{V_\Phi}$.
+
+\paragraph{(C5) Modular frame.}
+For an interval $I=(p_1,p_{n+1})$ put
+\begin{equation}\label{eq:modframe}
+ y=y_I(x):=\log\frac{x-p_1}{p_{n+1}-x},\qquad
+ \bI(x):=\frac{\dd x}{\dd y}=\frac{(x-p_1)(p_{n+1}-x)}{T} .
+\end{equation}
+$y_I$ maps $I$ onto $\mathbb R$ and is the modular coordinate of $I$ (the dilation generator of
+$I$ is $\partial_y$; BGL \cite{BGL} Thm.~2.3(ii), Box~[G3]).  For a corner $(p,\kappa)$
+we set $\zeta:=\kappa\,\bI(p)$ and $y_p:=y_I(p)$.
+
+\paragraph{(C6) Schwarzian conventions.}
+For $\Phi$ with $\Phi'>0$ and $v:=(\log\Phi')'=\Phi''/\Phi'$ of locally bounded variation we
+define the Schwarzian derivative as the distribution
+\begin{equation}\label{eq:schwarz}
+ \Sch(\Phi):=v'-\tfrac12v^2
+ \qquad\Bigl(=\frac{\Phi'''}{\Phi'}-\frac32\Bigl(\frac{\Phi''}{\Phi'}\Bigr)^2
+ \text{ where $\Phi$ is $C^3$}\Bigr);
+\end{equation}
+$v'$ is a measure and $v^2\in L^\infty_{\rm loc}$, so \eqref{eq:schwarz} is well defined
+(\S\ref{sec:schwarz}).  $\Mob$ denotes the group of orientation-preserving real M\"obius maps
+$x\mapsto(ax+b)/(cx+d)$, $ad-bc>0$.
+
+\paragraph{(C7) Fidelity conventions.}
+$P_{\rm tr}(\varphi,\psi)$ is Uhlmann's transition probability (Box~[G4]),
+$F:=P_{\rm tr}^{1/2}$ the fidelity, $\Bang:=\arccos F\in[0,\pi/2]$ the \emph{Bures angle}, and
+$\Phi_{\rm fid}:=-\log F$ the quantity called $\Phi$ in paper~1.  We write $\Phi_{\rm fid}$ with
+its subscript throughout, because $\Phi$ denotes the point map \eqref{eq:Phi}.  $\Phi_A(\zeta)$
+is paper~1's single-step function: at finite $\zeta$, $\Phi_A(\zeta)$ is a \emph{definition}
+--- $-\log F$ of the vacuum against the single geometric compression with invariant $\zeta$,
+well posed by Corollary~\ref{cor:phiA} --- and the \emph{theorem} attached to it is the
+$\zeta\to0$ law $\Phi_A(\zeta)=f_2\zeta^2+o(\zeta^2)$, $f_2=c/(12\pi^2)$ (card
+\texttt{thm-a-quadratic-law}); paper~1's tables give it numerically at finite $\zeta$.
+
+\section{Cited results}\label{sec:cited}
+
+Each box states what is used, where it comes from, and how this document uses it, following
+\texttt{rigor/README\_AGENTS.md}.
+
+\begin{citedbox}{[G1] Note~4 Thm.~7.1 $=$ paper~1 Thm.~2.6 (\texttt{thm:normal}): the zero-collar
+step map is a normal $*$-isomorphism onto its range}
+\emph{Transcribed verbatim} (\texttt{continuum\_petz\_free\_fermion.tex}, Thm.~7.1, p.~12 of the
+compiled PDF; identical statement in \texttt{paper1/sec\_petz.tex} Thm.~``normal'', p.~6):
+``For every $s\ge\lambda$, the $C^*$-isomorphism $\beta_s$ in (beta-Cstar) extends
+uniquely to a normal, parity-preserving $*$-isomorphism onto its range,
+$\overline\beta_s:\cF_r(I)\to\cF_r(J_s)\subset\cF_r(AB)$.  For $s=s_t$, its restriction to every
+positive-collar algebra is the Faulkner--Hollands--Swingle--Wang rotated Petz map,
+$\overline\beta_{s_t}|_{\cM_\eps}=\alpha_{\eps,t}$.''
+Here $A=(-a,0)$, $B=(0,b)$, $C=(b,b+c)$, $I=ABC$, $L=b+c$, $\lambda=c/b$, $J_s=(-a,L/(1+s))$, and
+$\beta_s$ is the geometric compression $h_s(x)=x/(1+sx/L)$ on $D=BC$, $\id$ on $A$ (Note~4
+eqs.~(h-s), (k-s); \texttt{paper1/sec\_setting.tex} l.~62--66).  The proof uses the exact
+trace-norm identity $\lVert Q_I-\widetilde Q_s\rVert_1=\frac r{2\pi}\log(1+\frac{as}{a+L})$
+(Note~4 Thm.~6.1), the Powers--St\o rmer inequality and the Powers--St\o rmer--Araki
+quasi-equivalence criterion.
+
+\emph{Use here.}  Each individual step $\beta_m$ of a protocol is of this form, with
+$A=J_{m-1}\setminus A^{(m)}_B$, $B=A^{(m)}_B$, $C=A^{(m)}_{\rm new}$, $I=J_m$; the theorem gives
+normality of $\beta_m$, which we compose in Theorem~\ref{thm:state}(1).  \emph{It is not applied
+to $\Phi$ itself}: $\Phi$ is not the zero-collar map of a single inclusion.
+
+\emph{Verdict on the usage.}  Hypotheses satisfied: $s_m\ge\lambda_m$ by (C3), the three intervals
+are adjacent with the corner as the $A|B$ junction, and the step acts as the identity on
+$J_{m-1}\setminus A^{(m)}_B$ exactly as $\beta_s$ acts as the identity on $A$.  One caveat is
+recorded in Remark~\ref{rem:caveat}.
+
+\smallskip\noindent\includegraphics[width=\textwidth]{shots/G1a_N4_thm71.png}
+\end{citedbox}
+
+\begin{citedbox}{[G2] paper~1 Def.~2.5 (\texttt{def:zeta}): the invariant $\zeta$}
+\emph{Transcribed verbatim} (\texttt{paper1/sec\_petz.tex} l.~105--108, p.~6 of
+\texttt{paper1/main.pdf}): ``\textbf{Definition.} $\zeta:=\frac{as}{a+L}$.  For the ordinary Petz
+map $s=2c/b$ and $\zeta=2z$; for the rotated map $s_t$ one has $\zeta_t=z(1+e^{-2\pi t})$.''
+Here $z=ac/(b(a+b+c))$ is the cross ratio of \texttt{paper1/sec\_setting.tex} eq.~(eta-z).
+
+\emph{Use here.}  Lemma~\ref{lem:field} identifies $\zeta$ with $\sigma\bI(p)$ for the frame
+$I=(-a,L)$, $p=0$, $\sigma=s/L$, and Definition~\ref{def:strength} extends it to an arbitrary
+frame.  Theorem~\ref{thm:prot3} produces a $\zeta_{\rm eff}$ of exactly this form.
+
+\smallskip\noindent\includegraphics[width=\textwidth]{shots/G1a_P1_defzeta_thmnormal.png}
+\end{citedbox}
+
+\begin{citedbox}{[G3] BGL 1993 Thm.~2.3(ii): geometric modular group; M\"obius invariance of the
+vacuum}
+\emph{Transcribed verbatim} (Brunetti--Guido--Longo \cite{BGL}, Thm.~2.3, arXiv
+funct-an/9302008; screenshot \texttt{shots/R1\_BGL\_thm23.png} in \texttt{cited\_R1.tex} Box~C10):
+``\textbf{2.3 Theorem.} Let $A$ be a conformally covariant pre-cosheaf on $M$, $\widetilde A$ the
+corresponding pre-cosheaf on $\widetilde M$.  Then: \dots\ (ii) If $O$ is a region in
+$\widetilde{\mathcal K}$, $\Delta_O$ the modular operator for $(R(O),\Omega)$ and $U_O(t)$ the
+unitary associated with $\Lambda^O_t$, then $\Delta^{it}_O=U_O(t)$.''  Conformal covariance
+includes $U(g)\Omega=\Omega$ for $g$ in the M\"obius group, hence
+$\omega\circ\Ad U(g)=\omega$.
+
+\emph{Use here.}  Two places.  (a) (C5): the modular flow of $I$ is the dilation
+$\partial_y$ in the coordinate \eqref{eq:modframe}, which is what makes $\zeta=\kappa\bI(p)$ the
+frame-covariant strength.  (b) Theorem~\ref{thm:state}(3): $\omega\circ\beta_g=\omega$ for
+$g\in\Mob$.  For the free fermion we do not need to import (b): it is proved from scratch at the
+one-particle level in Lemma~\ref{lem:moebius-inv}, because the M\"obius group preserves the Hardy
+space.  BGL is cited for the general Möbius-covariant net, where Lemma~\ref{lem:moebius-inv} is
+replaced by the covariance axiom.
+
+\emph{Verdict.}  Used only through the two consequences just listed, both of which are also
+available directly for $\Fr$ (Lemma~\ref{lem:moebius-inv}); no hypothesis of BGL is in question.
+
+\smallskip\noindent\includegraphics[width=\textwidth]{shots/R1_BGL_thm23.png}
+\end{citedbox}
+
+\begin{citedbox}{[G4] Alberti--Uhlmann 2002: transition probability and its variational
+formula}
+\emph{Transcribed verbatim} (\cite{AU02}, Def.~2, p.~4, and eq.~(1-4)):
+``$P_M(\nu,\varrho)=\sup_{\{\pi,K\},\phi\in S_{\pi,M}(\nu),\psi\in S_{\pi,M}(\varrho)}
+|\langle\psi,\phi\rangle|^2$'', where $S_{\pi,M}(\mu)=\{\xi\in K:\mu(\cdot)=\langle\pi(\cdot)\xi,
+\xi\rangle\}$; and ``$|f(1)|^2\le P_M(\nu,\varrho)\le\nu(a)\varrho(a^{-1})$'' for every invertible
+$a\in M_+$.  Two exact variational formulas, with their correct locators (REF-P6-3 \S9):
+\textsc{Theorem 2}(1), \textbf{p.~6}, the \emph{product} form,
+``$\sqrt{P_M(\nu,\varrho)}=\inf_{x>0}\sqrt{\nu(x)\varrho(x^{-1})}$'', equivalently
+$P_M(\nu,\varrho)=\inf_{a>0}\nu(a)\varrho(a^{-1})$; and \textsc{Corollary 2}(5), \textbf{p.~8},
+the \emph{normalised} form,
+``$\sqrt{P_M(\nu,\varrho)}=\inf_{x>0}\frac12\{\nu(x)+\varrho(x^{-1})\}$''.  (An earlier version
+of this box attributed the normalised form to Thm.~2(1) and reproduced p.~11, which is the
+\emph{proof} of Cor.~2(5); the screenshots below are the statements.)
+
+\emph{Use here.}  Monotonicity of $F$ under normal unital Schwarz maps
+(Lemma~\ref{lem:monotone}), concavity of $F$ in one argument (\S\ref{sec:twirl}), and, together
+with Hypothesis~(U) of \S\ref{sec:w6}, the Bures-angle triangle inequality
+(Theorem~\ref{thm:w6}).
+
+\smallskip\noindent\includegraphics[width=\textwidth]{shots/G1a_AU02_thm2_p6.png}
+
+\smallskip\noindent\includegraphics[width=\textwidth]{shots/G1a_AU02_cor2_p8.png}
+\end{citedbox}
+
+\begin{citedbox}{[G5] FHSW 2020: rotated Petz maps for half-sided modular
+inclusions}
+\emph{Faithful paraphrase} (Faulkner--Hollands--Swingle--Wang \cite{FHSW}, \S4.2; screenshots
+\texttt{shots/FHSW\_hsm.png}, \texttt{shots/FHSW\_petz.png} in \texttt{cited\_R2.tex}): for a
+half-sided modular inclusion $\cN\subset\cM$ with common cyclic separating vector, the rotated
+Petz map $\alpha_t$ of the inclusion acts geometrically as a Borchers translation
+proportional to $1+e^{-2\pi t}$ (made precise below); the twirled Petz map is the average $\int\dd t\,p(t)\alpha_t$ with the normalised probability
+density of FHSW eq.~(26), p.~6,
+\[
+ p(t)=\frac\pi{\cosh(2\pi t)+1},\qquad \int_{\mathbb R}p(t)\dd t=1
+\]
+(transcribed verbatim: ``$p(t)$ is the normalized probability density defined by
+$p(t)=\frac\pi{\cosh(2\pi t)+1}$'').  In the geometric form FHSW eq.~(167), p.~31, reads
+$\alpha^t_\eta(x)=U\bigl(a(1+e^{-2\pi t})\bigr)^*x\,U\bigl(a(1+e^{-2\pi t})\bigr)$ for
+$\cA_a\subset\cA$, i.e.\ the translation parameter is $a(1+e^{-2\pi t})$, which in the
+normalisation where the ordinary Petz map ($t=0$) translates by $2a$ is the family $s_t$ of
+(C3).
+
+\emph{Use here.}  It is the source of the family $s_t=\lambda(1+e^{-2\pi t})$ in (C3) (via Note~4,
+which proves that for $\Fr(B)\subset\Fr(BC)$ these maps are the compressions \eqref{eq:step-map}),
+of the twirled channel of \S\ref{sec:twirl}, and of the general type-III recovery setting of
+\S\ref{sec:w6}.
+
+\smallskip\noindent\includegraphics[width=\textwidth]{shots/G1a_FHSW_pt_eq26.png}
+
+\smallskip\noindent\includegraphics[width=\textwidth]{shots/FHSW_hsm.png}
+\end{citedbox}
+
+\begin{citedbox}{[G6] VWZ 2023 \S5: the four protocols and the numerical claim}
+\emph{Transcribed verbatim} (Vardhan--Wei--Zou \cite{VWZ}, \S5, pp.~43--48, eqs.~(5.9)--(5.11)):
+``In Protocol 1(B), we act with $P_{B\to BC}$ in the first step, forming the output state
+$\sigma^{(1)}_{ABC}$.  In the next step, we act with $P_{BC\to BCD}$ on $\sigma^{(1)}_{ABC}$.
+While this procedure naively appears different from Protocol 1(A), we can immediately see from the
+definition of $P_{R\to RS}$ that it gives rise to exactly the same final state on $ABCD$'';
+``In Protocol 2, we start with the state $\rho_{AB}$, and the first step is the same as in
+Protocol 1(B).  In the next step, we act with the map $P_{C\to CD}$'';
+``In Protocol 3, we start with $\rho_{BC}$ and act with $P_{B\to AB}$ \dots\ In the next step, we
+act with the same map as in Protocol 2'';
+``$\eta=\frac{L_A(L_C+L_D)}{(L_A+L_B)(L_B+L_C+L_D)}$'' (5.9);
+``$-\log F^{(2)}\approx-\log F^{(3)}\propto f'c\eta^2$'' (5.10) ``with $f'<f$, confirming that the
+sequential recovery is less effective than the single-step case''.
+
+\emph{Use here.}  \S\ref{sec:vwz} decides 1(B) $=$ 1(A) and Protocol 3 exactly; the numerical
+claim (5.10) is \emph{not} used (REF-P6-1 showed that Fig.~25 carries no information about the
+corner kernel; the card \texttt{vwz-protocol-ordering} and track G3 own that question).
+
+\smallskip\noindent\includegraphics[width=0.85\textwidth]{shots/G1a_VWZ_fig24.png}
+
+\smallskip\noindent\includegraphics[width=0.85\textwidth]{shots/G1a_VWZ_510_511.png}
+\end{citedbox}
+
+\section{The strength of a corner: the exact first-order field}\label{sec:field}
+
+\begin{lemma}[Admissibility]\label{lem:admissible}
+In the notation of (C3), $k(M)\subseteq A_B$ if and only if $s\ge\lambda$, with equality
+$k(M)=A_B$ iff $s=\lambda$.
+\end{lemma}
+\begin{proof}
+\lstep{1}{1}{It suffices to treat the right case $k=\Rp_{p,\sigma}$, $M=(p,p+D)$,
+ $D:=l_B+l_{\rm new}$, $A_B=(p,p+l_B)$.}
+\lby{the left case is the image of the right one under the reflection $x\mapsto2p-x$, which maps
+ $\Rp_{p,\sigma}$ to $\Lp_{p,\sigma}$ and preserves all lengths}
+\lstep{1}{2}{$k$ is strictly increasing on $M$ with $k(p^+)=p$ and $k(p+D)=p+D/(1+s)$.}
+\lby{\eqref{eq:step-map}, $k'(x)=(1+\sigma(x-p))^{-2}>0$, and $\sigma D=s$ by \eqref{eq:sigma}}
+\lstep{1}{3}{$k(M)\subseteq A_B\iff D/(1+s)\le l_B\iff 1+s\ge D/l_B=1+\lambda\iff s\ge\lambda$.}
+\lby{$\langle1\rangle2$, $D=l_B+l_{\rm new}$ and $\lambda=l_{\rm new}/l_B$}
+\lqed{1}{4}
+\end{proof}
+
+\begin{definition}[Corner strength in a frame]\label{def:strength}
+Let $p$ be a corner with parameter $\sigma$ and let $I'=(\alpha,\omega)$ be any interval with
+$p\in I'$.  The \emph{strength of the corner in the frame $I'$} is
+$\zeta^{(I')}:=\sigma\,\beta_{I'}(p)$, $\beta_{I'}(p)=(p-\alpha)(\omega-p)/(\omega-\alpha)$.
+\end{definition}
+
+\begin{lemma}[The parabolic parameter is a $(-1)$-density; exact]\label{lem:density}
+Let $g\in\Mob$ be finite at $p$ (i.e.\ $g$ has no pole at $p$), and let
+$h_\sigma(x)=p+(x-p)/(1+\sigma(x-p))$ be the parabolic flow fixing $p$.  Then
+\begin{equation}\label{eq:density}
+ g\circ h_\sigma\circ g^{-1}=\tilde h_{\sigma'}\ \text{ with }\ \sigma'=\frac\sigma{g'(p)},
+\end{equation}
+$\tilde h$ the parabolic flow fixing $g(p)$.  Consequently $\zeta^{(I')}$ of
+Definition~\ref{def:strength} is invariant under $\Mob$: if $g\in\Mob$ is finite on
+$\overline{I'}$ then the corner $(g(p),\sigma')$ in the frame $g(I')$ has the same strength.
+\end{lemma}
+\begin{proof}
+\lstep{1}{1}{\ldefine $u:=1/(x-p)$ on $\{x\ne p\}$.  Then $h_\sigma$ reads $u\mapsto u+\sigma$.}
+\lby{$1/(h_\sigma(x)-p)=(1+\sigma(x-p))/(x-p)=u+\sigma$}
+\lstep{1}{2}{Write $g(x)=(ax+b)/(cx+d)$, $ad-bc>0$, $cp+d\ne0$.  Then
+ $g(x)-g(p)=g'(p)(x-p)\bigl(1+\gamma(x-p)\bigr)^{-1}$ with $\gamma:=c/(cp+d)$.}
+\lby{$g(x)-g(p)=\frac{(ad-bc)(x-p)}{(cx+d)(cp+d)}$, $g'(p)=\frac{ad-bc}{(cp+d)^2}$ and
+ $cx+d=(cp+d)(1+\gamma(x-p))$}
+\lstep{1}{3}{Hence $\tilde u:=1/(g(x)-g(p))=(u+\gamma)/g'(p)$, an affine function of $u$ with
+ slope $1/g'(p)$.}
+\lby{$\langle1\rangle2$ and $\langle1\rangle1$}
+\lstep{1}{4}{Therefore the conjugate of $u\mapsto u+\sigma$ is
+ $\tilde u\mapsto\tilde u+\sigma/g'(p)$, which is $\tilde h_{\sigma'}$ with
+ $\sigma'=\sigma/g'(p)$: this is \eqref{eq:density}.}
+\lby{$\langle1\rangle3$, $\langle1\rangle1$ applied at $g(p)$}
+\lstep{1}{5}{Invariance of $\zeta$: $\beta_{g(I')}(g(p))=g'(p)\beta_{I'}(p)$ for $g\in\Mob$
+ finite on $\overline{I'}$, so $\sigma'\beta_{g(I')}(g(p))=\sigma\beta_{I'}(p)$.}
+\lby{$\beta_{I'}$ is the reciprocal of the derivative of the modular coordinate, and modular
+ coordinates of $I'$ and $g(I')$ differ by the composition with $g$, so $\beta$ transforms as a
+ vector field: $\beta_{g(I')}(g(x))=g'(x)\beta_{I'}(x)$ --- directly:
+ $\frac{(g(x)-g(\alpha))(g(\omega)-g(x))}{g(\omega)-g(\alpha)}
+ =g'(x)\frac{(x-\alpha)(\omega-x)}{\omega-\alpha}$ by $\langle1\rangle2$ applied three times;
+ and $\langle1\rangle4$}
+\lqed{1}{6}
+\end{proof}
+
+\begin{lemma}[Exact first-order field in a modular frame]\label{lem:field}
+Let $I'=(\alpha,\omega)$ be an interval, $p\in I'$, $y=y_{I'}$ the modular coordinate
+\eqref{eq:modframe} of $I'$ and $u:=y-y_{I'}(p)$.  Then, \emph{exactly} (not only to leading
+order in $x-p$):
+\begin{equation}\label{eq:field-identity}
+ -\frac{(x-p)^2}{\beta_{I'}(x)}=-\beta_{I'}(p)\,\bigl(e^{u}-2+e^{-u}\bigr)
+ =\beta_{I'}(p)\,w(u),\qquad w(u):=-4\sinh^2(u/2).
+\end{equation}
+Consequently the $\sigma$-derivative at $\sigma=0$ of the one-sided step \eqref{eq:step-map},
+viewed as a vector field on $I'$ in the coordinate $y$, is
+\begin{equation}\label{eq:field}
+ \partial_\sigma\big|_{\sigma=0}\Rp_{p,\sigma}=\zeta\,w(u)\,\mathbf 1_{u>0}\,\partial_y,
+ \qquad
+ \partial_\sigma\big|_{\sigma=0}\Lp_{p,\sigma}=-\zeta\,w(u)\,\mathbf 1_{u<0}\,\partial_y,
+ \qquad \zeta:=\sigma\beta_{I'}(p)\ \text{per unit }\sigma .
+\end{equation}
+For $I'=(-a,L)$, $p=0$ and $\sigma=s/L$ this gives $\zeta=as/(a+L)$, which is paper~1's
+Definition of $\zeta$ (Box~[G2]).
+\end{lemma}
+\begin{proof}
+\lstep{1}{1}{\ldefine $X:=(x-\alpha)/(\omega-x)$, $X_p:=(p-\alpha)/(\omega-p)$,
+ $T':=\omega-\alpha$.  Then $e^u=X/X_p$ and
+ $e^u-2+e^{-u}=(X-X_p)^2/(XX_p)$.}
+\lby{\eqref{eq:modframe}: $y=\log X$, $y_{I'}(p)=\log X_p$; and
+ $\frac XY+\frac YX-2=\frac{(X-Y)^2}{XY}$}
+\lstep{1}{2}{$X-X_p=\dfrac{(x-p)T'}{(\omega-x)(\omega-p)}$.}
+\lby{$(x-\alpha)(\omega-p)-(p-\alpha)(\omega-x)
+ =\omega(x-p)-\alpha(x-p)=(x-p)T'$ after expanding both products}
+\lstep{1}{3}{$XX_p=\dfrac{(x-\alpha)(p-\alpha)}{(\omega-x)(\omega-p)}$, hence
+ $\dfrac{(X-X_p)^2}{XX_p}=\dfrac{(x-p)^2T'^2}{(\omega-x)(\omega-p)(x-\alpha)(p-\alpha)}$.}
+\lby{$\langle1\rangle2$ and the definitions in $\langle1\rangle1$}
+\lstep{1}{4}{$\beta_{I'}(p)\dfrac{(X-X_p)^2}{XX_p}
+ =\dfrac{(x-p)^2T'}{(\omega-x)(x-\alpha)}=\dfrac{(x-p)^2}{\beta_{I'}(x)}$,
+ which is \eqref{eq:field-identity}.}
+\lby{$\beta_{I'}(p)=(p-\alpha)(\omega-p)/T'$, $\langle1\rangle3$, and
+ $\beta_{I'}(x)=(x-\alpha)(\omega-x)/T'$}
+\lstep{1}{5}{$e^u-2+e^{-u}=(e^{u/2}-e^{-u/2})^2=4\sinh^2(u/2)$, so
+ $-\beta_{I'}(p)(e^u-2+e^{-u})=\beta_{I'}(p)w(u)$.}
+\lby{the definition of $\sinh$}
+\lstep{1}{6}{$\partial_\sigma|_{\sigma=0}\Rp_{p,\sigma}(x)=-(x-p)^2$ for $x>p$ and $0$ for
+ $x\le p$; $\partial_\sigma|_{\sigma=0}\Lp_{p,\sigma}(x)=+(x-p)^2$ for $x<p$ and $0$ for
+ $x\ge p$.}
+\lby{differentiating \eqref{eq:step-map} in $\sigma$ at $\sigma=0$}
+\lstep{1}{7}{A vector field $V(x)\partial_x$ reads $V(x)\beta_{I'}(x)^{-1}\partial_y$ in the
+ coordinate $y$; with $\langle1\rangle6$, $\langle1\rangle4$ and $\langle1\rangle5$ this is
+ \eqref{eq:field}, the indicator coming from $x\gtrless p\iff u\gtrless0$.}
+\lby{$\partial_x=\frac{\dd y}{\dd x}\partial_y=\beta_{I'}(x)^{-1}\partial_y$ by
+ \eqref{eq:modframe}}
+\lstep{1}{8}{For $I'=(-a,L)$, $p=0$: $\beta_{I'}(0)=\frac{(0+a)(L-0)}{a+L}=\frac{aL}{a+L}$ and
+ $\zeta=\frac sL\cdot\frac{aL}{a+L}=\frac{as}{a+L}$.}
+\lby{Definition~\ref{def:strength} and $\sigma=s/L$}
+\lqed{1}{9}
+\end{proof}
+
+\begin{remark}\label{rem:field-num}
+\eqref{eq:field-identity} is an identity between rational functions and needs no smallness of
+$x-p$; REF-P6-0 verified it in $50\,000$ random \emph{rational} configurations with $0$ failures
+(\texttt{rigor/ref\_p6\_0\_field\_exact.out}, line~1), and the $(-1)$-density law
+\eqref{eq:density} to $3\cdot10^{-6}$ in floating point (\emph{ibid.}, line~4).  The float test in
+\texttt{ref\_p6\_0\_calculus.py}~(a) reports a spurious failure at relative error
+$6.7\cdot10^{-3}$: it is pure cancellation as $x\to p$ and is superseded by the rational test
+(REF-P6-0, ``Checks that PASSED'', item~1).
+\end{remark}
+
+\begin{remark}[Both signs of the compression give the same corner]\label{rem:signs}
+The two fields in \eqref{eq:field} are supported on opposite sides of the corner and have
+opposite signs; they are exchanged by $u\mapsto-u$ together with an overall sign, i.e.\ by the
+reflection of $I'$.  Nevertheless both produce the \emph{same} Schwarzian mass $-2\sigma$ at $p$
+(Lemma~\ref{lem:jump}), which is why the corner measure of (C4) does not record the side.
+\end{remark}
+
+\section{Schwarzian calculus for $C^1$ piecewise-M\"obius maps}\label{sec:schwarz}
+
+\begin{definition}[The class $\mathrm{PM}(J)$]\label{def:PM}
+Let $J\subseteq\mathbb R$ be an open interval.  $\mathrm{PM}(J)$ is the set of maps
+$\Phi:J\to\mathbb R$ such that (i) $\Phi\in C^1(J)$ with $\Phi'>0$, and (ii) there are finitely
+many \emph{breakpoints} $q_1<\dots<q_N$ in $J$ such that on the closure of each component of
+$J\setminus\{q_1,\dots,q_N\}$, $\Phi$ coincides with (the restriction of) a M\"obius map without
+pole there.  We write $v_\Phi:=\Phi''/\Phi'=(\log\Phi')'$, defined off the breakpoints, with
+one-sided limits $v_\Phi(q^\pm)$ and jump $[v_\Phi]_q:=v_\Phi(q^+)-v_\Phi(q^-)$.
+\end{definition}
+
+\begin{lemma}[The Schwarzian of a $\mathrm{PM}$ map is a sum of point masses]\label{lem:masses}
+Let $\Phi\in\mathrm{PM}(J)$ with breakpoints $q_1,\dots,q_N$.  Then $v_\Phi$ is of bounded
+variation on compacts, $\Sch(\Phi)$ of \eqref{eq:schwarz} is a well-defined distribution, and
+\begin{equation}\label{eq:masses}
+ \Sch(\Phi)=\sum_{j=1}^N[v_\Phi]_{q_j}\,\delta_{q_j}.
+\end{equation}
+In particular $\Sch(\Phi)=0$ iff all jumps vanish, and there is no ``square'' contribution: the
+term $-\frac12v^2$ carries no atom because $\Phi'$ is continuous.
+\end{lemma}
+\begin{proof}
+\lstep{1}{1}{For a M\"obius $M(x)=(ax+b)/(cx+d)$ without pole on an interval,
+ $v_M=-2c/(cx+d)$ and $v_M'-\frac12v_M^2=\frac{2c^2}{(cx+d)^2}-\frac{2c^2}{(cx+d)^2}=0$.}
+\lby{$M'=(ad-bc)/(cx+d)^2$, $M''=-2c(ad-bc)/(cx+d)^3$, so $v_M=M''/M'=-2c/(cx+d)$}
+\lstep{1}{2}{Hence on each component of $J\setminus\{q_j\}$ the function $v_\Phi$ is $C^\infty$,
+ bounded on compacts of $\overline J$-components, and satisfies
+ $v_\Phi'-\frac12v_\Phi^2=0$ pointwise.}
+\lby{$\langle1\rangle1$ and Definition~\ref{def:PM}(ii)}
+\lstep{1}{3}{$v_\Phi$ is a piecewise-$C^1$ function with finite one-sided limits at each $q_j$,
+ hence of bounded variation on compacts, and its distributional derivative is
+ $v_\Phi'=\{v_\Phi'\}+\sum_j[v_\Phi]_{q_j}\delta_{q_j}$, where $\{\cdot\}$ denotes the pointwise
+ derivative off the breakpoints.}
+\lby{the jump formula for the distributional derivative of a piecewise-$C^1$ function
+ (integration by parts on each piece)}
+\lstep{1}{4}{$v_\Phi^2\in L^\infty_{\rm loc}$, so it defines a distribution with no atoms, and
+ $\Sch(\Phi)=\{v_\Phi'\}-\frac12v_\Phi^2+\sum_j[v_\Phi]_{q_j}\delta_{q_j}
+ =\sum_j[v_\Phi]_{q_j}\delta_{q_j}$.}
+\lby{$\langle1\rangle3$, $\langle1\rangle2$ and \eqref{eq:schwarz}}
+\lstep{1}{5}{The parenthetical claim: $\Phi'''$ as a distribution equals
+ $\{\Phi'''\}+\sum_j[\Phi'']_{q_j}\delta_{q_j}$ and $[\Phi'']_{q_j}=\Phi'(q_j)[v_\Phi]_{q_j}$
+ because $\Phi'$ is continuous at $q_j$; dividing by the continuous positive function $\Phi'$ is
+ legitimate on an atom and reproduces \eqref{eq:masses}.}
+\lby{$\Phi\in C^1$ (Definition~\ref{def:PM}(i)) and $\Phi''=v_\Phi\Phi'$}
+\lqed{1}{6}
+\end{proof}
+
+\begin{lemma}[The mass of a parabolic corner: $-2\sigma$ from either side]\label{lem:jump}
+For $\sigma>0$, $\Rp_{p,\sigma}$ and $\Lp_{p,\sigma}$ of \eqref{eq:step-map} belong to
+$\mathrm{PM}$ near $p$, with the single breakpoint $p$, and
+\begin{equation}\label{eq:jump}
+ [v]_p=-2\sigma\qquad\text{for both.}
+\end{equation}
+\end{lemma}
+\begin{proof}
+\lstep{1}{1}{$\Rp_{p,\sigma}$ is $C^1$ at $p$: the left derivative is $1$ and the right
+ derivative is $\lim_{x\downarrow p}(1+\sigma(x-p))^{-2}=1$.}
+\lby{\eqref{eq:step-map} and $\frac{\dd}{\dd x}\frac{x-p}{1+\sigma(x-p)}=(1+\sigma(x-p))^{-2}$}
+\lstep{1}{2}{For $x>p$: $v(x)=-2\sigma/(1+\sigma(x-p))$, so $v(p^+)=-2\sigma$; for $x<p$:
+ $v(x)=0$, so $v(p^-)=0$.  Hence $[v]_p=-2\sigma$.}
+\lby{$\Phi'=(1+\sigma(x-p))^{-2}$, $\Phi''=-2\sigma(1+\sigma(x-p))^{-3}$ for $x>p$; $\Phi=\id$
+ for $x<p$}
+\lstep{1}{3}{For $\Lp_{p,\sigma}$ and $x<p$: $\Phi'=(1-\sigma(x-p))^{-2}$,
+ $\Phi''=+2\sigma(1-\sigma(x-p))^{-3}$, so $v(x)=2\sigma/(1-\sigma(x-p))$ and $v(p^-)=2\sigma$;
+ $v(p^+)=0$.  Hence $[v]_p=0-2\sigma=-2\sigma$.}
+\lby{differentiating \eqref{eq:step-map} (left case) twice}
+\lqed{1}{4}
+\end{proof}
+
+\begin{lemma}[Composition]\label{lem:compose}
+Let $g\in\mathrm{PM}(J)$ and $f\in\mathrm{PM}(g(J))$.  Then $f\circ g\in\mathrm{PM}(J)$, its
+breakpoint set is contained in $\{$breakpoints of $g\}\cup g^{-1}\{$breakpoints of $f\}$, and
+\begin{equation}\label{eq:comp-rule}
+ \Sch(f\circ g)=\Sch(g)+\sum_{r}m^f_r\,g'(g^{-1}(r))\,\delta_{g^{-1}(r)},
+ \qquad \Sch(f)=\sum_rm^f_r\delta_r,
+\end{equation}
+i.e.\ $\Sch(f\circ g)=\Sch(g)+(g')^2\,\Sch(f)\circ g$ with the pullback of a point mass
+$\delta_r\mapsto g'(g^{-1}(r))^{-1}\delta_{g^{-1}(r)}$.  Also $g^{-1}\in\mathrm{PM}(g(J))$.
+\end{lemma}
+\begin{proof}
+\lstep{1}{1}{$f\circ g$ is $C^1$ with $(f\circ g)'=(f'\circ g)g'>0$, and on each component of
+ $J$ minus the stated finite set both $f$ and $g$ are M\"obius, hence so is $f\circ g$: thus
+ $f\circ g\in\mathrm{PM}(J)$ with the stated breakpoints.}
+\lby{the chain rule, $f,g\in C^1$ with positive derivatives, and the fact that $\Mob$ is a group}
+\lstep{1}{2}{Off the breakpoints, $v_{f\circ g}=(v_f\circ g)\,g'+v_g$.}
+\lby{$\log(f\circ g)'=\log(f'\circ g)+\log g'$, differentiated}
+\lstep{1}{3}{At a point $x_0$ of the finite set, $[v_{f\circ g}]_{x_0}
+ =g'(x_0)\,[v_f]_{g(x_0)}+[v_g]_{x_0}$.}
+\lby{$\langle1\rangle2$, continuity of $g$ and of $g'$ at $x_0$ (Definition~\ref{def:PM}(i)), and
+ the fact that one-sided limits of a product of a continuous and a one-sided-continuous factor
+ multiply; $g$ increasing, so the sides are not exchanged}
+\lstep{1}{4}{Summing $\langle1\rangle3$ over the finite set and using \eqref{eq:masses} three
+ times gives \eqref{eq:comp-rule}.}
+\lby{Lemma~\ref{lem:masses} for $f\circ g$, for $g$ and for $f$; $[v_f]_{g(x_0)}=m^f_{g(x_0)}$}
+\lstep{1}{5}{$g^{-1}\in\mathrm{PM}(g(J))$.}
+\lby{$g$ is a $C^1$ increasing bijection onto $g(J)$ with $g'>0$, so $g^{-1}\in C^1$ with
+ $(g^{-1})'=1/(g'\circ g^{-1})>0$; on each piece $g$ is M\"obius, hence so is $g^{-1}$}
+\lqed{1}{6}
+\end{proof}
+
+\begin{lemma}[Two maps with the same Schwarzian differ by a global M\"obius
+map]\label{lem:same-schwarz}
+Let $\Phi_1,\Phi_2\in\mathrm{PM}(J)$.  Then $\Sch(\Phi_1)=\Sch(\Phi_2)$ if and only if there is
+$g\in\Mob$, without pole on the \emph{open} interval $\Phi_1(J)$, with $\Phi_2=g\circ\Phi_1$.
+(The closure may not be excluded: $\Phi_1=\id$, $\Phi_2(x)=x/(1-x)$ on $J=(0,1)$ have the same
+Schwarzian and force $g=\Phi_2$, whose pole is at $1\in\overline{\Phi_1(J)}$; REF-P6-3 \S5.)
+\end{lemma}
+\begin{proof}
+\lstep{1}{1}{($\Leftarrow$) If $\Phi_2=g\circ\Phi_1$ with $g\in\Mob$, then $\Sch(g)=0$ and
+ \eqref{eq:comp-rule} (with $f=g$, $g=\Phi_1$) gives $\Sch(\Phi_2)=\Sch(\Phi_1)$.}
+\lby{Lemma~\ref{lem:masses} step $\langle1\rangle1$ ($g$ has no breakpoint) and
+ Lemma~\ref{lem:compose}}
+\lstep{1}{2}{($\Rightarrow$) \ldefine $\Psi:=\Phi_2\circ\Phi_1^{-1}\in\mathrm{PM}(\Phi_1(J))$.
+ Then $\Phi_2=\Psi\circ\Phi_1$ and, by \eqref{eq:comp-rule},
+ $0=\Sch(\Phi_2)-\Sch(\Phi_1)=\sum_rm^\Psi_r\Phi_1'(\Phi_1^{-1}(r))\delta_{\Phi_1^{-1}(r)}$.}
+\lby{Lemma~\ref{lem:compose} ($\Phi_1^{-1}\in\mathrm{PM}$, composition of $\mathrm{PM}$ maps) and
+ the hypothesis}
+\lstep{1}{3}{Hence $m^\Psi_r=0$ for every $r$, i.e.\ all jumps of $v_\Psi$ vanish and $v_\Psi$ is
+ continuous on $\Phi_1(J)$.}
+\lby{$\Phi_1'>0$ and the fact that point masses at distinct points are linearly independent}
+\lstep{1}{4}{Let $q$ be a breakpoint of $\Psi$ with M\"obius pieces $M_-$ (left) and $M_+$
+ (right).  Then $M_-(q)=M_+(q)$, $M_-'(q)=M_+'(q)$ and $M_-''(q)=M_+''(q)$.}
+\lby{$\Psi\in C^1$ gives the first two; $\langle1\rangle3$ and $\Psi''=v_\Psi\Psi'$ give the
+ third}
+\lstep{1}{5}{A M\"obius map without pole at $q$ is determined by
+ $(M(q),M'(q),M''(q))$; hence $M_-=M_+$ and $q$ is not a breakpoint after all.}
+\lby{Lemma~\ref{lem:density} $\langle1\rangle2$: $M(x)=M(q)+M'(q)(x-q)/(1+\gamma(x-q))$ with
+ $\gamma=-M''(q)/(2M'(q))$, so the three data determine $M$}
+\lstep{1}{6}{Therefore $\Psi$ has no breakpoints and is a single M\"obius map $g$ on
+ $\Phi_1(J)$, without pole there, and $\Phi_2=g\circ\Phi_1$.}
+\lby{$\langle1\rangle5$ applied to each breakpoint in turn, and Definition~\ref{def:PM}(ii)}
+\lqed{1}{7}
+\end{proof}
+
+\begin{verdictok}
+Lemmas~\ref{lem:masses}--\ref{lem:same-schwarz} are the three Schwarzian facts asserted in
+\texttt{rigor/phase6\_brief.md} (\S``SCHWARZIAN''), and they hold as stated: masses
+$[\Phi''/\Phi'](p_k)$ with no square term, $-2\sigma$ for a parabolic corner \emph{from either
+side}, the composition rule, and M\"obius rigidity.  Numerics: \texttt{g1a\_calculus.py} \S1
+(jumps of $\Lp\circ\Rp$ and $\Rp\circ\Lp$ equal $-2(\sigma_1+\sigma_2)$ to $10^{-4}$) and
+REF-P6-0 items 2--3.
+\end{verdictok}
+
+\section{The corner calculus}\label{sec:corner}
+
+\begin{definition}[Hypothesis (H)]\label{def:H}
+A one-sided protocol $\PP$ (C4) satisfies \emph{hypothesis (H)} if
+\begin{equation}\label{eq:H}
+ p^{(m)}\notin\operatorname{int}M_{m'}\qquad\text{for all }1\le m<m'\le N,
+\end{equation}
+i.e.\ no \emph{earlier} corner lies in the interior of a \emph{later} step's moving part.
+\end{definition}
+
+\begin{theorem}[General transformation rule; no hypothesis]\label{thm:general}
+Let $\PP$ be any one-sided protocol and $\Phi=k_1\circ\dots\circ k_N$ its composite point map.
+Put $G_m:=k_{m+1}\circ\dots\circ k_N$ (so $G_N=\id$) and, for those $m$ with
+$p^{(m)}\in G_m(J_N)$, $x_m:=G_m^{-1}(p^{(m)})$.  Then $\Phi\in\mathrm{PM}(J_N)$ and
+\begin{equation}\label{eq:general-rule}
+ \Sch(\Phi)=-2\sum_{m:\,p^{(m)}\in G_m(J_N)}\sigma_m\,G_m'(x_m)\,\delta_{x_m},
+\end{equation}
+masses at coinciding $x_m$ being added.  Corners $m$ with $p^{(m)}\notin G_m(J_N)$ contribute
+nothing at all.
+\end{theorem}
+\begin{proof}
+\lstep{1}{1}{Each $k_m$ belongs to $\mathrm{PM}(J_m)$, with the single breakpoint $p^{(m)}$ and
+ $\Sch(k_m)=-2\sigma_m\delta_{p^{(m)}}$.}
+\lproof
+\lstep{2}{1}{$k_m$ is the identity on one side of $p^{(m)}$ and equals the M\"obius map
+ $x\mapsto p+(x-p)/(1\pm\sigma_m(x-p))$ on the other.}
+\lby{(C3), \eqref{eq:step-map}}
+\lstep{2}{2}{That M\"obius map has no pole on the closure of the moving part: the pole is at
+ $p\mp1/\sigma_m$, which lies on the \emph{identity} side of $p$.}
+\lby{for $\Rp$: pole at $p-1/\sigma_m<p$ while the piece is $x\ge p$; for $\Lp$: pole at
+ $p+1/\sigma_m>p$ while the piece is $x\le p$}
+\lstep{2}{3}{$k_m\in C^1$ with $k_m'>0$, and the jump is $-2\sigma_m$.}
+\lby{Lemma~\ref{lem:jump}}
+\lqed{2}{4} \lby{$\langle2\rangle1$--$\langle2\rangle3$ and Definition~\ref{def:PM},
+ Lemma~\ref{lem:masses}}
+\lstep{1}{2}{$\Phi\in\mathrm{PM}(J_N)$ and $\Sch(\Phi)=\Sch(G_1)+\sum_r m^{k_1}_r
+ G_1'(G_1^{-1}(r))\delta_{G_1^{-1}(r)}$, the sum running over $r\in G_1(J_N)$.}
+\lby{$\Phi=k_1\circ G_1$, $\langle1\rangle1$, Lemma~\ref{lem:compose}; the composition rule
+ \eqref{eq:comp-rule} only sees breakpoints of $k_1$ that lie in the range $G_1(J_N)$, since
+ $f=k_1$ is restricted to that range}
+\lstep{1}{3}{Iterating $\langle1\rangle2$ over $m=1,2,\dots,N$ gives \eqref{eq:general-rule}.}
+\lby{induction on $N$: $G_m=k_{m+1}\circ G_{m+1}$, $\Sch(k_m)=-2\sigma_m\delta_{p^{(m)}}$ by
+ $\langle1\rangle1$, and the chain rule $(k_{m+1}\circ\dots\circ k_N)'=G_m'$}
+\lqed{1}{4}
+\end{proof}
+
+\begin{theorem}[Corner calculus under (H)]\label{thm:corner}
+Let $\PP$ be a one-sided protocol satisfying (H).  Then every corner $p^{(m)}$ is one of the
+points $p_1,\dots,p_{n+1}$, $\Phi\in\mathrm{PM}(J_N)$, and
+\begin{equation}\label{eq:corner-calculus}
+ \boxed{\ \Sch(\Phi)=-2\sum_{k:\,p_k\in\operatorname{int}J_N}\kappa_k\,\delta_{p_k},\qquad
+ \kappa_k=\sum_{m:\,p^{(m)}=p_k}\sigma_m\ }
+\end{equation}
+--- the corner measure of (C4).  In particular $\Sch(\Phi)$ is independent of the order in which
+the steps are performed, as long as every order considered is a legal protocol satisfying (H)
+with the same multiset of (corner, parameter) pairs.
+\end{theorem}
+\begin{proof}
+\lstep{1}{1}{Every corner is a chain point: $p^{(m)}$ is an endpoint of the block
+ $A^{(m)}_B$, and endpoints of blocks are among $p_1,\dots,p_{n+1}$.}
+\lby{(C1), (C3)}
+\lstep{1}{2}{\lassume $m<m'$.  \lprove $k_{m'}(p^{(m)})=p^{(m)}$ and $k_{m'}'(p^{(m)})=1$.}
+\lproof
+\lstep{2}{1}{$p^{(m)}\in\overline{J_{m-1}}\subseteq\overline{J_{m'-1}}$.}
+\lby{$p^{(m)}$ is an endpoint of $A^{(m)}_B\subseteq J_{m-1}$, and $J_0\subseteq J_1\subseteq
+ \dots$ by (C4)}
+\lstep{2}{2}{Let $f_{m'}$ be the endpoint of $M_{m'}$ other than $p^{(m')}$ (the outer end of
+ $A^{(m')}_{\rm new}$).  Then $f_{m'}\notin\overline{J_{m'-1}}$, hence $p^{(m)}\ne f_{m'}$.}
+\lby{$A^{(m')}_{\rm new}$ is disjoint from $J_{m'-1}$ and shares exactly one endpoint $q$ with
+ it; $f_{m'}$ is at distance $l^{(m')}_{\rm new}>0$ from $q$ on the far side; and
+ $\langle2\rangle1$}
+\lstep{2}{3}{Hence either $p^{(m)}\notin\overline{M_{m'}}$, or $p^{(m)}=p^{(m')}$.}
+\lby{$\overline{M_{m'}}=\operatorname{int}M_{m'}\cup\{p^{(m')},f_{m'}\}$, (H) excludes the
+ interior, and $\langle2\rangle2$ excludes $f_{m'}$}
+\lstep{2}{4}{\lcase $p^{(m)}\notin\overline{M_{m'}}$: $k_{m'}$ is the identity on a neighbourhood
+ of $p^{(m)}$, so $k_{m'}(p^{(m)})=p^{(m)}$ and $k_{m'}'(p^{(m)})=1$.}
+\lby{(C3): $k_{m'}=\id$ off $M_{m'}$, and $\overline{M_{m'}}$ is closed}
+\lstep{2}{5}{\lcase $p^{(m)}=p^{(m')}$: $k_{m'}(p^{(m')})=p^{(m')}$ and $k_{m'}'(p^{(m')})=1$.}
+\lby{\eqref{eq:step-map} fixes $p$, and Lemma~\ref{lem:jump} $\langle1\rangle1$ (the map is $C^1$
+ at $p$ with derivative $1$ on both sides)}
+\lqed{2}{6} \lby{$\langle2\rangle3$--$\langle2\rangle5$}
+\lstep{1}{3}{$G_m(p^{(m)})=p^{(m)}$ and $G_m'(p^{(m)})=1$; in particular
+ $p^{(m)}\in G_m(J_N)$ and $x_m=p^{(m)}$.}
+\lby{$G_m=k_{m+1}\circ\dots\circ k_N$, $\langle1\rangle2$ applied to each factor in turn, and the
+ chain rule (a product of factors all equal to $1$); $p^{(m)}\in J_N$ since $J_N\supseteq J_{m-1}$
+ and $p^{(m)}\in\overline{J_{m-1}}$ --- corners at $\partial J_N$ (which occur only for a
+ degenerate step $A_B^{(m)}=J_{m-1}$, Remark~\ref{rem:degenerate}) carry no mass in
+ $\Sch(\Phi)|_{J_N}$, which is why the sum in \eqref{eq:corner-calculus} runs over the interior
+ junctions}
+\lstep{1}{4}{Substituting $\langle1\rangle3$ into \eqref{eq:general-rule} gives
+ $\Sch(\Phi)=-2\sum_m\sigma_m\delta_{p^{(m)}}$, which is \eqref{eq:corner-calculus} after
+ grouping the $m$'s by the value of $p^{(m)}$ (a finite set of chain points by
+ $\langle1\rangle1$).}
+\lby{Theorem~\ref{thm:general} and $\langle1\rangle3$}
+\lstep{1}{5}{Order independence: \eqref{eq:corner-calculus} depends only on the multiset
+ $\{(p^{(m)},\sigma_m)\}$.}
+\lby{$\langle1\rangle4$}
+\lqed{1}{6}
+\end{proof}
+
+\begin{proposition}[Sufficient conditions for (H)]\label{prop:H-suff}
+Each of the following implies (H).
+\begin{enumerate}[label=(\alph*),leftmargin=2.2em]
+\item Every conditioning region $A^{(m)}_B$ is a \emph{single chain interval} \emph{and} the
+ starting block $J_0$ consists of at least two chain intervals.
+\item All corners coincide: $p^{(1)}=\dots=p^{(N)}$.
+\item $N=1$.
+\end{enumerate}
+Condition (a) is \emph{not} implied by ``every $A^{(m)}_B$ is a single chain interval'' alone
+(Example~\ref{ex:swallow}), and (H) does not imply that the $A_B^{(m)}$ are single intervals
+(VWZ Protocol 1(B), \S\ref{sec:vwz}, satisfies (b) but conditions on a union).
+\end{proposition}
+\begin{proof}
+\lstep{1}{1}{(c) is vacuous and (b) is immediate: $p^{(m)}=p^{(m')}$ is an \emph{endpoint} of
+ $M_{m'}$, not an interior point.}
+\lby{Definition~\ref{def:H} and \eqref{eq:corner-def}}
+\lstep{1}{2}{\lassume (a) and $m<m'$.  \lprove $p^{(m)}\notin\operatorname{int}M_{m'}$.}
+\lproof
+\lstep{2}{1}{$J_{m-1}$ consists of at least two chain intervals and $A^{(m)}_B$ is a single one
+ of them, so $A_B^{(m)}\subsetneq J_{m-1}$ and its inner endpoint $p^{(m)}$ is an
+ \emph{interior} point of $J_{m-1}$, hence of $J_{m'-1}$.}
+\lby{(C3): $p^{(m)}$ is the endpoint of $A^{(m)}_B$ shared with $J_{m-1}\setminus A^{(m)}_B\ne
+ \emptyset$; $J_0\subseteq J_{m-1}\subseteq J_{m'-1}$}
+\lstep{2}{2}{$\operatorname{int}M_{m'}$ contains exactly one chain point, namely the junction
+ $q_{m'}$ between $A^{(m')}_B$ and $A^{(m')}_{\rm new}$, and $q_{m'}$ is an endpoint of
+ $J_{m'-1}$.}
+\lby{$M_{m'}$ is the union of the two adjacent chain intervals $A^{(m')}_B$ and
+ $A^{(m')}_{\rm new}$ (both single), so its interior meets the chain points only in their common
+ junction; $q_{m'}\in\partial J_{m'-1}$ because $A^{(m')}_{\rm new}$ is attached to $J_{m'-1}$
+ there}
+\lstep{2}{3}{$p^{(m)}$ is a chain point (Theorem~\ref{thm:corner} $\langle1\rangle1$) and
+ $p^{(m)}\ne q_{m'}$, because $p^{(m)}\in\operatorname{int}J_{m'-1}$ and
+ $q_{m'}\in\partial J_{m'-1}$.}
+\lby{$\langle2\rangle1$, $\langle2\rangle2$, and $\operatorname{int}J\cap\partial J=\emptyset$}
+\lqed{2}{4} \lby{$\langle2\rangle2$ and $\langle2\rangle3$: the only chain point in
+ $\operatorname{int}M_{m'}$ is $q_{m'}\ne p^{(m)}$}
+\lqed{1}{3}
+\end{proof}
+
+\subsection{Two failures of (H), and what they cost}\label{sec:failH}
+
+\begin{example}[REF-P6-0: union conditioning displaces the mass off the
+junction]\label{ex:displaced}
+Chain $n=4$, $(l_1,l_2,l_3,l_4)=(1.3,2.1,0.9,1.7)$, so $(p_1,\dots,p_5)=(0,1.3,3.4,4.3,6.0)$;
+$J_0=A_2A_3$; ordinary Petz steps.  Step~1 adjoins $A_4$ conditioning on $A_3$: corner $p_3=3.4$,
+$\sigma_1=2l_4/(l_3(l_3+l_4))=1.452991$, $k_1=\Rp_{p_3,\sigma_1}$.  Step~2 adjoins $A_1$
+conditioning on the \emph{union} $A_2A_3$: corner $p_4=4.3$,
+$\sigma_2=2l_1/((l_2+l_3)(l_1+l_2+l_3))=0.201550$, $k_2=\Lp_{p_4,\sigma_2}$ (admissible: the
+image of $p_1$ is $1.9964\ge p_2$).  Here $p^{(1)}=p_3\in\operatorname{int}M_2=(p_1,p_4)$, so (H)
+fails, and Theorem~\ref{thm:general} gives a mass
+$-2\sigma_1k_2'(x_0)=-1.947339$ at $x_0=k_2^{-1}(p_3)=3.200568$ ($k_2'(x_0)=0.670114$), no mass at
+$p_3$, and $-2\sigma_2$ at $p_4$; the total mass is $71\%$ of the naive
+$-2(\sigma_1+\sigma_2)$.  Measured: $-1.947332$ at $x_0$, $+5.4\cdot10^{-5}$ at $p_3$
+(\texttt{ref\_p6\_0\_w1\_counterexample.out}; reproduced in \texttt{g1a\_calculus.py} \S2).
+Control: with $A_B=A_2$ (a single interval) both corners sit at $p_3$ and the masses add
+($-3.634266$ against $-2(\sigma_1+\sigma_2)=-3.634274$).
+\end{example}
+
+\begin{example}[New: single-interval conditioning is not enough --- a corner can be
+\emph{swallowed}]\label{ex:swallow}
+Chain $n=3$, $l=(1,1,1)$, $(p_1,\dots,p_4)=(0,1,2,3)$, ordinary Petz, starting block
+$J_0=A_2$ --- a \emph{single} chain interval.  Step~1 adjoins $A_3$ conditioning on $A_2$; since
+$J_0=A^{(1)}_B$, the corner is the far end $p^{(1)}=p_2=1$ and
+$\sigma_1=2l_3/(l_2(l_2+l_3))=1$, $k_1=\Rp_{p_2,1}$.  Step~2 adjoins $A_1$ conditioning on
+$A^{(2)}_B=A_2$, a single chain interval; now $J_1=A_2A_3$, so the corner is the inner end
+$p^{(2)}=p_3=2$, $\sigma_2=1$, $k_2=\Lp_{p_3,1}$.  Both conditioning regions are single chain
+intervals, yet $p^{(1)}=p_2=1\in\operatorname{int}M_2=(p_1,p_3)=(0,2)$: (H) fails.  Moreover
+$k_2\bigl((p_1,p_3)\bigr)=(4/3,2)$ does not contain $p_2$, so in Theorem~\ref{thm:general} the
+index $m=1$ does not contribute \emph{at all}:
+\[
+ \Sch(\Phi)=-2\sigma_2\,\delta_{p_3},\qquad \Phi=g\circ k_2\ \text{ with } g\in\Mob,
+\]
+i.e.\ the entire first step is undone by a global M\"obius map and leaves the recovered state
+unchanged (Theorem~\ref{thm:state}(3)).  Verified in \texttt{g1a\_calculus.py} \S3
+(\texttt{g1a\_calculus.out}).
+\end{example}
+
+\begin{verdictgap}
+\textbf{Correction to the wording of W1 / card \texttt{corner-calculus} (MINOR).}  Both the brief
+and the card say ``every step's conditioning region $A_B$ is a single interval of the chain, or,
+more generally, no earlier corner lies in the interior of a later step's moving part
+\dots\ the first implies the second''.  Example~\ref{ex:swallow} shows that the implication
+\emph{fails} when the starting block is a single chain interval: there both $A_B$'s are single
+chain intervals and (H) is violated.  The correct sufficient condition is
+Proposition~\ref{prop:H-suff}(a): single-interval conditioning \emph{and} a starting block with at
+least two chain intervals.  Nothing downstream is affected: VWZ's protocols and the tables of
+\S\ref{sec:tables} all start from an adjacent pair, and the brief's own protocol class is
+``start from any adjacent pair''.  The weaker condition (H) remains the one the proof uses, and
+Theorem~\ref{thm:general} covers every case.
+\end{verdictgap}
+
+\begin{verdictok}
+Theorem~\ref{thm:corner} is W1 as repaired by REF-P6-0/1/2, now \emph{proved}, together with the
+unconditional Theorem~\ref{thm:general}.  The point-order argument is exactly the one sketched in
+the brief; the two ingredients that make it work are isolated as
+Theorem~\ref{thm:corner} $\langle1\rangle2$ (later steps fix earlier corners with derivative $1$)
+and Lemma~\ref{lem:compose} (the pullback factor $G_m'(x_m)$).  Numerics:
+\texttt{g1a\_calculus.py} \S\S1--5, all $33$ checks PASS (\texttt{g1a\_calculus.out}).
+\end{verdictok}
+
+\section{The recovered state depends only on the Schwarzian}\label{sec:state}
+
+\begin{lemma}[Functoriality of the half-density push-forward]\label{lem:comp-W}
+Let $k_2:J_2\to J_1$ and $k_1:J_1\to J_0$ be orientation-preserving $C^1$ diffeomorphisms onto
+their ranges.  Then $V_{k_1}V_{k_2}=V_{k_1\circ k_2}$ and each $V_k$ is an isometry
+$H_J\to H_{k(J)}$; if $k$ is a bijection of $\mathbb R$ then $V_k$ is unitary on $H$.
+\end{lemma}
+\begin{proof}
+\lstep{1}{1}{$\lVert V_kf\rVert^2=\int_{k(J)}|(k^{-1})'(y)||f(k^{-1}(y))|^2\dd y
+ =\int_J|f(x)|^2\dd x$.}
+\lby{\eqref{eq:pushforward} and the substitution $y=k(x)$, $\dd y=k'(x)\dd x$, $(k^{-1})'(k(x))
+ =1/k'(x)$}
+\lstep{1}{2}{$(V_{k_1}V_{k_2}f)(y)=\bigl((k_1^{-1})'(y)\bigr)^{1/2}
+ \bigl((k_2^{-1})'(k_1^{-1}(y))\bigr)^{1/2}f\bigl(k_2^{-1}k_1^{-1}(y)\bigr)
+ =\bigl(((k_1k_2)^{-1})'(y)\bigr)^{1/2}f\bigl((k_1k_2)^{-1}(y)\bigr)$.}
+\lby{\eqref{eq:pushforward} twice and the chain rule
+ $((k_1\circ k_2)^{-1})'=(k_2^{-1})'\circ k_1^{-1}\cdot(k_1^{-1})'$; all factors are positive, so
+ the positive square roots multiply}
+\lqed{1}{3}
+\end{proof}
+
+\begin{lemma}[M\"obius invariance of the vacuum, one-particle level]\label{lem:moebius-inv}
+Let $g\in\Mob$, i.e.\ $g(x)=(ax+b)/(cx+d)$ with $a,b,c,d$ real and $ad-bc>0$.  Then $V_g$ is
+unitary on $H=L^2(\mathbb R;\mathbb C^r)$ and $[V_g,P]=0$.  Consequently
+$\omega\circ\beta_{V_g}=\omega$ on $\Fr(\mathbb R)$, and $\omega\circ\beta_{V_g}=\omega$ on
+$\Fr(J)$ for every interval $J$ on which $g$ has no pole.
+\end{lemma}
+\begin{proof}
+\lstep{1}{1}{$g$ is a bijection of $\mathbb R\cup\{\infty\}$ and $g'>0$ off its pole, so $V_g$ is
+ unitary on $H$ (a single point is a Lebesgue null set).}
+\lby{$ad-bc>0$ gives $g'=(ad-bc)/(cx+d)^2>0$; Lemma~\ref{lem:comp-W} $\langle1\rangle1$ and
+ surjectivity}
+\lstep{1}{2}{$P$ is the projection onto the Hardy space $H^2$ of boundary values of functions
+ holomorphic and $L^2$-bounded in the upper half-plane $\mathbb C_+$.}
+\lby{(C2); Longo--Xu \cite{LX} \S3.1 (Hardy projection), \texttt{cited\_R1.tex} Box~C1}
+\lstep{1}{3}{$g$ extends to a biholomorphism of $\mathbb C_+$ onto itself, and
+ $(g^{-1})'(w)=(ad-bc)/(a-cw)^2$ is holomorphic and zero-free on $\mathbb C_+$, so it has a
+ single-valued holomorphic square root there (take $\sqrt{ad-bc}/(a-cw)$, whose boundary values
+ on $\mathbb R$ are positive up to a constant phase).}
+\lby{$\mathrm{PSL}(2,\mathbb R)$ acts on $\mathbb C_+$; $g^{-1}(w)=(dw-b)/(-cw+a)$ and $a-cw\ne0$
+ for $w\in\mathbb C_+$ because $a,c$ are real}
+\lstep{1}{4}{Hence $f\in H^2\Rightarrow V_gf\in H^2$: $V_gf$ is the boundary value of
+ $w\mapsto\bigl((g^{-1})'(w)\bigr)^{1/2}f(g^{-1}(w))$, holomorphic on $\mathbb C_+$, and
+ $\lVert V_gf\rVert_2=\lVert f\rVert_2<\infty$.}
+\lby{$\langle1\rangle3$, $\langle1\rangle2$, $\langle1\rangle1$}
+\lstep{1}{5}{Applying $\langle1\rangle4$ to $g$ and to $g^{-1}$ gives $V_gH^2=H^2$, hence
+ $V_gP=PV_g$.}
+\lby{$V_{g^{-1}}=V_g^{-1}=V_g^*$ by Lemma~\ref{lem:comp-W}, so $V_gH^2\subseteq H^2$ and
+ $V_g^*H^2\subseteq H^2$; a unitary with $V\cP\subseteq\cP$ and $V^*\cP\subseteq\cP$ commutes with
+ the projection onto $\cP$}
+\lstep{1}{6}{$\omega\circ\beta_{V_g}=\omega$: the two-point function of $\omega\circ\beta_{V_g}$
+ is $\langle V_gf,PV_gh\rangle=\langle f,V_g^*PV_gh\rangle=\langle f,Ph\rangle$, and a quasi-free
+ state is determined by its two-point function.}
+\lby{$\langle1\rangle5$, $V_g$ unitary, and the definition of a gauge-invariant quasi-free state
+ (C2)}
+\lqed{1}{7}
+\end{proof}
+
+\begin{theorem}[Normality, functoriality, and Schwarzian dependence]\label{thm:state}
+Let $\PP$ be a one-sided protocol with composite point map $\Phi$ and put
+$\beta_\PP:=\beta_1\circ\beta_2\circ\dots\circ\beta_N$, $\beta_m:=\overline\beta_{s_m}$ the
+zero-collar step maps of Box~[G1].  Then:
+\begin{enumerate}[label=(\arabic*),leftmargin=2.2em]
+\item $\beta_\PP:\Fr(J_N)\to\Fr(J_0)$ is a normal, parity-preserving $*$-isomorphism onto its
+ range, and $\beta_\PP=\beta_{V_\Phi}$ on the CAR generators;
+\item if $\Phi_2=g\circ\Phi_1$ with $g\in\Mob$ (no condition on the pole of $g$ is needed: by
+ Lemma~\ref{lem:moebius-inv} $V_g$ is unitary on all of $H$), then
+ $\omega\circ\beta_{V_{\Phi_2}}=\omega\circ\beta_{V_{\Phi_1}}$;
+\item consequently, by Lemma~\ref{lem:same-schwarz}, the recovered state
+ $\omega\circ\beta_\PP$ on $\Fr(J_N)$ depends on $\PP$ \emph{only through} $\Sch(\Phi)$; under
+ hypothesis (H), only through the corner measure $\kappa_\PP$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+\lstep{1}{1}{Each $\beta_m$ is a normal $*$-isomorphism of $\Fr(J_m)$ onto its range inside
+ $\Fr(J_{m-1})$, and on CAR generators $\beta_m=\beta_{V_{k_m}}$.}
+\lby{Box~[G1] (Note~4 Thm.~7.1) applied to $A=J_{m-1}\setminus A^{(m)}_B$,
+ $B=A^{(m)}_B$, $C=A^{(m)}_{\rm new}$, whose hypothesis $s_m\ge\lambda_m$ holds by (C3) and
+ Lemma~\ref{lem:admissible}; the $C^*$-level map $\beta_{s}$ there is by construction the
+ half-density push-forward along the geometric compression, i.e.\ $\beta_{V_{k_m}}$}
+\lstep{1}{2}{A composition of normal $*$-isomorphisms onto their ranges is a normal
+ $*$-isomorphism onto its range.}
+\lby{normality (\(\sigma\)-weak continuity) and the isomorphism property are both preserved under
+ composition; the range of $\beta_m$ is a von Neumann subalgebra of $\Fr(J_{m-1})$, on which
+ $\beta_{m-1}$ is defined and normal}
+\lstep{1}{3}{$\beta_\PP=\beta_{V_{k_1}}\circ\dots\circ\beta_{V_{k_N}}
+ =\beta_{V_{k_1}\cdots V_{k_N}}=\beta_{V_\Phi}$ on CAR generators.}
+\lby{$\langle1\rangle1$, Bogoliubov functoriality $\beta_{V_1}\beta_{V_2}=\beta_{V_1V_2}$ (C2),
+ Lemma~\ref{lem:comp-W} and \eqref{eq:Phi}}
+\lstep{1}{4}{(2): $V_{\Phi_2}=V_gV_{\Phi_1}$, hence
+ $\omega\circ\beta_{V_{\Phi_2}}=(\omega\circ\beta_{V_g})\circ\beta_{V_{\Phi_1}}
+ =\omega\circ\beta_{V_{\Phi_1}}$.}
+\lby{Lemma~\ref{lem:comp-W}, Bogoliubov functoriality, and Lemma~\ref{lem:moebius-inv}}
+\lstep{1}{5}{(3): if $\Sch(\Phi_1)=\Sch(\Phi_2)$ then $\Phi_2=g\circ\Phi_1$ for some
+ $g\in\Mob$, and $\langle1\rangle4$ applies; under (H),
+ $\Sch(\Phi)$ is the corner measure by Theorem~\ref{thm:corner}.}
+\lby{Lemma~\ref{lem:same-schwarz} and $\langle1\rangle4$}
+\lqed{1}{6}
+\end{proof}
+
+\begin{remark}[Two caveats, both harmless for the state]\label{rem:caveat}
+(i)  $\Phi$ is \emph{not} the zero-collar map of a single inclusion, so Box~[G1] is
+applied per step only; normality of $\beta_\PP$ comes from
+Theorem~\ref{thm:state}$\langle1\rangle2$, not from Thm.~7.1 applied to $\Phi$.
+(ii) In a factorisation $\Phi=g\circ\Phi_1$ used in Theorem~\ref{thm:state}(2), the range of
+$\beta_{V_{\Phi_1}}$ need not be contained in $\Fr(J_0)$ --- only $\Phi=g\circ\Phi_1$ is required
+to map into $J_0$.  The \emph{state} $\omega\circ\beta_{V_{\Phi_1}}$ is nevertheless a well-defined
+normal state on $\Fr(J_N)$ whenever $\Phi_1$ maps $J_N$ into some interval, which is all that
+(2) asserts.  Both caveats were raised by REF-P6-0 (``Not checked'').
+\end{remark}
+
+\begin{corollary}[A single corner: the state depends only on $\zeta$, and not on the
+side]\label{cor:phiA}
+Let $I'=(\alpha,\omega_+)$ be a bounded interval, $p\in I'$, $\sigma>0$, and let
+$k=\Rp_{p,\sigma}|_{I'}$ or $k=\Lp_{p,\sigma}|_{I'}$.  Then the state
+$\omega\circ\beta_{V_k}$ on $\Fr(I')$, and hence
+$\Phi_{\rm fid}=-\log F(\omega|_{\Fr(I')},\omega\circ\beta_{V_k})$, depends on
+$(I',p,\sigma)$ and on the side of the compression \emph{only} through the invariant
+$\zeta=\sigma\beta_{I'}(p)$ of Definition~\ref{def:strength}.  We write $\Phi_A(\zeta)$ for
+this number (paper~1's single-step function, (C7)).
+\end{corollary}
+\begin{proof}
+\lstep{1}{1}{Side-independence: $\Lp_{p,\sigma}=G\circ\Rp_{p,\sigma}$ with
+ $G(x)=p+\frac{x-p}{1-\sigma(x-p)}\in\Mob$, so the two induce the same state.}
+\lby{in the coordinate $w=1/(x-p)$ of Lemma~\ref{lem:parabolic-group}, $G$ is $w\mapsto w-\sigma$
+ on both halves and $\Rp_{p,\sigma}$ is $w\mapsto w+\sigma$ on $\{w>0\}$, identity on
+ $\{w<0\}$; the composite is the identity on $\{w>0\}$ and $w\mapsto w-\sigma$ on $\{w<0\}$,
+ which is $\Lp_{p,\sigma}$; then Theorem~\ref{thm:state}(2)}
+\lstep{1}{2}{$\Mob$ acts transitively on pairs (bounded interval, interior point): given
+ $(I'_1,p_1)$ and $(I'_2,p_2)$ there is $g\in\Mob$, increasing and without pole on
+ $\overline{I'_1}$, with $g(I'_1)=I'_2$, $g(p_1)=p_2$.}
+\lby{$\Mob$ is $3$-transitive on $\mathbb R\cup\{\infty\}$ and preserves orientation and
+ order: map the ordered triple (left endpoint, $p_1$, right endpoint) of $I'_1$ to that of
+ $I'_2$; the pole then lies outside $\overline{I'_1}$ because the image of $\overline{I'_1}$ is
+ the bounded set $\overline{I'_2}$}
+\lstep{1}{3}{With such a $g$, $g\circ\Rp_{p_1,\sigma_1}\circ g^{-1}=\Rp_{p_2,\sigma_2}$ on
+ $I'_2$, where $\sigma_2=\sigma_1/g'(p_1)$, and
+ $\zeta_2=\sigma_2\beta_{I'_2}(p_2)=\sigma_1\beta_{I'_1}(p_1)=\zeta_1$.}
+\lby{Lemma~\ref{lem:density}: conjugation by $g$ takes the parabolic flow at $p_1$ to the
+ parabolic flow at $p_2$ with parameter $\sigma_1/g'(p_1)$, and maps the identity side to the
+ identity side ($g$ increasing); and Lemma~\ref{lem:density}$\langle1\rangle5$ for the
+ invariance of $\zeta$}
+\lstep{1}{4}{Hence, writing $\Gamma:=\beta_{V_{g^{-1}}}:\Fr(I'_2)\to\Fr(I'_1)$, both
+ $\omega|_{\Fr(I'_2)}$ and $\omega\circ\beta_{V_{k_2}}$ are the pullbacks along the
+ $*$-isomorphism $\Gamma$ of $\omega|_{\Fr(I'_1)}$ and $\omega\circ\beta_{V_{k_1}}$.}
+\lby{$\beta_{V_{k_2}}=\beta_{V_g}\beta_{V_{k_1}}\beta_{V_{g^{-1}}}$ by $\langle1\rangle3$ and
+ Lemma~\ref{lem:comp-W}, together with $\omega\circ\beta_{V_g}=\omega$
+ (Lemma~\ref{lem:moebius-inv})}
+\lstep{1}{5}{$F$ is invariant under a common $*$-isomorphism, so the two fidelities agree and
+ $\Phi_{\rm fid}$ is a function of $\zeta$ alone.}
+\lby{Box~[G4], Def.~2: $P_{\rm tr}$ is defined from the $*$-algebra and its states only, hence
+ is preserved by a $*$-isomorphism; $\langle1\rangle4$, $\langle1\rangle3$, $\langle1\rangle1$}
+\lqed{1}{6}
+\end{proof}
+
+\section{Rigidity: exact recovery never happens (if the last step keeps a non-empty
+part)}\label{sec:rigidity}
+
+\begin{lemma}[Two-point rigidity, elementary]\label{lem:2pt}
+Let $J=(\alpha,\beta)$ and let $\Phi:J\to\mathbb R$ be $C^1$ with $\Phi'>0$ and
+\begin{equation}\label{eq:2pt}
+ \frac{\sqrt{\Phi'(x)\Phi'(y)}}{\Phi(x)-\Phi(y)}=\frac1{x-y}\qquad\text{for all }x\ne y\in J .
+\end{equation}
+Then $\Phi$ is the restriction to $J$ of a M\"obius map without pole on $J$.  (Conversely every
+such M\"obius map satisfies \eqref{eq:2pt}.)
+\end{lemma}
+\begin{proof}
+\lstep{1}{1}{\eqref{eq:2pt} is equivalent to
+ $(\Phi(x)-\Phi(y))^2=(x-y)^2\Phi'(x)\Phi'(y)$ for $x\ne y$.}
+\lby{both sides of \eqref{eq:2pt} have the same sign ($\Phi$ increasing), so squaring and
+ cross-multiplying is reversible}
+\lstep{1}{2}{\lpick $y_1\in J$ and put $c:=\Phi'(y_1)>0$, $g:=\Phi-\Phi(y_1)$.  Then on
+ $J_-:=(\alpha,y_1)$ and on $J_+:=(y_1,\beta)$: $g\ne0$, $g$ is $C^1$ and
+ $g'(x)=\dfrac{g(x)^2}{c\,(x-y_1)^2}$.}
+\lby{$\langle1\rangle1$ with $y=y_1$; $g\ne0$ because $\Phi$ is strictly increasing}
+\lstep{1}{3}{On each of $J_\pm$, $\bigl(\tfrac1g\bigr)'=-\dfrac{g'}{g^2}
+ =-\dfrac1{c(x-y_1)^2}=\Bigl(\dfrac1{c(x-y_1)}\Bigr)'$, hence there is a constant $A_\pm$ with
+ $\dfrac1{g(x)}=\dfrac1{c(x-y_1)}+A_\pm$, i.e.
+ $\Phi(x)=\Phi(y_1)+\dfrac{c(x-y_1)}{1+A_\pm c(x-y_1)}$.}
+\lby{$\langle1\rangle2$; two functions with the same derivative on a connected interval differ by
+ a constant}
+\lstep{1}{4}{Hence $\Phi$ coincides on $J_-$ with a M\"obius map $M_-$ and on $J_+$ with a
+ M\"obius map $M_+$, each without pole on the respective open interval.}
+\lby{$\langle1\rangle3$: $x\mapsto\Phi(y_1)+c(x-y_1)/(1+A_\pm c(x-y_1))$ is M\"obius, and it is
+ finite where $g$ is}
+\lstep{1}{5}{$M_-=M_+$.}
+\lproof
+\lstep{2}{1}{\lpick $y_2\in J_+$.  Applying $\langle1\rangle3$--$\langle1\rangle4$ with $y_1$
+ replaced by $y_2$ gives a M\"obius map $N_-$ with $\Phi=N_-$ on $(\alpha,y_2)$.}
+\lby{$\langle1\rangle3$ used on the connected interval $(\alpha,y_2)$, which is one of the two
+ components of $J\setminus\{y_2\}$}
+\lstep{2}{2}{$N_-=M_-$ on $J_-$ and $N_-=M_+$ on $(y_1,y_2)$, two non-empty open intervals.}
+\lby{$\langle2\rangle1$ and $\langle1\rangle4$; $(\alpha,y_2)\supseteq J_-\cup\{y_1\}\cup
+ (y_1,y_2)$}
+\lstep{2}{3}{Two M\"obius maps that agree on a non-empty open interval are equal.}
+\lby{a M\"obius map is a rational function of degree $\le1$; the difference of two such, if zero
+ on an open set, is zero as a rational function}
+\lqed{2}{4} \lby{$\langle2\rangle2$, $\langle2\rangle3$: $M_-=N_-=M_+$}
+\lstep{1}{6}{Therefore $\Phi=M_-=M_+$ on $J\setminus\{y_1\}$ and, by continuity, on $J$.}
+\lby{$\langle1\rangle4$, $\langle1\rangle5$, $\Phi$ continuous}
+\lstep{1}{7}{Converse: for $M$ M\"obius, $M(x)-M(y)=\frac{(ad-bc)(x-y)}{(cx+d)(cy+d)}$ and
+ $M'(x)=\frac{ad-bc}{(cx+d)^2}$, so $(M(x)-M(y))^2=(x-y)^2M'(x)M'(y)$.}
+\lby{direct computation}
+\lqed{1}{8}
+\end{proof}
+
+\begin{lemma}[$F=1$ forces equality of states]\label{lem:F1}
+Let $\varphi,\psi$ be states on a unital $C^*$- or $W^*$-algebra $\cM$ with
+$P_{\rm tr}(\varphi,\psi)=1$.  Then $\varphi=\psi$.
+\end{lemma}
+\begin{proof}
+\lstep{1}{1}{$1=P_{\rm tr}(\varphi,\psi)\le\varphi(a)\psi(a^{-1})$ for every invertible
+ $a\in\cM_+$.}
+\lby{Box~[G4], eq.~(1-4) of \cite{AU02}}
+\lstep{1}{2}{\lpick $b=b^*\in\cM$ and $t\in\mathbb R$ with $|t|\,\lVert b\rVert<1/2$.  Then
+ $a:=1+tb$ is positive and invertible and
+ $\varphi(a)\psi(a^{-1})=1+t(\varphi(b)-\psi(b))+R(t)$ with $|R(t)|\le Ct^2$,
+ $C=C(\lVert b\rVert)$.}
+\lby{$a^{-1}=1-tb+t^2b^2(1+tb)^{-1}$ with $\lVert t^2b^2(1+tb)^{-1}\rVert\le2t^2\lVert
+ b\rVert^2$, and $\varphi,\psi$ are states (norm one, unital)}
+\lstep{1}{3}{$\langle1\rangle1$ and $\langle1\rangle2$ give
+ $t(\varphi(b)-\psi(b))+R(t)\ge0$ for all small $|t|$, hence $\varphi(b)=\psi(b)$.}
+\lby{dividing by $t>0$ and letting $t\downarrow0$, then by $t<0$ and letting $t\uparrow0$}
+\lstep{1}{4}{Every element is a linear combination of two self-adjoint ones, so
+ $\varphi=\psi$.}
+\lby{$\langle1\rangle3$ and linearity}
+\lqed{1}{5}
+\end{proof}
+
+\begin{theorem}[Exact recovery iff the map is M\"obius; and it never
+happens]\label{thm:rigidity}
+Let $\Phi\in\mathrm{PM}(I)$ with $\Phi(I)\subseteq\mathbb R$, and let
+$\omega_\Phi:=\omega\circ\beta_{V_\Phi}$ be the induced state on $\Fr(I)$.  Then
+\begin{enumerate}[label=(\arabic*),leftmargin=2.2em]
+\item $\omega_\Phi=\omega|_{\Fr(I)}$ $\iff$ $\Phi$ is the restriction of a global M\"obius map
+ $\iff$ $\Sch(\Phi)=0$;
+\item for \emph{every} non-empty one-sided protocol $\PP$ whose last step keeps a non-empty part
+ (C3) --- with or without (H) --- $\Sch(\Phi)\ne0$ on $I$; indeed $\Sch(\Phi)$ is a non-zero
+ \emph{negative} measure, its total mass being at most $-2\sigma_N<0$;
+\item hence $\omega_\PP:=\omega\circ\beta_\PP\ne\omega|_{\Fr(I)}$ and
+ $\Phi_{\rm fid}(\PP)=-\log F(\omega|_{\Fr(I)},\omega_\PP)>0$ for every non-empty protocol
+ \emph{whose last step keeps a non-empty part}.  The hypothesis cannot be dropped: see
+ Remark~\ref{rem:degenerate} and REF-P6-3 \S2.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+\lstep{1}{1}{The two-point function of $\omega_\Phi$ has the distributional kernel
+ $\sqrt{\Phi'(x)\Phi'(y)}\,Q(\Phi(x),\Phi(y))$, and that of $\omega$ is $Q(x,y)$, where
+ $Q(x,y)=\frac1{2\pi i}\frac1{x-y-i0}\otimes\mathbf 1_r$ is the vacuum kernel.}
+\lby{(C2), \eqref{eq:pushforward}: $\omega_\Phi(\psi(f)^*\psi(h))=\langle V_\Phi f,QV_\Phi
+ h\rangle$; the Hardy kernel is the Cauchy kernel (Longo--Xu \cite{LX} \S3.1;
+ \texttt{cited\_R1.tex} Box~C1)}
+\lstep{1}{2}{If $\omega_\Phi=\omega$ then, testing with $f,h\in C^\infty_c(I)$ of \emph{disjoint}
+ supports, $\sqrt{\Phi'(x)\Phi'(y)}/(\Phi(x)-\Phi(y))=1/(x-y)$ for all $x\ne y$ in $I$.}
+\lby{$\langle1\rangle1$: off the diagonal both kernels are continuous functions, and two
+ continuous functions defining the same distribution on the open set $\{x\ne y\}$ coincide there;
+ the factor $\frac1{2\pi i}$ and the $i0$ are irrelevant off the diagonal, and $\Phi$ is
+ increasing so $\Phi(x)-\Phi(y)$ has the sign of $x-y$}
+\lstep{1}{3}{Hence $\Phi$ is M\"obius, by Lemma~\ref{lem:2pt}.}
+\lby{$\langle1\rangle2$ and Lemma~\ref{lem:2pt} with $J=I$}
+\lstep{1}{4}{Conversely, if $\Phi=g|_I$ with $g\in\Mob$ without pole on $I$, then
+ $\omega_\Phi=\omega$ on $\Fr(I)$.}
+\lby{Lemma~\ref{lem:moebius-inv}: $V_g$ commutes with $P$ and $V_gE_I=E_{g(I)}V_g$, so
+ $E_IV_g^*PV_gE_I=E_IPE_I$}
+\lstep{1}{5}{$\Sch(\Phi)=0\iff\Phi$ M\"obius.}
+\lby{Lemma~\ref{lem:same-schwarz} with $\Phi_1=\id$ (whose Schwarzian vanishes): $\Sch(\Phi)=0$
+ iff $\Phi=g\circ\id$; and Lemma~\ref{lem:masses} $\langle1\rangle1$ for the converse}
+\lstep{1}{6}{(2): in \eqref{eq:general-rule} every term is a negative multiple of a point mass
+ ($\sigma_m>0$, $G_m'>0$), so no cancellation is possible, and the term $m=N$ is always present
+ because $G_N=\id$ and $x_N=p^{(N)}\in J_N$.}
+\lby{Theorem~\ref{thm:general}; $G_N=\id$ by definition, and $p^{(N)}$ is an \emph{interior} point
+ of $J_N=I$ because $A^{(N)}_B\subsetneq J_{N-1}$ (the last step keeps a non-empty part), so
+ $p^{(N)}$ is the junction of $A^{(N)}_B$ with $J_{N-1}\setminus A^{(N)}_B\ne\emptyset$ and is
+ therefore interior to $J_{N-1}\subseteq I$}
+\lstep{1}{7}{(3): $\omega_\PP\ne\omega$ by (1) and (2); and $F=1$ would force
+ $\omega_\PP=\omega$.}
+\lby{Lemma~\ref{lem:F1} and $\Phi_{\rm fid}=-\log F$, $F\le1$}
+\lqed{1}{8}
+\end{proof}
+
+\begin{remark}[The degenerate step, and why the hypothesis in (2) is needed]\label{rem:degenerate}
+If a step conditions on the \emph{entire} current block ($A_B=J_{m-1}$, empty kept part), its
+corner is the far endpoint of $J_{m-1}$.  For the last step this endpoint is an endpoint of
+$I$, so the mass sits on $\partial I$ and $\Sch(\Phi)$ vanishes \emph{as a distribution on $I$}
+if there is no other surviving corner; the extreme case $N=1$, $J_0=A_B$, is a pure M\"obius
+compression of $I$ into $J_0$ and recovers the vacuum exactly.  This is consistent with
+Definition~\ref{def:strength} and Lemma~\ref{lem:field}: $\bI(p)=0$ at $p\in\partial I$, so the
+corner has strength $\zeta^{(I)}=0$; it is also Theorem~A at $a=0$, where
+$\zeta=as/(a+L)=0$.  Such a step is not a recovery in the Petz sense --- it does not act as the
+identity on any part of the block, so the ``recovered'' state does not agree with $\omega$ on any
+conditioning algebra.
+\end{remark}
+
+\begin{verdictok}
+This settles W1(iii) (``exact recovery never occurs'') \emph{unconditionally} and without the
+second-order law: the brief's argument needed ``corner measure $\ne0\Rightarrow\Phi_{\rm fid}>0$''
+(Theorem~A for one corner, part of W2 for several), whereas
+Theorem~\ref{thm:rigidity} derives it from the M\"obius rigidity of the vacuum two-point function
+plus the observation that all Schwarzian masses have the same sign.  Note that (2) also holds
+when (H) fails and some corners are swallowed (Example~\ref{ex:swallow}): the \emph{last} step's
+corner can never be swallowed.
+\end{verdictok}
+
+\section{The VWZ protocols, decided}\label{sec:vwz}
+
+Throughout this section $n=4$ with $A=A_1$, $B=A_2$, $C=A_3$, $D=A_4$ of lengths $a,b,c,d$, and
+$p_1<\dots<p_5$ as in (C1).  All statements are for an arbitrary common rotation parameter $t$;
+$t=\infty$ ($s=\lambda$) and the ordinary Petz map $s=2\lambda$ ($t=0$) are the two ends of the
+admissible family.
+
+\begin{lemma}[The parabolic group law at a common corner]\label{lem:parabolic-group}
+Fix $p$ and write $w:=1/(x-p)$.  In the coordinate $w$, $\Rp_{p,\sigma}$ is $w\mapsto w+\sigma$ on
+$\{w>0\}$ and the identity on $\{w<0\}$; $\Lp_{p,\sigma}$ is $w\mapsto w-\sigma$ on $\{w<0\}$ and
+the identity on $\{w>0\}$.  Consequently
+\begin{align}
+ \Rp_{p,\sigma_1}\circ\Rp_{p,\sigma_2}&=\Rp_{p,\sigma_1+\sigma_2},\qquad
+ \Lp_{p,\sigma_1}\circ\Lp_{p,\sigma_2}=\Lp_{p,\sigma_1+\sigma_2},
+ \label{eq:same-side}\\
+ \Lp_{p,\sigma_1}\circ\Rp_{p,\sigma_2}&=\Rp_{p,\sigma_2}\circ\Lp_{p,\sigma_1}
+ =M\circ\Rp_{p,\sigma_1+\sigma_2},\qquad M(x):=p+\frac{x-p}{1-\sigma_1(x-p)}\in\Mob .
+ \label{eq:opposite-side}
+\end{align}
+\end{lemma}
+\begin{proof}
+\lstep{1}{1}{For $x>p$, $u:=x-p>0$: $\Rp_{p,\sigma}$ sends $u\mapsto u/(1+\sigma u)$, i.e.\
+ $w=1/u\mapsto(1+\sigma u)/u=w+\sigma$, and $w+\sigma>0$; for $x<p$ it is the identity.}
+\lby{\eqref{eq:step-map}}
+\lstep{1}{2}{For $x<p$, $u<0$: $\Lp_{p,\sigma}$ sends $u\mapsto u/(1-\sigma u)$, i.e.\
+ $w\mapsto w-\sigma$, and $w-\sigma<0$; for $x>p$ it is the identity.}
+\lby{\eqref{eq:step-map}}
+\lstep{1}{3}{\eqref{eq:same-side}: on $\{w>0\}$ the composite is $w\mapsto w+\sigma_1+\sigma_2$
+ and on $\{w<0\}$ it is the identity.}
+\lby{$\langle1\rangle1$; the half $\{w>0\}$ is preserved}
+\lstep{1}{4}{$\Rp_{p,\sigma_2}$ and $\Lp_{p,\sigma_1}$ commute, and their composite is
+ $w\mapsto w+\sigma_2$ on $\{w>0\}$, $w\mapsto w-\sigma_1$ on $\{w<0\}$.}
+\lby{$\langle1\rangle1$, $\langle1\rangle2$: each map is the identity on the half the other moves,
+ and each preserves its own half}
+\lstep{1}{5}{$M$ is the global map $w\mapsto w-\sigma_1$ (both halves), and
+ $M\circ\Rp_{p,\sigma_1+\sigma_2}$ is $w\mapsto w+\sigma_2$ on $\{w>0\}$, $w\mapsto w-\sigma_1$ on
+ $\{w<0\}$; this is $\langle1\rangle4$.}
+\lby{$1/(M(x)-p)=(1-\sigma_1(x-p))/(x-p)=w-\sigma_1$ for all $x\ne p$; $\langle1\rangle1$}
+\lqed{1}{6}
+\end{proof}
+
+\begin{proposition}[VWZ Protocol 1(B) $=$ Protocol 1(A), literally]\label{prop:1B1A}
+Protocol 1(A) is the single step $P_{B\to BCD}$: $A_B=B$, $A_{\rm new}=CD$, corner $p_2$
+(here $A_{\rm new}$ is a union of two intervals of the fine chain, so 1(A) is a protocol of the
+\emph{coarse} chain $A\mid B\mid CD$ in the sense of (C3); REF-P6-3 \S11),
+parameter $\sigma_{1(A)}=\theta_t\,\frac{2(c+d)}{b(b+c+d)}$, where
+$\theta_t:=\frac12(1+e^{-2\pi t})\in(\tfrac12,1]$ ($t\ge0$) and $\theta_0=1$ is the ordinary Petz value.  Protocol
+1(B) is the two-step protocol $P_{B\to BC}$ then $P_{BC\to BCD}$, with corners
+\[
+ p^{(1)}=p_2,\quad \sigma_1=\theta_t\frac{2c}{b(b+c)},\qquad
+ p^{(2)}=p_2,\quad \sigma_2=\theta_t\frac{2d}{(b+c)(b+c+d)} .
+\]
+Then $\sigma_1+\sigma_2=\sigma_{1(A)}$ and the two composite point maps are \emph{equal}:
+$\Phi^{1(B)}=\Phi^{1(A)}=\Rp_{p_2,\sigma_{1(A)}}$.  In particular the recovered states agree, for
+every common $t$, which is VWZ's assertion (Box~[G6]) with an exact proof.
+\end{proposition}
+\begin{proof}
+\lstep{1}{1}{The corners and parameters are as stated.}
+\lby{(C3): for $P_{B\to BC}$, $A_B=B$ and the corner is the end of $B$ away from $C$, i.e.\
+ $p_2$; $\sigma=s/(l_B+l_{\rm new})$ with $s=2\theta_t\lambda$, $\lambda=c/b$, giving
+ $\theta_t\frac{2c}{b(b+c)}$.  For $P_{BC\to BCD}$, $A_B=BC$ (a union, allowed by (C3)) and the
+ corner is again $p_2$; $\lambda=d/(b+c)$, $l_B+l_{\rm new}=b+c+d$.  For $P_{B\to BCD}$,
+ $\lambda=(c+d)/b$, $l_B+l_{\rm new}=b+c+d$}
+\lstep{1}{2}{$\dfrac{2c}{b(b+c)}+\dfrac{2d}{(b+c)(b+c+d)}=\dfrac{2(c+d)}{b(b+c+d)}$.}
+\lby{$\frac2{b+c}\Bigl[\frac cb+\frac d{b+c+d}\Bigr]
+ =\frac2{b+c}\cdot\frac{c(b+c+d)+bd}{b(b+c+d)}$ and
+ $c(b+c+d)+bd=c(b+c)+d(b+c)=(b+c)(c+d)$}
+\lstep{1}{3}{Hence $\sigma_1+\sigma_2=\sigma_{1(A)}$ for every $t$ (the common factor $\theta_t$
+ multiplies all three).}
+\lby{$\langle1\rangle2$ and $\langle1\rangle1$}
+\lstep{1}{4}{Both steps of 1(B) are right-compressions at the same point $p_2$, so
+ $\Phi^{1(B)}=\Rp_{p_2,\sigma_1}\circ\Rp_{p_2,\sigma_2}=\Rp_{p_2,\sigma_1+\sigma_2}
+ =\Rp_{p_2,\sigma_{1(A)}}=\Phi^{1(A)}$.}
+\lby{\eqref{eq:same-side} and $\langle1\rangle3$}
+\lqed{1}{5}
+\end{proof}
+
+\begin{remark}
+Protocol 1(B) conditions on the \emph{union} $BC$, so it violates
+Proposition~\ref{prop:H-suff}(a); it satisfies (H) through
+Proposition~\ref{prop:H-suff}(b) (both corners at $p_2$).  This is the example that forced the
+hypothesis of Theorem~\ref{thm:corner} to be stated in the weak form (H) (REF-P6-1).
+\end{remark}
+
+\begin{proposition}[VWZ Protocol 2]\label{prop:prot2}
+Protocol 2 ($P_{B\to BC}$, then $P_{C\to CD}$) has corners $p_2$ with
+$\sigma_2^{\rm VWZ}=\theta_t\frac{2c}{b(b+c)}$ and $p_3$ with
+$\sigma_3^{\rm VWZ}=\theta_t\frac{2d}{c(c+d)}$, it satisfies
+Proposition~\ref{prop:H-suff}(a), and
+$\Sch(\Phi^{(2)})=-2\sigma_2^{\rm VWZ}\delta_{p_2}-2\sigma_3^{\rm VWZ}\delta_{p_3}$.
+\end{proposition}
+\begin{proof}
+\lstep{1}{1}{Both conditioning regions are single chain intervals and $J_0=AB$ has two of them,
+ so (H) holds.}
+\lby{Proposition~\ref{prop:H-suff}(a)}
+\lstep{1}{2}{Corners and parameters: as in Proposition~\ref{prop:1B1A}$\langle1\rangle1$ for the
+ first step; for $P_{C\to CD}$, $A_B=C$, the corner is the end of $C$ away from $D$, i.e.\ $p_3$,
+ $\lambda=d/c$ and $l_B+l_{\rm new}=c+d$.}
+\lby{(C3)}
+\lstep{1}{3}{The Schwarzian is as stated.}
+\lby{Theorem~\ref{thm:corner} with $\langle1\rangle1$, $\langle1\rangle2$}
+\lqed{1}{4}
+\end{proof}
+
+\begin{theorem}[VWZ Protocol 3 is an over-compressed single step]\label{thm:prot3}
+Protocol 3 starts from $J_0=BC$ and performs $P_{B\to AB}$ (adjoining $A$, conditioning on $B$)
+and $P_{C\to CD}$ (adjoining $D$, conditioning on $C$), in either order.  Then:
+\begin{enumerate}[label=(\arabic*),leftmargin=2.2em]
+\item both corners are at $p_3$, with
+ $\sigma_1=\theta_t\frac{2a}{b(a+b)}$ (a left-compression) and
+ $\sigma_2=\theta_t\frac{2d}{c(c+d)}$ (a right-compression);
+\item the two orders give the \emph{same} point map, and
+ $\Phi^{(3)}=M\circ\Rp_{p_3,\sigma_1+\sigma_2}$ with $M\in\Mob$ as in
+ \eqref{eq:opposite-side}; hence $\Sch(\Phi^{(3)})=-2(\sigma_1+\sigma_2)\delta_{p_3}$;
+\item the recovered state equals that of the single Theorem-A step with kept block $AB$,
+ conditioning interval $C$, new interval $D$ and parameter
+ $s'=(\sigma_1+\sigma_2)(c+d)$, which is admissible, indeed over-compressed:
+ $s'>2\lambda'=2d/c$ \emph{strictly} (for $t=0$; $s'>2\theta_t\lambda'$ in general, and
+ always $s'>\lambda'$ for $\theta_t\ge\frac12$, i.e.\ for every $t\ge0$);
+\item therefore, exactly and for all sizes,
+ \begin{equation}\label{eq:prot3}
+  \Phi_{\rm fid}^{(3)}=\Phi_A(\zeta_{\rm eff}),\qquad
+  \zeta_{\rm eff}=(\sigma_1+\sigma_2)\,\bI(p_3)
+  =(\sigma_1+\sigma_2)\frac{(a+b)(c+d)}{a+b+c+d}.
+ \end{equation}
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+\lstep{1}{1}{(1): for $P_{B\to AB}$, $A_B=B$, $A_{\rm new}=A$ lies to the \emph{left}, so the
+ corner is the right end of $B$, $p_3$, and $\sigma_1=s/(a+b)$ with $s=2\theta_t a/b$; for
+ $P_{C\to CD}$ the corner is the left end of $C$, again $p_3$, with
+ $\sigma_2=2\theta_t d/(c(c+d))$.}
+\lby{(C3), \eqref{eq:corner-def}}
+\lstep{1}{2}{(2): the two step maps are $\Lp_{p_3,\sigma_1}$ and $\Rp_{p_3,\sigma_2}$; they
+ commute and their composite is $M\circ\Rp_{p_3,\sigma_1+\sigma_2}$.}
+\lby{\eqref{eq:opposite-side}}
+\lstep{1}{3}{$\Sch(\Phi^{(3)})=-2(\sigma_1+\sigma_2)\delta_{p_3}$.}
+\lby{$\langle1\rangle2$, Lemma~\ref{lem:same-schwarz} ($M$ contributes nothing) and
+ Lemma~\ref{lem:jump}; alternatively Theorem~\ref{thm:corner} with
+ Proposition~\ref{prop:H-suff}(b)}
+\lstep{1}{4}{(3): $\Rp_{p_3,\sigma_1+\sigma_2}$ is exactly the Theorem-A step with
+ $A_{\rm TA}=AB$, $B_{\rm TA}=C$, $C_{\rm TA}=D$ and
+ $\sigma=s'/(c+d)$, $s'=(\sigma_1+\sigma_2)(c+d)$; and
+ $s'=\theta_t\bigl[\frac{2a(c+d)}{b(a+b)}+\frac{2d}c\bigr]>2\theta_t\frac dc$.}
+\lby{(C3) with $l_B=c$, $l_{\rm new}=d$; and $\frac{2a(c+d)}{b(a+b)}>0$ for all
+ $a,b,c,d>0$, whence the inequality is strict (REF-P6-3 \S10)}
+\lstep{1}{5}{$s'\ge\lambda'=d/c$ for every $t\ge0$, so Box~[G1] applies to the
+ effective single step and $\Phi_A$ is defined at $\zeta_{\rm eff}$.}
+\lby{$\langle1\rangle4$ and $\theta_t=\frac12(1+e^{-2\pi t})\ge\frac12$ for $t\ge0$}
+\lstep{1}{6}{(4): $\Phi^{(3)}$ and $\Rp_{p_3,\sigma_1+\sigma_2}$ induce the same state
+ (Theorem~\ref{thm:state}(2) with $g=M$, which has its pole at $p_3+1/\sigma_1$, outside
+ $\overline{\Rp(I)}$), and the strength of that single corner in the frame $I$ is
+ $\zeta_{\rm eff}=(\sigma_1+\sigma_2)\bI(p_3)$ with
+ $\bI(p_3)=\frac{(p_3-p_1)(p_5-p_3)}{p_5-p_1}=\frac{(a+b)(c+d)}{a+b+c+d}$.}
+\lby{$\langle1\rangle2$, Theorem~\ref{thm:state}(2), Definition~\ref{def:strength},
+ Lemma~\ref{lem:field} (which identifies $\zeta$ with paper~1's $as/(a+L)$: here
+ $a=a+b$, $L=c+d$, $s=s'$); and Corollary~\ref{cor:phiA}, which is the step --- tacit in the
+ first version of this document, REF-P6-3 \S10 --- that turns the identity of \emph{states} into
+ the identity of \emph{numbers} $\Phi^{(3)}_{\rm fid}=\Phi_A(\zeta_{\rm eff})$, since for a
+ single corner $\Phi_{\rm fid}$ is a function of $\zeta$ alone}
+\lqed{1}{7}
+\end{proof}
+
+\begin{corollary}[Holonomy $=$ corner measure]\label{cor:holonomy}
+Two one-sided protocols on the same chain that satisfy (H) and have the same corner measure
+produce the same recovered state on $\Fr(I)$, hence the same fidelity, relative entropy and every
+other state functional.  In particular Protocol 3 in either order, and Protocols 1(A) and 1(B),
+are indistinguishable.
+\end{corollary}
+\begin{proof}
+\lstep{1}{1}{Equal corner measures give equal Schwarzians.}
+\lby{Theorem~\ref{thm:corner}}
+\lstep{1}{2}{Equal Schwarzians give equal states.}
+\lby{Theorem~\ref{thm:state}(3)}
+\lqed{1}{3}
+\end{proof}
+
+\begin{verdictok}
+Consequences (i) and (ii) of W1 are proved, with two strengthenings: 1(B) $=$ 1(A) holds for every
+common rotation parameter $t$ and as an identity of \emph{point maps} (not only of states), and
+the two orders of Protocol 3 give literally the same point map
+(Lemma~\ref{lem:parabolic-group}), so no M\"obius quotient is needed for that half of the
+statement.  The M\"obius quotient \emph{is} needed to compare Protocol 3 with the single
+over-compressed step, exactly as REF-P6-0 F1b requires.  Numerics: \texttt{g1a\_calculus.py} \S4
+(the identity in exact rational arithmetic; the maps agree to $2\cdot10^{-16}$; $s'>2\lambda'$
+in $20\,000$ random rational configurations).
+\end{verdictok}
+
+\section{All one-sided protocols for $n=4$ and $n=5$}\label{sec:tables}
+
+\begin{proposition}[With single-interval conditioning the holonomy is the starting
+block]\label{prop:startblock}
+Let $\PP$ be a complete one-sided protocol on $A_1,\dots,A_n$ in which every conditioning region
+is a single chain interval, with starting block $J_0=A_i\cup\dots\cup A_j$, $j\ge i+1$, and a
+common rotation parameter $t$, $\theta_t=\frac12(1+e^{-2\pi t})$.  Then (H) holds and
+\begin{equation}\label{eq:startblock}
+ \kappa_\PP=\sum_{k<i}\sigma^L_k\,\delta_{p_{k+2}}+\sum_{k>j}\sigma^R_k\,\delta_{p_{k-1}},
+ \qquad
+ \sigma^L_k=\theta_t\frac{2l_k}{l_{k+1}(l_k+l_{k+1})},\quad
+ \sigma^R_k=\theta_t\frac{2l_k}{l_{k-1}(l_{k-1}+l_k)} ,
+\end{equation}
+\emph{independently of the order of the steps}.  Consequently all $\binom{(i-1)+(n-j)}{i-1}$
+admissible orders for a given starting block give the same recovered state, and the number of distinct corner measures
+among the $2^{n-2}$ protocols with a starting \emph{pair} is exactly $n-1$, one per pair.  The
+left corners occupy $p_3,\dots,p_{i+1}$ and the right corners $p_j,\dots,p_{n-1}$; they overlap
+in exactly one point, $p_{i+1}=p_j$, iff $j=i+1$, which then carries a double mass.
+\end{proposition}
+\begin{proof}
+\lstep{1}{1}{(H) holds.}
+\lby{Proposition~\ref{prop:H-suff}(a): single-interval conditioning and $|J_0|\ge2$ chain
+ intervals}
+\lstep{1}{2}{The step adjoining $A_k$ with $k>j$ has $A_B=A_{k-1}$, corner $p_{k-1}$ and
+ $\sigma=\sigma^R_k$; the step adjoining $A_k$ with $k<i$ has $A_B=A_{k+1}$, corner $p_{k+2}$ and
+ $\sigma=\sigma^L_k$.  Neither depends on the rest of the block, i.e.\ on the order.}
+\lby{(C3): at the moment $A_k$ ($k>j$) is adjoined, the current block ends with $A_{k-1}$
+ (only $A_{j+1},\dots,A_{k-1}$ can have been added on the right, and they are added in increasing
+ order), so $A_B=A_{k-1}$ and the corner is the end of $A_{k-1}$ away from $A_k$, i.e.\
+ $p_{k-1}$; $\lambda=l_k/l_{k-1}$, $l_B+l_{\rm new}=l_{k-1}+l_k$, $s=2\theta_t\lambda$.
+ Symmetrically on the left}
+\lstep{1}{3}{Hence the multiset $\{(p^{(m)},\sigma_m)\}$ is determined by $(i,j)$ and
+ \eqref{eq:startblock} follows from Theorem~\ref{thm:corner}; the recovered state follows by
+ Corollary~\ref{cor:holonomy}.}
+\lby{$\langle1\rangle2$, Theorem~\ref{thm:corner}, Corollary~\ref{cor:holonomy}}
+\lstep{1}{4}{The counting: an order is a shuffle of the $i-1$ left moves (which must be performed
+ in the order $A_{i-1},A_{i-2},\dots$) with the $n-j$ right moves (in the order
+ $A_{j+1},A_{j+2},\dots$), so there are $\binom{(i-1)+(n-j)}{i-1}$ of them; summing over the
+ starting pairs $j=i+1$, $i=1,\dots,n-1$, gives $\sum_i\binom{n-2}{i-1}=2^{n-2}$.}
+\lby{elementary counting; the left moves must be consecutive-inwards because $A_B$ is a single
+ chain interval adjacent to the block}
+\lstep{1}{5}{The corner ranges and the overlap are read off \eqref{eq:startblock}:
+ $k\le i-1\Rightarrow p_{k+2}\le p_{i+1}$ and $k\ge j+1\Rightarrow p_{k-1}\ge p_j$.}
+\lby{\eqref{eq:startblock}}
+\lstep{1}{6}{Distinct starting pairs give distinct corner \emph{measures}, so the $n-1$ classes
+ are really distinct.}
+\lby{Lemma~\ref{lem:distinct} below --- the corner \emph{supports} do \emph{not} separate the
+ classes, since for every middle pair ($2\le i\le n-2$) the support is all of
+ $\{p_3,\dots,p_{n-1}\}$; this step was missing in the first version and is REF-P6-3 \S6}
+\lqed{1}{7}
+\end{proof}
+
+\begin{lemma}[Distinct starting pairs, distinct measures]\label{lem:distinct}
+In the situation of Proposition~\ref{prop:startblock} with starting pairs $(i,i+1)$ and
+$(i',i'+1)$, $1\le i<i'\le n-1$, the two corner measures differ.
+\end{lemma}
+\begin{proof}
+\lstep{1}{1}{By \eqref{eq:startblock} with $j=i+1$, the mass of the pair $(i,i+1)$ at $p_m$
+ ($3\le m\le n-1$) is
+ $\sigma^L_{m-2}\mathbf 1[m\le i+1]+\sigma^R_{m+1}\mathbf 1[m\ge i+1]$; in addition there is
+ mass $\sigma^R_3$ at $p_2$ when $i=1$, and mass $\sigma^L_{n-2}$ at $p_n$ when $i=n-1$.}
+\lby{\eqref{eq:startblock}: the left steps $k=1,\dots,i-1$ put $\sigma^L_k$ at $p_{k+2}$, i.e.\
+ at $p_m$ with $m=k+2\le i+1$; the right steps $k=i+2,\dots,n$ put $\sigma^R_k$ at $p_{k-1}$,
+ i.e.\ at $p_m$ with $m=k-1\ge i+1$}
+\lstep{1}{2}{\lcase $2\le i$ and $i+1\le n-1$.  At $m=i+1$ the pair $(i,i+1)$ has mass
+ $\sigma^L_{i-1}+\sigma^R_{i+2}$, while $(i',i'+1)$ has only $\sigma^L_{i-1}$ there, because
+ $m=i+1\le i'+1$ but $m\ge i'+1$ fails.  Since
+ $\sigma^R_{i+2}=\theta_t\,2l_{i+2}/(l_{i+1}(l_{i+1}+l_{i+2}))>0$, the measures differ.}
+\lby{$\langle1\rangle1$, $i<i'$, and all lengths positive with $\theta_t>0$}
+\lstep{1}{3}{\lcase $i=1$: the pair $(1,2)$ has mass $\sigma^R_3>0$ at $p_2$ and every
+ $(i',i'+1)$ with $i'\ge2$ has none there.  \lcase $i'=n-1$ with $i\le n-2$: symmetrically at
+ $p_n$.  These cases together with $\langle1\rangle2$ exhaust $1\le i<i'\le n-1$.}
+\lby{$\langle1\rangle1$}
+\lqed{1}{4}
+\end{proof}
+
+\begin{table}[h]\centering\small
+\caption{$n=4$: all $2^{2}=4$ one-sided protocols with single-interval conditioning (ordinary
+Petz, $\theta_t=1$), grouped by starting pair.  L $=$ add on the left, R $=$ add on the right.
+$\sigma^R_k=2l_k/(l_{k-1}(l_{k-1}+l_k))$, $\sigma^L_k=2l_k/(l_{k+1}(l_k+l_{k+1}))$.  Last column:
+$\zeta^{(I)}_p=\kappa_p\bI(p)$ for equal lengths $l=(1,1,1,1)$.}
+\label{tab:n4}
+\begin{tabular}{@{}llll@{}}
+\toprule
+start & orders & corner measure $\kappa_\PP$ & $\zeta^{(I)}$ (equal lengths)\\
+\midrule
+$A_1A_2$ & RR & $\sigma^R_3\delta_{p_2}+\sigma^R_4\delta_{p_3}$ & $0.75$ at $p_2$, $1$ at $p_3$\\
+$A_2A_3$ & LR, RL & $(\sigma^L_1+\sigma^R_4)\,\delta_{p_3}$ & $2$ at $p_3$\\
+$A_3A_4$ & LL & $\sigma^L_1\delta_{p_3}+\sigma^L_2\delta_{p_4}$ & $1$ at $p_3$, $0.75$ at $p_4$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]\centering\small
+\caption{$n=5$: all $2^{3}=8$ one-sided protocols with single-interval conditioning, grouped by
+starting pair; $2$ classes of $3$ orders and $2$ classes of a single order.  Numerical column: ordinary Petz,
+$l=(1.0,1.3,0.7,1.9,1.1)$, $T=6.0$ (\texttt{g1a\_calculus.py} \S5).}
+\label{tab:n5}
+\begin{tabular}{@{}llll@{}}
+\toprule
+start & orders & corner measure $\kappa_\PP$ & $\zeta^{(I)}$ at $(p_2,p_3,p_4,p_5)$\\
+\midrule
+$A_1A_2$ & RRR &
+ $\sigma^R_3\delta_{p_2}+\sigma^R_4\delta_{p_3}+\sigma^R_5\delta_{p_4}$ &
+ $(0.4487,\,2.9614,\,0.5789,\,-)$\\
+$A_2A_3$ & LRR, RLR, RRL &
+ $(\sigma^L_1+\sigma^R_4)\delta_{p_3}+\sigma^R_5\delta_{p_4}$ &
+ $(-,\,3.9101,\,0.5789,\,-)$\\
+$A_3A_4$ & LLR, LRL, RLL &
+ $\sigma^L_1\delta_{p_3}+(\sigma^L_2+\sigma^R_5)\delta_{p_4}$ &
+ $(-,\,0.9487,\,3.3647,\,-)$\\
+$A_4A_5$ & LLL &
+ $\sigma^L_1\delta_{p_3}+\sigma^L_2\delta_{p_4}+\sigma^L_3\delta_{p_5}$ &
+ $(-,\,0.9487,\,2.7857,\,0.2546)$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]\centering\small
+\caption{$n=4$, union-conditioning variants (VWZ's own list), with the status of (H).  Corners
+are the inner ends of the conditioning regions; $\sigma$'s for the ordinary Petz map.}
+\label{tab:n4union}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+name & steps & corners & (H)? & corner measure\\
+\midrule
+1(A) & $P_{B\to BCD}$ & $p_2$ & yes (c) &
+ $\frac{2(c+d)}{b(b+c+d)}\delta_{p_2}$\\
+1(B) & $P_{B\to BC}$, $P_{BC\to BCD}$ & $p_2,p_2$ & yes (b) &
+ $\bigl[\frac{2c}{b(b+c)}+\frac{2d}{(b+c)(b+c+d)}\bigr]\delta_{p_2}=$ 1(A)\\
+2 & $P_{B\to BC}$, $P_{C\to CD}$ & $p_2,p_3$ & yes (a) &
+ $\frac{2c}{b(b+c)}\delta_{p_2}+\frac{2d}{c(c+d)}\delta_{p_3}$\\
+3 & $P_{B\to AB}$, $P_{C\to CD}$ & $p_3,p_3$ & yes (a),(b) &
+ $\bigl[\frac{2a}{b(a+b)}+\frac{2d}{c(c+d)}\bigr]\delta_{p_3}$\\
+--- & $P_{C\to CD}$, $P_{BC\to ABC}$ & $p_3,p_4$ & \textbf{no} &
+ mass displaced, Example~\ref{ex:displaced}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{remark}[Which orders coincide, in words]\label{rem:coincide}
+For $n=4$ there are three classes: $\{$1(A), 1(B)$\}$ (one corner at $p_2$), Protocol 2 ($p_2$ and
+$p_3$), Protocol 3 in either order (a double corner at $p_3$), and the two mirror images of
+1(A)/1(B) and of Protocol 2 obtained by reflecting the chain.  For $n=5$ there are four classes,
+one per starting pair, and within a class \emph{every} interleaving of the left and right moves
+gives the identical state.  The order therefore carries no information at all as long as (H)
+holds and the conditioning regions are single intervals: the ``recovery holonomy'' of Note~3 is
+the corner measure \eqref{eq:startblock}, i.e.\ the starting block.  Order dependence
+\emph{does} appear when (H) fails (Examples~\ref{ex:displaced} and \ref{ex:swallow}), and that is
+the only mechanism by which it can appear in the vacuum sector.
+\end{remark}
+
+\section{Amplification, and the left-to-right Petz chain in the modular frame}\label{sec:ampl}
+
+\begin{lemma}[Amplification]\label{lem:ampl}
+Let $p$ be a corner with parameter $\sigma$ and let $I_{\rm step}\subseteq I$ be two intervals
+containing $p$.  Then
+\begin{equation}\label{eq:ampl-mono}
+ \zeta^{(I)}=\sigma\bI(p)\ \ge\ \sigma\beta_{I_{\rm step}}(p)=\zeta^{(I_{\rm step})},
+ \qquad\text{with equality iff }I=I_{\rm step}.
+\end{equation}
+If moreover $I_{\rm step}=(p_1,f)$ with $f\le p_{n+1}$ --- the case of a step whose kept block
+reaches the left end of the chain, $f$ being the far end of the moving part --- then, with
+$a:=p-p_1$, $b:=f-p$, $c:=p_{n+1}-f$,
+\begin{equation}\label{eq:ampl}
+ \frac{\zeta^{(I)}}{\zeta^{(I_{\rm step})}}=\frac{\bI(p)}{\beta_{I_{\rm step}}(p)}
+ =\frac{(a+b)(b+c)}{b(a+b+c)}=1+z',\qquad
+ z'=\frac{ac}{b(a+b+c)},
+\end{equation}
+and $z'$ is simultaneously (i) the cross ratio of the four points $(p_1,p,f,p_{n+1})$ and (ii) the
+Markov variable $z$ of paper~1 \eqref{eq:eta-z-ref} for the coarse triple (kept block $\mid$
+$A_B\cup A_{\rm new}$ $\mid$ rest of the chain).  In particular $z'\ge0$, with $z'=0$ iff
+$f=p_{n+1}$, i.e.\ iff the step is the last one.
+\end{lemma}
+\begin{proof}
+\lstep{1}{1}{$\beta_{(\alpha,\omega)}(p)$ is strictly increasing in $\omega$ and strictly
+ decreasing in $\alpha$; hence $I_{\rm step}\subseteq I$ implies \eqref{eq:ampl-mono}.}
+\lby{$\partial_\omega\frac{(p-\alpha)(\omega-p)}{\omega-\alpha}
+ =\frac{(p-\alpha)^2}{(\omega-\alpha)^2}>0$ and, by the reflection
+ $x\mapsto-x$, $\partial_\alpha\beta<0$; monotonicity in each endpoint separately}
+\lstep{1}{2}{With $p_1=0$, $p=a$, $f=a+b$, $p_{n+1}=a+b+c$:
+ $\bI(p)=\frac{a(b+c)}{a+b+c}$ and $\beta_{I_{\rm step}}(p)=\frac{ab}{a+b}$, so the ratio is
+ $\frac{(a+b)(b+c)}{b(a+b+c)}$.}
+\lby{\eqref{eq:modframe} evaluated at the two intervals}
+\lstep{1}{3}{$\frac{(a+b)(b+c)}{b(a+b+c)}=1+\frac{ac}{b(a+b+c)}$.}
+\lby{$(a+b)(b+c)-b(a+b+c)=ab+ac+b^2+bc-ab-b^2-bc=ac$}
+\lstep{1}{4}{$z'$ is the cross ratio of $(p_1,p,f,p_{n+1})$ and equals the paper~1 variable $z$
+ of the coarse triple with lengths $(a,b,c)$.}
+\lby{the cross ratio of the ordered quadruple $(p_1,p,f,p_{n+1})$ is
+ $\frac{(p-p_1)(p_{n+1}-f)}{(f-p)(p_{n+1}-p_1)}=\frac{ac}{b(a+b+c)}$, and
+ \texttt{paper1/sec\_setting.tex} eq.~(eta-z) defines $z=\frac{ac}{b(a+b+c)}$ for the triple with
+ lengths $(a,b,c)$}
+\lstep{1}{5}{$z'\ge0$ with equality iff $c=0$, i.e.\ $f=p_{n+1}$.}
+\lby{$a,b>0$, $c\ge0$}
+\lqed{1}{6}
+\end{proof}
+
+\noindent Here \eqref{eq:eta-z-ref} refers to
+$\eta=\frac{b(a+b+c)}{(a+b)(b+c)}$, $z=\frac1\eta-1=\frac{ac}{b(a+b+c)}$
+(\texttt{paper1/sec\_setting.tex}, l.~42--44), reproduced for the record:
+\begin{equation}\label{eq:eta-z-ref}
+ \eta=\frac{b(a+b+c)}{(a+b)(b+c)}\in(0,1),\qquad z=\frac1\eta-1=\frac{ac}{b(a+b+c)} .
+\end{equation}
+
+\begin{definition}[The L$\to$R Petz chain]\label{def:LR}
+The \emph{left-to-right chain} is the protocol $J_0=A_1A_2$, then adjoin $A_{k+1}$ conditioning on
+$A_k$ for $k=2,\dots,n-1$ (ordinary Petz, $\theta_t=1$).  By
+Proposition~\ref{prop:startblock} it satisfies (H), its corners are $p_2,\dots,p_{n-1}$, all
+simple, and
+\begin{equation}\label{eq:LR-data}
+ \kappa_k=\frac{2l_{k+1}}{l_k(l_k+l_{k+1})},\qquad
+ \zeta_k:=\zeta^{(I)}_k=\kappa_k\frac{L_{k-1}(T-L_{k-1})}T,\qquad
+ y_k=\log\frac{L_{k-1}}{T-L_{k-1}} .
+\end{equation}
+We write $\Delta_k:=y_{k+1}-y_k>0$ (the modular length of $A_k$ in the frame $I$),
+$r_k=l_{k+1}/l_k$, $u_k=l_k/L_{k-1}$, $v_k=l_k/(T-L_k)$, and $\Delta_n:=+\infty$.
+\end{definition}
+
+\begin{lemma}[Exact corner data of the L$\to$R chain]\label{lem:LRdata}
+For $2\le k\le n-1$:
+\begin{align}
+ e^{\Delta_k}&=(1+u_k)(1+v_k), &
+ (e^{\Delta_k}-1)\,\zeta_k&=\frac{2r_k(1+v_k)}{1+r_k}\ \ge\ \frac{2r_k}{1+r_k},
+ \label{eq:LR1}\\
+ \zeta_k&=\frac{\sinh(\Delta_{k+1}/2)}
+ {\sinh(\Delta_k/2)\,\sinh\bigl((\Delta_k+\Delta_{k+1})/2\bigr)}, &
+ \frac1{\zeta_k}&=\sinh^2\!\frac{\Delta_k}2\coth\frac{\Delta_{k+1}}2+\frac12\sinh\Delta_k,
+ \label{eq:LR2}
+\end{align}
+with the conventions $\coth(\infty)=1$ and, for $k=n-1$,
+$\zeta_{n-1}=e^{-\Delta_{n-1}/2}/\sinh(\Delta_{n-1}/2)=2/(e^{\Delta_{n-1}}-1)$.  Moreover
+\begin{equation}\label{eq:LR3}
+ e^{\Delta_k}\le1+\frac2{\zeta_k}\qquad(2\le k\le n-1),
+\end{equation}
+\emph{with equality if and only if $k=n-1$}; the inequality is strict for $2\le k\le n-2$.
+(Def.~\ref{def:LR} sets $\Delta_n=+\infty$, so at $k=n-1$ the ``limit'' $\Delta_{k+1}\to\infty$
+is the actual value; REF-P6-3 \S4.)
+\end{lemma}
+\begin{proof}
+\lstep{1}{1}{$e^{\Delta_k}=\frac{L_k}{T-L_k}\cdot\frac{T-L_{k-1}}{L_{k-1}}
+ =\bigl(1+\frac{l_k}{L_{k-1}}\bigr)\bigl(1+\frac{l_k}{T-L_k}\bigr)=(1+u_k)(1+v_k)$.}
+\lby{\eqref{eq:LR-data}, $L_k=L_{k-1}+l_k$ and $T-L_{k-1}=(T-L_k)+l_k$}
+\lstep{1}{2}{$e^{\Delta_k}-1=u_k+v_k+u_kv_k=\dfrac{l_kT}{L_{k-1}(T-L_k)}$.}
+\lby{$\langle1\rangle1$ and
+ $\frac{l_k}{L_{k-1}}+\frac{l_k}{T-L_k}+\frac{l_k^2}{L_{k-1}(T-L_k)}
+ =\frac{l_k[(T-L_k)+L_{k-1}+l_k]}{L_{k-1}(T-L_k)}$ with $L_{k-1}+l_k=L_k$}
+\lstep{1}{3}{$\zeta_k=\dfrac{2r_k}{l_k(1+r_k)}\cdot\dfrac{L_{k-1}(T-L_{k-1})}T$, hence
+ $(e^{\Delta_k}-1)\zeta_k=\dfrac{2r_k(T-L_{k-1})}{(1+r_k)(T-L_k)}=\dfrac{2r_k(1+v_k)}{1+r_k}$.}
+\lby{$\kappa_k=\frac{2l_{k+1}}{l_k(l_k+l_{k+1})}=\frac{2r_k}{l_k(1+r_k)}$, $\langle1\rangle2$,
+ and $\frac{T-L_{k-1}}{T-L_k}=1+v_k$}
+\lstep{1}{4}{\eqref{eq:LR1} follows, the inequality because $v_k\ge0$ (equality iff $v_k=0$,
+ i.e.\ $k=n-1$).}
+\lby{$\langle1\rangle3$}
+\lstep{1}{5}{Write $x_j:=(p_j-p_1)/T\in[0,1]$, so that $y_j=\log\frac{x_j}{1-x_j}$, and
+ $\zeta_k=\dfrac{2\,x_k(1-x_k)(x_{k+2}-x_{k+1})}{(x_{k+1}-x_k)(x_{k+2}-x_k)}$.}
+\lby{\eqref{eq:LR-data} with $l_k=T(x_{k+1}-x_k)$, $l_{k+1}=T(x_{k+2}-x_{k+1})$,
+ $l_k+l_{k+1}=T(x_{k+2}-x_k)$, $L_{k-1}=Tx_k$, $T-L_{k-1}=T(1-x_k)$}
+\lstep{1}{6}{For any $j<j'$: $x_{j'}-x_j
+ =\dfrac{2\,e^{(y_j+y_{j'})/2}\sinh\bigl((y_{j'}-y_j)/2\bigr)}{(1+e^{y_j})(1+e^{y_{j'}})}$, and
+ $x_j(1-x_j)=\dfrac{e^{y_j}}{(1+e^{y_j})^2}$.}
+\lby{$x_j=\frac{e^{y_j}}{1+e^{y_j}}$, so
+ $x_{j'}-x_j=\frac{e^{y_{j'}}-e^{y_j}}{(1+e^{y_j})(1+e^{y_{j'}})}$ and
+ $e^{y_{j'}}-e^{y_j}=2e^{(y_j+y_{j'})/2}\sinh\frac{y_{j'}-y_j}2$}
+\lstep{1}{7}{Substituting $\langle1\rangle6$ into $\langle1\rangle5$, every factor
+ $(1+e^{y_j})$ and every exponential cancels and
+ $\zeta_k=\dfrac{\sinh(\Delta_{k+1}/2)}{\sinh(\Delta_k/2)\sinh((\Delta_k+\Delta_{k+1})/2)}$.}
+\lby{numerator $2\frac{e^{y_k}}{(1+e^{y_k})^2}\cdot
+ \frac{2e^{(y_{k+1}+y_{k+2})/2}\sinh(\Delta_{k+1}/2)}{(1+e^{y_{k+1}})(1+e^{y_{k+2}})}$;
+ denominator $\frac{2e^{(y_k+y_{k+1})/2}\sinh(\Delta_k/2)}{(1+e^{y_k})(1+e^{y_{k+1}})}\cdot
+ \frac{2e^{(y_k+y_{k+2})/2}\sinh((\Delta_k+\Delta_{k+1})/2)}{(1+e^{y_k})(1+e^{y_{k+2}})}$; the
+ ratio of the exponential prefactors is
+ $e^{y_k+(y_{k+1}+y_{k+2})/2-(y_k+y_{k+1})/2-(y_k+y_{k+2})/2}=1$}
+\lstep{1}{8}{The second identity in \eqref{eq:LR2} follows by expanding
+ $\sinh\frac{\Delta_k+\Delta_{k+1}}2
+ =\sinh\frac{\Delta_k}2\cosh\frac{\Delta_{k+1}}2+\cosh\frac{\Delta_k}2\sinh\frac{\Delta_{k+1}}2$
+ and dividing numerator and denominator by $\sinh(\Delta_{k+1}/2)$.}
+\lby{$\langle1\rangle7$ and the addition theorem}
+\lstep{1}{9}{For $k=n-1$, $y_{n+1}=+\infty$, so $\Delta_n=\infty$, $\coth(\Delta_n/2)=1$ and
+ $1/\zeta_{n-1}=\sinh^2\frac{\Delta_{n-1}}2+\frac12\sinh\Delta_{n-1}
+ =\frac{e^{\Delta_{n-1}}-1}2$.}
+\lby{$\langle1\rangle8$; $\sinh^2\frac u2=\frac{\cosh u-1}2$ and
+ $\frac{\cosh u-1}2+\frac{\sinh u}2=\frac{e^u-1}2$}
+\lstep{1}{10}{\eqref{eq:LR3}: $\coth(\Delta_{k+1}/2)\ge1$ gives
+ $\frac1{\zeta_k}\ge\sinh^2\frac{\Delta_k}2+\frac12\sinh\Delta_k=\frac{e^{\Delta_k}-1}2$,
+ i.e.\ $e^{\Delta_k}\le1+2/\zeta_k$; since $\sinh^2\frac{\Delta_k}2>0$, equality holds iff
+ $\coth(\Delta_{k+1}/2)=1$, i.e.\ iff $\Delta_{k+1}=\infty$, i.e.\ iff $k=n-1$.}
+\lby{$\langle1\rangle8$ for $2\le k\le n-2$ (there $\Delta_{k+1}<\infty$ and
+ $\coth(\Delta_{k+1}/2)>1$, so the inequality is strict), $\langle1\rangle9$ for $k=n-1$ (there
+ $1/\zeta_{n-1}=(e^{\Delta_{n-1}}-1)/2$ exactly)}
+\lqed{1}{11}
+\end{proof}
+
+\begin{verdictok}
+\eqref{eq:LR1} is item~6 of REF-P6-0 (re-derived here from scratch); \eqref{eq:LR2} and
+\eqref{eq:LR3} are new.  \eqref{eq:LR2} says that the corner strengths of the L$\to$R chain are
+functions of the \emph{modular lengths alone}: $\zeta_k=\zeta(\Delta_k,\Delta_{k+1})$.  This is
+what makes the separation problem of \S\ref{sec:sep} a one-dimensional recursion.  Numerics:
+\texttt{g1a\_separation.py} \S1, $50\,000$ random chains, maximum relative error
+$3.5\cdot10^{-10}$ for \eqref{eq:LR1}--\eqref{eq:LR2} and $0$ violations of \eqref{eq:LR3}.
+\end{verdictok}
+
+\section{The separation constraint (W3), proved with the sharp constant}\label{sec:sep}
+
+\begin{theorem}[Weak corners must be far apart]\label{thm:sep}
+Consider the L$\to$R ordinary-Petz chain of Definition~\ref{def:LR} and let
+$0<\eps<2$.  Fix $k\in\{2,\dots,n-1\}$ and assume
+\begin{equation}\label{eq:allweak}
+ \zeta_j\le\eps\qquad\text{for every }j\ \text{with}\ k\le j\le n-1 .
+\end{equation}
+Then
+\begin{equation}\label{eq:sep}
+ \boxed{\ e^{\Delta_k}\ \ge\ \frac2\eps\ }
+\end{equation}
+and, for the last corner, $e^{\Delta_{n-1}}\ge1+\frac2\eps$.  More precisely, with
+$\gamma_j:=\coth(\Delta_j/2)-1=2/(e^{\Delta_j}-1)$ one has the exact recursion bound
+$\gamma_j\le\zeta_j\bigl(1+\tfrac12\gamma_{j+1}\bigr)$ and hence
+$\gamma_j\le\frac{2\eps}{2-\eps}$ for all $j\ge k$.
+\end{theorem}
+\begin{proof}
+\lstep{1}{1}{Fix $j$ with $k\le j\le n-1$ and put $E:=e^{\Delta_j}\ge1$,
+ $c_{j+1}:=\coth(\Delta_{j+1}/2)=1+\gamma_{j+1}\ge1$ (with $c_n=1$, $\gamma_n=0$).  Then
+ \[ \frac4{\zeta_j}=c_{j+1}\Bigl(E-2+\frac1E\Bigr)+E-\frac1E. \]}
+\lby{\eqref{eq:LR2}: $\frac1{\zeta_j}=\sinh^2\frac{\Delta_j}2\,c_{j+1}+\frac12\sinh\Delta_j$,
+ together with $\sinh^2\frac u2=\frac{e^u-2+e^{-u}}4$ and
+ $\frac12\sinh u=\frac{e^u-e^{-u}}4$}
+\lstep{1}{2}{Hence $(c_{j+1}+1)E=\frac4{\zeta_j}+2c_{j+1}-\frac{c_{j+1}-1}E$.}
+\lby{$\langle1\rangle1$, collecting the terms in $E$ and in $1/E$}
+\lstep{1}{3}{$\dfrac{c_{j+1}-1}E\le c_{j+1}-1$, so
+ $(c_{j+1}+1)E\ge\frac4{\zeta_j}+2c_{j+1}-(c_{j+1}-1)=\frac4{\zeta_j}+c_{j+1}+1$, i.e.
+ \[ E\ \ge\ 1+\frac{4}{\zeta_j\,(2+\gamma_{j+1})} . \]}
+\lby{$E\ge1$ (because $\Delta_j>0$) and $c_{j+1}\ge1$; $\langle1\rangle2$;
+ $c_{j+1}+1=2+\gamma_{j+1}$}
+\lstep{1}{4}{Therefore
+ $\gamma_j=\dfrac2{E-1}\le\dfrac{\zeta_j(2+\gamma_{j+1})}2
+ =\zeta_j\bigl(1+\tfrac12\gamma_{j+1}\bigr)$.}
+\lby{$\langle1\rangle3$ and $t\mapsto2/t$ decreasing on $(0,\infty)$}
+\lstep{1}{5}{\lassume \eqref{eq:allweak}.  \lprove $\gamma_j\le\frac{2\eps}{2-\eps}$ for
+ $k\le j\le n-1$.}
+\lproof
+\lstep{2}{1}{Downward induction on $j$, starting from $\gamma_n=0\le\frac{2\eps}{2-\eps}$.}
+\lby{$\Delta_n=+\infty$, so $\gamma_n=2/(e^{\infty}-1)=0$}
+\lstep{2}{2}{\lassume $\gamma_{j+1}\le\frac{2\eps}{2-\eps}$.  Then
+ $\gamma_j\le\eps\bigl(1+\frac12\cdot\frac{2\eps}{2-\eps}\bigr)
+ =\eps\cdot\frac{2-\eps+\eps}{2-\eps}=\frac{2\eps}{2-\eps}$.}
+\lby{$\langle1\rangle4$, $\zeta_j\le\eps$ by \eqref{eq:allweak}, and the induction hypothesis}
+\lqed{2}{3} \lby{$\langle2\rangle1$, $\langle2\rangle2$ and induction}
+\lstep{1}{6}{Combining $\langle1\rangle3$ at $j=k$ with $\langle1\rangle5$ at $j=k+1$ and
+ $\zeta_k\le\eps$:
+ \[ e^{\Delta_k}\ \ge\ 1+\frac4{\eps\bigl(2+\frac{2\eps}{2-\eps}\bigr)}
+ =1+\frac{4(2-\eps)}{\eps\bigl(2(2-\eps)+2\eps\bigr)}=1+\frac{4(2-\eps)}{4\eps}
+ =1+\frac{2-\eps}\eps=\frac2\eps . \]}
+\lby{$\langle1\rangle3$ is decreasing in $\gamma_{k+1}$ and in $\zeta_k$; $\langle1\rangle5$;
+ arithmetic}
+\lstep{1}{7}{For $k=n-1$: $\gamma_n=0$, so $\langle1\rangle3$ gives
+ $e^{\Delta_{n-1}}\ge1+\frac2{\zeta_{n-1}}\ge1+\frac2\eps$ (in fact with equality in the first
+ inequality, by \eqref{eq:LR2} at $\Delta_n=\infty$).}
+\lby{$\langle1\rangle3$ with $j=n-1$, $\gamma_n=0$; and Lemma~\ref{lem:LRdata}
+ $\langle1\rangle9$}
+\lqed{1}{8}
+\end{proof}
+
+\begin{corollary}[General admissible parameters]\label{cor:sep-admissible}
+Let the chain be as in Definition~\ref{def:LR} but with arbitrary admissible parameters
+$s_j\in[\lambda_j,2\lambda_j]$ at each step, and let $\zeta_j$ be the resulting strengths.  If
+$\zeta_j\le\eps<1$ for all $j\ge k$, then $e^{\Delta_k}\ge1/\eps$.
+\end{corollary}
+\begin{proof}
+\lstep{1}{1}{$\zeta_j=\frac{s_j}{2\lambda_j}\zeta_j^{\rm Petz}$ with
+ $\frac{s_j}{2\lambda_j}\in[\frac12,1]$, hence
+ $\zeta_j^{\rm Petz}\le2\zeta_j\le2\eps$.}
+\lby{(C3): $\sigma_j=s_j/(l_j+l_{j+1})$ is proportional to $s_j$, and
+ Definition~\ref{def:strength} is linear in $\sigma_j$; $s_j\ge\lambda_j$}
+\lstep{1}{2}{Apply Theorem~\ref{thm:sep} with $\eps$ replaced by $2\eps<2$:
+ $e^{\Delta_k}\ge\frac2{2\eps}=\frac1\eps$.}
+\lby{$\langle1\rangle1$ and Theorem~\ref{thm:sep} (the modular positions $\Delta_j$ do not depend
+ on the $s_j$)}
+\lqed{1}{3}
+\end{proof}
+
+\begin{verdictok}
+\textbf{W3 is proved, and the constant $2$ is sharp as $\eps\to0$.}  REF-P6-0's numerical
+minimisation suggested $\min e^{\Delta}\approx2/\eps$ but, as REF-P6-1 noted, a minimisation only
+bounds the minimum from \emph{above}; Theorem~\ref{thm:sep} supplies the matching lower bound
+$e^{\Delta_k}\ge2/\eps$.  REF-P6-3 computed the \emph{exact} constrained minimum (a closed
+backward recursion in the modular variables, itself a consequence of Lemma~\ref{lem:LRdata}):
+\[
+ \min e^{\Delta_k}=6.8134,\ 20.0499,\ 66.6817,\ 200.0050,\ 666.6682
+ \quad\text{at }\eps=0.3,\,0.1,\,0.03,\,0.01,\,0.003,
+\]
+i.e.\ $(\eps/2)\min e^{\Delta_k}=1.0220,\ 1.0025,\ 1.00022,\ 1.000025,\ 1.000002$
+(\texttt{ref\_p6\_3\_separation.out}~(b)).  So the bound is \emph{not} attained at fixed $\eps$
+--- it is exceeded by $2.2\%$ at $\eps=0.3$ --- and the constant $2$ is sharp only in the limit
+$\eps\to0$.  REF-P6-0's $\eps=0.3$ entry $6.75$ lies \emph{below} the exact minimum $6.8134$ and
+is a float-cancellation artifact (a naive search over the \emph{lengths} destroys $T-L_k$); it is
+not quoted here.  The remaining four entries $20.05$, $66.68$, $200.0$, $666.7$ agree with the
+exact minima.  Independent checks (\texttt{g1a\_separation.py} \S\S2--3): $400\,000$ random
+chains give $\min(\eps/2)e^{\Delta_k}=0.999999996$ (i.e.\ $1$ to floating-point accuracy); a
+constrained minimisation reproduces $20.05$ and $200.01$ at $\eps=0.1,0.01$; the referee's optimal
+length vector gives $(\eps/2)e^{\Delta_2}=1.000027$; and the recursion
+$\gamma_j\le\zeta_j(1+\frac12\gamma_{j+1})$ and the fixed point $\gamma\le2\eps/(2-\eps)$ hold in
+$200\,000$ random chains with $0$ violations.  Note that only the corners to the \emph{right} of
+$p_k$ are used, and that the hypothesis cannot be weakened to the pair $\{k,k+1\}$: with only
+$\zeta_k,\zeta_{k+1}\le\eps$ the separation can stay $O(1)$ (REF-P6-0: $e^{\Delta}=3.96$ at
+$\eps=0.01$), the escape being paid for by a large $\zeta$ elsewhere.
+\end{verdictok}
+
+\begin{remark}[What the bound means for the second-order law]\label{rem:sep-meaning}
+Combining \eqref{eq:sep} with the upper bound \eqref{eq:LR3} gives, for an all-weak L$\to$R chain,
+$\frac2\eps\le e^{\Delta_k}\le1+\frac2{\zeta_k}$ (the right inequality an equality iff $k=n-1$):
+the modular separation of consecutive corners is
+pinned to within a factor $\eps^{-1}\zeta_k^{-1}$-ish window, and in particular
+$\Delta_k\ge\log(2/\eps)\to\infty$ as $\eps\to0$.  Hence in the second-order network law W2
+(track G1b) the cross terms between \emph{distinct} corners of an all-weak L$\to$R chain are
+$O\bigl(\eps^2\sup_{\Delta\ge\log(2/\eps)}|\hat G(\Delta)|\bigr)$, i.e.\ they are controlled by
+the decay of $\hat G$ --- which is open (card \texttt{corner-correlation-kernel}); and coincident
+corners ($\Delta=0$) are \emph{not} excluded, since they belong to different protocols
+(Protocol~3), not to a chain.  We state this only as the consequence of
+Theorem~\ref{thm:sep}; the law itself, and the uniformity of its remainder, are W2 and are not
+proved here.
+\end{remark}
+
+\section{The type-III sequential bound (W6)}\label{sec:w6}
+
+Nothing in this section uses the free fermion or the geometry: it holds for any chain of von
+Neumann inclusions and any normal recovery channels.
+
+\begin{hypothesis}[(U): Uhlmann's theorem in the standard form]\label{hyp:U}
+Let $\cM$ be a $\sigma$-finite von Neumann algebra in standard form
+$(\mathcal H,J,\mathcal P^\natural)$.  Every normal state $\varphi$ has a unique vector
+representative $\xi_\varphi\in\mathcal P^\natural$, and for all normal states $\varphi,\psi$
+\begin{equation}\label{eq:U}
+ F(\varphi,\psi)=\sqrt{P_{\rm tr}(\varphi,\psi)}=\langle\xi_\varphi,\xi_\psi\rangle\in[0,1].
+\end{equation}
+\emph{Status} (corrected after REF-P6-3 \S8).  \eqref{eq:U} is the standard-form version of
+Uhlmann's theorem, usually attributed to Araki--Raggio \cite{AR82}, which is \textbf{NOT
+OBTAINED} (not in \texttt{refs/}).  Uhlmann \cite{Uhl76} \emph{is} on disk
+(\texttt{refs/Uhlmann76.pdf}) --- an earlier version of this document wrongly called it not
+obtained --- and was read: it contains the explicit-formula theorem (unnumbered, p.~277),
+one-argument concavity of $P_{\rm tr}$ (eq.~(8), p.~274) and monotonicity under
+\emph{restriction to a subalgebra} (eq.~(24), p.~277), but \emph{no} standard form, no natural
+cone and no metric statement; Alberti--Uhlmann \cite{AU02} has no natural-cone formula either.
+We therefore declare \eqref{eq:U} as a hypothesis rather than citing it as verified.  It is used
+\emph{only} for the angle inequality \eqref{eq:w6} and the exact form \eqref{eq:w6-master}: the
+second-order bound \eqref{eq:w6-2nd}, which is the form W6 needs, is proved without (U) in
+Theorem~\ref{thm:w6chord} and Corollary~\ref{cor:w6-second}(2).  Only two consequences are
+used: all the states occurring below have vector representatives \emph{in one and the same}
+Hilbert space, and for those representatives the fidelity is their (non-negative, real) inner
+product.  The upper bound $F\le1$ and the variational formula of Box~[G4] are \emph{not}
+part of (U) and are used independently.
+\end{hypothesis}
+
+\begin{lemma}[Choi's inequality for unital $2$-positive maps]\label{lem:choi}
+Let $T:\cN\to\cM$ be unital and $2$-positive and let $a\in\cN$ be positive and invertible.  Then
+$T(a)$ is positive and invertible and $T(a^{-1})\ge T(a)^{-1}$.
+\end{lemma}
+\begin{proof}
+\lstep{1}{1}{$a\ge\lVert a^{-1}\rVert^{-1}1$, so $T(a)\ge\lVert a^{-1}\rVert^{-1}1>0$ and $T(a)$
+ is invertible.}
+\lby{positivity and unitality of $T$}
+\lstep{1}{2}{$\begin{pmatrix}a&1\\1&a^{-1}\end{pmatrix}
+ =\begin{pmatrix}a^{1/2}\\a^{-1/2}\end{pmatrix}
+ \begin{pmatrix}a^{1/2}&a^{-1/2}\end{pmatrix}\ge0$ in $M_2(\cN)$.}
+\lby{it is of the form $v^*v$}
+\lstep{1}{3}{Applying $T\otimes\id_{M_2}$:
+ $\begin{pmatrix}T(a)&1\\1&T(a^{-1})\end{pmatrix}\ge0$.}
+\lby{$T$ is $2$-positive and unital, so $T(1)=1$}
+\lstep{1}{4}{For a positive block matrix $\begin{pmatrix}X&1\\1&Y\end{pmatrix}$ with $X>0$
+ invertible, $Y\ge X^{-1}$.}
+\lby{testing on the vector $(-X^{-1}\eta,\eta)$ gives
+ $\langle\eta,X^{-1}\eta\rangle-2\langle\eta,X^{-1}\eta\rangle+\langle\eta,Y\eta\rangle\ge0$}
+\lqed{1}{5}
+\end{proof}
+
+\begin{lemma}[Monotonicity of the fidelity]\label{lem:monotone}
+Let $T:\cN\to\cM$ be a normal unital $2$-positive map and $\varphi,\psi$ normal states on $\cM$.
+Then $F(\varphi\circ T,\psi\circ T)\ge F(\varphi,\psi)$, i.e.\ $\Bang$ decreases under channels.
+\end{lemma}
+\begin{proof}
+\lstep{1}{1}{For every positive invertible $a\in\cN$:
+ $(\varphi\circ T)(a)\,(\psi\circ T)(a^{-1})=\varphi(T(a))\,\psi(T(a^{-1}))
+ \ge\varphi(T(a))\,\psi(T(a)^{-1})\ge P_{\rm tr}(\varphi,\psi)$.}
+\lby{Lemma~\ref{lem:choi} and positivity of $\psi$ for the first inequality; Box~[G4]
+ eq.~(1-4) with the positive invertible element $T(a)\in\cM$ for the second}
+\lstep{1}{2}{Taking the infimum over $a$ and using the variational formula
+ $P_{\rm tr}=\inf_a\varphi(a)\psi(a^{-1})$ on $\cN$ gives
+ $P_{\rm tr}(\varphi\circ T,\psi\circ T)\ge P_{\rm tr}(\varphi,\psi)$.}
+\lby{$\langle1\rangle1$ and Box~[G4] (Alberti--Uhlmann Thm.~2(1))}
+\lqed{1}{3}
+\end{proof}
+
+\begin{lemma}[Spherical triangle inequality]\label{lem:spherical}
+Let $x,y,z$ be unit vectors in a real or complex Hilbert space with $\langle x,y\rangle$,
+$\langle y,z\rangle$, $\langle x,z\rangle$ real and non-negative, and put
+$\alpha=\arccos\langle x,y\rangle$, $\beta=\arccos\langle y,z\rangle$,
+$\gamma=\arccos\langle x,z\rangle\in[0,\pi/2]$.  Then $\gamma\le\alpha+\beta$.
+\end{lemma}
+\begin{proof}
+\lstep{1}{1}{\lcase $\alpha+\beta\ge\pi/2$: then $\gamma\le\pi/2\le\alpha+\beta$.}
+\lby{$\langle x,z\rangle\ge0$ gives $\gamma\le\pi/2$}
+\lstep{1}{2}{\lcase $\alpha+\beta<\pi/2$.  Write $x=\cos\alpha\,y+\sin\alpha\,u$ and
+ $z=\cos\beta\,y+\sin\beta\,v$ with $u,v$ unit vectors orthogonal to $y$ (if $\sin\alpha=0$ then
+ $x=y$ and the claim is trivial; likewise for $\beta$).}
+\lby{orthogonal decomposition along $y$: $x=\langle y,x\rangle y+x^\perp$ with
+ $\lVert x^\perp\rVert=\sqrt{1-\cos^2\alpha}=\sin\alpha\ge0$}
+\lstep{1}{3}{$\langle x,z\rangle=\cos\alpha\cos\beta+\sin\alpha\sin\beta\,
+ \Re\langle u,v\rangle\ge\cos\alpha\cos\beta-\sin\alpha\sin\beta=\cos(\alpha+\beta)$.}
+\lby{$\langle1\rangle2$, Cauchy--Schwarz $|\langle u,v\rangle|\le1$, and
+ $\sin\alpha,\sin\beta\ge0$}
+\lstep{1}{4}{$\arccos$ is decreasing, so $\gamma\le\alpha+\beta$.}
+\lby{$\langle1\rangle3$ and $\alpha+\beta\in[0,\pi]$}
+\lqed{1}{5}
+\end{proof}
+
+\begin{theorem}[Sequential recovery along a chain of von Neumann inclusions]\label{thm:w6}
+Assume (U).  Let $\cM$ be a von Neumann algebra with a normal state $\omega$, let
+$\cN_1\subseteq\cN_2\subseteq\dots\subseteq\cN_m\subseteq\cM$ be von Neumann subalgebras with the
+same unit, and let $R_k:\cN_{k+1}\to\cN_k$ ($k=1,\dots,m-1$) be normal unital $2$-positive
+(Heisenberg-picture) recovery maps.  Put $R:=R_1\circ R_2\circ\dots\circ R_{m-1}:\cN_m\to\cN_1$.
+Then, with $\Bang(\varphi,\psi)=\arccos F(\varphi,\psi)$,
+\begin{equation}\label{eq:w6}
+ \boxed{\ \Bang\bigl(\omega|_{\cN_m},\ \omega|_{\cN_1}\circ R\bigr)\ \le\
+ \sum_{k=1}^{m-1}\Bang\bigl(\omega|_{\cN_{k+1}},\ \omega|_{\cN_k}\circ R_k\bigr).\ }
+\end{equation}
+\end{theorem}
+\begin{proof}
+\lstep{1}{1}{\ldefine $S_j:=R_{m-j+1}\circ\dots\circ R_{m-1}:\cN_m\to\cN_{m-j+1}$ for
+ $j=1,\dots,m-1$ ($S_1=\id_{\cN_m}$), and the normal states on $\cN_m$
+ \[ \mu_0:=\omega|_{\cN_m},\qquad
+ \mu_j:=\omega|_{\cN_{m-j}}\circ R_{m-j}\circ S_j\quad(j=1,\dots,m-1). \]}
+\lby{each $R_k$ is normal unital positive, so each composite maps $\cN_m$ into $\cN_{m-j}$ and
+ each $\mu_j$ is a normal state}
+\lstep{1}{2}{$\mu_{m-1}=\omega|_{\cN_1}\circ R$ and $\mu_{j-1}=\omega|_{\cN_{m-j+1}}\circ S_j$.}
+\lby{$S_{m-1}=R_2\circ\dots\circ R_{m-1}$, so
+ $\mu_{m-1}=\omega|_{\cN_1}\circ R_1\circ S_{m-1}=\omega|_{\cN_1}\circ R$; and
+ $\mu_{j-1}=\omega|_{\cN_{m-j+1}}\circ R_{m-j+1}\circ S_{j-1}=\omega|_{\cN_{m-j+1}}\circ S_j$ for
+ $j\ge2$, while for $j=1$ it is $\mu_0$ with $S_1=\id$}
+\lstep{1}{3}{$\Bang(\mu_{j-1},\mu_j)\le
+ \Bang\bigl(\omega|_{\cN_{m-j+1}},\omega|_{\cN_{m-j}}\circ R_{m-j}\bigr)$.}
+\lby{$\langle1\rangle2$: both states are the images of
+ $\omega|_{\cN_{m-j+1}}$ and $\omega|_{\cN_{m-j}}\circ R_{m-j}$ (two normal states on
+ $\cN_{m-j+1}$) under the same channel $S_j$, and Lemma~\ref{lem:monotone} ($F$ increases, hence
+ $\Bang$ decreases)}
+\lstep{1}{4}{$\Bang(\mu_0,\mu_{m-1})\le\sum_{j=1}^{m-1}\Bang(\mu_{j-1},\mu_j)$.}
+\lby{Hypothesis~\ref{hyp:U}: all $\mu_j$ have natural-cone representatives $\xi_j$ in the same
+ standard form of $\cN_m$, $F(\mu_i,\mu_j)=\langle\xi_i,\xi_j\rangle\ge0$; hence
+ $\Bang$ is the angle between unit vectors and Lemma~\ref{lem:spherical} applies, by induction on
+ $m$}
+\lstep{1}{5}{Combining $\langle1\rangle4$ with $\langle1\rangle3$ and re-indexing $k=m-j$ gives
+ \eqref{eq:w6}.}
+\lby{$\langle1\rangle2$--$\langle1\rangle4$}
+\lqed{1}{6}
+\end{proof}
+
+\begin{citedbox}{[G7] Alberti--Uhlmann 2002 Prop.~1(1), p.~3: the Bures distance is a metric}
+\emph{Transcribed verbatim} (\texttt{refs/AlbertiUhlmann02\_math-ph-0202038.pdf}, p.~3):
+``\textsc{Proposition 1}.  Let $d_{\rm B}:M^*_+\times M^*_+\ni\{\nu,\varrho\}\mapsto
+d_{\rm B}(M|\nu,\varrho)\in\mathbb R_+$ be given in accordance with Definition 1.  Then the
+following hold: (1) $d_{\rm B}$ is a distance function on the points of $M^*_+$; (2)
+$d_{\rm B}$ is topologically equivalent with $d_1$ on bounded subsets of $M^*_+$.''  Definition~1,
+p.~1, is $d_{\rm B}(M|\nu,\varrho)=\inf\lVert\psi-\phi\rVert$ over representations and vector
+representatives, and eq.~(1-3), p.~4, gives
+$d_{\rm B}^2=(\lVert\nu\rVert_1-\sqrt{P_M})+(\lVert\varrho\rVert_1-\sqrt{P_M})$, i.e.\
+$d_{\rm B}=\sqrt{2-2F}$ for states.
+
+\emph{Caveats.}  The proposition is stated \emph{without proof} (``The relevant basic facts will
+be stated here without proof'') and item~(1) is attributed to D.~Bures, Trans.\ Amer.\ Math.\
+Soc.\ \textbf{135} (1969) 199--212, which is \textbf{NOT OBTAINED} (not in \texttt{refs/}).  The
+metric is the \emph{chordal} one; neither \cite{AU02} nor \cite{Uhl76} says anything about the
+Bures \emph{angle}.
+
+\emph{Use here.}  Theorem~\ref{thm:w6chord}: it replaces Hypothesis~\ref{hyp:U} in the only
+statement W6 needs.
+
+\smallskip\noindent\includegraphics[width=\textwidth]{shots/G1a_AU02_prop1_p3.png}
+\end{citedbox}
+
+\begin{theorem}[Chordal sequential bound; no Hypothesis (U)]\label{thm:w6chord}
+In the setting of Theorem~\ref{thm:w6} but \emph{without assuming} Hypothesis~(U) (only the standing
+hypotheses on the algebras, the normal state $\omega$ and the channels $R_k$), with
+$d_{\rm B}(\varphi,\psi):=\sqrt{2-2F(\varphi,\psi)}$ the Bures distance on normal states,
+\begin{equation}\label{eq:w6chord}
+ d_{\rm B}\bigl(\omega|_{\cN_m},\ \omega|_{\cN_1}\circ R\bigr)\ \le\
+ \sum_{k=1}^{m-1}d_{\rm B}\bigl(\omega|_{\cN_{k+1}},\ \omega|_{\cN_k}\circ R_k\bigr).
+\end{equation}
+\end{theorem}
+\begin{proof}
+\noindent Steps $\langle1\rangle1$--$\langle1\rangle3$ of Theorem~\ref{thm:w6} do not use Hypothesis~(U);
+only its step $\langle1\rangle4$ does, and that step is not invoked here.
+\lstep{1}{1}{$d_{\rm B}$ satisfies the triangle inequality on normal states, and
+ $d_{\rm B}=\sqrt{2-2F}$ there.}
+\lby{Box~[G7]: \cite{AU02} Prop.~1(1), p.~3, and eq.~(1-3), p.~4, with
+ $\lVert\nu\rVert_1=\lVert\varrho\rVert_1=1$}
+\lstep{1}{2}{With the states $\mu_0,\dots,\mu_{m-1}$ of Theorem~\ref{thm:w6}
+ $\langle1\rangle1$, $d_{\rm B}(\mu_0,\mu_{m-1})\le\sum_{j}d_{\rm B}(\mu_{j-1},\mu_j)$.}
+\lby{$\langle1\rangle1$ and induction on $m$; all $\mu_j$ are normal states on $\cN_m$}
+\lstep{1}{3}{$d_{\rm B}(\mu_{j-1},\mu_j)\le
+ d_{\rm B}(\omega|_{\cN_{m-j+1}},\omega|_{\cN_{m-j}}\circ R_{m-j})$.}
+\lby{Theorem~\ref{thm:w6} $\langle1\rangle2$ (both states are images under the same channel
+ $S_j$), Lemma~\ref{lem:monotone} ($F$ increases under $S_j$) and the fact that
+ $t\mapsto\sqrt{2-2t}$ is decreasing}
+\lstep{1}{4}{Re-indexing $k=m-j$ gives \eqref{eq:w6chord}.}
+\lby{$\langle1\rangle2$, $\langle1\rangle3$}
+\lqed{1}{5}
+\end{proof}
+
+\begin{corollary}[Second-order form]\label{cor:w6-second}
+In the setting of Theorem~\ref{thm:w6}, Hypothesis~(U) being assumed only where stated, put $\Phi_{\rm tot}:=-\log F(\omega|_{\cN_m},
+\omega|_{\cN_1}\circ R)$ and $\Phi_k:=-\log F(\omega|_{\cN_{k+1}},\omega|_{\cN_k}\circ R_k)$.
+Then: \emph{(1) under Hypothesis~\ref{hyp:U}},
+\begin{equation}\label{eq:w6-master}
+ \Phi_{\rm tot}\le-\log\cos\Bigl(\sum_k\arccos e^{-\Phi_k}\Bigr)
+ \quad\text{whenever }\sum_k\arccos e^{-\Phi_k}<\frac\pi2,
+\end{equation}
+and \emph{(2) unconditionally} (no Hypothesis~(U)), as all $\Phi_k\to0$,
+\begin{equation}\label{eq:w6-2nd}
+ \Phi_{\rm tot}\le\Bigl(\sum_k\sqrt{\Phi_k}\Bigr)^2\bigl(1+o(1)\bigr).
+\end{equation}
+If, in addition, each step map extends to a normal unital $2$-positive map
+$\check R_k:\Fr(I)\to\Fr(I)$ with $\check R_k|_{\cN_{k+1}}=R_k$ and error
+$\check\Phi_k:=-\log F(\omega,\omega\circ\check R_k)$ measured on all of $\Fr(I)$, then
+$\Phi_k\le\check\Phi_k$ and \eqref{eq:w6-2nd} holds with $\check\Phi_k$ in place of $\Phi_k$.
+\end{corollary}
+\begin{proof}
+\lstep{1}{1}{$\Bang=\arccos e^{-\Phi_{\rm fid}}$ and $\Phi_{\rm fid}=-\log\cos\Bang$ are
+ increasing bijections between $[0,\infty)$ and $[0,\pi/2)$.}
+\lby{(C7): $F=e^{-\Phi_{\rm fid}}=\cos\Bang$}
+\lstep{1}{2}{\eqref{eq:w6-master} follows from \eqref{eq:w6} by applying the increasing function
+ $\Bang\mapsto-\log\cos\Bang$ on $[0,\pi/2)$.}
+\lby{$\langle1\rangle1$, Theorem~\ref{thm:w6}, and monotonicity}
+\lstep{1}{3}{As $\Phi\downarrow0$, $\arccos e^{-\Phi}=\sqrt{2\Phi}\,(1+O(\Phi))$ and
+ $-\log\cos\Bang=\frac12\Bang^2(1+O(\Bang^2))$; substituting into \eqref{eq:w6-master} gives
+ \eqref{eq:w6-2nd}, under (U).}
+\lby{$e^{-\Phi}=1-\Phi+O(\Phi^2)$ and $\arccos(1-t)=\sqrt{2t}(1+O(t))$;
+ $-\log\cos A=\frac{A^2}2+O(A^4)$; and
+ $\frac12\bigl(\sum_k\sqrt{2\Phi_k}\bigr)^2=\bigl(\sum_k\sqrt{\Phi_k}\bigr)^2$}
+\lstep{1}{3a}{\eqref{eq:w6-2nd} again, \emph{without} (U): by Theorem~\ref{thm:w6chord},
+ $\sqrt{2-2e^{-\Phi_{\rm tot}}}\le\sum_k\sqrt{2-2e^{-\Phi_k}}$, and
+ $\sqrt{2-2e^{-\Phi}}=\sqrt{2\Phi}\,(1+O(\Phi))$ on both sides; squaring and dividing by $2$
+ gives $\Phi_{\rm tot}\le\bigl(\sum_k\sqrt{\Phi_k}\bigr)^2(1+o(1))$.}
+\lby{Theorem~\ref{thm:w6chord}, $F=e^{-\Phi_{\rm fid}}$ (C7), $2-2e^{-\Phi}=2\Phi+O(\Phi^2)$,
+ and $t\mapsto-\log(1-t^2/2)$ increasing; numerically the relative excess of the exact bound over
+ $(\sum\sqrt{\Phi_k})^2$ falls as $1.7\cdot10^{-1}\to9.6\cdot10^{-4}\to1.0\cdot10^{-5}$ for
+ $\Phi_k\le10^{-2},10^{-4},10^{-6}$ (\texttt{ref\_p6\_3\_separation.out}~(d)), against
+ $1.1\cdot10^{-1}\to7.2\cdot10^{-4}\to7.4\cdot10^{-6}$ for the angle route}
+\lstep{1}{4}{$\Phi_k\le\check\Phi_k$ under the extension hypothesis.}
+\lby{restriction to the subalgebra $\cN_{k+1}\subseteq\Fr(I)$ is a normal unital
+ $*$-homomorphism, hence a channel, so Lemma~\ref{lem:monotone} gives
+ $F(\omega|_{\cN_{k+1}},\omega|_{\cN_k}\circ R_k)\ge F(\omega,\omega\circ\check R_k)$}
+\lqed{1}{5}
+\end{proof}
+
+\begin{remark}[Saturation, and the comparison with the network law]\label{rem:w6-sat}
+For a protocol all of whose corners coincide at one point $p$ (e.g.\ VWZ 1(B) or Protocol 3),
+Theorem~\ref{thm:prot3} and Theorem~A give $\Phi_{\rm tot}=\Phi_A\bigl(\sum_k\zeta_k\bigr)
+=f_2\bigl(\sum_k\zeta_k\bigr)^2+o$, while each step contributes $\check\Phi_k=f_2\zeta_k^2+o$;
+so \eqref{eq:w6-2nd} is \emph{saturated at second order}.  For corners at distinct points the
+bound is far from sharp: the conjectural second-order network law W2 (track G1b) replaces
+$\bigl(\sum\zeta_k\bigr)^2$ by $\sum_{j,k}\zeta_j\zeta_k\hat G(y_j-y_k)/\hat G(0)$, and
+Theorem~\ref{thm:sep} shows that for an all-weak L$\to$R chain the off-diagonal terms are
+evaluated at $\Delta\ge\log(2/\eps)$.  W2 is cited here as a \emph{target}, not used.
+\end{remark}
+
+\section{The twirled (t-averaged) channels: a mixture}\label{sec:twirl}
+
+\begin{proposition}[The composite of twirled steps is a mixture of corner maps]\label{prop:twirl}
+Let $\PP$ be a one-sided protocol satisfying (H) in which the $m$-th step is the \emph{twirled}
+zero-collar channel $\beta^{\rm tw}_m=\int\dd\mu(t)\,\beta_{m,t}$, $\beta_{m,t}$ the rotated
+zero-collar map with parameter $s_{t}=\lambda_m(1+e^{-2\pi t})$ and $\mu$ the FHSW probability
+measure $\dd\mu(t)=\pi(\cosh2\pi t+1)^{-1}\dd t$ (Box~[G5]; $\int\dd\mu=1$ because
+$\cosh2\pi t+1=2\cosh^2\pi t$ and $\int\operatorname{sech}^2(\pi t)\dd t=2/\pi$).  Then the recovered state is
+the mixture
+\begin{equation}\label{eq:twirl}
+ \omega\circ\beta^{\rm tw}_1\circ\dots\circ\beta^{\rm tw}_N
+ =\int\dd\mu(t_1)\cdots\dd\mu(t_N)\ \omega\circ\beta_{V_{\Phi_{\vec t}}},
+\end{equation}
+where $\Phi_{\vec t}$ is the composite corner map with corner measure
+\begin{equation}\label{eq:twirl-kappa}
+ \kappa_k(\vec t)=\sum_{m:\,p^{(m)}=p_k}
+ \frac{\lambda_m\bigl(1+e^{-2\pi t_m}\bigr)}{l^{(m)}_B+l^{(m)}_{\rm new}},\qquad
+ \zeta^{(I)}_k(\vec t)=\kappa_k(\vec t)\,\bI(p_k),
+\end{equation}
+and, with $\Phi_{\rm fid}(\vec t):=-\log F(\omega,\omega\circ\beta_{V_{\Phi_{\vec t}}})$,
+\begin{equation}\label{eq:twirl-bound}
+ \Phi^{\rm tw}_{\rm fid}\ \le\ -\log\int\dd\mu^{\otimes N}(\vec t)\,e^{-\Phi_{\rm fid}(\vec t)}
+ \ \le\ \int\dd\mu^{\otimes N}(\vec t)\ \Phi_{\rm fid}(\vec t).
+\end{equation}
+\end{proposition}
+\begin{proof}
+\lstep{1}{1}{\eqref{eq:twirl}: composition of maps is bilinear, so the composite of the averages
+ is the average of the composites, and $\omega\circ(\cdot)$ is linear.}
+\lby{the integrals are $\sigma$-weakly convergent averages of channels with
+ $\mu$ a probability measure (Box~[G5]); Fubini for the finite product}
+\lstep{1}{2}{\eqref{eq:twirl-kappa}: for fixed $\vec t$ each step is the compression
+ \eqref{eq:step-map} with $\sigma_m=s_{t_m}/(l^{(m)}_B+l^{(m)}_{\rm new})$, so
+ Theorem~\ref{thm:corner} applies.}
+\lby{(C3) and Theorem~\ref{thm:corner}; (H) is a property of the geometry, not of the $s_m$}
+\lstep{1}{3}{$F(\omega,\cdot)$ is concave on normal states.}
+\lby{Box~[G4]: $P_{\rm tr}(\omega,\psi)=\inf_{a>0}\omega(a)\psi(a^{-1})$ is an infimum of
+ affine functions of $\psi$, hence concave; $F=\sqrt{P_{\rm tr}}$ and $\sqrt\cdot$ is concave and
+ increasing}
+\lstep{1}{4}{\eqref{eq:twirl-bound}: $F\bigl(\omega,\int\omega_{\vec t}\bigr)\ge\int
+ F(\omega,\omega_{\vec t})=\int e^{-\Phi_{\rm fid}(\vec t)}$, and
+ $-\log\int e^{-\Phi}\dd\mu\le\int\Phi\dd\mu$.}
+\lby{$\langle1\rangle3$ (Jensen for the concave $F$), $-\log$ decreasing, and Jensen for the
+ convex function $-\log$}
+\lqed{1}{5}
+\end{proof}
+
+\begin{remark}
+We state Proposition~\ref{prop:twirl} and do not develop it: the $\vec t$-integral of
+$\Phi_{\rm fid}(\vec t)$ requires the multi-corner law W2 (or, for a single corner,
+$\Phi_A$ of paper~1 with $\zeta_t=z(1+e^{-2\pi t})$, Box~[G2]).  Note that
+\eqref{eq:twirl-bound} is an upper bound only; the twirled channel could be better than the
+average, and at a single corner paper~1's tables already show
+$\Phi_A$ convex in $\zeta$, so the mixture bound is not tight.
+\end{remark}
+
+\section{Summary}\label{sec:summary}
+
+\begin{table}[h]\centering\small
+\caption{Status of every result of this document.  ``PROVED'' means proved here from the cited
+results with all hypotheses stated; ``under (H)'', ``under (U)'' name the hypothesis used.}
+\label{tab:summary}
+\begin{tabular}{@{}lll@{}}
+\toprule
+result & content & status\\
+\midrule
+Lem.~\ref{lem:admissible} & $s\ge\lambda\iff k(M)\subseteq A_B$ & PROVED\\
+Lem.~\ref{lem:density} & parabolic parameter is a $(-1)$-density, exactly & PROVED\\
+Lem.~\ref{lem:field} & first-order field $=\zeta w(y-y_p)\partial_y$, $\zeta=\sigma\bI(p)$;
+ Thm.~A's $\zeta=as/(a+L)$ & PROVED (exact)\\
+Lem.~\ref{lem:masses}--\ref{lem:jump} & $\Sch=\sum[v]\delta$, no square term; corner mass
+ $-2\sigma$ from either side & PROVED\\
+Lem.~\ref{lem:compose} & $\Sch(f\circ g)=\Sch(g)+(g')^2\Sch(f)\circ g$ & PROVED\\
+Lem.~\ref{lem:same-schwarz} & equal Schwarzians $\iff$ differ by a global M\"obius map & PROVED\\
+Thm.~\ref{thm:general} & general transformation rule (masses at $G_m^{-1}(p^{(m)})$) &
+ PROVED (no hypothesis)\\
+Thm.~\ref{thm:corner} & $\Sch(\Phi)=-2\sum_k\kappa_k\delta_{p_k}$ (W1) & PROVED under (H)\\
+Prop.~\ref{prop:H-suff} & sufficient conditions for (H) & PROVED\\
+Ex.~\ref{ex:displaced}, \ref{ex:swallow} & (H) fails: mass displaced / corner swallowed;
+ W1 wording corrected & PROVED (counterexamples)\\
+Lem.~\ref{lem:comp-W}--\ref{lem:moebius-inv} & $V_{k_1}V_{k_2}=V_{k_1k_2}$; $[V_g,P]=0$ for
+ $g\in\Mob$ & PROVED\\
+Thm.~\ref{thm:state} & composite normal; state depends only on $\Sch(\Phi)$ & PROVED
+ (cites Box~[G1])\\
+Cor.~\ref{cor:phiA} & a single corner: the state, hence $\Phi_A$, depends only on $\zeta$ &
+ PROVED\\
+Lem.~\ref{lem:2pt}, Thm.~\ref{thm:rigidity} & vacuum rigidity; no exact recovery (last step keeps a non-empty part) &
+ PROVED (no (H) needed)\\
+Prop.~\ref{prop:1B1A} & VWZ 1(B) $=$ 1(A) as point maps, every common $t$ & PROVED\\
+Prop.~\ref{prop:prot2} & VWZ Protocol 2: corners $p_2,p_3$ & PROVED\\
+Thm.~\ref{thm:prot3} & Protocol 3 $=$ over-compressed Theorem-A step, $\zeta_{\rm eff}$,
+ $s'>2\lambda'$ & PROVED\\
+Cor.~\ref{cor:holonomy} & equal corner measure $\Rightarrow$ equal state & PROVED under (H)\\
+Prop.~\ref{prop:startblock}, Lem.~\ref{lem:distinct}, Tab.~\ref{tab:n4}--\ref{tab:n4union} &
+ holonomy $=$ starting block; distinct pairs give distinct measures; $n=4,5$ tables & PROVED\\
+Lem.~\ref{lem:ampl} & amplification $\zeta^{(I)}=\zeta_{\rm step}(1+z')$, monotone in the frame &
+ PROVED\\
+Lem.~\ref{lem:LRdata} & L$\to$R chain: $e^{\Delta_k}=(1+u_k)(1+v_k)$;
+ $\zeta_k=\frac{\sinh(\Delta_{k+1}/2)}{\sinh(\Delta_k/2)\sinh(\frac{\Delta_k+\Delta_{k+1}}2)}$;
+ $e^{\Delta_k}\le1+2/\zeta_k$, equality iff $k=n-1$ & PROVED (new)\\
+Thm.~\ref{thm:sep} & all-weak separation $e^{\Delta_k}\ge2/\eps$ (W3) & PROVED; constant sharp
+ as $\eps\to0$\\
+Cor.~\ref{cor:sep-admissible} & admissible $s_k\ge\lambda_k$: $e^{\Delta_k}\ge1/\eps$ & PROVED\\
+Thm.~\ref{thm:w6} & type-III sequential Bures \emph{angle} bound (W6) & PROVED under (U)\\
+Thm.~\ref{thm:w6chord} & the same bound for the Bures \emph{distance} & PROVED, no (U)
+ (Box~[G7])\\
+Cor.~\ref{cor:w6-second} & $\Phi_{\rm tot}\le(\sum\sqrt{\Phi_k})^2(1+o(1))$ & PROVED, no (U);
+ the exact form \eqref{eq:w6-master} needs (U)\\
+Prop.~\ref{prop:twirl} & twirled composite is a mixture; $\Phi^{\rm tw}\le$ average & PROVED,
+ not developed\\
+W2 (network law) & second-order kernel $\hat G$ & TARGET (G1b), cited only\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Numerical support.}
+\texttt{rigor/g1a\_calculus.py} ($33$ checks, all PASS; output
+\texttt{g1a\_calculus.out}): parabolic group laws; the displaced and the swallowed corner; the
+1(B) $=$ 1(A) identity in exact rational arithmetic and for rotated $t$; Protocol 3 in both orders
+and its M\"obius reduction; $s'>2\lambda'$ in $20\,000$ rational configurations; the $n=4,5$
+protocol tables with a direct finite-difference measurement of every Schwarzian mass; the
+amplification identity in $20\,000$ exact rational cases.
+\texttt{rigor/g1a\_separation.py} ($15$ checks, all PASS; output
+\texttt{g1a\_separation.out}, a verbatim capture of the run): the L$\to$R identities in
+$50\,000$ random chains, including \eqref{eq:LR3} in the repaired form ($\le$ always, the exact
+gap $2\sinh^2(\Delta_k/2)(\coth(\Delta_{k+1}/2)-1)>0$ for $k\le n-2$, equality at $k=n-1$ in
+$100\%$ of the chains); the separation bound in $400\,000$ random chains (minimum
+$(\eps/2)e^{\Delta_k}=0.999999996$) and in a constrained minimisation reproducing REF-P6-0's
+$20.05$ and $200.01$; the recursion constants; the admissible case; and REF-P6-3's exact
+constrained minimum by backward recursion, which reproduces $6.8134$, $20.0499$, $66.6817$,
+$200.0050$, $666.6682$ and shows that $6.75$ at $\eps=0.3$ is unattainable.
+Re-used without recomputation: \texttt{ref\_p6\_0\_field\_exact.out} (the exact field identity,
+$50\,000$ rational cases), \texttt{ref\_p6\_0\_w1\_counterexample.out} (the displaced mass),
+\texttt{ref\_p6\_0\_separation.out} (the numerical minima $2/\eps$),
+\texttt{ref\_p6\_1\_fig25.out} (why VWZ Fig.~25 measures nothing about $\hat G$; not used here).
+
+\paragraph{What is \emph{not} proved here.}
+(i) The second-order network law W2 and anything about the kernel $\hat G$ (track G1b/G3); the
+only place where the size of $\Phi_{\rm fid}$ enters is through paper~1's $\Phi_A$ for a
+\emph{single} corner.  (ii) Hypothesis~(U) is standard but could not be sourced: Uhlmann 1976 is on disk and does
+\emph{not} contain it (Hyp.~\ref{hyp:U}), Araki--Raggio 1982 is NOT OBTAINED.  It is used only
+for the \emph{angle} inequality \eqref{eq:w6} and the exact form \eqref{eq:w6-master}; the
+second-order bound \eqref{eq:w6-2nd} is unconditional via the chordal route
+(Theorem~\ref{thm:w6chord}, Box~[G7]) --- whose own citation, Alberti--Uhlmann Prop.~1(1), is
+stated there without proof and attributed to Bures 1969, NOT OBTAINED.  (iii) The separation theorem is
+proved for the L$\to$R ordinary-Petz chain (and, with the constant $1/\eps$, for admissible
+parameters); we have not attempted the analogous statement for protocols with double corners,
+where $\Delta=0$ is allowed.  (iv) Normality of each step is imported from Note~4 Thm.~7.1
+(Box~[G1]); this document does not re-prove it.
+
+\section{Repairs after REF-P6-3 (2026-09-16)}\label{sec:repairs}
+
+Referee report \texttt{rigor/referee\_network\_corner\_calculus.tex} (REF-P6-3, 21~pp.; scripts
+\texttt{rigor/ref\_p6\_3\_calculus.py}, \texttt{rigor/ref\_p6\_3\_separation.py} with their
+\texttt{.out}).  Verdict there: nothing FAILS; two BREAKs, three GAPs and several MINORs.  All of
+them are applied here; the locators are of \emph{this} (repaired) version.
+
+\begin{enumerate}[leftmargin=2.2em]
+\item \textbf{[BREAK] Thm.~\ref{thm:rigidity}(3)} now carries the hypothesis of (2), ``whose last
+ step keeps a non-empty part''; the same qualification was added to the abstract, to the title of
+ \S\ref{sec:rigidity} and to Table~\ref{tab:summary}.  As written before, (3) was refuted by
+ Remark~\ref{rem:degenerate} (the one-step protocol with $A_B=J_0$, whose $\Phi$ is a global
+ M\"obius map and which therefore recovers exactly).
+\item \textbf{[BREAK] Box~[G5] and Prop.~\ref{prop:twirl}}: the FHSW weight is
+ $p(t)=\pi(\cosh2\pi t+1)^{-1}$ (FHSW eq.~(26), p.~6, now transcribed verbatim with a screenshot),
+ not $\frac\pi2(\cdots)$, whose total mass is $\frac12$; with the correct constant $\mu$ is a
+ probability measure, \eqref{eq:twirl} is a mixture of states and both Jensen steps of
+ Prop.~\ref{prop:twirl} apply.  The box now also records the factor $a$ in FHSW's translation
+ eq.~(167), p.~31.
+\item \textbf{[GAP] Lem.~\ref{lem:LRdata}, eq.~\eqref{eq:LR3}} now reads
+ $e^{\Delta_k}\le1+2/\zeta_k$ with equality iff $k=n-1$ (where $\Delta_n=+\infty$ by
+ Def.~\ref{def:LR}), and step $\langle1\rangle10$ splits the two cases; Remark~\ref{rem:sep-meaning}
+ was adjusted.  \texttt{g1a\_separation.py} check~(iv), whose multiplicative slack hid the issue,
+ was rewritten: it now tests $\le$ everywhere, the \emph{exact} gap
+ $2\sinh^2(\Delta_k/2)(\coth(\Delta_{k+1}/2)-1)>0$ for $k\le n-2$, and equality at $k=n-1$.
+\item \textbf{[GAP] Lem.~\ref{lem:same-schwarz}} asserts the M\"obius factor has no pole on the
+ \emph{open} interval $\Phi_1(J)$ (the closure version is false: $\id$ versus $x/(1-x)$ on
+ $(0,1)$), and in Theorem~\ref{thm:state}(2) the clause was deleted as superfluous --- $V_g$ is
+ unitary on all of $H$ for every $g\in\Mob$ by Lemma~\ref{lem:moebius-inv}.
+\item \textbf{[GAP] Prop.~\ref{prop:startblock}}: the count ``exactly $n-1$ classes'' now has its
+ missing step, Lemma~\ref{lem:distinct} (distinct starting pairs give measures that differ at
+ $p_{i+1}$ by $\sigma^R_{i+2}>0$); the corner \emph{supports} coincide for all middle pairs and
+ therefore cannot separate the classes.
+\item \textbf{[MINOR] Hyp.~\ref{hyp:U} and the bibliography}: \texttt{refs/Uhlmann76.pdf} is on
+ disk and was read --- the earlier ``both sources NOT OBTAINED'' was false.  It contains no
+ standard-form statement, so (U) remains a hypothesis; but Theorem~\ref{thm:w6chord} (new) proves
+ the chordal form of W6 from Alberti--Uhlmann Prop.~1(1) (new Box~[G7]) with no (U), and
+ Corollary~\ref{cor:w6-second}(2) --- the second-order bound, the form W6 needs --- is now
+ unconditional.  Bures~1969 was added to the bibliography as NOT OBTAINED.
+\item \textbf{[MINOR] Box~[G4]}: the normalised variational formula is Alberti--Uhlmann
+ \emph{Cor.~2(5), p.~8}, not Thm.~2(1) (which is the product form, p.~6); both are now quoted with
+ screenshots of the \emph{statements} (the earlier screenshot was p.~11, the proof).
+\item \textbf{[MINOR] the verdict box after Thm.~\ref{thm:sep}}: ``sharp'' is now ``sharp as
+ $\eps\to0$'', with REF-P6-3's exact constrained minima $6.8134$, $20.0499$, $66.6817$,
+ $200.0050$, $666.6682$; REF-P6-0's $\eps=0.3$ entry $6.75$ lies below the true minimum and is
+ identified as a float artifact.  \texttt{g1a\_separation.py} now recomputes those minima by the
+ backward recursion.
+\item \textbf{[MINOR] elsewhere}: the boxed \eqref{eq:corner-calculus} sums over the
+ \emph{interior} junctions of $J_N$, and the parenthetical in Theorem~\ref{thm:corner}
+ $\langle1\rangle3$ was rewritten; (C3) now states that each step is the \emph{vacuum} Petz map of
+ its own inclusion and reconciles $s\in[\lambda,2\lambda]$ ($t\ge0$) with the $t$-average over
+ $\mathbb R$ of \S\ref{sec:twirl}; Prop.~\ref{prop:1B1A} notes that 1(A) lives on the coarse chain
+ $A\mid B\mid CD$; Theorem~\ref{thm:prot3}(4) now cites Corollary~\ref{cor:phiA} (new) for the
+ tacit step ``for a single corner $\Phi_{\rm fid}$ depends only on $\zeta$'', and (C7) says that
+ $\Phi_A(\zeta)$ at finite $\zeta$ is a definition; $s'>2\lambda'$ is stated strictly; the verdict
+ box in \S\ref{sec:schwarz} says $33$ checks; and \texttt{g1a\_separation.out} is now a verbatim
+ capture of the run (with the \texttt{RuntimeWarning} lines it produces).
+\end{enumerate}
+
+Not repaired, because they are correct as they stand: the referee's remaining items are
+observations about the scripts (the rotated-$t$ checks in \texttt{g1a\_calculus.py} \S4 are
+vacuous as independent tests --- the mathematical point, that a \emph{common} $\theta_t$ factors
+out, is made in Prop.~\ref{prop:1B1A}$\langle1\rangle3$; and \S5 checks the masses at the claimed
+corners but not their absence elsewhere, which under (H) is Theorem~\ref{thm:corner}).  Two
+sources remain NOT OBTAINED: Araki--Raggio 1982 and Bures 1969.
+
+\begin{thebibliography}{99}
+\bibitem{LX} R.~Longo and F.~Xu, \emph{Relative entropy in CFT}, Adv.\ Math.\ \textbf{337} (2018) 139--170;
+ arXiv:1712.07283, \texttt{refs/LongoXu\_1712.07283.pdf}.
+\bibitem{BGL} R.~Brunetti, D.~Guido and R.~Longo, \emph{Modular structure and duality in conformal quantum
+ field theory}, Commun.\ Math.\ Phys.\ \textbf{156} (1993) 201--219; arXiv:funct-an/9302008,
+ \texttt{refs/BGL93\_funct-an-9302008.pdf}.
+\bibitem{AU02} P.~M.~Alberti and A.~Uhlmann, \emph{On Bures-distance and $*$-algebraic transition probability
+ between inner derived positive linear forms over $W^*$-algebras}, arXiv:math-ph/0202038,
+ \texttt{refs/AlbertiUhlmann02\_math-ph-0202038.pdf}.
+\bibitem{Uhl76} A.~Uhlmann, \emph{The ``transition probability'' in the state space of a $*$-algebra},
+ Rep.\ Math.\ Phys.\ \textbf{9} (1976) 273--279, \texttt{refs/Uhlmann76.pdf} (obtained and read:
+ it contains the explicit-formula theorem, p.~277, one-argument concavity of $P_{\rm tr}$
+ (eq.~(8), p.~274) and monotonicity under restriction to a subalgebra (eq.~(24), p.~277), but
+ \emph{no} standard-form/natural-cone statement and no metric statement).
+\bibitem{AR82} H.~Araki and G.~A.~Raggio, \emph{A remark on transition probability}, Lett.\ Math.\ Phys.\
+ \textbf{6} (1982) 237--240 (\textbf{NOT OBTAINED}: not in \texttt{refs/}; the statement we would
+ need from it is isolated as Hypothesis~\ref{hyp:U}, \S\ref{sec:w6}).
+\bibitem{Bures69} D.~Bures, \emph{An extension of Kakutani's theorem on infinite product measures to
+ the tensor product of semifinite $W^*$-algebras}, Trans.\ Amer.\ Math.\ Soc.\ \textbf{135} (1969)
+ 199--212 (\textbf{NOT OBTAINED}: not in \texttt{refs/}; it is the source of the triangle
+ inequality for $d_{\rm B}$, which \cite{AU02} Prop.~1(1) states without proof, Box~[G7]).
+\bibitem{FHSW} T.~Faulkner, S.~Hollands, B.~Swingle and Y.~Wang, \emph{Approximate recovery and relative
+ entropy I}, Commun.\ Math.\ Phys.\ \textbf{389} (2022) 349--397; arXiv:2006.08002,
+ \texttt{refs/FHSW20\_2006.08002.pdf}.
+\bibitem{VWZ} S.~Vardhan, Z.-W.~Wei and Y.~Zou, \emph{Petz recovery from subsystems in conformal field
+ theory}, JHEP \textbf{03} (2024) 016; arXiv:2307.14434, \texttt{refs/VWZ\_2307.14434.pdf}.
+\bibitem{PS70} R.~T.~Powers and E.~St\o rmer, \emph{Free states of the canonical anticommutation relations},
+ Commun.\ Math.\ Phys.\ \textbf{16} (1970) 1--33, \texttt{refs/PowersStormer70.pdf}.
+\bibitem{Choi74} M.-D.~Choi, \emph{A Schwarz inequality for positive linear maps on $C^*$-algebras},
+ Illinois J.\ Math.\ \textbf{18} (1974) 565--574 (statement reproved here as
+ Lemma~\ref{lem:choi}).
+\end{thebibliography}
+
+
+\subsection*{Residual repairs after REF-P6-3b (orchestrator, 2026-09-16)}
+Four wording items from the referee's second pass, applied verbatim: (1) Theorem~\ref{thm:w6chord} and
+Corollary~\ref{cor:w6-second} no longer inherit Hypothesis~(U) through ``in the situation of
+Theorem~\ref{thm:w6}''; the proof of Theorem~\ref{thm:w6chord} records that only step $\langle1\rangle4$ of
+Theorem~\ref{thm:w6} uses (U). (2) The abstract now says ``sharp as $\eps\to0$'' and no longer ``to four
+digits''. (3) The abstract advertises the unconditional second-order bound, Corollary~\ref{cor:w6-second}(2).
+(4) Proposition~\ref{prop:1B1A}'s range of $\theta_t$ reads $(\tfrac12,1]$ for $t\ge0$; the check script
+\texttt{g1a\_separation.py} prints ``attained only as $\eps\to0$''.
+
+\end{document}

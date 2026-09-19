@@ -1,0 +1,11 @@
+h=0.2400 Y=10 Ymax=10 N=84 nA=42 cap=0e+00: g/f2=0.91732 theta=0.31367 g(d_*)/g0=0.686328 (1-theta=0.686328) cg=350 | SLD id=1.0000000000 kappa_max=5.38 max w=1.093e+02 |dc_DD|=0.0e+00
+   lam_min(M_*)     = -5.431641e-04 = -7.0128e-02 g0 = -4.0756e-03 ||M||   lam_max(M_*)=+1.332721e-01
+   lam_min(M_*-tau) = -5.431641e-04 = -7.0128e-02 g0 = -4.0756e-03 ||M||   lam(tau) in [-1.130e-01,+1.130e-01]
+   ||AntiHerm((t Q)_DD)||/||M_*|| = 2.762e-09   CRITERION (M>=0 and M-tau>=0): False
+   FD check: d g_Q = +2.29808981e-02 predicted +2.29808981e-02 rel 3.94e-10
+   violating p [M    ]: <p,Mp>=-5.4316e-04 <p,tau p>=-3.3086e-03 y=0 Delta=+2.7158e-04 g_Q(eta)=2.4762e-02 gain/g0=3.8457e-04 | p lives at y = [5.16, 5.4, 5.88, 5.64] (|p| [0.215, 0.214, 0.212, 0.211])
+   violating p [M-tau]: <p,Mp>=+2.7654e-03 <p,tau p>=+3.3086e-03 y=1 Delta=+2.7158e-04 g_Q(eta)=2.4762e-02 gain/g0=3.8457e-04 | p lives at y = [5.16, 5.4, 5.88, 5.64] (|p| [0.215, 0.214, 0.212, 0.211])
+   [0s]
+
+#   h      N   theta     lam_min(M)/g0  lam_min(M-tau)/g0  lam_min(M)/||M||  anti/||M||
+0.2400    84 0.31367 -7.0128e-02 -7.0128e-02 -4.0756e-03 2.76e-09

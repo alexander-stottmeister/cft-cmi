@@ -1,0 +1,214 @@
+\documentclass[11pt]{article}\input{rigor_preamble}
+\newcommand{\hh}{\mathfrak h}
+\newcommand{\Herm}{\operatorname{Herm}}
+\newcommand{\SLD}{\mathcal S_Q}
+\newcommand{\Aop}{\mathbb A}
+\newcommand{\Stwo}{\mathfrak S_2}
+\geometry{top=0.9in,bottom=0.9in,left=0.95in,right=0.95in}
+\AtBeginDocument{\setlength{\parskip}{2.5pt}}
+\newcommand{\vA}{\textcolor{okgreen}{\textsc{applied}}}
+\newcommand{\vP}{\textcolor{orange!80!black}{\textsc{applied, residue}}}
+\newcommand{\vF}{\textcolor{warn}{\textsc{not applied}}}
+\title{Third (closing) referee report: \texttt{rigor/exact\_optimum\_tangent\_problem.tex}\\
+\large (Phase 5, closing review: verification of the repairs S1--S6 and of the
+statement and use of Hypothesis~H3)}
+\author{Referee REF-P5-4 (Opus)}\date{2026-09-15}
+\begin{document}\maketitle
+\begin{abstract}
+Closing review of F1's \texttt{exact\_optimum\_tangent\_problem.tex} (26\,pp, 1605 lines,
+2026-09-15) after the repairs S1--S6 required by
+\texttt{referee2\_exact\_optimum\_tangent\_problem.tex} \S\,``Required repairs''.  \textbf{All
+six repairs are applied}, four without residue.  H3 is declared as Def.~4.12
+(\texttt{hyp:H3}), Rem.~4.13 names the two excluded families, Prop.~4.10(3) is restricted to
+vector-field generators, every ``(e) holds'' is hedged to ``on the model cone'', and
+$\kappa_{\rm opt}=1-\theta=0.616\pm0.003$ is conditional on H1, H2 \emph{and} H3 in
+Rem.~4.11, \S7 and the \texttt{verdictgap} box.  The
+use of H3 is sound where it matters (\S\ref{sec:h3}).  Three residual defects remain,
+none of which touches the conclusion: (D1) the ``equivalently'' clause of Def.~4.12 is
+\emph{not} equivalent to (33) and is trivially satisfied by the second family
+Rem.~4.13 excludes; (D2) Thm.~3.11(3) is still \emph{stated} with ``$\mathcal G$ \dots\ an
+isometry generator'' although its repaired proof step $\langle1\rangle4$ declines to prove
+exactly that; (D3) the ambient space of (33) is unspecified, and read inside
+$\mathfrak F$ it forces $\alpha=0$, which makes the advertised collapse of (e) to the boxed
+(31) degenerate.  Verdict: \textsc{accepted}; D1 and D2 are one-line
+corrections, D3 is a clarification.
+\end{abstract}
+
+\section{Scope and method}\label{sec:scope}
+Read in full against \texttt{referee2\_exact\_optimum\_tangent\_problem.tex} \S``Required
+repairs'' (S1--S6) and the author's account in \texttt{PHASE5\_F1\_SUMMARY.md} rev.~4.
+Locators taken from the current \texttt{exact\_optimum\_tangent\_problem.aux}: the
+numbering is unchanged through Rem.~4.11, the new material is Def.~4.12 (\texttt{hyp:H3},
+p.~20), eq.~(33) and Rem.~4.13 (\texttt{rem:H3}, p.~20); the document
+compiles at 26\,pp.  Inside Prop.~4.10 the manual label (2$'$) does not advance the
+counter, so the rendered items are 1, (2$'$), 2, 3 (two model directions),
+4 ($\mathcal E(\zeta_\infty)>0$), 5 (model cone), and \S5--\S7 cite them correctly (checked
+against the PDF).  I edited neither the document nor the earlier referee reports.
+
+\section{The six repairs}\label{sec:s16}
+{\footnotesize\begin{tabular}{@{}llp{9.9cm}@{}}
+\toprule
+ & Status & Where, and what is left\\
+\midrule
+S1 & \vP & H3 is Def.~4.12 in the form ``for every admissible $\zeta$ with
+ $\Aop(\zeta,0,0)\in\mathfrak F$ there are $\alpha,\beta\ge0$, $\eta\in\overline L$ with
+ (33)''; Rem.~4.13 names the two excluded families (multiplicity-$>1$ shifts via
+ Cooper--Wold, correctly noting that the dilation $f\mapsto\sqrt2f(2y)$ is \emph{not} the
+ sharp example; unbounded skew-adjoint $\zeta=\mathrm im(y)$, for which (28) is unavailable
+ because the cyclicity rearrangement needs $\zeta$ bounded).  Prop.~4.10(3) now considers
+ ``the generators of \emph{vector-field} type $\zeta_v=-D_v$'' and calls the result the
+ ``\emph{vector-field subcone} --- \emph{not}, as far as is proved here, the whole
+ admissible cone''.  All eleven
+ occurrences of ``(e) holds'' are hedged to the model cone (Prop.~4.10(5), Rem.~4.11,
+ Rem.~4.13, \S5, \S7 Proved~5 / Numerical~3 / Conditional~3--4, \texttt{verdictgap});
+ $\kappa_{\rm opt}=1-\theta$ carries ``conditional on H1, H2 \emph{and} H3'' in all four
+ places it is asserted.  The abstract declares H3 and makes no unhedged
+ $\kappa_{\rm opt}$ claim.  Residue: D1, D3.\\
+S2 & \vA & Rem.~4.11(ii) gives the decomposition (32), states that the
+ total is dominated by the upwind-viscosity middle term and grows like $h^{-0.97}$ (ratios
+ $1.960,1.963,1.965$) whereas the corner grows like $h^{-0.60}$ (ratios
+ $1.562,1.533,1.508$), calls the total \emph{scheme-dependent}, names the corner row
+ $\frac12M_*(0,0)/h=+10.3,+16.1,+24.7,+37.2$ the continuum quantity and the row whose
+ margin is to be quoted.  ``Driven by the corner term'' survives only as a negated
+ quotation; \S7 Numerical~3 repeats the corrected reading (``must not be quoted as the
+ margin''), and ``$+\infty$ is an allowed value'' is gone.\\
+S3 & \vA & (27) has values in $[-\infty,+\infty]$, its second case flagged as a
+ \emph{convention, not an extension of the form} $M_*$, with the statement that
+ such $\zeta$ carry no feasible first-order datum (Def.~3.1(3)) so that (e) is
+ \emph{vacuous} there, and that reading $+\infty$ as a margin is legitimate only after (a).
+ The boxed (31) is split: the inequality $\mathcal E(\zeta_0)\ge0$, then
+ $\mathcal E(\zeta_0)=\frac12\Tr((-2\sigma_{\zeta_0})M_*)$ \emph{provided}
+ $-2\sigma_{\zeta_0}$ lies in the form domain of $M_*$ --- a proviso declared to fail
+ ($\delta_0\otimes\delta_0$ unbounded, $\delta_0\notin\hh_D$).  Def.~4.9 adds the two
+ conventions: $\mathfrak D$ read as a linear subspace (equivalently, polarisation only for
+ $\psi\pm\varphi\in\mathfrak D$).\\
+S4 & \vP & Thm.~3.11(3) proof $\langle1\rangle4$ takes N4's second option: ``$\mathcal G$
+ is read, by definition, as \emph{the anti-symmetric part of an admissible} $\zeta$ --- one
+ may not conclude from `$\mathcal G$ and $\zeta$ agree on $C_c^\infty(D)$' that $\mathcal G$
+ generates an isometry semigroup, since that needs $C_c^\infty(D)$ to be a core''.  The non
+ sequitur is gone.  Residue: D2 (the \emph{statement} of (3) not adjusted to match).\\
+S5 & \vA & \S7 Proved item~5 now opens ``the derivative condition along \emph{the
+ non-isometric directions} $\Aop(0,N_1,Y_1)$ is (a) \dots, equivalently (c) \dots'' and
+ only then gives global optimality as (a) \emph{together with} (e).  The refuted
+ equivalence is no longer stated first, or at all.\\
+S6 & \vA & (i) Thm.~4.4 $\langle1\rangle4$: ``on $\mathcal C_\zeta$ it is
+ $\mathcal E(\zeta)$ itself'' (the spurious $\frac12$ gone).  (ii) Lem.~4.2
+ $\langle1\rangle6$: $\Aop(\mathcal G,0,0)=[\mathcal G,Q]=-[Q,\mathcal G]$.
+ (iii) Prop.~4.10(2$'$) quotes the four ladder values $-9.1\cdot10^{-6}$, $+1.9\cdot10^{-4}$,
+ $-9.9\cdot10^{-3}$, $+7.4\cdot10^{-2}$ and the $O(1)$ outlier $-6.3$ (``not merely small
+ noise'').  (iv) Rem.~6.4: $1-2/\pi$ is ``still $6.9\sigma$ low''.  (v) The
+ $\theta$-problem (42) (formerly (36)) reads $\inf_{\mathcal G}$ over $\mathcal G$ bounded
+ anti-self-adjoint supported in $\{y>0\}$, ``the class of Cor.~3.10''.\\
+\bottomrule
+\end{tabular}}
+
+\section{Is H3 stated so that it is used correctly?}\label{sec:h3}
+The use is Rem.~4.13: ``Under H3, $\mathcal E(\zeta)=\alpha\mathcal E(\zeta_0)
++\beta\mathcal E(\zeta_\infty)$ by Prop.~4.10(1), so condition (e) collapses to (31)''.
+
+\paragraph{What it needs, and what is available.}  Apply $2b(\delta_*,\cdot)$ to
+(33).  Two things are required, and both are present.  (i) \emph{Linearity in the
+right slot of $b$}, not linearity of $\mathcal E$ on the cone of \emph{generators}: since
+H3 is formulated at the level of $\Aop(\zeta,0,0)$ and not of $\zeta$, the identity follows
+from bilinearity of the polarisation $b$ of the quadratic form $g_Q$ alone.  This is the
+right way round: had H3 been stated as ``$\zeta=\alpha\zeta_0+\beta\zeta_\infty+\mathcal G$
+modulo $\overline L$'' one would also have needed additivity of $\zeta\mapsto\Aop(\zeta,0,0)$
+on sums of \emph{unbounded} generators with different domains, which is nowhere established.
+(The citation of Prop.~4.10(1) is therefore imprecise --- bilinearity of $b$ is what is used
+--- but harmless.)  (ii) \emph{The normal equation on the closure}, $b(\delta_*,\eta)=0$ for
+$\eta\in\overline L$: available, and this is the point that could have failed.  $\overline L$
+is defined at (19) as the closure of $L$ \emph{in the Hilbert space} $(\mathfrak F,b)$,
+$\delta_*$ is the $b$-orthogonal residual onto that closed subspace, and
+$|b(\delta_*,\eta)|\le g_Q(\delta_*)^{1/2}g_Q(\eta)^{1/2}$ (Cauchy--Schwarz, used already in
+Def.~4.9) makes $b(\delta_*,\cdot)$ $g_Q$-continuous, so orthogonality extends from $L$ to
+$\overline L$ automatically: no continuity hypothesis is smuggled in.
+
+\paragraph{D1 (defect): the ``equivalently'' of Def.~4.12 is not an equivalence.}  Def.~4.12
+adds ``equivalently, modulo $\overline L$ the boundary form $-2\sigma_\zeta$ is a positive
+combination of the two model boundary forms of Prop.~4.10(3)''.  This is strictly weaker
+than (33), and weaker exactly on the family Rem.~4.13(2) excludes: for
+$\zeta=\mathrm im(y)$ one has $\sigma_\zeta=0$, so the boundary-form condition holds
+trivially with $\alpha=\beta=0$, whereas (33) then demands
+$\Aop(\zeta,0,0)\in\overline L$ --- precisely what Rem.~4.13(2) says ``may fail''
+(Rem.~4.8(ii)).  The boundary-form reading would thus make H3 \emph{provable} for that family
+without delivering $\mathcal E(\zeta)\ge0$ there, breaking H3~$\Rightarrow$~(e).  By the
+absorption identity $\Aop(\zeta,0,0)=\Aop(\mathcal G_\zeta,-2\sigma_\zeta,0)$ the two
+readings agree only under the proviso $\Aop(\mathcal G_\zeta,0,0)\in\overline L$, unavailable
+for unbounded $\mathcal G_\zeta$.  \emph{Repair}: delete the clause or append that proviso.
+
+\paragraph{D3 (clarification): the ambient space of (33), and a degenerate collapse.}
+(33) contains $\Aop(\zeta_0,0,0)$, which the document's own numerics put \emph{outside}
+$\mathfrak F$ (Rem.~4.11(ii), Prop.~4.10(5)), while its left-hand side, $\eta\in\overline L$
+and $\Aop(\zeta_\infty,0,0)=\lambda\dot\delta$ are all in $\mathfrak F$.  Read inside it --- the
+document's global convention, ``\emph{All} statements below are inside $\mathfrak F$'' (after
+(4)) --- (33) forces $\alpha=0$; read as an identity of sesquilinear forms on $C_c^\infty(D)$,
+as (14) is, it admits $\alpha>0$, but then Rem.~4.13's displayed identity has a finite
+left-hand side and $+\infty$ on the right, so again $\alpha=0$.  Either way (e) on the H3
+class follows from Prop.~4.10(4) ($\mathcal E(\zeta_\infty)>0$) alone, and the boxed (31) is
+never invoked.  The \emph{sign} conclusion is unaffected --- under H3, (e) holds --- so \S7
+and the \texttt{verdictgap} box need no change; what should change is the advertisement that
+(e) ``collapses to'' the scalar test (31), vacuous under the document's own numerics.
+\emph{Repair}: say in which space (33) is read, and note that with
+$\Aop(\zeta_0,0,0)\notin\mathfrak F$ the hypothesis has content only through $\beta$.
+
+\paragraph{D2 (defect): Thm.~3.11(3), statement versus repaired proof.}  The statement of
+(3) still reads $\mathcal C\subseteq\{\Aop(\mathcal G,N_1',Y_1):\mathcal G$ anti-symmetric
+\emph{and an isometry generator}$\}$, while the repaired $\langle1\rangle4$ says that one
+may \emph{not} conclude that $\mathcal G=\zeta^*-\sigma$ generates an isometry semigroup, and
+reads $\mathcal G$ on the right as the anti-symmetric part of an admissible $\zeta$.  So the
+proof establishes the inclusion into the \emph{larger} set, not the displayed one.  Nothing
+downstream breaks --- Thm.~4.4 $\langle1\rangle4$ and Rem.~4.8 use (3) only as an inclusion
+that must not be enlarged to \emph{all} anti-symmetric $\mathcal G$, true under either
+reading --- but the statement (and \S7 Proved item~4, which inherits the wording) should be
+brought into line with $\langle1\rangle4$.
+
+\emph{Minor}: (i) the \texttt{verdictgap} box calls F2 T5 ``positive and divergent at
+$\zeta_0$'' without the S3 reading (vacuous, not a margin) that Rem.~4.11 and \S7
+Numerical~3 give.  (ii) In S6(iii) one transcribed magnitude is wrong, inherited from N6(iii)
+of the previous report: the outlying rungs of \texttt{f2\_t5\_endpoint.out} are
+$-6.3146\cdot10^{1}$ and $-1.5721\cdot10^{6}$, so Prop.~4.10(2$'$)'s ``other rungs of the
+scan reaching $-6.3$'' should read $-63$ (and may as well quote $-1.6\cdot10^{6}$) --- the
+slip understates the author's own point.
+
+\section{Verdict}\label{sec:verdict}
+S1--S6 are \textbf{all applied}; S2, S3, S5 and S6 without residue.  The document is
+\textsc{accepted}.  H3 is correctly placed: stating it at the level of $\Aop(\zeta,0,0)$ is
+what makes its use legitimate, and both ingredients of that use --- bilinearity of $b$, and
+the normal equation on $\overline L$, available because $\overline L$ is closed in
+$(\mathfrak F,b)$ --- are present.  The residues are D1 (delete or qualify the
+``equivalently'' clause of Def.~4.12), D2 (align the statement of Thm.~3.11(3) with its
+repaired proof step), D3 (name the ambient space of (33)).  None changes an assertion of
+\S2--\S4 or \S6, and none weakens the Phase-5 conclusion: numerically
+$\kappa_{\rm opt}=1-\theta=0.616\pm0.003$, conditional on H1, H2, H3, with (a) and (e)
+verified on meshes and only the moving-endpoint half of (e) proved.
+
+\paragraph{Addendum (2026-09-15, after the repair of D1--D3; document now 27\,pp).}
+All three residues are repaired and the minor slip with them.  \textbf{D1}: the
+``equivalently \dots\ boundary form'' clause of Def.~4.12 is deleted, and the reason is now
+stated there --- a boundary-form version would hold trivially for $\zeta=\mathrm im(y)$
+($\sigma_\zeta=0$) while (33) demands $\Aop(\zeta,0,0)\in\overline L$, so it would not imply
+(e).  \textbf{D3}: (33) is now read \emph{in $\mathfrak F$}, and the new Rem.~4.13
+(\texttt{rem:H3space}) draws the consequence I asked for and draws it correctly:
+$\Aop(\zeta_0,0,0)\notin\mathfrak F$ forces $\alpha=0$, so H3 says that every admissible
+generator carrying a feasible datum is, modulo $\overline L$, a non-negative multiple of
+$\zeta_\infty$; (e) then holds \emph{outright} under H3 through
+$\mathcal E(\zeta_\infty)>0$, the junction inequality (31) is never invoked, and (31)
+survives as the test for \emph{regularised} junction directions --- which is exactly what F2
+T5 measures.  The same reading is carried into Prop.~4.10(5), \S5 item~5, \S7 (Proved~5,
+Conditional H3) and the verdict box.  \textbf{D2}: Thm.~3.11(3) now describes the
+right-hand side by \emph{how} $\mathcal G=\zeta^*-\sigma$ arises, ``not by the property of
+being itself an isometry generator, which $\langle1\rangle4$ does not prove'', so statement
+and proof agree.  Minor: Prop.~4.10(2$'$) now reads $-63$ and $-1.6\cdot10^{6}$.  Nothing
+overclaims: ``(e) holds'' is conditional on H3 wherever it is unqualified, H3 is still
+``proved for vector-field generators, open in general'', and
+$\kappa_{\rm opt}=1-\theta=0.616\pm0.003$ remains conditional on H1, H2 and H3 in every
+place it is asserted.  \emph{One leftover sentence}: Rem.~4.14 (\texttt{rem:H3}) still opens
+``Under H3, $\mathcal E(\zeta)=\alpha\mathcal E(\zeta_0)+\beta\mathcal E(\zeta_\infty)$
+\dots\ so condition (e) collapses to (31)'', which is the superseded formulation and
+contradicts Rem.~4.13(1) (``(e) should not be advertised as `collapsing to' the scalar
+test'') --- its closing sentence was updated but its opening one was not; it should read
+``under H3, $\alpha=0$ and $\mathcal E(\zeta)=\beta\mathcal E(\zeta_\infty)\ge0$''.  With
+that one clause the document is clean; the verdict of this report stands as
+\textsc{accepted}.
+
+\end{document}

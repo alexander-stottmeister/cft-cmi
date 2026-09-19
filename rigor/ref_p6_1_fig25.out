@@ -1,0 +1,16 @@
+ eta     eta^2   Delta_23  zeta_1   (z2+z3)/z_eff   X needed for Phi2 = Phi3   |X|<=1?
+  0.632  0.3994  0.459     3.4348   0.806373        2.1416                     IMPOSSIBLE
+  0.500  0.2500  0.693     2.0000   0.833333        1.9167                     IMPOSSIBLE
+  0.400  0.1600  0.916     1.3333   0.857143        1.7429                     IMPOSSIBLE
+  0.300  0.0900  1.204     0.8571   0.884615        1.5654                     IMPOSSIBLE
+  0.200  0.0400  1.609     0.5000   0.916667        1.3833                     IMPOSSIBLE
+  0.100  0.0100  2.303     0.2222   0.954545        1.1955                     IMPOSSIBLE
+  0.050  0.0025  2.996     0.1053   0.976190        1.0988                     IMPOSSIBLE
+  0.020  0.0004  3.912     0.0408   0.990196        1.0398                     IMPOSSIBLE
+  0.010  0.0001  4.605     0.0202   0.995050        1.0200                     IMPOSSIBLE
+
+Delta_23 = log(1/eta): the axis bound eta^2 <= 0.4 (eta <= 0.632) bounds Delta_23 from BELOW,
+Delta_23 >= log(1/0.632) = 0.459.  Delta_23 <= 2.3 is eta >= 0.1, i.e. eta^2 >= 0.01.
+Phi^(2) < Phi^(3) STRICTLY at second order for every eta > 0, because
+zeta_2 + zeta_3 < 2 zeta_1 = zeta_eff  <=>  (a+2b)/(2(a+b)) < 1  <=>  a > 0,
+so even X = +1 cannot make them equal; equality is approached only as eta -> 0, X -> 1.

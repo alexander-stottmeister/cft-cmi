@@ -1,0 +1,1243 @@
+\documentclass[11pt]{article}\input{rigor_preamble}
+\usepackage{longtable}
+\newcommand{\Ar}{\mathcal A_r}
+\newcommand{\Ge}{G}
+\newcommand{\Fmi}{F}
+\newcommand{\NI}{\textbf{N1}}
+\newcommand{\NII}{\textbf{N2}}
+\newcommand{\loc}[1]{{\small\texttt{#1}}}
+\newcommand{\gt}{\mathbin{\widehat\otimes}_2}
+\newcommand{\Ad}{\operatorname{Ad}}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\PI}{\mathcal{PI}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\1}{\mathbf 1}
+\newcommand{\CMI}{I}
+\title{\vspace{-1.6cm}Referee verification of Note 1 (\loc{adjacent\_interval\_cmi\_longo\_xu.tex})\\
+and Note 2 (\loc{cmi\_as\_quantum\_markov\_defect.tex})}
+\author{Structured (Lamport-style) checks, verdicts, and cited results}
+\date{}
+\begin{document}\maketitle
+
+\begin{abstract}\noindent
+Every displayed definition, equation, boxed claim, limit and table entry of Notes~1 and~2 is checked
+against Longo--Xu (arXiv:1712.07283), Faulkner--Hollands--Swingle--Wang (arXiv:2006.08002),
+Faulkner--Hollands II (arXiv:2010.05513), Hayden--Jozsa--Petz--Winter (arXiv:quant-ph/0304007),
+Jen\v{c}ov\'a--Petz (arXiv:math-ph/0412093), Xu (Commun.\ Contemp.\ Math.\ \textbf{2} (2000) 307)
+and Casini--Teste--Torroba (arXiv:1703.10656).
+\emph{Outcome: no proof-breaking error was found in the mathematical content of either note.}
+Every numerical coefficient (in particular the $r/6$; a factor $2$ would have been fatal) is confirmed
+against the exact Longo--Xu formulas, both symbolically and numerically
+(\loc{scratchpad/num.py}, maximal discrepancy $2\cdot10^{-14}$ over $2000$ random configurations).
+Nine gaps and a number of minor defects are recorded; the most substantial are
+(i) \NII, eq.~\eqref{n2:split} writes an \emph{ungraded} spatial tensor product where the free-fermion
+net only provides a \emph{graded} one --- this does \emph{not} change any relative-entropy value
+(Thm.~\ref{thm:graded}) but leaves the factorisation claim \NII{} eq.~\loc{factorization-heisenberg}
+without a proof; and
+(ii) the Petz-sufficiency statement \NII{} eq.~\loc{petz-vn-equivalence} omits the hypothesis
+$D_{\cM}(\rho\|\sigma)<\infty$, without which the equivalence is false as stated.
+\end{abstract}
+
+\tableofcontents
+
+\section{Conventions fixed once and for all}\label{sec:conv}
+
+Throughout, $\cM$ denotes a von Neumann algebra, $\cN\subset\cM$ a von Neumann subalgebra,
+and all states are normal. We fix the following, and cite this section rather than repeating it.
+
+\paragraph{(C1) Relative entropy.}
+For normal states $\rho,\sigma$ on $\cM$ with vector representatives $\xi_\rho,\xi_\sigma$ in the
+natural cone, Araki's relative entropy is
+$D_{\cM}(\rho\|\sigma) := -\langle \xi_\rho,\log\Delta_{\sigma,\rho}\,\xi_\rho\rangle\in[0,\infty]$,
+which for $\cM=B(\mathcal H)$ equals $\Tr(\rho\log\rho-\rho\log\sigma)$.
+
+\paragraph{(C2) Longo--Xu's convention.}
+LX Def.~2.1 (p.~4) write $S(\omega,\omega')=\langle\Omega|\log\Delta_{\omega,\omega'}\Omega\rangle$
+with $\Delta^{1/2}_{\omega,\omega'}\leftrightarrow\rho^{1/2}\otimes\rho'^{-1/2}$, and their eq.~(3) evaluates this to
+$\Tr_{\mathcal H}(\rho\log\rho-\rho\log\rho')$. Hence
+\begin{equation}\label{eq:convLX}
+ S_{\mathrm{LX}}(\omega,\omega')=D(\omega\|\omega')\quad\text{in the sense of (C1).}
+\end{equation}
+The LX ordering of arguments (first slot $=$ the state, second $=$ the reference) agrees with the notes' $D(\cdot\|\cdot)$.
+
+\paragraph{(C3) FHSW's convention.}
+FHSW (p.~4, eq.~(12)) set $S(\psi|\varphi)=-\lim_{\alpha\to0^+}\alpha^{-1}(\langle\psi|\Delta^\alpha_{\varphi,\psi}\psi\rangle-1)$,
+so $S_{\mathrm{FHSW}}(\rho|\sigma)=D(\rho\|\sigma)$, and $S_{\cB}(\rho|\sigma):=S(\rho\circ\iota|\sigma\circ\iota)$
+(FHSW eq.~(15)). Their $S_{\cA}-S_{\cB}\ge0$ (monotonicity) is the notes' $\delta_{\cN\subset\cM}\ge0$.
+Thus (C1)--(C3) are mutually consistent; \emph{no sign or ordering mismatch arises anywhere below.}
+
+\paragraph{(C4) von Neumann entropy.}
+$S(\rho):=-\Tr\rho\log\rho$. (Warning, used below: LX eq.~(8) on p.~12 prints
+``$S(\rho_1)=\Tr(\rho_1\ln\rho_1)$'', a sign typo in the source; their eqs.~(4),(5) and Prop.~3.4
+require $S(\rho)=-\Tr\rho\log\rho$, and the final formulas are computed with the latter.)
+
+\paragraph{(C5) Fidelity.}
+$\Fid(\rho,\sigma):=\sup\{|\langle\xi_\rho|u'\xi_\sigma\rangle| : u'\in\cM',\,u'u'^*=1\}\in[0,1]$,
+the ``square-root'' (Uhlmann) fidelity; $\Fid=1$ iff $\rho=\sigma$. This is FHSW eq.~(23) and
+FH-II eq.~(20). The notes use $F$ in this sense (consistency check: eq.~\loc{fidelity-general}
+gives $F\ge e^{-\delta/2}$, which forces $\Fid=1$ at $\delta=0$).
+
+\paragraph{(C6) Geometry.} Throughout,
+$A=(x_0,x_1)$, $B=(x_1,x_2)$, $C=(x_2,x_3)$, $x_0<x_1<x_2<x_3$,
+$a=x_1-x_0$, $b=x_2-x_1$, $c=x_3-x_2$, and
+$AB=(x_0,x_2)$, $BC=(x_1,x_3)$, $ABC=(x_0,x_3)$,
+\begin{equation}\label{eq:etadef}
+ \eta:=\frac{b(a+b+c)}{(a+b)(b+c)}=\frac{(x_2-x_1)(x_3-x_0)}{(x_2-x_0)(x_3-x_1)} .
+\end{equation}
+
+\paragraph{(C7) The free fermion net.}
+$\Ar$ is the net of \NI/\NII: $\Ar(I)=\{c(\xi):\xi\in L^2(I,\mathbb C^r)\}''$ on the Fock space $F_p$,
+$c(\xi)=a(\xi)+a(\xi)^*$ (LX p.~9). It is a \emph{graded} (Fermi) M\"obius covariant net, is strongly
+additive, and $\mu_{\Ar}=1$ (LX p.~9, citing Toledano-Laredo Prop.~1.3.2 and Wassermann \S15 ch.~2).
+$\Gamma$ denotes the grading (mult.\ by $\pm1$ on even/odd forms), $\Gamma\Omega=\Omega$,
+$Z=P_++iP_-$ the Klein transformation. The graded tensor product is
+$A\otimes_2B=A\otimes B_++A\Gamma\otimes B_-$ (LX p.~9).
+
+\medskip
+\noindent Numerical support for \S\ref{sec:n1}--\S\ref{sec:n2} is in
+\loc{scratchpad/num.py}; it re-derives $G$ from LX Def.~3.17 and checks every closed
+form against it for $2000$ random $(x_0,x_1,x_2,x_3,r,\eps)$; maximal absolute discrepancy $1.96\cdot10^{-14}$.
+
+\section{Note 1: \texorpdfstring{\loc{adjacent\_interval\_cmi\_longo\_xu.tex}}{Note 1}}\label{sec:n1}
+
+\subsection{N1 \S2.1, eq.\ \loc{MI-relative}: the definition of \texorpdfstring{$F_{\cN}(U,V)$}{F(U,V)}}
+
+\NI{} writes
+\[
+ F_{\cN}(U,V):=S\bigl(\omega_{U\cup V}\,\big\|\,\omega_U\otimes_2\omega_V\bigr),
+\]
+``where $S$ is Araki relative entropy and $\otimes_2$ is the graded product in the fermionic setting.
+For a local even subnet it is the ordinary product state.''
+
+\begin{citedbox}{Longo--Xu 2018, Definition 3.3 and Lemma 3.1 (p.~10)}
+\emph{Transcribed exactly.} ``\textbf{Lemma 3.1.} (1) $\omega$ extends to a normal faithful state on the
+von Neumann algebra $\{A\otimes_2B,\ A\in\Ar(I_1),B\in\Ar(I_2)\}''$ (denoted by $\Ar(I_1)\widehat\otimes_2\Ar(I_2)$)
+on $F_p\otimes F_p$. There exists a unitary operator $U_1:F_p\to F_p\otimes F_p$ such that
+$U_1ABU_1^*=A\otimes_2B$ for every $A\in\Ar(I_1)$, $B\in\Ar(I_2)$.''\\[2pt]
+``\textbf{Definition 3.3.} We set $\omega_1\otimes_2\omega_2(AB)=\langle\Omega\otimes\Omega,A\otimes_2B\,\Omega\otimes\Omega\rangle$,
+$\forall A\in\Ar(I_1)$, $B\in\Ar(I_2)$. By (1) Lemma 3.1 $\omega_1\otimes_2\omega_2$ defines a normal
+state on $\Ar(I)$. We note that the restriction of $\omega_1\otimes_2\omega_2$ to $\Ar(I_1)$ and $\Ar(I_2)$
+is the same as $\omega$. \dots The mutual information we will compute is $S(\omega,\omega_1\otimes_2\omega_2)$.''
+\emph{Standing hypotheses}: $I_1,I_2\in\mathcal{PI}$ with $\bar I_1\cap\bar I_2=\emptyset$, $I=I_1\cup I_2$.\\[2pt]
+\includegraphics[width=\textwidth]{shots/V1_LX_lemma31_def33.png}\\
+\emph{Use in \NI:} verbatim the definition of eq.~\loc{MI-relative}.
+\emph{Verdict on usage:} correct, provided ``separated'' is read as $\bar U\cap\bar V=\emptyset$ (\NI{} says ``separated'', which is the right reading).
+\end{citedbox}
+
+\begin{lemma}[The graded product state is the unique multiplicative one]\label{lem:prodstate}
+Let $I_1,I_2$ be as above and $\sigma:=\omega_1\otimes_2\omega_2$. Then
+$\sigma(AB)=\omega(A)\,\omega(B)$ for all $A\in\Ar(I_1)$, $B\in\Ar(I_2)$, and $\sigma$ is the
+\emph{unique} normal state on $\Ar(I_1)\vee\Ar(I_2)$ with this property.
+\end{lemma}
+\lstep{1}{1}{$\omega(B_-)=0$ for every odd $B_-$.}
+\lproof
+\lstep{2}{1}{$\Gamma\Omega=\Omega$ and $\Gamma B_-\Gamma=-B_-$.}
+\lby{(C7) and the definition of odd}
+\lstep{2}{2}{$\langle\Omega,B_-\Omega\rangle=\langle\Gamma\Omega,B_-\Gamma\Omega\rangle=\langle\Omega,\Gamma B_-\Gamma\,\Omega\rangle=-\langle\Omega,B_-\Omega\rangle$.}
+\lby{$\langle2\rangle1$, $\Gamma=\Gamma^*=\Gamma^{-1}$}
+\lqed{2}{3}\lby{$\langle2\rangle2$}
+\lstep{1}{2}{$\sigma(AB)=\omega(A)\omega(B_+)+\omega(A\Gamma)\omega(B_-)$.}
+\lby{LX Def.~3.3 and $A\otimes_2B=A\otimes B_++A\Gamma\otimes B_-$, evaluated on $\Omega\otimes\Omega$}
+\lstep{1}{3}{$\sigma(AB)=\omega(A)\omega(B)$.}
+\lby{$\langle1\rangle1$ (which gives $\omega(B_-)=0$ and $\omega(B_+)=\omega(B)$) and $\langle1\rangle2$}
+\lstep{1}{4}{The linear span of $\{AB\}$ is a $*$-subalgebra, $\sigma$-weakly dense in $\Ar(I_1)\vee\Ar(I_2)$.}
+\lby{graded locality makes $BA=\pm AB'$-type rearrangements possible; explicitly, $\mathrm{span}\{AB\}$ is closed under products by graded commutativity, and its weak closure contains both generating algebras}
+\lstep{1}{5}{Two normal states agreeing on a $\sigma$-weakly dense $*$-subalgebra coincide.}
+\lby{normality (i.e.\ $\sigma$-weak continuity) and Kaplansky density}
+\lqed{1}{6}\lby{$\langle1\rangle3$--$\langle1\rangle5$}
+
+\begin{verdictok}
+Eq.~\loc{MI-relative} reproduces LX Def.~3.3 exactly, including the graded product $\otimes_2$.
+The parenthetical ``For a local even subnet it is the ordinary product state'' is correct:
+if $\mathcal B\subset\Ar$ is a subnet of even elements then $\mathcal B(I_1)$ and $\mathcal B(I_2)$
+commute and $A\otimes_2B=A\otimes B$ there.
+Lemma \ref{lem:prodstate} moreover shows that ``$\otimes_2$ versus $\otimes$'' is a statement
+about the \emph{spatial realisation}, not about the state: $\sigma$ is pinned down by
+$\sigma(xy)=\omega(x)\omega(y)$. This is used again in \S\ref{sec:graded}.
+\end{verdictok}
+
+\subsection{N1 \S2.1, eq.\ \loc{subnet-bound}}
+\NI: ``If $\mathcal B\subset\Ar$ is a graded subnet, monotonicity of relative entropy gives
+$0\le F_{\mathcal B}(U,V)\le F_{\Ar}(U,V)<\infty$ for separated $U,V$; this is part of Theorem 4.1(6).''
+\lstep{1}{1}{$F_{\Ar}(U,V)<\infty$ for separated $U,V$.}
+\lby{LX Thm.~3.18 (p.~21), which gives a finite closed form}
+\lstep{1}{2}{$F_{\mathcal B}(U,V)=D_{\mathcal B(U)\vee\mathcal B(V)}\bigl(\omega|\,\big\|\,\sigma|\bigr)\le D_{\Ar(U)\vee\Ar(V)}(\omega\|\sigma)=F_{\Ar}(U,V)$.}
+\lby{LX Thm.~2.2(4) (monotonicity under restriction to a subalgebra), applied to
+$\mathcal B(U)\vee\mathcal B(V)\subset\Ar(U)\vee\Ar(V)$, together with the fact that
+$(\omega_1\otimes_2\omega_2)|_{\mathcal B(U)\vee\mathcal B(V)}$ is again the multiplicative state of Lemma \ref{lem:prodstate} for $\mathcal B$}
+\lstep{1}{3}{$F_{\mathcal B}(U,V)\ge0$.}
+\lby{positivity of relative entropy for normalised states, (C1)}
+\lqed{1}{4}\lby{$\langle1\rangle1$--$\langle1\rangle3$}
+\begin{verdictgap}
+Mathematically correct. \emph{Attribution defect (MINOR).} The inequality is \emph{not} in the
+statement of LX Thm.~4.1(6); it appears (i) in the paragraph following LX Def.~3.3, p.~10
+(``Note that by (4) of Th.~2.2 $S_{\mathcal B}(\omega,\omega_1\otimes_2\omega_2)\le S_{\Ar}(\omega,\omega_1\otimes_2\omega_2)$'')
+and (ii) in the \emph{proof} of Thm.~4.1(6), p.~23. Thm.~4.1(6) itself only asserts that
+items (1),(2),(3) hold for $\mathcal B$. Also, the step $\langle1\rangle2$ tacitly uses that the
+restriction of the $\Ar$-graded product state to the subnet is the $\mathcal B$-graded product state;
+LX use this silently too.
+\end{verdictgap}
+
+\subsection{N1 \S2.2, eq.\ \loc{generalized-F}: the extended mutual information}
+\begin{citedbox}{Longo--Xu 2018, \S4.1 p.~21 (definition of the extended $F$) and Theorem 4.1}
+\emph{Transcribed exactly.} ``By Theorem 3.18, we have $F_{\Ar}(A,B):=S(\omega,\omega_A\otimes_2\omega_B)<\infty$
+where $A,B$ are union of disjoint intervals. \dots We can extend the definition mutual information
+to more general union of disjoint intervals by the following
+\[F(A\cup B,A\cup C)=F(A,B\cup C)+F(B,C)-F(A,C)-F(A,B).\]
+\textbf{Theorem 4.1.} (1) $F(A\cup B,A\cup C)\ge0$; $F(A\cup B,A\cup C)$ is continues from inside;''\\[2pt]
+\includegraphics[width=\textwidth]{shots/V1_LX_extF_thm41.png}\\
+\includegraphics[width=\textwidth]{shots/V1_LX_thm41_items.png}
+\end{citedbox}
+\lstep{1}{1}{\NI{} eq.~\loc{generalized-F} is
+$F(X\cup Y,X\cup Z):=F(X,Y\cup Z)+F(Y,Z)-F(X,Z)-F(X,Y)$.}
+\lstep{1}{2}{This is LX's display with the substitution $A\mapsto X$, $B\mapsto Y$, $C\mapsto Z$.}
+\lby{character-by-character comparison with the citedbox above}
+\lqed{1}{3}\lby{$\langle1\rangle1$, $\langle1\rangle2$}
+\begin{verdictok}
+Exact transcription. \NI{} correctly states the hypothesis (``three pairwise separated regions $X,Y,Z$'').
+\NI's sentence ``Their Theorem 4.1 proves, among other things, that this quantity is nonnegative and
+continuous from inside'' matches LX Thm.~4.1(1) verbatim.
+\end{verdictok}
+
+\subsection{N1 \S2.2, eq.\ \loc{finite-approx} and \loc{cmi-as-F}, \loc{our-cmi}}
+\NI{} asserts
+$F(X\cup Y,X\cup Z)=\lim_n[S(X_nY_n)+S(X_nZ_n)-S(X_n)-S(X_nY_nZ_n)]$
+with finite-dimensional factors, that the bracket is $I(Y_n:Z_n\mid X_n)$, and defines
+$I_\omega(Y:Z\mid X):=F_{\cN}(X\cup Y,X\cup Z)$, whence $I_\omega(A:C\mid B)=F_{\cN}(AB,BC)\ge0$.
+\lstep{1}{1}{LX, proof of Thm.~4.1, p.~22, displays exactly
+$F(A\cup B,A\cup C)=\lim_{n\to\infty}\bigl(S(A_n\cup B_n)+S(A_n\cup C_n)-S(A_n)-S(A_n\cup B_n\cup C_n)\bigr)$,
+where $I A_n,I B_n,I C_n$ are increasing $\Ad\Gamma$-invariant finite-dimensional factors with
+$(\bigcup_n IA_n)''=\Ar(A)$ etc.}
+\lby{transcription; see also the screenshot in the citedbox above}
+\lstep{1}{2}{For finite-dimensional $X_n,Y_n,Z_n$, $\;S(X_nY_n)+S(X_nZ_n)-S(X_n)-S(X_nY_nZ_n)=I(Y_n:Z_n\mid X_n)$.}
+\lby{the finite-dimensional definition $I(Y:Z\mid X)=S(XY)+S(XZ)-S(X)-S(XYZ)$, which is \NI{} eq.~\loc{finite-cmi} with the relabelling $(A,B,C)\to(Y,X,Z)$}
+\lstep{1}{3}{Hence the bracket is $\ge0$ and $F(X\cup Y,X\cup Z)\ge0$.}
+\lby{$\langle1\rangle2$ and strong subadditivity (LX eq.~(5), Lieb--Ruskai)}
+\lstep{1}{4}{Therefore \NI{} eqs.~\loc{cmi-as-F},\loc{our-cmi} are a legitimate \emph{definition} together with a proved inequality.}
+\lby{$\langle1\rangle1$--$\langle1\rangle3$}
+\lqed{1}{5}\lby{$\langle1\rangle4$}
+\begin{verdictgap}
+The transcription and the identification of the bracket with a finite-dimensional CMI are correct
+(and the relabelling of \NI{} eq.~\loc{finite-cmi} is consistent).
+\emph{Gap (GAP-1).} LX's limit formula, and therefore \NI{} eq.~\loc{finite-approx}, is proved for
+\emph{pairwise separated} $X,Y,Z$. In \NI's application $X=B$, $Y=A$, $Z=C$ are \emph{adjacent}
+($\bar A\cap\bar B\ne\emptyset$), so eq.~\loc{our-cmi} is not an instance of eq.~\loc{finite-approx}:
+the touching case is defined only through the singular limit LX~(13)--(14) (LX p.~23--24).
+\NI{} does say (\S1) that ``adjoining the common endpoint is implemented by the singular inside-limit
+used by Longo and Xu'', but \S2.2 nowhere flags that eq.~\loc{finite-approx} does \emph{not} cover
+the case actually used, and the abstract nonnegativity of $I_\omega(A:C|B)$ in eq.~\loc{our-cmi} therefore
+needs, in addition, continuity from inside (LX Thm.~4.1(1)). This is repairable in one sentence.
+\end{verdictgap}
+
+\subsection{N1 \S2.3, eqs.\ \loc{G-identity} and \loc{G-connected}}
+\begin{citedbox}{Longo--Xu 2018, Theorem 4.1(3),(4) and Theorem 4.2(1)}
+\emph{Transcribed exactly.} ``(3) There exists function $G:\mathcal{PI}\to\mathbb R$ such that
+$F(A,B)=G(A)+G(B)-G(A\cup B)-G(A\cap B)$. Such $G$ is uniquely determined by its value on connected open intervals;
+(4) One can choose $G(a,b)=\frac r6\ln|b-a|$ in (3) for the $r$ free fermion net $\Ar$ \dots''\\[2pt]
+``\textbf{Theorem 4.2.} Assume that a subnet $\mathcal B\subset\Ar$ has finite index, then:
+(1): $G_{\mathcal B}((a,b))=\frac r6\ln|b-a|$ and verifies equation (14) and (3) of Th.~4.1, and
+$F_{\mathcal B}(A,B)=-\frac r6|\ln\eta_{AB}|$, where $A,B$ are two overlapping intervals with cross ratio $0<\eta_{AB}<1$;''\\[2pt]
+\includegraphics[width=\textwidth]{shots/V1_LX_thm42_rmk43.png}
+\end{citedbox}
+\begin{issue}[Sign typo in the source, LX Thm.~4.2(1)]\label{iss:lx421}
+As printed, $F_{\mathcal B}(A,B)=-\frac r6|\ln\eta_{AB}|<0$ for $0<\eta_{AB}<1$, contradicting
+LX Thm.~4.1(1) ($F\ge0$). The intended statement is $F_{\mathcal B}(A,B)=-\frac r6\ln\eta_{AB}=+\frac r6|\ln\eta_{AB}|$,
+as confirmed by LX \S4.2 p.~24 (``$F(A\bar\cup B_0,A\bar\cup C_0)=-\frac r6\ln\bigl|\frac{(b_2-a_2)(b_3-a_1)}{(b_3-a_2)(b_2-a_1)}\bigr|$'')
+and by LX \S4.2.1 (``$F_{\mathcal A}(A,B)=-\frac r6\ln\eta$''). \emph{This is an error in the source, not in \NI:}
+\NI{} uses the correct sign throughout.
+\end{issue}
+\begin{verdictok}
+\NI{} eq.~\loc{G-identity} is LX Thm.~4.1(3) verbatim (with $U,V$ for $A,B$); eq.~\loc{G-connected}
+is LX Thm.~4.2(1) / Thm.~4.1(4) verbatim. \NI's statement ``The same formulas hold for $\Ar$'' is
+LX Thm.~4.1(4); ``the paper explains how the construction passes to the finite-index extensions
+considered there'' is the paragraph immediately after LX Thm.~4.2 (``In exactly the same way if
+$\mathcal B\subset\mathcal C$ is a subnet with finite index \dots'').
+\end{verdictok}
+\begin{verdictgap}
+\emph{Gap (GAP-2), inherited from the source.} LX Thm.~4.2 is stated for ``a subnet $\mathcal B\subset\Ar$
+[with] finite index'', but its proof (LX p.~24) invokes LX Thm.~4.4, whose hypotheses are
+``$\mathcal B\subset\mathcal A$ has finite index, \emph{$\mathcal B$ is strongly additive}''. Strong
+additivity of $\mathcal B$ is therefore an unstated hypothesis of Thm.~4.2, and hence of \NI{}
+eqs.~\loc{G-connected},\loc{asymptotic} and of \NI's scope box. (For $\mathcal B=\Ar$ itself the issue
+does not arise: $\Ar$ is strongly additive, LX p.~9.) Additionally, LX Thm.~4.4 as printed reads
+``$\lim_n S(\omega,\omega\cdot E_n)=[A:B]$''; from LX p.~26 the intended right-hand side is
+$\ln[\mathcal A:\mathcal B]=\frac12\ln\mu_{\mathcal B}$ (another source typo).
+\end{verdictgap}
+
+\subsection{N1 \S2.3: the divergent term \texorpdfstring{$P(\eps)$}{P(eps)}}
+\NI: ``When a gap of size $\eps$ closes, a universal divergent term $P(\eps)$ appears in $G$.
+Since the same $P(\eps)$ occurs with opposite signs in the balanced combination \loc{G-identity}, it cancels.''
+\begin{citedbox}{Longo--Xu 2018, \S4.2 pp.~23--24, eqs.~(13),(14) and the two-fold singular limit}
+\emph{Transcribed exactly.} ``\dots we may demand that $\lim_{\eps\to0}G(B_\eps\cup C)-P(\eps)=G(B_0\bar\cup C)$ (13)
+for some function $P(\eps)$ which is independent of $B,C$.'' \dots
+``Let $A=(a_2,b_2)$, $B_{\eps_1}=(a_1,a_{2\eps_1})$, $C_{\eps_2}=(b_{2\eps_2},b_3)$ \dots
+$F(A\bar\cup B_0,A\cup C_{\eps_2})=G(A\bar\cup B_0)+G(A\cup C_{\eps_2})-G(A\bar\cup B_0\cup C_{\eps_2})-G(A)$
+since the same function $P(\eps_1)$ appears in both $G(A\cup B_{\eps_1})$ and $G(A\cup B_{\eps_1}\cup C_{\eps_2})$
+with opposite signs. \dots
+$F(A\bar\cup B_0,A\bar\cup C_0)=G(A\bar\cup B_0)+G(A\bar\cup C_0)-G(A\bar\cup B_0\bar\cup C_0)-G(A)$.
+\dots In the case of free fermions, by Th.~3.18 we have that $P(\eps)=r/6\ln\eps+o(\eps)$, and we have
+$F(A\bar\cup B_0,A\bar\cup C_0)=-\frac r6\ln\bigl|\frac{(b_2-a_2)(b_3-a_1)}{(b_3-a_2)(b_2-a_1)}\bigr|$.''\\[2pt]
+\includegraphics[width=\textwidth]{shots/V1_LX_singular_limit.png}
+\end{citedbox}
+\begin{verdictok}
+Accurate paraphrase of LX pp.~23--24. In particular \NI's assertion that the cancellation is what makes
+the limit exist is exactly LX's argument.
+\end{verdictok}
+
+\subsection{N1 \S3.1: the \texorpdfstring{$G$}{G}-identity computation and eq.\ \loc{abc-formula}}
+
+\begin{theorem}[\NI{} \S3.1 is correct, including the coefficient $r/6$]\label{thm:n1main}
+With the notation (C6) and $G((u,v))=\frac r6\log(v-u)$,
+\[
+ G(AB)+G(BC)-G(ABC)-G(B)
+ =\frac r6\log\frac{(x_2-x_0)(x_3-x_1)}{(x_2-x_1)(x_3-x_0)}
+ =\frac r6\log\frac{(a+b)(b+c)}{b(a+b+c)}
+ =-\frac r6\log\eta,
+\]
+and this coincides with the value that LX obtain independently on p.~24 for
+$F(A\bar\cup B_0,A\bar\cup C_0)$.
+\end{theorem}
+\lstep{1}{1}{$AB\cup BC=ABC=(x_0,x_3)$ and $AB\cap BC=B=(x_1,x_2)$.}
+\lproof
+\lstep{2}{1}{$AB=(x_0,x_2)$, $BC=(x_1,x_3)$ and $x_0<x_1<x_2<x_3$.}\lby{(C6)}
+\lstep{2}{2}{$(x_0,x_2)\cup(x_1,x_3)=(x_0,x_3)$ because $x_1<x_2$, so the two intervals overlap.}\lby{$\langle2\rangle1$}
+\lstep{2}{3}{$(x_0,x_2)\cap(x_1,x_3)=(x_1,x_2)$.}\lby{$\langle2\rangle1$}
+\lqed{2}{4}\lby{$\langle2\rangle2$, $\langle2\rangle3$}
+\lstep{1}{2}{$G(AB)+G(BC)-G(ABC)-G(B)=\frac r6\bigl[\log(x_2-x_0)+\log(x_3-x_1)-\log(x_3-x_0)-\log(x_2-x_1)\bigr]$.}
+\lby{$\langle1\rangle1$, eq.~\loc{G-connected} applied to each of the four \emph{connected} intervals, and linearity}
+\lstep{1}{3}{$\text{that}=\frac r6\log\dfrac{(x_2-x_0)(x_3-x_1)}{(x_2-x_1)(x_3-x_0)}$.}
+\lby{$\log u+\log v-\log w-\log z=\log\frac{uv}{wz}$ for $u,v,w,z>0$; all four differences are $>0$ by (C6)}
+\lstep{1}{4}{$x_2-x_0=a+b$, $x_3-x_1=b+c$, $x_2-x_1=b$, $x_3-x_0=a+b+c$.}
+\lby{(C6): $a=x_1-x_0$, $b=x_2-x_1$, $c=x_3-x_2$; e.g.\ $x_2-x_0=(x_2-x_1)+(x_1-x_0)=b+a$}
+\lstep{1}{5}{$\text{that}=\frac r6\log\dfrac{(a+b)(b+c)}{b(a+b+c)}=-\frac r6\log\eta$.}
+\lby{$\langle1\rangle3$, $\langle1\rangle4$, and eq.~\eqref{eq:etadef}, using $\log(1/\eta)=-\log\eta$}
+\lstep{1}{6}{LX p.~24 give $F(A\bar\cup B_0,A\bar\cup C_0)=-\frac r6\ln\bigl|\frac{(b_2-a_2)(b_3-a_1)}{(b_3-a_2)(b_2-a_1)}\bigr|$
+for $A=(a_2,b_2)$, $B_0=(a_1,a_2)$, $C_0=(b_2,b_3)$.}
+\lby{citedbox in the preceding subsection, LX p.~24 (screenshot)}
+\lstep{1}{7}{Under the dictionary $a_1=x_0$, $a_2=x_1$, $b_2=x_2$, $b_3=x_3$ one has
+$B_0=A_{\NI}$, $A=B_{\NI}$, $C_0=C_{\NI}$, $A\bar\cup B_0=AB$, $A\bar\cup C_0=BC$, and
+$-\frac r6\ln\bigl|\frac{(b_2-a_2)(b_3-a_1)}{(b_3-a_2)(b_2-a_1)}\bigr|
+=-\frac r6\ln\frac{(x_2-x_1)(x_3-x_0)}{(x_3-x_1)(x_2-x_0)}=-\frac r6\ln\eta$.}
+\lby{$\langle1\rangle6$, eq.~\eqref{eq:etadef}; the absolute value is redundant since all four factors are positive}
+\lstep{1}{8}{Hence LX's independent evaluation agrees with $\langle1\rangle5$ \emph{exactly}, with no factor $2$ and no additive constant.}
+\lby{$\langle1\rangle5$, $\langle1\rangle7$}
+\lqed{1}{9}\lby{$\langle1\rangle2$--$\langle1\rangle8$}
+
+\begin{verdictok}
+\NI{} \S3.1 is verified line by line, including every sign. The coefficient is $r/6$, \emph{not} $r/3$
+or $r/12$: this is confirmed twice independently --- from $G((u,v))=\frac r6\ln|v-u|$
+(LX Thm.~4.1(4), Thm.~4.2(1)) and from LX's own closed form on p.~24 --- and numerically
+(\loc{num.py}, checks (1)--(2), $2000$ random configurations, max.\ error $2\cdot10^{-14}$).
+A cross-check on the normalisation: LX Rmk.~4.3 conjectures the same formula ``for any rational
+conformal net, where $r$ is replaced by the central charge'', i.e.\ $\Ar$ carries $c=r$;
+$\Ar(I)$ is generated by $c(\xi)=a(\xi)+a(\xi)^*$ with $\xi\in L^2(I,\mathbb C^r)$, i.e.\ $2r$ real
+chiral fermions, $c=2r\cdot\frac12=r$. Consistent.
+\end{verdictok}
+
+\subsection{N1 \S3.2: the collar computation, eqs.\ \loc{Ieps}, \loc{asymptotic} and the cancellation}
+
+\begin{citedbox}{Longo--Xu 2018, Theorem 4.2(2)}
+\emph{Transcribed exactly.} ``(2) Let $B=(a_1,a_{2\eps})$, $C=(a_2,b_2)$, $|a_{2\eps}-a_2|=\eps>0$. Then:
+\[F_{\mathcal B}(B,C)=\tfrac r6\bigl(\ln|a_2-a_1|+\ln|b_2-a_2|-\ln|b_2-a_1|-\ln(\eps)\bigr)-\tfrac12\ln\mu_{\mathcal B}+o(\eps)\]
+as $\eps$ goes to 0.'' (Screenshot in the Thm.~4.2 citedbox above.) Standing hypotheses:
+$\mathcal B\subset\Ar$ of finite index (plus strong additivity, see GAP-2); $\mu_{\mathcal B}=[\Ar:\mathcal B]^2$ by LX Lemma 2.10.
+\end{citedbox}
+
+\begin{theorem}[\NI{} eq.\ \loc{asymptotic} and the cancellation]\label{thm:collar1}
+Put $A_\eps=(x_0,x_1-\eps)$, $D_d=(x_1,x_1+d)$, $0<\eps<a$, $d>0$. Then LX Thm.~4.2(2) gives
+$F(A_\eps,D_d)=\frac r6\log\frac{ad}{(a+d)\eps}-\frac12\log\mu_{\cN}+o(1)$,
+and with $I_\eps:=F(A_\eps,D_{b+c})-F(A_\eps,D_b)$,
+$I_\eps=\frac r6\log\frac{(a+b)(b+c)}{b(a+b+c)}+o(1)$.
+\end{theorem}
+\lstep{1}{1}{The dictionary is $a_1=x_0$, $a_{2\eps}=x_1-\eps$, $a_2=x_1$, $b_2=x_1+d$; then $|a_{2\eps}-a_2|=\eps$ as required.}
+\lby{definition of $A_\eps,D_d$ in \NI{} \S3.2 and of $B,C$ in LX Thm.~4.2(2)}
+\lstep{1}{2}{$|a_2-a_1|=x_1-x_0=a$; $|b_2-a_2|=d$; $|b_2-a_1|=(x_1+d)-x_0=a+d$.}
+\lby{$\langle1\rangle1$, (C6)}
+\lstep{1}{3}{Hence $F(A_\eps,D_d)=\frac r6\bigl(\ln a+\ln d-\ln(a+d)-\ln\eps\bigr)-\frac12\ln\mu_{\cN}+o(\eps)
+=\frac r6\ln\frac{ad}{(a+d)\eps}-\frac12\ln\mu_{\cN}+o(\eps)$.}
+\lby{LX Thm.~4.2(2) and $\langle1\rangle2$}
+\lstep{1}{4}{$o(\eps)\subset o(1)$, so \NI's eq.~\loc{asymptotic} (which writes $o(1)$) is implied, and is weaker.}
+\lby{$\lim_{\eps\to0}\eps=0$}
+\lstep{1}{5}{Note that $|a_2-a_1|=a$ is the length of the \emph{unshortened} interval $A=(x_0,x_1)$, not of $A_\eps$ (length $a-\eps$).}
+\lby{$\langle1\rangle2$; this is exactly what LX's formula prescribes, since $a_1,a_2$ are the outer left endpoint and the \emph{limit} inner endpoint}
+\lstep{1}{6}{$D_b=B$ and $D_{b+c}=BC$.}
+\lby{$D_b=(x_1,x_1+b)=(x_1,x_2)$ and $D_{b+c}=(x_1,x_1+b+c)=(x_1,x_3)$ by (C6)}
+\lstep{1}{7}{$I_\eps=\frac r6\bigl[\ln a+\ln(b+c)-\ln(a+b+c)-\ln\eps\bigr]-\frac12\ln\mu_{\cN}
+ -\frac r6\bigl[\ln a+\ln b-\ln(a+b)-\ln\eps\bigr]+\frac12\ln\mu_{\cN}+o(1)$.}
+\lby{$\langle1\rangle3$ with $d=b+c$ and with $d=b$, subtracted; note $a+(b+c)=a+b+c$ and $a+b$}
+\lstep{1}{8}{The three terms $-\frac r6\ln\eps$, $+\frac r6\ln a$, $-\frac12\ln\mu_{\cN}$ cancel exactly, i.e.\
+the difference of the two brackets is $\frac r6[\ln(b+c)-\ln(a+b+c)-\ln b+\ln(a+b)]$.}
+\lby{$\langle1\rangle7$: each of the three appears once with $+$ and once with $-$}
+\lstep{1}{9}{$I_\eps=\frac r6\Bigl[\ln\frac{b+c}{a+b+c}-\ln\frac{b}{a+b}\Bigr]+o(1)=\frac r6\ln\frac{(a+b)(b+c)}{b(a+b+c)}+o(1)$.}
+\lby{$\langle1\rangle8$ and $\ln u-\ln v=\ln(u/v)$}
+\lqed{1}{10}\lby{$\langle1\rangle1$--$\langle1\rangle9$}
+
+\begin{verdictok}
+Every sign in \NI{} \S3.2 is correct. The three cancelling terms listed by \NI{}
+($-\frac r6\log\eps$, $\frac r6\log a$, $-\frac12\log\mu_{\cN}$) are exactly the three that cancel.
+$\mu_{\Ar}=1$ is LX p.~9. The exact (unexpanded) version of $\langle1\rangle3$ obtained from
+LX Thm.~3.18 is $F_{\Ar}(A_\eps,D_d)=\frac r6\ln\frac{a(d+\eps)}{(a+d)\eps}$, whose difference from
+\NI's eq.~\loc{asymptotic} is $\frac r6\ln(1+\eps/d)=O(\eps)$ --- verified numerically
+(\loc{num.py}, check (7)).
+\end{verdictok}
+\begin{verdictgap}
+\emph{Gap (GAP-3).} \NI{} concludes ``Taking $\eps\downarrow0$ reproduces \loc{abc-formula}''.
+What has been shown is that $\lim_{\eps\downarrow0}I_\eps$ \emph{equals the number}
+$\frac r6\log\frac{(a+b)(b+c)}{b(a+b+c)}$. The identification of that limit with
+$F(AB,BC)$ --- which is what eq.~\loc{our-cmi} defines the CMI to be --- requires in addition
+LX Thm.~4.1(5), $F(X\cup Y,X\cup Z)=F(Y,X\cup Z)-F(Y,X)$, applied with $X=B$, $Y=A_\eps$, $Z=C$
+(so that $I_\eps=F(A_\eps\cup B,BC)$), plus continuity from inside (LX Thm.~4.1(1)).
+\NI{} cites neither. The identity 4.1(5) and the resulting equality were verified numerically
+(\loc{num.py}, checks (4),(5)). Repairable in two sentences.
+\emph{Minor.} The symbol $\cN$ in $F_{\cN}$, $\mu_{\cN}$ is never introduced in \NI{} (\S2.3 uses $\mathcal B$).
+\end{verdictgap}
+
+\subsection{N1 \S4: positivity, cross ratio, and the three limits}
+
+\begin{lemma}[\NI{} \S4]\label{lem:limits}
+With $a,b,c>0$ and $\eta$ as in \eqref{eq:etadef}:
+{\rm(i)} $(a+b)(b+c)-b(a+b+c)=ac>0$ and hence $0<\eta<1$ and $I_\omega=-\frac r6\log\eta>0$;
+{\rm(ii)} $\eta\to1$ and $I_\omega\to0$ as $a\downarrow0$ or $c\downarrow0$;
+{\rm(iii)} $I_\omega=\frac r6\frac{ac}{b^2}+O(b^{-3})$ as $b\to\infty$ with $a,c$ fixed;
+{\rm(iv)} $I_\omega=\frac r6\log\frac1b+O(1)\to+\infty$ as $b\downarrow0$.
+\end{lemma}
+\lstep{1}{1}{(i): $(a+b)(b+c)=ab+ac+b^2+bc$ and $b(a+b+c)=ab+b^2+bc$; the difference is $ac$.}
+\lby{distributivity}
+\lstep{1}{2}{$ac>0$ since $a,c>0$; also $b(a+b+c)>0$; hence $0<\eta<1$.}
+\lby{$\langle1\rangle1$ and $\eta=\frac{b(a+b+c)}{(a+b)(b+c)}$}
+\lstep{1}{3}{$\log\eta<0$, so $I_\omega=-\frac r6\log\eta>0$ (for $r>0$).}
+\lby{$\langle1\rangle2$, monotonicity of $\log$}
+\lstep{1}{4}{(ii): $\eta|_{a=0}=\frac{b(b+c)}{b(b+c)}=1$ and $\eta|_{c=0}=\frac{b(a+b)}{(a+b)b}=1$; moreover
+$1-\eta=\frac{ac}{(a+b)(b+c)}\to0$.}
+\lby{$\langle1\rangle1$ and substitution; $\eta$ is continuous in $(a,c)$ on $[0,\infty)^2$ for $b>0$}
+\lstep{1}{5}{(iii): with $u:=\frac{ac}{b(a+b+c)}$, $\eta^{-1}=1+u$ and $I_\omega=\frac r6\log(1+u)$.}
+\lby{$\langle1\rangle1$: $\frac{(a+b)(b+c)}{b(a+b+c)}=1+\frac{ac}{b(a+b+c)}$}
+\lstep{1}{6}{$u=\frac{ac}{b^2}\bigl(1-\frac{a+c}{b}+O(b^{-2})\bigr)$ and $\log(1+u)=u-\frac{u^2}2+O(u^3)$ with $u^2=O(b^{-4})$.}
+\lby{geometric expansion of $(1+\frac{a+c}{b})^{-1}$, valid for $b>a+c$; Taylor series of $\log(1+u)$, valid for $|u|<1$}
+\lstep{1}{7}{Hence $I_\omega=\frac r6\bigl[\frac{ac}{b^2}-\frac{ac(a+c)}{b^3}+O(b^{-4})\bigr]=\frac r6\frac{ac}{b^2}+O(b^{-3})$.}
+\lby{$\langle1\rangle5$, $\langle1\rangle6$}
+\lstep{1}{8}{(iv): $\eta=\frac{b(a+b+c)}{(a+b)(b+c)}\sim\frac{b(a+c)}{ac}$ as $b\downarrow0$, so
+$I_\omega=-\frac r6\log\eta=\frac r6\log\frac1b+\frac r6\log\frac{ac}{a+c}+o(1)$.}
+\lby{continuity of the rational function at $b=0$ after factoring out $b$}
+\lqed{1}{9}\lby{$\langle1\rangle1$--$\langle1\rangle8$}
+\begin{verdictok}
+All four statements of \NI{} \S4 are verified, including the coefficient $\frac r6$ in the $b^{-2}$ law and
+the assertion of \emph{logarithmic} divergence as $b\downarrow0$. Numerics (\loc{num.py}, check (8)):
+$I_\omega b^2/(\tfrac r6ac)\to1$ and $(I_\omega-\text{lead})b^3\to-\frac r6ac(a+c)$, matching $\langle1\rangle7$.
+\NI's remark that the positivity ``agrees with the nonnegativity obtained abstractly from strong
+subadditivity'' is consistent (though note that eq.~\loc{finite-approx} gives only $\ge0$, whereas
+$\langle1\rangle3$ gives the strict inequality).
+\end{verdictok}
+
+\subsection{N1: main-result box, scope box, conclusion}
+\begin{verdictok}
+The main-result box is the content of Theorem \ref{thm:n1main} plus Lemma \ref{lem:limits}(i);
+all three displayed expressions agree and the boxed $I_\omega=-\frac r6\log\eta<\infty$ is correct.
+The scope box is accurate: LX's rigorous class is $\Ar$, its finite-index subnets, and the finite-index
+extensions of the paragraph after LX Thm.~4.2; LX Rmk.~4.3 does conjecture the rational-net statement
+``where $r$ is replaced by the central charge''; and it is correct that the chiral theorem does not by
+itself give a full 2D CFT statement. The conclusion section contains no new claims.
+\emph{Minor:} the scope box does not mention the strong-additivity hypothesis of GAP-2.
+\end{verdictok}
+
+\section{Note 2: \texorpdfstring{\loc{cmi\_as\_quantum\_markov\_defect.tex}}{Note 2}}\label{sec:n2}
+
+\subsection{N2 \S1, eqs.\ \loc{rel-1}, \loc{rel-2}, \loc{cmi-dpi-defect}}
+
+\begin{theorem}[\NII{} \S1 is correct]\label{thm:findim}
+Let $\rho_{ABC}$ be a density matrix on a finite-dimensional
+$\mathcal H_A\otimes\mathcal H_B\otimes\mathcal H_C$ whose marginals $\rho_A$ and $\rho_{BC}$ are
+\emph{faithful} (equivalently: $\supp\rho_{ABC}\le\supp(\rho_A\otimes\rho_{BC})$ suffices).
+Put $\sigma_{ABC}:=\rho_A\otimes\rho_{BC}$ and $\mathcal N:=\Tr_C$. Then
+\begin{align*}
+ D(\rho_{ABC}\|\rho_A\otimes\rho_{BC})&=S(A)_\rho+S(BC)_\rho-S(ABC)_\rho,\\
+ D(\rho_{AB}\|\rho_A\otimes\rho_{B})&=S(A)_\rho+S(B)_\rho-S(AB)_\rho,\\
+ I_\rho(A:C\mid B)&=D(\rho_{ABC}\|\sigma_{ABC})-D(\mathcal N\rho_{ABC}\|\mathcal N\sigma_{ABC}).
+\end{align*}
+\end{theorem}
+\lstep{1}{1}{$\log(\rho_A\otimes\rho_{BC})=\log\rho_A\otimes\1_{BC}+\1_A\otimes\log\rho_{BC}$.}
+\lby{the two commuting positive operators $\rho_A\otimes\1$ and $\1\otimes\rho_{BC}$ are invertible
+by faithfulness, and $\log$ of a product of commuting invertible positives is the sum of the logs}
+\lstep{1}{2}{$\Tr\bigl[\rho_{ABC}(\log\rho_A\otimes\1_{BC})\bigr]=\Tr[\rho_A\log\rho_A]=-S(A)_\rho$.}
+\lby{$\Tr[X(Y\otimes\1)]=\Tr[(\Tr_{BC}X)\,Y]$, i.e.\ the defining property of the partial trace, with $Y=\log\rho_A$; and (C4)}
+\lstep{1}{3}{$\Tr\bigl[\rho_{ABC}(\1_A\otimes\log\rho_{BC})\bigr]=\Tr[\rho_{BC}\log\rho_{BC}]=-S(BC)_\rho$.}
+\lby{as $\langle1\rangle2$, with $\Tr_A$}
+\lstep{1}{4}{$D(\rho_{ABC}\|\rho_A\otimes\rho_{BC})=\Tr\rho_{ABC}\log\rho_{ABC}-\Tr\rho_{ABC}\log(\rho_A\otimes\rho_{BC})
+ =-S(ABC)_\rho+S(A)_\rho+S(BC)_\rho$.}
+\lby{(C1), $\langle1\rangle1$, $\langle1\rangle2$, $\langle1\rangle3$; this is eq.~\loc{rel-1}}
+\lstep{1}{5}{$D(\rho_{AB}\|\rho_A\otimes\rho_B)=S(A)_\rho+S(B)_\rho-S(AB)_\rho$.}
+\lby{$\langle1\rangle4$ applied to the bipartite system $A|B$ (i.e.\ with $C$ absent), which is eq.~\loc{rel-2}}
+\lstep{1}{6}{$\mathcal N(\rho_{ABC})=\rho_{AB}$ and $\mathcal N(\sigma_{ABC})=\Tr_C(\rho_A\otimes\rho_{BC})=\rho_A\otimes\rho_B$.}
+\lby{definition of the partial trace; $\Tr_C$ acts only on the second tensor factor of $\rho_A\otimes\rho_{BC}$ and $\Tr_C\rho_{BC}=\rho_B$}
+\lstep{1}{7}{Subtracting $\langle1\rangle5$ from $\langle1\rangle4$:
+$D(\rho_{ABC}\|\sigma)-D(\mathcal N\rho\|\mathcal N\sigma)=S(BC)_\rho-S(ABC)_\rho-S(B)_\rho+S(AB)_\rho$.}
+\lby{$\langle1\rangle4$, $\langle1\rangle5$, $\langle1\rangle6$; the two $S(A)_\rho$ cancel}
+\lstep{1}{8}{$S(AB)+S(BC)-S(B)-S(ABC)=I_\rho(A:C\mid B)$.}
+\lby{the definition of $I_\rho(A:C\mid B)$ in \NII{} \S1}
+\lqed{1}{9}\lby{$\langle1\rangle7$, $\langle1\rangle8$}
+
+\begin{verdictok}
+Eqs.~\loc{rel-1}, \loc{rel-2} and the boxed eq.~\loc{cmi-dpi-defect} are correct, as is the reading
+``strong subadditivity is the data-processing inequality for the pair $(\rho_{ABC},\rho_A\otimes\rho_{BC})$''.
+This is precisely HJPW p.~4, \S V (``Uhlmann's theorem specialized to the states $\rho_{ABC}$ and
+$\sigma_{ABC}=\rho_A\otimes\rho_{BC}$, along with the map $T=\Tr_C$, states that
+$S(\rho_{ABC}\|\rho_A\otimes\rho_{BC})\ge S(\rho_{AB}\|\rho_A\otimes\rho_B)$''), and Jen\v{c}ov\'a--Petz
+eq.~(28).
+\emph{Minor.} \NII{} does not state the support/faithfulness hypothesis used in $\langle1\rangle1$;
+without $\supp\rho_{ABC}\le\supp\sigma_{ABC}$ both sides can be $+\infty$ and the subtraction is
+meaningless. The tikz figure (``recovery on $B$'') is a picture, not a claim, and is consistent.
+\end{verdictok}
+
+\subsection{N2 \S2, eqs.\ \loc{general-petz}, \loc{petz-B}, \loc{markov-equivalence}}
+
+\begin{citedbox}{Hayden--Jozsa--Petz--Winter 2004, Theorem 3 (= Petz), eq.~(8), and \S V eqs.~(10),(11)}
+\emph{Transcribed exactly.} ``\textbf{Theorem 3} (Petz [15]) For states $\rho$ and $\sigma$,
+$S(\rho\|\sigma)=S(T\rho\|T\sigma)$ if and only if there exists a quantum operation $\widehat T$ such
+that $\widehat TT\rho=\rho$, $\widehat TT\sigma=\sigma$. Furthermore, on the support of $T\sigma$,
+$\widehat T$ can be given explicitly by the formula
+$\widehat T\alpha=\sigma^{\frac12}T^*\bigl((T\sigma)^{-\frac12}\alpha(T\sigma)^{-\frac12}\bigr)\sigma^{\frac12}$ (8)''.\\[2pt]
+``Now, because $T=\id_A\otimes R_{BC}$, with the restriction map $R_{BC}=\id_B\otimes\Tr_C$, and
+$\sigma$ is a tensor product, we obtain \dots $\widehat T=\id_A\otimes\widehat R$ (10), with
+$\widehat R=\widehat R_{\rho_{BC}}$. Summarising, in the above monotonicity and hence in strong
+subadditivity we have equality if and only if $\rho_{ABC}=(\id\otimes\widehat R)\rho_{AB}$ (11).''\\[2pt]
+\includegraphics[width=0.92\textwidth]{shots/V1_HJPW_p4.png}
+\end{citedbox}
+
+\lstep{1}{1}{\NII{} eq.~\loc{general-petz} is HJPW eq.~(8) with $(T,\widehat T)\to(\mathcal N,\cR^{\rm P}_{\sigma,\mathcal N})$.}
+\lby{character-by-character comparison; \NII's ``with inverses taken on the relevant supports'' matches HJPW's ``on the support of $T\sigma$''}
+\lstep{1}{2}{With $\sigma=\rho_A\otimes\rho_{BC}$, $\mathcal N=\Tr_C$, $\mathcal N^*(\,\cdot\,)=(\,\cdot\,)\otimes\1_C$ and
+$\mathcal N(\sigma)=\rho_A\otimes\rho_B$, eq.~\loc{general-petz} evaluates on $X_A\otimes X_B$ to
+$X_A\otimes\rho_{BC}^{1/2}(\rho_B^{-1/2}X_B\rho_B^{-1/2}\otimes\1_C)\rho_{BC}^{1/2}$.}
+\lproof
+\lstep{2}{1}{$\sigma^{1/2}=\rho_A^{1/2}\otimes\rho_{BC}^{1/2}$ and $\mathcal N(\sigma)^{-1/2}=\rho_A^{-1/2}\otimes\rho_B^{-1/2}$.}
+\lby{$(\,X\otimes Y)^{s}=X^s\otimes Y^s$ for commuting positive tensor factors}
+\lstep{2}{2}{$\mathcal N(\sigma)^{-1/2}(X_A\otimes X_B)\mathcal N(\sigma)^{-1/2}
+ =(\rho_A^{-1/2}X_A\rho_A^{-1/2})\otimes(\rho_B^{-1/2}X_B\rho_B^{-1/2})$.}
+\lby{$\langle2\rangle1$ and multiplicativity of $\otimes$}
+\lstep{2}{3}{Applying $\mathcal N^*=(\cdot)\otimes\1_C$ and conjugating by $\sigma^{1/2}$ gives
+$\rho_A^{1/2}\rho_A^{-1/2}X_A\rho_A^{-1/2}\rho_A^{1/2}\otimes\rho_{BC}^{1/2}\bigl(\rho_B^{-1/2}X_B\rho_B^{-1/2}\otimes\1_C\bigr)\rho_{BC}^{1/2}$.}
+\lby{$\langle2\rangle2$, $\langle2\rangle1$, and the fact that $\mathcal N^*$ inserts $\1_C$ in the second factor only}
+\lstep{2}{4}{$\rho_A^{1/2}\rho_A^{-1/2}X_A\rho_A^{-1/2}\rho_A^{1/2}=X_A$.}
+\lby{faithfulness of $\rho_A$}
+\lqed{2}{5}\lby{$\langle2\rangle3$, $\langle2\rangle4$}
+\lstep{1}{3}{Hence $\cR^{\rm P}_{\sigma,\mathcal N}=\id_A\otimes\cR^{\rm P}_{B\to BC}$ with $\cR^{\rm P}_{B\to BC}$ as in eq.~\loc{petz-B}.}
+\lby{$\langle1\rangle2$ and linearity/continuity, product operators spanning}
+\lstep{1}{4}{Eq.~\loc{markov-equivalence} follows from HJPW eq.~(11) combined with Theorem \ref{thm:findim}.}
+\lby{Theorem \ref{thm:findim} identifies $I_\rho(A:C|B)$ with the monotonicity defect for $(\rho_{ABC},\sigma_{ABC},\Tr_C)$, and HJPW Thm.~3/eq.~(11) characterise its vanishing}
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$}
+
+\begin{verdictok}
+Eqs.~\loc{general-petz}, \loc{petz-B}, \loc{markov-equivalence} are correct and are verbatim HJPW.
+Note that the factorisation in $\langle1\rangle2$ works because the \emph{reference} state is
+$\sigma=\rho_A\otimes\rho_{BC}$; \NII{} says only ``In the CMI setting'', which is the right setting.
+\emph{Minor.} \NII{} does not say which $\sigma$ is meant in the transition from eq.~\loc{general-petz}
+to eq.~\loc{petz-B}; with $\sigma=\rho_{ABC}$ (a common alternative convention) the map is
+$X_{AB}\mapsto\rho_{ABC}^{1/2}(\rho_{AB}^{-1/2}X_{AB}\rho_{AB}^{-1/2}\otimes\1_C)\rho_{ABC}^{1/2}$,
+which does \emph{not} factorise as $\id_A\otimes(\cdot)$ unless $\rho$ is already Markov. One clause
+(``with $\sigma=\rho_A\otimes\rho_{BC}$'') removes the ambiguity.
+\end{verdictok}
+
+\subsection{N2 \S2, eqs.\ \loc{hjpw-decomposition}, \loc{hjpw-state} and the interpretation box}
+\begin{citedbox}{Hayden--Jozsa--Petz--Winter 2004, Theorem 6}
+\emph{Transcribed exactly.} ``\textbf{Theorem 6} A state $\rho_{ABC}$ on $\mathcal H_A\otimes\mathcal H_B\otimes\mathcal H_C$
+satisfies strong subadditivity (eq.~(1)) with equality if and only if there is a decomposition of
+system $B$ as $\mathcal H_B=\bigoplus_j\mathcal H_{b_j^L}\otimes\mathcal H_{b_j^R}$ into a direct sum of
+tensor products, such that $\rho_{ABC}=\bigoplus_jq_j\rho_{Ab_j^L}\otimes\rho_{b_j^RC}$, with states
+$\rho_{Ab_j^L}$ on $\mathcal H_A\otimes\mathcal H_{b_j^L}$ and $\rho_{b_j^RC}$ on
+$\mathcal H_{b_j^R}\otimes\mathcal H_C$, and a probability distribution $\{q_j\}$.''\\[2pt]
+\includegraphics[width=0.78\textwidth]{shots/V1_HJPW_thm6.png}
+\end{citedbox}
+\begin{verdictok}
+\NII{} eqs.~\loc{hjpw-decomposition},\loc{hjpw-state} reproduce HJPW Thm.~6 exactly ($p_j$ for $q_j$),
+and the qualifier ``in finite dimensions'' is correct: HJPW work on finite-dimensional
+$\mathcal H_A\otimes\mathcal H_B\otimes\mathcal H_C$. The interpretation box is accurate: the
+direct-sum/tensor decomposition presupposes type-I algebras, and the Petz/sufficiency formulation is
+the one that survives. (An infinite-dimensional type-I extension does exist ---
+Jen\v{c}ov\'a--Petz Thm.~8, requiring $\omega_{ABC}$ \emph{faithful normal} with $S(\omega_{ABC})<\infty$ ---
+but still not for type III; \NII's claim is therefore not overstated.)
+\end{verdictok}
+
+\subsection{N2 \S3, eqs.\ \loc{abstract-defect}, \loc{petz-vn-equivalence}, \loc{connes-criterion}}
+
+\NII{} \S3 reads: ``Let $\cN\subset\cM$ be an inclusion of von Neumann algebras and let $\rho,\sigma$
+be faithful normal states on $\cM$. Define the data-processing defect
+$\delta_{\cN\subset\cM}(\rho,\sigma):=D_{\cM}(\rho\|\sigma)-D_{\cN}(\rho|_{\cN}\|\sigma|_{\cN})\ge0$.
+Petz's sufficiency theorem gives several equivalent characterizations of equality:
+$\delta=0\iff$ there is a normal recovery channel preserving both $\rho$ and $\sigma$.
+For faithful states, another equivalent condition is the Connes-cocycle criterion
+$[D\rho:D\sigma]_t\in\cN$ for every $t\in\mathbb R$.''
+
+\begin{citedbox}{Petz 1986, CMP 105, 123--131 --- \textbf{NOT OBTAINED}}
+The original paper could not be downloaded: Project Euclid
+(\loc{.../cmp/1104115260.full}) and SpringerLink (\loc{doi:10.1007/BF01212345})
+both return bot-protection/paywall HTML rather than a PDF (verified with \loc{curl} and with a
+browser-agent fetch). Its statement is therefore quoted below through two accessible secondary
+sources, one of them by Petz himself.
+\end{citedbox}
+
+\begin{citedbox}{Jen\v{c}ov\'a--Petz 2006 (arXiv:math-ph/0412093), Theorem 1 (p.~7) and the Remark on p.~14}
+\emph{Transcribed exactly.} ``\textbf{Theorem 1} Let $(\mathcal M,\{\varphi_\theta:\theta\in\Theta\})$
+be a statistical experiment and let $\mathcal M_0\subset\mathcal M$ be von Neumann algebras. Assume
+that $\{\varphi_\theta:\theta\in\Theta\}$ is dominated by a faithful normal state $\omega$. Then the
+following conditions are equivalent.
+(i) $\mathcal M_0$ is sufficient for $(\varphi_\theta)$.
+(ii) $P_{\mathcal A}(\varphi_\theta,\omega)=P_{\mathcal A}(\varphi_\theta|_{\mathcal M_0},\omega|_{\mathcal M_0})$ for all $\theta$.
+(iii) $[D\varphi_\theta,D\omega]_t=[D(\varphi_\theta|_{\mathcal M_0}),D(\omega|_{\mathcal M_0})]_t$ for every real $t$ and for every $\theta$.
+(iv) $[D\varphi_\theta,D\omega]_t\in\mathcal M_0$ for all real $t$ and every $\theta$.
+(v) The generalized conditional expectation $E_\omega:\mathcal M\to\mathcal M_0$ leaves all the states $\varphi_\theta$ invariant.''\\[2pt]
+\emph{Remark (p.~14):} ``Let $S(\varphi,\omega)$ be the relative entropy and \textbf{suppose that
+$S(\varphi_\theta,\omega)$ is finite for all $\theta$}. Then the condition (iii) can be replaced by
+$S(\varphi_\theta,\omega)=S(\varphi_\theta\circ\sigma,\omega\circ\sigma)$.''
+\end{citedbox}
+
+\begin{theorem}[what is true, with hypotheses]\label{thm:petzvn}
+Let $\cN\subset\cM$ be von Neumann algebras, $\rho,\sigma$ normal states on $\cM$ with $\sigma$
+faithful, and assume
+\begin{equation}\label{eq:finhyp}
+ D_{\cM}(\rho\|\sigma)<\infty .
+\end{equation}
+Then the following are equivalent:
+{\rm(a)} $\delta_{\cN\subset\cM}(\rho,\sigma)=0$;
+{\rm(b)} there is a normal unital completely positive $\alpha:\cM\to\cN$ with
+$\rho|_{\cN}\circ\alpha=\rho$ and $\sigma|_{\cN}\circ\alpha=\sigma$ (one may take $\alpha=\alpha_{\sigma,0}$,
+the Petz/Accardi--Cecchini generalized conditional expectation);
+{\rm(c)} $[D\rho:D\sigma]_t\in\cN$ for all $t\in\mathbb R$.
+\end{theorem}
+\lstep{1}{1}{(a)$\Leftrightarrow$``$\cN$ is (weakly) sufficient for $\{\rho,\sigma\}$''.}
+\lby{Jen\v{c}ov\'a--Petz Remark p.~14, which under \eqref{eq:finhyp} identifies equality of relative
+entropies with condition (iii) of their Thm.~1; this is Petz's 1986 theorem}
+\lstep{1}{2}{(iii)$\Leftrightarrow$(iv) of Jen\v{c}ov\'a--Petz Thm.~1 gives (c).}
+\lby{Jen\v{c}ov\'a--Petz Thm.~1, with $\{\varphi_\theta\}=\{\rho\}$ and the dominating faithful normal state $\omega=\sigma$}
+\lstep{1}{3}{(i)$\Leftrightarrow$(v) of the same theorem gives (b) with $\alpha=E_\sigma$, the generalized conditional expectation.}
+\lby{Jen\v{c}ov\'a--Petz Thm.~1; that $E_\sigma$ also preserves $\sigma$ is automatic from its construction}
+\lstep{1}{4}{$\alpha_{\sigma,0}$ of FHSW eq.~(21) \emph{is} that generalized conditional expectation.}
+\lby{FHSW p.~6: ``in the subalgebra context considered here it is equal to the generalized conditional expectation introduced even earlier by [6]'' (Accardi--Cecchini)}
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$}
+
+\begin{verdictgap}
+\emph{Gap (GAP-4), and it is a genuine hypothesis omission.} \NII{} eq.~\loc{petz-vn-equivalence}
+asserts the equivalence with no finiteness assumption. If $D_{\cM}(\rho\|\sigma)=+\infty$ then
+$\delta_{\cN\subset\cM}(\rho,\sigma)$ is either $\infty-\infty$ (undefined) or, on the convention
+$\infty-\infty:=0$, spuriously ``$=0$'' while no recovery channel need exist. The finiteness
+hypothesis is explicit in Petz's own restatement (Jen\v{c}ov\'a--Petz, Remark p.~14: ``suppose that
+$S(\varphi_\theta,\omega)$ is finite''), and in FHSW Thm.~2 eq.~(40) (``$S(\rho|\sigma)<\infty$'').
+One clause repairs it. \emph{In \NII's own application the hypothesis \emph{is} satisfied}
+(Theorem \ref{thm:mieps} below gives $D_{\cM_\eps}(\omega_\eps\|\sigma_\eps)<\infty$), so nothing
+downstream breaks.
+\emph{Second, smaller gap.} \NII{} says ``$\rho,\sigma$ faithful normal states'' and then, for the
+cocycle criterion, ``For faithful states''. Faithfulness of $\sigma$ is what is needed for
+$[D\rho:D\sigma]_t$; faithfulness of $\rho$ is needed only for $[D\rho:D\sigma]_t$ to be unitary rather
+than a partial isometry. The formulation is thus safe but redundant.
+\emph{Third.} ``there is a normal recovery channel preserving both $\rho$ and $\sigma$'' should say in
+which direction the channel goes ($\alpha:\cM\to\cN$ in the Heisenberg picture, so that
+$\rho|_{\cN}\circ\alpha=\rho$); as written it is ambiguous.
+\end{verdictgap}
+\begin{verdictok}
+Eq.~\loc{abstract-defect} ($\delta\ge0$) is correct: it is monotonicity of Araki relative entropy
+(Uhlmann; LX Thm.~2.2(4); FHSW p.~5 after eq.~(15)). Eq.~\loc{connes-criterion} is exactly
+Jen\v{c}ov\'a--Petz Thm.~1(iv), i.e.\ Petz's 1986 criterion. \NII's sentence ``It makes the Markov
+property a statement about relative modular flow rather than about a Hilbert-space factorization''
+is an accurate reading.
+\end{verdictok}
+
+\subsection{N2 \S4: the collar. Normality of \texorpdfstring{$\sigma_\eps$}{sigma-eps} and the graded product}\label{sec:graded}
+
+\NII{} \S4 sets $A_\eps=(x_0,x_1-\eps)$, $0<\eps<a$,
+$\cM_\eps:=\cA(A_\eps)\vee\cA(BC)$, $\cN_\eps:=\cA(A_\eps)\vee\cA(B)$, and asserts
+\begin{equation}\label{n2:split}
+ \cM_\eps\simeq\cA(A_\eps)\,\overline\otimes\,\cA(BC),\qquad
+ \cN_\eps\simeq\cA(A_\eps)\,\overline\otimes\,\cA(B),\qquad
+ \sigma_\eps:=\omega_{A_\eps}\otimes\omega_{BC}.
+\end{equation}
+Three separate questions must be answered: (Q1) is $\sigma_\eps$ a normal state on $\cM_\eps$?
+(Q2) is the tensor identification correct as written? (Q3) if not, does the value of
+$D_{\cM_\eps}(\omega\|\sigma_\eps)$ change?
+
+\begin{citedbox}{Xu 2000, Commun.\ Contemp.\ Math.\ \textbf{2}, 307--347, Proposition 2.3.1(2) (p.~21) --- the split property used by LX}
+\emph{Transcribed exactly.} ``(2) $\varphi_1$ extends to a normal faithful state on von Neumann
+algebra $\{A\otimes_2B,\ A\in M(I_1),B\in M(I_2)\}''$ (denoted by $M(I_1)\widehat\otimes_2M(I_2)$) on
+$F_p\otimes F_p$. There exists a unitary operator $U_1:F_p\to F_p\otimes F_p$ such that
+$U_1ABU_1^*=A\otimes_2B$ for any $A\in M(I_1),B\in M(I_3)$.''\\[2pt]
+\includegraphics[width=\textwidth]{shots/V1_Xu_prop231.png}\\
+\emph{Hypotheses:} $I_1,I_2$ disjoint (in the paper's convention, with disjoint closures);
+the proof (p.~20--21) runs through the trace-class estimate $\Tr(r^{L_0})<\infty$, i.e.\ the standard
+nuclearity route to the split property. \emph{This is the result LX quote as their Lemma 3.1(1).}
+\emph{Use in \NII:} it is what makes eq.~\loc{split-reference} meaningful.
+\emph{Verdict on usage:} the hypothesis is met, since $\overline{A_\eps}\cap\overline{BC}=\emptyset$
+with distance $\eps>0$; but the conclusion is a \emph{graded} tensor product (see below).
+\end{citedbox}
+
+\begin{theorem}[Answer to (Q1)--(Q3)]\label{thm:graded}
+Let $0<\eps<a$, and let $\Ar$ be the free fermion net. Then:
+\begin{enumerate}[label=\rm(\arabic*)]
+\item There is exactly one normal state $\sigma_\eps$ on $\cM_\eps$ with
+$\sigma_\eps(xy)=\omega(x)\omega(y)$ for $x\in\Ar(A_\eps)$, $y\in\Ar(BC)$; it is faithful, and it
+coincides with the Longo--Xu state $\omega_{A_\eps}\otimes_2\omega_{BC}$. Hence \NII's
+$\sigma_\eps$ is well defined and normal, and \emph{its value, and therefore
+$D_{\cM_\eps}(\omega\|\sigma_\eps)$, is the same whether one writes $\otimes$ or $\otimes_2$}.
+\item The identification in eq.~\eqref{n2:split} is \emph{false as written} for the full Fermi net:
+the correct statement is $\cM_\eps\cong\Ar(A_\eps)\gt\Ar(BC)$ and
+$\cN_\eps\cong\Ar(A_\eps)\gt\Ar(B)$, graded tensor products.
+\item On the even (Bose) subnet $\Ar^e$ the plain tensor identification and the plain product state
+of eq.~\eqref{n2:split} are literally correct.
+\item $\sigma_\eps$ and $\omega_\eps$ are $\Ad\Gamma$-invariant; consequently their modular groups,
+modular conjugations and the maps $\alpha_{\sigma_\eps,t}$ all commute with $\Ad\Gamma$
+(``parity preserving'').
+\end{enumerate}
+\end{theorem}
+\lstep{1}{1}{(1): existence and normality.}
+\lproof
+\lstep{2}{1}{By Xu Prop.~2.3.1(2)/LX Lemma 3.1(1), $\omega_{A_\eps}\otimes_2\omega_{BC}$ is a normal
+faithful state on $\cM_\eps$ (transported by $U_1$).}
+\lby{citedbox above, with $I_1=A_\eps$, $I_2=BC$, $\overline{I_1}\cap\overline{I_2}=\emptyset$}
+\lstep{2}{2}{It satisfies $\sigma_\eps(xy)=\omega(x)\omega(y)$.}
+\lby{Lemma \ref{lem:prodstate}}
+\lstep{2}{3}{Uniqueness.}
+\lby{Lemma \ref{lem:prodstate} $\langle1\rangle4$--$\langle1\rangle5$}
+\lqed{2}{4}\lby{$\langle2\rangle1$--$\langle2\rangle3$}
+\lstep{1}{2}{(1): invariance of the relative entropy under the choice of notation.}
+\lby{$D_{\cM_\eps}(\omega\|\sigma_\eps)$ depends only on the pair of normal states on the von Neumann
+algebra $\cM_\eps$ (C1); by $\langle1\rangle1$ there is only one candidate for $\sigma_\eps$}
+\lstep{1}{3}{(2): $\Ar(A_\eps)$ and $\Ar(BC)$ do \emph{not} commute.}
+\lproof
+\lstep{2}{1}{$\Ar$ is graded local: for homogeneous $x\in\Ar(I_1)$, $y\in\Ar(I_2)$ with $I_1\cap I_2=\emptyset$,
+$xy=(-1)^{\partial x\,\partial y}yx$; two odd elements anticommute.}
+\lby{LX p.~6, definition of a M\"obius covariant graded net satisfying graded locality}
+\lstep{2}{2}{Odd elements exist in $\Ar(I)$ (e.g.\ $c(\xi)$, $\xi\in L^2(I,\mathbb C^r)$) and are nonzero.}
+\lby{(C7)}
+\lstep{2}{3}{Hence $\cM_\eps$ is not the von Neumann tensor product of commuting copies via the
+identity map on generators; the isomorphism supplied by the split property is $U_1ABU_1^*=A\otimes_2B$,
+i.e.\ onto $\Ar(A_\eps)\gt\Ar(BC)$.}
+\lby{$\langle2\rangle1$, $\langle2\rangle2$, and the citedbox}
+\lqed{2}{4}\lby{$\langle2\rangle1$--$\langle2\rangle3$}
+\lstep{1}{4}{(3): on $\Ar^e$ all local algebras commute, $A\otimes_2B=A\otimes B$, and
+$\omega_1\otimes_2\omega_2=\omega_1\otimes\omega_2$.}
+\lby{$B_-=0$ for even $B$, so $A\otimes_2B=A\otimes B_+=A\otimes B$}
+\lstep{1}{5}{(4): $\Gamma\Omega=\Omega$ gives $\omega\circ\Ad\Gamma=\omega$; and
+$\sigma_\eps\circ\Ad\Gamma=\sigma_\eps$ because $\Ad\Gamma$ preserves each $\Ar(I)$ and
+$\sigma_\eps(\Gamma xy\Gamma)=\omega(\Gamma x\Gamma)\omega(\Gamma y\Gamma)=\omega(x)\omega(y)$.}
+\lby{$\langle1\rangle1$, (C7), and LX p.~10 (``both $\omega_1\otimes_2\omega_2$ and $\omega$ are $\Ad\Gamma$ invariant'')}
+\lstep{1}{6}{A state-preserving automorphism commutes with the modular group of that state and
+preserves the natural cone, hence commutes with $J$; and $\alpha_{\sigma,t}$ is built from
+$J_{\cN},J_{\cM},V_\sigma$ and the two modular flows.}
+\lby{uniqueness in Tomita--Takesaki theory; FHSW eqs.~(21),(25)}
+\lqed{1}{7}\lby{$\langle1\rangle1$--$\langle1\rangle6$}
+
+\begin{verdictgap}
+\emph{Gap (GAP-5), notational but real.} The sentence ``The split property identifies these algebras
+with $\cM_\eps\simeq\cA(A_\eps)\overline\otimes\cA(BC)$'' and the definition
+``$\sigma_\eps:=\omega_{A_\eps}\otimes\omega_{BC}$'' silently use the ungraded product where the free
+fermion net supplies only the graded one (LX Lemma 3.1(1) / Xu Prop.~2.3.1(2)); LX are careful to
+write $\widehat\otimes_2$ and $\otimes_2$ everywhere.
+\emph{Settled:} by Theorem \ref{thm:graded}(1) this does \emph{not} change the value of
+$\sigma_\eps$, hence not of $D_{\cM_\eps}(\omega_\eps\|\sigma_\eps)$, nor of
+$D_{\cN_\eps}(\cdot\|\cdot)$, nor of $\CMI_\eps$, nor of any of the recovery bounds
+\eqref{eq:n2fid}--\eqref{eq:n2norm} below: \textbf{the slip is not proof-breaking}.
+By Theorem \ref{thm:graded}(4) the Petz maps are parity preserving, so the grading does not obstruct
+them either. What the slip \emph{does} cost is the factorisation claim
+eq.~\loc{factorization-heisenberg}; see \S\ref{sec:factor}.
+\emph{Repair:} replace $\overline\otimes\to\widehat\otimes_2$ and $\otimes\to\otimes_2$ in
+eq.~\eqref{n2:split}, or restrict the whole discussion to $\Ar^e$ (Theorem \ref{thm:graded}(3)).
+\emph{Also minor:} \NII{} writes $\cA(I)$ for ``a chiral conformal net'' in \S4 but then uses the
+free-fermion formula eq.~\loc{Ieps-free}; the net must be $\Ar$ (or a finite-index sub/extension) for
+that formula, and it must be \emph{graded} for the split property quoted to be the graded one.
+\end{verdictgap}
+
+\subsection{N2 \S4, eqs.\ \loc{MI-big}, \loc{MI-small}, \loc{Ieps-defect}, \loc{Ieps-free}, \loc{longoxu-limit}}
+
+\begin{theorem}[\NII{} \S4, quantitative part]\label{thm:mieps}
+For $0<\eps<a$ let $\sigma_\eps$ be as in Theorem \ref{thm:graded}(1). Then
+$D_{\cM_\eps}(\omega_\eps\|\sigma_\eps)=\Fmi(A_\eps,BC)<\infty$,
+$D_{\cN_\eps}(\omega_\eps|_{\cN_\eps}\|\sigma_\eps|_{\cN_\eps})=\Fmi(A_\eps,B)<\infty$, and
+\[
+ \CMI_\eps:=\Fmi(A_\eps,BC)-\Fmi(A_\eps,B)
+ =\frac r6\log\frac{(a+b)(b+c+\eps)}{(a+b+c)(b+\eps)}\;\xrightarrow[\ \eps\downarrow0\ ]{}\;
+ \frac r6\log\frac{(a+b)(b+c)}{b(a+b+c)}=-\frac r6\log\eta .
+\]
+Moreover $\eps\mapsto\CMI_\eps$ is \emph{strictly decreasing}, so $\CMI_\eps<-\frac r6\log\eta$ for all $\eps>0$.
+\end{theorem}
+\lstep{1}{1}{$D_{\cM_\eps}(\omega_\eps\|\sigma_\eps)=\Fmi(A_\eps,BC)$.}
+\lby{LX Def.~3.3: $\Fmi(U,V):=S(\omega,\omega_U\otimes_2\omega_V)$ on $\Ar(U)\vee\Ar(V)$;
+Theorem \ref{thm:graded}(1) identifies $\sigma_\eps$ with $\omega_{A_\eps}\otimes_2\omega_{BC}$; (C2)}
+\lstep{1}{2}{$\sigma_\eps|_{\cN_\eps}$ is the corresponding product state for the pair $(A_\eps,B)$,
+so $D_{\cN_\eps}(\cdots)=\Fmi(A_\eps,B)$.}
+\lby{$\sigma_\eps(xy)=\omega(x)\omega(y)$ holds in particular for $y\in\Ar(B)\subset\Ar(BC)$, and by
+Theorem \ref{thm:graded}(1) (applied to $(A_\eps,B)$) that property characterises the state}
+\lstep{1}{3}{Both are finite.}
+\lby{LX Thm.~3.18, since $\overline{A_\eps}$ is disjoint from $\overline{BC}$ and from $\overline B$}
+\lstep{1}{4}{Two-interval formula: for $I_1=(\alpha_1,\beta_1)$, $I_2=(\alpha_2,\beta_2)$, $\beta_1<\alpha_2$,
+LX Def.~3.17 and Thm.~3.18 give
+$\Fmi(I_1,I_2)=\frac r6\log\frac{(\alpha_2-\alpha_1)(\beta_2-\beta_1)}{(\alpha_2-\beta_1)(\beta_2-\alpha_1)}$.}
+\lproof
+\lstep{2}{1}{$G(I_1)=\frac r6\log(\beta_1-\alpha_1)$, $G(I_2)=\frac r6\log(\beta_2-\alpha_2)$.}
+\lby{LX Def.~3.17 with $n=1$, scaled by $r$ as in LX Thm.~4.1(4)}
+\lstep{2}{2}{$G(I_1\cup I_2)=\frac r6\bigl[\log(\beta_1-\alpha_1)+\log|\beta_1-\alpha_2|+\log(\beta_2-\alpha_1)+\log(\beta_2-\alpha_2)
+-\log(\alpha_2-\alpha_1)-\log(\beta_2-\beta_1)\bigr]$.}
+\lby{LX Def.~3.17 with $n=2$: $\sum_{i,j}\log|b_i-a_j|$ has four terms, and the two subtracted sums have one term each}
+\lstep{2}{3}{$\Fmi=r(G(I_1)+G(I_2)-G(I_1\cup I_2))
+=\frac r6\log\frac{(\alpha_2-\alpha_1)(\beta_2-\beta_1)}{(\alpha_2-\beta_1)(\beta_2-\alpha_1)}$.}
+\lby{LX Thm.~3.18 and $\langle2\rangle1$, $\langle2\rangle2$; note the $r$ of Thm.~3.18 is already
+absorbed in the normalisation $G((u,v))=\frac r6\log(v-u)$}
+\lqed{2}{4}\lby{$\langle2\rangle1$--$\langle2\rangle3$}
+\lstep{1}{5}{$\Fmi(A_\eps,BC)=\frac r6\log\frac{a\,(b+c+\eps)}{\eps\,(a+b+c)}$.}
+\lby{$\langle1\rangle4$ with $\alpha_1=x_0,\beta_1=x_1-\eps,\alpha_2=x_1,\beta_2=x_3$:
+$\alpha_2-\alpha_1=a$, $\beta_2-\beta_1=b+c+\eps$, $\alpha_2-\beta_1=\eps$, $\beta_2-\alpha_1=a+b+c$}
+\lstep{1}{6}{$\Fmi(A_\eps,B)=\frac r6\log\frac{a\,(b+\eps)}{\eps\,(a+b)}$.}
+\lby{$\langle1\rangle4$ with $\beta_2=x_2$: $\beta_2-\beta_1=b+\eps$, $\beta_2-\alpha_1=a+b$}
+\lstep{1}{7}{$\CMI_\eps=\frac r6\log\frac{(a+b)(b+c+\eps)}{(a+b+c)(b+\eps)}$, i.e.\ \NII{} eq.~\loc{Ieps-free} exactly.}
+\lby{$\langle1\rangle5$ minus $\langle1\rangle6$; the factors $a$ and $\eps$ cancel}
+\lstep{1}{8}{$\lim_{\eps\downarrow0}\CMI_\eps=\frac r6\log\frac{(a+b)(b+c)}{(a+b+c)b}=-\frac r6\log\eta$.}
+\lby{$\langle1\rangle7$, continuity of $\log$ at a positive argument, eq.~\eqref{eq:etadef}}
+\lstep{1}{9}{$\frac{d}{d\eps}\log\frac{b+c+\eps}{b+\eps}=\frac1{b+c+\eps}-\frac1{b+\eps}<0$ for $c>0$.}
+\lby{$b+\eps<b+c+\eps$ and monotonicity of $t\mapsto1/t$ on $(0,\infty)$}
+\lqed{1}{10}\lby{$\langle1\rangle1$--$\langle1\rangle9$}
+
+\begin{verdictok}
+Eqs.~\loc{MI-big}, \loc{MI-small}, the boxed eq.~\loc{Ieps-defect} and eq.~\loc{Ieps-free} are all
+correct; eq.~\loc{Ieps-free} was re-derived from LX Def.~3.17 above and verified numerically for
+$2000$ random $(x_i,r,\eps)$ (\loc{num.py}, check (3); max.\ error $2\cdot10^{-14}$).
+Eq.~\loc{longoxu-limit} agrees with \NI{} Theorem \ref{thm:n1main}.
+\emph{Bonus (a strengthening \NII{} misses):} by $\langle1\rangle9$, $\CMI_\eps$ is strictly decreasing in
+$\eps$, so the recovery bounds hold \emph{uniformly} for all $\eps>0$ and not merely in the
+$\liminf$/$\limsup$: $\inf_{\eps>0}\Fid_{\cM_\eps}(\omega_\eps,\widetilde\omega_\eps)\ge\eta^{r/12}$.
+\end{verdictok}
+\begin{verdictgap}
+\emph{Minor.} \NII{} calls the quantity $\CMI_\eps(A:C\mid B)$, but for $\eps>0$ it is
+$\Fmi(A_\eps\cup B,BC)$ --- a conditional mutual information of $A_\eps$, not of $A$; and
+$A_\eps\cup B$ is not an interval. Also, \NII's final sentence of \S4 (``For the finite-index subnets
+and extensions covered by Longo--Xu, the same balanced limit follows because the universal
+short-distance and index terms cancel'') is correct but relies on LX Thm.~4.2(2), i.e.\ on
+$-\frac12\ln\mu_{\mathcal B}$ being $\eps$- and $d$-independent: worth a citation.
+Finally, the caveat GAP-2 (unstated strong additivity in LX Thm.~4.2) applies here too.
+\end{verdictgap}
+
+\subsection{N2 \S5: the Faulkner--Hollands machinery, eqs.\ \loc{standard-petz}--\loc{FH-bound}}
+
+\begin{citedbox}{FHSW 2020 (arXiv:2006.08002), eqs.~(21),(23),(25),(26) and Theorem 1 (pp.~5--6)}
+\emph{Transcribed exactly.} ``$\alpha_\sigma(\cdot)=J_{\cB}V_\sigma^*J_{\cA}(\cdot)J_{\cA}V_\sigma J_{\cB}$ (21)''; \\
+``$F(\sigma,\rho)\equiv\sup_{u'\in\cA':u'u'^*=1}|\langle\xi_\sigma|u'\xi_\rho\rangle|$ (23)''; \\
+``\textbf{Theorem 1} (Faithful case). Montonicity of relative entropy can be strengthened to
+\[S_{\cA}(\rho|\sigma)-S_{\cB}(\rho|\sigma)\ \ge\ -2\int_{-\infty}^{\infty}\ln F(\rho,\rho\circ\iota\circ\alpha^t_\sigma)\,p(t)\,dt,\qquad(24)\]
+where we assume that $\rho,\sigma$ are normal, $\sigma$ is faithful and where
+$\alpha^t_\sigma:\cA\to\cB$ is the rotated Petz map, defined as
+$\alpha^t_\sigma(a)=\varsigma^{\sigma,\cB}_{-t}\bigl(J_{\cB}V^*_\sigma J_{\cA}\varsigma^{\sigma,\cA}_t(a)J_{\cA}V_\sigma J_{\cB}\bigr)$ (25).
+$p(t)$ is the normalized probability density defined by $p(t)=\frac{\pi}{\cosh(2\pi t)+1}$ (26).''\\[2pt]
+\includegraphics[width=\textwidth]{shots/V1_FHSW_thm1.png}
+\end{citedbox}
+
+\begin{citedbox}{FHSW 2020, Theorem 2 (p.~8, eq.~(41)) and eq.~(149) (p.~27)}
+\emph{Transcribed exactly.} ``\textbf{Theorem 2.} \dots If $\mathcal S$ contains a state $\sigma$ such
+that for all $\rho\in\mathcal S$ the following condition holds:
+$S(\rho|\sigma)<\infty$ and $S_{\cA}(\rho|\sigma)-S_{\cB}(\sigma|\rho)\le\delta$, (40)
+then there exists a universal recovery channel $\alpha_{\mathcal S}$ such that $\cA\subset\cB$ is
+$\epsilon$-approximately sufficient for $\mathcal S$. (Here $\delta=-\ln(1-\epsilon^2/4)$.)
+The explicit form of the recovery map is:
+$\alpha_{\mathcal S}:\cA\ni a\mapsto\int_{-\infty}^{\infty}\alpha^t_\sigma(a)\,p(t)\,dt\in\cB$ (41)''\\[2pt]
+and, in the proof (p.~27): ``$-2\ln F(\rho,\rho\circ\iota\circ\alpha_{\mathcal S})\le S_{\cA}(\rho|\sigma)-S_{\cB}(\rho|\sigma)$ (149)''.\\[2pt]
+\includegraphics[width=\textwidth]{shots/V1_FHSW_thm2.png}\\
+\includegraphics[width=\textwidth]{shots/V1_FHSW_eq149.png}
+\end{citedbox}
+
+\begin{citedbox}{Faulkner--Hollands 2022 (arXiv:2010.05513), Theorem 2, eq.~(21)}
+\emph{Transcribed exactly.} ``\textbf{Theorem 2.} Let $T:\cB\to\cA$ be a unital, normal, and
+2-positive map between two v.\ Neumann algebras. Let $\omega_\eta,\omega_\psi$ be normal state
+functionals on $\cA$ with $|\eta\rangle$ faithful. Then
+$S(\omega_\psi|\omega_\eta)-S(\omega_\psi\circ T|\omega_\eta\circ T)\ge-\ln F(\omega_\psi|\omega_\psi\circ T\circ\alpha)^2$ (21).''
+with $\alpha=\int p(t)\alpha^t_{\eta,T}dt$ (eq.~(19)) and $p(t)=\pi[1+\cosh(2\pi t)]^{-1}$ (p.~6).
+``2) The case of an inclusion $T=\iota:\cB\subset\cA$ was treated separately already in paper I.''\\[2pt]
+\includegraphics[width=\textwidth]{shots/V1_FH22_thm2.png}
+\end{citedbox}
+
+\begin{lemma}[normalisation of $p$]\label{lem:pnorm}
+$\int_{\mathbb R}\frac{\pi\,dt}{1+\cosh(2\pi t)}=1$.
+\end{lemma}
+\lstep{1}{1}{$1+\cosh(2x)=2\cosh^2x$, so $\frac{\pi}{1+\cosh(2\pi t)}=\frac{\pi}{2}\operatorname{sech}^2(\pi t)$.}
+\lby{the double-angle identity $\cosh 2x=2\cosh^2x-1$, with $x=\pi t$}
+\lstep{1}{2}{$\int_{\mathbb R}\frac\pi2\operatorname{sech}^2(\pi t)\,dt=\frac\pi2\cdot\frac1\pi\bigl[\tanh(\pi t)\bigr]_{-\infty}^{\infty}=\frac12\cdot2=1$.}
+\lby{$\frac{d}{dt}\tanh(\pi t)=\pi\operatorname{sech}^2(\pi t)$ and $\tanh(\pm\infty)=\pm1$}
+\lqed{1}{3}\lby{$\langle1\rangle1$, $\langle1\rangle2$}
+
+\begin{verdictok}
+\NII{} eq.~\loc{standard-petz} is FHSW eq.~(21) verbatim (with $\cM,\cN$ for $\cA,\cB$);
+eq.~\loc{rotated-petz} is FHSW eq.~(25) verbatim;
+eq.~\loc{averaged-petz} is FHSW eq.~(41) / FH-II eq.~(19) verbatim, with the same
+$p(t)=\pi/(1+\cosh2\pi t)$; and the stated normalisation $\int p=1$ is correct (Lemma \ref{lem:pnorm};
+numerically $1.0000000000$, \loc{num.py} check (10)). \NII's $\sigma^{\sigma,\cM}_t$ is FHSW's
+$\varsigma^{\sigma,\cA}_t$. The description of $V_\sigma$ as ``the canonical isometry implementing the
+inclusion'' matches FHSW eq.~(16), $V_\sigma\,b\,\xi^{\cB}_\sigma=\iota(b)\xi^{\cA}_\sigma$.
+Note that \NII's $p$ is \emph{not} the JRSWW/SFR kernel $\frac\pi2(\cosh\pi t+1)^{-1}$: the two differ
+by the rescaling $t\to2t$ that converts $\Delta^{it}$ conventions, and only the FHSW/FH-II one is
+normalised as \NII{} asserts. \NII{} is consistent.
+\end{verdictok}
+
+\begin{verdictgap}
+\emph{Gap (GAP-6), attribution/logical order.} \NII{} presents eq.~\loc{FH-bound},
+$D_{\cM}(\rho\|\sigma)-D_{\cN}(\rho|_{\cN}\|\sigma|_{\cN})\ge-2\log \Fid_{\cM}(\rho,\rho|_{\cN}\circ\overline\alpha_\sigma)$,
+as ``the strengthened data-processing inequality''. What FHSW actually \emph{prove} as their
+Theorem 1 eq.~(24) is the \emph{integrated} form $\ \ge-2\int p(t)\ln \Fid(\rho,\rho|_{\cN}\circ\alpha_{\sigma,t})\,dt$;
+the \emph{averaged-channel} form used by \NII{} is FHSW eq.~(149) inside the proof of their Theorem~2
+(and, for general 2-positive $T$, FH-II Theorem 2 eq.~(21)). The two are not the same statement:
+by Jensen ($-\ln$ convex) and joint concavity of the fidelity,
+\[
+ \underbrace{\textstyle\int p(t)\bigl(-2\ln \Fid_t\bigr)dt}_{\text{FHSW (24), stronger}}
+ \ \ge\ -2\ln\!\int p(t)\Fid_t\,dt\ \ge\
+ \underbrace{-2\ln \Fid\bigl(\rho,\textstyle\int p(t)\rho_t\,dt\bigr)}_{\text{\NII{} eq.~\loc{FH-bound}}},
+\]
+so (24) $\Rightarrow$ \loc{FH-bound} but not conversely. Hence \NII's inequality is \emph{true}, but the
+attribution is imprecise; moreover FHSW explicitly warn (p.~28) that the Jensen step needs a
+non-standard argument (``We are not aware of a proof for Jensen's inequality for convex functionals
+of a Banach space valued random variable that would apply straight away''), which they then supply.
+\emph{Hypotheses \NII{} omits and which are needed:} $\rho,\sigma$ normal, $\sigma$ faithful
+(FHSW Thm.~1) --- \NII{} says ``for a faithful reference state $\sigma$'', so this one is present ---
+and, for Theorem 2 / eq.~(40), $D_{\cM}(\rho\|\sigma)<\infty$, which \NII{} does not state.
+\emph{In the CFT application all hypotheses hold}: $\sigma_\eps$ is faithful normal
+(Theorem \ref{thm:graded}(1)), $\omega_\eps$ is normal and faithful (Reeh--Schlieder: $\Omega$ is
+separating for $\cM_\eps\subset\Ar(\hat I)$), $\cM_\eps$ is $\sigma$-finite, and
+$D_{\cM_\eps}(\omega_\eps\|\sigma_\eps)<\infty$ by Theorem \ref{thm:mieps}.
+\end{verdictgap}
+
+\subsection{N2 \S5, eqs.\ \loc{fidelity-general} and \loc{norm-general}}
+
+\begin{citedbox}{FHSW 2020, Lemma 3(3) --- Fuchs--van de Graaf for von Neumann algebras}
+\emph{Transcribed exactly.} ``3. It is related to the linear functional norm (Fuchs-van-der-Graaff
+inequalities) by
+$1-F(\omega_\psi,\omega_\varphi)\le\frac12\|\omega_\psi-\omega_\varphi\|\le\sqrt{1-F(\omega_\psi,\omega_\varphi)^2}$ (58).''
+Proof in their App.~C.1, eqs.~(208)--(215), for a general von Neumann algebra $\cA\subset B(\mathcal H)$
+in standard form, including the non-faithful case.\\[2pt]
+\includegraphics[width=\textwidth]{shots/V1_FHSW_lem3.png}
+\end{citedbox}
+
+\begin{lemma}[independent proof of the upper FvdG bound for normal states]\label{lem:fvdg}
+Let $\varphi,\psi$ be normal states of a von Neumann algebra $\cM$ in standard form with natural-cone
+representatives $\xi_\varphi,\xi_\psi$. Then $\|\varphi-\psi\|_{\cM_*}\le2\sqrt{1-\Fid(\varphi,\psi)^2}$.
+\end{lemma}
+\lstep{1}{1}{$\Fid(\varphi,\psi)=\langle\xi_\varphi,\xi_\psi\rangle\in[0,1]$.}
+\lby{Araki--Raggio/Uhlmann: the transition probability equals the inner product of the natural-cone
+representatives; also Jen\v{c}ov\'a--Petz p.~7 (``$P_{\cA}(\varphi,\omega)=\langle\xi_\varphi,\xi_\omega\rangle$'')}
+\lstep{1}{2}{For unit vectors $\xi,\zeta$, $\|\omega_\xi-\omega_\zeta\|_{B(\mathcal H)_*}=2\sqrt{1-|\langle\xi,\zeta\rangle|^2}$.}
+\lby{$|\xi\rangle\langle\xi|-|\zeta\rangle\langle\zeta|$ is supported on the $2$-dimensional span and has
+eigenvalues $\pm\sqrt{1-|\langle\xi,\zeta\rangle|^2}$, so its trace norm is $2\sqrt{1-|\langle\xi,\zeta\rangle|^2}$;
+this is FHSW eqs.~(209)--(211)}
+\lstep{1}{3}{Restriction $B(\mathcal H)_*\to\cM_*$ is norm non-increasing.}
+\lby{it is the pre-adjoint of the isometric inclusion $\cM\hookrightarrow B(\mathcal H)$; the sup in
+$\|\cdot\|_{\cM_*}$ runs over a smaller set of contractions}
+\lqed{1}{4}\lby{$\langle1\rangle1$--$\langle1\rangle3$, with $\xi=\xi_\varphi$, $\zeta=\xi_\psi$}
+
+\lstep{1}{1}{Eq.~\loc{fidelity-general}, $\Fid_{\cM}(\rho,\tilde\rho)\ge e^{-\delta/2}$ with
+$\tilde\rho=\rho|_{\cN}\circ\overline\alpha_\sigma$, is a rearrangement of eq.~\loc{FH-bound}.}
+\lby{$\delta\ge-2\log \Fid\iff\log \Fid\ge-\delta/2\iff \Fid\ge e^{-\delta/2}$ (exponential is increasing)}
+\lstep{1}{2}{Eq.~\loc{norm-general}, $\|\rho-\tilde\rho\|\le2\sqrt{1-e^{-\delta}}$, follows.}
+\lby{Lemma \ref{lem:fvdg} (or FHSW Lemma 3(3)) gives $\|\rho-\tilde\rho\|\le2\sqrt{1-\Fid^2}$;
+$\langle1\rangle1$ gives $\Fid^2\ge e^{-\delta}$; and $s\mapsto2\sqrt{1-s}$ is decreasing}
+\lqed{1}{3}\lby{$\langle1\rangle1$, $\langle1\rangle2$}
+
+\begin{verdictok}
+Both estimates are correct. Eq.~\loc{norm-general} is in fact \emph{literally} FHSW Theorem 2:
+their $\delta=-\ln(1-\epsilon^2/4)$ inverts to $\epsilon=2\sqrt{1-e^{-\delta}}$, which is exactly
+\NII's right-hand side. \NII's justification, ``The second estimate follows from the
+fidelity--norm inequalities for normal states'', is correct but uncited; the citable statement is
+FHSW Lemma 3(3) eq.~(58) (proved there for general von Neumann algebras), or the two-line argument
+of Lemma \ref{lem:fvdg}. \emph{Minor: missing citation only.} (Note the weaker variant
+FH-II eq.~(22), $\delta\ge\frac14\|\cdot\|^2$, i.e.\ $\|\cdot\|\le2\sqrt\delta$, is implied by
+\NII's bound since $1-e^{-\delta}\le\delta$.)
+\end{verdictok}
+
+\subsection{N2 \S5, eqs.\ \loc{factorization-heisenberg} and \loc{factorization-schrodinger}}\label{sec:factor}
+
+\begin{lemma}[the factorisation is correct for an \emph{ungraded} product]\label{lem:factor}
+Let $\cM=\cM_1\overline\otimes\cM_2$, $\cN=\cM_1\overline\otimes\cN_2$ with $\cN_2\subset\cM_2$, and
+let $\sigma=\sigma_1\otimes\sigma_2$ be a faithful normal product state. Then
+$\alpha_{\sigma,t}=\id_{\cM_1}\otimes\alpha_{\sigma_2,t}$ for every $t$, and
+$\overline\alpha_\sigma=\id_{\cM_1}\otimes\overline\alpha_{\sigma_2}$.
+\end{lemma}
+\lstep{1}{1}{$\varsigma^{\sigma,\cM}_t=\varsigma^{\sigma_1,\cM_1}_t\otimes\varsigma^{\sigma_2,\cM_2}_t$ and
+$\varsigma^{\sigma|_{\cN},\cN}_{-t}=\varsigma^{\sigma_1,\cM_1}_{-t}\otimes\varsigma^{\sigma_2|_{\cN_2},\cN_2}_{-t}$.}
+\lby{$\Delta_{\sigma_1\otimes\sigma_2}=\Delta_{\sigma_1}\otimes\Delta_{\sigma_2}$ for a product state on a
+tensor product in standard form ($\xi_\sigma=\xi_{\sigma_1}\otimes\xi_{\sigma_2}$, $S_\sigma=S_{\sigma_1}\otimes S_{\sigma_2}$);
+and $\sigma|_{\cN}=\sigma_1\otimes(\sigma_2|_{\cN_2})$}
+\lstep{1}{2}{$J_{\cM}=J_1\otimes J_2$, $J_{\cN}=J_1\otimes J_{\cN_2}$, and $V_\sigma=\1_{\mathcal H_1}\otimes V_{\sigma_2}$.}
+\lby{same factorisation of the standard forms, and FHSW eq.~(16):
+$V_\sigma (b\,\xi^{\cN}_\sigma)=\iota(b)\xi^{\cM}_\sigma$ is satisfied by $\1\otimes V_{\sigma_2}$ on the
+generating vectors $(m_1\otimes n_2)(\xi_{\sigma_1}\otimes\xi_{\sigma_2|\cN_2})$, and $V_\sigma$ is uniquely determined}
+\lstep{1}{3}{Hence $\alpha_{\sigma,0}=\id_{\cM_1}\otimes\alpha_{\sigma_2,0}$.}
+\lby{FHSW eq.~(21) and $\langle1\rangle2$: $J_{\cN}V^*_\sigma J_{\cM}(x_1\otimes x_2)J_{\cM}V_\sigma J_{\cN}
+=(J_1J_1x_1J_1J_1)\otimes(J_{\cN_2}V^*_{\sigma_2}J_2x_2J_2V_{\sigma_2}J_{\cN_2})=x_1\otimes\alpha_{\sigma_2,0}(x_2)$}
+\lstep{1}{4}{$\alpha_{\sigma,t}=\varsigma^{\sigma|_{\cN},\cN}_{-t}\circ\alpha_{\sigma,0}\circ\varsigma^{\sigma,\cM}_t
+=\bigl(\varsigma^{\sigma_1}_{-t}\circ\id\circ\varsigma^{\sigma_1}_{t}\bigr)\otimes\alpha_{\sigma_2,t}
+=\id_{\cM_1}\otimes\alpha_{\sigma_2,t}$.}
+\lby{$\langle1\rangle1$, $\langle1\rangle3$, and $\varsigma^{\sigma_1}_{-t}\circ\varsigma^{\sigma_1}_{t}=\id$ (group property)}
+\lstep{1}{5}{$\overline\alpha_\sigma(x_1\otimes x_2)=\int p(t)\,x_1\otimes\alpha_{\sigma_2,t}(x_2)\,dt
+=x_1\otimes\overline\alpha_{\sigma_2}(x_2)$.}
+\lby{$\langle1\rangle4$ and the fact that the integral (defined weakly, FHSW eqs.~(141)--(147)) commutes with the fixed first tensor slot}
+\lqed{1}{6}\lby{$\langle1\rangle1$--$\langle1\rangle5$}
+
+\begin{verdictgap}
+\emph{Gap (GAP-7).} Eqs.~\loc{factorization-heisenberg},\loc{factorization-schrodinger} are
+\emph{correct as stated for an ungraded tensor product} (Lemma \ref{lem:factor}, whose proof \NII{}
+does not give either --- it just says ``the product form and the tensor-product inclusion imply''),
+but the free fermion net supplies only the \emph{graded} tensor product
+(Theorem \ref{thm:graded}(2)). Since the grading of $\Ar(I)$ is \emph{properly outer}
+(Xu Lemma 2.3.1(1): ``$M(I_1)^e\subset M(I_1)$ is an inclusion of subfactors with index 2 \dots such an
+action is properly outer''), $\Ar(A_\eps)\gt\Ar(BC)$ is \emph{not} an ordinary tensor product of
+copies of the two factors, and $\langle1\rangle1$--$\langle1\rangle3$ of Lemma \ref{lem:factor} must be
+redone with the graded modular data. The conclusion is very plausible ---
+$\cN_\eps\cong\Ar(A_\eps)\gt\Ar(B)$ uses the \emph{same} grading, $\sigma_\eps$ is a graded product,
+$\alpha_{\sigma_\eps,t}$ preserves parity (Theorem \ref{thm:graded}(4)), and everything restricts
+correctly to the even subalgebras where Lemma \ref{lem:factor} applies verbatim --- but it is
+\emph{not proved} in \NII{} and it is not immediate.
+\emph{Consequences:} none of the numerical results \eqref{eq:n2fid}--\eqref{eq:n2norm} depend on it
+(they use only Theorem \ref{thm:mieps} and eq.~\loc{FH-bound}); what does depend on it is
+(i) \NII's sentence ``This is exactly the locality condition required of a quantum Markov chain'', and
+(ii) the programme sketched in \NII{} \S7. Those should be labelled as expected, not proved, or the
+argument should be run on $\Ar^e$.
+\emph{Minor.} \NII{} writes $\overline\otimes$ between \emph{maps} in
+eqs.~\loc{factorization-heisenberg},\loc{factorization-schrodinger}; $\overline\otimes$ is defined for
+algebras. The intended object is the (normal) tensor product of the two channels.
+\end{verdictgap}
+
+\subsection{N2 \S6: explicit CFT bounds, eqs.\ \loc{recovered-vacuum}--\loc{cross-ratio-norm}}
+
+\begin{theorem}[\NII{} \S6]\label{thm:n2bounds}
+With $\widetilde\omega_\eps:=\omega_\eps|_{\cN_\eps}\circ\overline\alpha_{\sigma_\eps}$,
+\begin{align}
+ \Fid_{\cM_\eps}(\omega_\eps,\widetilde\omega_\eps)&\ge e^{-\CMI_\eps/2}\quad\text{for every }\eps\in(0,a),
+ &\liminf_{\eps\downarrow0}\Fid_{\cM_\eps}(\omega_\eps,\widetilde\omega_\eps)&\ge\eta^{r/12},\label{eq:n2fid}\\
+ \|\omega_\eps-\widetilde\omega_\eps\|&\le2\sqrt{1-e^{-\CMI_\eps}},
+ &\limsup_{\eps\downarrow0}\|\omega_\eps-\widetilde\omega_\eps\|&\le2\sqrt{1-\eta^{r/6}}.\label{eq:n2norm}
+\end{align}
+\end{theorem}
+\lstep{1}{1}{$\widetilde\omega_\eps$ is a normal state on $\cM_\eps$.}
+\lby{$\overline\alpha_{\sigma_\eps}:\cM_\eps\to\cN_\eps$ is a normal unital completely positive map
+(FHSW proof of Thm.~2, eqs.~(141)--(147)), so its pre-adjoint maps normal states to normal states}
+\lstep{1}{2}{The left inequalities are eq.~\loc{FH-bound}/\loc{fidelity-general}/\loc{norm-general}
+applied to $(\cN_\eps\subset\cM_\eps,\omega_\eps,\sigma_\eps)$ with
+$\delta_{\cN_\eps\subset\cM_\eps}(\omega_\eps,\sigma_\eps)=\CMI_\eps$.}
+\lby{Theorem \ref{thm:mieps} (which supplies both the identity and the hypothesis $D<\infty$),
+Theorem \ref{thm:graded}(1) (faithfulness and normality of $\sigma_\eps$), and \S\ref{sec:factor}'s citedboxes}
+\lstep{1}{3}{$e^{-\CMI_\eps/2}\to e^{\frac r{12}\log\eta}=\eta^{r/12}$ and $e^{-\CMI_\eps}\to\eta^{r/6}$ as $\eps\downarrow0$.}
+\lby{Theorem \ref{thm:mieps} ($\CMI_\eps\to-\frac r6\log\eta$) and continuity of $\exp$;
+$e^{-\frac12(-\frac r6\log\eta)}=e^{\frac r{12}\log\eta}=\eta^{r/12}$}
+\lstep{1}{4}{$\liminf_\eps \Fid\ge\liminf_\eps e^{-\CMI_\eps/2}=\eta^{r/12}$, and
+$\limsup_\eps\|\cdot\|\le\lim_\eps2\sqrt{1-e^{-\CMI_\eps}}=2\sqrt{1-\eta^{r/6}}$.}
+\lby{$\langle1\rangle2$, $\langle1\rangle3$, and monotonicity of $\liminf$/$\limsup$ under pointwise inequalities}
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$}
+\begin{verdictok}
+Eqs.~\loc{recovered-vacuum}, \loc{eps-recovery-bound}, \loc{cross-ratio-fidelity},
+\loc{cross-ratio-norm} and the two boxed formulas of the main-result box are all correct, and the
+$\liminf$/$\limsup$ are placed on the correct sides. The identity
+$e^{-\CMI_\omega/2}=\eta^{r/12}$ and $2\sqrt{1-e^{-\CMI_\omega}}=2\sqrt{1-\eta^{r/6}}$ were verified
+numerically to machine precision (\loc{num.py}, check (11)). By the monotonicity in
+Theorem \ref{thm:mieps}, the sharper statements with $\inf_{\eps>0}$/$\sup_{\eps>0}$ also hold.
+\end{verdictok}
+
+\subsection{N2 \S6.1, eqs.\ \loc{strict-positive}--\loc{large-b-norm} and the table}
+\lstep{1}{1}{$\frac{(a+b)(b+c)}{b(a+b+c)}=1+\frac{ac}{b(a+b+c)}>1$, hence eq.~\loc{strict-positive}.}
+\lby{Lemma \ref{lem:limits}$\langle1\rangle1$ (the difference of numerator and denominator is $ac$), divided by $b(a+b+c)>0$}
+\lstep{1}{2}{Eq.~\loc{large-b-cmi}, $\CMI_\omega=\frac r6\frac{ac}{b^2}+O(b^{-3})$.}
+\lby{Lemma \ref{lem:limits}(iii); the $b^{-3}$ coefficient is $-\frac r6ac(a+c)$, confirmed numerically (\loc{num.py} check (8))}
+\lstep{1}{3}{Eq.~\loc{large-b-fidelity}, $\Fid_{\rm rec}\ge1-\frac{r\,ac}{12b^2}+O(b^{-3})$.}
+\lby{$e^{-\CMI/2}=1-\frac{\CMI}2+\frac{\CMI^2}8-\cdots$ with $\CMI=O(b^{-2})$, so $\CMI^2=O(b^{-4})$;
+substituting $\langle1\rangle2$ gives $1-\frac r{12}\frac{ac}{b^2}+O(b^{-3})$}
+\lstep{1}{4}{Eq.~\loc{large-b-norm}, $\|\omega-\widetilde\omega\|\lesssim\frac2b\sqrt{\frac{r\,ac}6}$.}
+\lby{$2\sqrt{1-e^{-\CMI}}=2\sqrt{\CMI}\,(1+O(\CMI))$ and $2\sqrt{\CMI}=2\sqrt{\frac r6\frac{ac}{b^2}}=\frac2b\sqrt{\frac{r\,ac}6}$;
+the correction is $O(b^{-3})$, which is what ``$\lesssim$'' absorbs}
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$}
+\begin{verdictok}
+All four displays are correct to the stated order. Numerics at $r=3$, $a=0.7$, $c=1.9$
+(\loc{num.py}, check (9)): at $b=1000$, $e^{-\CMI/2}=0.999999668363$ versus
+$1-\frac{r\,ac}{12b^2}=0.999999667500$; $2\sqrt{1-e^{-\CMI}}=1.628834\cdot10^{-3}$ versus
+$\frac2b\sqrt{\frac{rac}6}=1.630951\cdot10^{-3}$ (the latter is the larger, so the ``$\lesssim$'' is a
+genuine upper bound to leading order). The remark ``the Markov defect decays algebraically rather
+than exponentially \dots a CFT has no intrinsic finite correlation or Markov length'' is a correct
+reading of $\CMI\sim b^{-2}$.
+\end{verdictok}
+\begin{verdictgap}
+\emph{Table (three rows), minor issues.}
+Row 1 (``$\CMI=0$: Exact Petz recovery and the HJPW short-Markov-chain structure. This is not
+realized by three nondegenerate finite spatial intervals in the present vacuum geometry'') --- the
+second sentence is correct by eq.~\loc{strict-positive}; the first conflates the type-I HJPW picture
+with the type-III Petz picture that the note's own interpretation box was careful to separate.
+Row 2 (``High-fidelity recovery from $AB$ by acting only on $B$'') --- for $\eps>0$ the recovery is
+from $\cN_\eps=\cA(A_\eps)\vee\cA(B)$, i.e.\ from $A_\eps B$, not $AB$; and ``acting only on $B$''
+is exactly the factorisation claim of GAP-7, so this cell inherits that gap.
+Row 3 (``A nonzero universal recovery guarantee for every finite Longo--Xu cross ratio $0<\eta<1$'')
+--- correct; ``universal'' is justified because $\overline\alpha_{\sigma_\eps}$ depends on
+$\sigma_\eps$ only, not on $\omega_\eps$ (FHSW Thm.~2).
+\end{verdictgap}
+
+\subsection{N2 \S7: the touching-limit caveat}
+
+\NII's caveat box: ``For every $\eps>0$, the split product state is normal, the algebras in
+\loc{split-identification} are genuine tensor products, and the Faulkner--Hollands theorem applies
+directly. At $\eps=0$, adjacent local algebras do not generally admit a normal product state.
+Therefore the limit of the recovery \emph{bounds} does not by itself produce a single normal channel
+on the touching algebra.''
+\lstep{1}{1}{First clause: correct for $\eps>0$ (with the graded qualification of GAP-5).}
+\lby{Theorem \ref{thm:graded}(1),(2) and Theorem \ref{thm:n2bounds}$\langle1\rangle2$}
+\lstep{1}{2}{Second clause: at $\eps=0$, $\overline{A}\cap\overline{BC}=\{x_1\}\ne\emptyset$ and the
+split property fails; there is no normal state $\sigma_0$ on $\cA(A)\vee\cA(BC)$ with
+$\sigma_0(xy)=\omega(x)\omega(y)$.}
+\lproof
+\lstep{2}{1}{$\Ar$ is strongly additive, so $\cA(A)\vee\cA(BC)=\cA((x_0,x_3))$, a type III$_1$ factor.}
+\lby{LX p.~9 (strong additivity of $\Ar$); type III$_1$-ness of interval algebras in a conformal net}
+\lstep{2}{2}{If such a normal $\sigma_0$ existed, then $D(\omega\|\sigma_0)=\lim_{\eps\downarrow0}\Fmi(A_\eps,BC)$
+would be finite, contradicting $\Fmi(A_\eps,BC)=\frac r6\log\frac{a(b+c+\eps)}{\eps(a+b+c)}\to+\infty$.}
+\lby{Theorem \ref{thm:mieps}$\langle1\rangle5$ and LX Thm.~2.2(2) (martingale convergence of relative
+entropy along an increasing net of subalgebras)}
+\lqed{2}{3}\lby{$\langle2\rangle1$, $\langle2\rangle2$}
+\lstep{1}{3}{Third clause: a family of bounds indexed by $\eps$, each for a different pair
+$(\cN_\eps\subset\cM_\eps)$ and a different channel $\overline\alpha_{\sigma_\eps}$, does not
+produce a channel on $\cM_0$; some normal-extension/limit theorem is needed.}
+\lby{the channels $\overline\alpha_{\sigma_\eps}$ act on \emph{different} algebras, and no uniform
+$\sigma$-weak convergence is claimed or available}
+\lqed{1}{4}\lby{$\langle1\rangle1$--$\langle1\rangle3$}
+
+\begin{verdictok}
+The caveat box is accurate and, in the referee's view, the most valuable paragraph of \NII{}: it
+correctly identifies the one place where the argument does \emph{not} extend to $\eps=0$. The
+observation that $\overline\alpha_{B\subset BC}$ ``depends only on the inclusion $\cA(B)\subset\cA(BC)$
+and the vacuum on $BC$, not on the collar'' is correct \emph{granted} the factorisation, hence
+inherits GAP-7. The closing sentence correctly states the open problem.
+\end{verdictok}
+\begin{verdictgap}
+\emph{Minor.} ``adjacent local algebras do not generally admit a normal product state'' is true;
+$\langle1\rangle2$ above shows that for $\Ar$ they \emph{never} do at $\eps=0$, so ``generally'' is an
+understatement in this specific case. Also, since $\cA(B)\subset\cA(BC)$ is a \emph{half-sided modular
+inclusion} (the two intervals share the endpoint $x_1$), FHSW \S4.2 and their Conjecture 1
+(``The limit $a\to0$ of thm.~1 in the case of a half-sided modular inclusion \dots'') are directly
+relevant to \NII's open problem and are not cited.
+\end{verdictgap}
+
+\subsection{N2 \S8: comparison with exact null-surface Markovity}
+
+\begin{citedbox}{Casini--Teste--Torroba 2017 (arXiv:1703.10656), \S7, eqs.~(7.1),(7.2)}
+\emph{Transcribed exactly.} ``$S(XY)+S(YZ)=S(XYZ)+S(Y)$ (7.1) \dots A state that saturates strong
+subadditivity is called a Markov state, even in the quantum domain. In [41,42] it was shown that this
+numerical equation is equivalent to a full operator equation:
+$S(A)+S(B)-S(A\cap B)-S(A\cup B)=0\iff-\log\rho_A-\log\rho_B+\log\rho_{A\cap B}+\log\rho_{A\cup B}=0$ (7.2)''.
+Their result (\S7.3): ``the stress tensor leads directly to the Markov property for any two regions
+on the null plane''.\\[2pt]
+\includegraphics[width=\textwidth]{shots/V1_CTT_markov.png}
+\end{citedbox}
+\lstep{1}{1}{\NII{} eq.~\loc{null-markov},
+$H_{\gamma_1}+H_{\gamma_2}-H_{\gamma_1\cap\gamma_2}-H_{\gamma_1\cup\gamma_2}=0$,
+is CTT eq.~(7.2) (right-hand side) with $H_\gamma=-\log\rho_\gamma$ and the same signs.}
+\lby{transcription; note $-\log\rho_A-\log\rho_B+\log\rho_{A\cap B}+\log\rho_{A\cup B}=0$ is
+$H_A+H_B-H_{A\cap B}-H_{A\cup B}=0$}
+\lstep{1}{2}{``which leads to saturation of strong subadditivity and hence to an exact Markov property'' is CTT's own statement.}
+\lby{CTT \S7 title (``saturation of strong subadditivity'') and eq.~(7.2)}
+\lstep{1}{3}{``The adjacent spatial intervals considered here are geometrically different'': correct,
+and quantitatively so --- for the chiral vacuum modular Hamiltonians
+$H_{(u,v)}=2\pi\int_u^v\frac{(x-u)(v-x)}{v-u}T(x)\,dx$ the CTT combination is nonzero.}
+\lproof
+\lstep{2}{1}{With $\beta_{(u,v)}(x)=\frac{(x-u)(v-x)}{v-u}\chi_{(u,v)}(x)$ and $x_0,\dots,x_3=0,1,2,3$,
+$\beta_{AB}+\beta_{BC}-\beta_{ABC}-\beta_B$ equals $-0.25$ at $x=1.5$, $-0.22$ at $x=1.2$ and $x=1.8$,
+and $-1/24$ at $x=0.5$ and $x=2.5$.}
+\lby{direct evaluation, \loc{num.py} check (12)}
+\lstep{2}{2}{Hence $H_{AB}+H_{BC}-H_{ABC}-H_B\ne0$ as a quadratic form, consistent with $\CMI_\omega>0$.}
+\lby{$\langle2\rangle1$ and Bisognano--Wichmann for conformal nets (BGL 1993), which gives the displayed local form of $H_{(u,v)}$}
+\lqed{2}{3}\lby{$\langle2\rangle1$, $\langle2\rangle2$}
+\lqed{1}{4}\lby{$\langle1\rangle1$--$\langle1\rangle3$}
+\begin{verdictok}
+\S8 is accurate. The statement is a comparison, not a theorem, and the comparison is correctly drawn:
+the CTT identity holds for regions given by \emph{cuts} of a null plane, whereas $AB$ and $BC$ are
+bounded overlapping intervals, for which $\langle2\rangle1$ shows the identity fails.
+Calling $-\frac r6\log\eta$ ``a conformally invariant, quantitatively controlled failure of the exact
+modular Markov identity'' is justified: $\eta$ is a cross ratio, hence M\"obius invariant, and LX note
+(p.~21) that ``relative entropies as computed in Th.~3.18 is invariant under M\"ob transformations''.
+\end{verdictok}
+\begin{verdictgap}
+\emph{Minor (GAP-8, presentational).} The phrase ``geometrically different'' is thin: in a chiral CFT
+the line \emph{is} a null line, so the reader may wonder why CTT does not apply. The operative
+distinction is that CTT's regions are one-sided cuts (half-lines), for which the identity is trivially
+true, and not bounded intervals. One sentence would remove the ambiguity.
+\end{verdictgap}
+
+\subsection{N2: abstract, ``Core bridge'' box, main-result box, conclusion}
+\lstep{1}{1}{Core-bridge box:
+$\CMI_\eps=D_{\cM_\eps}(\omega_\eps\|\sigma_\eps)-D_{\cN_\eps}(\omega_\eps|_{\cN_\eps}\|\sigma_\eps|_{\cN_\eps})\ge-2\log \Fid_{\rm rec}$,
+$\CMI_\omega(A:C|B)=-\frac r6\log\eta$, $\Fid_{\rm rec}\ge\eta^{r/12}$.}
+\lby{Theorem \ref{thm:mieps} for the identity, eq.~\loc{FH-bound} for the inequality,
+Theorem \ref{thm:n1main} for the value, Theorem \ref{thm:n2bounds} for the bound}
+\lstep{1}{2}{Main-result box: identical content, plus $\|\cdot\|\le2\sqrt{1-\eta^{r/6}}$.}
+\lby{Theorem \ref{thm:n2bounds}, eq.~\eqref{eq:n2norm}}
+\lstep{1}{3}{Abstract: every sentence is supported by \S\ref{sec:n2}, except ``the work of
+Faulkner--Hollands--Swingle--Wang extends the required result to arbitrary von Neumann algebras'',
+which is accurate (FHSW Thm.~1 has no type restriction).}
+\lby{FHSW Thm.~1, which is stated for a general von Neumann subalgebra $\cB\subset\cA$}
+\lstep{1}{4}{Conclusion box (2$\times$2 table) restates \S\S2--6 with no new content.}
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$}
+\begin{verdictok}
+No new claims; all consistent with the body. \emph{Minor:} the main-result box writes
+$D_{\cN_\eps}(\omega_\eps\|\sigma_\eps)$ without the restriction bars that the core-bridge box and
+eq.~\loc{abstract-defect} do carry.
+\end{verdictok}
+
+\section{Summary of verdicts}
+
+\begin{center}\small
+\begin{longtable}{@{}p{0.30\textwidth}p{0.10\textwidth}p{0.54\textwidth}@{}}
+\toprule
+\textbf{Location} & \textbf{Verdict} & \textbf{Remark}\\
+\midrule\endhead
+\NI{} \S1 eq.~\loc{finite-cmi} & OK & standard; correctly labelled ``a mnemonic''\\
+\NI{} \S2.1 eq.~\loc{MI-relative} & OK & LX Def.~3.3 verbatim, $\otimes_2$ correctly kept\\
+\NI{} \S2.1 eq.~\loc{subnet-bound} & MINOR & true; not ``part of Thm.~4.1(6)'' but LX p.~10 / proof of 4.1(6)\\
+\NI{} \S2.2 eq.~\loc{generalized-F} & OK & LX \S4.1 verbatim\\
+\NI{} \S2.2 eq.~\loc{finite-approx} & GAP-1 & LX limit formula is for \emph{separated} $X,Y,Z$; the adjacent case used in eq.~\loc{our-cmi} needs LX (13)--(14) and continuity from inside\\
+\NI{} \S2.2 eqs.~\loc{cmi-as-F},\loc{our-cmi} & OK & definition; $\ge0$ correct modulo GAP-1\\
+\NI{} \S2.3 eqs.~\loc{G-identity},\loc{G-connected} & OK / GAP-2 & LX Thm.~4.1(3),(4), Thm.~4.2(1) verbatim; LX Thm.~4.2 has an \emph{unstated} strong-additivity hypothesis (via LX Thm.~4.4)\\
+\NI{} \S2.3 ($P(\eps)$ cancellation) & OK & LX pp.~23--24\\
+\NI{} \S3.1 eq.~\loc{abc-formula} & OK & Thm.~\ref{thm:n1main}; coefficient $r/6$ confirmed twice; \textbf{no factor-2 error}\\
+\NI{} \S3.2 eq.~\loc{asymptotic} & OK & LX Thm.~4.2(2); dictionary and all three cancelling terms verified\\
+\NI{} \S3.2 (``reproduces \loc{abc-formula}'') & GAP-3 & identification of $\lim_\eps I_\eps$ with $\Fmi(AB,BC)$ needs LX Thm.~4.1(5) + continuity; also $\cN$ undefined in \NI\\
+\NI{} \S4 eqs.~\loc{eta},\loc{cross-ratio-final} & OK & $(a{+}b)(b{+}c)-b(a{+}b{+}c)=ac$; $0<\eta<1$; $\CMI>0$\\
+\NI{} \S4 three limits & OK & incl.\ $\frac r6\frac{ac}{b^2}+O(b^{-3})$ and log divergence at $b\downarrow0$\\
+\NI{} boxes (main, scope), \S5 & OK & scope box accurate; omits GAP-2\\
+\midrule
+\NII{} \S1 eqs.~\loc{rel-1},\loc{rel-2},\loc{cmi-dpi-defect} & OK & Thm.~\ref{thm:findim}; support hypothesis unstated (minor)\\
+\NII{} \S2 eqs.~\loc{general-petz},\loc{petz-B} & OK & HJPW Thm.~3 eq.~(8) and eq.~(10); which $\sigma$ is meant should be said (minor)\\
+\NII{} \S2 eq.~\loc{markov-equivalence} & OK & HJPW eq.~(11)\\
+\NII{} \S2 eqs.~\loc{hjpw-decomposition},\loc{hjpw-state} & OK & HJPW Thm.~6 verbatim\\
+\NII{} \S2 interpretation box & OK & accurate\\
+\NII{} \S3 eq.~\loc{abstract-defect} & OK & monotonicity\\
+\NII{} \S3 eq.~\loc{petz-vn-equivalence} & GAP-4 & \textbf{missing hypothesis $D_{\cM}(\rho\|\sigma)<\infty$}; direction of the recovery channel not specified\\
+\NII{} \S3 eq.~\loc{connes-criterion} & OK & Jen\v{c}ov\'a--Petz Thm.~1(iv) $=$ Petz 1986\\
+\NII{} \S4 eq.~\loc{split-identification},\loc{split-reference} & GAP-5 & \textbf{ungraded $\overline\otimes$/$\otimes$ where only the graded ones exist}; \emph{but the state, and hence every relative entropy and every bound, is unchanged} (Thm.~\ref{thm:graded})\\
+\NII{} \S4 eqs.~\loc{MI-big},\loc{MI-small},\loc{Ieps-defect} & OK & Thm.~\ref{thm:mieps}\\
+\NII{} \S4 eqs.~\loc{Ieps-free},\loc{longoxu-limit} & OK & re-derived from LX Def.~3.17; exact, not asymptotic\\
+\NII{} \S5 eqs.~\loc{standard-petz},\loc{rotated-petz},\loc{averaged-petz} & OK & FHSW eqs.~(21),(25),(41); $\int p=1$ verified\\
+\NII{} \S5 eq.~\loc{FH-bound} & GAP-6 & true, but it is FHSW eq.~(149)/FH-II Thm.~2 eq.~(21), \emph{not} FHSW Thm.~1 eq.~(24) (integrated form); finiteness hypothesis omitted\\
+\NII{} \S5 eqs.~\loc{fidelity-general},\loc{norm-general} & OK & the norm bound is literally FHSW Thm.~2; cite FHSW Lem.~3(3) (minor)\\
+\NII{} \S5 eqs.~\loc{factorization-heisenberg},\loc{factorization-schrodinger} & GAP-7 & proved here for an \emph{ungraded} product (Lem.~\ref{lem:factor}); for the Fermi net the graded case is unproved in \NII\\
+\NII{} \S6 eqs.~\loc{eps-recovery-bound}--\loc{cross-ratio-norm} & OK & Thm.~\ref{thm:n2bounds}; sharper $\inf_{\eps>0}$ version also holds\\
+\NII{} \S6.1 eqs.~\loc{strict-positive}--\loc{large-b-norm} & OK & all expansions recomputed and checked numerically\\
+\NII{} \S6.1 table & MINOR & row 1 conflates HJPW (type I) with Petz (type III); row 2 says ``from $AB$'' where the collar gives $A_\eps B$, and inherits GAP-7\\
+\NII{} \S7 caveat box & OK & accurate; GAP-8 (minor): for $\Ar$ the failure at $\eps=0$ is not merely ``general'', it is total; FHSW \S4.2/Conj.~1 (hsm inclusions) not cited\\
+\NII{} \S8 eq.~\loc{null-markov} & OK & CTT eq.~(7.2); the failure for adjacent intervals verified explicitly\\
+\NII{} boxes, abstract, \S9 & OK & no new claims\\
+\bottomrule
+\end{longtable}
+\end{center}
+
+\paragraph{Errors found in the \emph{sources} (not in the notes).}
+(i) LX eq.~(8), p.~12: ``$S(\rho_1)=\Tr(\rho_1\ln\rho_1)$'' should be $-\Tr(\rho_1\ln\rho_1)$.
+(ii) LX Thm.~4.2(1): ``$\Fmi_{\mathcal B}(A,B)=-\frac r6|\ln\eta_{AB}|$'' is negative; the intended
+(and elsewhere used) formula is $-\frac r6\ln\eta_{AB}>0$ (Issue \ref{iss:lx421}).
+(iii) LX \S4.2.1: the cross ratio ``$\eta=\frac{(b_1-a_2)(b_2-a_1)}{(b_1-a_1)(b_2-a_2)}$'' has the wrong
+denominator; from Def.~3.17 it must be $\frac{|a_2-b_1|\,|b_2-a_1|}{(a_2-a_1)(b_2-b_1)}$, which is the
+one in $(0,1)$.
+(iv) LX Thm.~4.4: ``$\lim_nS(\omega,\omega\cdot E_n)=[\mathcal A:\mathcal B]$'' should be
+$\ln[\mathcal A:\mathcal B]$ (cf.\ LX p.~26).
+(v) LX Thm.~4.2 omits the strong-additivity hypothesis of Thm.~4.4 (GAP-2).
+(vi) FHSW eq.~(40): ``$S_{\cA}(\rho|\sigma)-S_{\cB}(\sigma|\rho)\le\delta$'' should read $S_{\cB}(\rho|\sigma)$.
+None of these affects the notes' conclusions.
+
+\paragraph{Not obtained.}
+Petz, \emph{Sufficient subalgebras and the relative entropy of states of a von Neumann algebra},
+CMP \textbf{105} (1986) 123--131: Project Euclid and SpringerLink serve bot-protection/paywall HTML
+instead of the PDF. Its content is used only through Jen\v{c}ov\'a--Petz 2006
+(arXiv:math-ph/0412093), Thm.~1 and the Remark on p.~14, which restate it with explicit hypotheses,
+and through FHSW's use of it.
+
+\end{document}

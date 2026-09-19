@@ -1,0 +1,141 @@
+% sec_kubo_mori.tex -- Source: rigor/kubo_mori_second_variation.tex (QK) + rigor/phase2b_brief.md (route). + rigor/kubo_mori_gauge_lemma.tex (RK). HONEST: gauge lemma refuted, s_2 = c/12 is a conjecture.
+The relative entropy $D(\omega\Vert\omega_{s})$ has, in finite dimensions, the second variation
+$\frac{s^{2}}{2}\gKM$ with $\gKM$ the Kubo--Mori (Bogoliubov) metric \cite{Hiai}, and Note~7 \cite{Note7}
+predicts $\gKM=c/6$, i.e.
+\begin{equation}\label{eq:s2}
+ D(\omega\Vert\omega_{\zeta})=s_{2}\,\zeta^{2}+o(\zeta^{2}),\qquad s_{2}=\tfrac12\gKM=\frac{c}{12}.
+\end{equation}
+This section reports what is proved, what is conditional and what has been refuted.  In contrast with the
+Bures case, \eqref{eq:s2} is \emph{not} a theorem of this paper.
+
+\subsection{An exact identity along unitary orbits}
+
+Let $\cM$ be a von Neumann algebra with cyclic separating $\Omega$, $A=A^{*}\in\cM$, $u_{s}=e^{isA}$,
+$\omega_{s}=\omega\circ\Ad u_{s}$, and $w_{s}:=(u_{s}-\one)\Omega$.  Put
+\begin{equation}\label{eq:hdef}
+ h(\lambda):=\lambda-1-\log\lambda\ \ge0\qquad(\lambda>0),\qquad h(1)=0.
+\end{equation}
+
+\begin{theorem}[exact formula]\label{thm:kmexact}
+For every von Neumann algebra and every $A=A^{*}\in\cM$, with both sides in $[0,\infty]$,
+\begin{equation}\label{eq:kmexact}
+ D(\omega\Vert\omega_{s})=\bigl\|h(\Delta)^{1/2}(e^{isA}-\one)\Omega\bigr\|^{2}
+ =\int_{(0,\infty)}h(\lambda)\,d\nu_{s}(\lambda),
+ \qquad \nu_{s}=\langle w_{s},E_{\Delta}(\cdot)w_{s}\rangle,
+\end{equation}
+and the sum rule $\int(\lambda-1)\,d\nu_{s}(\lambda)=0$ holds exactly for every $s$.
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+\cite[Thm.~3.3]{RigorKM}.  Araki's relative entropy \cite{Araki} is
+$D(\omega\Vert\omega_{\xi})=-\langle\Omega,\log\Delta_{\xi,\Omega}\,\Omega\rangle$; the covariance
+$\Delta_{u^{*}\Omega,\Omega}=u^{*}\Delta u$ for $u\in\U(\cM)$ turns the spectral measure of
+$\Delta_{\xi_{s},\Omega}$ in $\Omega$ into that of $\Delta$ in $v_{s}:=u_{s}\Omega$.  Adding the exact
+normalisation identity $\int(\lambda-1)d\nu_{s}=0$ converts $-\log\lambda$ into $h(\lambda)\ge0$, and
+$h(\Delta)^{1/2}\Omega=0$ lets one replace $v_{s}$ by the chord $w_{s}=v_{s}-\Omega$.
+\end{proof}
+
+Relative entropy along a unitary orbit is thus \emph{exactly} the closed quadratic form of the positive
+operator $h(\Delta)$ evaluated on the chord of the orbit, and the whole problem becomes the second-order
+expansion of one nonnegative closed form.  The two consequences are asymmetric.
+
+\begin{theorem}[lower bound, no hypothesis]\label{thm:kmlower}
+For every $\cM$, $\Omega$, and every $A=A^{*}\in\cM$,
+\begin{equation}\label{eq:kmlower}
+ \liminf_{s\to0}\ \frac{D(\omega\Vert\omega_{s})}{s^{2}}\ \ge\
+ \bigl\|h(\Delta)^{1/2}A\Omega\bigr\|^{2}=\tfrac12\gKM\qquad\text{in }[0,\infty].
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+$q(v):=\|h(\Delta)^{1/2}v\|^{2}=\sup_{N}\langle v,h_{N}(\Delta)v\rangle$ with $h_{N}=\min(h,N)$, by monotone
+convergence; each $v\mapsto\langle v,h_{N}(\Delta)v\rangle$ is norm continuous, so $q$ is lower
+semicontinuous.  Since $s^{-1}w_{s}\to iA\Omega$ in norm, \eqref{eq:kmexact} gives
+$\liminf_{s}s^{-2}D=\liminf_{s}q(s^{-1}w_{s})\ge q(A\Omega)$.  Finally
+$\gKM=-2\langle A\Omega,\log\Delta\,A\Omega\rangle=2\int h\,d\mu$ with $\mu$ the spectral measure of
+$A\Omega$, by the KMS symmetry $d\mu(\lambda^{-1})=\lambda\,d\mu(\lambda)$ \cite[Lemma 3.5]{RigorKM}.
+\end{proof}
+
+\begin{theorem}[upper bound under modular analyticity]\label{thm:kmupper}
+Assume $(\mathrm U_{\varepsilon})$: $\|\Delta^{-\varepsilon/2}(e^{isA}-\one)\Omega\|=O(s)$ for some
+$\varepsilon>0$ --- which holds in particular if $A$ is analytic for the modular group $\sigma^{\omega}$ in
+a strip $|\operatorname{Im}z|\le\varepsilon/2$ of any width.  Then $\gKM<\infty$ and
+$D(\omega\Vert\omega_{s})=\frac{s^{2}}{2}\gKM+o(s^{2})$.
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+\cite[\S5]{RigorKM}.  The large-$\lambda$ tail of $h$ is controlled for free by the sum rule of
+\Cref{thm:kmexact}; only the small-$\lambda$ region, where $h(\lambda)\sim-\log\lambda$, needs an input, and
+$(\mathrm U_{\varepsilon})$ supplies exactly the uniform integrability required there.
+\end{proof}
+
+\subsection{Why this does not yet give $s_{2}=c/12$}
+
+\Cref{thm:kmexact,thm:kmlower,thm:kmupper} all assume $A=A^{*}\in\cM$, or at least affiliated with $\cM$.
+For the recovery curve the generator is $A=T(g_{\rm tot})$, and \emph{it is affiliated with neither $\cM$
+nor $\cM'$}: $\supp g_{\rm tot}$ straddles the boundary point $L$ of $I$.  This is exactly the situation in
+which the Bures analysis needed the gauge freedom of \Cref{lem:gauge} --- and the point is that the
+Kubo--Mori form has no comparably cheap gauge invariance, because $h$ is not a quadratic function of the
+modular data in the way $\frac{(\lambda-1)^{2}}{\lambda+1}$ is.
+
+Concretely, the statement one would want is the following.  It is \emph{false}: see the final paragraph
+of this section, where its infimum is computed exactly and is larger than $c/6$ by a factor $11.09$.
+
+\begin{quote}\itshape
+\textbf{Kubo--Mori gauge lemma (refuted).}  Let $K_{\delta}:=S^{1}\setminus(-a,-a+\delta)$ be an interval
+containing $\supp(\tilde k_{s}-\mathrm{id})$, so that $U_{s}\in\cA(K_{\delta})$ by \Cref{lem:loc}(i).  Then
+\[
+ \inf_{\delta>0,\ h}\ \gKM^{(K_{\delta})}\bigl(T(g_{\rm tot}+h)\Omega\bigr)
+ \ =\ \gKM^{(\cM)}(\varphi),
+\]
+the Kubo--Mori form of the tangent functional $\varphi$ on $\cM$, the infimum being over $\delta$ and over
+real fields $h$ supported in $I'$.
+\end{quote}
+
+The upper-bound half of the route is already available and is worth recording, because it is unconditional
+apart from $(\mathrm U_{\varepsilon})$ for the \emph{large} algebra: since $U_{s}^{*}\in\cA(K_{\delta})$ and
+$\Psi_{s}=U_{s}^{*}\Omega$ is a vector representative of $\omega_{s}$ on $\cM\subseteq\cA(K_{\delta})$,
+monotonicity of relative entropy under restriction gives
+\begin{equation}\label{eq:kmmono}
+ D_{\cM}(\omega_{s}\Vert\omega)\ \le\ D_{\cA(K_{\delta})}(\omega_{\Psi_{s}}\Vert\omega),
+\end{equation}
+whose right-hand side is \Cref{thm:kmexact} for a genuinely affiliated generator and a \emph{geometric}
+modular operator (the Bisognano--Wichmann dilation of $K_{\delta}$).  Hence
+$\limsup_{s}s^{-2}D_{\cM}\le\frac12\gKM^{(K_{\delta})}(T(g_{\rm tot}+h)\Omega)$ for every $\delta$ and every
+extension $h$ --- the extension changes $U_{s}$ but not $\omega_{s}|_{\cM}$ by \Cref{lem:ext}.  What is
+missing is that this family of upper bounds has the \emph{right} infimum.  For the lower bound one would
+use the martingale/monotone approximation $D_{\cM}\ge D_{\cM_{n}}$ along an increasing sequence of
+finite-dimensional subalgebras (local algebras of conformal nets are hyperfinite), the finite-dimensional
+expansion $D_{\cM_{n}}=\frac{s^{2}}{2}\gKM^{(n)}+o(s^{2})$, and monotone convergence
+$\gKM^{(n)}\to\gKM^{(\cM)}$ --- the analogue of the Bures monotone-convergence proposition of
+\cite{RigorSV}; \Cref{thm:kmlower} is the abstract prototype.
+
+Two of the three ingredients of the Bures mechanism do carry over, and are proved in \cite{RigorRK};
+the third, the gauge lemma, does not.  Namely: $\HT$ reduces the modular data of
+\emph{every} interval algebra (\Cref{lem:reduce} is stated for $I$ but its proof uses only (BW) for the
+interval in question), the Kubo--Mori form restricted to $\HT$ is $c$ times a universal form, and the free
+fermion fixes the constant.  On the free fermion the reduction is explicit and gives
+$\gKM=\frac12\int_{\mathbb R}\frac{I(u)\,du}{u(u^{2}+4\pi^{2})^{2}}
+=\frac13\int_{\mathbb R}\frac{du}{u^{2}+4\pi^{2}}=\frac16$ \cite[\S7]{RigorKM}, i.e.\ $\gKM=c/6$ at $c=1$,
+consistent with \eqref{eq:s2} --- but this one-particle value is the analytic continuation of a divergent
+integral (final paragraph), so it does not by itself fix the constant for a general net.
+
+\begin{quote}
+\textbf{Status.}  $s_{2}=c/12$ is stated as a \emph{conjecture}, not as a conditional theorem: the route
+just described is \emph{closed}, the Kubo--Mori gauge lemma being false (final paragraph).  Unconditional
+at present are the exact identity \eqref{eq:kmexact}, the lower bound \eqref{eq:kmlower} for affiliated
+generators, the bracket $0.034\,c\le\liminf_{s\to0}s^{-2}D\le\limsup_{s\to0}s^{-2}D\le0.924\,c$ of the
+final paragraph, and the numerical confirmation at $c=1$ of \Cref{sec:boson}.
+\end{quote}
+
+\begin{remark}[a route that does not work]\label{rem:kosaki}
+The plan of attacking the upper bound through the Kosaki and Petz--Donald variational expressions for
+relative entropy is refuted \cite[\S6]{RigorKM}: those expressions are \emph{suprema} over families of
+test data, so they yield lower bounds on $D$ and are useless for a $\limsup$.  We record this because the
+same trap is easy to fall into when transporting the Bures argument, where the corresponding variational
+formula \eqref{eq:three} is used in both directions (Alberti's inequality supplies the matching upper bound
+on the fidelity, which is a \emph{lower} bound on $-\log\Fid$).
+\end{remark}
+
+\paragraph{Status after the gauge-lemma analysis.}
+The route just described has been carried out in detail in \cite{RigorRK}, with a negative outcome for the sharp constant.  For every admissible gauge, i.e.\ every field $\hat g$ equal to $g_{\rm tot}$ on $\bar I$ and vanishing outside an interval $K=(-\infty,R)\supseteq I$, the recovery unitary $\hat U_s=e^{isT(\hat g)}$ lies in $\cA(K)$, and monotonicity of the relative entropy gives the exact, unconditional bound $D(\omega_s\Vert\omega)\le\|h(\Delta_K)^{1/2}(\hat U_{-s}-1)\Omega\|^2$, $h(\lambda)=\lambda-1-\log\lambda$.  For fields affiliated with $\cA(K)$ the Kubo--Mori form is the local Sobolev expression $\frac c{12}\int(\tilde f''^2+\tilde f'^2)\,d\xi$ in the modular frame of $K$, so the bound is computable and linear in $c$; but its infimum over all admissible gauges is $(11+5\sqrt5)c/12\approx11.09\cdot\frac c6$, attained at $R=(3+\sqrt5)/2$, and not $c/6$: the restriction route is not sharp.  Together with the lower bound $\liminf s^{-2}D\ge\frac12 g_B=c/(3\pi^2)$ from the Petz--Donald formula (a supremum, hence usable for lower bounds), the proved bracket for a general net is $0.034\,c\le\liminf_{s\to0}s^{-2}D\le\limsup_{s\to0}s^{-2}D\le0.924\,c$, the upper half under a uniform-integrability hypothesis on the negative part of $\log\Delta_K$ along the orbit.  The value $c/6$ of the one-particle computation is the analytic continuation of a divergent integral, because the tangent field does not vanish at the moving endpoint; it is confirmed numerically for the free fermion ($s_2=0.0837(5)$) and the free boson ($0.083(2)$, \cref{sec:boson}), and we state $s_2=c/12$ for general nets as a conjecture.

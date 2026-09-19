@@ -1,0 +1,14 @@
+# S11 exact-fidelity test of S10's claim.  L=192 |I|=114 theta(CG)=0.28870 |u|^2=0.007272  (2s)
+Traceback (most recent call last):
+  File "/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/optimality_all/s11_exactF.py", line 95, in <module>
+    print(f"# window kc -> modes: " + " ".join(
+                                      ~~~~~~~~^
+        f"{kc:g}:{neglogF_sub(Q1,Q1,kc)[1]}" for kc in kcs), flush=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/optimality_all/s11_exactF.py", line 96, in <genexpr>
+    f"{kc:g}:{neglogF_sub(Q1,Q1,kc)[1]}" for kc in kcs), flush=True)
+              ~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/optimality_all/s11_exactF.py", line 78, in neglogF_sub
+    return float(-logF), n
+           ~~~~~^^^^^^^
+TypeError: float() argument must be a string or a real number, not 'mpc'

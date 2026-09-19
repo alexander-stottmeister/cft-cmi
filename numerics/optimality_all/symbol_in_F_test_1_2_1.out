@@ -1,0 +1,15 @@
+(1,2,1) all-channel optimum: min slack needed s* = -2.611e-08  (<=0 means symbol in F)
+petz_XY: fit residual 1.2212453270876722e-15 rank-one residual 3.2821994194239525e-15
+Petz symbol: s* = +3.857e-10
+random channel 0: s* = -4.496e-01   trace distance to Gaussian(same symbol) = 0.229
+random channel 1: s* = -4.684e-01   trace distance to Gaussian(same symbol) = 0.257
+random channel 2: s* = -4.690e-01   trace distance to Gaussian(same symbol) = 0.262
+random channel 3: s* = -4.675e-01   trace distance to Gaussian(same symbol) = 0.209
+random channel 4: s* = -4.483e-01   trace distance to Gaussian(same symbol) = 0.247
+random channel 5: s* = -4.355e-01   trace distance to Gaussian(same symbol) = 0.266
+random isometric channel 0: s* = -1.017e-01   trace dist to Gaussian(same symbol) = 1.371   -logF = 0.6991
+random isometric channel 1: s* = -5.591e-02   trace dist to Gaussian(same symbol) = 1.319   -logF = 1.4872
+random isometric channel 2: s* = -1.641e-01   trace dist to Gaussian(same symbol) = 1.417   -logF = 0.8478
+random isometric channel 3: s* = -9.427e-02   trace dist to Gaussian(same symbol) = 1.355   -logF = 0.6563
+random isometric channel 4: s* = -1.321e-01   trace dist to Gaussian(same symbol) = 1.330   -logF = 0.4689
+random isometric channel 5: s* = -9.723e-02   trace dist to Gaussian(same symbol) = 1.460   -logF = 1.1837

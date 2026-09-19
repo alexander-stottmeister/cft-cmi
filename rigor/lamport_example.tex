@@ -1,0 +1,23 @@
+\documentclass[11pt]{article}\input{rigor_preamble}
+\title{Template: Lamport-style structured proof}\author{}\date{}
+\begin{document}\maketitle
+\begin{lemma}[Example]\label{lem:ex} For $0<q<1$: $\;q(1-q)\le\tfrac14$.\end{lemma}
+\lstep{1}{1}{\lsuffices\lassume $0<q<1$ \lprove $\tfrac14-q(1-q)\ge0$.}
+\lby{definition of $\le$}
+\lstep{1}{2}{$\tfrac14-q(1-q)=(q-\tfrac12)^2$.}
+\lproof
+\lstep{2}{1}{$(q-\tfrac12)^2=q^2-q+\tfrac14$.}
+\lby{expanding the square}
+\lstep{2}{2}{$\tfrac14-q(1-q)=\tfrac14-q+q^2$.}
+\lby{distributivity}
+\lqed{2}{3}
+\lby{$\langle2\rangle1$, $\langle2\rangle2$}
+\lstep{1}{3}{$(q-\tfrac12)^2\ge0$.}
+\lby{squares of reals are nonnegative}
+\lqed{1}{4}
+\lby{$\langle1\rangle1$--$\langle1\rangle3$}
+\begin{verdictok}All steps verified.\end{verdictok}
+\begin{citedbox}{Powers--St\o rmer 1970, Theorem 5.5 (schematic)}
+Exact statement transcribed here; screenshot: \texttt{\detokenize{\includegraphics[width=.8\textwidth]{shots/PS70_thm55.png}}}
+\end{citedbox}
+\end{document}

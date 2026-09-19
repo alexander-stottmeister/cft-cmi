@@ -1,0 +1,135 @@
+% !TeX root = main.tex
+\label{app:proofs}
+\subsection{Proof of \texorpdfstring{\cref{prop:secondorder}}{the second-order expansion}}
+\label{app:secondorder}
+Write $c_i=1-q_i$, $g_i=q_i/c_i$ and $Q_2=Q_1+\eps D$.  Then
+$G_2=G_1+\eps G'+\eps^2G''$ with
+$G'=(1-Q_1)^{-1}D(1-Q_1)^{-1}$ and
+$G''=(1-Q_1)^{-1}D(1-Q_1)^{-1}D(1-Q_1)^{-1}$, and
+$T^{1/2}=G_1+\eps T_1+\eps^2T_2$ with
+\begin{equation}\label{eq:T1}
+ (T_1)_{ik}=\frac{\sqrt{g_ig_k}\,D_{ik}}{c_ic_k(g_i+g_k)},
+ \qquad
+ g_iT_2+T_2g_i=G_1^{1/2}G''G_1^{1/2}-T_1^2 \quad\text{entrywise.}
+\end{equation}
+The first-order terms cancel identically ($\Fid\le1$ with equality at $\eps=0$).
+Collecting the second-order terms of
+$\frac12\log\det(1-Q_2)+\log\det(1+T^{1/2})$ gives
+\begin{equation}\label{eq:collect}
+ \sum_{i,k}\frac{|D_{ik}|^2}{c_ic_k}
+ \Bigl\{\frac14-\frac{\frac12(q_ic_k^2+q_kc_i^2)+q_iq_kc_ic_k}
+ {2(q_ic_k+q_kc_i)^2}\Bigr\}
+ =-\frac14\sum_{i,k}\frac{|D_{ik}|^2}{q_ic_k+q_kc_i},
+\end{equation}
+after the identity
+$(q_ic_k+q_kc_i)^2-(q_ic_k^2+q_kc_i^2)-2q_iq_kc_ic_k=-c_ic_k(q_ic_k+q_kc_i)$.
+This is \eqref{eq:qfi}.  For \eqref{eq:km} write \cref{prop:relentfd} as the sum
+of the Bregman divergences of $f(X)=\Tr X\log X$ at $(Q_1,Q_2)$ and
+$(1-Q_1,1-Q_2)$ --- the linear terms $\Tr(Q_1-Q_2)$ cancel between the two --- and
+use the Daleckii--Krein corollary
+$\partial^2f(Q)[D,D]=\sum_{ik}|D_{ik}|^2\ell(q_i,q_k)$.  Formula
+\eqref{eq:weight} is elementary algebra.  In the commuting case both expansions
+reduce to the classical Fisher information $\sum_id_i^2/(q_i(1-q_i))$ with the
+familiar factors $\frac18$ and $\frac12$.\qed
+
+\subsection{The Hankel reduction behind \texorpdfstring{\cref{thm:tracenorm}}{the trace-norm identity}}
+\label{app:hankel}
+On the $A\times D$ block the defect kernel is
+$R_s(u,v)=\frac{suv}{(u+v)(L(u+v)+suv)}$ with $u\in(0,a)$, $v\in(0,L)$.  The
+inversions $u=1/p$, $v=1/\sigma$ together with the half-density factors turn
+$R_s$ into the Hankel operator with kernel
+\begin{equation}\label{eq:hankel}
+ \Tr H_{\alpha,\beta}
+ =\frac12\int_0^\infty\frac{e^{-\beta\rho}-e^{-(\beta+\alpha)\rho}}{\rho}\,d\rho,
+\end{equation}
+a positive trace-class operator whose trace is a Frullani integral: by Tonelli,
+\begin{equation}\label{eq:frullani}
+ \int_0^\infty\frac{e^{-\beta\rho}-e^{-(\beta+\alpha)\rho}}{\rho}\,d\rho
+ =\int_0^\alpha\!\!\int_0^\infty e^{-(\beta+t)\rho}\,d\rho\,dt
+ =\int_0^\alpha\frac{dt}{\beta+t}=\log\frac{\beta+\alpha}\beta .
+\end{equation}
+Here $\alpha=s/L$ and $\beta=1/a+1/L$, so $\alpha/\beta=as/(a+L)=\zeta$ and
+$\norm{R_s}_1=\frac12\log(1+\zeta)$.  A self-adjoint block operator
+$\left(\begin{smallmatrix}0&T\\T^*&0\end{smallmatrix}\right)$ has the singular
+values of $T$ with multiplicity two, and the prefactor $\frac1{2\pi}$ of
+\eqref{eq:defect} together with the direct sum of $r$ components gives
+$\norm{Q_I-\widetilde Q_s}_1=\frac r{2\pi}\log(1+\zeta)$.  The rank-one
+factorization making the trace-norm convergence explicit, and the unitary
+$J$ implementing the inversion, are given in \cite[\S6]{Note4}.
+
+\subsection{The ultraviolet tail: the corner expansion}
+\label{app:tail}
+We record the computation behind \cref{prop:tail}; as stated in
+\cref{rem:tail-status} it is a sketch, and nothing in \cref{sec:quadratic} depends
+on it.  Put $p=\xi_0-\xi>0$, $p'=\xi'-\xi_0>0$, $m=\xi-\xi'=-(p+p')<0$ and
+$n=\frac12(\xi+\xi')-\xi_0$.  Then
+$J(\kappa,\kappa)=(2\pi)^{-2}\int_{-\infty}^0dm\,e^{-i\kappa m/2\pi}P(m)$, with the
+diagonal profile $P(m)=\int dn\,\sqrt{\beta\beta'}\,R_s(-x,y)$ over
+$|n|<|m|/2$.  Since the integrand is analytic away from the corner and $P(m)$
+decays exponentially as $m\to-\infty$, the large-$\kappa$ behaviour is governed by
+the Taylor expansion $P(m)=\sum_{k\ge1}c_k|m|^k$ at $m=0^-$; because
+$\int_0^\infty t^ke^{i\kappa t/2\pi}dt=k!\,i^{k+1}(2\pi/\kappa)^{k+1}$, odd $k$
+contribute only to $\operatorname{Re}J$ and even $k$ only to $\operatorname{Im}J$,
+and by \eqref{eq:occupation-app} the occupation excess is
+$\frac1\pi\operatorname{Im}J(\kappa,\kappa)$, where
+\begin{equation}\label{eq:occupation-app}
+ \widetilde Q_s(\kappa,\kappa)-q_\kappa=-\delta_s(\kappa,\kappa)
+ =\tfrac1\pi\operatorname{Im}J(\kappa,\kappa).
+\end{equation}
+Expanding around the corner with $u=-x=\beta_0p-\frac12\beta_0\beta_0'p^2+\cdots$,
+$v=y=\beta_0p'+\frac12\beta_0\beta_0'p'^2+\cdots$,
+$\sqrt{\beta\beta'}=\beta_0(1+\frac12\beta_0'(p'-p)+\cdots)$,
+$\beta_0'=\frac{L-a}{a+L}$, and
+$R_s=\frac sLg-\frac{s^2}{L^2}\frac{u^2v^2}{(u+v)^3}+\cdots$ with
+$g(u,v)=\frac{uv}{(u+v)^2}$ homogeneous of degree $0$, one finds
+\begin{equation}\label{eq:Pm}
+ P(m)=\frac{s\beta_0}L\frac{|m|}6
+ \;+\;0\cdot m^2\Big|_{O(s)}
+ \;-\;\frac{s^2\beta_0^2}{L^2}\frac{m^2}{30}+O(|m|^3).
+\end{equation}
+The vanishing of the $O(s)$ coefficient of $m^2$ is the cancellation between the
+Jacobian term $\frac12\beta_0'(p'-p)g$ and the coordinate correction
+$-\frac12\beta_0'p^2\partial_pg+\frac12\beta_0'p'^2\partial_{p'}g
+=\frac12\beta_0'\frac{pp'(p-p')}{(p+p')^2}$; it reflects M\"obius covariance, since
+$\beta_0'$ is not a conformal invariant.  The $m^2$ coefficient of the $O(s^2)$
+term is $\int_{-1/2}^{1/2}(\frac14-n^2)^2dn=\frac1{30}$.  Inserting
+$c_2=-\frac{s^2\beta_0^2}{30L^2}$ gives
+$\operatorname{Im}J=4\pi|c_2|\kappa^{-3}+O(\kappa^{-5})$ and hence \eqref{eq:tail};
+the sign is fixed a posteriori by $\widetilde Q_s\ge0$, and
+$\beta_0/L=a/(a+L)$, so $s\beta_0/L=\zeta$.
+
+Numerically, for $a=1$, $L=2$, $s=0.2$ the ratio of the computed occupation
+density to $\frac2{15}\zeta^2\kappa^{-3}$ is $1.11,\,1.05,\,1.024,\,1.010$ at
+$\kappa=20,30,40,60$, approaching $1$ from above, and the density scales as $s^2$
+between $s=0.1$ and $s=0.2$ (ratio $4.000$).  For the first-order kernel
+$\frac sLg$ alone the diagonal drops from $2.4\times10^{-4}$ at $\kappa=4$ to
+$5.7\times10^{-9}$ at $\kappa=16$, i.e.\ like $e^{-0.9\kappa}$, and is below the
+quadrature floor beyond --- which is the statement that the first-order defect does
+not contribute to \eqref{eq:tail}.
+
+\subsection{The first-order modular kernel}
+\label{app:D1}
+The kernel identity \eqref{eq:kernel-identity} rests on the pointwise identity, on
+the block $\xi<0<\xi'$ of the modular frame,
+\begin{equation}\label{eq:D1kernel}
+ \widetilde D^{(1)}(\xi,\xi')=(Q\mathfrak g)(\xi,\xi')
+ =-\frac i{2\pi}\,
+ \frac{\sinh\frac{\xi'}2\,\sinh\frac\xi2}{\sinh^2\frac{\xi-\xi'}2},
+\end{equation}
+obtained from the off-diagonal thermal kernel
+$\widetilde Q(u)=-\frac i{4\pi}\sinh^{-1}\frac u2$, $u=\xi-\xi'$, and the
+generator $\mathfrak g=\widetilde g\,\partial_{\xi'}+\frac12\widetilde g\,'$
+acting on the second variable.  Both sides vanish on $A\times A$ and on
+$D\times D$, the latter because $h_s(D)\subset D$ and $P_+$ is M\"obius invariant.
+Taking modular matrix elements of $Q\mathfrak g+\mathfrak g^*Q$ produces the
+factor $(q_\kappa-q_{\kappa'})$ and
+$\langle\psi_\kappa,\mathfrak g\psi_{\kappa'}\rangle=i\,\mathfrak g(\kappa,\kappa')$,
+provided the divergent integral $\int_0^\infty e^{-ik\xi}\widetilde g$ is read as
+the analytic continuation $\widehat g$; the boundary contribution at
+$\xi'\to\infty$ in the integration by parts is exactly what the continuation
+encodes.  A complete analytic proof --- expansion of $\sinh^{-2}$ in exponentials
+and summation by Gauss's theorem to digamma functions --- is in \cite{RigorKI}; a
+naive contour shift $\xi'\to\xi'-i\pi$ does \emph{not} close on the half-line
+contour.  The identity was also checked against the absolutely convergent
+transform of \eqref{eq:D1kernel} at $(\kappa,\kappa')=(1,3),(2.5,-1),(4,4.5),
+(-3,0.7)$: eight digits in modulus, phase exactly $i$.

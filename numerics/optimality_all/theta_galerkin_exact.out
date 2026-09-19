@@ -1,0 +1,7 @@
+exact h=0.400 Lam=12 s=0.1 N=69 (nA,nB,nC)=(30,9,30) kappa_max=4.64 g(dc)/(f2 zeta^2)=0.8482 |dc_DD|/|dc|=0.0e+00 | theta(CG)=0.2830 crude=2317269.5370 check min_eps g/g0=0.7170 (1-theta=0.7170) eps*=-2.000 iters=400
+exact h=0.300 Lam=12 s=0.1 N=91 (nA,nB,nC)=(40,11,40) kappa_max=5.06 g(dc)/(f2 zeta^2)=0.8757 |dc_DD|/|dc|=0.0e+00 | theta(CG)=0.2966 crude=2193869.8367 check min_eps g/g0=0.7034 (1-theta=0.7034) eps*=-2.000 iters=400
+exact h=0.250 Lam=12 s=0.1 N=110 (nA,nB,nC)=(48,14,48) kappa_max=5.38 g(dc)/(f2 zeta^2)=0.8955 |dc_DD|/|dc|=0.0e+00 | theta(CG)=0.3117 crude=2111943.2048 check min_eps g/g0=0.6883 (1-theta=0.6883) eps*=-2.000 iters=400
+exact h=0.200 Lam=12 s=0.1 N=137 (nA,nB,nC)=(60,17,60) kappa_max=5.72 g(dc)/(f2 zeta^2)=0.9124 |dc_DD|/|dc|=0.0e+00 | theta(CG)=0.3212 crude=2044149.2119 check min_eps g/g0=0.6788 (1-theta=0.6788) eps*=-2.000 iters=400
+exact h=0.150 Lam=12 s=0.1 N=183 (nA,nB,nC)=(80,23,80) kappa_max=6.20 g(dc)/(f2 zeta^2)=0.9317 |dc_DD|/|dc|=0.0e+00 | theta(CG)=0.3339 crude=1969409.2473 check min_eps g/g0=0.6661 (1-theta=0.6661) eps*=-2.000 iters=400
+exact h=0.200 Lam=12 s=0.02 N=145 (nA,nB,nC)=(60,25,60) kappa_max=5.73 g(dc)/(f2 zeta^2)=0.9275 |dc_DD|/|dc|=0.0e+00 | theta(CG)=0.3238 crude=50243626.5748 check min_eps g/g0=0.6762 (1-theta=0.6762) eps*=-2.000 iters=400
+exact h=0.200 Lam=12 s=0.5 N=130 (nA,nB,nC)=(60,10,60) kappa_max=5.73 g(dc)/(f2 zeta^2)=0.8478 |dc_DD|/|dc|=0.0e+00 | theta(CG)=0.3128 crude=88077.2748 check min_eps g/g0=0.6872 (1-theta=0.6872) eps*=-2.000 iters=400

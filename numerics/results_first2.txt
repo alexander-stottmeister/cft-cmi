@@ -1,0 +1,15 @@
+/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/numerics/fidelity_flint.py:39: RuntimeWarning: divide by zero encountered in divide
+  Nw=w[:,None]*(1-w)[None,:]+w[None,:]*(1-w)[:,None]; f2=0.25*np.sum(A/Nw)
+first_s1.0_Lam120_k37: N=225  f2=inf  s2=nan  s2/f2=nan
+first_s1.0_Lam120_k41: N=249  f2=inf  s2=nan  s2/f2=nan
+first_s1.0_Lam120_k45: N=273  f2=inf  s2=nan  s2/f2=nan
+first_s1.0_Lam120_k60: N=365  f2=inf  s2=nan  s2/f2=nan
+first_s1.0_Lam120_k90: N=547  f2=inf  s2=nan  s2/f2=nan
+first_s1.0_Lam180_k45: N=411  f2=inf  s2=nan  s2/f2=nan
+first_s1.0_Lam240_k45: N=547  f2=inf  s2=nan  s2/f2=nan
+first_s1.0_Lam240_k60: N=729  f2=inf  s2=nan  s2/f2=nan
+first_s1.0_Lam60_k30: N=91  f2=0.0083698  s2=0.073513  s2/f2=8.7831
+first_s1.0_Lam60_k45: N=137  f2=inf  s2=nan  s2/f2=nan
+first_s1.0_Lam60_k60: N=183  f2=inf  s2=nan  s2/f2=nan
+first_s1.0_Lam80_k45: N=183  f2=0.0084115  s2=nan  s2/f2=nan
+first_s1.0_Lam80_k60: N=243  f2=inf  s2=nan  s2/f2=nan

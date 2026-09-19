@@ -1,0 +1,4 @@
+exact rational identity  -(x-p)^2/beta_I(x) == -beta_I(p)(X/X_p - 2 + X_p/X): PASS (0 failures / 50000)
+w(u) = -(e^u - 2 + e^{-u}) max err: 5.684341886080802e-14
+zeta = sigma*beta_I(0) = a s/(a+L) for I=(-a,L): PASS
+parabolic parameter is a (-1)-density, sigma' = sigma/M'(p):  max rel err 3.39e-06

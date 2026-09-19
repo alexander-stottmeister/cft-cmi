@@ -1,0 +1,1045 @@
+\documentclass[11pt]{article}\input{rigor_preamble}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{ltablex}
+\keepXColumns
+
+% ---- status tags -------------------------------------------------------
+\newcommand{\stPR}{{\color{okgreen}\textsf{\scriptsize\bfseries PROVED}}}
+\newcommand{\stPMC}{{\color{teal}\textsf{\scriptsize\bfseries PROVED$^\ast$}}}
+\newcommand{\stCIT}{{\color{navy}\textsf{\scriptsize\bfseries CITED}}}
+\newcommand{\stNUM}{{\color{orange!80!black}\textsf{\scriptsize\bfseries NUM}}}
+\newcommand{\stHEU}{{\color{warn}\textsf{\scriptsize\bfseries HEUR}}}
+\newcommand{\stCON}{{\color{warn}\textsf{\scriptsize\bfseries CONJ}}}
+\newcommand{\stDEF}{{\textsf{\scriptsize\bfseries DEF}}}
+\newcommand{\NI}{N1}\newcommand{\NII}{N2}\newcommand{\NIII}{N3}
+\newcommand{\NIV}{N4}\newcommand{\NV}{N5}\newcommand{\NVI}{N6}\newcommand{\NVII}{N7}
+\newcommand{\CMI}{I}
+\newcommand{\MI}{F}
+\renewcommand{\cB}{\mathcal B}
+\renewcommand{\cR}{\mathcal R}
+\renewcommand{\cJ}{\mathcal J}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\Ad}{\operatorname{Ad}}
+\newcommand{\pv}{\mathrm{p.v.}}
+\newcommand{\Sone}{\mathfrak S_1}
+\newcommand{\Stwo}{\mathfrak S_2}
+\newcommand{\zz}{\zeta}
+\newcommand{\Ord}{\mathrm{P}}
+\newcommand{\gt}{\widetilde g}
+\newcommand{\Wh}{\widehat W}
+\newcommand{\gh}{\widehat{\gt}}
+
+\title{\vspace{-1.6cm}\color{navy}\bfseries Global logical audit of Notes 1--7\\[0.3em]
+\large Dependency table, convention consistency, hidden hypotheses,\\ ranked proof-breaking risks, and what is actually proved}
+\author{Hostile referee report}\date{}
+
+\begin{document}\maketitle
+\vspace{-1.2em}
+
+\section*{Scope and method}
+This report audits the \emph{logical structure} of the seven notes
+\begin{center}\small
+\begin{tabular}{ll}
+\NI & \texttt{adjacent\_interval\_cmi\_longo\_xu.tex}\\
+\NII & \texttt{cmi\_as\_quantum\_markov\_defect.tex}\\
+\NIII & \texttt{cmi\_cft\_research\_program.tex}\\
+\NIV & \texttt{continuum\_petz\_free\_fermion.tex}\\
+\NV & \texttt{fidelity\_recovered\_quasifree.tex}\\
+\NVI & \texttt{strategy\_open\_problems.tex}\\
+\NVII & \texttt{universality\_normalization.tex}
+\end{tabular}
+\end{center}
+It does \emph{not} redo the step-by-step verification of individual computations (other referees do that); it records
+(1) what every named result depends on and its status, (2) convention clashes, (3) hidden reliance on unproved steps,
+(4) ranked risks, (5) a consolidated statement of what is proved.  Where an arithmetic check was needed to decide a
+\emph{logical} question (e.g.\ whether two notes assert the same number) it was done and is reported.
+
+\paragraph{Status classification (strict).}
+\begin{itemize}[leftmargin=1.4em]
+\item \stPR{} \textbf{= PROVED-IN-NOTES} --- a complete proof is present in the notes (given only textbook facts).
+\item \stPMC{} \textbf{= PROVED-MODULO-CITATIONS} --- complete \emph{given} the cited external theorems, whose statements were checked against the source PDF where indicated.
+\item \stCIT{} \textbf{= CITED-ONLY} --- imported from the literature; the notes prove nothing.
+\item \stNUM{} \textbf{= NUMERICAL} --- the assertion's only support is a numerical evaluation.
+\item \stHEU{} \textbf{= HEURISTIC} --- an argument is present but is not a proof (this includes every ``proof sketch'', every ``one may see'', and every step whose justification is ``confirmed numerically'').
+\item \stCON{} \textbf{= CONJECTURAL} --- stated as a conjecture, target, or programme.
+\item \stDEF{} \textbf{= DEFINITION} --- a definition or notational convention (audited for consistency, not for truth).
+\end{itemize}
+
+\paragraph{External sources actually opened.}
+\texttt{refs/LongoXu\_1712.07283.pdf} (Def.~3.17, Thm.~3.18, Thm.~4.1, \S4.2, Thm.~4.2, Rmk.~4.3),
+\texttt{refs/FHSW20\_2006.08002.pdf} (Thm.~1 and eq.~(24)--(26), Thm.~2 eq.~(41), and the section
+``Example: half-sided modular inclusions'', eqs.~(166)--(168)),
+\texttt{refs/VWZ\_2307.14434.pdf} (eqs.~(1.12), (1.13), (2.10), (2.13), (2.16), Fig.~5, App.~A.5 numbers).
+Petz~86/88, HJPW, Fawzi--Renner, JRSWW, SFR, Powers--St\o rmer, Araki~71/76/77, Alberti, Uhlmann, Jen\v cov\'a,
+Casini--Huerta, BGL, Wiesbrock, Borchers, Nag--Sullivan, Takhtajan--Teo, CDIW, Fewster--Hollands,
+Kirillov--Yuriev, Calabrese--Cardy, Casini--Huerta~04, CTT, Camassa et al.\ were \textbf{not} re-opened for this
+audit; statements attributed to them are marked \stCIT{} and are the responsibility of the per-note referees.
+
+\clearpage
+\section{Dependency table of every named result}
+
+Notation used in the table: \textsf{LX} = Longo--Xu 2018; \textsf{FHSW} = Faulkner--Hollands--Swingle--Wang 2022;
+\textsf{VWZ} = Vardhan--Wei--Zou 2024; \textsf{PS} = Powers--St\o rmer 1970; \textsf{CH} = Casini--Huerta 2009.
+Equation numbers are the \texttt{\textbackslash label} names of the notes.  ``$\Rightarrow$'' means ``is used by''.
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\subsection{Note 1 --- \texttt{adjacent\_interval\_cmi\_longo\_xu}}
+\NI{} contains no numbered theorem; the named objects are the \emph{Main conclusion} box, the displayed
+equations, and the \emph{Scope} box.
+
+{\footnotesize\setlength{\emergencystretch}{4em}\sloppy\exhyphenpenalty=0\relax\hyphenpenalty=0\relax
+\begin{tabularx}{\textwidth}{L{0.150\textwidth} X L{0.215\textwidth} L{0.098\textwidth}}
+\toprule
+\textbf{Label} & \textbf{Statement (one line)} & \textbf{Depends on} & \textbf{Status}\\
+\midrule\endhead
+\texttt{MAIN box} & $\CMI(A{:}C|B)=\MI_{\cN}(AB,BC)=\frac r6\log\frac{(a+b)(b+c)}{b(a+b+c)}=-\frac r6\log\eta<\infty$ for $\cA_r$, its finite-index subnets and extensions & \texttt{cmi-as-F}, \texttt{G-identity}, \texttt{G-connected}; LX Thm 4.2(1)+\S4.2 & \stPMC \\
+\texttt{MI-relative} & $\MI_\cN(U,V):=S(\omega_{U\cup V}\Vert\omega_U\otimes_2\omega_V)$ (graded product) & LX \S3 (Def.\ of $\omega_1\otimes_2\omega_2$) & \stDEF \\
+\texttt{subnet-bound} & $0\le\MI_\cB\le\MI_{\cA_r}<\infty$ for separated $U,V$ & LX Thm 4.1(6) \emph{(checked: present)} & \stPMC \\
+\texttt{generalized-F} & $\MI(X{\cup}Y,X{\cup}Z):=\MI(X,Y{\cup}Z)+\MI(Y,Z)-\MI(X,Z)-\MI(X,Y)$ & LX \S4.2 (which states the equivalent $G$-form) & \stDEF \\
+\texttt{finite-approx} & $\MI(X{\cup}Y,X{\cup}Z)=\lim_n[S(X_nY_n)+S(X_nZ_n)-S(X_n)-S(X_nY_nZ_n)]$ & LX proof of Thm 4.1(1) \emph{(checked: verbatim in LX, p.~22)} & \stPMC \\
+\texttt{cmi-as-F},\allowbreak\ \texttt{our-cmi} & $\CMI(Y{:}Z|X):=\MI_\cN(X{\cup}Y,X{\cup}Z)\ge0$ & \texttt{finite-approx} + SSA & \stPMC \\
+\texttt{G-identity},\allowbreak\ \texttt{G-connected} & $\MI_\cB(U,V)=G(U)+G(V)-G(U{\cup}V)-G(U{\cap}V)$; $G((u,v))=\frac r6\log(v-u)$ & LX Thm 4.2(1); for $\cA_r$ itself, LX \S4.2 & \stPMC \\
+\S3.1 $\to$ \texttt{abc-formula} & the four-term $\log$ collapses to the cross-ratio expression & \texttt{G-identity} (elementary algebra) & \stPR \\
+\texttt{asymptotic} & $\MI(A_\eps,D_d)=\frac r6\log\frac{ad}{(a+d)\eps}-\frac12\log\mu_\cN+o(1)$ & LX Thm 4.2(2) \emph{(checked; LX has $o(\eps)$, stronger)} & \stPMC \\
+\S3.2 $\to$ \texttt{Ieps} & the $\log\eps$, $\log a$ and $-\frac12\log\mu$ terms cancel in $I_\eps$; $\lim_{\eps\downarrow0}I_\eps$ reproduces \texttt{abc-formula} & \texttt{asymptotic}; LX eq.~(13)/(14) & \stPMC \\
+\texttt{eta},\allowbreak\ \texttt{cross-\allowbreak ratio-\allowbreak final} & $0<\eta<1$ because $(a{+}b)(b{+}c)-b(a{+}b{+}c)=ac>0$; hence $\CMI>0$ & elementary & \stPR \\
+\S4 bullets & $a\downarrow0$ or $c\downarrow0\Rightarrow\CMI\to0$; $\CMI=\frac r6\frac{ac}{b^2}+O(b^{-3})$; $b\downarrow0\Rightarrow$ log divergence & elementary Taylor \emph{(checked)} & \stPR \\
+\texttt{scopebox} & the theorem is for $\cA_r$, finite-index subnets/extensions; general rational nets are LX's Rmk 4.3 conjecture & LX Rmk 4.3 \emph{(checked: verbatim)} & \stPR \\
+\bottomrule
+\end{tabularx}}
+
+\subsection{Note 2 --- \texttt{cmi\_as\_quantum\_markov\_defect}}
+
+{\footnotesize\setlength{\emergencystretch}{4em}\sloppy\exhyphenpenalty=0\relax\hyphenpenalty=0\relax
+\begin{tabularx}{\textwidth}{L{0.150\textwidth} X L{0.215\textwidth} L{0.098\textwidth}}
+\toprule
+\textbf{Label} & \textbf{Statement} & \textbf{Depends on} & \textbf{Status}\\
+\midrule\endhead
+\texttt{Core bridge} box & $\CMI_\eps=D_{\cM_\eps}-D_{\cN_\eps}\ge-2\log F_{\rm rec}$; $F_{\rm rec}\ge\eta^{r/12}$ & \texttt{Ieps-defect}, \texttt{FH-bound}, \texttt{longoxu-limit} & \stPMC \\
+\texttt{MAIN box} & the two boxed limits $\liminf F\ge\eta^{r/12}$, $\limsup\|\cdot\|\le2\sqrt{1-\eta^{r/6}}$ & \texttt{cross-\allowbreak ratio-\allowbreak fidelity}, \texttt{cross-\allowbreak ratio-\allowbreak norm} & \stPMC \\
+\texttt{rel-1},\allowbreak\texttt{rel-2},\allowbreak\texttt{cmi-\allowbreak dpi-\allowbreak defect} & finite-dim.: $\CMI=D(\rho_{ABC}\Vert\rho_A{\otimes}\rho_{BC})-D(\rho_{AB}\Vert\rho_A{\otimes}\rho_B)$ & elementary \emph{(checked)} & \stPR \\
+\texttt{general-petz},\allowbreak\ \texttt{petz-B} & Petz map and its $\id_A\otimes\cR_{B\to BC}$ factorization & standard (Petz) & \stCIT \\
+\texttt{markov-\allowbreak equivalence} & $\CMI=0\iff\rho_{ABC}=(\id_A{\otimes}\cR^{\rm P}_{B\to BC})(\rho_{AB})$ & Petz 1986 equality theorem & \stCIT \\
+\texttt{hjpw-\allowbreak decomposition},\allowbreak\ \texttt{hjpw-state} & direct-sum structure of exact Markov states & HJPW 2004 & \stCIT \\
+\texttt{abstract-\allowbreak defect},\allowbreak\ \texttt{petz-\allowbreak vn-\allowbreak equivalence},\allowbreak\ \texttt{connes-\allowbreak criterion} & $\delta_{\cN\subset\cM}=0\iff$ recovery $\iff[D\rho:D\sigma]_t\in\cN$ & Petz 1986/88 sufficiency & \stCIT \\
+\texttt{MN-def},\allowbreak\ \texttt{split-\allowbreak identification},\allowbreak\ \texttt{split-\allowbreak reference} & collar algebras, split factorization, $\sigma_\eps=\omega_{A_\eps}\otimes\omega_{BC}$ & split property of the net & \stCIT \\
+\texttt{MI-big},\allowbreak\ \texttt{MI-small},\allowbreak\ \texttt{Ieps-defect} & $\CMI_\eps=\MI(A_\eps,BC)-\MI(A_\eps,B)=\delta_{\cN_\eps\subset\cM_\eps}$ (boxed) & \texttt{split-\allowbreak identification} + \texttt{MI-relative} & \stPMC \\
+\texttt{Ieps-free} & $\CMI_\eps=\frac r6\log\frac{(a+b)(b+c+\eps)}{(a+b+c)(b+\eps)}$ \emph{exactly} & LX Thm 3.18 \emph{(checked: reproduces it)} & \stPMC \\
+\texttt{longoxu-limit} & $\lim_{\eps\downarrow0}\CMI_\eps=-\frac r6\log\eta$ & \texttt{Ieps-free}; \NI & \stPMC \\
+\texttt{standard-petz},\allowbreak\ \texttt{rotated-petz},\allowbreak\ \texttt{averaged-petz} & $\alpha_{\sigma,0}=J_\cN V^*J_\cM\cdot J_\cM VJ_\cN$; $\alpha_{\sigma,t}$; $p(t)=\pi/(1{+}\cosh2\pi t)$, $\int p=1$ & FHSW eqs.~(25),(26) \emph{(checked: identical)} & \stPMC \\
+\texttt{FH-bound} & $D_\cM-D_\cN\ge-2\log F_\cM(\rho,\rho|_\cN\circ\overline\alpha_\sigma)$ & \emph{not} FHSW Thm 1 verbatim (Thm 1 is $-2\!\int\! p\log F$); follows by Jensen + joint concavity, \textbf{not derived in \NII} & \stPMC{}/gap \\
+\texttt{fidelity-\allowbreak general},\allowbreak\ \texttt{norm-general} & $F\ge e^{-\delta/2}$, $\|\rho-\tilde\rho\|\le2\sqrt{1-e^{-\delta}}$ & \texttt{FH-bound} + fidelity--norm & \stPMC \\
+\texttt{factorization-\allowbreak heisenberg},\allowbreak\ \texttt{factorization-\allowbreak schrodinger} & $\overline\alpha_{\sigma_\eps}=\id\,\overline\otimes\,\overline\alpha_{B\subset BC}$ & asserted here; \emph{proved} in \NIV{} Lem.~3.1 & \stHEU{} (in \NII) \\
+\texttt{eps-\allowbreak recovery-\allowbreak bound},\allowbreak\ \texttt{cross-\allowbreak ratio-\allowbreak fidelity},\allowbreak\ \texttt{cross-\allowbreak ratio-\allowbreak norm} & the $\eta^{r/12}$ and $2\sqrt{1-\eta^{r/6}}$ bounds & above + monotonicity of $\CMI_\eps$ in $\eps$ & \stPMC \\
+\texttt{strict-\allowbreak positive},\allowbreak\ \texttt{large-b-*} & $\CMI>0$; $\frac r6\frac{ac}{b^2}$; $F\ge1-\frac{rac}{12b^2}$; $\|\cdot\|\lesssim\frac2b\sqrt{rac/6}$ & elementary \emph{(all four checked)} & \stPR \\
+\texttt{caveatbox} & at $\eps=0$ no normal product state; the bound family does not by itself give one channel & correct and honest & \stPR \\
+\texttt{null-markov} & $H_{\gamma_1}{+}H_{\gamma_2}{-}H_\cap{-}H_\cup=0$ on null cuts & CTT 2017 & \stCIT \\
+\bottomrule
+\end{tabularx}}
+
+\subsection{Note 3 --- \texttt{cmi\_cft\_research\_program}}
+\NIII{} is a programme document; almost everything is a target.  The exceptions are listed first.
+
+{\footnotesize\setlength{\emergencystretch}{4em}\sloppy\exhyphenpenalty=0\relax\hyphenpenalty=0\relax
+\begin{tabularx}{\textwidth}{L{0.150\textwidth} X L{0.215\textwidth} L{0.098\textwidth}}
+\toprule
+\textbf{Label} & \textbf{Statement} & \textbf{Depends on} & \textbf{Status}\\
+\midrule\endhead
+\texttt{x-def} & $x:=\frac{ac}{(a+b)(b+c)}$, $1-x=\frac{b(a+b+c)}{(a+b)(b+c)}$ & --- ($x=1-\eta_{\NI}$) & \stDEF \\
+\texttt{longo-xu-cmi} & $\CMI=\kappa\log\frac1{1-x}$, $\kappa=r/6$; ``for a full parity-symmetric 2d CFT $\kappa=c/3$'' & \NI; the $c/3$ clause is a physics normalisation, not from LX & \stPMC{} / \stCIT \\
+\texttt{large-b-cmi},\allowbreak\ \texttt{dpi-defect},\allowbreak\ \texttt{fh-bound},\allowbreak\ \texttt{liminf-\allowbreak recovery} & the recovery chain in $x$-variables & \NI, \NII{} (``schematically'') & \stPMC \\
+Target 2.1 & zero-collar recovery map $\alpha_0:\cA(ABC)\to\cA(AB)$ with $F\ge(1-x)^{\kappa/2}$ & open; solved for $\cA_r$ in \NIV & \stCON \\
+\texttt{formal-\allowbreak localized-\allowbreak map} & $\alpha_0(X_AY_{BC})=X_A\alpha_{BC\to B}(Y_{BC})$ & formal & \stHEU \\
+\texttt{conjecturebox} & recovery quantities as regularised Fredholm determinants & --- & \stCON \\
+\texttt{cmi-small-x} & $\CMI=-\frac c3\log(1-x)=\frac c3x+O(x^2)$ (full 2d CFT) & elementary given the $c/3$ normalisation & \stPR{} given \stCIT \\
+\texttt{vwz-quadratic} & $-\log F_{\rm P}=f_2cx^2+O(x^4)$, $f_2\simeq0.070$ & VWZ (1.12)/(2.13) \emph{(checked: $f_2\approx0.070$, $O(\eta^4)$)} & \stNUM{} (VWZ lattice) \\
+Conjecture 4.1 & $-\log F_{\rm opt}\asymp\CMI^2/c\asymp cx^2$ & --- & \stCON \\
+Problem 5.1 & classify Petz-sufficient geometric configurations & --- & \stCON \\
+\texttt{markov-\allowbreak susceptibility} & $\CMI_s=\frac{s^2}2\chi_{\rm M}+o(s^2)$ under deformation off a null Markov configuration & ``one expects'' & \stHEU \\
+\texttt{IRdelta},\allowbreak\ \texttt{cM} & $\CMI_R(\delta)=-S''(R)\delta^2+O(\delta^3)$; $c_{\rm M}(R):=-3R^2S''(R)$ (boxed) & elementary Taylor \emph{(checked)}; but $S(R)$ is the UV-divergent single-interval entropy, so the identity is formal & \stPR{} (formal) / \stHEU{} (QFT meaning) \\
+$c_{\rm M}\ge c_{\rm E}$ & follows from $\frac{d}{dR}(3RS')\le0$ & Casini--Huerta 04 c-theorem \emph{(algebra checked)} & \stPMC \\
+Problem 6.1,\ \texttt{cm-recovery} & monotonicity of $c_{\rm M}$; $F\gtrsim e^{-\delta^2c_{\rm M}/6R^2}$ & open; the bound is elementary \emph{(checked)} & \stCON{} / \stPR \\
+\texttt{thermal-cmi} & boxed $\CMI_\beta=\frac c3\log\bigl[\sigma_{a+b}\sigma_{b+c}/(\sigma_b\sigma_{a+b+c})\bigr]$, $\sigma_\ell:=\sinh\frac{\pi\ell}\beta$ & Calabrese--Cardy $S_\beta(\ell)$; substitution into the \emph{formal} four-entropy combination & \stHEU{} (\stCIT{} input) \\
+\texttt{thermal-asymp} & $\frac c3(1{-}e^{-2\pi a/\beta})(1{-}e^{-2\pi c/\beta})e^{-2\pi b/\beta}$ $+O(e^{-4\pi b/\beta})$ & elementary \emph{(checked exactly)} & \stPR{} given \texttt{thermal-cmi} \\
+boxed slogan & ``the scalar CMI can be universal even when the recovery channel is not'' & --- & \stHEU \\
+\texttt{highriskbox} & recovery holonomy detects Q-systems & --- & \stCON \\
+\texttt{general-\allowbreak chiral} & $\CMI=-\frac{c_{\rm chiral}}6\log(1-x)$ for general nets & LX Rmk 4.3 conjecture & \stCON \\
+\bottomrule
+\end{tabularx}}
+
+\subsection{Note 4 --- \texttt{continuum\_petz\_free\_fermion}}
+
+{\footnotesize\setlength{\emergencystretch}{4em}\sloppy\exhyphenpenalty=0\relax\hyphenpenalty=0\relax
+\begin{tabularx}{\textwidth}{L{0.155\textwidth} X L{0.210\textwidth} L{0.098\textwidth}}
+\toprule
+\textbf{Label} & \textbf{Statement} & \textbf{Depends on} & \textbf{Status}\\
+\midrule\endhead
+\texttt{MAIN box} & $\|Q_{ABC}-\widetilde Q_\Ord\|_1=\frac r{2\pi}\log(1{+}2z)$; normal $\overline\beta_\Ord$; $=\frac r{2\pi}\log(2e^{6\CMI/r}{-}1)$ & Thm 6.2, Thm 7.1, \texttt{CMI-LX} & \stPMC \\
+Inputs (1)--(4) & geometric modular group (BGL); hsm inclusions (Wiesbrock); rotated Petz = Borchers translation (FHSW \S4.2); PS--Araki quasi-equivalence & external & \stCIT \\
+\texttt{hardy-kernel} & $P_+(x,y)=\frac12\delta-\frac i{2\pi}\pv\frac1{x-y}$ ``with the Fourier convention used here'' & the Fourier convention is \textbf{never written down} & \stDEF{} (incomplete) \\
+\texttt{q-coordinate}--\texttt{D-s} & $q(x)=\frac{L-x}x$, $h_s(x)=\frac{Lx}{L+sx}$, $h_s'$, semigroup, $D_\lambda=B$, $\lambda=c/b$ & elementary \emph{(checked)} & \stPR \\
+\S2.2 $\alpha_0$ & $J_\cB=U(2\lambda)J_\cA$, hence $\alpha_0=\Ad U(2\lambda)=\gamma_{2\lambda}$ & Borchers relations; $V_\eta=1$ for hsm (FHSW) & \stPMC \\
+\texttt{s-t},\allowbreak\ \texttt{s-P} & boxed $s_t=\lambda(1+e^{-2\pi t})$, $\alpha^{D\to B}_t=\gamma_{s_t}$; $s_\Ord=2\lambda$ & FHSW eq.~(167) \emph{(checked: same $a(1+e^{-2\pi t})$; see \S3 for the $\Ad U$ vs $\Ad U^*$ mismatch)} & \stCIT \\
+Lemma 2.1 & $V_s$ is an isometry onto $L^2(D_s)$, $V_s^*V_s=1$ & change of variables & \stPR \\
+\texttt{alpha-fields},\allowbreak\ \texttt{reference-\allowbreak recovery} & $\alpha_t(a(f))=a(V_{s_t}f)$; $\omega_B\circ\alpha_t=\omega_D$ & M\"obius invariance of $\omega$ & \stPR \\
+Lemma 3.1 & $\alpha_{\eps,t}=\id\,\overline\otimes\,\alpha^{D\to B}_t$ (boxed) & split property + \emph{graded} tensor product; the Klein-transform reduction is asserted in one sentence & \stPMC{} / gap \\
+\texttt{k-s},\allowbreak\ \texttt{J-s},\allowbreak\ \texttt{W-s},\allowbreak\ \texttt{beta-Cstar} & piecewise map $k_s\in C^{1,1}$, unitary $W_s$, CAR $*$-isomorphism $\beta_s$ (boxed) & CAR functoriality & \stPR \\
+\texttt{block-form},\allowbreak\ \texttt{mobius-cauchy},\allowbreak\ \texttt{true-cross},\allowbreak\ \texttt{recovered-\allowbreak cross},\allowbreak\ \texttt{delta-kernel} & diagonal blocks agree; $R_s(u,v)=\frac{suv}{(u+v)(L(u+v)+suv)}$ (boxed) & \emph{(all recomputed and confirmed)} & \stPR \\
+Lemma 6.1,\ \texttt{inverted-\allowbreak kernel},\allowbreak\ \texttt{H-kernel},\allowbreak\ \texttt{rank-\allowbreak one-\allowbreak factorization} & inversion $\cJ_d$; $H_{\alpha,\beta}(x,y)=\frac1{x+y+\beta}-\frac1{x+y+\beta+\alpha}\ge0$; Laplace factorisation (all boxed) & \emph{(all recomputed and confirmed)} & \stPR \\
+\textbf{Theorem 6.2} & $\|R_s\|_1=\frac12\log(1+\frac{as}{a+L})$; $\|\Delta_s\|_1=\frac r{4\pi}\log(\cdot)$; $\|Q_I-\widetilde Q_s\|_1=\frac r{2\pi}\log(\cdot)$ & Lem.\ 6.1 + Tonelli \emph{(recomputed and confirmed)} & \stPR \\
+\texttt{PS-1},\allowbreak\texttt{PS-2},\ \textbf{Theorem 7.1} & $\|Q^{1/2}-\widetilde Q^{1/2}\|_2^2\le\|Q-\widetilde Q\|_1$; hence quasi-equivalence; hence normal $\overline\beta_s:\cF_r(I)\to\cF_r(J_s)$ (boxed) & PS inequality; PS--Araki criterion; ``a $C^*$-isomorphism with quasi-equivalent representations extends normally'' (\emph{asserted, uncited}) & \stPMC{} / minor gap \\
+\S8 & $\frac{as_\Ord}{a+L}=2z$; $\|\Delta_\Ord\|_1=\frac r{4\pi}\log(1{+}2z)$; rotated versions & Thm 6.2 \emph{(checked)} & \stPR \\
+\texttt{LX-MI}--\texttt{CMI-LX} & LX two-interval formula; $\delta_\eps$; boxed $\CMI=\frac r6\log(1+z)$ & LX Thm 3.18 \emph{(checked: exactly Def.~3.17+Thm 3.18)} & \stPMC \\
+\texttt{norm-\allowbreak CMI-\allowbreak relation},\allowbreak\ \texttt{small-z} & boxed $\|\cdot\|_1=\frac r{2\pi}\log(2e^{6\CMI/r}-1)$; $\frac6\pi\CMI+O(\CMI^2/r)$ & algebra \emph{(checked)} & \stPR \\
+\texttt{p-t},\allowbreak\ \texttt{twirled-beta} & $\overline\beta=\int p(t)\overline\beta_{s_t}dt$ is normal UCP (boxed) & ultraweak measurability ``one may see this first on the norm-dense CAR algebra $\dots$'' --- \textbf{not proved} & \stHEU \\
+Lemma 10.1 & $\Fid_{M_n}\downarrow\Fid_M$ for $M_n\nearrow M$ & Alberti variational formula (\stCIT) + a compressed Kaplansky step (\NVI{} P5(5) admits it must be written out) & \stPMC{} / gap \\
+\texttt{FHWS-collar} & $\delta_\eps\ge-2\int p(t)\log\Fid_{\cM_\eps}(\omega,\widetilde\omega_t)dt$ & FHSW Thm 1 eq.~(24) \emph{(checked: verbatim)} & \stPMC \\
+\texttt{fixed-\allowbreak t-\allowbreak integrated-\allowbreak bound},\allowbreak\ \texttt{zero-\allowbreak collar-\allowbreak fidelity},\allowbreak\ \texttt{zero-\allowbreak collar-\allowbreak norm} & boxed $\Fid(\omega,\overline\omega)\ge e^{-\CMI/2}=\eta^{r/12}$ & Lem.~10.1, monotone convergence, joint concavity, AM--GM & \stPMC \\
+Appendix & $R_s\le\frac s{4L}$; $\|\Delta_s\|_2^2\le\frac{ras^2}{64\pi^2L}$; $\int p=1$ & elementary \emph{(checked)} & \stPR \\
+\bottomrule
+\end{tabularx}}
+
+\subsection{Note 5 --- \texttt{fidelity\_recovered\_quasifree}}
+
+{\footnotesize\setlength{\emergencystretch}{4em}\sloppy\exhyphenpenalty=0\relax\hyphenpenalty=0\relax
+\begin{tabularx}{\textwidth}{L{0.155\textwidth} X L{0.210\textwidth} L{0.098\textwidth}}
+\toprule
+\textbf{Label} & \textbf{Statement} & \textbf{Depends on} & \textbf{Status}\\
+\midrule\endhead
+\texttt{MAIN box} (i) & boxed $f_2=0.008444(10)$ and $\Phi(\zz)=f_2\zz^2[1+O(\log^{-2}\frac1\zz)]$ & Thm 3.1 + \S6 numerics; the \emph{form} from Cor.~4.2 & \stNUM{} (+\stHEU{} for the form) \\
+\texttt{MAIN box} (ii) & boxed $s_2=0.0834(5)$; $\Phi(1/15)=3.517(3)\!\times\!10^{-5}$ & \S6; $s_2$ is a $1/\kappa_{\max}$ extrapolation \textbf{9\% beyond} the last datum & \stNUM \\
+\texttt{MAIN box} (iii) & boxed $\widetilde Q_s(\kappa,\kappa)-q_\kappa=\frac2{15}\frac{\zz^2}{\kappa^3}+O(\kappa^{-5})$ & Prop.~4.1 (\emph{proof sketch}) & \stHEU \\
+\texttt{zeta} & boxed $\zz:=\frac{as}{a+L}$; $=2z$ for the ordinary Petz map & \NIV & \stDEF \\
+Lemma 1.1 & $\Fid,\mathcal D$ depend on $(a,L,s)$ only through $\zz$; $1+\zz$ is the cross ratio of $-a,0,\frac L{1+s},L$ & M\"obius covariance of $P_+$ and of the vacuum; proved for $g$ with $g(I)$ \emph{bounded} & \stPR{} (see \S3 for the half-line use) \\
+Theorem 2.1 & boxed quasi-free root fidelity $\det[(1{-}Q_1)(1{-}Q_2)]^{1/2}\det[1+(G_1^{1/2}G_2G_1^{1/2})^{1/2}]$ & Fock functor identities & \stPR \\
+Prop.~2.2 & quasi-free relative entropy & $\log\rho_Q$ & \stPR \\
+Prop.~2.3 & $-\log\Fid=\frac{\eps^2}4\sum\frac{|D_{ik}|^2}{q_i(1{-}q_k)+q_k(1{-}q_i)}+O(\eps^3)$; KM analogue; weight identity \texttt{qfi-weight} & Daleckii--Krein; the collection of second-order terms is stated, not displayed & \stPR{} (terse) \\
+Theorem 3.1 & determinant representation as a monotone limit; each term a rigorous one-sided bound & Thm 2.1, Prop.~2.2; \NIV{} Lem.~10.1; Araki~77 / Ohya--Petz Cor.~5.12 martingale convergence (\emph{hypotheses not verified}; \NVI{} P5(4)) & \stPMC{} / gap \\
+\texttt{thermal-\allowbreak kernel},\allowbreak\ \texttt{Qbox} & modular coordinate, KMS kernel, box-mode matrix elements & CH 2009; \texttt{Qbox} derivation not given & \stCIT{} / \stNUM \\
+Rmk.~3.3 (``a trap'') & replacing $Q_N$ by $\mathrm{diag}(\widehat q)$ destroys positivity & numerical observation & \stNUM \\
+\texttt{modes},\allowbreak\ \texttt{fermi} & CH modular modes, $q_\kappa=(1+e^\kappa)^{-1}$, $\int d\kappa|\psi_\kappa\rangle\langle\psi_\kappa|=1$ & CH 2009 \emph{(normalisation and symbol recomputed: correct)} & \stCIT{}/\stPR \\
+\texttt{mode-kernel},\allowbreak\ \texttt{J-def},\allowbreak\ \texttt{occupation} & mode transform; $\widetilde Q_s(\kappa,\kappa)-q_\kappa=\frac1\pi\operatorname{Im}J(\kappa,\kappa)$ & elementary \emph{(checked)} & \stPR \\
+\textbf{Prop.~4.1} & exact UV tail $\frac2{15}\zz^2\kappa^{-3}+O(\kappa^{-5})$ & \textbf{``Proof sketch''}; corner Taylor coefficients $c_1=\frac{s\beta_0}{6L}$, $c_2=-\frac{s^2\beta_0^2}{30L^2}$ \emph{(both recomputed: correct)}; the \emph{sign} is fixed a posteriori by $\widetilde Q_s\ge0$; the error term $O(\kappa^{-5})$ is not estimated & \stHEU \\
+Prop.~4.1 numerics & ratio $1.11,1.05,1.06,1.06$ at $\kappa=20,30,40,60$, ``approaching 1 from above'' & the ratio \emph{stalls at $1.06$}; supports the law to $\sim6\%$ only & \stNUM{} (weak) \\
+\textbf{Cor.~4.2} & second-order coefficient finite; \emph{fourth}-order infinite; $\Phi=f_2\zz^2[1+O(\log^{-2}\frac1\zz)]$ & mode-by-mode heuristic; only the \emph{diagonal} excess is counted; ``modular matrix decays exponentially'' asserted (numerics shown for the diagonal only) & \stHEU \\
+\textbf{Cor.~5.1} (collapse) & $-\log\Fid(\omega,\widetilde\omega_t)=\Phi(\zz_t)$, $\zz_t=z(1+e^{-2\pi t})$ & Lem.~1.1 + \NIV{} \texttt{s-t} & \stPMC \\
+Cor.~5.1 (monotone) & ``the family is monotone in $t$, its best member is $t\to+\infty$'', ordinary Petz worse by a factor 4 & monotonicity of $\Phi$ ``confirmed numerically''; the factor 4 also needs $\Phi\propto\zz^2$ (Cor.~4.2) & \stNUM{} + \stHEU \\
+Cor.~5.1 (average) & ``the modular average is worse than the ordinary Petz map because $\int p\,\Phi(\zz_t)dt$ receives contributions from arbitrarily large $\zz_t$'' & \textbf{invalid inference} (see \S4, R3): $\int p\,\Phi(\zz_t)dt$ is an \emph{upper} bound for $-\log\Fid(\omega,\overline\omega)$ & \stHEU \\
+\texttt{collapse-vwz} & $-\log F^{(\lambda)}=\Phi\bigl(\tfrac\eta{1-\eta}(1{+}e^{\mp\pi\lambda})\bigr)$; $-\log F^{(0)}=4f_2\eta^2$; Dirac $8f_2\eta^2$; VWZ exponents $2.0,1.9,1.7,1.2$ explained & Cor.~5.1 + conversions $\lambda=2t$, $\zz=2\eta/(1{-}\eta)$, factor 8; VWZ Fig.~5 \emph{(exponents checked verbatim)} & \stPMC{} (given Cor.~5.1) \\
+\S6 numerics & $\Phi(1/15)=3.517(3)\!\times\!10^{-5}$; $f_2(\kappa_{\max})=f_2-0.066\kappa_{\max}^{-2}$; $s_2(\kappa_{\max})=s_2-0.29\kappa_{\max}^{-1}$; Tables 6.1--6.3 & compression bounds + tail correction + extrapolation \emph{(fits reproduce the tables)} & \stNUM \\
+\S7.1 & $8f_2=0.0676(1)$ vs VWZ $0.070$ (4\%); $8s_2=0.667$ vs $d_1\approx0.56$ & VWZ (1.12),(1.13), App.~A.5 \emph{(the inference $\sqrt{\frac{\log2}2d_1}\approx0.44\Rightarrow d_1\approx0.56$ checked)} & \stNUM \\
+\S7.2 & ratio $(-2\log\Fid)/\CMI\approx0.20\zz$; \textbf{``$96f_2z\approx0.81z$''}; \textbf{``$-\log\Fid\simeq f_2(12/r)^2\CMI^2$''} & the first agrees with Table 6.3; the second and third are \emph{wrong} (factor 2; wrong $r$-scaling) --- see \S4, R5 & \stNUM{} / error \\
+\bottomrule
+\end{tabularx}}
+
+\subsection{Note 6 --- \texttt{strategy\_open\_problems}}
+
+{\footnotesize\setlength{\emergencystretch}{4em}\sloppy\exhyphenpenalty=0\relax\hyphenpenalty=0\relax
+\begin{tabularx}{\textwidth}{L{0.155\textwidth} X L{0.210\textwidth} L{0.098\textwidth}}
+\toprule
+\textbf{Label} & \textbf{Statement} & \textbf{Depends on} & \textbf{Status}\\
+\midrule\endhead
+\texttt{MAIN box} 1 & ``Universality theorem (P1): $-\log\Fid=\frac c{12\pi^2}\zz^2$\dots{} Physics complete'' & Steps 1--4 below; Step 4 is a \emph{fit} & \stCON \\
+\S1 ``Proved'' (i)--(iii) & summary of \NI, \NII, \NIV, \NV & item (iii) lists ``the ordinary Petz map is not optimal'' as \emph{proved}, but it rests on numerics (Cor.~5.1) & mixed; see \S5 \\
+\texttt{closed} & boxed $f_2=\frac c{12\pi^2}$, $s_2=\frac c{12}$, $s_2/f_2=\pi^2$ & Steps 1--4; the \emph{ratio} $\pi^2$ is derived, the overall constant is fitted & \stCON \\
+\texttt{vwz-closed} & $-\log F^{(0)}=\frac{c+\bar c}{3\pi^2}\eta^2$; $D=\frac{c+\bar c}3\eta^2$ & \texttt{closed} + factor 4 + two chiralities \emph{(algebra checked)} & \stCON \\
+Step 1 & tangent vector $=i\omega([T(g),\cdot])$ & later proved as \NVII{} Lem.~2.1 (positive collar) & \stHEU{} (in \NVI) \\
+Step 2 & $g_B$, $g_{\rm KM}$ as modular quadratic forms; type-III version is ``the key technical lemma'' & unproved; = \NVII{} Lem.~3.2 & \stCON \\
+Step 3,\ \texttt{gtilde},\allowbreak\ \texttt{integrals} & $\gt=-4\sinh^2\frac\xi2\mathbf1_{\xi>0}$, $\gh=\frac{-2i}{k(k^2+1)}$; $\int\frac{\tanh(\kappa/2)}{\kappa(\kappa^2+4\pi^2)}=\frac1{\pi^2}$, $\int\frac{d\kappa}{\kappa^2+4\pi^2}=\frac12$ & \emph{(both integrals and $\gh$ recomputed: correct)}; but only ``$\propto$'' normalisations & \stPR{} (up to normalisation) \\
+Step 4 & ``With $\langle TT\rangle=\frac c2(x-y)^{-4}$ the prefactors evaluate to $f_2=c/(12\pi^2)$\dots{} fixed by matching the free-fermion number'' & \textbf{inconsistent with Step 1's generator convention} (see \S3, C9); and admittedly a fit & \stNUM{} / error \\
+Conjecture 2.1 & universal recovery coefficients for every diff.-covariant net; $-\log\Fid\simeq\frac{12}{\pi^2c}\CMI^2$ & Steps 1--4 & \stCON \\
+Obs.~1 (P2) & $k_s\in C^{1,1}\Rightarrow\log\widetilde k'\in H^1\subset H^{1/2}$, Weil--Petersson, Segal--Shale & Nag--Sullivan, Takhtajan--Teo & \stCIT{}/\stHEU \\
+Obs.~2,\ \texttt{energy} & $E(\varphi)=\frac c{48\pi}\int[(\partial_\theta\log\varphi')^2-(\varphi'^2-1)]d\theta$, finite for $C^{1,1}$ & Kirillov--Yuriev; the note itself flags a sign ambiguity & \stCIT{} (sign open) \\
+Problem 3.1, Routes A/B, Conjecture 3.2 & zero-collar map for general nets; $\Fid\ge|\langle\Omega,\Psi_s\rangle|$ & CDIW, Fewster--Hollands; energy compactness & \stCON \\
+P3 & VWZ's $-\frac c9\log(1-\eta)$, i.e.\ $\Phi\simeq\frac c{18}\log\zz$ & VWZ eq.~(2.16) \emph{(checked: $F=e^{a_0c}(1-\eta)^{c/9}+\dots$)} & \stCIT \\
+P4, P5, N1--N9 & programme items, incl.\ the note's own list of rigor gaps & --- & \stCON \\
+\bottomrule
+\end{tabularx}}
+
+\subsection{Note 7 --- \texttt{universality\_normalization}}
+
+{\footnotesize\setlength{\emergencystretch}{4em}\sloppy\exhyphenpenalty=0\relax\hyphenpenalty=0\relax
+\begin{tabularx}{\textwidth}{L{0.155\textwidth} X L{0.210\textwidth} L{0.098\textwidth}}
+\toprule
+\textbf{Label} & \textbf{Statement} & \textbf{Depends on} & \textbf{Status}\\
+\midrule\endhead
+\texttt{MAIN box}, Thm A & $\lim_{\zz\to0}\Phi(\zz)/\zz^2=\frac r{12\pi^2}$, $\lim\mathcal D/\zz^2=\frac r{12}$ & \textbf{stronger than what \S5 proves} (\S5 computes $g_B,g_{\rm KM}$, not $\lim\Phi/\zz^2$); needs \NV{} Cor.~4.2 & \stHEU{} as stated \\
+\texttt{MAIN box}, Thm B & same with $r\to c$, ``conditional on Lemma 3.2'' & Lem.~3.2 (unproved) & \stCON \\
+\texttt{TT} & $\langle T(x)T(y)\rangle=\frac c{8\pi^2}(x-y-i0)^{-4}$ in the \emph{generator} normalisation & convention; consistent with $U(s)=e^{isT(f)}$ & \stDEF \\
+\texttt{xi},\allowbreak\ \texttt{W} & $\xi=-\log\frac{L-x}L$, $\beta=L-x$; $W(u)=\frac c{128\pi^2}\sinh^{-4}\frac{u-i0}2$ & $(x-y)/\sqrt{\beta\beta'}=2\sinh\frac{\xi-\xi'}2$ \emph{(checked)} & \stPR \\
+\texttt{f} & $f(x)=-x^2/L$ generates $h_s$; $U(s)\Omega=\Omega$ & \NIV{} \texttt{h-s} \emph{(checked)} & \stPR \\
+Lemma 2.1 & $\frac d{ds}\widetilde\omega_\eps(X)|_0=i\omega([T(g),X])$, independent of the cut-off $\chi$ & locality of $T$; $T(f)\Omega=0$; ``both sides are normal in $X$ because $T(g)\Omega$ is a vector'' --- true at $\eps>0$, \textbf{false at $\eps=0$} (see \S4, R1) & \stPR{} at $\eps>0$ \\
+\texttt{gtilde} & $\gt(\xi)=-4\sinh^2\frac\xi2$ on $\xi>0$ & elementary \emph{(checked)} & \stPR \\
+\texttt{ghat} & $\gh(k)=\frac{-2i}{k(k^2+1)}$ \emph{defined by analytic continuation} & the integral diverges; the prescription is justified only by Lem.~5.1(ii) & \stDEF{} / \stHEU \\
+\texttt{D1-def},\allowbreak\ \texttt{D1-kernel} & boxed $\widetilde D^{(1)}=-\frac i{2\pi}\sinh\frac\xi2\sinh\frac{\xi'}2/\sinh^2\frac{\xi-\xi'}2$ & \NIV{} \texttt{delta-kernel} \emph{(recomputed: correct)} & \stPR \\
+\texttt{metrics-fd},\allowbreak\ \texttt{metrics-eta} & finite-dim.\ Bures/KM second variations in standard form & standard & \stPR{}/\stCIT \\
+Lemma 3.1 & $\eta=i(S^*-1)A\Omega$; spectral forms; $g_B=2\|(1-J)(1+\Delta)^{-1/2}A\Omega\|^2$ & elementary Tomita algebra \emph{(checked)}; part (2) \textbf{requires $A\in\cM$}, part (3) requires $A\Omega\in\mathcal H$ & \stPR{} under its hypotheses \\
+\textbf{Lemma 3.2} & type-III second variation for faithful normal states & \textbf{no proof} --- only ``Proof route''; requires $\Omega\in D(A)$ & \stCON \\
+Lemma 4.1 & boxed $\Wh(k)=\frac c{24\pi}k(k^2{+}1)/(e^{2\pi k}{-}1)$, KMS symmetry, positivity, flat-space check & contour shift + $\int e^{-ikv}\cosh^{-2h}\frac v2dv=\frac{2^{2h}|\Gamma(h+ik)|^2}{\Gamma(2h)}$ \emph{(recomputed: correct)} & \stPR \\
+\texttt{mu} & $d\mu=\frac1{2\pi}\Wh|\gh|^2dk$, $u=2\pi k$; sign fixed by KMS asymmetry & Lem.~3.1(2), hence needs $T(g)\in\cM$; $\int d\mu=\|T(g)\Omega\|^2=\infty$ here & \stHEU \\
+\texttt{gB-int},\allowbreak\ \texttt{gKM-int},\allowbreak\ \texttt{key-integral},\allowbreak\ \texttt{result-\allowbreak general} & boxed $g_B=\frac{2c}{3\pi^2}$, $g_{\rm KM}=\frac c6$, $f_2=\frac c{12\pi^2}$, $s_2=\frac c{12}$, $\frac{s_2}{f_2}=\pi^2$ & \texttt{mu}, \texttt{ghat}, Lem.~4.1 \emph{(every integral recomputed: correct)} & \stPR{} given \texttt{mu},\allowbreak\texttt{ghat} \\
+\texttt{one-particle} & $g_B,g_{\rm KM}$ as one-particle double integrals & \NV{} Prop.~2.3 ``valid on every compression'' + a limit not taken & \stPMC{}/gap \\
+Lemma 5.1(i) & $\widetilde D^{(1)}=(Q\mathfrak g)$ on $\xi<0<\xi'$ & explicit kernel computation \emph{(recomputed: correct)} & \stPR \\
+\textbf{Lemma 5.1(ii)} & $D^{(1)}(\kappa,\kappa')=i(q_\kappa-q_{\kappa'})\mathfrak g(\kappa,\kappa')$ with the continued $\gh$ & the formal integration by parts is \emph{recomputed and correct}, but the boundary term at $\xi'\to\infty$ is exactly the divergence; ``checked at four points to eight digits''; ``An analytic proof \dots'' \textbf{not carried out} & \stNUM \\
+\texttt{weights} & $(q{-}q')^2/N$ and $(q{-}q')(\kappa'{-}\kappa)$ in $u,v$ & elementary \emph{(recomputed: correct)} & \stPR \\
+\texttt{V} & $\int_{\mathbb R}\frac{w^2dw}{\cosh w+\cosh a}=\frac{2a(a^2+\pi^2)}{3\sinh a}$ ``(verified numerically)'' & \textbf{no proof} (the $a\to0$ case checks out: both sides $=\frac{2\pi^2}3$) & \stNUM \\
+\textbf{Theorem 5.2 (A)} & $g_B=\frac{2r}{3\pi^2}$, $g_{\rm KM}=\frac r6$ & Lem.~5.1(ii) [\stNUM], \texttt{V} [\stNUM], \texttt{weights}, \NV{} Prop.~2.3 \emph{(the $v$- and $u$-integrals recomputed: correct)}; the parenthetical ``$\frac1{\pi^2}\int\frac{\tanh\pi k}{k(k^2+1)}dk=\frac4{\pi^2}$'' is off by 4 (see \S4, R6) & \stNUM{} (chain) \\
+\S6 table & closed forms vs.\ \NV{} numerics; $12\pi^2f_2=1.00007(118)$, $12s_2=1.0008(60)$ & \NV & \stNUM \\
+Corollary 7.1 & universal recovery law; $-\log\Fid\simeq\frac{12}{\pi^2c}\CMI^2$; VWZ conversions & Thm A/B & inherits \stHEU{}/\stCON \\
+\S8 & the note's own list of four remaining items & honest & --- \\
+\bottomrule
+\end{tabularx}}
+
+\clearpage
+\section{Convention-consistency audit}
+
+\subsection{Table of conventions per note}
+``--'' = the symbol does not occur in that note.  Interval data throughout: $A=(x_0,x_1)$, $B=(x_1,x_2)$,
+$C=(x_2,x_3)$, $a=|A|$, $b=|B|$, $c=|C|$, $L=b+c$.
+
+\begin{center}\scriptsize
+\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.22}
+\begin{tabular}{@{}L{0.115\textwidth}L{0.105\textwidth}L{0.105\textwidth}L{0.105\textwidth}L{0.115\textwidth}L{0.135\textwidth}L{0.105\textwidth}L{0.115\textwidth}@{}}
+\toprule
+& \textbf{\NI} & \textbf{\NII} & \textbf{\NIII} & \textbf{\NIV} & \textbf{\NV} & \textbf{\NVI} & \textbf{\NVII}\\
+\midrule
+$\eta$
+& $\frac{b(a+b+c)}{(a+b)(b+c)}$
+& same
+& --
+& same ($=\frac1{1+z}$)
+& \textbf{both}: $z=\frac1\eta-1$ (Cor.\ 5.1) \emph{and} $\eta=\frac{L_AL_C}{(L_A+L_B)(L_B+L_C)}$
+& \textbf{both}: \S1(i) LX-$\eta$; elsewhere VWZ-$\eta$
+& VWZ-$\eta$ only\\
+$x$ & -- & -- & $\frac{ac}{(a+b)(b+c)}=1-\eta_{\NI}$ & -- & used once, ``$x$ is the VWZ variable'' & -- & \textbf{spatial coordinate}\\
+$z$ & -- & -- & -- & $\frac{ac}{b(a+b+c)}$ & same & same (undefined locally) & same\\
+$\zz$ & -- & -- & -- & -- & $\frac{as}{a+L}$; $=2z$ for Petz & same & same; $=s$ on the half line\\
+$\lambda$ & -- & -- & -- & $c/b$ (hsm parameter) & \textbf{both} $c/b$ \emph{and} VWZ's $2t$ & VWZ's $2t$ & \textbf{both} VWZ's $2t$ \emph{and} $\mathrm{spec}\,\Delta$\\
+$s_t$ & -- & -- & -- & $\lambda(1+e^{-2\pi t})$ & same & -- & same\\
+$\zz_t$ & -- & -- & -- & -- & $z(1+e^{-2\pi t})$ & same & same\\
+$c$ & length $x_3{-}x_2$ & length & \textbf{both} length \emph{and} central charge & length only & \textbf{both} & central charge (mostly) & \textbf{both} (Cor.\ 7.1)\\
+$r$ & \#\,components of $\cA_r$ & same & same & same & same; $=c_{\rm chiral}$ & $c$ used instead & Thm A: $r$; Thm B: $c$\\
+$\kappa$ & -- & -- & \textbf{CMI coefficient} $r/6$ or $c/3$ & -- & \textbf{modular energy} & modular energy & modular energy\\
+CMI coeff. & $r/6$ & $r/6$ & $\kappa=r/6$; $c/3$ (full CFT); $c_{\rm chiral}/6$ & $r/6$ & $r/6$ & $c/6$ & $c/6$\\
+$\xi$ & -- & -- & -- & -- & $\log\frac{x+a}{L-x}$ & $-\log\frac{L-x}L$ & $-\log\frac{L-x}L$\\
+$\beta$ & -- & -- & inverse temperature & -- & $\frac{(x+a)(L-x)}{a+L}$ & $L-x$ & $L-x$\\
+$q_\kappa$ & -- & -- & -- & -- & $\frac1{1+e^\kappa}$; $\kappa\!\to\!+\infty$ empty & same & same\\
+$P_+$ & -- & -- & -- & $\frac12\delta-\frac i{2\pi}\pv\frac1{x-y}$ (Fourier conv.\ unstated) & inherits & -- & inherits\\
+$\Fid$ & -- & $F$, unspecified & $F$, unspecified & root fidelity (stated) & root fidelity (stated) & root fidelity & root fidelity\\
+$D,S$ & Araki, $\ln$ & Araki, $\ln$ & Araki, $\ln$ & Araki, $\ln$ & Araki, $\ln$ & $\ln$ & $\ln$\\
+$\frac18,\frac12$ & -- & -- & -- & -- & $-\log\Fid=\frac{\eps^2}8g_B$, $D=\frac{\eps^2}2g_{\rm KM}$ & same & same\\
+$f_2$ & -- & -- & VWZ's: coeff.\ of $c\eta^2$ & -- & \textbf{coeff.\ of $\zz^2$ per component} & same as \NV & same as \NV\\
+$p(t)$ & -- & $\frac\pi{1+\cosh2\pi t}$ & -- & same & -- & -- & --\\
+collar & $A_\eps=(x_0,x_1{-}\eps)$ & same & same & $(-a,-\eps)$ (same) & -- & -- & same as \NIV\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Lamport-style consistency checks}
+
+\paragraph{C1: the two ``$\eta$''s. \normalfont[BREAK-level notational hazard]}
+\lstep{1}{1}{$\eta_{\NI}:=\frac{b(a+b+c)}{(a+b)(b+c)}$ and $\eta_{\rm VWZ}:=\frac{ac}{(a+b)(b+c)}$ are \emph{different} functions.}
+\lby{$\eta_{\NI}+\eta_{\rm VWZ}=\frac{b(a+b+c)+ac}{(a+b)(b+c)}=1$, since $(a+b)(b+c)=b(a+b+c)+ac$}
+\lstep{1}{2}{Both are denoted $\eta$ inside \NV{} Corollary 5.1 and inside \NVI.}
+\lby{\NV{} eq.~\texttt{collapse}: ``$z=\frac{ac}{b(a+b+c)}=\frac1\eta-1$'' (this is $\eta_{\NI}$); ten lines later, in the same
+corollary's VWZ paragraph: ``the cross ratio $\eta=\frac{L_AL_C}{(L_A+L_B)(L_B+L_C)}=x$, for which $z=\eta/(1-\eta)$''
+(this is $\eta_{\rm VWZ}$).  Likewise \NVI{} \S1 ``Proved (i) $\dots$ the finite quantity $-\frac r6\log\eta$''
+($\eta_{\NI}$) against \NVI{} eq.~\texttt{vwz-closed} ($\eta_{\rm VWZ}$)}
+\lstep{1}{3}{Both formulas are individually correct; the collision is purely notational but sits inside a headline corollary.}
+\lby{$\frac1{\eta_{\NI}}-1=\frac{1-\eta_{\NI}}{\eta_{\NI}}=\frac{\eta_{\rm VWZ}}{1-\eta_{\rm VWZ}}$}
+\lqed{1}{4}
+\begin{verdictbreak}
+A referee reading \NV{} Cor.~5.1 linearly will read ``$z=1/\eta-1$'' and ``$z=\eta/(1-\eta)$'' as contradictory.
+\textbf{Fix:} rename one of them ($\eta_{\rm LX}$ vs.\ $\eta_{\rm VWZ}$, or keep $x:=\eta_{\rm VWZ}$ as in \NIII)
+and state $\eta_{\rm LX}=1-x$, $z=x/(1-x)$, $\zz=2z$ once, in every note.
+\end{verdictbreak}
+
+\paragraph{C2: the letter $c$. \normalfont[GAP]}
+\NI, \NII, \NIV{} use $c=x_3-x_2$ only.  \NIII{} uses $c$ for the interval length ($a,b,c$ in \S1) \emph{and} for the
+central charge in eq.~\texttt{cmi-small-x} (``$-\frac c3\log(1-x)$''), eq.~\texttt{thermal-cmi}, and
+eq.~\texttt{general-\allowbreak chiral}.  \NV{} does the same ($s=2c/b$ vs.\ ``a free Dirac fermion, $c=1$'').  \NVII{}
+Corollary 7.1 collides them in one sentence: ``\emph{For every diffeomorphism covariant chiral net with central charge
+$c$ $\dots$ with $\zz_t=z(1+e^{-2\pi t})$ and $z=\frac{ac}{b(a+b+c)}$}''.
+\begin{verdictgap}Rename the third interval length (e.g.\ $a,b,c\to\ell_A,\ell_B,\ell_C$, or $a,b,a'$).\end{verdictgap}
+
+\paragraph{C3: the letter $\kappa$. \normalfont[MINOR]}
+\NIII{} sets $\kappa:=$ the CMI prefactor ($r/6$ or $c/3$); \NV, \NVI, \NVII{} use $\kappa$ for the one-particle modular
+energy with $q_\kappa=(1+e^\kappa)^{-1}$.  Disjoint notes, but the series is read as one document.
+
+\paragraph{C4: the letter $\lambda$ --- three meanings. \normalfont[GAP]}
+(i) \NIV{} eq.~\texttt{lambda}: $\lambda=c/b$, the hsm translation parameter;
+(ii) \NV{} \S5, \NVI, \NVII{} Cor.~7.1: VWZ's modular rotation parameter, $\lambda=2t$;
+(iii) \NVII{} eq.~\texttt{spectral-\allowbreak forms}, Lem.~3.1: the spectral variable of $\Delta$, $\lambda=e^{2\pi k}$.
+Meanings (i) and (ii) occur in \emph{the same section} of \NV{} (``$s_t=\lambda(1+e^{-2\pi t})$, $\lambda=c/b$'' and,
+two paragraphs later, ``so that $\lambda=2t$'').
+
+\paragraph{C5: $r$ versus $c$ --- the load-bearing dictionary. \normalfont[GAP]}
+\lstep{1}{1}{Every quantitative comparison with VWZ uses $c_{\rm chiral}(\cA_r)=r$ (``factor 8'': $-\log F^{(0)}_{\rm Dirac}=8f_2\eta^2$).}
+\lstep{1}{2}{This identification is stated only in passing, in \NV{} \S5: ``\emph{a chiral Majorana fermion is half a component}''.}
+\lstep{1}{3}{It is correct: LX build $\cA_r$ from the basic (level-1) representation of $LU_r$, i.e.\ $r$ \emph{complex}
+chiral fermions, $c=r$; and LX Rmk 4.3 says ``\emph{we conjecture that the above theorem is true for any rational
+conformal net, where $r$ is replaced by the central charge}''.}
+\lstep{1}{4}{But a reader who takes ``$r$ fermions'' to mean $r$ \emph{Majorana} fermions gets $c=r/2$ and every
+comparison with VWZ is off by 2 (and $f_2$ by 4).}
+\lqed{1}{5}
+\begin{verdictgap}State once, in \NI{} and \NV: ``one component $=$ one complex (Dirac) chiral fermion, $c_{\rm chiral}=1$;
+$\cA_r$ has $c=r$; a chiral Majorana is $c=\frac12$.''\end{verdictgap}
+
+\paragraph{C6: the CMI coefficient across notes. \normalfont[OK]}
+\lstep{1}{1}{\NI, \NII, \NIV, \NV: $\CMI=\frac r6\log\frac1{\eta_{\NI}}$.  \NIII: $\kappa=r/6$, and $\kappa=c/3$ for a full
+parity-symmetric 2d CFT, and $c_{\rm chiral}/6$ in eq.~\texttt{general-\allowbreak chiral}.  \NVI, \NVII: $\CMI=\frac c6\log(1+z)$.}
+\lstep{1}{2}{All are consistent iff $c_{\rm chiral}(\cA_r)=r$ and the full-CFT value is twice the chiral one.}
+\lby{$\frac c3=2\cdot\frac c6$}
+\lqed{1}{3}
+\begin{verdictok}No numerical inconsistency, conditional on C5.\end{verdictok}
+
+\paragraph{C7: $\zz$, $z$, $s_t$ and the ``alternative convention''. \normalfont[OK, one loose end]}
+\lstep{1}{1}{$\zz=\frac{as}{a+L}$ (\NV{} eq.~\texttt{zeta}); $s_t=\lambda(1+e^{-2\pi t})$ with $\lambda=\frac cb$, $L=b+c$.}
+\lstep{1}{2}{$\zz_t=\frac{a s_t}{a+L}=\frac{ac}{b(a+b+c)}(1+e^{-2\pi t})=z(1+e^{-2\pi t})$.}
+\lby{$\frac{a}{a+L}\cdot\frac cb=\frac{ac}{b(a+b+c)}$}
+\lstep{1}{3}{At $t=0$, $\zz_0=2z$; as $t\to+\infty$, $\zz_t\downarrow z$.}
+\lstep{1}{4}{\NIV{} says ``\emph{the alternative convention replaces $t$ by $-t$}''; FHSW eq.~(167) has $a(1+e^{-2\pi t})$, i.e.\ the notes' convention.}
+\lstep{1}{5}{\NV{} eq.~\texttt{collapse-vwz} then writes $1+e^{\mp\pi\lambda}$ with $\lambda=2t$ and leaves the sign open.}
+\lqed{1}{6}
+\begin{verdictgap}The $\mp$ is never resolved.  Since the whole ``the opposite sign of $\lambda$ improves the recovery''
+prediction to VWZ hinges on it, the sign must be pinned down (it is fixed by FHSW eq.~(167) once the orientation of
+$U$ relative to $B\subset BC$ is fixed --- see C10).\end{verdictgap}
+
+\paragraph{C8: the modular coordinate and the $a\to\infty$ limit. \normalfont[OK]}
+\lstep{1}{1}{\NV: $\xi_{\NV}=\log\frac{x+a}{L-x}$, $\beta_{\NV}=\frac{(x+a)(L-x)}{a+L}=\frac{dx}{d\xi}$, $\xi_0=\xi(0)=\log\frac aL$.}
+\lstep{1}{2}{\NVII{} (half line): $\xi_{\NVII}=-\log\frac{L-x}L$, $\beta_{\NVII}=L-x$.}
+\lstep{1}{3}{$\xi_{\NV}-\log\frac aL=\log\frac{x+a}a-\log\frac{L-x}L\xrightarrow{a\to\infty}-\log\frac{L-x}L=\xi_{\NVII}$, and $\beta_{\NV}\to L-x=\beta_{\NVII}$.}
+\lstep{1}{4}{Both coordinates increase with $x$; the touching point $x=0$ sits at $\xi_{\NV}=\xi_0$ and at $\xi_{\NVII}=0$.}
+\lstep{1}{5}{In both frames $\bigl(x-y\bigr)/\sqrt{\beta(x)\beta(y)}=2\sinh\frac{\xi-\xi'}2$, so both give the same KMS kernel and $q_\kappa=(1+e^\kappa)^{-1}$.}
+\lby{direct computation, done for both frames}
+\lqed{1}{6}
+\begin{verdictok}The two modular coordinates differ by the additive constant $\log(a/L)$ in the limit; all Fourier
+transforms are translation covariant, so no phase enters $|\gh|^2$ or $|D^{(1)}(\kappa,\kappa')|$.\end{verdictok}
+
+\paragraph{C9: the stress-tensor normalisation. \normalfont[BREAK in \NVI, corrected in \NVII]}
+\lstep{1}{1}{\NVI{} Step 1 and \NVII{} eq.~\texttt{f} both set $U(s)=e^{isT(f)}$, i.e.\ $T$ is the \emph{generator} of the flow.}
+\lstep{1}{2}{\NVII{} eq.~\texttt{TT} correctly records the matching two-point function $\langle TT\rangle=\frac c{8\pi^2}(x-y-i0)^{-4}$, noting ``\emph{the BPZ field $2\pi T$ has $\frac c2(x-y)^{-4}$}''.}
+\lstep{1}{3}{\NVI{} Step 4 instead writes ``\emph{With $\langle T(x)T(y)\rangle=\frac c2(x-y)^{-4}$ the prefactors evaluate to $f_2=c/(12\pi^2)$, $s_2=c/12$}''.}
+\lstep{1}{4}{Steps $\langle1\rangle1$ and $\langle1\rangle3$ are incompatible: they differ by $(2\pi)^2\approx39.5$ in $\langle TT\rangle$, hence by $39.5$ in $g_B$ and $g_{\rm KM}$.}
+\lqed{1}{5}
+\begin{verdictbreak}\NVI{} \S2.1 Step 4 states a convention under which its own quoted answer is wrong by $(2\pi)^2$.
+\NVI{} in fact obtains the constants by fitting (``\emph{This step has so far been fixed by matching the free-fermion
+number}''), so nothing downstream breaks; but the sentence must be replaced by \NVII{} eq.~\texttt{TT}.\end{verdictbreak}
+
+\paragraph{C10: the Hardy projection, the Fourier convention, and $\Ad U$ vs.\ $\Ad U^*$. \normalfont[MINOR]}
+\lstep{1}{1}{\NIV{} eq.~\texttt{hardy-kernel} sets $P_+(x,y)=\frac12\delta(x-y)-\frac i{2\pi}\pv\frac1{x-y}$ ``\emph{with the Fourier convention used here}'' --- which is never written down.}
+\lstep{1}{2}{With $\widehat f(p)=\int f(x)e^{-ipx}dx$ the projection onto $p>0$ has kernel $\frac12\delta+\frac i{2\pi}\pv\frac1{x-y}$; \NIV's $P_+$ is therefore the \emph{opposite} sign convention.}
+\lstep{1}{3}{The choice is nevertheless internally consistent: it produces $\widetilde Q(\xi,\xi')=\frac12\delta-\frac i{4\pi}\sinh^{-1}\frac{\xi-\xi'}2$, whose symbol against $e^{i\kappa\xi/2\pi}$ is $q_\kappa=(1+e^\kappa)^{-1}$ (recomputed), matching \NV{} eq.~\texttt{fermi}.}
+\lstep{1}{4}{Separately, FHSW eq.~(167) prints $\alpha^t_\eta(x)=U(a(1+e^{-2\pi t}))^*\,x\,U(a(1+e^{-2\pi t}))$, whereas \NIV{} uses $\gamma_{s_t}=\Ad U(s_t)$.}
+\lstep{1}{5}{\NIV's orientation is the forced one: the Heisenberg recovery map must send the \emph{large} algebra $\cF(D)$ into the \emph{small} one $\cF(B)$, and $\Ad U(s)\cF(D)=\cF(D_s)\subset\cF(B)$ for $s\ge\lambda$, whereas $\Ad U(s)^*$ enlarges.}
+\lstep{1}{6}{\NIV{} independently derives $\alpha_0=\Ad U(2\lambda)$ from $J_\cB=U(2\lambda)J_\cA$, which agrees with $s_0=2\lambda$.  So \NIV{} is right and the discrepancy with the printed FHSW formula is one of convention (or a typo there).}
+\lqed{1}{7}
+\begin{verdictgap}Write the Fourier convention down once, and add one sentence reconciling \NIV{} eq.~\texttt{s-t} with the
+printed form of FHSW eq.~(167).  As it stands a referee checking the citation will read a mismatch.\end{verdictgap}
+
+\paragraph{C11: fidelity is root fidelity everywhere? \normalfont[OK, but under-stated in \NII, \NIII]}
+\NIV{} \S10 (``\emph{We use root fidelity, denoted $\Fid$}''), \NV{} \S1 (Uhlmann/Alberti, $\Fid=\inf_{x>0}\frac12(\varphi(x)+\psi(x^{-1}))$),
+\NVI, \NVII{} all use $F=\|\sqrt\rho\sqrt\sigma\|_1$.  \NII{} and \NIII{} never say which; their bounds
+$F\ge e^{-\CMI/2}$ and $\|\rho-\tilde\rho\|\le2\sqrt{1-F^2}$ are correct \emph{only} for root fidelity, and FHSW Thm~1
+uses root fidelity, so the convention is right --- it is simply not declared.
+Alberti's identity is quoted in the root form; this is consistent with $F^2=\inf\varphi(x)\psi(x^{-1})$ by scaling
+$x\mapsto tx$ (checked).
+
+\paragraph{C12: relative entropy base, and the $\frac18$/$\frac12$ factors. \normalfont[OK]}
+All notes use natural logarithms (consistent with $F\ge e^{-\CMI/2}$ and with LX).
+\NV{} Prop.~2.3 reduces in the commuting case to $-\log\Fid=\frac{\eps^2}8\sum\frac{d_i^2}{q_i(1-q_i)}$ and
+$S=\frac{\eps^2}2\sum\frac{d_i^2}{q_i(1-q_i)}$ (recomputed from eqs.~\texttt{qfi}, \texttt{kubo-mori}: the $\frac14$
+with the $i=k$ denominator $2q(1-q)$ gives $\frac18$; the $\frac12$ with $\frac1q+\frac1{1-q}$ gives $\frac12$).
+\NVII{} eq.~\texttt{metrics-fd} uses the same normalisation, so $f_2=g_B/8$, $s_2=g_{\rm KM}/2$ is consistent.
+
+\paragraph{C13: the two ``$f_2$''s and the factor 8. \normalfont[OK, but the conversion chain must be stated once]}
+\lstep{1}{1}{\NV: $f_2$ is the coefficient of $\zz^2$ in $\Phi=-\log\Fid$, \emph{per chiral complex fermion}.}
+\lstep{1}{2}{VWZ (1.12): $-\log F=f_2^{\rm VWZ}c\,\eta^2$, $c$ the 2d central charge, $f_2^{\rm VWZ}\approx0.070$ (checked in the source).}
+\lstep{1}{3}{$\zz=2\eta/(1-\eta)$, so per chirality $\Phi=f_2\zz^2=4f_2\eta^2+O(\eta^3)$; two chiralities give $8f_2\eta^2$.}
+\lstep{1}{4}{Hence $f_2^{\rm VWZ}=8f_2$: $8\times0.008444=0.06755$, and $8\times\frac1{12\pi^2}=\frac2{3\pi^2}=0.06755$.}
+\lstep{1}{5}{Consistency of the closed forms across \NV{}--\NVII{} is exact: $\frac{c+\bar c}{3\pi^2}\eta^2$ at $c=\bar c=1$ is $0.06755\eta^2$.}
+\lqed{1}{6}
+\begin{verdictok}The factor 8 $=4\times2$ is correct and the three notes agree.  It is assembled from remarks scattered
+over \NV{} \S5 and \S7.1; it deserves a displayed conversion box.\end{verdictok}
+
+\paragraph{C14: $s_2/f_2=\pi^2$ is convention-independent. \normalfont[OK]}
+Recomputed from \NVII{} eq.~\texttt{spectral-\allowbreak forms}: with a common spectral measure $N\,d\mu$,
+$g_B=2N\!\int\!\frac{\tanh(\kappa/2)}{\kappa(\kappa^2+4\pi^2)}d\kappa=\frac{2N}{\pi^2}$ and
+$g_{\rm KM}=N\!\int\!\frac{d\kappa}{\kappa^2+4\pi^2}=\frac N2$, so
+$\frac{s_2}{f_2}=\frac{g_{\rm KM}/2}{g_B/8}=4\frac{g_{\rm KM}}{g_B}=\pi^2$, independently of $N$ (hence of C9).
+This is the one closed-form statement in \NVI--\NVII{} that survives every normalisation question.
+
+\paragraph{C15: the collar. \normalfont[OK]}
+\NI, \NII, \NIII{} shrink $A$ on its right ($A_\eps=(x_0,x_1-\eps)$); \NIV, \NVII{} put $A=(-a,0)$ and
+$A_\eps=(-a,-\eps)$: the same geometry.  The regulated defects agree exactly:
+\NII{} eq.~\texttt{Ieps-free} $=\frac r6\log\frac{(a+b)(b+c+\eps)}{(a+b+c)(b+\eps)}$ and \NIV{} eq.~\texttt{delta-eps}
+$=\frac r6\log\frac{(L+\eps)(a+b)}{(b+\eps)(a+L)}$ are the same function (checked, $L=b+c$).
+
+\clearpage
+\section{Hidden reliance on unproved steps: the exact logical chains}
+
+\subsection{Chain A --- the Longo--Xu number (\NI, \NII)}
+\lstep{1}{1}{LX Def.~3.17 + Thm 3.18 give, for $\cA_r$ and disjoint $I_1=(a_1,b_1)$, $I_2=(a_2,b_2)$,
+$\MI=\frac r6\log\frac{(a_2-a_1)(b_2-b_1)}{(a_2-b_1)(b_2-a_1)}$.}
+\lby{expanding $r[G(I_1)+G(I_2)-G(I_1\cup I_2)]$ with LX Def.~3.17 (done)}
+\lstep{1}{2}{LX \S4.2 defines $F$ for overlapping regions by the singular limit (13)/(14) and computes, for $\cA_r$,
+$F(A\bar\cup B_0,A\bar\cup C_0)=-\frac r6\log\frac{(b_2-a_2)(b_3-a_1)}{(b_3-a_2)(b_2-a_1)}$ with $B_0$ left, $A$ middle, $C_0$ right.}
+\lby{LX \S4.2, displayed after ``$P(\eps)=r/6\ln\eps+o(\eps)$''}
+\lstep{1}{3}{Under $(a_1,a_2,b_2,b_3)=(x_0,x_1,x_2,x_3)$ this is exactly $-\frac r6\log\eta_{\NI}$, i.e.\ \NI's main box.}
+\lstep{1}{4}{LX proof of Thm 4.1(1) supplies the finite-dimensional approximants, so the quantity \emph{is} a limit of
+ordinary CMIs and is $\ge0$.}
+\lstep{1}{5}{No unproved step is hidden here.}
+\lqed{1}{6}
+\begin{verdictok}\NI's main result is LX's own displayed formula, not an extrapolation.  \NI's scope box correctly
+identifies LX Rmk 4.3 as a conjecture for general rational nets.  \NII{} adds the exact collar formula, which is again
+LX Thm 3.18 (checked).\end{verdictok}
+
+\subsection{Chain B --- \NII's boxed recovery bound}
+\begin{align*}
+\underbrace{\text{split property}}_{\stCIT}+\underbrace{\text{LX Thm 3.18}}_{\stCIT}
+&\;\Longrightarrow\;\CMI_\eps=\delta_{\cN_\eps\subset\cM_\eps}\\
+&\;\xRightarrow[\ \text{Jensen}+\text{concavity}\ ]{\ \text{FHSW Thm 1}\ }\;
+F_{\cM_\eps}\ge e^{-\CMI_\eps/2}
+\;\Longrightarrow\;\liminf_{\eps\downarrow0} F\ge\eta^{r/12}.
+\end{align*}
+Two hidden steps:
+\begin{itemize}[leftmargin=1.4em]
+\item \textbf{H1 (graded vs.\ ordinary tensor product).}  \NI{} correctly uses the graded product $\otimes_2$ (LX's
+$\omega_1\otimes_2\omega_2$).  \NII{} eq.~\texttt{split-\allowbreak identification} writes $\cM_\eps\simeq\cA(A_\eps)\overline\otimes\cA(BC)$
+with the \emph{ordinary} tensor product, and eq.~\texttt{split-\allowbreak reference} $\sigma_\eps=\omega_{A_\eps}\otimes\omega_{BC}$.
+For $D_{\cM_\eps}(\omega\Vert\sigma_\eps)$ to equal LX's $\MI$ the reference must be the graded product.  \NIV{}
+eq.~\texttt{split-\allowbreak identifications} does it correctly ($\overline\otimes_{\rm gr}$, plus a one-line Klein-transform remark).
+\item \textbf{H2 (\NII{} states the averaged-channel DPI, FHSW proves the integrated-log DPI).}
+FHSW Thm 1 eq.~(24) is $S_\cA-S_\cB\ge-2\int p(t)\ln F(\rho,\rho\circ\iota\circ\alpha^t_\sigma)dt$.
+\NII{} eq.~\texttt{FH-bound} is $\ge-2\log F(\rho,\rho|_\cN\circ\overline\alpha_\sigma)$.  The latter follows from the
+former by $-\int p\ln F\ge-\ln\int pF$ (Jensen) and $\int pF(\rho,\tilde\rho_t)\le F(\rho,\int p\tilde\rho_t)$ (joint
+concavity of root fidelity), but \NII{} does not say so.  \NIV{} uses the correct integrated form.
+\end{itemize}
+
+\subsection{Chain C --- \NIV's zero-collar theorem}
+\lstep{1}{1}{$\alpha^{D\to B}_t=\gamma_{s_t}$, $s_t=\lambda(1+e^{-2\pi t})$.}
+\lby{FHSW eq.~(167) (\stCIT), cross-checked at $t=0$ by \NIV's own $J_\cB=U(2\lambda)J_\cA$ computation}
+\lstep{1}{2}{Lemma 3.1: the collar Petz map is $\id\overline\otimes\alpha^{D\to B}_t$.}
+\lby{split property (\stCIT) + the standard-form Petz formula; the graded-to-ordinary reduction is one asserted sentence}
+\lstep{1}{3}{$\beta_s$ is a CAR $*$-isomorphism and $Q_I-\widetilde Q_s$ is block off-diagonal with kernel $\frac i{2\pi}R_s$.}
+\lby{\stPR{} (recomputed)}
+\lstep{1}{4}{Theorem 6.2: $\|Q_I-\widetilde Q_s\|_1=\frac r{2\pi}\log(1+\zz)$.}
+\lby{\stPR{} (recomputed: $\cJ_d$ unitary, Hankel form, Laplace factorisation, Tonelli)}
+\lstep{1}{5}{Theorem 7.1: $\overline\beta_s$ is a normal $*$-isomorphism onto $\cF_r(J_s)$.}
+\lby{PS inequality + PS--Araki quasi-equivalence criterion (\stCIT), plus the \emph{uncited} implication
+``quasi-equivalent source and pulled-back target representations $\Rightarrow$ unique normal extension''}
+\lstep{1}{6}{$\overline\beta=\int p(t)\overline\beta_{s_t}dt$ is a normal UCP map.}
+\lby{\textbf{\stHEU}: ultraweak measurability of $t\mapsto\overline\beta_{s_t}(x)$ is argued in one sentence
+(``\emph{One may see this first on the norm-dense CAR algebra, where the one-particle maps depend strongly continuously
+on $t$, and then on the von Neumann algebra by bounded strong approximation from the increasing collar algebras}'')}
+\lstep{1}{7}{$\Fid(\omega,\overline\omega)\ge e^{-\CMI/2}=\eta^{r/12}$.}
+\lby{FHSW Thm 1 (checked verbatim) $+$ Lemma 10.1 $+$ monotone convergence $+$ concavity $+$ AM--GM}
+\lqed{1}{8}
+\begin{verdictgap}The only genuinely unproved links are $\langle1\rangle6$ (measurability) and the compressed
+Kaplansky step inside Lemma 10.1 (which \NVI{} P5(5) already lists).  \emph{Theorem 6.2 and Theorem 7.1 are the
+strongest results of the whole series and their chains are clean.}\end{verdictgap}
+
+\subsection{Chain D --- \NV's $f_2=0.008444(10)$}
+\[
+\underbrace{\text{Thm 2.1, Prop.\ 2.2}}_{\stPR}
++\underbrace{\text{Thm 3.1 (Araki 77)}}_{\stPMC}
++\underbrace{\text{compression + quadrature}}_{\stNUM}
++\underbrace{\text{tail from Prop.\ 4.1}}_{\stHEU}
+\;\Rightarrow\;f_2 .
+\]
+\begin{itemize}[leftmargin=1.4em]
+\item Theorem 3.1's monotonicity makes every compressed value a \emph{rigorous one-sided bound}; that part is sound.
+\item But the quoted $f_2$ is not a compressed value: it is the $\kappa_{\max}\to\infty$ extrapolation
+$f_2(\kappa_{\max})=f_2-0.066\kappa_{\max}^{-2}$ of the \emph{second-order} coefficient computed from the
+\emph{first-order} kernel via Prop.~2.3 (Table 6.2).  Its identification with $\lim_{\zz\to0}\Phi/\zz^2$ is
+Corollary 4.2, which is heuristic.
+\item The tail correction $\zz^2/(15\kappa_c^2)$ added to every $\Phi_{\rm sub}$ comes from Prop.~4.1, whose proof is a
+sketch and whose own numerical check stalls at a $6\%$ discrepancy (ratios $1.11,1.05,1.06,1.06$ at
+$\kappa=20,30,40,60$, described as ``\emph{approaching 1 from above}'').  At $\zz=1/15$ the correction is
+$8.78\times10^{-7}$ on $\Phi_{\rm sub}\approx3.43\times10^{-5}$, i.e.\ $2.6\%$; a $6\%$ error in the tail is
+$1.5\times10^{-3}$ relative --- larger than the quoted $\pm0.06\%$ spread.
+\item $s_2=0.0834(5)$ is a $1/\kappa_{\max}$ extrapolation from $0.0768$ at $\kappa_{\max}=44.7$: the extrapolation
+moves the answer by $9\%$, yet the stated uncertainty is $0.6\%$.
+\end{itemize}
+\begin{verdictgap}The \emph{numbers} are almost certainly right (they match $c/12\pi^2$ and $c/12$ to $10^{-4}$ and
+$10^{-3}$), but the \emph{error bars} are extrapolation-model uncertainties presented as if they were statistical.
+State which digits are rigorous (the compressed lower bounds) and which are extrapolated --- \NVI{} P5(6) already
+demands this.\end{verdictgap}
+
+\subsection{Chain E --- \NVII{} Theorem A (free fermion)}
+This is the chain the main box presents as a theorem.  Written out:
+\lstep{1}{1}{\lassume $\Phi(\zz):=-\log\Fid_{\cF_r(I)}(\omega,\widetilde\omega_s)$ and $\zz=as/(a+L)$.}
+\lstep{1}{2}{\NV{} Prop.~2.3 gives, \emph{on each finite-dimensional compression} $P_n$, the second-order expansion of
+$-\log\Fid$ in the symbol perturbation.}
+\lby{\stPR{} (finite dimensions)}
+\lstep{1}{3}{$Q-\widetilde Q_s=s\,D^{(1)}+O(s^2)$ with $D^{(1)}=\mathfrak g^*Q+Q\mathfrak g$, kernel eq.~\texttt{D1-kernel}.}
+\lby{\stPR{} (recomputed)}
+\lstep{1}{4}{\textbf{Interchange:} $\displaystyle\lim_{\zz\to0}\frac{\Phi(\zz)}{\zz^2}
+=\lim_{\zz\to0}\lim_{n\to\infty}\frac{\Phi_n(\zz)}{\zz^2}
+\overset{?}{=}\lim_{n\to\infty}\lim_{\zz\to0}\frac{\Phi_n(\zz)}{\zz^2}=\frac{g_B}8$.}
+\lby{\textbf{unproved}; \NVII{} \S1 says so (``\emph{rests on $\dots$ the existence of $\lim_{\zz\to0}\Phi/\zz^2$, which
+Note 5 established up to the interchange of the compression limit with the second-order expansion (its Corollary 4.2)}''),
+and \NVII{} \S8(2) lists it as remaining.  \NV{} Cor.~4.2 is the only argument, and it is heuristic}
+\lstep{1}{5}{Also needed: the $O(s^2)$ part of the defect must not contribute at order $s^2$ to $\Phi$.}
+\lby{\NV{} Cor.~4.2 again: it contributes $\sim\zz^2/(120\log^2\frac1\zz)=o(\zz^2)$ --- \stHEU, and only the
+\emph{diagonal} of the $O(s^2)$ defect is counted}
+\lstep{1}{6}{$D^{(1)}(\kappa,\kappa')=i(q_\kappa-q_{\kappa'})\mathfrak g(\kappa,\kappa')$ with the \emph{analytically continued} $\gh$.}
+\lby{\NVII{} Lem.~5.1(ii): the formal integration by parts is correct (recomputed), but its boundary term at
+$\xi'\to\infty$ \emph{is} the divergence being continued; support is ``\emph{four points, eight digits}''
+(\texttt{verify\_normalization.py}) --- \stNUM}
+\lstep{1}{7}{$\int_{\mathbb R}\frac{w^2dw}{\cosh w+\cosh a}=\frac{2a(a^2+\pi^2)}{3\sinh a}$.}
+\lby{``\emph{verified numerically}'' --- \stNUM{} (the $a\to0$ case checks: both sides $2\pi^2/3$)}
+\lstep{1}{8}{Hence $g_B=\frac23\int\frac{\tanh\frac u2}{u(u^2+4\pi^2)}du\cdot r=\frac{2r}{3\pi^2}$, $g_{\rm KM}=\frac r6$.}
+\lby{\stPR{} given $\langle1\rangle6$--$\langle1\rangle7$ (both $u$- and $v$-integrals recomputed; the displayed
+parenthetical ``$\frac1{\pi^2}\int_{\mathbb R}\frac{\tanh\pi k}{k(k^2+1)}dk=\frac4{\pi^2}$'' is wrong by a factor 4 ---
+the correct reduction is $\frac1{4\pi^2}\cdot4=\frac1{\pi^2}$ --- but the boxed final answer is right)}
+\lqed{1}{9}
+\begin{verdictbreak}
+\textbf{Theorem A is not a theorem as stated in the main box.}  Its statement there,
+``$\lim_{\zz\to0}\Phi(\zz)/\zz^2=r/(12\pi^2)$'', requires $\langle1\rangle4$ and $\langle1\rangle5$
+(both heuristic) on top of two purely numerical inputs ($\langle1\rangle6$, $\langle1\rangle7$).
+What \emph{is} established is: \emph{modulo one unproved kernel identity and one unproved elementary integral, the
+one-particle Bures and Kubo--Mori forms of the first-order defect are $2r/3\pi^2$ and $r/6$.}
+The note is honest about this in \S1 and \S8; the main box and the abstract are not (\S5, O5--O6).
+\end{verdictbreak}
+
+\subsection{Chain F --- \NVII{} Theorem B / \NVI{} Conjecture 2.1 (general nets)}
+\lstep{1}{1}{Lemma 2.1 identifies the tangent functional as $i\omega([T(g),\cdot])$ \emph{at positive collar}, where
+$g$ is smooth and compactly supported, so $T(g)\Omega\in\mathcal H$.}
+\lstep{1}{2}{Steps 3--4 evaluate $g_B,g_{\rm KM}$ at \emph{zero} collar, in the modular frame of $\cA(I)$, with
+$\gt(\xi)=-4\sinh^2\frac\xi2\mathbf1_{\xi>0}$.}
+\lstep{1}{3}{At zero collar, $\|T(g)\Omega\|^2=\int d\mu=\frac1{2\pi}\int\Wh(k)|\gh(k)|^2dk=\infty$.}
+\lby{$\Wh(k)\to\frac c{48\pi^2}$ as $k\to0$ while $|\gh(k)|^2=\frac4{k^2(k^2+1)^2}\sim\frac4{k^2}$, so the integrand
+$\sim\frac c{12\pi^2k^2}$ is not integrable at $k=0$ (computed)}
+\lstep{1}{4}{Therefore \emph{neither} Lemma 3.1(2) (which needs $A\in\cM$ and a finite spectral measure) \emph{nor}
+Lemma 3.1(3) (``\emph{a finite expression for every vector $A\Omega$}'') \emph{nor} Lemma 3.2 (which assumes
+$\Omega\in D(A)$) applies verbatim to $A=T(g)$ at $\eps=0$.}
+\lstep{1}{5}{The quadratic forms are nonetheless finite because the Bures and Kubo--Mori weights vanish at $\lambda=1$;
+\NVII{} notices the cancellation (``\emph{the pole of $|\gh|^2$ at $k=0$, i.e.\ the far endpoint, is cancelled by
+$\tanh\pi k$ and by $k$ respectively}'') but does not draw the conclusion that its own hypotheses fail.}
+\lstep{1}{6}{Independently, $g$ is only $C^{1,1}$ at the touching point, so $T(g)$ needs the Fewster--Hollands
+$H^{3/2}$ energy bounds; this is mentioned in \NVI{} P1 step 2 but not in \NVII.}
+\lstep{1}{7}{Lemma 3.2 itself has no proof, only a ``Proof route''.}
+\lqed{1}{8}
+\begin{verdictbreak}
+Theorem B rests on a lemma (\NVII{} Lem.~3.2) that (i) is unproved and (ii) is stated with a hypothesis
+($\Omega\in D(A)$) that the intended application \emph{violates}.  The gap is not merely ``extend a finite-dimensional
+identity to type III''; it is ``make sense of a Bures metric whose tangent vector is not in the Hilbert space''.
+The natural repair is a quadratic-form statement: define $g_B$ by the closure of the form
+$\eta\mapsto2\langle\eta,(1+\Delta)^{-1}\eta\rangle$ on $\eta=i(S^*-1)A\Omega$, which \emph{is} finite here because
+$(1+\Delta)^{-1}|(\Delta-1)|^2$ kills the $k=0$ pole; but this must be proved, not assumed.
+\end{verdictbreak}
+
+\subsection{Other hidden hypotheses, by note}
+\begin{itemize}[leftmargin=1.4em]
+\item \textbf{\NIII{} eq.~\texttt{IRdelta}--\texttt{cM}}: the Taylor expansion $\CMI_R(\delta)=-S''(R)\delta^2+O(\delta^3)$
+differentiates the single-interval entropy $S(R)$, which \NI{} \S1 declares meaningless in the continuum.
+The combination is cutoff-independent, so $S''$ is well defined, but the derivation as written contradicts the
+premise of \NI.  Likewise eq.~\texttt{thermal-cmi} is obtained by substituting Calabrese--Cardy's $S_\beta(\ell)$ into
+the four-entropy expression, i.e.\ it is the heuristic formula, not an Araki-relative-entropy theorem.
+\item \textbf{\NV{} Lemma 1.1} is proved for M\"obius $g$ ``\emph{with $g(I)$ bounded}''.  \NVI{} and \NVII{} invoke it
+to pass to the \emph{half-line} configuration $A=(-\infty,0)$, which is outside that hypothesis (harmless on $S^1$, but
+the lemma must be restated for intervals of the circle).
+\item \textbf{\NV{} Cor.~5.1 (monotonicity)}: ``\emph{Monotonicity of $\Phi$ in $\zz$ $\dots$ holds for the trace norm
+exactly and is confirmed numerically for $\Phi$}''.  Everything downstream that says ``the ordinary Petz map is not
+optimal'' or ``the optimal rotation improves the constant by a factor 4'' (\NV{} \S7.2, \NVI{} \S1(iii), \NVII{}
+Cor.~7.1) inherits this.  For \emph{small} $\zz$ the factor 4 follows from $\Phi\simeq f_2\zz^2$ instead --- i.e.\ from
+Cor.~4.2, also heuristic.
+\item \textbf{\NV{} Cor.~5.1 (modular average)}: the stated reason is a non sequitur; see risk R3.
+\item \textbf{\NVII{} eq.~\texttt{one-particle}}: applies \NV{} Prop.~2.3 ``valid on every compression'' to the
+continuum double integral $\iint d\kappa\,d\kappa'$ without taking a limit; the passage from
+$\sum_{ik}$ over a compression to $\iint d\kappa d\kappa'$ over the continuous modular spectrum is the same
+interchange as $\langle1\rangle4$ of Chain E.
+\item \textbf{\NVII{} Lem.~5.1}: at $\kappa=\kappa'$ the identity reads $0\cdot\infty$ ($q_\kappa-q_{\kappa'}\to0$,
+$\gh(0)=\infty$); the product is finite, but the identity needs a continuity statement there.
+\end{itemize}
+
+\clearpage
+\section{Ranked proof-breaking risks, gaps, and minor issues}
+
+\subsection{Risks, most severe first}
+
+\paragraph{R1 --- \NVII{} Theorem B / \NVI{} Conjecture 2.1: the tangent vector is not in the Hilbert space.}
+\emph{Claim at risk:} $f_2=c/(12\pi^2)$, $s_2=c/12$ for every diffeomorphism covariant net (\NVII{} \texttt{result-\allowbreak general};
+\NVI{} \texttt{closed}; \NVII{} Cor.~7.1), and the whole ``universality theorem'' P1.\\
+\emph{Why it might fail:} the evaluation uses the spectral measure of $A\Omega$ with $A=T(g)$ (\NVII{} Lem.~3.1(2),
+eq.~\texttt{mu}), and Lemma 3.2 assumes $\Omega\in D(A)$.  At zero collar
+$\|T(g)\Omega\|^2=\frac1{2\pi}\int\Wh|\gh|^2dk=\infty$, because $\Wh(0)=\frac c{48\pi^2}\ne0$ while
+$|\gh(k)|^2\sim4/k^2$.  Lemma 3.1(2) also requires $A\in\cM$, whereas $g$ does not vanish at the far endpoint of $I$.
+Neither $g_B$ nor $g_{\rm KM}$ is therefore given by a bona fide spectral integral; they are values of quadratic
+\emph{forms} that happen to be finite because the Bures and Kubo--Mori weights vanish like $\kappa^2$ at $\kappa=0$.\\
+\emph{What would confirm:} a form-domain version of Lemma 3.2 --- prove that
+$g_B=2\|(1+\Delta)^{-1/2}(S^*-1)A\Omega\|^2$ extends by closure to vectors with $\int\frac{d\mu}{1+\lambda}<\infty$
+but $\int d\mu=\infty$, and that the second variation of $-\log\Fid$ along $\widetilde\omega_s$ equals it.\\
+\emph{What would refute:} a mismatch between the general-route value and an \emph{independent} model with $c\ne1$
+(e.g.\ the $c=1/2$ Ising net, or $\cA_r$ with $r=2$ checked separately rather than by the $r$-linearity of
+eq.~\texttt{one-particle}).
+
+\paragraph{R2 --- \NVII{} Theorem A as a statement about $\Phi$: the interchange of limits.}
+\emph{Claim at risk:} $\lim_{\zz\to0}\Phi(\zz)/\zz^2=r/(12\pi^2)$ (\NVII{} main box; \NVII{} Cor.~7.1;
+\NV{} main box).\\
+\emph{Why it might fail:} Theorem 5.2 computes the quantum Fisher information of the \emph{first-order} defect.
+Identifying it with $\lim\Phi/\zz^2$ requires (i) exchanging the compression limit $n\to\infty$ with the $\zz\to0$
+expansion, and (ii) knowing that the $O(s^2)$ part of the exact defect contributes $o(\zz^2)$.  Both are \NV{}
+Cor.~4.2, which is a mode-counting heuristic that treats only the \emph{diagonal} of the modular defect matrix.  The
+same heuristic asserts a $\zz^2\log^{-2}(1/\zz)$ remainder; if the true remainder were $\zz^2\log^{-1}(1/\zz)$ the
+limit would still exist, but if the off-diagonal ultraviolet block contributed at order $\zz^2$ the \emph{coefficient}
+would change.\\
+\emph{What would confirm:} two-sided bounds on $\Phi$ via the spectral sub-compression with the UV block treated
+exactly (\NVI{} P5(2)); or the numerical observation that $\Phi/\zz^2$ extrapolates to $1/(12\pi^2)$ --- which it does,
+to $7\times10^{-5}$ (Table 6.2), so the risk is \emph{low but not zero}.
+
+\paragraph{R3 --- \NV{} Cor.~5.1: the argument that the modular average is worse is a non sequitur.}
+\emph{Quoted claim:} ``\emph{$\dots$ and the modular average with the density $p(t)=\pi/(1+\cosh2\pi t)$ is worse than
+the ordinary Petz map because $\int p(t)\,\Phi(\zz_t)\,dt$ receives contributions from arbitrarily large $\zz_t$}''
+(\NV{} \S5, Cor.~5.1).\\
+\emph{Why it fails:} the recovered state of the averaged channel is $\overline\omega=\int p(t)\widetilde\omega_t\,dt$,
+and joint concavity of root fidelity gives
+$\Fid(\omega,\overline\omega)\ge\int p(t)\Fid(\omega,\widetilde\omega_t)dt$, whence
+$-\log\Fid(\omega,\overline\omega)\le\int p(t)\Phi(\zz_t)dt$ (Jensen).  The quantity invoked is thus an \emph{upper}
+bound on the error of the average; a large upper bound proves nothing.\\
+\emph{What would repair it:} an \emph{upper} bound on $\Fid(\omega,\overline\omega)$.  A cheap one exists: for
+$T:=\frac12\log\frac1z/\pi$, the mass $\int_{-\infty}^{-T}p\approx z$ of ``bad'' components gives
+$-\log\Fid(\omega,\overline\omega)=O(z)$, versus $\Phi(2z)=4f_2z^2$ for the ordinary map; so the \emph{conclusion} is
+almost certainly right and is cheap to prove properly.  \emph{Rewrite the sentence.}
+
+\paragraph{R4 --- \NV{} Prop.~4.1: a ``proof sketch'' carrying a numerical correction into every reported number.}
+\emph{Claim at risk:} the boxed UV law $\frac2{15}\zz^2\kappa^{-3}$, hence the tail correction
+$\zz^2/(15\kappa_c^2)$ added to \emph{every} $\Phi$ in Tables 6.1 and 6.3, hence $f_2$, hence the comparison with
+$c/(12\pi^2)$.\\
+\emph{Why it might fail:} (i) the argument is explicitly a sketch: the $O(\kappa^{-5})$ error is not estimated and the
+exchange of the corner Taylor expansion with the Fourier integral is not justified; (ii) the \emph{sign} is fixed a
+posteriori (``\emph{the sign is the one required by $\widetilde Q_s\ge0$}''); (iii) the note's own numerical check does
+not converge to the predicted coefficient --- the ratios $1.11,1.05,1.06,1.06$ at $\kappa=20,30,40,60$ stall at
+$1.06$, i.e.\ a persistent $6\%$ excess, while the text says ``\emph{approaching 1 from above}''.  A $6\%$ error in a
+correction that is $2.6\%$ of $\Phi(1/15)$ is $1.5\times10^{-3}$ relative --- $25\times$ the quoted $\pm0.06\%$ spread.\\
+\emph{Confirmation:} the corner coefficients $c_1=\frac{s\beta_0}{6L}$ and $c_2=-\frac{s^2\beta_0^2}{30L^2}$ were
+recomputed in this audit and are correct, as is $\int_{-1/2}^{1/2}(\frac14-n^2)^2dn=\frac1{30}$ and the passage
+$\operatorname{Im}J=4\pi|c_2|\kappa^{-3}$.  So the \emph{coefficient} is right; the $6\%$ stall is presumably
+quadrature, but that must be shown.
+
+\paragraph{R5 --- \NV{} \S7.2: two wrong formulas.}
+\emph{Quoted:} ``\emph{the ratio $(-2\log\Fid)/I_\omega(A{:}C|B)$ $\dots$ is $\approx0.20\,\zz$ for small $\zz$ $\dots$;
+in the small-$z$ regime it is $96f_2z\approx0.81z$ per component}''.  With $\zz=2z$ these are inconsistent:
+$0.20\zz=0.40z=48f_2z$.  Table 6.3's last column ($0.0017$ at $\zz=0.0083$, i.e.\ $0.205\zz$) supports $48f_2z$.
+\textbf{$96f_2z$ is wrong by a factor 2.}\\
+\emph{Quoted:} ``\emph{$-\log\Fid\simeq f_2(12/r)^2I_\omega(A{:}C|B)^2$ for the ordinary Petz map}''.  With $f_2$ defined
+\emph{per component}, $-\log\Fid=r f_2\zz^2$ and $I_\omega=\frac r6\log(1+z)$, so
+$-\log\Fid=144f_2I_\omega^2/r$, not $144f_2I_\omega^2/r^2$.  \textbf{Wrong $r$-scaling} (they agree at $r=1$).
+\NVI{} and \NVII{} give the correct general form $\frac{12}{\pi^2c}I^2$.
+
+\paragraph{R6 --- \NVII{} Theorem 5.2's proof: a factor 4 in a displayed intermediate step.}
+\emph{Quoted:} ``\emph{With $u=2\pi k$ the first integral is $\frac1{\pi^2}\int_{\mathbb R}\frac{\tanh\pi k}{k(k^2+1)}dk=\frac4{\pi^2}$}''.
+The substitution gives $\int_{\mathbb R}\frac{\tanh\frac u2}{u(u^2+4\pi^2)}du=\frac1{4\pi^2}\int_{\mathbb R}\frac{\tanh\pi k}{k(k^2+1)}dk=\frac1{\pi^2}$
+(numerically $0.1013212=1/\pi^2$), so the value is $\frac1{\pi^2}$, not $\frac4{\pi^2}$.  With the printed value
+$g_B$ would be $\frac{8r}{3\pi^2}$, contradicting the note's own boxed $\frac{2r}{3\pi^2}$.  The boxed answer is the
+correct one.  \emph{Typo, but it is in the proof of the flagship theorem.}
+
+\paragraph{R7 --- \NVI{} \S2.1 Step 4: a stress-tensor normalisation that is off by $(2\pi)^2$.}
+See C9.  Harmless downstream (the constant is fitted there and derived correctly in \NVII), but \NVI{} is a standing
+strategy document and the sentence must be corrected.
+
+\paragraph{R8 --- graded versus ordinary tensor products.}
+\NII{} eq.~\texttt{split-\allowbreak identification}/\texttt{split-\allowbreak reference} use ordinary $\overline\otimes$ and an ordinary
+product reference state for a \emph{fermionic} net, whereas the Longo--Xu mutual information is defined with the graded
+product $\otimes_2$ and \NIV{} correctly uses $\overline\otimes_{\rm gr}$.  The identification
+$D_{\cM_\eps}(\omega\Vert\sigma_\eps)=\MI(A_\eps,BC)$ --- the hinge of \NII{} --- is stated for the wrong product.
+\NIV{}'s repair is one sentence (``\emph{For parity-preserving maps one may equivalently use the usual Klein transform
+and ordinary tensor products}'') and should be a lemma, because the FHSW tensorisation (\NIV{} Lem.~3.1) is applied to
+the resulting factorisation.
+
+\paragraph{R9 --- the $r\leftrightarrow c$ dictionary.}
+Every comparison with VWZ (the ``factor 8'') uses $c(\cA_r)=r$.  It is correct (LX build $\cA_r$ from the level-1
+$LU_r$ representation, and LX Rmk 4.3 says ``\emph{$r$ is replaced by the central charge}''), but it is nowhere stated
+as a convention.  If a reader substitutes ``$r$ Majorana fermions'' the VWZ comparison moves by a factor 2 and $f_2$ by 4.
+
+\paragraph{R10 --- \NIV{} \S10: normality/measurability of the twirled channel by assertion.}
+``\emph{The maps $t\mapsto\overline\beta_{s_t}(x)$ are ultraweakly measurable and uniformly bounded $\dots$ One may see
+this first on the norm-dense CAR algebra $\dots$ and then on the von Neumann algebra by bounded strong approximation
+from the increasing collar algebras}''.  This is the only justification for the existence of the ultraweak integral
+defining $\overline\beta$, and hence for \NIV's headline ``normal zero-collar recovery channel''.  It is a one-sentence
+sketch.  (Fixable: the map $t\mapsto W_{s_t}$ is strongly continuous, so $t\mapsto\overline\beta_{s_t}(a(f))$ is norm
+continuous on generators; extend by an $\eps/3$ argument on the ultraweakly dense $*$-algebra and use uniform boundedness.)
+
+\paragraph{R11 --- \NV{} Thm 3.1: Araki's martingale convergence hypotheses.}
+The relative-entropy half of the determinant representation cites ``\emph{Araki's martingale convergence, see
+Ohya--Petz, Cor.~5.12 and Araki~[77]}'' without transcribing the hypotheses.  Ohya--Petz was not obtainable
+(see \texttt{refs/REFERENCES.md}); \NVI{} P5(4) already flags this.  If the correct statement needs, e.g.,
+$\bigcup M_n$ $\sigma$-weakly dense \emph{and} a common cyclic separating vector \emph{and} $\sup_n D_{M_n}<\infty$,
+the application is fine; if it needs more, $s_2$ loses its rigorous lower bounds.
+
+\paragraph{R12 --- extrapolated error bars presented as uncertainties.}
+$s_2=0.0834(5)$ is obtained by a $1/\kappa_{\max}$ fit from data whose last value is $0.0768$ at $\kappa_{\max}=44.7$;
+the extrapolation moves the answer by $9\%$ while the quoted uncertainty is $0.6\%$.  \NVII{} then reports
+$12s_2^{\rm num}=1.0008(60)$ as a $0.6\%$ test of $c/12$.  The agreement is real but the stated precision is not
+justified by the table.
+
+\paragraph{R13 --- \NIII's $c_{\rm M}$ and thermal formulas rest on the object \NI{} declares meaningless.}
+\NIII{} eq.~\texttt{IRdelta} Taylor-expands the single-interval entropy $S(R)$, and eq.~\texttt{thermal-cmi}
+substitutes Calabrese--Cardy's $S_\beta(\ell)$ into $S(AB)+S(BC)-S(B)-S(ABC)$ --- precisely the expression \NI{} \S1
+rejects (``\emph{Thus \eqref{eq:finite-cmi} may only be used as a mnemonic}'').  The results are cutoff-independent and
+surely correct, but as written the derivations are inconsistent with the framework of \NI--\NII.
+
+\subsection{Gaps (repairable, no claim invalidated)}
+\begin{enumerate}[leftmargin=1.6em]
+\item \NII{} eq.~\texttt{FH-bound}: state that it follows from FHSW Thm 1 by Jensen and joint concavity (H2).
+\item \NIV{} \S7: cite the ``quasi-equivalence $\Rightarrow$ normal extension of a $C^*$-isomorphism'' fact.
+\item \NIV{} Lem.~10.1: write out the Kaplansky/functional-calculus step (\NVI{} P5(5)).
+\item \NIV{} eq.~\texttt{hardy-kernel}: write the Fourier convention down (C10).
+\item \NIV{} eq.~\texttt{s-t}: reconcile with the printed FHSW eq.~(167) ($\Ad U$ vs.\ $\Ad U^*$) in one sentence.
+\item \NV{} Lem.~1.1: restate for intervals of $S^1$ so that the half-line configuration of \NVI--\NVII{} is covered.
+\item \NV{} Prop.~2.3: display the collection of second-order terms (the $T_2$ contribution is asserted to drop out).
+\item \NV{} eq.~\texttt{Qbox}: give the derivation of the box-mode matrix elements.
+\item \NV{} \S5: resolve the sign in $1+e^{\mp\pi\lambda}$ (C7), on which the prediction offered to VWZ depends.
+\item \NVII{} Lem.~5.1: state the $\kappa=\kappa'$ continuity (the identity is $0\cdot\infty$ there).
+\item \NVII{} eq.~\texttt{V}: prove it (elementary: residues / the same contour shift as Lem.~4.1).
+\item \NVII{} Lem.~2.1: address the $C^{1,1}$ test function and the Fewster--Hollands $H^{3/2}$ energy bound at zero collar.
+\end{enumerate}
+
+\subsection{Minor issues}
+\begin{enumerate}[leftmargin=1.6em]
+\item \NI{} eq.~\texttt{generalized-F} is stated without noting that it is equivalent to LX's $G$-form
+$G(X{\cup}Y)+G(X{\cup}Z)-G(X{\cup}Y{\cup}Z)-G(X)$ (one line; verified here).
+\item \NI{} writes $o(1)$ where LX Thm 4.2(2) has the stronger $o(\eps)$ --- fine, but the weakening is silent.
+\item LX Thm 4.2(1) as printed reads $F_\cB(A,B)=-\frac r6|\ln\eta_{AB}|$, which is \emph{negative}; the notes
+consistently use the positive $+\frac r6|\ln\eta|$, which is the only reading compatible with LX Thm 4.1(1).
+Worth a footnote, since a referee will check the citation.
+\item \NIII{} uses $\kappa$ for the CMI prefactor while \NV--\NVII{} use it for modular energy (C3).
+\item \NIII{} eq.~\texttt{longo-xu-cmi}: ``$\kappa=c/3$ for a full parity-symmetric 2d CFT'' is a physics normalisation
+imported without citation; LX prove nothing about full 2d CFTs.
+\item \NV{} \S6: ``every value $-\log\Fid_N$ (resp.\ $S_N$) reported below is a rigorous lower (resp.\ lower) bound''
+--- the parenthetical repeats ``lower''; and the tail-\emph{corrected} values in Tables 6.1/6.3 are \emph{not} bounds.
+\item \NV{} Remark 3.2 and the ``trap'' remark are valuable and should be kept.
+\item \NVI{} \texttt{energy}: the sign of the second term in the Liouville action is left open by the note itself.
+\item \NVII{} \S3.3 ``\emph{a finite expression for every vector $A\Omega$}'' --- true, but the application has
+$A\Omega\notin\mathcal H$ (R1).
+\item Cross-note referencing is by section number only (``the preceding note''); with seven documents this should be
+replaced by explicit labels.
+\end{enumerate}
+
+\subsection{Independent numerical spot-checks performed for this audit}
+\begin{center}\small
+\begin{tabular}{@{}L{0.42\textwidth} L{0.26\textwidth} L{0.26\textwidth}@{}}
+\toprule
+Statement & Source status & This audit\\
+\midrule
+\NVII{} eq.~\texttt{V}, $a=0.3,1,2.5,5$ & ``verified numerically'' & reproduced, rel.\ diff.\ $<5\times10^{-16}$\\
+\NVII{} Lem.~5.1(ii) at $(\kappa,\kappa')=(1,3),(2.5,-1),(4,4.5),(-3,0.7)$ & ``eight digits'' (their script) & reproduced from an \emph{independently derived} double integral, ratio $=1.00000000$ (10 digits)\\
+$\int_0^\infty\frac{\tanh\pi k}{k(k^2+1)}dk$ & $=2$ & $1.999999999999995$\\
+$\int_{\mathbb R}\frac{\tanh(u/2)}{u(u^2+4\pi^2)}du$ & printed as $\frac4{\pi^2}$ in Thm 5.2's proof & $0.10132118=\frac1{\pi^2}$ (R6)\\
+$g_B$ per component & $\frac2{3\pi^2}$ & $0.0675474558$ (agrees)\\
+\bottomrule
+\end{tabular}
+\end{center}
+The reproduction of Lemma 5.1(ii) is the most useful of these: it is the only \emph{numerical} link in the chain of
+Theorem A that could plausibly have been an artefact of the analytic-continuation prescription, and it is not.
+
+\clearpage
+\section{Overclaiming in abstracts, titles and main boxes}
+
+Every quotation below is verbatim from the note named.
+
+\paragraph{O1 --- \NVII, abstract. \normalfont[BREAK-level]}
+``\emph{For the free fermion the same constants follow \textbf{rigorously} from the one-particle formulas of Note~5,
+using an \textbf{exact identity} between the modular matrix elements of the covariance defect and those of the
+(analytically continued) half-density generator; every step is verified numerically.}''\\
+The ``exact identity'' is Lemma 5.1(ii), for which \NVII{} \S8(3) itself asks for an ``\emph{analytic proof}'' and
+reports only ``\emph{verified numerically to eight digits}''.  ``Rigorously'' is not warranted; the concluding clause
+of the same sentence concedes it.
+
+\paragraph{O2 --- \NVII, main box. \normalfont[BREAK-level]}
+``\emph{\textbf{Theorem A (free fermion, $r$ components).} $\lim_{\zz\to0}\Phi(\zz)/\zz^2=\frac r{12\pi^2}$,
+$\lim_{\zz\to0}\mathcal D(\zz)/\zz^2=\frac r{12}$.}''\\
+Theorem 5.2 in \S5 states only $g_B=\frac{2r}{3\pi^2}$, $g_{\rm KM}=\frac r6$.  The passage to
+$\lim\Phi/\zz^2$ is \NV{} Cor.~4.2, which \NVII{} \S1 and \S8(2) call heuristic.  \emph{Theorem B is explicitly
+labelled ``conditional on Lemma 3.2''; Theorem A carries no such label although it needs two numerical inputs and one
+heuristic interchange.}
+
+\paragraph{O3 --- \NVII, title. \normalfont[GAP]}
+``\emph{$f_2=\frac c{12\pi^2}$ and $s_2=\frac c{12}$}'' as a bare assertion, with ``for every diffeomorphism covariant
+net'' implied by the subtitle.  The general statement is Theorem B, which is conditional on an unproved (and, as
+written, inapplicable --- R1) lemma.
+
+\paragraph{O4 --- \NVI, abstract. \normalfont[BREAK-level]}
+``\emph{Its main new input is that the second-order coefficients computed numerically in Note~5 coincide, to within
+their error bars, with the closed forms $f_2=c/(12\pi^2)$ and $s_2=c/12$, and \textbf{that these values follow from a
+short structural argument}}''\\
+Only the \emph{ratio} $s_2/f_2=\pi^2$ follows from \NVI's argument.  \NVI{} \S2.1 Step 4 says so:
+``\emph{This step has so far been fixed by matching the free-fermion number ($12\pi^2f_2=1.00007(118)$); deriving it
+directly from the spectral density of $\widetilde T$ is the first task below.}''  A number fitted to the datum it is
+said to predict is not a prediction.  (\NVII{} later supplies the missing normalisation; \NVI{} was written before it.)
+
+\paragraph{O5 --- \NVI, main box item 1. \normalfont[GAP]}
+``\emph{\textbf{Universality theorem} (P1): for every diffeomorphism covariant conformal net,
+$-\log\Fid=\frac c{12\pi^2}\zz^2+\dots$ $\dots$ \textbf{Physics complete}, numerics confirm to $10^{-3}$}''\\
+Called a ``theorem'' in the priority list; it is Conjecture 2.1 in the body.
+
+\paragraph{O6 --- \NVI, \S1 ``Proved''. \normalfont[GAP]}
+``\emph{\textbf{Proved.} $\dots$ (iii) $\dots$ the whole rotation family collapses onto one function $\Phi(\zz)$,
+\textbf{so the ordinary Petz map is not optimal} and the lattice $\lambda$-dependence of Vardhan--Wei--Zou is a
+crossover (Note~5).}''\\
+The collapse is proved; ``not optimal'' is not.  It needs either monotonicity of $\Phi$ (\NV{} Cor.~5.1:
+``\emph{confirmed numerically}'') or the quadratic law (\NV{} Cor.~4.2: heuristic).  It belongs in the very next
+paragraph, ``Established numerically''.
+
+\paragraph{O7 --- \NVI, main box item 3. \normalfont[MINOR]}
+``\emph{the piecewise-M\"obius map is of class $C^{1,1}$, hence Weil--Petersson; implementability, or an
+energy-compactness argument, \textbf{gives} the normal recovered state for all conformal nets}''\\
+``Gives'' should be ``would give'': this is Conjecture 3.2 and Routes A/B are programmes.
+
+\paragraph{O8 --- \NV, abstract. \normalfont[GAP]}
+``\emph{We give a rigorous determinant representation $\dots$, \textbf{prove} that in the modular eigenbasis of the
+interval the recovered state populates the nearly empty modes with the algebraic density $\frac2{15}\zz^2\kappa^{-3}$
+$\dots$}''\\
+Proposition 4.1's proof is headed ``\textbf{Proof sketch}'' and its sign is fixed a posteriori.  ``Prove'' is not
+warranted (\NVI{} P5(1) agrees: ``\emph{the proof is a sketch}'').
+
+\paragraph{O9 --- \NV, abstract and main box. \normalfont[GAP]}
+``\emph{\textbf{The result is} $-\log\Fid=f_2\zz^2[1+O(\log^{-2}(1/\zz))]$ with $f_2=0.008444(10)$ per fermion
+component}''\\
+The functional \emph{form} is Corollary 4.2 (heuristic; \NVI{} P5(2): ``\emph{the $\zz^2\log^{-2}(1/\zz)$ remainder is
+heuristic}''), and the \emph{number} is an extrapolation of Table 6.2, not one of the note's rigorous compressed bounds.
+
+\paragraph{O10 --- \NV, Corollary 5.1. \normalfont[BREAK of the argument]}
+``\emph{$\dots$ and the modular average with the density $p(t)=\pi/(1+\cosh2\pi t)$ is worse than the ordinary Petz
+map \textbf{because} $\int p(t)\,\Phi(\zz_t)\,dt$ receives contributions from arbitrarily large $\zz_t$.}''
+See R3: the quantity invoked is an upper bound on the error of the average.
+
+\paragraph{O11 --- \NV, \S7.2. \normalfont[BREAK of two formulas]}
+``\emph{in the small-$z$ regime it is $96f_2z\approx0.81z$ per component}'' (factor 2; the note's own Table 6.3 gives
+$48f_2z$) and ``\emph{$-\log\Fid\simeq f_2(12/r)^2I_\omega(A{:}C|B)^2$}'' (wrong $r$-scaling).  See R5.
+
+\paragraph{O12 --- \NV, \S7.1. \normalfont[MINOR]}
+``\emph{We therefore regard the agreement as confirming both the universality claim of [VWZ] at the level of $f_2$
+\textbf{and the continuum value $f_2=0.008444(10)$}}''\\
+A $4\%$ agreement between an extrapolated continuum number and a finite-size lattice fit confirms neither to the
+quoted precision; what it does is exclude gross error.  (The \emph{real} confirmation arrived later, in \NVII: agreement
+with $1/(12\pi^2)$ to $7\times10^{-5}$.)
+
+\paragraph{O13 --- \NIV, \S11. \normalfont[MINOR]}
+``\emph{The first stage of the proposed program is \textbf{complete} for the free chiral fermion $\dots$ (7) The
+modular average is a normal UCP channel and obeys the continuum recovery estimate}''\\
+Item (7) rests on the one-sentence measurability sketch of \S10 (R10).  Items (1)--(6) are indeed complete.
+
+\paragraph{O14 --- \NIII, \S1. \normalfont[MINOR]}
+``\emph{For a full parity-symmetric $1+1$-dimensional CFT vacuum, the usual entropy normalization gives $\kappa=c/3$.}''
+Presented alongside the LX theorem as if of the same status; nothing in LX concerns full 2d CFTs.
+
+\paragraph{Notes whose framing is accurate.}
+\NI{} (its \texttt{scopebox} is a model of scope control: ``\emph{Their Remark~4.3 conjectures an analogous statement
+for arbitrary rational conformal nets $\dots$ That broader claim is not needed for, and is not proved by, the argument
+above}'');
+\NII{} (its \texttt{caveatbox} states exactly what fails at $\eps=0$);
+\NIV{} abstract and main box (every boxed statement there is proved, with the single exception noted in O13);
+and \NVII{} \S8, which lists its own four remaining items.  The overclaiming is concentrated in the \emph{abstracts and
+main boxes} of \NV, \NVI, \NVII, i.e.\ exactly where a reader stops.
+
+\clearpage
+\section{Consolidated statement of what is established}
+
+\subsection{Rigorously proved as of now (unconditional, given the standard literature)}
+\begin{enumerate}[leftmargin=1.7em]
+\item[P1.] \textbf{(\NI, \NII)} For the free chiral fermion net $\cA_r$, its finite-index subnets and the finite-index
+extensions treated by Longo--Xu, the adjacent-interval conditional mutual information --- defined as the Longo--Xu
+generalized mutual information $\MI(AB,BC)$, equivalently as the $\eps\downarrow0$ limit of the collar defect --- is
+$-\frac r6\log\eta_{\rm LX}=\frac r6\log\frac{(a+b)(b+c)}{b(a+b+c)}\in(0,\infty)$.
+\emph{This is Longo--Xu's own displayed formula (LX \S4.2), not an extension of it.}
+\item[P2.] \textbf{(\NII)} For each $\eps>0$: $\CMI_\eps=\MI(A_\eps,BC)-\MI(A_\eps,B)$ is exactly the
+Petz/FHSW data-processing defect $\delta_{\cN_\eps\subset\cM_\eps}(\omega,\sigma_\eps)$, equal to
+$\frac r6\log\frac{(a+b)(b+c+\eps)}{(a+b+c)(b+\eps)}$; hence $F_{\cM_\eps}(\omega_\eps,\widetilde\omega_\eps)\ge
+e^{-\CMI_\eps/2}$ and $\liminf_{\eps\downarrow0}F\ge\eta^{r/12}$.
+(Modulo the graded-product bookkeeping, R8.)
+\item[P3.] \textbf{(\NIV{} Thm 6.2)} For the free chiral fermion, the one-particle covariance defect of the geometric
+(rotated Petz) map at zero collar is trace class with the \emph{exact} norm
+$\|Q_I-\widetilde Q_s\|_1=\frac r{2\pi}\log\bigl(1+\frac{as}{a+L}\bigr)$; for the ordinary Petz map
+$=\frac r{2\pi}\log(1+2z)=\frac r{2\pi}\log(2e^{6\CMI/r}-1)$.
+\emph{Every step was recomputed in this audit and is correct.  This is the strongest new result of the series.}
+\item[P4.] \textbf{(\NIV{} Thm 7.1)} Consequently the glued CAR map $\beta_s$ extends uniquely to a normal
+parity-preserving $*$-isomorphism $\overline\beta_s:\cF_r(ABC)\to\cF_r(J_s)\subset\cF_r(AB)$, restricting on every
+positive-collar algebra to the FHSW rotated Petz map.  \emph{A zero-collar recovery homomorphism exists for the free
+chiral fermion.}
+\item[P5.] \textbf{(\NIV{} \S2)} For the half-sided modular inclusion $\cF_r(B)\subset\cF_r(BC)$ the ordinary Petz map
+is the geometric $\gamma_{2\lambda}$, $\lambda=c/b$ (derived independently of FHSW from $J_\cB=U(2\lambda)J_\cA$),
+consistent with FHSW eq.~(167) at $t=0$.
+\item[P6.] \textbf{(\NV{} \S2)} The finite-dimensional quasi-free toolkit: the closed root-fidelity determinant
+(Thm 2.1), the relative-entropy formula (Prop.~2.2), and the second-order Bures/Kubo--Mori expansions with the weight
+$[q_i(1-q_k)+q_k(1-q_i)]^{-1}=1+\cosh\frac{\kappa_i+\kappa_k}2/\cosh\frac{\kappa_i-\kappa_k}2$ (Prop.~2.3).
+\item[P7.] \textbf{(\NV{} Lem.~1.1, Cor.~5.1)} Fidelity and relative entropy of the recovered state are functions of
+the single cross ratio $1+\zz$; hence the \emph{entire rotated-Petz family collapses}, $-\log\Fid(\omega,\widetilde\omega_t)=\Phi(z(1+e^{-2\pi t}))$.
+\emph{This holds for every M\"obius covariant net}, since it uses only the half-sided modular geometry.
+(The \emph{optimality} clause is not proved --- see N1 below.)
+\item[P8.] \textbf{(\NVII)} Lemma 2.1 (positive collar), Lemma 3.1 (derivation tangents), Lemma 4.1
+($\Wh(k)=\frac c{24\pi}\frac{k(k^2+1)}{e^{2\pi k}-1}$, recomputed), Lemma 5.1(i) (the defect kernel is $Q\mathfrak g$),
+eq.~\texttt{weights}, and both spectral integrals; hence the normalisation-independent ratio $s_2/f_2=\pi^2$.
+\item[P9.] Elementary but load-bearing: positivity $0<\eta_{\rm LX}<1$; $\CMI=\frac r6\frac{ac}{b^2}+O(b^{-3})$;
+$\CMI_\beta$'s $e^{-2\pi b/\beta}$ shielding; $c_{\rm M}(R)\ge c_{\rm E}(R)$ from the entropic $c$-theorem;
+$\int p(t)dt=1$; the fidelity--norm inequality chain.
+\end{enumerate}
+
+\subsection{Proved modulo clearly stated lemmas}
+\begin{enumerate}[leftmargin=1.7em]
+\item[M1.] \textbf{(\NIV{} \S10)} $\overline\beta=\int p(t)\overline\beta_{s_t}dt$ is a normal UCP channel and
+$\Fid(\omega,\omega\circ\overline\beta)\ge e^{-\CMI/2}=\eta^{r/12}$ at zero collar --- \emph{modulo} ultraweak
+measurability of $t\mapsto\overline\beta_{s_t}(x)$ (R10) and the Kaplansky step inside Lemma 10.1.
+\item[M2.] \textbf{(\NV{} Thm 3.1)} The determinant representation of $\Fid$ and $D$ as monotone limits, with each
+finite term a rigorous one-sided bound --- \emph{modulo} the precise hypotheses of Araki's martingale convergence
+(R11) (the fidelity half is covered by \NIV{} Lem.~10.1).
+\item[M3.] \textbf{(\NVII{} Thm 5.2)} For the free fermion, $g_B=\frac{2r}{3\pi^2}$ and $g_{\rm KM}=\frac r6$, i.e.\
+$f_2=\frac r{12\pi^2}$, $s_2=\frac r{12}$ \emph{as quantum Fisher / Kubo--Mori coefficients of the first-order defect}
+--- \emph{modulo} Lemma 5.1(ii) and the integral eq.~\texttt{V}.
+\textbf{This audit reproduced both independently to 10--16 digits}, so the risk here is low; they nevertheless remain
+unproved, and the note's own displayed reduction contains a factor-4 slip (R6).
+\item[M4.] \textbf{(\NVII{} Thm A as stated)} $\lim_{\zz\to0}\Phi/\zz^2=\frac r{12\pi^2}$ --- \emph{modulo} M3
+\emph{and} the interchange of the compression limit with the second-order expansion, i.e.\ \NV{} Cor.~4.2 (R2).
+\item[M5.] \textbf{(\NVII{} Thm B, $=$ \NVI{} Conj.~2.1)} The same with $r\to c$ for every diffeomorphism covariant net
+--- \emph{modulo} Lemma 3.2, which is unproved \emph{and whose stated hypothesis $\Omega\in D(A)$ fails in the intended
+application} (R1).  Until Lemma 3.2 is restated as a quadratic-form statement, ``modulo a clearly stated lemma'' is
+generous: the lemma as stated cannot be applied.
+\end{enumerate}
+
+\subsection{Numerical}
+\begin{enumerate}[leftmargin=1.7em]
+\item[N1.] $f_2=0.008444(10)$, $s_2=0.0834(5)$, $\Phi(1/15)=3.517(3)\times10^{-5}$, and Tables 6.1--6.3 of \NV{}
+(including the ratio $(-2\log\Fid)/\CMI\approx0.20\zz$, i.e.\ ``the CMI bound is never close to saturation'').
+Caveat R12 on the error bars; caveat R4 on the tail correction folded into every value.
+\item[N2.] The monotonicity of $\Phi$ in $\zz$ (\NV{} Cor.~5.1), hence ``the geometric compression $t\to+\infty$ is the
+best rotated Petz map'' and ``the ordinary Petz map is worse by a factor 4''.
+\item[N3.] The exponent stall of Prop.~4.1's UV law ($1.06$ rather than $1$).
+\item[N4.] \NVII{} Lemma 5.1(ii) and eq.~\texttt{V} (M3); reproduced independently here.
+\item[N5.] The comparison with VWZ: $8f_2=0.0676$ vs.\ their $f_2^{\rm VWZ}\approx0.070$ ($4\%$); $8s_2=0.667$ vs.\
+$d_1\approx0.56$ ($20\%$); the small-$\eta$ exponents $p\approx2.0,1.9,1.7,1.2$ at $\lambda=0,0.5,1,1.5$
+(all three VWZ numbers checked against the source).
+\item[N6.] \NV{} Remark 3.3 (``a trap''): the naive $\mathrm{diag}(\widehat q)-\widehat D$ loses positivity.
+\end{enumerate}
+
+\subsection{Conjectural}
+\begin{enumerate}[leftmargin=1.7em]
+\item[C1.] $\CMI=-\frac{c_{\rm chiral}}6\log(1-x)$ for general rational conformal nets (LX Rmk 4.3;
+\NI{} scope box; \NIII{} eq.~\texttt{general-\allowbreak chiral}).
+\item[C2.] The universal coefficients $f_2=\frac c{12\pi^2}$, $s_2=\frac c{12}$ beyond free fields
+(\NVI{} Conj.~2.1 $=$ \NVII{} Thm B).  \emph{Its ratio $\pi^2$ is on much firmer ground than its normalisation.}
+\item[C3.] Existence of the zero-collar recovery map for general diffeomorphism covariant nets via the
+Weil--Petersson / energy-compactness route, and $\Fid\ge|\langle\Omega,\Psi_s\rangle|$ through the universal Liouville
+action (\NVI{} Problem 3.1, Conj.~3.2, Routes A/B; \NIII{} Target 2.1).
+\item[C4.] $-\log F_{\rm opt}\asymp\CMI^2/c$ and optimality over all channels $B\to BC$
+(\NIII{} Conj.~4.1; \NVI{} P4).  Even for the free fermion, whether \emph{any} channel beats $\Phi(z)$ is open.
+\item[C5.] The large-cross-ratio law $\Phi(\zz)\simeq\frac c{18}\log\zz$ (\NVI{} P3; VWZ eq.~(2.16)).
+\item[C6.] Everything programmatic in \NIII: the Markov $c$-function and its monotonicity, the geometric
+classification of exact Markov configurations, the Markov susceptibility $\chi_{\rm M}$, KMS states, sectors and the
+recovery holonomy, multi-interval networks.
+\end{enumerate}
+
+\subsection{One-paragraph verdict}
+The chain \NI$\to$\NII$\to$\NIV{} is sound and its endpoint --- \emph{an explicit, exactly computed, normal zero-collar
+Petz recovery homomorphism for the free chiral fermion, with the trace-norm identity
+$\|Q_I-\widetilde Q_s\|_1=\frac r{2\pi}\log(1+\zz)$} --- is a genuine theorem whose every step this audit could
+reproduce.  \NV{} converts it into numbers that are almost certainly right but are labelled with more confidence than
+their derivation (one ``proof sketch'', one heuristic corollary, one extrapolation) supports.  \NVII{} then explains
+those numbers, and its explanation is beautiful and, for the free fermion, very probably correct --- but ``Theorem A''
+is at present a numerically verified identity plus a heuristic interchange, and ``Theorem B'' rests on a lemma whose
+hypotheses its own application violates.  The single highest-value repair is R1 (a form-domain second-variation lemma);
+the cheapest are R3, R5, R6 and the two notational collisions C1--C2.
+
+\end{document}

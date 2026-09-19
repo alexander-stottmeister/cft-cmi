@@ -1,0 +1,912 @@
+\documentclass[11pt]{article}\input{rigor_preamble}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily\footnotesize,breaklines=true,frame=leftline,framesep=6pt,
+        xleftmargin=10pt,columns=fullflexible,numbers=left,numberstyle=\tiny\color{gray},
+        escapeinside={(*@}{@*)}}
+\newcommand{\file}[1]{\texttt{\detokenize{#1}}}
+\newcommand{\Qt}{\widetilde Q}\newcommand{\Dh}{\widehat D}\newcommand{\kmax}{\kappa_{\max}}
+\newcommand{\kc}{\kappa_c}
+\title{Referee check of \emph{Fidelity of the recovered quasi-free state}, \S6 (Numerical results),\\
+       \file{fidelity_tables.tex}, and the scripts in \file{numerics/}}
+\author{Adversarial numerical-analysis audit (V4)}\date{}
+\begin{document}\maketitle
+
+\begin{abstract}\noindent
+This document verifies, in Lamport style, (i) the formulas that the numerics in
+\file{cft_cmi/numerics/} are supposed to implement and (ii) the code that implements them, and it
+re-derives every number quoted in \S6 and in \file{fidelity_tables.tex}.  The headline results of
+\S6 survive: an \emph{independent} root-fidelity evaluation reproduces
+$\Phi(1/15)_{\rm raw}=3.432123\times10^{-5}$ and $\Phi(1/15)_{\rm cor}=3.519443\times10^{-5}$ to all
+printed digits, the defect matrix is confirmed entrywise against a closed form obtained
+independently in \file{rigor/kernel_identity.tex}, and the extrapolated $f_2$ agrees with the
+analytic $1/(12\pi^2)$ to $1.5\times10^{-7}$.  Four defects are recorded: a genuine
+\emph{basis inconsistency} between \file{compression_box.py} (centred box modes) and
+\file{defect_matrix.py} (uncentred box modes), which voids the ``rigorous lower bound'' claim as
+stated although it moves $\Phi$ only by $4.8\times10^{-5}$ relative; a false statement in \S3.1
+about the spectrum of $Q_N$, contradicted by \S6 itself and by the code's own output; a
+non-monotone convergence table presented as monotone; and a factor-$2$ error in \S7.2.  The tail
+correction $\zeta^2/(15\kc^2)$ is derived and found to be right in structure but biased by
+$10$--$50\%$ at $\eps=10^{-8}$, so that the ``$1.4\times10^{-4}$ agreement'' advertised as its
+validation is a cancellation of two errors.
+\end{abstract}
+
+\tableofcontents
+\clearpage
+
+\section{Scope, conventions, and what was executed}\label{sec:scope}
+
+\paragraph{Object of the audit.}  \S6 (\file{fidelity_recovered_quasifree.tex}, lines 444--457), the
+generated \file{fidelity_tables.tex}, the theory of \S\S1--5 in so far as it fixes the formulas the
+code must implement (\S3.1 ``The box compression used in the numerics'', \S4.2 Proposition~4.2), and
+the scripts \file{defect_matrix.py}, \file{compression_box.py}, \file{fidelity_flint.py},
+\file{fidelity_hp.py}, \file{uv_tail_diagnostic.py}, \file{uv_tail_v2.py}, \file{test_formula.py},
+\file{test_pipeline.py}, \file{make_tables.py}, \file{line_so.py}, \file{verify_normalization.py},
+together with \file{results_final.txt}, \file{results_L120.txt}, \file{results_hp.txt},
+\file{results_A.txt}, \file{line_so.txt}, \file{batch*.log}, \file{results_normalization.txt}.
+
+\paragraph{Conventions fixed once.}  Throughout, $a=1$, $L=2$, $r=1$, $\zeta=as/(a+L)=s/3$;
+\begin{equation}\label{eq:conv}
+ \xi=\log\frac{x+a}{L-x},\quad \beta=\frac{(x+a)(L-x)}{a+L}=\frac{dx}{d\xi},\quad
+ \xi_0=\log\frac aL,\quad \eta:=\xi-\xi_0,
+\end{equation}
+box $B_\Lambda=[\xi_0-\Lambda/2,\xi_0+\Lambda/2]$, $k_j=2\pi j/\Lambda$, $\kappa_j=2\pi k_j=4\pi^2j/\Lambda$,
+$\Delta\kappa=4\pi^2/\Lambda$.  Two orthonormal bases of $L^2(B_\Lambda)$ occur and \emph{must be
+distinguished}:
+\begin{equation}\label{eq:bases}
+ e_j(\xi)=\Lambda^{-1/2}e^{ik_j\xi}\mathbf 1_{B_\Lambda}\quad(\text{``uncentred''}),
+ \qquad
+ \check e_j(\xi)=\Lambda^{-1/2}e^{ik_j(\xi-\xi_0)}\mathbf 1_{B_\Lambda}\quad(\text{``centred''}),
+\end{equation}
+related by the diagonal unitary $U=\operatorname{diag}(e^{-ik_j\xi_0})$: for any operator $X$,
+$\langle e_j,Xe_l\rangle=\bigl(U\,[\langle\check e_j,X\check e_l\rangle]\,U^*\bigr)_{jl}$.
+For $a=1,L=2$ one has $\xi_0=-\log2=-0.6931$, so $U\neq1$.
+
+\paragraph{Executed.}  All numbers below were produced with
+\file{/private/tmp/.../scratchpad/venv/bin/python} (numpy 2.5.2, scipy 1.18.1, mpmath 1.3.0,
+python-flint 0.9.0) and the scripts written for this audit,
+\file{rigor/v4_qbox.py}, \file{rigor/v4_defect.py}, \file{rigor/v4_fid.py},
+\file{rigor/v4_fast.py}, \file{rigor/v4_tail.py}, \file{rigor/v4_misc.py},
+\file{rigor/v4_endpoint.py}.  The stored \file{Dhat_*.npz} were re-generated from
+\file{defect_matrix.py} and reproduced to $5\times10^{-19}$, so the archived matrices are the
+output of the archived script.
+
+\section{The compressed vacuum symbol}\label{sec:qbox}
+
+\begin{lemma}[Box compression of the thermal kernel]\label{lem:qbox}
+Let $\widetilde q(\xi,\xi')=\tfrac12\delta(\xi-\xi')-\frac i{4\pi}\operatorname{PV}\frac1{\sinh\frac{\xi-\xi'}2}$
+be the kernel \eqref{eq:conv} of $Q$ in the modular coordinate.  In the \emph{centred} basis
+$\check e_j$ of \eqref{eq:bases},
+\begin{align}
+ \check Q_{jj}&=\frac12-\frac1{2\pi\Lambda}\int_0^\Lambda\frac{(\Lambda-t)\sin(k_jt)}{\sinh(t/2)}\,dt,
+ \label{eq:qdiag}\\
+ \check Q_{jl}&=-\frac{(-1)^{j-l}}{2\pi\Lambda\,(k_j-k_l)}\int_0^\Lambda
+        \frac{\cos(k_jt)-\cos(k_lt)}{\sinh(t/2)}\,dt\qquad(j\neq l),\label{eq:qoff}
+\end{align}
+both integrands being regular at $t=0$, with $\lim_{t\to0}\frac{(\Lambda-t)\sin(k_jt)}{\sinh(t/2)}=2\Lambda k_j$.
+In the \emph{uncentred} basis $e_j$ the same expressions carry the extra factor $e^{-i(k_j-k_l)\xi_0}$.
+\end{lemma}
+
+\lstep{1}{1}{\ldefine $T_{jl}:=\langle\check e_j,(Q-\tfrac12)\check e_l\rangle
+ =-\frac i{4\pi\Lambda}\operatorname{PV}\!\!\iint_{[-\Lambda/2,\Lambda/2]^2}\!\!
+ \frac{e^{-ik_ja+ik_lb}}{\sinh\frac{a-b}2}\,da\,db$, and
+ $\langle\check e_j,\tfrac12\check e_l\rangle=\tfrac12\delta_{jl}$.}
+\lby{\eqref{eq:bases}, the substitution $a=\xi-\xi_0$, $b=\xi'-\xi_0$ (which maps $B_\Lambda$ onto
+ $[-\Lambda/2,\Lambda/2]$), and
+ $\Lambda^{-1}\int_{-\Lambda/2}^{\Lambda/2}e^{i(k_l-k_j)a}da=\delta_{jl}$ because
+ $k_l-k_j=2\pi(l-j)/\Lambda$}
+
+\lstep{1}{2}{The Fourier symbol of $\widetilde q$ is $\widehat q(k)=1/(1+e^{2\pi k})=1/(1+e^{\kappa})$,
+ $\kappa=2\pi k$; i.e.\ the normalisation of the $\tfrac12\delta$ and $-\frac i{4\pi}$ terms is the
+ one required by \eqref{eq:fermi} of the note.}
+\lproof
+\lstep{2}{1}{$\int_0^\infty\frac{\sin(kt)}{\sinh(bt)}dt=\frac{\pi}{2b}\tanh\frac{\pi k}{2b}$; with $b=\tfrac12$,
+ $\int_0^\infty\frac{\sin(kt)}{\sinh(t/2)}dt=\pi\tanh(\pi k)$.}
+\lby{Gradshteyn--Ryzhik 3.981.1}
+\lstep{2}{2}{$\operatorname{PV}\int_{\mathbb R}\frac{e^{-ikt}}{\sinh(t/2)}dt=-2i\pi\tanh(\pi k)$,
+ because the $\cos$ part is an odd PV integral and vanishes.}
+\lby{$\langle2\rangle1$}
+\lstep{2}{3}{Hence the symbol is $\tfrac12-\frac i{4\pi}\bigl(-2i\pi\tanh(\pi k)\bigr)
+ =\tfrac12\bigl(1-\tanh(\pi k)\bigr)=\frac1{1+e^{2\pi k}}$.}
+\lby{$\langle2\rangle2$}
+\lqed{2}{4}\lby{$\langle2\rangle3$}
+
+\lstep{1}{3}{With $t=a-b$ and $b$ ranging over an interval of length $\Lambda-|t|$,
+ $T_{jl}=-\frac i{4\pi\Lambda}\operatorname{PV}\!\int_{-\Lambda}^{\Lambda}\!dt\,
+  \frac{e^{-ik_jt}}{\sinh(t/2)}\,\Xi_{jl}(t)$, $\ \Xi_{jl}(t)=\int_{b_-(t)}^{b_+(t)}e^{-i\Delta b}db$,
+  $\Delta:=k_j-k_l$, $b_\pm$ as in $\langle1\rangle4$.}
+\lby{Fubini for the (absolutely convergent, after the PV pairing) $t$-slicing of the square, and
+ $e^{-ik_ja+ik_lb}=e^{-ik_jt}e^{-i\Delta b}$}
+
+\lstep{1}{4}{$\Xi_{jj}(t)=\Lambda-|t|$, and for $j\neq l$,
+ $\Xi_{jl}(t)=(-1)^{j-l}\,\operatorname{sgn}(t)\,\dfrac{1-e^{i\Delta t}}{i\Delta}$.}
+\lproof
+\lstep{2}{1}{For $t>0$: $b\in[-\Lambda/2,\Lambda/2-t]$, so
+ $\Xi_{jl}=\bigl(e^{-i\Delta(\Lambda/2-t)}-e^{i\Delta\Lambda/2}\bigr)/(-i\Delta)$.}
+\lby{elementary integration}
+\lstep{2}{2}{$e^{\pm i\Delta\Lambda/2}=e^{\pm i\pi(j-l)}=(-1)^{j-l}$.}
+\lby{$\Delta\Lambda/2=\pi(j-l)$}
+\lstep{2}{3}{Hence for $t>0$, $\Xi_{jl}=(-1)^{j-l}(1-e^{i\Delta t})/(i\Delta)$; the case $t<0$ gives
+ the same with $i\Delta\to-i\Delta$, i.e.\ the factor $\operatorname{sgn}(t)$.}
+\lby{$\langle2\rangle1$, $\langle2\rangle2$ and the same computation on $b\in[-\Lambda/2-t,\Lambda/2]$}
+\lqed{2}{4}\lby{$\langle2\rangle3$; the case $j=l$ is the length of the $b$-interval}
+
+\lstep{1}{5}{$T_{jj}=-\frac1{2\pi\Lambda}\displaystyle\int_0^\Lambda\frac{(\Lambda-t)\sin(k_jt)}{\sinh(t/2)}dt$,
+ which is \eqref{eq:qdiag}.}
+\lproof
+\lstep{2}{1}{$(\Lambda-|t|)\cos(k_jt)/\sinh(t/2)$ is odd, so its PV integral over $[-\Lambda,\Lambda]$
+ vanishes; $-i(\Lambda-|t|)\sin(k_jt)/\sinh(t/2)$ is even.}
+\lby{parity of $\sinh$, $\sin$, $\cos$}
+\lstep{2}{2}{Hence $\operatorname{PV}\int_{-\Lambda}^\Lambda(\Lambda-|t|)e^{-ik_jt}/\sinh(t/2)dt
+ =-2i\int_0^\Lambda(\Lambda-t)\sin(k_jt)/\sinh(t/2)dt$.}
+\lby{$\langle2\rangle1$}
+\lstep{2}{3}{$-\frac i{4\pi\Lambda}\cdot(-2i)=-\frac1{2\pi\Lambda}$.}
+\lby{arithmetic}
+\lqed{2}{4}\lby{$\langle1\rangle3$, $\langle2\rangle2$, $\langle2\rangle3$}
+
+\lstep{1}{6}{$T_{jl}=-\dfrac{(-1)^{j-l}}{2\pi\Lambda\Delta}\displaystyle\int_0^\Lambda
+ \frac{\cos(k_jt)-\cos(k_lt)}{\sinh(t/2)}dt$ for $j\neq l$, which is \eqref{eq:qoff}.}
+\lproof
+\lstep{2}{1}{$e^{-ik_jt}(1-e^{i\Delta t})=e^{-ik_jt}-e^{-ik_lt}$.}
+\lby{$\Delta=k_j-k_l$}
+\lstep{2}{2}{$\operatorname{sgn}(t)\bigl(\cos k_jt-\cos k_lt\bigr)/\sinh(t/2)$ is even and
+ $\operatorname{sgn}(t)\bigl(\sin k_jt-\sin k_lt\bigr)/\sinh(t/2)$ is odd.}
+\lby{parity}
+\lstep{2}{3}{Hence the $t$-integral equals $\frac{(-1)^{j-l}}{i\Delta}\cdot
+ 2\int_0^\Lambda(\cos k_jt-\cos k_lt)/\sinh(t/2)dt$ and no PV is needed
+ (the integrand is $O(t)$ at $0$).}
+\lby{$\langle1\rangle4$, $\langle2\rangle1$, $\langle2\rangle2$}
+\lstep{2}{4}{$-\frac i{4\pi\Lambda}\cdot\frac{2}{i\Delta}=-\frac1{2\pi\Lambda\Delta}$.}
+\lby{arithmetic}
+\lqed{2}{5}\lby{$\langle2\rangle3$, $\langle2\rangle4$}
+
+\lstep{1}{7}{$\lim_{t\to0}(\Lambda-t)\sin(k_jt)/\sinh(t/2)=\Lambda\cdot k_jt/(t/2)=2\Lambda k_j$.}
+\lby{$\sin u\sim u$, $\sinh u\sim u$}
+
+\lstep{1}{8}{In the uncentred basis the substitution of $\langle1\rangle1$ produces the extra
+ factor $e^{-i(k_j-k_l)\xi_0}$, because the defect-free kernel is translation invariant but the
+ \emph{basis functions} are not translated with the box.}
+\lby{$\langle1\rangle1$ with $e_j$ in place of $\check e_j$}
+
+\lqed{1}{9}\lby{$\langle1\rangle5$--$\langle1\rangle8$}
+
+\subsection{The code}
+
+\begin{lstlisting}[caption={\file{numerics/compression_box.py}, lines 10--23},captionpos=b]
+def Q_box(kappa, Lam, nt=400001):
+    k = kappa/(2*np.pi); N = len(k)
+    t = np.linspace(0, Lam, nt); w = np.full(nt, Lam/(nt-1)); w[0]=w[-1]=Lam/(2*(nt-1))
+    with np.errstate(divide='ignore', invalid='ignore'):
+        inv_sh = np.where(t>0, 1/np.sinh(t/2), 0.0)
+    diag = np.array([0.5 - (1/(2*np.pi*Lam))*(np.sum(w[1:]*(Lam-t[1:])*np.sin(kj*t[1:])*inv_sh[1:]) + w[0]*2*Lam*kj) for kj in k])   # t=0 limit = 2 Lam k
+    Ct = np.array([np.sum(w*(np.cos(kj*t)-1.0)*inv_sh) for kj in k])          # convergent regularized integrals
+    dk = k[:,None]-k[None,:]; sgn = (-1.0)**(np.arange(N)[:,None]-np.arange(N)[None,:])
+    with np.errstate(divide='ignore', invalid='ignore'):
+        Q = np.where(dk!=0, -sgn/(2*np.pi*Lam*dk)*(Ct[:,None]-Ct[None,:]), 0.0)
+    Q[np.arange(N), np.arange(N)] = diag
+    return Q
+\end{lstlisting}
+
+\lstep{1}{1}{The diagonal implements \eqref{eq:qdiag} with the trapezoid rule on $[0,\Lambda]$ and the
+ correct $t\to0$ endpoint value $2\Lambda k_j$ of $\langle1\rangle7$ (Lemma~\ref{lem:qbox}).}
+\lby{line 6 of the listing; \file{inv_sh} is set to $0$ at $t=0$ and the endpoint contributes
+ $w_0\cdot2\Lambda k_j$}
+\lstep{1}{2}{The off-diagonal implements \eqref{eq:qoff}: $\int_0^\Lambda(\cos k_jt-\cos k_lt)/\sinh(t/2)dt
+ =C_j-C_l$ with $C_j=\int_0^\Lambda(\cos k_jt-1)/\sinh(t/2)dt$, each $C_j$ being separately convergent
+ at $t=0$ ($O(t)$ integrand), whereas $\cos(k_jt)/\sinh(t/2)$ alone is not.}
+\lby{line 7; the ``$-1$'' cancels between $C_j$ and $C_l$, so the difference is unchanged}
+\lstep{1}{3}{The sign $(-1)^{j-l}$ is implemented from the \emph{array} indices, which equal $j-l$ up
+ to the common shift $-M$; $(-1)^{(j-M)-(l-M)}=(-1)^{j-l}$.}
+\lby{line 8; \file{np.arange(N)} runs over $j+M$}
+\lstep{1}{4}{The prefactor $-1/(2\pi\Lambda(k_j-k_l))$ matches \eqref{eq:qoff}.}
+\lby{line 10}
+\lstep{1}{5}{The result is a real symmetric matrix: the $\xi_0$ phase of $\langle1\rangle8$ is
+ \emph{absent}, so \file{Q_box} returns the matrix in the \emph{centred} basis $\check e_j$, not in
+ the basis $e_j=\Lambda^{-1/2}e^{ik_j\xi}\mathbf1$ written in \S3.1 of the note.}
+\lby{lines 6--11 contain no reference to $\xi_0=\log(a/L)$; verified numerically in
+ $\langle1\rangle6$}
+\lstep{1}{6}{Numerical confirmation (\file{rigor/v4_qbox.py}): an independent Plancherel evaluation
+ $\check Q_{jl}=\frac1{2\pi}\int dk\,\widehat q(k)\overline{\widehat{e_j}(k)}\widehat{e_l}(k)$
+ with $\widehat{e_j}(k)=\Lambda^{-1/2}e^{i(k_j-k)\xi_0}\,2\sin\bigl((k_j-k)\Lambda/2\bigr)/(k_j-k)$,
+ Gauss--Legendre panels of width $\frac14\cdot2\pi/\Lambda$ on $|k|\le150$ plus the analytic
+ $|k|>K$ tail $\frac{(-1)^{j-l}}{\pi\Lambda}\frac{\log\frac{k_j+K}{k_l+K}}{k_j-k_l}$, agrees with
+ \file{Q_box} to $2.6\times10^{-9}$ \emph{when the $\xi_0$ phase is set to zero}, and disagrees by
+ $9.4\times10^{-3}$ (with a non-zero imaginary part) when the true $\xi_0=-\log2$ is used.}
+\lby{run of \file{rigor/v4_qbox.py}}
+\lqed{1}{7}\lby{$\langle1\rangle1$--$\langle1\rangle6$}
+
+\begin{verdictok}
+Equations \eqref{eq:qdiag}--\eqref{eq:qoff} (= eq.~(3.5) of the note, ``\file{eq:Qbox}'') are
+\textbf{correct}, including the $t\to0$ endpoint value $2\Lambda k_j$, the sign $(-1)^{j-l}$, the
+factor $1/(k_j-k_l)$ and the use of the regularised differences $C_j-C_l$, and
+\file{compression_box.Q_box} implements them faithfully.  Trapezoid accuracy: the entries change by
+$4.4\times10^{-11}$ between $n_t=4\times10^5$ and $1.6\times10^6$ and by $7.0\times10^{-10}$ between
+$10^5$ and $4\times10^5$, i.e.\ clean $O(h^2)$ convergence with an $O(5\times10^{-11})$ residual
+error at the default $n_t$.
+\end{verdictok}
+
+\begin{verdictgap}
+\textbf{Basis inconsistency (\S3.1, displayed definition of $\mathfrak h_N$, line 329 of
+\file{fidelity_recovered_quasifree.tex}).}  The note defines
+``$e_j=\Lambda^{-1/2}e^{ik_j\xi}\mathbf 1_{[\xi_0-\Lambda/2,\xi_0+\Lambda/2]}$'' and then states
+\eqref{eq:qdiag}--\eqref{eq:qoff} for it.  In that basis the correct off-diagonal carries the extra
+factor $e^{-i(k_j-k_l)\xi_0}$ (Lemma~\ref{lem:qbox}, $\langle1\rangle8$), which for $a=1,L=2$ is not
+$1$.  Both the note and \file{Q_box} give the \emph{centred}-basis matrix.  Taken alone this is only
+a notational slip; combined with \S\ref{sec:defect} it is not.  Fix: replace $e^{ik_j\xi}$ by
+$e^{ik_j(\xi-\xi_0)}$ in the definition of $\mathfrak h_N$.
+\end{verdictgap}
+
+\begin{verdictbreak}
+\textbf{``\ldots which keeps all eigenvalues of $Q_N$ and $\Qt_N$ at distance $\gtrsim10^{-4}$ from
+$0$ and $1$; this is what makes double-precision evaluation of Theorem~2.1 stable.''}
+(\S3.1, last sentence, line 336.)  This is false, and the note contradicts it in \S6
+(``The eigenvalues of $Q_N$ reach $e^{-\kmax}$, which double precision cannot resolve'').
+Measured (\file{rigor/v4_fast.py}):
+\[
+\begin{array}{lcc}
+\text{$\Lambda=60$, }\kmax=29.61: & \min\operatorname{spec}Q_N=2.775\times10^{-13},
+   & 1-\max\operatorname{spec}Q_N=2.773\times10^{-13},\\
+\text{$\Lambda=120$, }\kmax=44.74: & \min\operatorname{spec}Q_N=-3.56\times10^{-16},
+   & 1-\max\operatorname{spec}Q_N=-2.00\times10^{-15}.
+\end{array}
+\]
+The box edge raises the \emph{diagonal} entries to $\approx(\pi\Lambda k_j)^{-1}$ (verified: ratio
+$1.004$ at $\kmax$), but not the eigenvalues, which still fall off like $e^{-|\kappa|}$.  The same
+false claim is in the docstring of \file{compression_box.py} (``Double precision suffices
+(eigenvalues of $Q_N$ are bounded away from 0 and 1 by the box-edge occupation $\sim1/(\pi\Lambda k)$)''),
+and its consequence is visible in \file{results_batch3.txt}, where the double-precision full
+compression returns $-\log F=-8.50$, $-9.36$, $+3.06,\dots$ --- i.e.\ total nonsense --- for exactly
+these matrices.  The assertion must be deleted; \S6's sub-compression is not a convenience but a
+necessity.
+\end{verdictbreak}
+
+\section{The defect matrix}\label{sec:defect}
+
+\begin{lemma}[Box matrix elements of $\delta_s$]\label{lem:defect}
+With $\widetilde D_s(\xi,\xi')=\sqrt{\beta(x)\beta(y)}\,\delta_s(x,y)$ and $\delta_s$ as in
+eq.~(1.2) of the note, in the centred basis
+\begin{equation}\label{eq:Dbox}
+ \check D_{jl}=\frac i{2\pi\Lambda}\int_0^{\Lambda/2}\!\!dp\int_0^{\Lambda/2}\!\!dp'\,
+   e^{ik_jp}\sqrt{\beta(x_p)}\;R_s(u_p,v_{p'})\;\sqrt{\beta(y_{p'})}\,e^{ik_lp'}\;+\;\mathrm{h.c.},
+\end{equation}
+where $x_p=x(\xi_0-p)$, $y_{p'}=x(\xi_0+p')$, $u_p=-x_p>0$, $v_{p'}=y_{p'}>0$.  Moreover
+$\widetilde D_s$ depends on $(a,L,s)$ only through $\zeta$ and $\eta=\xi-\xi_0$; at first order in $s$,
+\begin{equation}\label{eq:D1kernel}
+ \widetilde D^{(1)}(\eta,\eta')=\frac i{2\pi}\,\zeta\;
+   \Bigl[-\frac{\sinh\frac\eta2\,\sinh\frac{\eta'}2}{\sinh^2\frac{\eta-\eta'}2}\Bigr].
+\end{equation}
+\end{lemma}
+
+\lstep{1}{1}{$x+a=\frac{(a+L)e^\xi}{1+e^\xi}$, $L-x=\frac{a+L}{1+e^\xi}$, hence
+ $\beta=\frac{(a+L)e^\xi}{(1+e^\xi)^2}$ and $\sqrt\beta=\frac{\sqrt{a+L}\,e^{\xi/2}}{1+e^\xi}$.}
+\lby{$x=(Le^\xi-a)/(1+e^\xi)$ from \eqref{eq:conv}}
+\lstep{1}{2}{$u/\sqrt\beta=-2L e^{\xi_0/2}\sinh\frac{\xi-\xi_0}2/\sqrt{a+L}$ and
+ $v/\sqrt{\beta'}=+2Le^{\xi_0/2}\sinh\frac{\xi'-\xi_0}2/\sqrt{a+L}$, hence
+ $uv/\sqrt{\beta\beta'}=-4\beta_0\sinh\frac\eta2\sinh\frac{\eta'}2$, $\beta_0=aL/(a+L)$.}
+\lby{$\langle1\rangle1$, $a=Le^{\xi_0}$, and $e^{\xi_0}\cdot L^2/(a+L)=aL/(a+L)$}
+\lstep{1}{3}{$u+v=y-x=2\sqrt{\beta\beta'}\sinh\frac{\xi'-\xi}2$.}
+\lby{eq.~(3.4) of the note, ``$(x-y)/\sqrt{\beta(x)\beta(y)}=2\sinh\frac{\xi-\xi'}2$'', verified from
+ $\langle1\rangle1$}
+\lstep{1}{4}{Therefore $\sqrt{\beta\beta'}\,\frac{uv}{(u+v)^2}
+ =\frac{uv/\sqrt{\beta\beta'}}{4\sinh^2\frac{\eta-\eta'}2}
+ =-\beta_0\frac{\sinh\frac\eta2\sinh\frac{\eta'}2}{\sinh^2\frac{\eta-\eta'}2}$, and with
+ $R_s=\frac sL\frac{uv}{(u+v)^2}+O(s^2)$ and $s\beta_0/L=\zeta$ this is \eqref{eq:D1kernel}.}
+\lby{$\langle1\rangle2$, $\langle1\rangle3$, and $R_s(u,v)=\frac{suv}{(u+v)(L(u+v)+suv)}$}
+\lstep{1}{5}{\eqref{eq:Dbox} is the definition of the matrix element of the block-off-diagonal
+ operator $\delta_s=E_A\delta_sE_D+E_D\delta_sE_A$ in the centred basis, after the substitution
+ $\xi=\xi_0-p$ on $A$ and $\xi'=\xi_0+p'$ on $D$ (note $d\xi=-dp$ but the orientation of the
+ interval is reversed as well, so the sign cancels), and the box restricts $p,p'\le\Lambda/2$.}
+\lby{$A=\{\xi<\xi_0\}$, $D=\{\xi>\xi_0\}$ in the modular coordinate; $M+M^\dagger$ is the matrix of
+ a block-off-diagonal Hermitian operator whose $A\times D$ block has matrix $M$}
+\lqed{1}{6}\lby{$\langle1\rangle4$, $\langle1\rangle5$}
+
+\subsection{The code}
+
+\begin{lstlisting}[caption={\file{numerics/defect_matrix.py}, lines 19--51 (abridged)},captionpos=b,firstnumber=19]
+    xg, wg = np.polynomial.legendre.leggauss(ngl)
+    def panels(lo, hi, width):
+        edges = np.linspace(lo, hi, int(np.ceil((hi-lo)/width))+1)
+        nodes = ((edges[1:]+edges[:-1])/2)[:,None] + ((edges[1:]-edges[:-1])/2)[:,None]*xg[None,:]
+        wts = ((edges[1:]-edges[:-1])/2)[:,None]*wg[None,:]
+        return nodes.ravel(), wts.ravel()
+    sig, wsig = panels(np.log(1e-12), np.log(0.2), 0.5)
+    p1, w1 = np.exp(sig), wsig*np.exp(sig)                     # dp = p dsigma
+    p2, w2 = panels(0.2, Lam/2, 0.25)
+    p = np.concatenate((p1, p2)); w = np.concatenate((w1, w2))
+    xA = x_of(xi0 - p); yD = x_of(xi0 + p)                 # A side xi=xi0-p, D side xi'=xi0+p
+    sa = np.sqrt(beta(xA))*w; sd = np.sqrt(beta(yD))*w
+    M = int(np.floor(kmax_kappa/(2*np.pi) * Lam/(2*np.pi)))  # k_j = 2 pi j/Lam, kappa_max = 2 pi k_max
+    j = np.arange(-M, M+1); k = 2*np.pi*j/Lam
+    EA = np.exp(-1j*np.outer(k, xi0 - p))     # (N, n)
+    ED = np.exp( 1j*np.outer(k, xi0 + p))     # (N, n)
+    ...
+    J /= Lam
+    Dhat = (1j/(2*np.pi))*J; Dhat = Dhat + Dhat.conj().T
+\end{lstlisting}
+
+\lstep{1}{1}{\textbf{Modular coordinate.}  \file{x_of(xi)=(L*np.exp(xi)-a)/(1+np.exp(xi))} inverts
+ $\xi=\log\frac{x+a}{L-x}$, and \file{beta(x)=(x+a)*(L-x)/(a+L)} is $\beta$; \file{xi0=np.log(a/L)}.}
+\lby{\eqref{eq:conv}}
+\lstep{1}{2}{\textbf{Kernel.}  \file{'exact'} returns $R_s(u,v)=\frac{suv}{(u+v)(L(u+v)+suv)}$ and
+ \file{'first'} returns $\frac sL\frac{uv}{(u+v)^2}$, matching eq.~(1.2) and its $O(s)$ part.  The
+ arguments are $u=-x_A>0$, $v=y_D>0$, as required by $\Delta_s(-u,v)=\frac i{2\pi}R_s(u,v)$.}
+\lby{lines 16--18 and 42 of \file{defect_matrix.py}}
+\lstep{1}{3}{\textbf{Jacobian of the log panels.}  On the corner region $\sigma=\log p$ the code sets
+ \file{p1=np.exp(sig)} and \file{w1=wsig*np.exp(sig)}, i.e.\ $dp=p\,d\sigma$: \emph{correct}.}
+\lby{line 29 of \file{defect_matrix.py}}
+\lstep{1}{4}{\textbf{Panel edges and weights.}  \file{panels(lo,hi,width)} uses
+ $n_e=\lceil(hi-lo)/\mathrm{width}\rceil$ equal panels, so the realised width is
+ $(hi-lo)/n_e\le\mathrm{width}$: for the corner region $(\log0.2-\log10^{-12})/53=0.491$ and for the
+ outer region $(30-0.2)/120=0.248$ at $\Lambda=60$.  Nodes are $c_m+h_m x_g$ and weights $h_mw_g$
+ with $h_m$ the half-width: the standard affine Gauss--Legendre map, \emph{correct}.}
+\lby{lines 23--27}
+\lstep{1}{5}{\textbf{Phases.}  \file{EA[j,\cdot]}$=e^{-ik_j(\xi_0-p)}$ and
+ \file{ED[l,\cdot]}$=e^{+ik_l(\xi_0+p')}$, which is $\langle e_j,\cdot\,e_l\rangle$ in the
+ \emph{uncentred} basis of \eqref{eq:bases}: $\Dh=U\check DU^*$,
+ $U=\operatorname{diag}(e^{-ik_j\xi_0})$.  Verified numerically to $2.3\times10^{-19}$
+ (\file{rigor/v4_defect.py}).}
+\lby{lines 37--38, and $\langle1\rangle8$ of Lemma~\ref{lem:qbox}}
+\lstep{1}{6}{\textbf{Normalisation.}  \file{J /= Lam} supplies $\Lambda^{-1/2}\cdot\Lambda^{-1/2}$,
+ the product of the two box-mode normalisations: \emph{correct}.}
+\lby{line 46 and \eqref{eq:bases}}
+\lstep{1}{7}{\textbf{Assembly.}  \file{Dhat=(1j/(2*np.pi))*J; Dhat=Dhat+Dhat.conj().T} realises
+ $\frac i{2\pi}[A\times D\text{ block}]+\mathrm{h.c.}$, which is exactly the block-off-diagonal
+ $\delta_s$ of eq.~(1.2).  The result is Hermitian to machine zero ($\max|\Dh-\Dh^\dagger|=0$
+ exactly, since it is built as $X+X^\dagger$) and $\operatorname{Tr}\Dh=2.2\times10^{-19}$.}
+\lby{line 48; $\langle1\rangle5$ of Lemma~\ref{lem:defect}}
+\lstep{1}{8}{\textbf{Mode count.}  \file{M=floor(kmax/(2 pi) * Lam/(2 pi))}$=\lfloor\kmax\Lambda/4\pi^2\rfloor$
+ realises $|\kappa_j|\le\kmax$.  Checked against every archived file: $(\Lambda,\kmax)=(60,30)\to N=91$,
+ $(60,45)\to137$, $(60,60)\to183$, $(80,45)\to183$, $(80,60)\to243$, $(120,45)\to273$,
+ $(120,60)\to365$, $(120,90)\to547$ --- all agree with the $N$ column of Table~1 of the note.}
+\lby{line 34 and the headers in \file{results_final.txt}}
+\lstep{1}{9}{\textbf{Diagonal-density normalisation.}  With $\psi_\kappa$ normalised so that
+ $\int d\kappa|\psi_\kappa\rangle\langle\psi_\kappa|=1$ one has $e_j=(2\pi/\sqrt\Lambda)\psi_{\kappa_j}$
+ up to the box cutoff, hence $\langle e_j,Xe_j\rangle=\frac{4\pi^2}\Lambda X(\kappa_j,\kappa_j)
+ =\Delta\kappa\,X(\kappa_j,\kappa_j)$.  The printed
+ \file{-Dhat_diag/dkappa} is therefore exactly $-\delta_s(\kappa,\kappa)=\Qt_s(\kappa,\kappa)-q_\kappa$:
+ \emph{correct}.}
+\lby{lines 62--64; $\Delta\kappa=\kappa_1-\kappa_0=4\pi^2/\Lambda$}
+\lqed{1}{10}\lby{$\langle1\rangle1$--$\langle1\rangle9$}
+
+\subsection[Independent confirmation of the defect matrix]{Independent confirmation of $\Dh$}
+
+\lstep{1}{1}{The companion audit \file{rigor/kernel_identity.tex} proves, independently of any code,
+ that the first-order defect in the modular eigenbasis has the closed form
+ \(D^{(1)}(\kappa,\kappa')=(q_\kappa-q_{\kappa'})\,v/[u(u^2+4\pi^2)]\), $u=\kappa-\kappa'$,
+ $v=\kappa+\kappa'$, with $D^{(1)}(\kappa,\kappa)=-\kappa q_\kappa(1-q_\kappa)/(2\pi^2)$.}
+\lby{\file{rigor/kernel_identity.tex}, Theorem (boxed eq.), verified there to $30$ digits}
+\lstep{1}{2}{By $\langle1\rangle9$ of the previous list, the box prediction is
+ $|\check D^{(1)}_{jl}|=\Delta\kappa\,\zeta\,|D^{(1)}(\kappa_j,\kappa_l)|$, and $|\Dh_{jl}|=|\check D_{jl}|$
+ because $\Dh=U\check DU^*$ with $U$ diagonal unitary.}
+\lby{$\langle1\rangle5$ above}
+\lstep{1}{3}{Measured (\file{rigor/v4_fast.py}), for the archived \file{'first'} matrices at $s=1$
+ ($\zeta=1/3$): the median relative deviation of $|\Dh_{jl}|$ from the closed form is
+ $1.1\times10^{-6}$ at $\Lambda=60$, $1.8\times10^{-8}$ at $\Lambda=120$ and $1.8\times10^{-8}$ at
+ $\Lambda=240$; individual entries agree to $8$ significant digits, e.g.\
+ $|\Dh|=1.1239996851\times10^{-3}$ vs.\ $1.1239996939\times10^{-3}$ at
+ $(\kappa,\kappa')=(0.987,2.961)$, $\Lambda=120$.  The $\Lambda=60$ residual is the finite-box
+ truncation $e^{-\Lambda/4}=e^{-15}=3\times10^{-7}$ predicted by the $e^{-|\eta|/2}$ decay of
+ \eqref{eq:D1kernel}.}
+\lby{run of \file{rigor/v4_fast.py}, section (A)}
+\lstep{1}{4}{Quadrature convergence: GL$12\to$GL$16$ on the same panels changes $\Dh$ by
+ $1.30\times10^{-11}$ in $\max|\cdot|/\max|\Dh|$ and $3.08\times10^{-11}$ in the Frobenius relative
+ norm; an entirely different panelisation (GL$20$, uniform width $0.37$ in $\sigma$ down to
+ $p=10^{-14}$, no split at $p=0.2$) changes it by $8.7\times10^{-11}$.}
+\lby{run of \file{rigor/v4_defect.py}}
+\lstep{1}{5}{Trace-norm diagnostic: $\|\Dh\|_1=9.47904\times10^{-3}$ against the continuum
+ $\frac1{2\pi}\log(1+\zeta)=1.02716\times10^{-2}$, i.e.\ $92.3\%$; at $\Lambda=240$, $\kmax=60$ the
+ ratio is $96.1\%$.  This is consistent with (and only with) $\Dh$ being a genuine \emph{compression}
+ of $\delta_s$, for which $\|\Dh\|_1\le\|\delta_s\|_1$.}
+\lby{\file{batch5.log} and \file{rigor/v4_defect.py}}
+\lqed{1}{6}\lby{$\langle1\rangle1$--$\langle1\rangle5$}
+
+\begin{verdictok}
+\file{defect_matrix.py} is \textbf{correct}: modular coordinate, exact and first-order kernels, the
+$p\,d\sigma$ Jacobian on the logarithmic panels, panel edges and Gauss--Legendre weights, the
+$1/\sqrt\Lambda$ box normalisation, the $\frac i{2\pi}J+\mathrm{h.c.}$ assembly (Hermitian, traceless),
+the mode count and the diagonal-density normalisation all check out, and the resulting matrix
+reproduces an independently derived closed form to $8$ digits.  The note's statement ``$16$ nodes
+change the matrix by $3\times10^{-11}$ relative'' is confirmed \emph{in the Frobenius relative norm}
+($3.08\times10^{-11}$).
+\end{verdictok}
+
+\begin{verdictgap}
+\textbf{Basis inconsistency, continued (this is the actual defect).}  \file{Q_box} returns
+$\check Q$ (centred basis) while \file{defect_matrix.run} returns $\Dh=U\check DU^*$ (uncentred
+basis), $U=\operatorname{diag}(e^{-ik_j\xi_0})$, $\xi_0=-\log2\neq0$.  Every downstream script forms
+$Q_N-\Dh$, i.e.\ $\check Q-U\check DU^*$, which is \emph{not} the compression of $\Qt_s$ onto any
+subspace of $L^2(I)$: the correct object is $\check Q-\check D$ (or its $U$-conjugate).
+Consequences:
+\begin{itemize}[nosep,leftmargin=1.2em]
+\item The claim of \S3.1 that ``$\Qt_N=Q_N-\Dh$ is exactly the compression of $\Qt_s$'' and hence
+that every reported value is a \emph{rigorous} lower bound is, as the code stands, not established.
+\item Numerically the damage is small: at $\zeta=1/15$, $\Lambda=60$, $\kmax=30$, $\eps=10^{-8}$ we
+obtain $-\log\Fid_{\rm sub}=3.432123\times10^{-5}$ in the mixed basis (the published value) and
+$3.431959\times10^{-5}$ in the consistent centred basis, a relative shift of $4.8\times10^{-5}$ ---
+an order of magnitude below the quoted $\pm0.06\%$ spread.  The effect on $f_2$ is
+$5\times10^{-9}$ relative and on $s_2$ $3.4\times10^{-7}$.
+\item The \file{line_so.py} route is \emph{immune}, because it uses only $|\Dh_{jl}|^2$ and the exact
+Fermi weights, and $|U\check DU^*|_{jl}=|\check D_{jl}|$.  Hence $f_2$ and $s_2$ are unaffected.
+\end{itemize}
+Fix: delete \file{xi0} from \file{EA}/\file{ED} in \file{defect_matrix.py} (lines 37--38), or add the
+phase to \file{Q_box}.  Either way the published numbers change in the fifth significant digit only.
+\end{verdictgap}
+
+\section{The finite-dimensional fidelity, the sub-compression and the tail}\label{sec:fid}
+
+\subsection{Theorem 2.1 and its implementation}
+
+\begin{lstlisting}[caption={\file{numerics/fidelity_flint.py}, lines 11--31 (abridged)},captionpos=b,firstnumber=11]
+def logF_flint(w, Qt_sub, dps=40):
+    ...
+    E, V = mp.eighe(M); qt = [E[i] for i in range(n)]
+    g1h = [mp.sqrt(mp.mpf(float(x))/mp.mpf(float(1-x))) for x in w]
+    Wm = mp.matrix(n, n)
+    for l in range(n):
+        g2h = mp.sqrt(qt[l]/(1-qt[l]))
+        for i in range(n): Wm[i,l] = g1h[i]*V[i,l]*g2h
+    tau = mp.eighe(Wm*Wm.H, eigvals_only=True)
+    logF = mp.mpf(0); Ssub = mp.mpf(0)
+    for i in range(n):
+        logF += mp.log(mp.mpf(float(1-w[i])))/2 + mp.log(1-qt[i])/2 + mp.log(1+mp.sqrt(max(tau[i], mp.mpf(0))))
+        wi = mp.mpf(float(w[i])); Ssub += wi*mp.log(wi) + (1-wi)*mp.log(1-wi)
+        for l in range(n):
+            wt = abs(V[i,l])**2; Ssub -= wt*(wi*mp.log(qt[l]) + (1-wi)*mp.log(1-qt[l]))
+    return float(-logF), (float(min(qt)), float(max(qt))), n, float(Ssub)
+\end{lstlisting}
+
+\lstep{1}{1}{In the sub-compressed basis $Q_1=\operatorname{diag}(w)$ exactly, because the columns of
+ $P$ are eigenvectors of $Q_N$; hence $G_1^{1/2}=\operatorname{diag}(\sqrt{w_i/(1-w_i)})$.}
+\lby{construction of $P$ in line 55 of \file{fidelity_flint.py}}
+\lstep{1}{2}{With $Q_2=V\operatorname{diag}(\tilde q)V^\dagger$ one has
+ $G_2^{1/2}=V\operatorname{diag}(\sqrt{\tilde q_l/(1-\tilde q_l)})V^\dagger$, so
+ $X:=G_1^{1/2}G_2^{1/2}=W\,V^\dagger$ with $W_{il}=\sqrt{\tfrac{w_i}{1-w_i}}V_{il}\sqrt{\tfrac{\tilde q_l}{1-\tilde q_l}}$
+ --- exactly \file{Wm}.}
+\lby{lines 5--8 of the listing}
+\lstep{1}{3}{$T=G_1^{1/2}G_2G_1^{1/2}=XX^\dagger=WV^\dagger VW^\dagger=WW^\dagger$, so
+ $\operatorname{spec}T^{1/2}=\{\sqrt{\tau_i}\}$ with $\tau=\operatorname{spec}(WW^\dagger)$.}
+\lby{$\langle1\rangle2$, unitarity of $V$}
+\lstep{1}{4}{Hence $\log\Fid=\tfrac12\sum_i\log(1-w_i)+\tfrac12\sum_i\log(1-\tilde q_i)
+ +\sum_i\log(1+\sqrt{\tau_i})$, which is exactly $\log$ of eq.~(2.3) of the note; this is the
+ \file{logF} accumulator.}
+\lby{$\langle1\rangle3$, $\det[(1-Q_1)(1-Q_2)]^{1/2}=\prod_i\sqrt{(1-w_i)(1-\tilde q_i)}$,
+ $\det(1+T^{1/2})=\prod_i(1+\sqrt{\tau_i})$}
+\lstep{1}{5}{\file{Ssub} accumulates $\sum_iw_i\log w_i+(1-w_i)\log(1-w_i)
+ -\sum_{i,l}|V_{il}|^2\bigl[w_i\log\tilde q_l+(1-w_i)\log(1-\tilde q_l)\bigr]$, which is
+ $\Tr[Q_1(\log Q_1-\log Q_2)+(1-Q_1)(\log(1-Q_1)-\log(1-Q_2))]$, i.e.\ eq.~(2.4).}
+\lby{$(\log Q_2)_{ii}=\sum_l|V_{il}|^2\log\tilde q_l$ and $Q_1$ diagonal}
+\lstep{1}{6}{Brute-force check (\file{rigor/v4_fid.py}): for random $0<Q_1,Q_2<1$ on $n\le4$ modes,
+ the Jordan--Wigner Fock-space values $\Tr\sqrt{\sqrt{\rho_1}\rho_2\sqrt{\rho_1}}$ and
+ $\Tr\rho_1(\log\rho_1-\log\rho_2)$ agree with the three algebraic routes (the code's $T=WW^\dagger$
+ route, the $\det(S_1S_2+C_1UC_2)/\det U$ route of eq.~(2.3'), and the
+ $\det[(1-Q_1)(1-Q_2)]^{1/2}\det(1+T^{1/2})$ route) to $14$ digits:
+ e.g.\ $n=4$: brute $0.45585866838180$, A/B/C all $0.45585866838179$.}
+\lby{run of \file{rigor/v4_fid.py brute}}
+\lqed{1}{7}\lby{$\langle1\rangle1$--$\langle1\rangle6$}
+
+\begin{verdictok}
+Theorem 2.1 (both forms), Proposition 2.2, and their implementation in
+\file{fidelity_flint.logF_flint} and \file{fidelity_hp.run} are \textbf{verified}.  The
+$W$-construction, $T=WW^\dagger$, and the $\log\Fid$ sum are algebraically exact.
+\end{verdictok}
+
+\begin{verdictgap}
+\textbf{Stale docstrings and stale tests (housekeeping, but they mislead a reader reproducing the
+work).}  (i) \file{fidelity_flint.py} is titled ``rigorous compressed fidelity via spectral
+sub-compression + python-flint (200 bits)'' but uses \texttt{mpmath} at $\mathrm{dps}=40$; its
+docstring also says ``Relative entropy $S$ in double precision on the full compression'' whereas the
+committed code returns the mpmath sub-compressed $S_{\rm sub}$.  (ii) \file{results_final.txt} was
+produced by an \emph{earlier} version (it prints \texttt{S=} rather than \texttt{S\_sub=\ldots
++tail=}), so the committed script does not reproduce that file; seven of its rows carry
+\texttt{S=nan} from the double-precision $\log$ of a non-positive eigenvalue.  (iii)
+\file{test_pipeline.py} and \file{test_precision.py} call \file{run(..., h=...)}, an argument that
+\file{defect_matrix.run(a,L,s,Lam,kmax_kappa,kind,ngl=12,out=None)} no longer has; both tests raise
+\texttt{TypeError} as committed.  \file{test_formula.py} does run and is the (valid) unit test of
+Theorem 2.1.
+\end{verdictgap}
+
+\subsection{Is the sub-compression a compression?}
+
+\begin{proposition}\label{prop:subcomp}
+Let $\Pi:\mathbb C^N\to L^2(I)$ be the isometry onto $\mathfrak h_N$, $Q_N=\Pi^*Q\Pi$,
+$\Qt_N=\Pi^*\Qt_s\Pi$, and let $P\in\mathbb C^{N\times n}$ have as columns an orthonormal set of
+eigenvectors of $Q_N$.  Then $P^*Q_NP$ and $P^*\Qt_NP$ are the compressions of $Q$ and $\Qt_s$ onto
+the $n$-dimensional subspace $\Pi P\,\mathbb C^n\subset L^2(I)$; in particular
+$-\log\Fid_{\rm sub}\le-\log\Fid$ and $S_{\rm sub}\le S$, and $P^*Q_NP=\operatorname{diag}(w)$ exactly.
+\end{proposition}
+\lstep{1}{1}{$\Pi P$ is an isometry $\mathbb C^n\to L^2(I)$.}
+\lby{$P^*P=1_n$, $\Pi^*\Pi=1_N$}
+\lstep{1}{2}{$(\Pi P)^*Q(\Pi P)=P^*\Pi^*Q\Pi P=P^*Q_NP$, and likewise for $\Qt_s$;
+ $P^*\Qt_NP=P^*(Q_N-\Dh)P$ \emph{provided} $\Dh$ is the matrix of $\delta_s$ in the same basis as
+ $Q_N$.}
+\lby{definition of $Q_N$, $\Qt_N$; see the caveat below}
+\lstep{1}{3}{Both are strictly between $0$ and $1$, so Theorem 2.1 applies, and Theorem 3.1's
+ monotonicity gives $\Fid_{\rm sub}\ge\Fid$, $S_{\rm sub}\le S$.}
+\lby{Theorem 3.1 of the note (fidelity nonincreasing, relative entropy nondecreasing along
+ increasing subalgebras)}
+\lstep{1}{4}{$P^*Q_NP=\operatorname{diag}(w)$ because the columns of $P$ are eigenvectors of $Q_N$.}
+\lby{spectral theorem}
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$}
+
+\begin{verdictok}
+\textbf{Yes} --- the spectral sub-compression is a genuine compression, and the code's
+$\Qt_{\rm sub}=P^\dagger(Q_N-\Dh)P$ with $Q_{1,\rm sub}=\operatorname{diag}(w_{\rm keep})$ is the
+correct pair.  \emph{Caveat:} step $\langle1\rangle2$ requires $\Dh$ and $Q_N$ in the same basis;
+as flagged in \S\ref{sec:defect} this hypothesis currently fails by the diagonal unitary $U$, so the
+``rigorous lower bound'' is established only after the one-line fix there.
+\end{verdictok}
+
+\subsection{The tail correction $\zeta^2/(15\kc^2)$}
+
+\begin{proposition}[Derivation]\label{prop:tailderiv}
+Assume (i) the modes with $|\kappa|>\kc$ are decoupled from the kept modes, (ii) they are empty
+(resp.\ full) in the vacuum, $q_\kappa\ll1$ (resp.\ $1-q_\kappa\ll1$), and (iii) they carry the
+occupation density $\frac2{15}\zeta^2|\kappa|^{-3}$ of Proposition~4.2 of the note.  Then their
+contribution to $-\log\Fid$ is $\zeta^2/(15\kc^2)$.
+\end{proposition}
+\lstep{1}{1}{For a single decoupled mode with commuting occupations $q$ and $\tilde q=q+d$,
+ $\Fid=\sqrt{q\tilde q}+\sqrt{(1-q)(1-\tilde q)}$.}
+\lby{Theorem 2.1, commuting case (last sentence of Theorem 2.1)}
+\lstep{1}{2}{With $q=0$: $\Fid=\sqrt{1-d}$ and $-\log\Fid=-\tfrac12\log(1-d)=\tfrac d2+O(d^2)$.}
+\lby{$\langle1\rangle1$}
+\lstep{1}{3}{The number of box modes in $d\kappa$ is $d\kappa/\Delta\kappa$ and each carries
+ occupation $\frac2{15}\zeta^2\kappa^{-3}\Delta\kappa$, so the discarded particle modes contribute
+ $\tfrac12\int_{\kc}^\infty\frac2{15}\frac{\zeta^2}{\kappa^3}d\kappa
+ =\frac{\zeta^2}{15}\cdot\frac1{2\kc^2}=\frac{\zeta^2}{30\kc^2}$.}
+\lby{$\langle1\rangle2$ and $\int_{\kc}^\infty\kappa^{-3}d\kappa=1/(2\kc^2)$}
+\lstep{1}{4}{By particle--hole symmetry the modes $\kappa<-\kc$ contribute the same, giving
+ $\zeta^2/(15\kc^2)$ in total.}
+\lby{Proposition 4.2, ``by particle--hole symmetry the same holds for holes''}
+\lqed{1}{5}\lby{$\langle1\rangle3$, $\langle1\rangle4$}
+
+The code implements exactly this: \file{kc = np.log((1-eps)/eps); tail = zeta**2/(15*kc**2)}
+(\file{fidelity_flint.py} line 57, \file{fidelity_hp.py} line 47), and adds \file{2*tail} to
+$S_{\rm sub}$ --- consistent with $\tfrac12\to1$ in $\langle1\rangle2$ for the relative entropy of a
+nearly empty mode, $S\approx d$.
+
+\subsubsection*{How good is it?}
+
+\lstep{1}{1}{\textbf{Hypothesis (ii) fails near $\kc$ at small $\zeta$.}  The note's own
+ Corollary 4.3 requires $\kappa>\kappa_*(\zeta)$, $\frac2{15}\zeta^2\kappa_*^{-3}=e^{-\kappa_*}$.
+ Solving numerically: $\kappa_*=15.69$ at $\zeta=1/15$, $\kappa_*=20.68$ at $\zeta=1/120$,
+ $\kappa_*=10.26$ at $\zeta=8/15$.  At $\eps=10^{-8}$, $\kc=18.42<\kappa_*(1/120)$: the
+ \emph{first three rows of Table~3 lie outside the regime in which the tail formula is valid}.}
+\lby{\file{rigor/v4_tail.py} section (F)}
+\lstep{1}{2}{\textbf{Quantitatively.}  Replacing $\langle1\rangle2$ by the exact single-mode
+ $-\log[\sqrt{q(q+d)}+\sqrt{(1-q)(1-q-d)}]$ with $q=1/(1+e^\kappa)$ and integrating from $\kc$:
+ \[
+ \begin{array}{lccc}
+   & \text{applied }\zeta^2/(15\kc^2) & \text{exact (both sides)} & \text{ratio}\\
+  \zeta=1/15,\ \eps=10^{-8} & 8.732\times10^{-7} & 7.776\times10^{-7} & 1.123\\
+  \zeta=1/15,\ \eps=10^{-11} & 4.619\times10^{-7} & 4.539\times10^{-7} & 1.018\\
+  \zeta=1/120,\ \eps=10^{-8} & 1.364\times10^{-8} & 8.724\times10^{-9} & 1.564\\
+  \zeta=1/120,\ \eps=10^{-11} & 7.217\times10^{-9} & 6.873\times10^{-9} & 1.050
+ \end{array}
+ \]
+ i.e.\ the linearisation \emph{overestimates} by $12\%$ ($\zeta=1/15$) and $56\%$ ($\zeta=1/120$) at
+ $\eps=10^{-8}$.}
+\lby{\file{rigor/v4_tail.py} section (F)}
+\lstep{1}{3}{\textbf{Hypothesis (iii) is also not exact at $\kc$.}  The measured occupation density
+ divided by the asymptotic $\frac2{15}\zeta^2\kappa^{-3}$ is $1.142$ at $\kappa=18.42$, $1.111$ at
+ $20.07$, $1.065$ at $25.0$, $1.044$ at $29.9$, $1.024$ at $40$, $1.015$ at $50$: the applied tail
+ \emph{underestimates} the true occupation by $14\%$ at $\kc=18.4$ and $6.5\%$ at $\kc=25.3$.}
+\lby{\file{rigor/v4_tail.py} section (G), from \file{Dhat_exact_s0.2_Lam240_k60}}
+\lstep{1}{4}{\textbf{The two biases partly cancel}, by accident: $0.89\times1.14=1.015$ at
+ $\eps=10^{-8}$ and $0.98\times1.065=1.047$ at $\eps=10^{-11}$.  This --- not the correctness of the
+ formula --- is why the two corrected values agree so well.}
+\lby{$\langle1\rangle2$, $\langle1\rangle3$}
+\lstep{1}{5}{\textbf{The nominal $\kc$ is not the true cut.}  The smallest kept eigenvalue of $Q_N$
+ corresponds to $|\kappa|_{\rm cut}=18.36$ ($\Lambda=60$) and $18.19$ ($\Lambda=120$) at
+ $\eps=10^{-8}$, and $25.11$/$25.30$ at $\eps=10^{-11}$, against the nominal
+ $\kc=\log\frac{1-\eps}\eps=18.42$/$25.33$: a further systematic of $1$--$2.5\%$ in $\kc^{-2}$.}
+\lby{\file{rigor/v4_misc.py} section (L)}
+\lqed{1}{6}\lby{$\langle1\rangle1$--$\langle1\rangle5$}
+
+\begin{verdictgap}
+The correction $\zeta^2/(15\kc^2)$ is \textbf{derived correctly} from the tail density and the
+$\tfrac12\times$occupation per empty mode, on both particle and hole sides, and the code applies it
+correctly.  Its \emph{validity range} is however narrower than \S6 suggests: the derivation needs
+$\kc\gg\kappa_*(\zeta)=2\log(1/\zeta)+O(\log\log)$, which at $\eps=10^{-8}$ fails for the three
+smallest $\zeta$ of Table~3 ($\kappa_*(1/120)=20.7>18.42=\kc$), and at $\zeta=1/15$,
+$\eps=10^{-8}$ the correction is individually $12\%$ too large from the linearisation and $14\%$ too
+small from the asymptotic density.  Consequently the sentence
+``\emph{the corrected values of $\Phi(1/15)$ agree to $1.4\times10^{-4}$, while the raw values differ
+by $1.2\%$; this validates the correction}'' overstates what has been shown: both raw numbers
+($1.198\%$ apart) and both corrected numbers ($1.40\times10^{-4}$ apart) are reproduced exactly, but
+the agreement rests on a cancellation of a $+12\%$ and a $-14\%$ error in the correction, and it does
+not certify the $\zeta\le1/120$ rows where the correction is $56\%$ too large.  A defensible
+statement is $\Phi(1/15)=3.517(5)\times10^{-5}$ rather than $3.517(3)\times10^{-5}$.
+\end{verdictgap}
+
+\subsection{The $1/\kc$ extrapolation of the relative entropy}
+
+\begin{lemma}\label{lem:extrap}
+If $S(\kc)=S_\infty-C/\kc$ and $x_i=1/\kc^{(i)}$, then
+$S_\infty=S(x_2)+\bigl(S(x_2)-S(x_1)\bigr)\dfrac{x_2}{x_1-x_2}$.
+\end{lemma}
+\lstep{1}{1}{$S$ is affine in $x=1/\kc$ with slope $-C=\frac{S(x_2)-S(x_1)}{x_2-x_1}$.}
+\lby{hypothesis}
+\lstep{1}{2}{$S_\infty=S(0)=S(x_2)-(-C)\,x_2\cdot(-1)=S(x_2)-\frac{S(x_2)-S(x_1)}{x_2-x_1}x_2
+ =S(x_2)+\bigl(S(x_2)-S(x_1)\bigr)\frac{x_2}{x_1-x_2}$.}
+\lby{$\langle1\rangle1$ and $x_2-x_1=-(x_1-x_2)$}
+\lqed{1}{3}\lby{$\langle1\rangle2$}
+
+\begin{lstlisting}[caption={\file{numerics/make_tables.py}, line 43},captionpos=b,firstnumber=43]
+        Sinf = c['Ssub'] + (c['Ssub']-r['Ssub'])*(1/c['kc'])/(1/r['kc']-1/c['kc'])
+\end{lstlisting}
+with \file{r} the $\kc=18.4$ row (\file{results_A.txt}) and \file{c} the $\kc=25.3$ row
+(\file{results_hp.txt}) --- exactly Lemma~\ref{lem:extrap}.
+
+\begin{verdictok}
+The extrapolation formula is \textbf{correct} for $S=S_\infty-C/\kc$.  Two independent
+consistency checks: (i) reproducing the table, $\zeta=1/120$ gives $S_\infty=5.69246\times10^{-6}$
+(table: $5.6925\times10^{-6}$), a $15.65\%$ rise over the raw $\kc=25.3$ value (\S6: ``$16\%$'') and
+$1.71\%$ below $s_2\zeta^2$ (\S6: ``within $2\%$''); (ii) the fitted law extrapolated \emph{back} to
+$\kc=29.61$ predicts $S=5.034\times10^{-6}$, against the independently computed full $91$-mode
+compression $5.0207\times10^{-6}$ of \file{results_final.txt} --- $0.27\%$.  Minor: \file{make_tables}
+reads the \emph{rounded} $\kc=18.4$, $25.3$ from the text files instead of $18.4207$, $25.3284$; the
+induced error is $3\times10^{-5}$ relative and harmless.
+\end{verdictok}
+
+\section{Independent re-computation}\label{sec:indep}
+
+\subsection[Phi(1/15) from the archived defect matrix]{$\Phi(1/15)$ from \file{Dhat_exact_s0.2_Lam60_k30_g12.npz}}
+
+The archived matrix was first re-generated from \file{defect_matrix.py} and matched to
+$5.4\times10^{-19}$.  $Q_N$ was rebuilt with \file{Q_box}; the spectral sub-compression at
+$\eps=10^{-8}$ was carried out in \texttt{mpmath} at $\mathrm{dps}=40$, and the root fidelity was
+then evaluated by \emph{two} algebraically different formulas of Theorem 2.1 --- the code's
+$T=WW^\dagger$ route and the polar-decomposition route $\Fid=\det(S_1S_2+C_1UC_2)/\det U$ with
+$U$ from $G_1^{1/2}G_2^{1/2}=U|G_1^{1/2}G_2^{1/2}|$ (\file{rigor/v4_fid.py}).
+
+\begin{center}\small
+\begin{tabular}{lrrr}\toprule
+ & $n_{\rm sub}$ & $-\log\Fid_{\rm sub}$ & $+\,\zeta^2/(15\kc^2)$\\\midrule
+this audit, route A ($T=WW^\dagger$)                   & 61 & $3.432123265\times10^{-5}$ & $3.519443495\times10^{-5}$\\
+this audit, route B ($\det(S_1S_2+C_1UC_2)/\det U$)    & 61 & $3.432123265\times10^{-5}$ & $3.519443495\times10^{-5}$\\
+note, Table~1 row 1 / Table~3 col.\ A                  & 61 & $3.43212\times10^{-5}$     & $3.51944\times10^{-5}$\\
+consistent centred basis (bug of \S\ref{sec:defect} fixed) & 61 & $3.431959\times10^{-5}$ & $3.519279\times10^{-5}$\\
+\bottomrule\end{tabular}
+\end{center}
+Routes A and B agree to the last of the $40$ digits ($|A-B|=0$ at $\mathrm{dps}=40$).  The published
+raw and corrected values of $\Phi(1/15)$ are therefore \textbf{confirmed to all printed digits}, and
+the basis inconsistency moves them by $4.8\times10^{-5}$ relative.
+
+\subsection{One line value and the $\kmax$ extrapolations}
+
+\lstep{1}{1}{\file{line_so.py} at $\Lambda=120$, $\kmax=44.74$ reproduces exactly:
+ $f_2=0.0084112$, $s_2=0.076821$ (\file{line_so.txt}: $0.0084112$, $0.076821$).  Substituting the
+ closed form of \file{rigor/kernel_identity.tex} for $\Dh$ on the same grid gives $f_2=0.0084111$,
+ $s_2=0.076821$ --- an independent confirmation that also validates the box weight $\Delta\kappa$.}
+\lby{\file{rigor/v4_misc.py} section (K)}
+\lstep{1}{2}{Free-exponent fits $y(\kmax)=y_\infty-C\kmax^{-p}$ to the four rows of
+ \file{line_so.txt} (\file{scipy.optimize.curve_fit}, formal $1\sigma$):
+ \[
+ \begin{array}{lccc}
+  & y_\infty & C & p\\
+  f_2\ (p\text{ free})  & 0.0084472\pm5.3\times10^{-7} & 0.0414\pm0.0022 & 1.854\pm0.02\\
+  f_2\ (p=2\text{ fixed})& 0.0084433\pm2.8\times10^{-7} & 0.0645 & ---\\
+  s_2\ (p\text{ free})  & 0.08433\pm3.2\times10^{-4}   & 0.213\pm0.016 & 0.880\pm0.03\\
+  s_2\ (p=1\text{ fixed})& 0.083246\pm3.9\times10^{-5} & 0.2878 & ---
+ \end{array}
+ \]}
+\lby{\file{rigor/v4_fast.py} section (E)}
+\lstep{1}{3}{Three-point ratio tests give the \emph{local} exponents
+ $p_{f_2}=1.824$ and $1.951$ (on $\kmax=(29.6,36.9,40.8)$ and $(36.9,40.8,44.7)$) and
+ $p_{s_2}=0.827$ and $1.035$.}
+\lby{\file{rigor/v4_tail.py} section (I)}
+\lstep{1}{4}{Comparison with the analytically known limits of \file{verify_normalization.py},
+ re-verified here at $\mathrm{dps}=30$:
+ $\int_0^\infty\frac{\tanh\pi k}{k(k^2+1)}dk=2$ to all digits, whence
+ $f_2=1/(12\pi^2)=0.008443432$ and $s_2=1/12=0.083333333$.  The $p=2$ fit lands $1.5\times10^{-7}$
+ from $1/(12\pi^2)$; the $p=1$ fit lands $8.7\times10^{-5}$ from $1/12$.}
+\lby{\file{rigor/v4_misc.py} section (O)}
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$}
+
+\begin{verdictgap}
+The extrapolated values of \S6 are \textbf{reproduced and are correct}: $f_2=0.008444(10)$ contains
+the analytic $1/(12\pi^2)=0.0084434$, and $s_2=0.0834(5)$ contains $1/12=0.0833\overline3$.  Two
+caveats.  (a) \S6 asserts ``\emph{ratio tests give exponents $2.0$ and $1.0$}''; the measured local
+exponents are $1.82,1.95$ and $0.83,1.04$, and the three-parameter fits give $1.854\pm0.02$ and
+$0.880\pm0.03$.  With four data points and three parameters the exponents are not determined to the
+precision implied; the honest statement is ``consistent with $2$ and $1$''.  (b) The spread between
+the $p$-free and $p$-fixed extrapolations is $3.9\times10^{-6}$ for $f_2$ (inside the quoted
+$\pm1\times10^{-5}$) but $1.1\times10^{-3}$ for $s_2$ --- \emph{twice} the quoted $\pm5\times10^{-4}$.
+The error bar on $s_2$ (and hence on the $0.667(4)$ of eq.~(7.1)) should be at least doubled.
+\end{verdictgap}
+
+\section[Every number quoted in Section 6 and in the captions]{Every number quoted in \S6 and in the captions}\label{sec:numbers}
+
+\begin{center}\small
+\begin{tabular}{p{0.40\textwidth}p{0.26\textwidth}p{0.26\textwidth}}\toprule
+Claim in \S6 / caption & Recomputed & Verdict\\\midrule
+``$16$ nodes change the matrix by $3\times10^{-11}$ relative''
+ & Frobenius rel.\ $3.078\times10^{-11}$ (max-abs rel.\ $1.30\times10^{-11}$) & OK\\
+``the exact $t\to0$ limit $2\Lambda k_j$ \dots (omitting it produces an $O(h)$ error of $0.2\%$)''
+ & omitting it: $+1.04\%$ (sub-compression adapts, $n_{\rm sub}$ jumps $61\to91$) or $-7.15\%$ (at
+ fixed $n_{\rm sub}=61$) & \textbf{not reproduced}\\
+``$\eps=10^{-8}$ ($\kc=18.4$) and $\eps=10^{-11}$ ($\kc=25.3$)''
+ & $\log\frac{1-\eps}\eps=18.4207,\ 25.3284$ & OK\\
+``the corrected values \dots agree to $1.4\times10^{-4}$, while the raw values differ by $1.2\%$''
+ & $1.40\times10^{-4}$ and $1.198\%$ & OK (but see \S\ref{sec:fid})\\
+``at $\zeta=1/120$ this raises $S$ by $16\%$ \dots and lands within $2\%$ of $s_2\zeta^2$''
+ & $+15.65\%$; $1.71\%$ below $s_2\zeta^2$ & OK\\
+``The spread is $\pm0.06\%$, giving $\Phi(1/15)=3.517(3)\times10^{-5}$''
+ & half-spread $0.062\%$ about mean $3.51744\times10^{-5}$ & OK\\
+``$f_2(\kmax)=f_2-0.066\kmax^{-2}$'' and ``$s_2(\kmax)=s_2-0.29\kmax^{-1}$''
+ & $C=0.0645$ and $C=0.2878$ & OK\\
+``ratio tests give exponents $2.0$ and $1.0$''
+ & $1.82,1.95$ and $0.83,1.04$ & overstated\\
+``$f_2=0.008444(10)$, $s_2=0.0834(5)$''
+ & $0.0084433$ ($p{=}2$) / $0.0084472$ ($p$ free); $0.083246$ / $0.08433$ & OK / bar too small\\
+``the M\"obius-equivalent $(a,L,s)=(2,1,0.1)$ \dots reproduces $\Phi$ to all printed digits''
+ & true, but $\Dh_{(2,1,0.1)}=\overline{\Dh_{(1,2,0.2)}}$ to $4.6\times10^{-15}$: an identity & vacuous\\
+``the ratio $-2\log\Fid/I_\omega(A{:}C|B)$ \dots $\approx0.20\zeta$''
+ & $24f_2\zeta=0.2027\zeta$; table col.: $0.205,0.198,0.198,0.193$ & OK\\
+``only $0.078$ at $\zeta=0.53$'' & $0.0784$ & OK\\
+``in the small-$z$ regime it is $96f_2z\approx0.81z$'' (\S7.2)
+ & $48f_2z=0.405z$ & \textbf{factor 2}\\
+caption Tab.~1: ``$\zeta^2/(15\kc^2)=8.78\times10^{-7}$''
+ & $8.7320\times10^{-7}$ (= the table's own column difference) & \textbf{typo}\\
+caption Tab.~1: ``Raw values are rigorous lower bounds''
+ & correct \emph{per row}; but see monotonicity below & OK\\
+``$-\log F^{(0)}_{\rm Dirac}=8f_2\eta^2=0.0676(1)\eta^2$'', ``$8s_2=0.667(4)$''
+ & $8\times0.008444=0.067552$; $8\times0.0834=0.6672$ & OK\\
+\bottomrule\end{tabular}
+\end{center}
+
+\paragraph{Provenance of the generated tables.}  Verified by re-running the parser of
+\file{make_tables.py}: Table~1 (convergence) $\leftarrow$ the eight $\zeta=1/15$, non-\file{mobius}
+rows of \file{results_final.txt}; Table~2 $\leftarrow$ \file{line_so.txt} (four rows) plus a
+hard-coded ``$\infty$ (fit)'' row; Table~3 column A $\leftarrow$ \file{results_A.txt}
+($\Lambda=60,\kmax=30,\eps=10^{-8}$), column B $\leftarrow$ \file{results_L120.txt}
+($\Lambda=120,\kmax=45,\eps=10^{-8}$) with \file{results_final.txt} as a fallback that happens to
+contain the identical $\zeta=1/15$ row, column C and $S_\infty$'s second point $\leftarrow$
+\file{results_hp.txt} ($\Lambda=60,\kmax=30,\eps=10^{-11}$), $S_\infty$'s first point $\leftarrow$
+column A.  Spot-checked entries ($\zeta=1/15$: $3.5194/3.5159/3.5199\times10^{-5}$,
+$\Phi/\zeta^2=0.00792$, $S_\infty=3.2959\times10^{-4}$, ratio $0.0129$) all reproduce.  The
+$\Lambda=60,\kmax=30$ row of Table~1 and column A of Table~3 are the same computation, as they must
+be.
+
+\begin{verdictbreak}
+\textbf{\S7.2, ``in the small-$z$ regime it is $96f_2z\approx0.81z$ per component''.}  With
+$\zeta=2z$ and $I_\omega=\frac r6\log(1+z)\approx z/6$,
+$\frac{-2\log\Fid}{I_\omega}=\frac{2f_2(2z)^2}{z/6}=48f_2z=0.405\,z$, which is also what the same
+sentence's ``$\approx0.20\zeta$'' says ($0.20\times2z=0.40z$) and what the last column of Table~3
+gives ($0.0017/0.00415=0.410$ at the smallest $\zeta$).  The stated $96f_2z\approx0.81z$ is a factor
+$2$ too large.  The neighbouring formula
+$-\log\Fid\simeq f_2(12/r)^2I_\omega^2$ is correct.
+\end{verdictbreak}
+
+\begin{verdictbreak}
+\textbf{\S3.1: ``every value $-\log\Fid_N$ (resp.\ $S_N$) reported below is a rigorous lower
+(resp.\ lower) bound \dots, monotone in $\kmax$.''}  Table~1's own numbers are not monotone in
+$\kmax$: at $\Lambda=60$ the corrected values run $3.51944\to3.51505\to3.51911$ for
+$\kmax=30,45,60$, and at $\Lambda=120$, $3.51586\to3.51794\to3.51639$ for $\kmax=45,60,90$.  The
+reason is that the \emph{reported} quantity is the sub-compression at fixed $\eps$, whose subspace
+(spanned by eigenvectors of $Q_N$, $n_{\rm sub}=61,61,63$) is \emph{not} nested in $\kmax$; the
+nestedness argument applies to the full compressions $Q_N$, which are not what is tabulated.  Each
+individual row remains a valid lower bound (Proposition~\ref{prop:subcomp}), so the fix is to delete
+``monotone in $\kmax$'' or to restrict it to the full compressions.
+\end{verdictbreak}
+
+\begin{verdictgap}
+\textbf{\S3.1, Remark ``A trap''.}  ``$\operatorname{diag}(\widehat q)-\Dh$ acquires negative
+eigenvalues of order $10^{-11}$ once $\kmax\gtrsim24$'' is not reproduced.  Over all twenty-one
+archived \file{Dhat_exact_*} matrices the minimum eigenvalue of $\operatorname{diag}(\widehat q)-\Dh$
+is $+2.2\times10^{-13}$ at $\kmax=29.6$ (\emph{positive}, although $\kmax>24$), and at larger
+$\kmax$ it is $-4\times10^{-16}$ to $-5.8\times10^{-13}$, i.e.\ at the double-precision roundoff
+level of a matrix whose true smallest eigenvalue is $e^{-\kmax}\le10^{-19}$.  Nothing of order
+$10^{-11}$ is seen.  The \emph{qualitative} warning is sound --- $\operatorname{diag}(\widehat q)-\Dh$
+is not the compression of any state --- but the quoted threshold and magnitude are unsupported by
+the data in the repository.
+\end{verdictgap}
+
+\section{Methodological weaknesses, with severity}\label{sec:weak}
+
+\begin{enumerate}[leftmargin=1.6em,itemsep=3pt]
+\item[\textbf{W1}] \textbf{(High)} \emph{Basis inconsistency $Q_N$ vs.\ $\Dh$.}  See
+ \S\ref{sec:defect}.  It invalidates the ``rigorous lower bound'' status of every tabulated value
+ as the code stands, although the numerical shift is only $4.8\times10^{-5}$ relative at
+ $\zeta=1/15$.  It is also geometry-dependent: the shift is controlled by $\xi_0=\log(a/L)$ and by
+ how far $Q_N$ is from diagonal, so it cannot be assumed small at other $(a,L)$.  One-line fix.
+\item[\textbf{W2}] \textbf{(High)} \emph{The tail correction assumes the $\kappa\to\infty$
+ asymptotics at $\kappa=\kc$.}  The asymptotic density $\frac2{15}\zeta^2\kappa^{-3}$ is $14\%$ low
+ at $\kc=18.4$ and $6.5\%$ low at $\kc=25.3$; the linearisation $\tfrac12\times$occupation is $12\%$
+ (resp.\ $56\%$ at $\zeta=1/120$) high.  The residual bias on $\Phi$ is at the $0.1$--$0.9\%$
+ level, i.e.\ $2$--$15$ times the quoted $\pm0.06\%$.  The three smallest-$\zeta$ rows of Table~3 at
+ $\eps=10^{-8}$ sit outside the regime $\kc>\kappa_*(\zeta)$ that Corollary 4.3 requires.
+\item[\textbf{W3}] \textbf{(High)} \emph{$\eps$-dependence is not an error bar.}  The two $\eps$
+ levels differ by $1.2\%$ raw; the corrections restore agreement to $1.4\times10^{-4}$ only because
+ two $\sim13\%$ errors in the correction cancel (\S\ref{sec:fid}).  The quoted uncertainty
+ $3.517(3)\times10^{-5}$ is a $\Lambda,\kmax$ spread; it does not include the tail-model
+ systematic.  A third $\eps$ (say $10^{-14}$, requiring $Q_N$ in high precision throughout) would
+ settle this.
+\item[\textbf{W4}] \textbf{(Medium)} \emph{Noise floors.}  (i) The trapezoid error of \file{Q_box}
+ at $n_t=4\times10^5$ is $\approx5\times10^{-11}$ per entry (confirmed against \file{Q_box_mp}:
+ $4.7\times10^{-11}$), which is $500\times$ the smallest \emph{kept} eigenvalue $\eps=10^{-8}$ only
+ by a factor $200$ --- the smallest kept modes carry a $\sim0.5\%$ relative error in $w_i$, hence in
+ $\log w_i$ and in the Kubo--Mori weights.  (ii) The quadrature floor of $\Dh$ is
+ $\approx3\times10^{-11}$ relative (GL12 vs GL16), while the ``line'' evaluation multiplies
+ $|\Dh_{jl}|^2$ by weights of order $e^{\kmax}$; the note's own rule $\kmax\lesssim\Lambda/2-5$ is
+ respected in \file{line_so.txt}, but the two \file{batch5.log} rows
+ (\file{Lam240_k60}: $f_2=0.2995$) show what happens when it is not, and no automated guard
+ enforces it.
+\item[\textbf{W5}] \textbf{(Medium)} \emph{The box edge.}  The sharp cut at $|\eta|=\Lambda/2$ is a
+ genuine compression (so the bound direction is safe) but it costs $7.7\%$ of $\|\delta_s\|_1$ at
+ $\Lambda=60$ and $3.9\%$ at $\Lambda=240$, i.e.\ the box error decays only like $1/\Lambda$ in the
+ trace norm, much more slowly than the $\pm0.06\%$ spread of Table~1 suggests.  Table~1 varies
+ $\Lambda$ only over $60$--$120$ and does not exhibit a $\Lambda$-trend, so the $\Lambda\to\infty$
+ limit is inferred, not demonstrated.
+\item[\textbf{W6}] \textbf{(Medium)} \emph{Treatment of $\kmax$.}  $f_2$ and $s_2$ come from
+ four points with a three-parameter law; the exponent is not resolved (\S\ref{sec:indep}), the $s_2$
+ error bar is understated by $\approx2\times$, and the $\Lambda=60$ point of Table~2 is fitted
+ together with three $\Lambda=120$ points even though the $\Lambda=60$ defect matrix has a
+ $10^{-6}$-level box-truncation error (measured against the closed form) --- $50\times$ that of the
+ $\Lambda=120$ points.  Dropping the first row changes the fitted $f_2$ by more than the quoted bar.
+\item[\textbf{W7}] \textbf{(Low)} \emph{The M\"obius check is an identity.}  Because
+ $\widetilde D_s$ depends on $(a,L,s)$ only through $\zeta$ and $\eta$ (Lemma~\ref{lem:defect}), the
+ configuration $(2,1,0.1)$ produces the complex conjugate of the matrix of $(1,2,0.2)$
+ ($\max\bigl||\Dh_1|-|\Dh_2|\bigr|=3.2\times10^{-15}$).  The test exercises \file{x_of}/\file{beta}
+ but cannot detect an error in anything downstream, and it is not evidence for Lemma 1.1.
+\item[\textbf{W8}] \textbf{(Low)} \emph{Reproducibility.}  \file{results_final.txt} cannot be
+ regenerated with the committed \file{fidelity_flint.py} (different output format, and its $S$
+ column is the abandoned full double-precision relative entropy, \texttt{nan} in $7$ of $15$ rows);
+ \file{test_pipeline.py} and \file{test_precision.py} raise \texttt{TypeError}; the ``\file{flint}''
+ in \file{fidelity_flint.py} is \texttt{mpmath}.  No script records the git state or the mesh
+ parameters actually used for each \file{.npz} beyond $(s,\Lambda,\kmax,n_{\rm gl})$.
+\item[\textbf{W9}] \textbf{(Low)} \emph{Relative entropy of the discarded modes.}  The code adds
+ $2\times$tail to $S_{\rm sub}$, i.e.\ $1\times$occupation per empty mode --- correct to leading
+ order --- but \S6 itself argues that for $S$ the occupation tail is \emph{not} the dominant
+ remainder (the Kubo--Mori weight grows like $|\kappa_i-\kappa_k|$).  Adding a subleading correction
+ and then extrapolating in $1/\kc$ double-counts a little; the effect is below the $1/\kc$
+ extrapolation's own uncertainty, but the two corrections are not independent.
+\end{enumerate}
+
+\section{Summary of findings}\label{sec:findings}
+
+\begin{center}\small
+\begin{tabular}{llp{0.52\textwidth}}\toprule
+Severity & Location & Issue\\\midrule
+BREAK & \S3.1, l.~336 & ``keeps all eigenvalues of $Q_N$ and $\Qt_N$ at distance $\gtrsim10^{-4}$
+ from $0$ and $1$'': measured $2.8\times10^{-13}$ ($\Lambda=60$) and $-3.6\times10^{-16}$
+ ($\Lambda=120$); contradicts \S6 and \file{results_batch3.txt}.  Same claim in the
+ \file{compression_box.py} docstring.\\
+BREAK & \S3.1, l.~336 & ``every value \dots monotone in $\kmax$'': Table~1 is not monotone
+ ($3.51944\to3.51505\to3.51911$ at $\Lambda=60$); the sub-compressed subspaces are not nested.\\
+BREAK & \S7.2, l.~474 & ``$96f_2z\approx0.81z$'': should be $48f_2z\approx0.41z$ (factor 2);
+ inconsistent with ``$\approx0.20\zeta$'' in the same sentence and with Table~3.\\
+GAP & \file{defect_matrix.py} ll.~37--38 vs \file{compression_box.py} l.~21; \S3.1 l.~329 &
+ $\Dh$ is built in the basis $e^{ik_j\xi}$, $Q_N$ in $e^{ik_j(\xi-\xi_0)}$; $Q_N-\Dh$ is then not a
+ compression of $\Qt_s$.  Numerical effect $4.8\times10^{-5}$ relative on $\Phi$; none on
+ $f_2,s_2$.\\
+GAP & \S6, l.~449 & The tail correction is $12$--$56\%$ off at $\eps=10^{-8}$; the
+ $1.4\times10^{-4}$ agreement is a cancellation, not a validation; $\kc<\kappa_*(\zeta)$ for
+ $\zeta\le1/120$.\\
+GAP & \S6, l.~452 & ``ratio tests give exponents $2.0$ and $1.0$'': measured $1.82/1.95$ and
+ $0.83/1.04$; the $s_2$ error bar $\pm5\times10^{-4}$ is $\approx2\times$ too small.\\
+GAP & \S3.1, Remark ``A trap'' & Negative eigenvalues ``of order $10^{-11}$ for $\kmax\gtrsim24$''
+ not reproduced anywhere in the archive (largest observed $-5.8\times10^{-13}$, and $+2.2\times10^{-13}$
+ at $\kmax=29.6$).\\
+MINOR & Tab.~1 caption & ``$\zeta^2/(15\kc^2)=8.78\times10^{-7}$'': the value is
+ $8.732\times10^{-7}$, as the table's own two columns show.\\
+MINOR & \S6, l.~446 & ``omitting it produces an $O(h)$ error of $0.2\%$'': measured $+1.0\%$
+ (adaptive $n_{\rm sub}$) or $-7.2\%$ (fixed $n_{\rm sub}=61$).\\
+MINOR & \S6, l.~446 & The M\"obius cross-check is an algebraic identity of the two defect matrices
+ and carries no independent information.\\
+MINOR & \file{fidelity_flint.py}, \file{test_pipeline.py}, \file{test_precision.py},
+ \file{results_final.txt} & Stale docstring (``python-flint (200 bits)''; ``$S$ in double
+ precision''), two tests that no longer run, one result file not reproducible by the committed
+ script.\\
+\bottomrule\end{tabular}
+\end{center}
+
+\paragraph{What survives unscathed.}  The derivation of the compressed vacuum symbol
+(Lemma~\ref{lem:qbox}), the whole of \file{defect_matrix.py} including the graded-mesh Jacobian and
+the assembly (checked entrywise to $8$ digits against the closed form of
+\file{rigor/kernel_identity.tex}), Theorem 2.1 in both forms and Proposition 2.2 (checked against
+brute-force Fock traces to $14$ digits), the fact that the spectral sub-compression is a genuine
+compression, the derivation of $\zeta^2/(15\kc^2)$, the $1/\kc$ extrapolation formula, the
+provenance of every entry of \file{fidelity_tables.tex}, and the central numbers
+$\Phi(1/15)=3.5194\times10^{-5}$, $f_2=0.008444(10)=1/(12\pi^2)$, $s_2=0.0834=1/12$.
+
+\end{document}

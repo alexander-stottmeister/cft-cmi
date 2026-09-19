@@ -1,0 +1,47 @@
+% sec_outlook.tex -- Sources: rigor/phase2b_brief.md (tracks RR, RC), open_problems_plan.tex (O8-O11).
+\paragraph{Optimality of the Petz map.}  \Cref{thm:B} computes the error of \emph{the} zero-collar Petz
+recovery.  It does not say that no recovery channel does better.  The natural conjecture is that the
+coefficient $c/(12\pi^{2})$ is optimal among all channels $\cA(AB)\to\cA(ABC)$ preserving $\omega|_{\cA(AB)}$,
+and that the rotated Petz family of \cite{FHSW} attains it at rotation parameter $t=0$.  Note~7 already
+computes the rotated family in the present normalisation: with $\zeta_{t}=z(1+e^{-2\pi t})$, the chiral
+error is $\Phi_{c}(\zeta_{t})$, so within the family the minimum is at $t=0$ and the two-dimensional
+combination $\Phi_{c}(z(1+e^{-\pi\lambda}))+\Phi_{\bar c}(z(1+e^{\pi\lambda}))$ is even in $\lambda$ with a
+minimum at $\lambda=0$, as observed numerically on the lattice by Vardhan--Wei--Zou \cite{VWZ}.  A genuine
+optimality statement would need a lower bound over all recovery channels, presumably from the strengthened
+data-processing inequality of \cite{FHSW}.
+
+\paragraph{The rate of the remainder.}  Everything above is a statement about the leading coefficient.  The
+free-fermion data suggest the sharper law $\Phi(\zeta)=f_{2}\zeta^{2}(1+c_{3}\zeta+O(\zeta^{2}))$ with
+$c_{3}=-0.99(1)$ per component --- linear, not logarithmic, in $\zeta$.  Making the Uhlmann step
+quantitative (a Lipschitz estimate for $\sigma\mapsto W_{\sigma}^{*}G^{(1)}W_{\sigma}$ in Hilbert--Schmidt
+norm) should give the upper bound $\Phi\le f_{2}\zeta^{2}(1+C\zeta)$; the matching lower bound is harder,
+because the Alberti route passes through a cutoff whose cubic constant we do not control.  This is the
+subject of a companion note.
+
+\paragraph{Thermal states and other geometries.}  The proof used the vacuum only through
+Bisognano--Wichmann, which fixed $(\Delta,J)$ geometrically and made \Cref{lem:reduce} work.  For a KMS
+state on the line, or for the vacuum on a circle of finite circumference, the modular data of an interval
+are no longer M\"obius, so $\HT$ need not reduce them and the $c$-linearity argument breaks at its one
+essential step.  We expect the coefficient to remain $c$-linear --- the tangent vector still lives in $\HT$
+--- but a proof requires the reduction of $\HT$ under the relevant modular group, which is a question about
+the thermal (or torus) two-point function of $T$ rather than about the net.
+
+\paragraph{Charged sectors.}  For a locally normal representation $\pi$ of $\cA$ with finite index, the same
+compression acts, but the state is $\omega_{\pi}$ and the modular data acquire the sector's contribution.
+The quantity to compute is $\dist(T(g_{\rm tot})\Omega_{\pi},\overline{\pi(\cA(I))'_{\rm sa}\Omega_{\pi}})$,
+and the expected answer is that the leading coefficient is unchanged --- the stress tensor is the same
+operator, and the difference between sectors is a finite-index perturbation which should not affect a
+second-order local quantity.  A clean statement would use Longo's index-entropy relation \cite{LX}.
+
+\paragraph{Networks of intervals.}  For $n$ adjacent intervals there are $n-2$ independent cross ratios and
+a corresponding family of compressions.  \Cref{thm:impl} already covers piecewise-M\"obius maps with several
+touching points for Fock representations with integer $c$ (via \cite{DIT}), and the $\|\cdot\|_{3/2}$
+estimate of \Cref{thm:reg}(c) is insensitive to the number of kinks, so the implementation half generalises
+directly.  What changes is the variational problem: the tangent field now has several jumps of its second
+derivative, and the quadratic form $\|(1-J)(1+\Delta)^{-1/2}\cdot\|^{2}$ becomes a genuine multi-variable
+Hessian.  Its off-diagonal entries would be the CFT analogue of a multipartite recovery defect.
+
+\paragraph{Certified numerics.}  All numbers quoted here are floating-point.  Rigorous interval brackets for
+$\Phi(\zeta)$ at the $1\%$ level would require a bound on
+$\|\sqrt{\tilde Q}-\sqrt{X_{11}\oplus X_{22}}\|_{2}$ quadratic in the off-diagonal block, which would in
+turn upgrade the tail decay from $1/\kappa_{c}$ to $1/\kappa_{c}^{2}$.  This is open.

@@ -1,0 +1,127 @@
+% sec_boson.tex -- Source: numerics/boson/README.md + boson_recovery.out (QN). Numbers verbatim.
+The proof of \Cref{thm:B} is structural: it never computes anything model-dependent beyond the free-fermion
+constant.  A model with no algebraic structure in common with the free fermion is therefore a meaningful
+test, and the chiral free boson is the natural one.  This section reports such a computation, performed
+independently of the arguments above.
+
+\subsection{Setting and conventions}
+
+The $U(1)$ current net has $c=1$.  We normalise the current $J$ (weight $1$) by
+$\langle J(x)J(y)\rangle=-\frac{1}{4\pi^{2}}(x-y-i0)^{-2}$, so that the Sugawara tensor has
+$\langle TT\rangle=\frac{1}{8\pi^{2}}(x-y-i0)^{-4}$, i.e.\ $c=1$ in the convention \eqref{eq:TT}.  For real
+$f\in C_{c}^{\infty}$,
+\[
+ \langle J(f)J(g)\rangle=\frac{1}{4\pi^{2}}\int_{0}^{\infty}p\,\overline{\hat f(p)}\hat g(p)\,dp,
+ \qquad [J(f),J(g)]=\frac{i}{2\pi}\int f g'\,dx .
+\]
+The vacuum and the recovered state are Gaussian, with the Weedbrook/BBP conventions
+$[x_{j},x_{k}]=2i\,\Sigma_{jk}$, $V_{jk}=\frac12\langle\{x_{j},x_{k}\}\rangle$, vacuum $V=\one$,
+symplectic eigenvalues $\nu\ge1$.  With $x_{j}=J(b_{j})$,
+\[
+ \Sigma(f,g)=\frac{1}{4\pi}\int fg'\,dx,\qquad
+ V(f,g)=\frac{1}{8\pi^{2}}\iint\frac{(f(x)-f(y))(g(x)-g(y))}{(x-y)^{2}}\,dx\,dy,
+\]
+the latter M\"obius invariant; $\Sigma$ is the symplectic form (not to be confused with the vacuum vector $\Omega$).  Test functions carry weight $0$, i.e.\ the current is pushed forward with
+weight $1$: $U_{s}J(f)U_{s}^{*}=J(f\circ\tilde k_{s}^{-1})$.  Hence on $\cA(I)$ the recovered state is the
+Gaussian state with $V_{s}(f,g)=V(f\circ k_{s}^{-1},g\circ k_{s}^{-1})$ and $\Sigma$ unchanged.  The
+geometry is that of \Cref{sec:setting} with $a=1$, $L=2$, so $\zeta=s/3$.
+
+\subsection{The modular frame, and why no extension is needed}
+
+On $I=(-a,L)$ put $y=(x+a)/(L-x)$ and $t=\log y$, mapping $I\to\mathbb R$.  In this frame
+\[
+ \Sigma(f,g)=\frac{1}{4\pi}\int_{\mathbb R}f\,\partial_{t}g\,dt,\qquad
+ V(f,g)=\frac{1}{8\pi^{3}}\int_{\mathbb R}M(k)\,\overline{\hat f}\hat g\,dk,\qquad
+ M(k)=\pi k\coth(\pi k),
+\]
+so the symplectic-eigenvalue density is the Bose factor
+$\nu(k)=M(k)/(\pi|k|)=\coth(\pi k)=1+2/(e^{2\pi|k|}-1)$ --- the exact bosonic counterpart of the fermionic
+Fermi symbol.  (The $-1$ of the interior kernel $\frac{1}{4\sinh^{2}((t-t')/2)}$, symbol
+$\pi k\coth\pi k-1$, is cancelled by the collar term $2\int fg\,dt$ coming from $y$ outside $I$.)
+
+Two simplifications are exact here and worth emphasising, because they eliminate the two largest sources of
+error.  First, \emph{no extension of $k_{s}$ beyond $I$ is needed}: $k_{s}=\mathrm{id}$ on $A$ and
+$k_{s}=h_{s}$ is a \emph{global} M\"obius map on $D$, and $V$ is M\"obius invariant, so $V_{s}-V$ vanishes
+identically on $A\times A$ and on $D\times D$ and reduces to a single $A\times D$ integral,
+\[
+ (V_{s}-V)(f,g)=-\frac{1}{4\pi^{2}}\int_{A}du\int_{D}dv\,
+ \frac{f(u)G_{g}(v)+g(u)G_{f}(v)}{4\sinh^{2}((u-v)/2)},\qquad
+ G_{f}(v)=f(\beta_{s}(v))-f(v),
+\]
+with $\beta_{s}=\tau\circ h_{s}^{-1}\circ\tau^{-1}$.  Second, the second-order coefficients are computed
+\emph{at} $s=0$ from the exact metric formulas rather than by extrapolating a finite-$s$ scan; $E'=
+\partial_{s}(V_{s}-V)|_{s=0}$ is available in closed form.
+
+The numerical scheme uses $N$ Hermite modes centred at the touching point, $\psi_{n}(t)=
+\sigma^{-1/2}\phi_{n}((t-t_{c})/\sigma)$ with $t_{c}=-\log2$, effective box $\Lambda=2\sigma\sqrt{2N}$ and
+UV cutoff $\kappa_{\max}=\sqrt{2N}/\sigma$; $\Sigma$ is exact (tridiagonal) and $V$ is exact by
+Gauss--Legendre.  Restricting both states to a finite symplectic subspace is a restriction to a
+subalgebra, so by monotonicity \emph{every number below is a lower bound}.  A spectral window keeps the
+modes with $\nu-1>\epsilon$, i.e.\ $\kappa_{c}=\log(2/\epsilon)/(2\pi)$; double precision allows
+$\epsilon=10^{-14}$, $\kappa_{c}=5.24$.  Fidelity and relative entropy are evaluated with the
+Banchi--Braunstein--Pirandola formula \cite[Eq.~(15)]{BBP} and
+$D=S(V_{2})-S(V_{1})+\frac14\Tr[G_{2}(V_{1}-V_{2})]$, $G=2i\Sigma\operatorname{arccoth}(Vi\Sigma)$.
+
+Validation: the Gaussian formulas were checked against exact density matrices in a truncated Fock space
+(agreement at the truncation level, $2\cdot10^{-13}$ to $6\cdot10^{-3}$ for $1$ to $3$ modes); a flat-symbol
+test ($M\to\pi|k|$) returns a pure state, median $\nu=1.000000000$, fixing the relative normalisation of
+$V$ and $\Sigma$; M\"obius invariance $V(f\circ\beta_{s})=V(f)$ holds to $4\cdot10^{-15}$; and the
+localisation formula agrees with a direct FFT evaluation to $8\cdot10^{-8}$.
+
+\subsection{Results}
+
+The whole systematics is the spectral window.  Exact second-order coefficients as a function of the window
+$\kappa_{c}$:
+\begin{center}
+\begin{tabular}{@{}lcccccc@{}}\toprule
+$\kappa_{c}$ & 1.58 & 2.31 & 3.04 & 3.77 & 4.51 & 5.24\\\midrule
+$f_{2}$ & 0.007915 & 0.008226 & 0.008351 & 0.008383 & 0.008391 & 0.008405\\
+$s_{2}$ & 0.059029 & 0.067017 & 0.072487 & 0.074552 & 0.075097 & 0.076322\\\bottomrule
+\end{tabular}
+\end{center}
+Fitting the UV tail as $X(\kappa_{c})=X_{\infty}-b\,\kappa_{c}^{-p}$ over $\kappa_{c}\ge2.3$ (three bases,
+$N=60,120$, $\sigma=1.6,2.26$) gives free exponents $p=2.3$--$2.8$ for $f_{2}$ and $p=1.14$--$1.39$ for
+$s_{2}$.  The different exponents are expected, not fitted: the discarded per-mode weight decays like
+$\kappa^{-3}$, the Bures metric integrates it directly ($p=2$) while the Kubo--Mori metric carries an extra
+modular-energy factor $\kappa$ ($p=1$).  The resulting values are
+\begin{equation}\label{eq:bosonvals}
+ f_{2}=0.00844\,(2)\quad\text{vs}\quad \frac{1}{12\pi^{2}}=0.0084434,
+ \qquad
+ s_{2}=0.083\,(2)\quad\text{vs}\quad \frac{1}{12}=0.0833333,
+\end{equation}
+i.e.\ agreement at the $0.2\%$ level for $f_{2}$ and the $1\%$ level for $s_{2}$: \emph{universality is
+confirmed at $c=1$ on a bosonic model}, and, since $s_{2}$ is not covered by \Cref{thm:B}, this is at
+present the only evidence for \eqref{eq:s2} beyond the free fermion.
+
+A finite-$s$ scan ($\epsilon=10^{-12}$, $N=120$, $\sigma=1.6$) gives $\Phi/\zeta^{2}=0.00744,\,0.00789,\,
+0.00804$ at $s=0.4,\,0.2,\,0.1$, rising towards $f_{2}$; below $s\approx0.05$ one has $\Phi\sim10^{-6}$ and
+double precision fails, and $D$, being a difference of two $O(1)$ entropies, goes negative below
+$s\approx0.1$.  This is why the coefficients above are computed at $s=0$.
+
+\subsection{$c$-linearity of the vacuum overlap, analytically}
+
+The following is a small but sharp analytic check of the mechanism behind \Cref{thm:linear}, independent of
+the modular analysis.  Take the \emph{same} circle diffeomorphism $\phi=\tilde k_{s}$ and compare the two
+one-particle implementations: fermionic (weight $\frac12$), $(Wf)(x)=f(\psi(x))\psi'(x)^{1/2}$ with
+$V=\Pi_{-}W\Pi_{+}$; and bosonic (weight $0$), $(Tf)(x)=f(\psi(x))$ on $H^{1/2}$ with $B=\Pi_{-}\mathcal M\Pi_{+}$ in
+the orthonormal Fourier basis.  Writing $\phi=x+sg$ one finds
+$W(p,q)=\delta+\frac{is}{4\pi}(p+q)\hat g(p-q)$ and
+$\mathcal M(p,q)=\delta+\frac{is}{2\pi}\sqrt{|p/q|}\,q\,\hat g(p-q)$, hence
+\[
+ \mathcal E:=\|V\|_{2}^{2}=\frac{s^{2}}{48\pi^{2}}\int_{0}^{\infty}k^{3}|\hat g(k)|^{2}dk,
+ \qquad
+ \Tr(B^{*}B)=\frac{s^{2}}{24\pi^{2}}\int_{0}^{\infty}k^{3}|\hat g(k)|^{2}dk=2\mathcal E .
+\]
+Since $-\log|\langle\Omega,\Gamma_{f}\Omega\rangle|=-\frac12\Tr\log(1-V^{*}V)=\frac12\mathcal E+O(s^{3})$
+and $-\log|\langle\Omega,\Gamma_{b}\Omega\rangle|=\frac14\Tr\log(1+B^{*}B)=\frac14\Tr(B^{*}B)+O(s^{3})$, the
+two overlaps agree exactly at second order:
+\begin{equation}\label{eq:clin}
+ -\log\bigl|\langle\Omega,\Gamma_{b}\Omega\rangle\bigr|
+ =-\log\bigl|\langle\Omega,\Gamma_{f}\Omega\rangle\bigr|
+ =\frac{s^{2}}{96\pi^{2}}\int_{0}^{\infty}k^{3}|\hat g(k)|^{2}dk
+ =\frac{s^{2}}{2}\,\|T(g)\Omega\|^{2}\Big|_{c=1},
+\end{equation}
+by \eqref{eq:normTg}.  Numerically, at $s=0.1$ with $|k|\le60$ and box $X=100$,
+$\Tr(B^{*}B)/(2\mathcal E)=6.7182\cdot10^{-4}/6.7234\cdot10^{-4}=0.99923$, i.e.\ $0.08\%$.  Two theories
+with disjoint Fock structures produce the same second-order overlap because both see only $c$ and the
+stress-tensor two-point function --- which is \Cref{thm:linear} in miniature.

@@ -1,0 +1,20 @@
+h=0.1200 Y=10 Ymax=10 N=166 nA=83 cap=0e+00: g/f2=0.95989 theta=0.34236 g(d_*)/g0=0.657639 (1-theta=0.657639) cg=550 | SLD id=1.0000000000 kappa_max=6.51 max w=3.362e+02 |dc_DD|=0.0e+00
+   lam_min(M_*)     = -3.044836e-04 = -3.7569e-02 g0 = -1.8586e-03 ||M||   lam_max(M_*)=+1.638273e-01
+   lam_min(M_*-tau) = -3.044836e-04 = -3.7569e-02 g0 = -1.8586e-03 ||M||   lam(tau) in [-1.430e-01,+1.430e-01]
+   ||AntiHerm((t Q)_DD)||/||M_*|| = 8.500e-08   CRITERION (M>=0 and M-tau>=0): False
+   FD check: d g_Q = +7.60620008e-02 predicted +7.60620000e-02 rel 1.08e-08
+   violating p [M    ]: <p,Mp>=-3.0448e-04 <p,tau p>=-1.9444e-03 y=0 Delta=+1.5224e-04 g_Q(eta)=2.3264e-02 gain/g0=1.2293e-04 | p lives at y = [5.22, 5.34, 5.1, 4.86] (|p| [0.154, 0.153, 0.153, 0.153])
+   violating p [M-tau]: <p,Mp>=+1.6399e-03 <p,tau p>=+1.9444e-03 y=1 Delta=+1.5224e-04 g_Q(eta)=2.3264e-02 gain/g0=1.2293e-04 | p lives at y = [5.22, 5.34, 5.1, 4.86] (|p| [0.154, 0.153, 0.153, 0.153])
+   [3s]
+h=0.0600 Y=10 Ymax=10 N=334 nA=167 cap=0e+00: g/f2=0.98164 theta=0.35934 g(d_*)/g0=0.640663 (1-theta=0.640663) cg=1000 | SLD id=1.0000000000 kappa_max=7.66 max w=1.066e+03 |dc_DD|=0.0e+00
+   lam_min(M_*)     = -1.609833e-04 = -1.9423e-02 g0 = -8.2282e-04 ||M||   lam_max(M_*)=+1.956483e-01
+   lam_min(M_*-tau) = -1.609833e-04 = -1.9423e-02 g0 = -8.2282e-04 ||M||   lam(tau) in [-1.745e-01,+1.745e-01]
+   ||AntiHerm((t Q)_DD)||/||M_*|| = 1.520e-07   CRITERION (M>=0 and M-tau>=0): False
+   FD check: d g_Q = -1.62203383e-01 predicted -1.62203382e-01 rel 7.56e-09
+   violating p [M    ]: <p,Mp>=-1.6098e-04 <p,tau p>=-1.0640e-03 y=0 Delta=+8.0492e-05 g_Q(eta)=2.2299e-02 gain/g0=3.5055e-05 | p lives at y = [4.29, 4.23, 4.35, 4.17] (|p| [0.114, 0.114, 0.114, 0.114])
+   violating p [M-tau]: <p,Mp>=+9.0303e-04 <p,tau p>=+1.0640e-03 y=1 Delta=+8.0492e-05 g_Q(eta)=2.2299e-02 gain/g0=3.5055e-05 | p lives at y = [4.29, 4.23, 4.35, 4.17] (|p| [0.114, 0.114, 0.114, 0.114])
+   [39s]
+
+#   h      N   theta     lam_min(M)/g0  lam_min(M-tau)/g0  lam_min(M)/||M||  anti/||M||
+0.1200   166 0.34236 -3.7569e-02 -3.7569e-02 -1.8586e-03 8.50e-08
+0.0600   334 0.35934 -1.9423e-02 -1.9423e-02 -8.2282e-04 1.52e-07
