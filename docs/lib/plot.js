@@ -233,23 +233,31 @@ export class Plot {
   }
 }
 
-/** Make `node` draggable in data coordinates, and movable with the arrow keys. */
+/** Make `node` draggable in data coordinates, and movable with the arrow keys.
+
+    The move listeners live on `window`, not on the node: a module typically
+    redraws (and so replaces) its handles on every update, and a listener bound
+    to the node would lose the drag on the first move. */
 export function draggable(plot, node, { onMove, step = 0.01, axis = 'x', label }) {
   node.classList.add('handle');
   node.setAttribute('tabindex', '0');
   node.setAttribute('role', 'slider');
   if (label) node.setAttribute('aria-label', label);
-  const move = ev => { const d = plot.toData(ev); onMove(d.x, d.y, ev); };
+  const emit = ev => { const d = plot.toData(ev); onMove(d.x, d.y, ev); };
+  const onPointerMove = ev => { ev.preventDefault(); emit(ev); };
+  const stop = () => {
+    window.removeEventListener('pointermove', onPointerMove);
+    window.removeEventListener('pointerup', stop);
+    window.removeEventListener('pointercancel', stop);
+  };
   node.addEventListener('pointerdown', ev => {
     ev.preventDefault();
-    node.setPointerCapture(ev.pointerId);
-    node.dataset.dragging = '1';
-    move(ev);
+    if (node.focus) node.focus({ preventScroll: true });
+    emit(ev);
+    window.addEventListener('pointermove', onPointerMove, { passive: false });
+    window.addEventListener('pointerup', stop);
+    window.addEventListener('pointercancel', stop);
   });
-  node.addEventListener('pointermove', ev => { if (node.dataset.dragging) move(ev); });
-  const stop = ev => { delete node.dataset.dragging; try { node.releasePointerCapture(ev.pointerId); } catch (e) {} };
-  node.addEventListener('pointerup', stop);
-  node.addEventListener('pointercancel', stop);
   node.addEventListener('keydown', ev => {
     const big = ev.shiftKey ? 10 : 1;
     let d = 0;

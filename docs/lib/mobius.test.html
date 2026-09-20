@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mobius.js unit tests &mdash; cft-cmi</title>
+<link rel="stylesheet" href="site.css">
+<style>
+  .res { font-family: var(--mono); font-size: .85rem; }
+  .res .g { border-top: 1px solid var(--line-soft); padding: .35rem 0; }
+  .res .g > .h { font-family: var(--sans); font-weight: 600; }
+  .res .src { color: var(--muted); font-size: .78rem; }
+  .res ul { margin: .2rem 0 .2rem 1.2rem; padding: 0; }
+  .res li.pass { color: var(--proved); }
+  .res li.fail { color: var(--open); font-weight: 600; }
+  .total { font-size: 1.1rem; font-weight: 600; padding: .6rem 0; }
+  .total.ok { color: var(--proved); }
+  .total.bad { color: var(--open); }
+</style>
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../index.html">cft-cmi</a></span>
+  <nav><a href="../index.html">Site</a> <a href="../index.md">Documentation</a></nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+
+<main class="wrap">
+<h1>Unit tests for <code>mobius.js</code></h1>
+<p class="lede">Every assertion below is a statement of
+<a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/network_corner_calculus.tex" rel="noopener"><code>rigor/network_corner_calculus.tex</code></a>
+checked against the implementation the site actually runs: the algebra of 2&times;2 M&ouml;bius
+matrices, the parabolic compression, the Schwarzian of a C&sup1; piecewise-M&ouml;bius map as point
+masses, and the two worked examples in which hypothesis (H) fails.</p>
+
+<p class="no-js panel">These tests need JavaScript, and ES modules need the folder to be served
+over http (for example <code>python3 -m http.server</code> inside <code>docs/</code>). Nothing is
+fetched from another site.</p>
+
+<div id="total" class="total"></div>
+<div id="out" class="res"></div>
+</main>
+
+<footer class="site"><div class="wrap">
+  <p>Source: <code>docs/lib/mobius.js</code>, <code>docs/lib/mobius.test.js</code>.</p>
+</div></footer>
+
+<script type="module">
+import { tests } from './mobius.test.js';
+import { initTheme, enableJS } from './ui.js';
+
+initTheme(document.querySelector('button.theme'));
+enableJS();
+
+let pass = 0, fail = 0;
+const out = document.getElementById('out');
+
+for (const t of tests) {
+  const items = [];
+  const rec = (ok, msg, detail) => {
+    if (ok) pass++; else fail++;
+    const li = document.createElement('li');
+    li.className = ok ? 'pass' : 'fail';
+    li.textContent = (ok ? '✓ ' : '✗ ') + msg + (ok ? '' : '  —  ' + detail);
+    items.push(li);
+  };
+  const t0 = {
+    close(a, b, tol, msg) { rec(Math.abs(a - b) <= tol, msg, a + ' vs ' + b + ' (tol ' + tol + ')'); },
+    eq(a, b, msg) { rec(a === b || Math.abs(a - b) < 1e-12, msg, a + ' vs ' + b); },
+    ok(c, msg) { rec(!!c, msg, 'expected true'); }
+  };
+  let threw = null;
+  try { t.fn(t0); } catch (e) { threw = e; fail++; }
+
+  const g = document.createElement('div');
+  g.className = 'g';
+  const h = document.createElement('div');
+  h.className = 'h';
+  h.textContent = (items.every(i => i.className === 'pass') && !threw ? '✓ ' : '✗ ') + t.name;
+  g.appendChild(h);
+  const s = document.createElement('div');
+  s.className = 'src';
+  s.textContent = t.source;
+  g.appendChild(s);
+  const ul = document.createElement('ul');
+  items.forEach(i => ul.appendChild(i));
+  if (threw) {
+    const li = document.createElement('li');
+    li.className = 'fail';
+    li.textContent = '✗ threw: ' + threw.message;
+    ul.appendChild(li);
+  }
+  g.appendChild(ul);
+  out.appendChild(g);
+}
+
+const tot = document.getElementById('total');
+tot.className = 'total ' + (fail ? 'bad' : 'ok');
+tot.textContent = pass + ' passed, ' + fail + ' failed, in ' + tests.length + ' groups';
+document.title = (fail ? 'FAIL ' : 'PASS ') + tot.textContent + ' — mobius.js tests';
+</script>
+</body>
+</html>

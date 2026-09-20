@@ -106,8 +106,10 @@ lattice/continuum ratio there is `1.0316`, not an extrapolation, so no error bar
 ([`numerics/lattice/petz_lattice.out`](numerics/lattice/petz_lattice.out), table [1]). Figure by
 [`tools/make_figures.py`](tools/make_figures.py).
 
-`conjectural`. The relative-entropy coefficient `s₂ = c/12` is not proved. What is proved is the
-bracket `0.0338c ≤ liminf s⁻²D ≤ limsup ≤ 0.924c`, the upper end being `(11+5√5)c/24 = 0.92418c`
+`conjectural`. The relative-entropy coefficient `s₂ = c/12` is not proved. The bracket
+`0.0338c ≤ liminf s⁻²D ≤ limsup ≤ 0.924c` is not proved outright either: the upper end,
+`(11+5√5)c/24 = 0.92418c`, holds under hypothesis (V), which is itself open, and the lower end
+rests on a result of Araki taken from an obtainable source rather than reproved
 ([`rigor/kubo_mori_gauge_lemma.tex`](rigor/kubo_mori_gauge_lemma.tex)); the fermion measures
 `0.0837(5)` and the boson `0.083(2)`, both consistent with `c/12 = 0.0833333`.
 
@@ -118,13 +120,16 @@ rather than erased.
 
 ## 5. Result 3 — is the recovery optimal?
 
-`proved`. The zero-collar compression is **not** the second-order minimiser, and over all
-quasi-free channels the second-order problem is a convex tangent programme whose optimum is
-attained on the isometric orbit ([`rigor/optimality_all_channels.tex`](rigor/optimality_all_channels.tex),
+`numerical`. The zero-collar compression is **not** the second-order minimiser: that rests on
+`θ > 0`, which is measured and not proved (card `compression-not-second-order-minimiser`).
+`proved`: over all quasi-free channels the second-order problem is a convex tangent programme
+([`rigor/optimality_all_channels.tex`](rigor/optimality_all_channels.tex),
 [`rigor/exact_optimum_tangent_problem.tex`](rigor/exact_optimum_tangent_problem.tex),
 [`rigor/exact_fidelity_upper_half.tex`](rigor/exact_fidelity_upper_half.tex)).
 
-`numerical`, **conditional on H1, H2, H3**. The value of the optimum is
+`numerical`, **conditional on H1, H2, H3**. That the optimum is attained on the isometric orbit
+is itself conditional: the tangent document proves it modulo H1, H2, H3, with conditions (a) and
+(e) verified on meshes rather than proved. The value of the optimum is
 `E⁽²⁾ = (1−θ)·f₂·ζ²` per chirality with `θ = 0.384 ± 0.003`, i.e. `1 − θ = 0.616 ± 0.003`
 ([`numerics/optimality_all/F3_RESULTS.md`](numerics/optimality_all/F3_RESULTS.md) §4). The three
 hypotheses are stated in
@@ -184,14 +189,18 @@ Examples `ex:displaced`, `ex:swallow`); figure by [`tools/make_figures.py`](tool
 `proved`. Two consequences. **Rigidity:** `ω ∘ β_Φ = ω` iff `Φ` is Möbius iff `𝒮(Φ) = 0`; all the
 masses are negative and the last step is never swallowed, so exact recovery never occurs for any
 protocol whose last step keeps a non-empty part — unconditionally, without (H) and without the
-second-order law. **Holonomy:** with single-interval conditioning the corner measure, hence the
-recovered state, depends only on the starting block, so the `2ⁿ⁻²` protocols starting from an
-adjacent pair fall into exactly `n−1` classes. VWZ Protocol 3 equals the over-compressed
+second-order law. **Holonomy:** under (H), that is with single-interval conditioning and a starting block of at
+least two chain intervals, the corner measure, hence the recovered state, depends only on the
+starting block, so the `2ⁿ⁻²` protocols starting from an adjacent pair fall into exactly `n−1`
+classes ([`rigor/network_corner_calculus.tex`](rigor/network_corner_calculus.tex), Prop. 9.1 and
+Lem. 9.2, tabulated there for `n = 4, 5`). VWZ Protocol 3 equals the over-compressed
 Theorem-A map up to post-composition with a global Möbius map, which is why the two agree as
 fidelities and differ as point maps.
 
-`conjectural`. The second-order network law `Φ_tot = Σ ζⱼζₖ G(yⱼ−yₖ)` with a universal kernel, and
-the VWZ four-interval ordering `Φ(1):Φ(2):Φ(3) → 1:2:4`, are conjectures.
+`conjectural`. The second-order network law `Φ_tot = Σ ζⱼζₖ G(yⱼ−yₖ)` with a universal kernel
+(card `network-second-order-law`), and the VWZ four-interval ordering `Φ(1):Φ(2):Φ(3) → 1:2:4`
+(card `vwz-protocol-ordering`, where the `1:4` half is unconditional given the corner calculus and
+the `1:2` half needs the network law with a uniform remainder), are conjectures.
 
 ## 7. Beyond the vacuum: lattice, thermal, massive flow, gap geometry
 
@@ -202,7 +211,8 @@ The four figures below are `numerical`, kept as PNG where they are and not regen
 hopping chain in ball arithmetic, up to 72 sites: the apparent exponents `p` of `−log F ~ η^p` are
 `1.986, 1.912, 1.635, 1.151` at `λ = 0, 0.5, 1, 1.5`, against Vardhan–Wei–Zou's `2.00, 1.90, 1.70,
 1.20` (table [3]). The two-branch prediction built from the lattice `Φ` itself reproduces
-`−log F` to ratio `1.0000` (table [2]), and the fixed-`L` two-branch ratio drifts as `1 − 0.15/L`
+`−log F` to ratios `0.969`–`0.990` at `λ = 0.5, 1, 1.5` (table [2]; the `λ = 0` entry is `1.0000`
+by definition, since `Φ_lat` is defined as `½(−log F⁰)` there), and the fixed-`L` two-branch ratio drifts as `1 − 0.15/L`
 (measured `L(1−ratio) = 0.1525, 0.1444, 0.1357` at `L = 4, 6, 8`, table [8])
 ([`numerics/lattice/petz_lattice.out`](numerics/lattice/petz_lattice.out)).
 
@@ -312,7 +322,7 @@ loudly if a source file has changed shape.
 paths relative to the repository, so any checkout works. The cached intermediates (`*.npz`,
 `*.pkl`) are not distributed; regenerating them takes hours for the large boxes.
 
-**Excerpts are absent**, and every document still compiles (§12). Where an excerpt would appear
+**Excerpts are absent**, and their absence breaks no build: the two documents that fail (§13) fail for unrelated reasons, with the excerpts present or not. Where an excerpt would appear
 the `\shot` macro of `rigor/rigor_preamble.tex` prints a framed placeholder naming the missing
 image, and the exact locator is given in the accompanying cited-result box, so the citation can
 be checked against any copy of the source.
@@ -364,8 +374,9 @@ verdict, made for the purpose of checking the cited result.
 
 ## 13. Two documents that do not build
 
-Both failures are pre-existing, and both PDFs on disk date from 8 September. They are recorded in
-[`CHECKLIST.md`](CHECKLIST.md), item 2, and are listed here so that a reader who runs
+Both failures are pre-existing; `rigor/implementation_C11.pdf` on disk dates from 8 September and
+its referee report has no PDF at all. They are recorded in the project's release checklist, which
+is held privately, and are listed here so that a reader who runs
 `rigor/build_all.sh` is not surprised.
 
 | document | line | cause |

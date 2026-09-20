@@ -471,6 +471,8 @@ FOOTER = ("---\n\n[Documentation map](../index.md) · "
 
 
 def result_page(card: Card, areas: dict, by_id: dict, pages: set, repo: Repo) -> str:
+    if "/" in card.id or card.id.startswith("."):
+        raise ValueError(f"card id {card.id!r} would write outside results/")
     page = f"results/{card.id}.md"
     area = areas.get(card.area)
     out = [BANNER, "", f"# {esc(card.title)}", "", status_line(card), ""]
@@ -1050,7 +1052,7 @@ def conventions_pages(repo_root: Path, repo: Repo):
                   "The objects the results are about: the compression map, the "
                   "stress tensor normalisation, fidelity and relative entropy, "
                   "the one-sided recovery step and the Schwarzian corner data. "
-                  "As with the symbol table, this is a first assembly awaiting a "
+                  "Like the notation page, this is a first assembly awaiting a "
                   "human pass.", definitions)
     return note, defn
 
@@ -1218,6 +1220,22 @@ def build_all(kb: Path, repo_root: Path, docs: Path):
     return files, stats
 
 
+# The generator owns exactly two things inside docs/: the top-level *.md pages it
+# writes, and everything under results/.  docs/assets/, docs/explore/, docs/lib/
+# and docs/data/ belong to the figure and site builders and are never scanned,
+# never reported and never deleted here.
+OWNED_SUBDIR = "results"
+OWNED_SUFFIXES = (".md", ".markdown")
+
+
+def owned(rel: str) -> bool:
+    """True for a path inside docs/ that this generator is responsible for."""
+    if not rel.endswith(OWNED_SUFFIXES):
+        return False
+    parts = rel.split("/")
+    return len(parts) == 1 or parts[0] == OWNED_SUBDIR
+
+
 def write_out(files: dict, docs: Path):
     (docs / "results").mkdir(parents=True, exist_ok=True)
     for name, content in sorted(files.items()):
@@ -1225,9 +1243,11 @@ def write_out(files: dict, docs: Path):
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(content, encoding="utf-8")
     stale = []
-    for path in sorted((docs / "results").glob("*.md")):
-        rel = f"results/{path.name}"
-        if rel not in files:
+    for path in sorted((docs / OWNED_SUBDIR).rglob("*")):
+        if not path.is_file():
+            continue
+        rel = path.relative_to(docs).as_posix()
+        if owned(rel) and rel not in files:
             path.unlink()
             stale.append(rel)
     return stale
@@ -1242,9 +1262,11 @@ def check(files: dict, docs: Path, skipped=()) -> int:
             missing.append(name)
         elif path.read_text(encoding="utf-8") != content:
             changed.append(name)
-    for path in sorted(docs.rglob("*.md")):      # orphans, at any depth
+    for path in sorted(docs.rglob("*")):        # orphans, within our own scope only
+        if not path.is_file():
+            continue
         rel = path.relative_to(docs).as_posix()
-        if rel not in files and rel not in skipped:
+        if owned(rel) and rel not in files and rel not in skipped:
             extra.append(rel)
     if not (missing or extra or changed):
         print(f"build_docs --check: {len(files)} pages up to date")
@@ -1258,7 +1280,8 @@ def check(files: dict, docs: Path, skipped=()) -> int:
     for name in missing:
         print(f"  missing   {name}")
     for name in extra:
-        print(f"  stale     {name} (no claim generates it any more)")
+        fixable = "" if "/" in name else "  (top level: delete it by hand)"
+        print(f"  stale     {name} (no claim generates it any more){fixable}")
     for name in changed:
         print(f"  differs   {name}")
         committed = (docs / name).read_text(encoding="utf-8").splitlines()

@@ -8,7 +8,7 @@
 
 *This page is assembled mechanically from the LaTeX conventions appendices of the two papers and the conventions block of the phase-6 brief. Cross-references survive only as their raw labels, and there is no curated symbol table yet: a human pass is still owed. Read the appendices themselves if a symbol here is unclear.*
 
-The objects the results are about: the compression map, the stress tensor normalisation, fidelity and relative entropy, the one-sided recovery step and the Schwarzian corner data. As with the symbol table, this is a first assembly awaiting a human pass.
+The objects the results are about: the compression map, the stress tensor normalisation, fidelity and relative entropy, the one-sided recovery step and the Schwarzian corner data. Like the notation page, this is a first assembly awaiting a human pass.
 
 Assembled from [`paper1/app_conventions.tex`](../paper1/app_conventions.tex), [`paper2/app_conventions.tex`](../paper2/app_conventions.tex), [`rigor/phase6_brief.md`](../rigor/phase6_brief.md). Mathematics is reproduced as LaTeX; a renderer that supports it will typeset it, and the sources above are authoritative.
 

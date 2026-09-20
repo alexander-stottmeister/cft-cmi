@@ -171,11 +171,11 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 | status | claim | |
 |---|---|---|
 | `verified` | Headless screenshots and shell pitfalls on this Mac |  |
-| `active` | Generated documentation subfolder: docs/\*.md from the knowledge base, with a drift check | referee pass failed |
+| `active` | Generated documentation subfolder: docs/\*.md from the knowledge base, with a drift check |  |
 | `active` | Numerics stack and its limits |  |
 | `active` | Plan page artifact and its source |  |
 | `active` | Plan: public presentation (README with figures, interactive Pages site, generated docs/) |  |
-| `active` | Public README and the five generated SVG figures | review pending |
+| `active` | Public README and the five generated SVG figures | referee pass failed |
 | `active` | Two git repositories over one work tree: public project, private third-party material |  |
 | `active` | Rigor pipeline: Lamport proofs, referee passes, findings ledger |  |
 

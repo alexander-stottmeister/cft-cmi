@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The quadratic law &mdash; cft-cmi module 2</title>
+<meta name="description" content="Sweep the cross ratio from 0.0083 to 17.07 and watch the recovery error, its zeta-squared asymptote and the ratio tending to c/(12 pi squared).">
+<link rel="stylesheet" href="../lib/site.css">
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<script defer src="../lib/katex/katex.min.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="geometry.html">Module 1</a>
+    <a href="networks.html">Module 6</a>
+    <a href="../index.md">Documentation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+
+<main class="wrap" id="main">
+<h1>Module 2 &mdash; The quadratic law</h1>
+<p class="lede">The recovery error depends on the geometry through one cross ratio. As that cross ratio
+goes to zero the error is exactly quadratic, with a coefficient fixed by the central charge; over
+three decades of measurement you can watch the ratio settle on it, and then watch it leave again as
+the cross ratio grows.</p>
+
+<div class="claim">
+  <div class="claim-head"><span class="badge refereed">refereed</span>
+    <span class="claim-title">Theorem A</span></div>
+  <p><span data-display data-tex="\lim_{\zeta\downarrow0}\frac{-\log F(\omega,\widetilde\omega_\zeta)}{\zeta^2}=\frac{c}{12\pi^2},\qquad c=r.">lim<sub>&zeta;&darr;0</sub> [&minus;log F(&omega;, &omega;&#771;<sub>&zeta;</sub>)] / &zeta;&sup2; = c / (12&pi;&sup2;), &nbsp; c = r.</span>
+    A data-processing lower bound in the Legendre form of the SLD metric, and a matching Uhlmann
+    upper bound built from a Bogoliubov extension of the compression whose vacuum overlap is a
+    Fredholm determinant. No interchange of limits and no tail bound are needed for the theorem.</p>
+  <p class="provenance">Where this comes from:
+    <a href="../results/thm-a-quadratic-law.md">claim page</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/quadratic_limit.tex" rel="noopener">rigor/quadratic_limit.tex</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/uhlmann_upper_bound.tex" rel="noopener">rigor/uhlmann_upper_bound.tex</a></p>
+</div>
+
+<div class="claim">
+  <div class="claim-head"><span class="badge certified">certified</span>
+    <span class="badge numerical">numerical</span>
+    <span class="claim-title">What the curve below actually is</span></div>
+  <p>Two different things are drawn, and they are not interchangeable. A
+    <strong>certified bracket</strong> is a rigorous enclosure: its lower end is the recovery error
+    restricted to the spectral window <span data-tex="\varepsilon<w<1-\varepsilon">&epsilon; &lt; w &lt; 1&minus;&epsilon;</span>,
+    which is a proved lower bound for the full value. A <strong>best estimate</strong> is an
+    extrapolation with an error bar &mdash; a measurement, not a theorem. The plot draws brackets as
+    bars with a shaded interior and best estimates as filled dots.</p>
+  <p class="provenance">Where this comes from:
+    <a href="../results/certified-numerics.md">certified enclosures</a> &middot;
+    <a href="../results/tail-bound.md">the ultraviolet tail bound</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/certified/cert_tail_hp.py" rel="noopener">numerics/certified/cert_tail_hp.py</a></p>
+</div>
+
+<figure class="no-js">
+  <img src="../assets/quadratic-law.svg" alt="The recovery error against the cross ratio on logarithmic axes, with the quadratic asymptote and the measured remainder.">
+  <figcaption>&Phi;(&zeta;) against &zeta;, the <span data-tex="\zeta^2">&zeta;&sup2;</span> asymptote,
+    and the measured remainder. With JavaScript enabled the same data become a sweep, and every point
+    names the file and line it was read from.</figcaption>
+</figure>
+
+<div class="js-only">
+<div class="panel">
+  <svg id="phi" role="img" aria-label="Recovery error against the cross ratio, logarithmic on both axes"></svg>
+  <div class="controls" style="margin-top:.7rem">
+    <div class="control">
+      <label for="iz">Sweep the measured cross ratio &zeta;</label>
+      <input id="iz" type="range" min="0" max="11" step="1" value="0" aria-describedby="zhint">
+      <span class="hint" id="zhint">twelve measured values, 0.0083 to 17.07</span>
+    </div>
+    <div class="control">
+      <label for="ishow">Show</label>
+      <select id="ishow">
+        <option value="all" selected>everything</option>
+        <option value="best">best estimates only</option>
+        <option value="cert">certified brackets only</option>
+      </select>
+      <span class="hint">brackets and best estimates are drawn differently and never merged</span>
+    </div>
+  </div>
+  <div class="readout" id="out"></div>
+</div>
+
+<div class="panel">
+  <h3 style="margin-top:0">The ratio <span data-tex="\Phi/\zeta^2">&Phi;/&zeta;&sup2;</span></h3>
+  <p style="font-size:.9rem;margin-top:0">Theorem A is the statement that this ratio has a limit as
+    <span data-tex="\zeta\to0">&zeta; &rarr; 0</span>, and that the limit is
+    <span data-tex="c/(12\pi^2)">c/(12&pi;&sup2;)</span>. The measured ratio is not constant &mdash; it
+    is not supposed to be; only its limit is claimed.</p>
+  <svg id="ratio" role="img" aria-label="The ratio of the recovery error to the square of the cross ratio"></svg>
+  <div class="readout" id="out2"></div>
+</div>
+
+<div class="panel">
+  <h3 style="margin-top:0">Where the quadratic law stops</h3>
+  <p style="font-size:.9rem;margin-top:0">The local exponent
+    <span data-tex="\mathrm d\log\Phi/\mathrm d\log\zeta">d log &Phi; / d log &zeta;</span> measured at
+    large cross ratio. It drifts away from 2 as soon as
+    <span data-tex="\zeta">&zeta;</span> is of order one: the quadratic law is a statement about
+    <span data-tex="\zeta\to0">&zeta; &rarr; 0</span> and nothing else.</p>
+  <svg id="slope" role="img" aria-label="Local logarithmic slope of the recovery error at large cross ratio"></svg>
+</div>
+</div>
+
+<h2>Claims this module carries</h2>
+<table>
+<thead><tr><th>claim</th><th>status</th></tr></thead>
+<tbody>
+<tr><td><a href="../results/thm-a-quadratic-law.md">Theorem A: the quadratic law</a></td><td><span class="badge refereed">refereed</span></td></tr>
+<tr><td><a href="../results/const-f2.md">f&#8322; = c/(12&pi;&sup2;)</a></td><td><span class="badge proved">proved</span></td></tr>
+<tr><td><a href="../results/const-gb.md">the one-particle metrics g<sub>B</sub>, g<sub>KM</sub></a></td><td><span class="badge proved">proved</span></td></tr>
+<tr><td><a href="../results/rate-of-remainder.md">the remainder: integer powers, c&#8323; = &minus;0.99</a></td><td><span class="badge proved">proved</span></td></tr>
+<tr><td><a href="../results/tail-bound.md">the ultraviolet tail bound</a></td><td><span class="badge proved">proved</span></td></tr>
+<tr><td><a href="../results/quasi-free-fidelity-formula.md">exact root fidelity from the symbols</a></td><td><span class="badge proved">proved</span></td></tr>
+<tr><td><a href="../results/second-variation-lemma.md">the type-III second-variation lemma</a></td><td><span class="badge proved">proved</span></td></tr>
+<tr><td><a href="../results/certified-numerics.md">certified enclosures of the windowed error</a></td><td><span class="badge numerical">numerical</span></td></tr>
+<tr><td><a href="../results/large-zeta-values.md">&Phi; at large &zeta; and the drifting exponent</a></td><td><span class="badge numerical">numerical</span></td></tr>
+</tbody>
+</table>
+</main>
+
+<footer class="site"><div class="wrap">
+  <p>Module 2 of <a href="../index.html">the cft-cmi site</a>. Every point is read from
+    <code>docs/data/quadratic-law.json</code>, generated by <code>tools/build_site_data.py</code>
+    from the repository's own result files.</p>
+</div></footer>

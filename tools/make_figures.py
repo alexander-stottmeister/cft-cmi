@@ -653,41 +653,6 @@ def fig_quadratic_law() -> Path:
 
 
 # ---- lower panel: the measured remainder
-    bx = Axes(g, 86, 404, 592, 106, (0.0068, 24), (0.0, 1.12), xlog=True)
-    bt = [0.0, 0.25, 0.5, 0.75, 1.0]
-    bx.xgrid(xt), bx.ygrid(bt), bx.box()
-    bx.xticks(xt, lambda v: f"{v:g}")
-    bx.yticks(bt, lambda v: f"{v:g}")
-    g.vtext(36, bx.y + bx.h / 2, "Φ / (f₂ζ²)", "lab")
-    g.text(24, 390, "measured remainder: the ratio to the pure "
-                    "ζ² law", "note")
-    bx.curve([(0.0068, 1.0), (24, 1.0)], "s4 dash")
-    pts = []
-    for r in small:
-        v = r["ratio"] / f2
-        pts.append((r["zeta"], v))
-        sqmark(g, bx.X(r["zeta"]), bx.Y(v), 3.0, "f1")
-    for r in large:
-        v = r["best"] / (f2 * r["zeta"] ** 2)
-        pts.append((r["zeta"], v))
-        g.circle(bx.X(r["zeta"]), bx.Y(v), 3.8, "hole s2")
-    bx.curve(pts, "s1", ' stroke-width="1" stroke-dasharray="3 3"')
-    g.text(bx.x + bx.w / 2, bx.y + bx.h + 22,
-           "ζ   (corner strength ζ = as/(a+L), dimensionless)",
-           "lab", "middle")
-
-    g.text(24, H - 34,
-           f"Measured range ζ = {zmin} to {zmax}. The small-ζ window "
-           f"values are rigorous lower bounds and the tail correction is "
-           f"added; at large ζ that tail is not valid, so the bracket is "
-           f"[Φ at κᶜ(max), Φ∞].", "note")
-    g.text(24, H - 16,
-           "The local log-slope d log Φ / d log ζ falls from "
-           f"{large[0]['slope']} at ζ = {large[0]['zeta']} to "
-           f"{large[-1]['slope']} at ζ = {large[-1]['zeta']} "
-           "(fidelity_table_largezeta.tex): the ζ² law is a "
-           "ζ → 0 statement, not a global one.", "note")
-    return g.write("quadratic-law.svg")
 
 
 # --------------------------------------------------------------------------
@@ -775,48 +740,6 @@ def fig_universality() -> Path:
 
 
 # ---- zoom panel: the three measurements against the proved value
-    lo, hi = 0.00836, 0.00850
-    zx = Axes(g, 500, 84, 200, 252, (0.0, 3.0), (lo, hi))
-    zt = [0.00836, 0.00840, 0.00844, 0.00848]
-    zx.ygrid(zt), zx.box()
-    zx.yticks(zt, lambda v: f"{v:.5f}")
-    zx.curve([(0.0, f2_of_c(1.0)), (3.0, f2_of_c(1.0))], "s4")
-    g.text(zx.x + 6, zx.Y(f2_of_c(1.0)) - 7,
-           f"c/(12π²) = {f2_of_c(1.0):.7f}", "note t4")
-    g.text(zx.x + zx.w / 2, zx.y - 10, "zoom at c = 1", "note", "middle")
-
-    meas = [
-        (0.6, ferm["f2"], ferm["f2err"], "f1", "fermion"),
-        (1.5, bos["f2"], bos["f2err"], "f3", "boson"),
-        (2.4, lat["f2"], None, "f2", "lattice"),
-    ]
-    for xx, val, err, cls, lab in meas:
-        if err:
-            zx.vbar(xx, val - err, val + err, "s" + cls[-1], cap=6)
-            g.circle(zx.X(xx), zx.Y(val), 4.2, cls)
-        else:
-            g.circle(zx.X(xx), zx.Y(val), 4.4, "hole s" + cls[-1])
-        g.text(zx.X(xx), zx.y + zx.h + 18, lab, "tick", "middle")
-
-    yy = H - 92
-    for line in (
-        f"free chiral fermion (continuum, certified window + "
-        f"κᶜ→∞ extrapolation):  f₂ = {ferm['f2']}"
-        f"({int(ferm['f2err']*1e6)})  — fidelity_tables.tex, "
-        f"table tab:second-order  [numerical]",
-        f"U(1) current net, the bosonic check at c = 1:  f₂ = "
-        f"{bos['f2']}({int(bos['f2err']*1e5)})  — "
-        f"numerics/boson/README.md §4  [numerical]",
-        f"hopping chain, c = 1:  Φ/ζ² = {lat['f2']} at "
-        f"ζ = {lat['zeta']}, n = {lat['n']} sites (lattice/continuum "
-        f"ratio {lat['ratio']} there; a single finite-ζ, finite-n point, "
-        f"not an extrapolation, so no error bar is quoted)",
-        "       — numerics/lattice/petz_lattice.out, table [1], "
-        "produced by numerics/lattice/petz_lattice.py  [numerical]",
-    ):
-        g.text(24, yy, line, "note")
-        yy += 18
-    return g.write("universality.svg")
 
 
 # --------------------------------------------------------------------------
@@ -914,50 +837,13 @@ def fig_theta_ladder() -> Path:
         f"LOWER BOUND, not a competing limit.",
         f"Relaxing the taper at L = 256 from (0.30,0.42) to (0.35,0.47) "
         f"moves θ from {lo_t} to {hi_t} (§5(b)); the model has no "
-        f"taper-free limit, and the card is marked superseded.",
+        f"taper-free limit, and superseded by the reconciliation.",
     )):
         g.text(24, 422 + 17 * i, line, "note")
     return g.write("theta-ladder.svg")
 
 
 # ---- the superseded circle model, on the same theta axis
-    cx = Axes(g, 580, 86, 140, 268, (0.0, 2.0), (0.27, 0.40))
-    cx.ygrid(yt), cx.box()
-    g.text(cx.x + cx.w / 2, cx.y - 10, "circle model", "note", "middle")
-    taper = dict(t["taper"])
-    lo_t, hi_t = taper["(0.30,0.42)"], taper["(0.35,0.47)"]
-    g.line(cx.X(1.5), cx.Y(lo_t), cx.X(1.5), cx.Y(hi_t), "s5 dash",
-           ' marker-end="url(#ar-c5)"')
-    g.text(cx.X(1.5) + 6, cx.Y((lo_t + hi_t) / 2) - 4, "relax", "note t5")
-    g.text(cx.X(1.5) + 6, cx.Y((lo_t + hi_t) / 2) + 8, "the taper", "note t5")
-    cx.vbar(0.6, t["circle"] - t["circle_err"], t["circle"] + t["circle_err"],
-            "s5", cap=6)
-    sqmark(g, cx.X(0.6), cx.Y(t["circle"]), 3.6, "f5")
-    g.text(cx.X(0.75), cx.Y(t["circle"]) + 20,
-           f"{t['circle']} ± {t['circle_err']}", "note t5", "middle")
-    g.text(cx.x + cx.w / 2, cx.y + cx.h + 18, "superseded", "note t5",
-           "middle")
-
-    yy = H - 84
-    for line in (
-        f"θ = {t['theta']} ± {t['theta_err']} is the "
-        f"h → 0 Richardson closure of five mesh families "
-        f"(F3_RESULTS.md §4(iii), spread 0.3835–0.3847); the "
-        f"finest family-A point is θ = {t['theta_hmin']} at h = "
-        f"{t['h_min']}.",
-        "T0 points are taken at Y = y_max = 10; the finite-y_max correction "
-        "is +0.002 at h = 0.06 (§4(i)) and is the offset of those points "
-        "from the line.",
-        f"The circle model with the S10 ultraviolet taper gives θ = "
-        f"{t['circle']} ± {t['circle_err']}. It is a taper-suppressed "
-        f"LOWER BOUND, not a competing limit: at L = 256 relaxing the taper "
-        f"window from (0.30,0.42) to (0.35,0.47)",
-        f"moves θ from {lo_t} to {hi_t} (§5(b)), and the model has "
-        f"no taper-free limit. The card carrying it is marked superseded.",
-    ):
-        g.text(24, yy, line, "note")
-        yy += 17
-    return g.write("theta-ladder.svg")
 
 
 # --------------------------------------------------------------------------

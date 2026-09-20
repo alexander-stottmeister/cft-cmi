@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recovery error of the vacuum in chiral CFT &mdash; cft-cmi</title>
+<meta name="description" content="Interactive companion to the cft-cmi project: conditional mutual information of adjacent intervals as a quantum-Markov defect, and the exact error of Petz recovery.">
+<link rel="stylesheet" href="lib/site.css">
+<link rel="stylesheet" href="lib/katex/katex.min.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<script defer src="lib/katex/katex.min.js"></script>
+<style>
+  .results { display: grid; gap: .8rem; }
+  .result { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); padding: .85rem 1rem; }
+  .result h3 { margin: 0 0 .25rem; font-size: 1rem; }
+  .result .meta { display: flex; flex-wrap: wrap; gap: .4rem .7rem; align-items: baseline; font-size: .85rem; }
+  .modules td:first-child { white-space: nowrap; }
+  .soon { color: var(--muted); }
+  blockquote.prov { margin: 0; border-left: 3px solid var(--line); padding-left: 1rem; }
+  blockquote.prov p { max-width: 68ch; }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="index.html">cft-cmi</a></span>
+  <nav>
+    <a href="#results">Results</a>
+    <a href="#modules">Modules</a>
+    <a href="index.md">Documentation</a>
+    <a href="status.md">All claims</a>
+    <a href="#provenance">AI use</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+
+<main class="wrap" id="main">
+<h1>Conditional mutual information of adjacent intervals, and the exact error of Petz recovery</h1>
+<p class="lede">Three adjacent intervals <span data-tex="A,B,C">A, B, C</span> in the vacuum of a chiral
+conformal net. The Longo&ndash;Xu conditional mutual information measures how far the chain is from
+a quantum Markov chain; the error of the Petz map that tries to rebuild <span data-tex="ABC">ABC</span>
+from <span data-tex="AB">AB</span> measures the same failure quantitatively. These pages let you move
+the geometry and watch both.</p>
+<p>Every number on this site carries the file and line it was extracted from, and a status word.
+<strong>A status word is a claim about how much is known, and nothing more.</strong>
+<span class="badge proved">proved</span> is a theorem;
+<span class="badge numerical">numerical</span> is a measurement with an error bar and is never styled
+like one; <span class="badge certified">certified</span> is a rigorous bound;
+<span class="badge conditional">conditional</span> names the hypotheses it rests on.</p>
+
+<h2 id="results">The four headline results</h2>
+<div class="results">
+
+  <div class="result">
+    <h3>Theorem A &mdash; the exact quadratic law</h3>
+    <div class="meta"><span class="badge refereed">refereed</span>
+      <span>Module 2 &middot; <a href="explore/quadratic-law.html">The quadratic law</a></span>
+      <span><a href="results/thm-a-quadratic-law.md">claim page</a></span></div>
+    <p>For the zero-collar compression of the free chiral fermion,
+      <span data-tex="\lim_{\zeta\to0}\Phi(\zeta)/\zeta^2 = c/(12\pi^2)">lim<sub>&zeta;&rarr;0</sub> &Phi;(&zeta;)/&zeta;&sup2; = c/(12&pi;&sup2;)</span>
+      &mdash; a lower bound from the Legendre form of the SLD metric, a matching Uhlmann upper bound
+      from a Bogoliubov extension whose vacuum overlap is a Fredholm determinant.</p>
+  </div>
+
+  <div class="result">
+    <h3>Theorem B &mdash; universality in the central charge</h3>
+    <div class="meta"><span class="badge conditional">conditional</span>
+      <span class="soon">Module 3 &middot; in preparation</span>
+      <span><a href="results/thm-b-universality.md">claim page</a></span></div>
+    <p>The same coefficient <span data-tex="f_2=c/(12\pi^2)">f&#8322; = c/(12&pi;&sup2;)</span> for every
+      diffeomorphism-covariant net, not only the free fermion: the second-order coefficient is linear
+      in the central charge. <span class="hypo">Refereed, and stated under hypotheses H1, H2, H3;
+      they are quoted on the claim page and the badge must not be read without them.</span></p>
+  </div>
+
+  <div class="result">
+    <h3>The compression is not optimal &mdash; and by how much</h3>
+    <div class="meta"><span class="badge conditional">conditional</span>
+      <span class="soon">Modules 4 and 5 &middot; in preparation</span>
+      <span><a href="results/all-channel-optimum-value.md">claim page</a></span>
+      <span><a href="results/theta-value.md">&theta;</a></span></div>
+    <p>The best second-order gain any recovery channel can have over the compression is
+      <span data-tex="1-\theta">1&minus;&theta;</span> =
+      <span id="rec-theta" data-record="theta:one_minus_theta"><span class="value">0.616 <span class="err">&plusmn; 0.003</span></span>
+        <span class="badge numerical">numerical</span>
+        <a class="provenance" href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/F3_RESULTS.md#L15" rel="noopener">numerics/optimality_all/F3_RESULTS.md:15</a></span>.
+      The two published values of <span data-tex="\theta">&theta;</span> did not have different limits:
+      the spectral circle model's ultraviolet taper removes about a fifth of it.
+      <span class="hypo">Measured, not proved, and conditional on H1, H2, H3.</span></p>
+  </div>
+
+  <div class="result">
+    <h3>Recovery networks and the corner calculus</h3>
+    <div class="meta"><span class="badge conditional">conditional</span>
+      <span>Module 6 &middot; <a href="explore/networks.html">Networks and the holonomy</a></span>
+      <span><a href="results/corner-calculus.md">claim page</a></span></div>
+    <p>A sequence of one-sided recovery steps composes to a C&sup1; piecewise-M&ouml;bius map whose
+      Schwarzian is a sum of point masses, and the recovered state depends on the map only through
+      that Schwarzian. The unconditional rule places each mass at the preimage of its corner under
+      the later steps, scaled by their derivative; the junction form, in which the masses simply sit
+      at the junctions and the order of the steps does not matter, is the special case that holds
+      under hypothesis (H). <span class="hypo">Proved; the junction form is conditional on (H), which
+      the module tests on the configuration you build rather than assuming.</span></p>
+  </div>
+
+</div>
+
+<h2 id="modules">The ten modules</h2>
+<p>Each module carries a status badge per displayed claim, works as text and a static figure with
+JavaScript switched off, and makes no request to any other site.</p>
+<table class="modules">
+<thead><tr><th>#</th><th>module</th><th>what you do</th><th>state</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><a href="explore/geometry.html">Geometry and the recovery map</a></td><td>drag the four endpoints; watch <span data-tex="z">z</span>, <span data-tex="\zeta">&zeta;</span>, the cross ratio and the Longo&ndash;Xu CMI</td><td>live</td></tr>
+<tr><td>2</td><td><a href="explore/quadratic-law.html">The quadratic law</a></td><td>sweep <span data-tex="\zeta">&zeta;</span> from 0.0083 to 17.07; the curve, the <span data-tex="\zeta^2">&zeta;&sup2;</span> asymptote, the ratio</td><td>live</td></tr>
+<tr><td>3</td><td class="soon">Universality in <span data-tex="c">c</span></td><td>slide the central charge along the line Theorem B proves</td><td class="soon">planned</td></tr>
+<tr><td>4</td><td class="soon">Is the compression optimal?</td><td>the compression, the rotated family and the optimum; the gain <span data-tex="1-\theta">1&minus;&theta;</span></td><td class="soon">planned</td></tr>
+<tr><td>5</td><td class="soon">Why two papers disagreed about <span data-tex="\theta">&theta;</span></td><td>two separate controls: window position and transition width</td><td class="soon">planned</td></tr>
+<tr><td>6</td><td><a href="explore/networks.html">Recovery networks and the holonomy</a></td><td>build a chain, pick a protocol, watch the Schwarzian masses accumulate</td><td>live</td></tr>
+<tr><td>7</td><td class="soon">The separation constraint</td><td>set <span data-tex="\varepsilon">&epsilon;</span>, drag corner strengths, watch the bound bind</td><td class="soon">planned</td></tr>
+<tr><td>8</td><td class="soon">Off criticality: gap, temperature, mass</td><td>exponential shielding and the c-function</td><td class="soon">planned</td></tr>
+<tr><td>9</td><td class="soon">Relative entropy: the conjecture and its bracket</td><td>the proved bracket against the conjecture and the measurement</td><td class="soon">planned</td></tr>
+<tr><td>10</td><td class="soon">The claim map</td><td>every claim as a graph, filtered by status</td><td class="soon">planned</td></tr>
+</tbody>
+</table>
+
+<h2>The documentation</h2>
+<p>The same folder carries a generated set of pages: what is claimed, with what status, and where
+the proof lives. They are produced from the project's knowledge base by
+<code>tools/build_docs.py</code>, so they cannot drift from it.</p>
+<table>
+<tbody>
+<tr><td><a href="index.md">index.md</a></td><td>the map: four results, ten modules, the sections below</td></tr>
+<tr><td><a href="status.md">status.md</a></td><td>every claim, grouped by area, with status and one-line statement</td></tr>
+<tr><td><a href="results/">results/</a></td><td>one page per consequential claim</td></tr>
+<tr><td><a href="notation.md">notation.md</a></td><td>the symbol table</td></tr>
+<tr><td><a href="definitions.md">definitions.md</a></td><td>the objects and what they mean</td></tr>
+<tr><td><a href="open.md">open.md</a></td><td>what is open, and the recorded next step for each</td></tr>
+<tr><td><a href="sources.md">sources.md</a></td><td>external results relied upon, and whether they can be obtained</td></tr>
+<tr><td><a href="history.md">history.md</a></td><td>phases 1 to 6, what each settled, and the errata</td></tr>
+</tbody>
+</table>
+<p>The two papers are attached as PDFs to the
+<a href="https://github.com/alexander-stottmeister/cft-cmi/releases/latest" rel="noopener">latest release</a>,
+so a citation points at a fixed version rather than a moving file. The M&ouml;bius layer that module 6
+runs on has its own
+<a href="lib/mobius.test.html">unit-test page</a>, which checks it against the worked examples of the
+rigor document in your browser.</p>
+
+<h2 id="provenance">Provenance and AI use</h2>
+<p class="lede">Quoted verbatim from the papers
+(<a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/paper1/main.tex" rel="noopener"><code>paper1/main.tex</code></a>,
+section &ldquo;Provenance and AI use&rdquo;), not a softened version.</p>
+<blockquote class="prov">
+<p>The work reported here was carried out in collaboration with AI agents (Claude, Anthropic)
+directed by the author. Agents wrote the structured proofs and the present manuscript,
+implemented and ran the numerical computations, and refereed the results adversarially as
+separate instances that had not written the document under review, although a repair was
+often re-checked by the referee instance that had raised the objection rather than by a fresh
+one. No statement is recorded as proved unless a referee pass examined it and did not break
+it; objections that were not acted upon are listed, unapplied, in the referee reports.
+External results were checked against the sources wherever the source could be obtained, and
+never quoted from memory; a source that could not be obtained is marked NOT OBTAINED in the
+underlying documents, and the disposition of each statement resting on it is recorded there:
+reproved, taken from an obtainable source that states it, checked numerically, or carried
+explicitly as a hypothesis. The referee reports, the errata and the raw
+numerical output are kept in the project repository alongside the proofs; page images of
+third-party publications are not redistributed with it.</p>
+<p>AI systems are not authors of this paper. The author set the problems, took the mathematical
+decisions, judged what counts as settled, and is responsible for the content, including any
+error the pipeline failed to catch. Statements are labelled by status throughout: proved
+means a complete structured proof that an independent referee pass did not break, and
+numerical means a measurement with a stated error bar, not a proof.</p>
+</blockquote>
+</main>
+
+<footer class="site"><div class="wrap">
+  <p>No analytics, no external requests at runtime. KaTeX is vendored locally (MIT,
+    <a href="lib/katex/LICENSE">licence</a>). Data files under <code>docs/data/</code> are generated by
+    <code>tools/build_site_data.py</code> and each record names the file and line it came from.</p>
+</div></footer>
+
+<script type="module">
+import { initTheme, enableJS, loadData, renderRecord, renderMath } from './lib/ui.js';
+initTheme(document.querySelector('button.theme'));
+renderMath(document);
+window.addEventListener('load', () => renderMath(document));
+enableJS();
+try {
+  const theta = await loadData('data/theta.json');
+  const host = document.getElementById('rec-theta');
+  host.replaceChildren(renderRecord(theta.get('one_minus_theta'), { sig: 3 }));
+} catch (e) {
+  /* the static value and its source link are already in the markup */
+}
+</script>
+</body>
+</html>

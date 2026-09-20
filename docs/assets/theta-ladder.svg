@@ -115,5 +115,5 @@ text{fill:#1f2328;}.sub,.tick,.note{fill:#57606a;}.axis{stroke:#1f2328;}.grid,.f
 <text x="24.00" y="422.00" class="note" text-anchor="start">θ = 0.384 ± 0.003 is the h → 0 Richardson closure of five mesh families (§4(iii), spread 0.3835–0.3847); finest point θ = 0.37442 at h = 0.02.</text>
 <text x="24.00" y="439.00" class="note" text-anchor="start">T0 points are taken at Y = y_max = 10; the finite-y_max correction is +0.002 at h = 0.06 (§4(i)), the offset of those points from the line.</text>
 <text x="24.00" y="456.00" class="note" text-anchor="start">The circle model with the S10 ultraviolet taper gives θ = 0.300 ± 0.005: a taper-suppressed LOWER BOUND, not a competing limit.</text>
-<text x="24.00" y="473.00" class="note" text-anchor="start">Relaxing the taper at L = 256 from (0.30,0.42) to (0.35,0.47) moves θ from 0.28958 to 0.36178 (§5(b)); the model has no taper-free limit, and the card is marked superseded.</text>
+<text x="24.00" y="473.00" class="note" text-anchor="start">Relaxing the taper at L = 256 from (0.30,0.42) to (0.35,0.47) moves θ from 0.28958 to 0.36178 (§5(b)); the model has no taper-free limit, and superseded by the reconciliation.</text>
 </svg>
