@@ -581,7 +581,9 @@ def status_page(claims: list, areas: dict, pages: set) -> str:
             f"{'s' if len(unreviewed) == 1 else 've'} never been refereed** and "
             f"**{len(failed)} carr{'ies' if len(failed) == 1 else 'y'} a failed "
             "referee pass**, that is repairs asked for and not yet absorbed. "
-            f"A further **{len(pending)} await a pass** after a recent change. "
+            "Cards awaiting a pass after a recent change are marked too, but "
+            "not counted here: that number moves with day-to-day editing of "
+            "infrastructure cards that have no page. "
             "All three are marked in the tables below, as *never refereed*, "
             "*referee pass failed* and *review pending*. Nothing labelled "
             f"{badge('numerical')} is a theorem.", ""]
@@ -1015,7 +1017,13 @@ def conventions_pages(repo_root: Path, repo: Repo):
             target.append((rel, title or "Preamble", body, path.suffix))
 
     def render(kind: str, heading: str, blurb: str, blocks) -> str:
-        out = [HAND_EDIT_BANNER, "", f"# {heading}", "", blurb, "",
+        caveat = ("*This page is assembled mechanically from the LaTeX conventions "
+                  "appendices of the two papers and the conventions block of the "
+                  "phase-6 brief. Cross-references survive only as their raw "
+                  "labels, and there is no curated symbol table yet: a human pass "
+                  "is still owed. Read the appendices themselves if a symbol here "
+                  "is unclear.*")
+        out = [HAND_EDIT_BANNER, "", f"# {heading}", "", caveat, "", blurb, "",
                "Assembled from " + ", ".join(
                    f"[`{r}`]({rel_link(kind, r)})" for r in CONVENTION_SOURCES)
                + ". Mathematics is reproduced as LaTeX; a renderer that supports "
@@ -1141,7 +1149,7 @@ def index_page(claims: list, areas: dict, by_id: dict, pages: set, counts) -> st
 # --------------------------------------------------------------------------- #
 
 HAND_EDIT_MARKER = re.compile(r"^[ \t]*<!--[ \t]*hand-edited:[ \t]*(yes|true)[ \t]*-->[ \t]*$",
-                              re.IGNORECASE)
+                              re.IGNORECASE | re.MULTILINE)
 
 
 def hand_edited(path: Path) -> bool:
@@ -1183,11 +1191,14 @@ def build_all(kb: Path, repo_root: Path, docs: Path):
     files["index.md"] = index_page(claims, areas, by_id, pages, counts)
 
     note, defn = conventions_pages(repo_root, repo)
+    skipped_hand_edited = []
     for name, content in (("notation.md", note), ("definitions.md", defn)):
         if hand_edited(docs / name):
             warnings.append(f"{name}: marked hand-edited, left untouched")
+            skipped_hand_edited.append(name)
         else:
             files[name] = content
+
 
     stats = {
         "claims": len(claims),
@@ -1202,6 +1213,7 @@ def build_all(kb: Path, repo_root: Path, docs: Path):
         "counts": counts,
         "kb": kb_stats,
         "warnings": warnings,
+        "skipped_hand_edited": skipped_hand_edited,
     }
     return files, stats
 
@@ -1221,7 +1233,8 @@ def write_out(files: dict, docs: Path):
     return stale
 
 
-def check(files: dict, docs: Path) -> int:
+def check(files: dict, docs: Path, skipped=()) -> int:
+    skipped = list(skipped)
     missing, extra, changed = [], [], []
     for name, content in sorted(files.items()):
         path = docs / name
@@ -1229,24 +1242,14 @@ def check(files: dict, docs: Path) -> int:
             missing.append(name)
         elif path.read_text(encoding="utf-8") != content:
             changed.append(name)
-    results_dir = docs / "results"
-    if results_dir.is_dir():
-        for path in sorted(results_dir.glob("*.md")):
-            rel = f"results/{path.name}"
-            if rel not in files:
-                extra.append(rel)
-    for path in sorted(docs.glob("*.md")):          # orphan top-level pages
-        if path.name not in files:
-            extra.append(path.name)
-    skipped = []                                     # hand-edited pages leave the guard
-    for name in sorted(files):
-        path = docs / name
-        if path.exists() and HAND_EDIT_MARKER.search(path.read_text(encoding="utf-8")):
-            skipped.append(name)
+    for path in sorted(docs.rglob("*.md")):      # orphans, at any depth
+        rel = path.relative_to(docs).as_posix()
+        if rel not in files and rel not in skipped:
+            extra.append(rel)
     if not (missing or extra or changed):
         print(f"build_docs --check: {len(files)} pages up to date")
         if skipped:
-            print("  NOT CHECKED, marked hand-edited: " + ", ".join(skipped))
+            print("  NOT CHECKED, marked hand-edited: " + ", ".join(sorted(skipped)))
             print("  a hand-edited page is never compared, so it can go stale silently;")
             print("  re-read it, or clear the marker to put it back under the guard.")
         return 0
@@ -1291,7 +1294,7 @@ def main(argv=None) -> int:
             write_out(files, scratch)
             files = {name: (scratch / name).read_text(encoding="utf-8")
                      for name in files}
-        rc = check(files, args.docs)
+        rc = check(files, args.docs, stats.get("skipped_hand_edited", ()))
     else:
         stale = write_out(files, args.docs)
         rc = 0

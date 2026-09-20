@@ -6,6 +6,8 @@
 
 # Symbols and conventions
 
+*This page is assembled mechanically from the LaTeX conventions appendices of the two papers and the conventions block of the phase-6 brief. Cross-references survive only as their raw labels, and there is no curated symbol table yet: a human pass is still owed. Read the appendices themselves if a symbol here is unclear.*
+
 Every constant quoted in this project depends on the choices collected here. This page is a first assembly from the conventions of the two papers and of the Phase 6 brief; it is meant to be read once by a human and corrected, after which the marker line at the top stops the generator from touching it again.
 
 Assembled from [`paper1/app_conventions.tex`](../paper1/app_conventions.tex), [`paper2/app_conventions.tex`](../paper2/app_conventions.tex), [`rigor/phase6_brief.md`](../rigor/phase6_brief.md). Mathematics is reproduced as LaTeX; a renderer that supports it will typeset it, and the sources above are authoritative.
