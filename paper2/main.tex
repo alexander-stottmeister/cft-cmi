@@ -17,7 +17,7 @@
 % ---- Paper 2 (Phase 2 deliverable). Sources: rigor/phase2_brief.md; rigor/universality_theorem_B.tex (QA); rigor/implementation_C11.tex (QB);
 % ---- rigor/kubo_mori_second_variation.tex (QK); numerics/boson (QN); rigor/lemma_second_variation.tex (P1); Note 7; paper 1 for the free fermion.
 \title{Universality of the Petz recovery error in conformal nets}
-\author{}
+\author{Alexander Stottmeister\thanks{Institut f\"ur Theoretische Physik, Leibniz Universit\"at Hannover. This work is a collaboration with AI agents: Anthropic's Claude wrote the structured proofs and this manuscript, implemented and ran the numerics, and refereed every result adversarially, all under the author's direction. The AI systems are not authors and the author is responsible for the content; see the disclosure at the end.}}
 \date{September 2026}
 \begin{document}
 \maketitle
@@ -62,6 +62,22 @@ proof of the $c$-linearity of the vacuum overlap at second order.
 \appendix
 \section{Conventions and normalisations}\label{app:conv}
 \input{app_conventions}
+\section*{Provenance and AI use}
+
+The work reported here was carried out in collaboration with AI agents (Claude, Anthropic)
+directed by the author. Agents wrote the structured proofs and the present manuscript,
+implemented and ran the numerical computations, and, as separate instances that had not
+written the text under review, refereed each result adversarially; every objection was
+repaired and re-reviewed before a statement was recorded as proved. External results were
+checked against the sources rather than quoted from memory, and the referee reports, the
+errata and the raw numerical output are kept in the project repository alongside the proofs.
+
+AI systems are not authors of this paper. The author set the problems, took the mathematical
+decisions, judged what counts as settled, and is responsible for the content, including any
+error the pipeline failed to catch. Statements are labelled by status throughout: proved
+means a complete structured proof that an independent referee pass did not break, and
+numerical means a measurement with a stated error bar, not a proof.
+
 \begin{thebibliography}{99}
 \bibitem{AU02} P.~M. Alberti, A.~Uhlmann, \emph{On Bures distance and $*$-algebraic transition probability
 between inner derived positive linear forms}, Acta Appl.\ Math.\ \textbf{60} (2000) 1--37,
