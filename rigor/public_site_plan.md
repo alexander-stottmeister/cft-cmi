@@ -122,7 +122,9 @@ the chain starts from a single interval, and where it fails the naive corner mea
 always fail in those shapes: VWZ 1(A) and 1(B) both condition on a union and both satisfy (H), 1(B) because its
 two corners coincide, while "add D on C, then A on BC" does not. The module therefore tests (H) itself rather
 than inferring it from the shape of the protocol, and flags a failing configuration rather than silently
-drawing the wrong masses. Theorem 5.2
+drawing the wrong masses. Two behaviours of Theorem 5.2 must be drawn, not only described: a mass that moves
+off its junction to the preimage under the later maps, and a corner that is swallowed by a later step and
+contributes nothing, which is the single-interval-start failure. Theorem 5.2
 is no more expensive in JavaScript than Theorem 5.3. For the same reason the Protocol 3 panel must say that
 its map equals the over-compressed Theorem-A map up to post-composition with a global Möbius map, which is
 why the two agree as fidelities and differ as point maps.
@@ -205,9 +207,12 @@ workflow compiles without the excerpts, so it also proves continuously that a pu
 | P2 | `tools/build_docs.py`, the eight documentation pages, the drift check | one Opus agent | one pass, checks generation is faithful and statuses are not upgraded |
 | P3 | site skeleton, shared `lib/`, modules 1, 2, 6 | one Opus agent | one pass, including that no module displays an unsourced number |
 | P4 | modules 3, 4, 5, 7, 8, 9, 10 | two Opus agents in parallel, disjoint module sets | one pass over both |
+| P0 | referee pass on `circle-model-taper-suppresses-theta`, which has never been reviewed | one Opus referee | it is itself the pass |
 | P5 | Makefile, Actions workflow, Pages enablement | orchestrator | the workflow is its own check |
 
-P1 and P2 are independent and can run together. P3 must precede P4 because it fixes the shared library. The
+P0 must precede P4, because module 5 is built around a card that has never been refereed and the display rule
+above bars an unreviewed card. P1 and P2 are independent and can run together. P3 must precede P4 because it
+fixes the shared library. The
 whole set is four to six agent-days of work, dominated by P3 and P4.
 
 Rough token cost, extrapolating from Phase 6: 0.8M to 1.2M per building phase and 0.2M to 0.4M per referee
