@@ -219,17 +219,17 @@ Rough token cost, extrapolating from Phase 6: 0.8M to 1.2M per building phase an
 pass, so 4M to 6M in total. If that is too much, the honest reduction is to cut P4 to modules 4 and 6 and ship
 the other results as static figures; the coverage table then states plainly which results are interactive.
 
-## 6. Decisions needed before P1 starts
+## 6. Decisions — taken 2026-09-21 by the user
 
-D1 **When does Pages go live?** Free-tier Pages serves public repositories only. Options: build now and
-   publish when the repository goes public (recommended, costs nothing, keeps the checklist in control); or a
-   paid plan to publish from the private repository immediately.
-D2 **How do readers get the PDFs?** Options: (a) track `paper1/main.pdf` and `paper2/main.pdf` as exceptions in
-   `.gitignore`, simple and immediate; (b) attach them to a GitHub Release per version, which is the cleanest
-   for citation; (c) have CI build and publish them under `docs/pdf/`, which keeps them current but needs
-   both the two broken documents fixed and an exception to the `*.pdf` rule in `.gitignore`, or a workflow that
-   publishes them as a Pages artefact without committing them. Recommendation: (b) for released versions and (c) once CI is green, with
-   the README linking to both.
-D3 **How much of the interactive set do you want?** Ten modules as tabled, or the reduced set of P4 above.
-D4 **Does the site state the AI provenance?** Recommendation: yes, the same wording as the papers, on the
-   landing page rather than buried, since the site is where a casual reader forms an impression.
+D1 **Pages goes live only when the repository goes public.** The site is built, committed and previewed
+   locally from now on; the Pages deployment step of P5 is written but left disabled, and enabling it is one
+   line plus one click once `CHECKLIST.md` is clear. No paid plan is needed.
+D2 **PDFs as recommended: releases now, continuous integration once it is green.** Each release carries
+   `paper1` and `paper2` as attached assets, so a citation points at a fixed version rather than at a moving
+   file, and the README links to the latest release. When the two broken documents build again, the workflow
+   also publishes the current PDFs under `docs/pdf/` as a Pages artefact, without committing them, which keeps
+   the `*.pdf` ignore rule intact. The first release is `v0.1.0-draft`, marked pre-release because the papers
+   are drafts and the repository is private.
+D3 **All ten modules.** Coverage stays as tabled: 33 refereed-or-proved claims plus 11 headline numericals.
+D4 **The site carries the AI-provenance text**, in the same words as the papers, on the landing page rather
+   than on a subpage, and every module keeps its per-claim status badge.
