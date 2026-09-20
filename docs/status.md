@@ -20,7 +20,7 @@
 
 58 of them are `refereed`, `proved`, `numerical`, `conjectural` and have a page of their own under [`results/`](results/); the remainder are listed here with their status only.
 
-A referee pass is not implied by a status. Of the cards listed here, **0 have never been refereed** and **1 carries a failed referee pass**, that is repairs asked for and not yet absorbed. A further **2 await a pass** after a recent change. All three are marked in the tables below, as *never refereed*, *referee pass failed* and *review pending*. Nothing labelled `numerical` is a theorem.
+A referee pass is not implied by a status. Of the cards listed here, **0 have never been refereed** and **0 carry a failed referee pass**, that is repairs asked for and not yet absorbed. A further **3 await a pass** after a recent change. All three are marked in the tables below, as *never refereed*, *referee pass failed* and *review pending*. Nothing labelled `numerical` is a theorem.
 
 <a id="area-foundations"></a>
 
@@ -171,7 +171,7 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 | status | claim | |
 |---|---|---|
 | `verified` | Headless screenshots and shell pitfalls on this Mac |  |
-| `active` | Generated documentation subfolder: docs/\*.md from the knowledge base, with a drift check | referee pass failed |
+| `active` | Generated documentation subfolder: docs/\*.md from the knowledge base, with a drift check | review pending |
 | `active` | Numerics stack and its limits |  |
 | `active` | Plan page artifact and its source |  |
 | `active` | Plan: public presentation (README with figures, interactive Pages site, generated docs/) | review pending |

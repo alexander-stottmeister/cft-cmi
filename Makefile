@@ -1,4 +1,7 @@
-# cft_cmi — build the public surface.  Every target is re-runnable and writes
+# cft_cmi — build the public surface.  NOTE: docs/ records each card's review
+# state, so a referee verdict makes `make check` fail until `make docs` is re-run.
+# Run `make docs` before committing after any knowledge-base change.
+#  Every target is re-runnable and writes
 # only inside the repository.  See rigor/public_site_plan.md section 4.
 PYTHON ?= python3
 .PHONY: all docs figures data papers check site clean-site help
@@ -35,7 +38,7 @@ papers:
 # site must still match the file it was extracted from.
 check:
 	$(PYTHON) tools/build_docs.py --check
-	@test -f tools/build_site_data.py && $(PYTHON) tools/build_site_data.py --check || echo "site data: no extractor yet, skipped"
+	@if [ -f tools/build_site_data.py ]; then $(PYTHON) tools/build_site_data.py --check; else echo "site data: no extractor yet, skipped"; fi
 
 site: figures data docs
 	@echo "serving docs/ at http://localhost:8000  (ctrl-c to stop)"
