@@ -16,8 +16,8 @@ G2: lattice_chain.py at 4 x 18 sites, exact 2^n validation at n \<= 10; Protocol
 
 ## Evidence
 
-- [rigor/phase6_brief.md](../../rigor/phase6_brief.md) — document — W4
-- `refs/VWZ_2307.14434.pdf` — document — Sec5; held privately, not redistributed
+- [rigor/phase6_brief.md](../../rigor/phase6_brief.md) — document, at `W4`
+- `refs/VWZ_2307.14434.pdf` — document, at `Sec5`; held privately, not redistributed
 
 ## Related claims
 

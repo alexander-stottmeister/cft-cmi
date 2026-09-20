@@ -16,8 +16,8 @@ rigor/optimality_all_channels.tex Lemma 2.2, Prop. 2.4.
 
 ## Evidence
 
-- [rigor/optimality_all_channels.tex](../../rigor/optimality_all_channels.tex) — document — Lemma2.2
-- `refs/AlbertiUhlmann02_math-ph-0202038.pdf` — source — Thm2; held privately, not redistributed
+- [rigor/optimality_all_channels.tex](../../rigor/optimality_all_channels.tex) — document, at `Lemma2.2`
+- `refs/AlbertiUhlmann02_math-ph-0202038.pdf` — source, at `Thm2`; held privately, not redistributed
 
 ## Related claims
 

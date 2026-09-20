@@ -12,13 +12,17 @@ Let omega be a normal state on a von Neumann algebra M, N_1 subset N_2 subset ..
 
 ## Hypotheses
 
-This result is conditional. The sentences below are quoted from the statement above; read the status badge only together with them.
+This result is conditional: it holds only where the hypotheses below hold. The sentences are quoted from the statement above; read the status badge only together with them.
 
 Hypothesis labels used: `U`.
 
 > (a) ANGLE FORM (Thm 12.5), under hypothesis (U): with the Bures angle A(phi,psi) = arccos F(phi,psi), A(omega|N_m, omega|N_1 o R) \<= sum_k A(omega|N_{k+1}, omega|N_k o R_k).
 >
 > HYPOTHESIS (U), declared, NOT dischargeable: in the standard form of a sigma-finite von Neumann algebra, F(phi,psi) = \<xi_phi, xi_psi> for the natural-cone representatives.
+>
+> Uhlmann 1976 IS on disk (refs/Uhlmann76.pdf) and was read -- it contains the explicit-formula theorem (p. 277), one-argument concavity of the transition probability (eq. (8), p. 274) and monotonicity under RESTRICTION to a subalgebra (eq. (24), p. 277), but no standard-form/natural-cone statement, no CP-monotonicity and no metric statement, so (U) cannot be cited from it (the earlier claim that both sources were NOT OBTAINED was factually wrong).
+>
+> (U) is used ONLY for the angle form (a) and for the exact form Phi_tot \<= -log cos(sum_k arccos e^{-Phi_k}).
 
 ## How to verify
 
@@ -26,9 +30,9 @@ No numerics needed: the proof is from the cited variational formula plus element
 
 ## Evidence
 
-- [rigor/network_corner_calculus.tex](../../rigor/network_corner_calculus.tex) — document — label{thm:w6}
-- [rigor/network_corner_calculus.tex](../../rigor/network_corner_calculus.tex) — document — label{thm:w6chord}
-- [rigor/network_corner_calculus.tex](../../rigor/network_corner_calculus.tex) — document — label{cor:w6-second}
+- [rigor/network_corner_calculus.tex](../../rigor/network_corner_calculus.tex) — document, at `label{thm:w6}`
+- [rigor/network_corner_calculus.tex](../../rigor/network_corner_calculus.tex) — document, at `label{thm:w6chord}`
+- [rigor/network_corner_calculus.tex](../../rigor/network_corner_calculus.tex) — document, at `label{cor:w6-second}`
 - `refs/AlbertiUhlmann02_math-ph-0202038.pdf` — source; held privately, not redistributed
 - `refs/Uhlmann76.pdf` — source; held privately, not redistributed
 - [rigor/ref_p6_3_separation.py](../../rigor/ref_p6_3_separation.py) — numerics

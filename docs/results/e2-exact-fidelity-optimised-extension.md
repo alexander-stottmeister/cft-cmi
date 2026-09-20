@@ -17,7 +17,7 @@ run numerics/optimality_all/e2_exact.py; compare the columns 'UB', 'exact sum', 
 ## Evidence
 
 - [numerics/optimality_all/e2_exact.py](../../numerics/optimality_all/e2_exact.py) — numerics
-- [rigor/exterior_extension_numerics.tex](../../rigor/exterior_extension_numerics.tex) — document — sec:exact
+- [rigor/exterior_extension_numerics.tex](../../rigor/exterior_extension_numerics.tex) — document, at `sec:exact`
 
 ## Related claims
 

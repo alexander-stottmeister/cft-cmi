@@ -17,7 +17,7 @@ run numerics/optimality_all/e2_mp.py 32 60 (then 48 60, 64 80); read the line 'R
 ## Evidence
 
 - [numerics/optimality_all/e2_mp.py](../../numerics/optimality_all/e2_mp.py) — numerics
-- [rigor/exterior_extension_numerics.tex](../../rigor/exterior_extension_numerics.tex) — document — sec:dist
+- [rigor/exterior_extension_numerics.tex](../../rigor/exterior_extension_numerics.tex) — document, at `sec:dist`
 
 ## Related claims
 

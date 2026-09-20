@@ -17,7 +17,7 @@ run numerics/optimality_all/e2_dist_ub.py; each block prints 'UB_c/(1/2 s^2|u|^2
 ## Evidence
 
 - [numerics/optimality_all/e2_dist_ub.py](../../numerics/optimality_all/e2_dist_ub.py) — numerics
-- [rigor/exterior_extension_numerics.tex](../../rigor/exterior_extension_numerics.tex) — document — sec:ub
+- [rigor/exterior_extension_numerics.tex](../../rigor/exterior_extension_numerics.tex) — document, at `sec:ub`
 
 ## Related claims
 

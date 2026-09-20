@@ -15,13 +15,10 @@ Assembled from [`paper1/app_conventions.tex`](../paper1/app_conventions.tex), [`
 ### Fourier transform and the Hardy projection
 
 $$
-
  \widehat f(k)=\int_{\mathbb R}f(x)e^{-ikx} dx,
  \qquad
  f(x)=\frac1{2\pi}\int_{\mathbb R}\widehat f(k)e^{ikx} dk .
-
 $$
-
 With this convention the positive-energy subspace for the light-ray coordinate
 used here is $\{k<0\}$, so $P_+=\mathbf1_{\{k<0\}}$ and $P_-=1-P_+$; the
 distributional kernel of $P_+$ is (eq:hardy).  (In
@@ -32,17 +29,13 @@ Hilbert--Schmidt norms and determinants quoted are unaffected.)
 ### Modular frame
 
 For the interval $I=(-a,L)$,
-
 $$
-
  \xi(x)=\log\frac{x+a}{L-x},
  \qquad
  \beta(x)=\frac{dx}{d\xi}=\frac{(x+a)(L-x)}{a+L},
  \qquad
  \beta_0=\beta(0)=\frac{aL}{a+L},
-
 $$
-
 and the modular modes are (eq:modes), normalized by
 $\int_{\mathbb R}d\kappa |\psi_\kappa\rangle\langle\psi_\kappa|=1$ on $L^2(I)$,
 with $Q\psi_\kappa=q_\kappa\psi_\kappa$, $q_\kappa=(1+e^\kappa)^{-1}$; thus
@@ -52,32 +45,24 @@ $\xi\mapsto\xi-2\pi t$, corresponding to the KMS asymmetry
 $\widehat W(-k)=e^{2\pi k}\widehat W(k)$ of the thermal spectral density at
 inverse temperature $2\pi$.  A symbol $X$ with bounded kernel on $I\times I$ has
 modular kernel
-
 $$
-
  X(\kappa,\kappa')
  =\frac1{(2\pi)^2}\iint d\xi d\xi'
  e^{-i\kappa\xi/2\pi} \widetilde X(\xi,\xi') e^{i\kappa'\xi'/2\pi},
  \qquad
  \widetilde X(\xi,\xi')=\sqrt{\beta(x)\beta(y)} X(x,y),
-
 $$
-
 and $\operatorname{Tr} X=\int d\kappa X(\kappa,\kappa)$ when $X$ is trace class.
 
 ### Cross-ratio variables
 
 Four variables occur, all M\"obius invariants of the same configuration:
-
 $$
-
  \eta=\frac{b(a+b+c)}{(a+b)(b+c)},\quad
  z=\frac1\eta-1=\frac{ac}{b(a+b+c)},\quad
  \eta_{\rm V}=1-\eta=\frac z{1+z},\quad
  \zeta=\frac{as}{a+L} .
-
 $$
-
 $\eta$ is the cross ratio of Note 1, in which the Longo--Xu conditional mutual
 information is $-\frac r6\log\eta$; $\eta_{\rm V}$ is the cross ratio of
 (VWZ), the complement of $\eta$; $\zeta$ is the recovery variable, with

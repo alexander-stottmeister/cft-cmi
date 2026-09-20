@@ -18,7 +18,7 @@ run numerics/optimality_all/e2_subspaces.py; part (A) prints 'cos(angle) min=1.0
 
 - [numerics/optimality_all/e2_subspaces.py](../../numerics/optimality_all/e2_subspaces.py) — numerics
 - [numerics/optimality_all/e2_common.py](../../numerics/optimality_all/e2_common.py) — numerics
-- [rigor/exterior_extension_numerics.tex](../../rigor/exterior_extension_numerics.tex) — document — sec:dims
+- [rigor/exterior_extension_numerics.tex](../../rigor/exterior_extension_numerics.tex) — document, at `sec:dims`
 
 ## Related claims
 

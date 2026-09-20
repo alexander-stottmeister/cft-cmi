@@ -16,7 +16,7 @@ numerics/optimality/lb.log (residual 1e-17).
 
 ## Evidence
 
-- [rigor/optimality_second_order.tex](../../rigor/optimality_second_order.tex) — document — Prop4.2
+- [rigor/optimality_second_order.tex](../../rigor/optimality_second_order.tex) — document, at `Prop4.2`
 - [numerics/optimality/lower_bound.py](../../numerics/optimality/lower_bound.py) — numerics
 
 ## Related claims

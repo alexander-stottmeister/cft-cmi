@@ -16,8 +16,8 @@ rigor/exact_fidelity_upper_half.tex Thms 5.3, 7.1, 7.3 and Cor 7.5; rigor/refere
 
 ## Evidence
 
-- [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document — thm:main
-- [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document — thm:UHall
+- [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document, at `thm:main`
+- [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document, at `thm:UHall`
 - [rigor/referee_exact_fidelity_upper_half.tex](../../rigor/referee_exact_fidelity_upper_half.tex) — document
 - [rigor/exterior_extension_numerics.tex](../../rigor/exterior_extension_numerics.tex) — document
 - [rigor/optimality_all_channels.tex](../../rigor/optimality_all_channels.tex) — document

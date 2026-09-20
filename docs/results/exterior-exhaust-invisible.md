@@ -16,9 +16,9 @@ rigor/exact_fidelity_upper_half.tex Sec. 5 (Lemma 5.1 generic position, Thm 5.3 
 
 ## Evidence
 
-- [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document — thm:Q
-- [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document — thm:Qdual
-- [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document — lem:generic
+- [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document, at `thm:Q`
+- [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document, at `thm:Qdual`
+- [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document, at `lem:generic`
 
 ## Related claims
 

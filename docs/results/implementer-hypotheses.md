@@ -2,13 +2,21 @@
 
 # (H1)-(H3) hold for all diffeomorphism-covariant nets
 
-**Status:** `refereed` — a complete structured proof that an independent referee pass has accepted.
+**Status:** `refereed` — a complete structured proof that an independent referee pass has accepted. **Stated under hypotheses** H1, H2, H3, quoted below.
 
 **Area:** [Theorem B: universality for diffeomorphism-covariant nets](../status.md#area-universality) · **Card type:** theorem · **Knowledge-base id:** `implementer-hypotheses`
 
 ## Statement
 
 The first-order field g_tot has a single jump of its second derivative, so its Carpi-Weiner 3/2-norm is finite (||g_tot'||\_{3/2} = infinity is irrelevant); essential self-adjointness by Carpi-Weiner Thm 4.4, Stone, Trotter split (g_tot - m) + m, scalar phase via Fewster-Hollands Prop. 5.1. The form bound needs beta = 1 (sharp); the Nelson route and D(L0)-invariance are closed in the negative.
+
+## Hypotheses
+
+The statement is made under named hypotheses. The sentences are quoted from the statement above; read the status badge only together with them.
+
+Hypothesis labels used: `H1`, `H2`, `H3`.
+
+> (H1)-(H3) hold for all diffeomorphism-covariant nets.
 
 ## How to verify
 

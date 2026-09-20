@@ -20,15 +20,11 @@ fixed once and used everywhere.
 ### Half-density push-forward
 
 For an increasing $C^{1,1}$ diffeomorphism $\varphi$,
-
 $$
-
  (W_\varphi f)(y)=f\bigl(\varphi^{-1}(y)\bigr)
  \bigl((\varphi^{-1})'(y)\bigr)^{1/2}
  =\frac{f(\varphi^{-1}(y))}{\sqrt{\varphi'(\varphi^{-1}(y))}} ,
-
 $$
-
 which is unitary on $L^2(\mathbb R)$ and isometric between the corresponding
 interval subspaces.  We write $u(x)=x-\varphi(x)$ for the displacement, so
 $\varphi'=1-u'$.  The recovery flow inside $D$ is
@@ -40,28 +36,20 @@ $I'=(-\infty,-a]\cup[L,\infty)$.
 ### Stress tensor
 
 The generator normalization is
-
 $$
-
  \langle T(x)T(y)\rangle=\frac{c_{\rm cft}}{8\pi^2} (x-y-i0)^{-4},
-
 $$
-
 i.e. $T$ is normalized so that its smeared version generates the M\"obius flow
 with unit coefficient.  This is the convention in which the two quadratic forms of
 the recovery curve come out as
-
 $$
-
  \boxed{
  g_B=\frac{2c_{\rm cft}}{3\pi^2},\qquad
  g_{\mathrm{KM}}=\frac{c_{\rm cft}}6,\qquad
  f_2=\frac{g_B}8=\frac{c_{\rm cft}}{12\pi^2},\qquad
  s_2=\frac{g_{\mathrm{KM}}}2=\frac{c_{\rm cft}}{12},\qquad
  \frac{s_2}{f_2}=\pi^2 . }
-
 $$
-
 The metric normalizations behind the factors $\frac18$ and $\frac12$ are those of
 (def:gB):
 $-\logF=\frac{\zeta^2}8g_B+o(\zeta^2)$ and $D=\frac{\zeta^2}2g_{\mathrm{KM}}+o(\zeta^2)$ per
@@ -77,26 +65,18 @@ constant in the paper traceable to them.
 ### Stress tensor
 
 The generator normalisation used throughout is
-
 $$
-
  \langle\Omega,T(x)T(y)\Omega\rangle=\frac{c}{8\pi^{2}} \frac{1}{(x-y-i0)^{4}},
  \qquad U(\mathrm{Exp}(tf\partial_{x}))=e^{itT(f)}  \text{(up to phase)} .
-
 $$
-
 The BPZ-normalised field is $2\pi T$, with $\langle(2\pi T)(x)(2\pi T)(y)\rangle=\frac{c}{2}(x-y)^{-4}$.
 Equivalent forms of (eq:appTT), used at various points:
-
 $$
-
  \|T(f)\Omega\|^{2}=\frac{c}{48\pi^{2}}\int_{0}^{\infty}p^{3}|\hat f(p)|^{2}dp
  \quad\text{(line)},\qquad
  \|T(G)\Omega\|^{2}=\frac{c}{12}\sum_{n\ge2}n(n^{2}-1)|\hat G_{n}|^{2}
  \quad\text{(circle)} .
-
 $$
-
 The first follows from (eq:appTT) and
 $\int e^{-ipu}(u-i0)^{-4}du=\frac{2\pi}{3!}|p|^{3}\theta(-p)$; the second from
 $\langle L_{-n}\Omega,L_{-n}\Omega\rangle=\frac{c}{12}n(n^{2}-1)$.  In the modular frame the thermal
@@ -107,21 +87,13 @@ for the status of the computation that uses it.
 
 For the general configuration $A=(-a,0)$,
 $D=(0,L)$, the zero-collar compression is
-
 $$
-
  k_{s}|_{A}=\mathrm{id},\qquad k_{s}(x)=h_{s}(x)=\frac{Lx}{L+sx}  (x\in D),
-
 $$
-
 and all recovery quantities depend on $(a,L,s)$ only through the cross ratio
-
 $$
-
  \zeta=\frac{a s}{a+L}.
-
 $$
-
 Two normal forms are used.  The half-line normal form $a=\infty$ gives $\zeta=s$ and is the one in which
 (sec:univ,sec:impl) are written; the bosonic computation of (sec:boson) uses $a=1$, $L=2$, i.e.\
 $\zeta=s/3$.  The first-order field of the extended map $\tilde k_{s}$ is $g_{\rm tot}$ of (eq:chi):

@@ -16,7 +16,7 @@ rigor/g1a_calculus.py section 6 (20000 exact rational cases, 0 bad); rigor/ref_p
 
 ## Evidence
 
-- [rigor/network_corner_calculus.tex](../../rigor/network_corner_calculus.tex) — document — label{lem:ampl}
+- [rigor/network_corner_calculus.tex](../../rigor/network_corner_calculus.tex) — document, at `label{lem:ampl}`
 - [rigor/g1a_calculus.py](../../rigor/g1a_calculus.py) — numerics
 - [rigor/ref_p6_0_calculus.py](../../rigor/ref_p6_0_calculus.py) — numerics
 

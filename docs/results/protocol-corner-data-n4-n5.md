@@ -2,7 +2,7 @@
 
 # Corner data of all one-sided protocols for n = 4 and n = 5: the holonomy is the starting block
 
-**Status:** `proved` — a complete structured proof. **Conditional:** this result holds only under H; the hypotheses are quoted below.
+**Status:** `proved` — a complete structured proof. **Stated under hypotheses** H, quoted below.
 
 **Area:** [Lattice, thermal, massive and gapped geometries (O7, O9, O10)](../status.md#area-lattice-thermal) · **Card type:** result · **Knowledge-base id:** `protocol-corner-data-n4-n5`
 
@@ -12,11 +12,13 @@ For a complete one-sided protocol with SINGLE-interval conditioning, starting bl
 
 ## Hypotheses
 
-This result is conditional. The sentences below are quoted from the statement above; read the status badge only together with them.
+The statement is made under named hypotheses. The sentences are quoted from the statement above; read the status badge only together with them.
 
 Hypothesis labels used: `H`.
 
 > For a complete one-sided protocol with SINGLE-interval conditioning, starting block J_0 = A_i..A_j (j >= i+1) and common rotation parameter t (theta_t = (1+e^{-2 pi t})/2, theta_0 = 1 the ordinary Petz value), hypothesis (H) holds and the corner measure is kappa = sum_{k\<i} sigma^L_k delta_{p_{k+2}} + sum_{k>j} sigma^R_k delta_{p_{k-1}} with sigma^L_k = theta_t 2 l_k/(l_{k+1}(l_k+l_{k+1})) and sigma^R_k = theta_t 2 l_k/(l_{k-1}(l_{k-1}+l_k)) -- INDEPENDENT of the order of the steps.
+>
+> Union-conditioning variants for n = 4: VWZ 1(A) (one corner at p_2) and 1(B) (two corners at p_2, same measure by the identity 2c/(b(b+c)) + 2d/((b+c)(b+c+d)) = 2(c+d)/(b(b+c+d))) satisfy (H); the variant 'add D on C, then A on BC' does NOT (REF-P6-0's counterexample geometry: the mass is displaced off the junction).
 
 ## How to verify
 
@@ -24,8 +26,8 @@ rigor/g1a_calculus.py section 5 enumerates all protocols for n = 4, 5, checks th
 
 ## Evidence
 
-- [rigor/network_corner_calculus.tex](../../rigor/network_corner_calculus.tex) — document — label{prop:startblock}
-- [rigor/network_corner_calculus.tex](../../rigor/network_corner_calculus.tex) — document — label{tab:n4}
+- [rigor/network_corner_calculus.tex](../../rigor/network_corner_calculus.tex) — document, at `label{prop:startblock}`
+- [rigor/network_corner_calculus.tex](../../rigor/network_corner_calculus.tex) — document, at `label{tab:n4}`
 - [rigor/g1a_calculus.py](../../rigor/g1a_calculus.py) — numerics
 - [rigor/ref_p6_3_calculus.py](../../rigor/ref_p6_3_calculus.py) — numerics
 

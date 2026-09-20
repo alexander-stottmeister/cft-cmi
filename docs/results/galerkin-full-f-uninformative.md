@@ -25,7 +25,7 @@ cd numerics/optimality_all; $V/bin/python f2_galerkin_full.py 0.4,0.3 (prints, p
 
 - [numerics/optimality_all/F2_RESULTS.md](../../numerics/optimality_all/F2_RESULTS.md) — numerics
 - [numerics/optimality_all/f2_galerkin_a.out](../../numerics/optimality_all/f2_galerkin_a.out) — numerics
-- [rigor/sdp_certificate_numerics.tex](../../rigor/sdp_certificate_numerics.tex) — document — l484-497
+- [rigor/sdp_certificate_numerics.tex](../../rigor/sdp_certificate_numerics.tex) — document, at `l484-497`
 - [numerics/optimality_all/kc_h04.out](../../numerics/optimality_all/kc_h04.out) — numerics
 - [numerics/optimality_all/kc_h05.out](../../numerics/optimality_all/kc_h05.out) — numerics
 

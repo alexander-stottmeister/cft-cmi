@@ -16,8 +16,8 @@ Track G1b (rigor/network_second_order.tex); G3 measures Ghat(Delta) in two frame
 
 ## Evidence
 
-- [rigor/phase6_brief.md](../../rigor/phase6_brief.md) — document — W2
-- [rigor/network_corner_calculus.tex](../../rigor/network_corner_calculus.tex) — document — label{thm:sep}
+- [rigor/phase6_brief.md](../../rigor/phase6_brief.md) — document, at `W2`
+- [rigor/network_corner_calculus.tex](../../rigor/network_corner_calculus.tex) — document, at `label{thm:sep}`
 - [rigor/ref_p6_3_separation.py](../../rigor/ref_p6_3_separation.py) — numerics
 
 ## Related claims

@@ -16,8 +16,8 @@ numerics/optimality_all/theta_galerkin_first.out, s10_theta.py outputs; rigor/op
 
 ## Evidence
 
-- [rigor/sdp_dual_certificate.tex](../../rigor/sdp_dual_certificate.tex) — document — sec:num
-- [rigor/sdp_dual_certificate.tex](../../rigor/sdp_dual_certificate.tex) — document — thm:value
+- [rigor/sdp_dual_certificate.tex](../../rigor/sdp_dual_certificate.tex) — document, at `sec:num`
+- [rigor/sdp_dual_certificate.tex](../../rigor/sdp_dual_certificate.tex) — document, at `thm:value`
 - [numerics/optimality_all/theta_galerkin.py](../../numerics/optimality_all/theta_galerkin.py) — numerics
 - [numerics/optimality_all/s10_theta.py](../../numerics/optimality_all/s10_theta.py) — numerics
 

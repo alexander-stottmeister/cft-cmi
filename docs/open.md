@@ -10,11 +10,15 @@ Every `next:` field below is quoted verbatim from its knowledge-base card: this 
 
 `open` · knowledge-base id `corner-correlation-kernel`
 
+Ghat(Delta) = g_Q(delta_0, delta_Delta)/c, where delta_Delta is the y-translate by Delta of the closed-form first-order corner defect ddot(y1,y2) = -(i/2 pi) sinh(y1/2) sinh(y2/2)/sinh^2((y1-y2)/2) (y1 \< 0 \< y2, + h.c.) in the modular frame I = (-inf, 1), y = -log(1-x). Ghat(0) = 1/(12 pi^2). Open: closed form (Fourier transform of rho(q) = (1/4) int dp |dhat_0(p,p-q)|^2 / W(p,p-q) with the SLD weight W); sign for all Delta; decay rate (e^{-Delta/2}? e^{-Delta}?), which fixes the order of the cross-term correction in the network law. No closed-form candidate is to be selected by fitting to numerics (lesson of theta-value).
+
 **next:** G1b + G3 in parallel.
 
 ### Certify the defect-matrix quadrature and the box cutoff
 
 `open` · knowledge-base id `dhat-quadrature-certification`
+
+The certified enclosures refer to the compressed problem; two steps are uncertified: the two-dimensional quadrature producing the defect matrix D-hat and the truncation of the box frame at kappa_max.
 
 **next:** Interval-arithmetic 2-D quadrature of the defect kernel on the box frame, and a rigorous bound for the modes beyond kappa_max (box asymptotics 0.0641 zeta^2/kappa_max^2).
 
@@ -22,17 +26,23 @@ Every `next:` field below is quoted verbatim from its knowledge-base card: this 
 
 `open` · knowledge-base id `multi-interval-networks`
 
+Not started. The gap geometry is done; networks of recovery maps and their holonomy remain.
+
 **next:** Phase 6 (rigor/phase6_brief.md, card phase6-plan): corner calculus (G1a), second-order network law with the universal kernel Ghat (G1b), lattice sequential Petz chains and the VWZ protocol test 1:2:4 (G2), Ghat(Delta) in two frames (G3).
 
 ### Charged sectors, state dependence, collar Gaussianity (O11)
 
 `open` · knowledge-base id `sectors-o11`
 
+Deferred throughout Phases 1-3.
+
 **next:** Sector-dependent Markov defect for the free fermion (quasi-free or finite rank); write the half-page collar-Gaussianity lemma.
 
 ### theta as a geometry-free Wiener-Hopf constant in the modular frame of I
 
 `open` · knowledge-base id `theta-modular-wiener-hopf`
+
+Frame-free form: ddelta = \[Q,d\] with d = E_I D_chi E_I, and on the isometric orbit delta^(1) = \[Q, d - zeta\], so 1 - theta = inf_G g_Q(\[Q, d + G\]) / g_Q(\[Q,d\]), the INFIMUM over BOUNDED anti-self-adjoint G supported in D (not a min; the distinction from theta_HS is open, cf. exact_fidelity_upper_half.tex Rem 7.4(i)). In the modular frame of the half-line I = (-inf,1) — coordinate y = -log(1-x), implemented by the half-density push-forward, A = {y\<0}, D = {y>0} — Bisognano-Wichmann makes Q a Fourier multiplier Q = (1 + e^{-2 pi p})^{-1}, p = -i d/dy, E_D = 1_{y>0}, and the compression field becomes w(y) = -4 sinh^2(y/2) 1_{y>0} (C^{1,1} at 0, \~ -e^y as y -> +inf: the moving endpoint x=1 sits at y=+inf). With X^ the kernel in the Fourier variable, g_Q(\[Q,X\]) = (1/4) int int K(p,p') |X^(p,p')|^2, K(p,p') = sinh^2(pi(p-p')) / \[cosh(pi(p-p')) (cosh(pi(p+p')) + cosh(pi(p-p')))\]. So theta is the value of a parameter-free quadratic Wiener-Hopf problem (minimise over kernels supported in the quadrant y,y' > 0): theta is a pure number, independent of a,b,c,L,z. NUMERICAL VALUE (track F3, numerics/optimality_all/F3_RESULTS.md, f3_t0.py): theta = 0.384 +- 0.003, 1 - theta = 0.616 +- 0.003; the modular Galerkin frame and a direct discretisation of the frame above agree to 3e-4 after extrapolation (order h^0.77, five mesh families), the modular window Lambda is irrelevant, and the residual h-dependence is a BULK effect (the endpoint piece saturates at coarse h). S10's 0.300 +- 0.005 is not a competing estimate but a TAPER-SUPPRESSED LOWER BOUND: relaxing the circle model's smoothstep UV taper moves theta at L=256 from 0.2896 to 0.36 and beyond. Consequently the three circulated candidates are EXCLUDED: 3/pi^2 = 0.30396 and 1/3 far below, 1 - 2/pi = 0.36338 still 6.9 sigma low; that all three fell in the old 0.30-0.40 window is a cautionary datum about unmotivated candidates. Structural reading: theta > 0 iff E_D u E_D != 0 (S10 Thm 6.2 + Cor 11.2, non-vanishing numerical). theta \< 1 is NOT proved: only the converse is established (if d were anti-self-adjoint then G = -d would be admissible and theta = 1); d is skew-symmetric but not skew-adjoint, its boundary form sitting at the moving endpoint. K -> 1 as |p-p'| -> inf at fixed p+p', and K -> 0 as |p+p'| -> inf at fixed p-p' — the latter is the direction the circle taper suppresses, consistent with its downward bias. NO closed form is claimed or fitted.
 
 **next:** Solve or bound the Wiener-Hopf problem of Prop 6.2 and compare with theta = 0.384 +- 0.003 (F3 is done); a closed form is open, and no candidate is to be fitted to the numerics
 

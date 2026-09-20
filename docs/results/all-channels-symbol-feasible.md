@@ -16,8 +16,8 @@ rigor/optimality_all_channels.tex Sec. 3 with screenshots rigor/shots/BJL_p\*.pn
 
 ## Evidence
 
-- [rigor/optimality_all_channels.tex](../../rigor/optimality_all_channels.tex) — document — Thm3.5
-- `refs/BJL_twisted_duality_math-ph-0204029.pdf` — source — Prop5.3; held privately, not redistributed
+- [rigor/optimality_all_channels.tex](../../rigor/optimality_all_channels.tex) — document, at `Thm3.5`
+- `refs/BJL_twisted_duality_math-ph-0204029.pdf` — source, at `Prop5.3`; held privately, not redistributed
 
 ## Related claims
 

@@ -16,8 +16,8 @@ rigor/exact_fidelity_upper_half.tex Sec. 7 (Thm 7.3, Remark 7.4, Cor 7.5), Verdi
 
 ## Evidence
 
-- [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document — thm:main
-- [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document — cor:sandwich
+- [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document, at `thm:main`
+- [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document, at `cor:sandwich`
 - [rigor/findings_entries.tex](../../rigor/findings_entries.tex) — document
 
 ## Related claims

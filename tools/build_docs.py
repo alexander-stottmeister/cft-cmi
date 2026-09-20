@@ -144,6 +144,10 @@ class Card:
         return bool(self.review.strip())
 
     @property
+    def review_failed(self) -> bool:
+        return self.review.strip().lower().startswith("fail")
+
+    @property
     def has_page(self) -> bool:
         return self.status in PAGE_STATUSES
 
@@ -313,7 +317,7 @@ def render_evidence(token: str, repo: Repo, page: str, pages: set) -> str:
             return f"[{esc(rest)}]({rest}.md) — knowledge-base card"
         return f"`{esc(rest)}` — knowledge-base card, not published"
     path, _, loc = rest.partition("#")
-    where = f" — {esc(loc)}" if loc else ""
+    where = f", at `{loc.replace('`', '')}`" if loc else ""
     state = repo.classify(path)
     if state == "public":
         return f"[{esc(path)}]({rel_link(page, path)}) — {label}{where}"
@@ -335,46 +339,97 @@ def render_related(target: str, by_id: dict, pages: set) -> str:
     return f"`{esc(target)}` — not in the knowledge base"
 
 
-_HYP_CONTEXT = re.compile(r"hypothes[ei]s|hypothesis|conditional on|conditionally on",
-                          re.IGNORECASE)
+_HYP_CONTEXT = re.compile(
+    r"hypothes[ei]s|hypothesis|conditional(?:ly)? on|\bunder\s+\(|\bunder\s+hypothes",
+    re.IGNORECASE)
 _HYP_LABEL = re.compile(r"\((H\d?'?|U)\)|\b(H[123])\b")
+_HYP_RANGE = re.compile(r"\(H([0-9])\)\s*-\s*\(H([0-9])\)")
+# A sentence that says a hypothesis is NOT needed must not turn the page into a
+# conditional one; it may still be quoted once some other sentence establishes
+# the label.
+_HYP_NEGATED = re.compile(
+    r"\bneither\b|\bwithout\b|\bunconditional\w*\b|\bno hypothes\w*\b|"
+    r"\bdoes not (?:need|require|assume|use)\b|\bnot conditional\b",
+    re.IGNORECASE)
+# Says outright that the result holds only when the hypothesis does.
+_HYP_CONDITIONAL = re.compile(
+    r"conditional(?:ly)? on|\bunder\s+\(|\bunder\s+(?:the\s+)?\w*\s*hypothes|"
+    r"\bunder\s+H[0-9]|\bonly under\b|\bmodulo\s+H[0-9]|declared hypothes|"
+    r"\bassuming\b|\bsubject to\b", re.IGNORECASE)
+
+
+_ABBREV = re.compile(
+    r"\b(?:eq|eqs|p|pp|no|nos|prop|props|thm|thms|sec|secs|fig|figs|rem|cor|"
+    r"def|lem|ex|vs|al|cf|resp|etc|approx|i\.e|e\.g)\.$", re.IGNORECASE)
+_BOUNDARY = re.compile(r"(?<=[.;])\s+(?=[A-Z(\[])")
 
 
 def split_sentences(text: str) -> list:
+    """Sentences, without breaking at 'eq.', 'Sec.', 'i.e.' or before '(10)'."""
     text = " ".join(text.split())
-    parts = re.split(r"(?<=[.;])\s+(?=[A-Z(\[])", text)
-    return [p for p in parts if p]
+    out, start = [], 0
+    for m in _BOUNDARY.finditer(text):
+        if _ABBREV.search(text[start:m.start()]):
+            continue
+        out.append(text[start:m.start()])
+        start = m.end()
+    out.append(text[start:])
+    return [s for s in out if s]
 
 
 def hypotheses(card: Card):
     """(labels, sentences) naming the hypotheses a conditional claim rests on.
 
-    Found by reading the card, not by a table in this file: a sentence counts
-    when it both speaks of a hypothesis (or says 'conditional on') and carries a
-    hypothesis label such as (H), (U), H1.  A status badge alone must never be
-    allowed to imply more than the statement supports.
+    Found by reading the card, not from a table in this file.  Two passes: a
+    label such as (H), (U) or H1 counts as a hypothesis label when some sentence
+    both carries it and speaks of a hypothesis (or says "conditional on", "under
+    (X)"); then every sentence that mentions one of those labels is quoted, so
+    that the exceptions and the sufficient conditions travel with the claim.  A
+    status badge alone must never be allowed to imply more than the statement
+    supports.
     """
-    labels, sentences = [], []
-    for sentence in split_sentences(card.title + ". " + card.statement):
-        if not _HYP_CONTEXT.search(sentence):
-            continue
+    text = card.title + ". " + card.statement
+    sentences = split_sentences(text)
+    labels, conditional = [], False
+    for sentence in sentences:
         found = [m.group(1) or m.group(2) for m in _HYP_LABEL.finditer(sentence)]
-        if not found:
+        for lo, hi in _HYP_RANGE.findall(sentence):           # "(H1)-(H3)"
+            found += [f"H{i}" for i in range(int(lo), int(hi) + 1)]
+        numbered = {l for l in found if len(l) > 1}
+        # A sentence establishes hypothesis labels when it speaks of hypotheses,
+        # or when it simply lists two or more of them, as a theorem's hypothesis
+        # list does.  A sentence that says a hypothesis is *not* needed does not.
+        if not (_HYP_CONTEXT.search(sentence) or len(numbered) >= 2):
+            continue
+        if _HYP_NEGATED.search(sentence):
             continue
         for label in found:
             if label not in labels:
                 labels.append(label)
-        if sentence not in sentences:
-            sentences.append(sentence)
-    return labels, sentences
+        if found and _HYP_CONDITIONAL.search(sentence):
+            conditional = True
+    if not labels:
+        return [], [], False
+    labels.sort(key=lambda l: (len(l), l))
+    mentions = re.compile("|".join(r"\(%s\)" % re.escape(l) if len(l) == 1
+                                   else r"(?:\(%s\)|\b%s\b)" % (re.escape(l),
+                                                                re.escape(l))
+                                   for l in labels))
+    quoted = [s for s in sentences if mentions.search(s)]
+    return labels, quoted, conditional
 
 
 def status_line(card: Card) -> str:
-    labels, _ = hypotheses(card)
-    line = f"**Status:** {badge(card.status)} — {STATUS_GLOSS.get(card.status, 'see status.md')}."
-    if labels:
-        line += (" **Conditional:** this result holds only under "
-                 + ", ".join(labels) + "; the hypotheses are quoted below.")
+    labels, _, conditional = hypotheses(card)
+    line = (f"**Status:** {badge(card.status)} — "
+            f"{STATUS_GLOSS.get(card.status, 'see status.md')}.")
+    if labels and conditional:
+        line += (" **Conditional.** The statement is not unconditional: it "
+                 "rests on " + ", ".join(labels) + ", quoted below. Read the "
+                 "badge only together with them.")
+    elif labels:
+        line += (" **Stated under hypotheses** " + ", ".join(labels)
+                 + ", quoted below.")
     return line
 
 
@@ -413,6 +468,11 @@ def result_page(card: Card, areas: dict, by_id: dict, pages: set, repo: Repo) ->
         out += ["> **Never refereed.** This card carries no referee record. "
                 "It states what was found; no independent pass has tried to "
                 "break it.", ""]
+    elif card.review_failed:
+        out += ["> **The last referee pass failed.** An independent pass has "
+                "asked for repairs that the card has not yet absorbed. The "
+                "verdict and its date are below; the report itself stays in the "
+                "private knowledge base.", ""]
 
     bits = []
     if area:
@@ -425,12 +485,14 @@ def result_page(card: Card, areas: dict, by_id: dict, pages: set, repo: Repo) ->
     out += ["## Statement", ""]
     out += [esc(card.statement) if card.statement else "_No statement recorded._", ""]
 
-    labels, sentences = hypotheses(card)
+    labels, sentences, conditional = hypotheses(card)
     if sentences:
         out += ["## Hypotheses", "",
-                "This result is conditional. The sentences below are quoted from "
-                "the statement above; read the status badge only together with "
-                "them.", ""]
+                ("This result is conditional: at least part of the statement "
+                 "holds only where the hypotheses below hold. " if conditional else
+                 "The statement is made under named hypotheses. ")
+                + "The sentences are quoted from the statement above; read the "
+                  "status badge only together with them.", ""]
         if labels:
             out += [f"Hypothesis labels used: {', '.join('`' + l + '`' for l in labels)}.", ""]
         for sentence in sentences:
@@ -480,9 +542,14 @@ def status_page(claims: list, areas: dict, pages: set) -> str:
     counts = tally(claims)
     total = sum(n for _, n in counts)
     unreviewed = [c for c in claims if not c.reviewed]
+    failed = [c for c in claims if c.review_failed]
+    promoted = [c for c in claims if c.folder == "evidence"]
     out = [BANNER, "", "# Every claim, by area", "",
-           f"The knowledge base holds {total} claims. The tally below is counted "
-           "from the cards, not typed:", "",
+           f"{total} cards: {total - len(promoted)} claim cards of the knowledge "
+           f"base, plus {len(promoted)} finding"
+           f"{'' if len(promoted) == 1 else 's'} that has reached a status "
+           "displayed here. The tally below is counted from the cards, not "
+           "typed:", "",
            "| status | claims | what it means |", "|---|---:|---|"]
     for status, n in counts:
         out.append(f"| {badge(status)} | {n} | {esc(STATUS_GLOSS.get(status, '—'))} |")
@@ -493,11 +560,14 @@ def status_page(claims: list, areas: dict, pages: set) -> str:
             "and have a page of their own under "
             "[`results/`](results/); the remainder are listed here with their "
             "status only.", "",
-            f"**{len(unreviewed)} card"
-            f"{'' if len(unreviewed) == 1 else 's'} ha"
-            f"{'s' if len(unreviewed) == 1 else 've'} never been refereed** and "
-            "are marked *never refereed* below. Nothing labelled "
-            f"{badge('numerical')} is a theorem.", ""]
+            "A referee pass is not implied by a status. Of the cards listed "
+            f"here, **{len(unreviewed)} ha"
+            f"{'s' if len(unreviewed) == 1 else 've'} never been refereed** "
+            f"(marked *never refereed*) and **{len(failed)} carr"
+            f"{'ies' if len(failed) == 1 else 'y'} a failed referee pass** "
+            "(marked *referee pass failed*): repairs have been asked for and not "
+            f"yet absorbed. Nothing labelled {badge('numerical')} is a theorem.",
+            ""]
 
     by_area = {}
     for card in claims:
@@ -515,7 +585,8 @@ def status_page(claims: list, areas: dict, pages: set) -> str:
         for card in rows:
             name = (f"[{cell(card.title)}](results/{card.id}.md)"
                     if card.id in pages else cell(card.title))
-            note = "" if card.reviewed else "never refereed"
+            note = ("never refereed" if not card.reviewed else
+                    "referee pass failed" if card.review_failed else "")
             out.append(f"| {badge(card.status)} | {name} | {note} |")
         out.append("")
     out += ["---", "",
@@ -532,9 +603,14 @@ def open_page(claims: list, pages: set) -> str:
     def entry(card: Card) -> list:
         name = (f"### [{esc(card.title)}](results/{card.id}.md)"
                 if card.id in pages else f"### {esc(card.title)}")
+        mark = ("" if not card.reviewed else " · referee pass failed"
+                if card.review_failed else "")
+        mark = " · never refereed" if not card.reviewed else mark
         block = [name, "",
                  f"{badge(card.status)} · knowledge-base id `{esc(card.id)}`"
-                 + ("" if card.reviewed else " · never refereed"), ""]
+                 + mark, ""]
+        if card.id not in pages and card.statement:
+            block += [esc(card.statement), ""]
         if card.next:
             block += ["**next:** " + esc(" ".join(card.next.split())), ""]
         else:
@@ -753,7 +829,7 @@ def history_page(repo_root: Path, repo: Repo) -> str:
             else:
                 flush()
                 bullet = None
-                pending.append(first_sentence(line))
+                pending += [first_sentence(line), ""]
         flush()
         if pending:
             out.extend(pending)
@@ -813,6 +889,8 @@ def tex_to_md(tex: str) -> str:
     tex = re.sub(r"\\[,;!]", " ", tex)
     tex = re.sub(r"[ \t]+\n", "\n", tex)
     tex = re.sub(r"\n{3,}", "\n\n", tex)
+    tex = re.sub(r"\$\$\n+", "$$\n", tex)
+    tex = re.sub(r"\n+\$\$", "\n$$", tex)
     return tex.strip()
 
 
@@ -947,18 +1025,22 @@ def index_page(claims: list, areas: dict, by_id: dict, pages: set, counts) -> st
             sys.exit(f"build_docs: headline result {cid!r} is not a "
                      "knowledge-base claim with a page; fix HEADLINES or the "
                      "knowledge base rather than shipping a dead link.")
-        labels, _ = hypotheses(card)
+        labels, _, conditional = hypotheses(card)
         status = badge(card.status)
-        if labels:
+        if labels and conditional:
             status += " — conditional on " + ", ".join(labels)
+        elif labels:
+            status += " — stated under " + ", ".join(labels)
         out.append(f"| {cell(card.title)} | {status} | "
                    f"[{cell(cid)}](results/{cid}.md) |")
     out += ["",
             "A status word is a claim about how much is known, and nothing more. "
             f"{badge('numerical')} means measured, with an error bar; it is not a "
-            "theorem. Where a row above says *conditional*, the hypotheses are "
-            "named on the result's own page, and the badge must not be read "
-            "without them.", "",
+            "theorem. Where a row above says *conditional*, at least part of the "
+            "statement holds only under the named hypotheses; they are quoted "
+            "on the result's own page, and the badge must not be read without "
+            "them. *Stated under* means the statement carries a hypothesis list "
+            "of its own, quoted there as well.", "",
             "## The pages", "", "| page | what it holds |", "|---|---|"]
     for name, blurb in PAGES:
         link = f"[`{name}`]({name})" if not name.endswith("/") else f"[`{name}`]({name})"
@@ -987,7 +1069,9 @@ def index_page(claims: list, areas: dict, by_id: dict, pages: set, counts) -> st
                                      if c.status in STATUS_ORDER else 99, c.id))
         out += [f"### [{esc(title)}](status.md#area-{area_id})", ""]
         for card in rows:
-            mark = "" if card.reviewed else " — never refereed"
+            mark = ("" if not card.reviewed else " — referee pass failed"
+                    if card.review_failed else "")
+            mark = " — never refereed" if not card.reviewed else mark
             out.append(f"- {badge(card.status)} "
                        f"[{esc(card.title)}](results/{card.id}.md){mark}")
         out.append("")
@@ -1009,11 +1093,16 @@ def index_page(claims: list, areas: dict, by_id: dict, pages: set, counts) -> st
 # assembling, writing, checking
 # --------------------------------------------------------------------------- #
 
+HAND_EDIT_MARKER = re.compile(r"^\s*<!--\s*hand-edited:\s*(yes|true)\s*-->\s*$",
+                              re.IGNORECASE)
+
+
 def hand_edited(path: Path) -> bool:
+    """True once a marker line of its own says a human has taken the file over."""
     if not path.exists():
         return False
     for line in path.read_text(encoding="utf-8").splitlines()[:20]:
-        if HAND_EDIT_KEY in line and "yes" in line.split(HAND_EDIT_KEY, 1)[1]:
+        if HAND_EDIT_MARKER.match(line):
             return True
     return False
 
@@ -1024,6 +1113,15 @@ def build_all(kb: Path, repo_root: Path, docs: Path):
     pages = {c.id for c in claims if c.has_page}
     repo = Repo(repo_root)
     warnings = []
+
+    # Sweep every claim's evidence, not only the ones that reach a page, so the
+    # count of privately held targets is the project's and not this page set's.
+    for card in claims:
+        for token in card.evidence:
+            kind, _, rest = token.partition(":")
+            if kind.strip() == "ev" or not rest.strip():
+                continue
+            repo.classify(rest.strip().partition("#")[0])
 
     files = {}
     for card in claims:

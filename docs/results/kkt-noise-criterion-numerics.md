@@ -18,13 +18,17 @@ WHAT MAY AND MAY NOT BE CONCLUDED. The numerics are consistent with the isometri
 
 ## Hypotheses
 
-This result is conditional. The sentences below are quoted from the statement above; read the status badge only together with them.
+This result is conditional: it holds only where the hypotheses below hold. The sentences are quoted from the statement above; read the status badge only together with them.
 
 Hypothesis labels used: `H3`.
 
+> E(zeta_0) > 0 and E(zeta_inf) > 0, so (e) holds for the whole cone under H3.
+>
 > READ THE SIGN CLAIM AS AN EXTRAPOLATION: at every finite discretisation the run prints "CRITERION (M>=0 and M-tau>=0): False" (f2_t4_h024.out l.4, f2_t4_hladder.out l.5 and l.14, f2_t4_h003.out l.5, every Ymax row of f2_t4_ymax12.out); what the numerics establish is that the violation scales to zero in the double limit, with clean power laws, while the endpoint functional is positive with a large margin on the two model boundary directions (condition (e) for the whole cone then follows only under F1's model-cone hypothesis H3).
 >
 > Condition (e) for the WHOLE admissible cone follows from these two numbers only under the model-cone reduction -- F1's hypothesis (H3 in Sec. 4;
+>
+> (e) for the whole cone under H3.
 
 ## How to verify
 

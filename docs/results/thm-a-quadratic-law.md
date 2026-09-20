@@ -16,8 +16,8 @@ Compile rigor/quadratic_limit.pdf (lower) and rigor/uhlmann_upper_bound.pdf (upp
 
 ## Evidence
 
-- [rigor/quadratic_limit.tex](../../rigor/quadratic_limit.tex) — document — Thm4.2
-- [rigor/uhlmann_upper_bound.tex](../../rigor/uhlmann_upper_bound.tex) — document — Thm8.1
+- [rigor/quadratic_limit.tex](../../rigor/quadratic_limit.tex) — document, at `Thm4.2`
+- [rigor/uhlmann_upper_bound.tex](../../rigor/uhlmann_upper_bound.tex) — document, at `Thm8.1`
 - [rigor/referee_quadratic_limit.tex](../../rigor/referee_quadratic_limit.tex) — document
 - [rigor/referee_uhlmann_upper_bound.tex](../../rigor/referee_uhlmann_upper_bound.tex) — document
 - [numerics/p1_bogoliubov.py](../../numerics/p1_bogoliubov.py) — numerics

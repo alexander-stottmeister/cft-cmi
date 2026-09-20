@@ -16,7 +16,7 @@ Note 5 eq. (5.4) and Cor. 5.1 (reworded: optimal within the rotated family only)
 
 ## Evidence
 
-- [fidelity_recovered_quasifree.tex](../../fidelity_recovered_quasifree.tex) — document — Sec5
+- [fidelity_recovered_quasifree.tex](../../fidelity_recovered_quasifree.tex) — document, at `Sec5`
 - [rigor/check_note5_theory.tex](../../rigor/check_note5_theory.tex) — document
 
 ## Related claims

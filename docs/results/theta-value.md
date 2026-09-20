@@ -26,7 +26,7 @@ cd numerics/optimality_all; $V/bin/python f3_smoke.py reproduces theta_galerkin.
 - [numerics/optimality_all/f3_mimic.out](../../numerics/optimality_all/f3_mimic.out) — numerics
 - [numerics/optimality_all/f3_mimic_big.out](../../numerics/optimality_all/f3_mimic_big.out) — numerics
 - [numerics/optimality_all/f3_candidates.out](../../numerics/optimality_all/f3_candidates.out) — numerics
-- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document — prop:thetaframe
+- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document, at `prop:thetaframe`
 
 ## Related claims
 

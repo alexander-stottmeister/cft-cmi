@@ -16,10 +16,10 @@ rigor/exact_fidelity_upper_half.tex Secs. 1, 4, 6, 7 and Sec. 10 (referee repair
 
 ## Evidence
 
-- [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document — thm:reduction
-- [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document — thm:UH
-- [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document — thm:UHall
-- [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document — prop:uhl
+- [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document, at `thm:reduction`
+- [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document, at `thm:UH`
+- [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document, at `thm:UHall`
+- [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document, at `prop:uhl`
 
 ## Related claims
 

@@ -16,7 +16,7 @@ S8 Table 1; numerics/optimality_all/analyze_opt.py output.
 
 ## Evidence
 
-- [rigor/optimality_second_order.tex](../../rigor/optimality_second_order.tex) — document — Sec5
+- [rigor/optimality_second_order.tex](../../rigor/optimality_second_order.tex) — document, at `Sec5`
 - [numerics/optimality_all/analyze_opt.py](../../numerics/optimality_all/analyze_opt.py) — numerics
 
 ## Related claims

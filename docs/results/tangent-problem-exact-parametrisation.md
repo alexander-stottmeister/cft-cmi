@@ -12,11 +12,11 @@ Feasible set: (X,Z) in F iff N := 1 - X X\* >= 0 and Y := Z - X Q_BB X\* satisfi
 
 ## Hypotheses
 
-This result is conditional. The sentences below are quoted from the statement above; read the status badge only together with them.
+This result is conditional: it holds only where the hypotheses below hold. The sentences are quoted from the statement above; read the status badge only together with them.
 
 Hypothesis labels used: `H1`, `H2`.
 
-> The tangent value T = inf g_Q(delta^(1)) is an upper bound for limsup z^{-2} min_F g_Q under hypothesis H1 (g_Q-differentiability along the scaled family); the matching lower bound needs hypothesis H2 (Def 3.16: a minimiser EXISTS, is of the scaled-family form, with ||N_1||+||Y_1|| \<= C and a uniform o(s^2) remainder - i.e.
+> The tangent value T = inf g_Q(delta^(1)) is an upper bound for limsup z^{-2} min_F g_Q under hypothesis H1 (g_Q-differentiability along the scaled family); the matching lower bound needs hypothesis H2 (Def 3.16: a minimiser EXISTS, is of the scaled-family form, with ||N_1||+||Y_1|| \<= C and a uniform o(s^2) remainder - i.e. H2 is the lower bound in disguise), which is NOT proved: g_Q >= (1/4)||.||\_2^2 gives O(s) defect blocks but does not localise (X,Z) because Q_AB has 0 in its essential spectrum.
 
 ## How to verify
 
@@ -24,13 +24,13 @@ cd rigor && pdflatex -interaction=nonstopmode -halt-on-error exact_optimum_tange
 
 ## Evidence
 
-- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document — lem:NY
-- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document — lem:polar
-- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document — prop:delta1
-- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document — thm:bdry
-- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document — rem:coneT0
-- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document — lem:commQ
-- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document — thm:upper
+- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document, at `lem:NY`
+- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document, at `lem:polar`
+- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document, at `prop:delta1`
+- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document, at `thm:bdry`
+- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document, at `rem:coneT0`
+- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document, at `lem:commQ`
+- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document, at `thm:upper`
 
 ## Related claims
 

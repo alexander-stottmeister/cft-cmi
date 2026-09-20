@@ -2,13 +2,21 @@
 
 # Theorem B: f2 = c/(12 pi^2) for every diffeomorphism-covariant net
 
-**Status:** `refereed` — a complete structured proof that an independent referee pass has accepted.
+**Status:** `refereed` — a complete structured proof that an independent referee pass has accepted. **Stated under hypotheses** H1, H2, H3, quoted below.
 
 **Area:** [Theorem B: universality for diffeomorphism-covariant nets](../status.md#area-universality) · **Card type:** theorem · **Knowledge-base id:** `thm-b-universality`
 
 ## Statement
 
 For every diffeomorphism-covariant net on S^1 (separable, CDIT axioms, Bisognano-Wichmann, Haag duality, Reeh-Schlieder) with (H1) an implementation U_s of the C^{1,1} map, (H2) U_s Omega = Omega + i s T(g_tot) Omega + o(s) with T(g_tot) Omega in the stress-tensor subspace, (H3) first-order differentiability on a core: -log F = (s^2/8) g_B + o(s^2), g_B = 4 dist(T(g_tot) Omega, cl A(I)'\_sa Omega)^2 = 2c/(3 pi^2). The stress-tensor subspace reduces Delta and J, c-linearity is structural, the constant comes from the fermion.
+
+## Hypotheses
+
+The statement is made under named hypotheses. The sentences are quoted from the statement above; read the status badge only together with them.
+
+Hypothesis labels used: `H1`, `H2`, `H3`.
+
+> For every diffeomorphism-covariant net on S^1 (separable, CDIT axioms, Bisognano-Wichmann, Haag duality, Reeh-Schlieder) with (H1) an implementation U_s of the C^{1,1} map, (H2) U_s Omega = Omega + i s T(g_tot) Omega + o(s) with T(g_tot) Omega in the stress-tensor subspace, (H3) first-order differentiability on a core: -log F = (s^2/8) g_B + o(s^2), g_B = 4 dist(T(g_tot) Omega, cl A(I)'\_sa Omega)^2 = 2c/(3 pi^2).
 
 ## How to verify
 

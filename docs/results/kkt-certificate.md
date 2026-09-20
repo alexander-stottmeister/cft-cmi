@@ -16,8 +16,8 @@ rigor/sdp_dual_certificate.tex (S10, 960 lines).
 
 ## Evidence
 
-- [rigor/sdp_dual_certificate.tex](../../rigor/sdp_dual_certificate.tex) — document — Thm3.2
-- [rigor/sdp_dual_certificate.tex](../../rigor/sdp_dual_certificate.tex) — document — Lemma11.1
+- [rigor/sdp_dual_certificate.tex](../../rigor/sdp_dual_certificate.tex) — document, at `Thm3.2`
+- [rigor/sdp_dual_certificate.tex](../../rigor/sdp_dual_certificate.tex) — document, at `Lemma11.1`
 
 ## Related claims
 

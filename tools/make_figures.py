@@ -37,46 +37,49 @@ OUT = ROOT / "docs" / "assets"
 # theme: transparent background, colours legible on light and on dark
 # --------------------------------------------------------------------------
 
-CSS = """
-  :root {
-    --ink:  #1f2328; --mut: #57606a; --grid: #d0d7de; --soft: #eaeef2;
-    --c1: #0550ae; --c2: #9a4b00; --c3: #1a7f37; --c4: #6639ba; --c5: #a40e26;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --ink: #e6edf3; --mut: #9198a1; --grid: #3d444d; --soft: #21262d;
-      --c1: #79c0ff; --c2: #f0a35e; --c3: #56d364; --c4: #d2a8ff; --c5: #ff8a8a;
-    }
-  }
+LIGHT = dict(ink="#1f2328", mut="#57606a", grid="#d0d7de", soft="#eaeef2",
+             c1="#0550ae", c2="#9a4b00", c3="#1a7f37", c4="#6639ba",
+             c5="#a40e26")
+DARK = dict(ink="#e6edf3", mut="#9198a1", grid="#3d444d", soft="#21262d",
+            c1="#79c0ff", c2="#f0a35e", c3="#56d364", c4="#d2a8ff",
+            c5="#ff8a8a")
+
+BASE = """
   text { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI",
-         Helvetica, Arial, sans-serif; fill: var(--ink); font-size: 12px; }
-  .ttl  { font-size: 16px; font-weight: 600; }
-  .sub  { font-size: 11px; fill: var(--mut); }
-  .lab  { font-size: 12px; }
-  .tick { font-size: 11px; fill: var(--mut); }
-  .note { font-size: 11px; fill: var(--mut); }
+         Helvetica, Arial, sans-serif; font-size: 12px; }
+  .ttl { font-size: 16px; font-weight: 600; }
+  .sub, .tick, .note { font-size: 11px; }
+  .lab { font-size: 12px; }
   .bold { font-weight: 600; }
-  .axis { stroke: var(--ink); stroke-width: 1.2; fill: none; }
-  .grid { stroke: var(--grid); stroke-width: 1; fill: none; }
-  .soft { fill: var(--soft); stroke: none; }
-  .frame{ stroke: var(--grid); stroke-width: 1; fill: none; }
-  .s1 { stroke: var(--c1); fill: none; stroke-width: 2; }
-  .s2 { stroke: var(--c2); fill: none; stroke-width: 2; }
-  .s3 { stroke: var(--c3); fill: none; stroke-width: 2; }
-  .s4 { stroke: var(--c4); fill: none; stroke-width: 2; }
-  .s5 { stroke: var(--c5); fill: none; stroke-width: 2; }
-  .sk { stroke: var(--ink); fill: none; stroke-width: 1.6; }
-  .f1 { fill: var(--c1); stroke: none; }
-  .f2 { fill: var(--c2); stroke: none; }
-  .f3 { fill: var(--c3); stroke: none; }
-  .f4 { fill: var(--c4); stroke: none; }
-  .f5 { fill: var(--c5); stroke: none; }
-  .t1 { fill: var(--c1); } .t2 { fill: var(--c2); } .t3 { fill: var(--c3); }
-  .t4 { fill: var(--c4); } .t5 { fill: var(--c5); }
+  .axis { stroke-width: 1.2; fill: none; }
+  .grid, .frame { stroke-width: 1; fill: none; }
+  .soft { stroke: none; }
+  .s1, .s2, .s3, .s4, .s5 { fill: none; stroke-width: 2; }
+  .f1, .f2, .f3, .f4, .f5 { stroke: none; }
   .hole { fill: none; stroke-width: 2; }
   .dash { stroke-dasharray: 6 4; }
-  .dot  { stroke-dasharray: 2 3; }
+  .dot { stroke-dasharray: 2 3; }
 """
+
+
+def _rules(p: dict) -> str:
+    """Colour rules for one theme; no CSS variables, so that renderers
+    without custom-property support still show the right colours."""
+    out = [f"text{{fill:{p['ink']};}}",
+           f".sub,.tick,.note{{fill:{p['mut']};}}",
+           f".axis{{stroke:{p['ink']};}}",
+           f".grid,.frame{{stroke:{p['grid']};}}",
+           f".soft{{fill:{p['soft']};}}",
+           f".mk-ink{{fill:{p['ink']};}}"]
+    for i in range(1, 6):
+        c = p[f"c{i}"]
+        out.append(f".s{i}{{stroke:{c};}} .f{i}{{fill:{c};}} "
+                   f".t{i}{{fill:{c};}} .mk-c{i}{{fill:{c};}}")
+    return "".join(out)
+
+
+CSS = (BASE + _rules(LIGHT) + "@media (prefers-color-scheme: dark){"
+       + _rules(DARK) + "}")
 
 
 def esc(s: str) -> str:
@@ -124,12 +127,12 @@ class Svg:
 
     def marker_defs(self) -> str:
         out = []
-        for name, var in (("ink", "--ink"), ("c1", "--c1"), ("c2", "--c2"),
-                          ("c3", "--c3"), ("c4", "--c4"), ("c5", "--c5")):
+        for name in ("ink", "c1", "c2", "c3", "c4", "c5"):
             out.append(
                 f'<marker id="ar-{name}" viewBox="0 0 10 10" refX="9" refY="5" '
                 f'markerWidth="7" markerHeight="7" orient="auto-start-reverse">'
-                f'<path d="M 0 0 L 10 5 L 0 10 z" fill="var({var})"/></marker>')
+                f'<path d="M 0 0 L 10 5 L 0 10 z" class="mk-{name}"/>'
+                f'</marker>')
         return "".join(out)
 
     def render(self) -> str:
@@ -433,8 +436,8 @@ def parse_corner():
 def fig_geometry() -> Path:
     # the repository's standard geometry: a = 1, L = b + c = 2 (the scale used
     # by fidelity_table_largezeta.tex, where zeta = s/3 = a s/(a+L)); the
-    # compression member is s = lambda = c/b (petz-zero-collar-channel),
-    # so b = c = 1 gives s = 1 and h_s maps D = B u C exactly onto B.
+    # compression member is s = lambda = c/b (Note 4), so b = c = 1 gives
+    # s = 1 and h_s maps D = BC exactly onto B.
     a, b, c = 1.0, 1.0, 1.0
     L = b + c
     s = c / b
@@ -444,85 +447,75 @@ def fig_geometry() -> Path:
     cmi = math.log((a + b) * (b + c) / (b * (a + b + c))) / 6
     eps = 0.22                                               # drawn collar
 
-    W, H = 780, 430
+    W, H = 780, 432
     g = Svg(W, H, "Three adjacent intervals and the zero-collar recovery map",
             "Schematic of A, B, C on the chiral line, the collar between A "
             "and B, and the geometric compression that recovers ABC from AB.")
-    X0, SC, Y1, Y2 = 250.0, 200.0, 152.0, 286.0
+    X0, SC, Y1, Y2 = 250.0, 200.0, 148.0, 292.0
     xp = lambda v: X0 + SC * v                               # noqa: E731
 
     g.text(24, 30, "Three adjacent intervals, the collar, and the "
                    "compression that recovers ABC from AB", "ttl")
-    g.text(24, 50, f"Schematic (no data). Drawn at a = b = c = 1, so L = b+c "
-                   f"= 2 and s = λ = c/b = 1; maps and ζ from "
-                   f"continuum_petz_free_fermion.tex, CMI from "
-                   f"adjacent_interval_cmi_longo_xu.tex.", "sub")
+    g.text(24, 50, "Schematic, no data. Drawn at a = b = c = 1, so L = b+c "
+                   "= 2 and s = \u03bb = c/b = 1.", "sub")
+    g.text(24, 66, "Geometry, maps and \u03b6 from "
+                   "continuum_petz_free_fermion.tex (Note 4); CMI from "
+                   "adjacent_interval_cmi_longo_xu.tex (Note 1).", "sub")
 
-    def band(y, lo, hi, cls, label, tcls):
+    def band(y, lo, hi, cls, label, tcls, dy=-16):
         g.rect(xp(lo), y - 9, xp(hi) - xp(lo), 18, cls=cls, rx=3)
-        g.text((xp(lo) + xp(hi)) / 2, y - 16, label, "lab bold " + tcls,
+        g.text((xp(lo) + xp(hi)) / 2, y + dy, label, "lab bold " + tcls,
                "middle")
 
     # ---- row 1: the vacuum geometry on the chiral line
-    g.text(24, Y1 - 46, "vacuum on the line", "note")
-    g.line(xp(-1.25), Y1, xp(2.28), Y1, "axis")
-    for cls, lo, hi, lab, t in (("f1", -a, 0.0, "A", "t1"),
-                                ("f3", 0.0, b, "B", "t3"),
-                                ("f2", b, b + c, "C", "t2")):
-        band(Y1, lo, hi, cls + " ", lab, t)
-    for v, lab in ((-a, "−a = −1"), (0.0, "0"), (b, "b = 1"),
+    g.text(24, 104, "vacuum on the line", "note")
+    g.line(xp(-1.22), Y1, xp(2.24), Y1, "axis")
+    band(Y1, -a, 0.0, "f1", "A", "t1")
+    band(Y1, 0.0, b, "f3", "B", "t3")
+    band(Y1, b, b + c, "f2", "C", "t2")
+    for v, lab in ((-a, "\u2212a = \u22121"), (0.0, "0"), (b, "b = 1"),
                    (b + c, "b+c = L = 2")):
-        g.line(xp(v), Y1 + 10, xp(v), Y1 + 16, "axis")
-        g.text(xp(v), Y1 + 30, lab, "tick", "middle")
-    # the collar, carved out of A at the touching endpoint
+        g.line(xp(v), Y1 + 10, xp(v), Y1 + 15, "axis")
+        g.text(xp(v), Y1 + 28, lab, "tick", "middle")
     g.rect(xp(-eps), Y1 - 13, xp(0) - xp(-eps), 26, cls="frame dash", rx=2)
-    g.text(xp(-eps / 2), Y1 - 22, "collar ε", "note", "middle")
-    g.path(f"M {xp(-eps/2):.1f} {Y1-34:.1f} C {xp(-0.55):.1f} {Y1-58:.1f} "
-           f"{xp(-0.95):.1f} {Y1-58:.1f} {xp(-1.2):.1f} {Y1-52:.1f}",
-           "grid")
-    g.text(xp(-1.22), Y1 - 56, "ε > 0: split product state, FHSW Petz "
-                               "map; ε = 0: no normal product state,",
-           "note", "start")
-    g.text(xp(-1.22), Y1 - 42, "the channel is the unique normal extension "
-                               "(Note 4, Thm. normal zero-collar map)",
-           "note", "start")
+    g.text(xp(-eps / 2), Y1 - 20, "collar \u03b5", "note", "middle")
 
-    # ---- transfer arrows
+    # ---- the compression, drawn as the transfer of four sample points
     for x in (0.5, 1.0, 1.5, 2.0):
-        g.line(xp(x), Y1 + 42, xp(hs(x)), Y2 - 30, "grid dot",
+        g.line(xp(x), Y1 + 44, xp(hs(x)), Y2 - 30, "grid dot",
                ' marker-end="url(#ar-ink)"')
-    g.text(xp(2.34), (Y1 + Y2) / 2 + 4, "kₛ", "lab bold", "start")
+    g.text(xp(1.78), (Y1 + Y2) / 2 + 6, "compression k\u209b", "note bold", "start")
 
     # ---- row 2: the image under the compression
-    g.text(24, Y2 - 46, "after the compression kₛ", "note")
-    g.line(xp(-1.25), Y2, xp(2.28), Y2, "axis")
-    band(Y2, -a, 0.0, "f1 ", "A (fixed)", "t1")
-    band(Y2, 0.0, hs(b), "f3 ", "hₛ(B)", "t3")
-    band(Y2, hs(b), hs(b + c), "f2 ", "hₛ(C)", "t2")
-    for v, lab in ((-a, "−1"), (0.0, "0"), (hs(b), f"{hs(b):.3f}"),
+    g.text(24, 238, "after the compression k\u209b", "note")
+    g.line(xp(-1.22), Y2, xp(2.24), Y2, "axis")
+    band(Y2, -a, 0.0, "f1", "A (fixed)", "t1")
+    band(Y2, 0.0, hs(b), "f3", "h\u209b(B)", "t3")
+    band(Y2, hs(b), hs(b + c), "f2", "h\u209b(C)", "t2")
+    for v, lab in ((-a, "\u22121"), (0.0, "0"), (hs(b), f"{hs(b):.3f}"),
                    (hs(b + c), f"{hs(b+c):.0f} = b")):
-        g.line(xp(v), Y2 + 10, xp(v), Y2 + 16, "axis")
-        g.text(xp(v), Y2 + 30, lab, "tick", "middle")
-    g.text(xp(1.15), Y2 + 6, "← the whole of B∪C now sits inside B",
-           "note", "start")
-    g.line(xp(0), Y2 - 30, xp(0), Y2 - 14, "s5",
-           ' marker-end="url(#ar-c5)"')
-    g.text(xp(0.04), Y2 - 32, f"corner p = 0:  Schwarzian mass "
-                              f"−2σ = −{2*sigma:g}, "
-                              f"σ = s/L = {sigma:g}", "note t5", "start")
+        g.line(xp(v), Y2 + 10, xp(v), Y2 + 15, "axis")
+        g.text(xp(v), Y2 + 28, lab, "tick", "middle")
+    g.circle(xp(0), Y2, 4.5, "f5")
+    g.text(xp(-0.04), Y2 - 22, "corner p = 0", "note t5", "end")
+    g.text(xp(1.15), Y2 - 20, "the whole of BC now sits inside B", "note",
+           "start")
 
-    # ---- the three sourced statements
-    yy = Y2 + 62
+    # ---- the four sourced statements
+    yy = Y2 + 56
     for line in (
-        "recovery map (Note 4):  kₛ = id on A,  hₛ(x) = Lx/(L+sx) "
-        "on D = B∪C.  At s = λ = c/b the range is exactly "
-        "𝒜(B), so the map recovers ABC from AB.",
-        f"corner strength:  ζ = as/(a+L) = {zeta:.4f}  "
-        f"(continuum_petz_free_fermion.tex); the recovery error of "
-        f"Theorem A is Φ(ζ) = −log F.",
-        f"Longo–Xu CMI:  I(A:C|B) = (c/6)·log[(a+b)(b+c)/"
-        f"(b(a+b+c))] = (c/6)·log(4/3) = {cmi:.4f}·c  "
-        f"(adjacent_interval_cmi_longo_xu.tex).",
+        "recovery map (Note 4):  k\u209b = id on A,  h\u209b(x) = "
+        "Lx/(L+sx) on D = BC;  at s = \u03bb = c/b its range is exactly "
+        "A(B).",
+        f"corner p = 0:  Schwarzian mass \u22122\u03c3 = "
+        f"\u2212{2*sigma:g} with \u03c3 = s/L = {sigma:g};  strength "
+        f"\u03b6 = as/(a+L) = {zeta:.4f};  Theorem A measures "
+        f"\u03a6(\u03b6) = \u2212log F.",
+        "collar:  \u03b5 > 0 gives the split product state FHSW needs; at "
+        "\u03b5 = 0 there is none, and the channel is a unique normal "
+        "extension.",
+        f"Longo\u2013Xu CMI:  I(A:C|B) = (c/6)\u00b7log[(a+b)(b+c)/"
+        f"(b(a+b+c))] = (c/6)\u00b7log(4/3) = {cmi:.4f}\u00b7c.",
     ):
         g.text(24, yy, line, "note")
         yy += 19
@@ -591,8 +584,7 @@ def fig_quadratic_law() -> Path:
         g.line(x - 7, ax.Y(r["cert"]), x + 7, ax.Y(r["cert"]), "s3")
         ax.vbar(r["zeta"], r["best"] - r["err"], r["best"] + r["err"],
                 "s2", cap=4)
-        g.circle(x, ax.Y(r["best"]), 4.2, "hole",
-                 ' stroke="var(--c2)" fill="none"')
+        g.circle(x, ax.Y(r["best"]), 4.2, "hole s2")
 
     # legend, in the empty upper-left corner of the panel
     lx, ly = ax.x + 18, ax.y + 22
@@ -611,8 +603,7 @@ def fig_quadratic_law() -> Path:
         elif draw == "tick":
             g.line(lx - 6, y - 4, lx + 6, y - 4, "s3")
         elif draw == "circ":
-            g.circle(lx, y - 4, 4.2, "hole",
-                     ' stroke="var(--c2)" fill="none"')
+            g.circle(lx, y - 4, 4.2, "hole s2")
         else:
             g.line(lx - 7, y - 4, lx + 7, y - 4, "s4 dash")
         g.text(lx + 14, y, txt, "note")
@@ -635,8 +626,7 @@ def fig_quadratic_law() -> Path:
     for r in large:
         v = r["best"] / (f2 * r["zeta"] ** 2)
         pts.append((r["zeta"], v))
-        g.circle(bx.X(r["zeta"]), bx.Y(v), 3.8, "hole",
-                 ' stroke="var(--c2)" fill="none"')
+        g.circle(bx.X(r["zeta"]), bx.Y(v), 3.8, "hole s2")
     bx.curve(pts, "s1", ' stroke-width="1" stroke-dasharray="3 3"')
     g.text(bx.x + bx.w / 2, bx.y + bx.h + 22,
            "ζ   (corner strength ζ = as/(a+L), dimensionless)",
@@ -723,8 +713,7 @@ def fig_universality() -> Path:
             zx.vbar(xx, val - err, val + err, "s" + cls[-1], cap=6)
             g.circle(zx.X(xx), zx.Y(val), 4.2, cls)
         else:
-            g.circle(zx.X(xx), zx.Y(val), 4.4, "hole",
-                     f' stroke="var(--c{cls[-1]})" fill="none"')
+            g.circle(zx.X(xx), zx.Y(val), 4.4, "hole s" + cls[-1])
         g.text(zx.X(xx), zx.y + zx.h + 18, lab, "tick", "middle")
 
     yy = H - 92
@@ -802,16 +791,15 @@ def fig_theta_ladder() -> Path:
     for h, v in t["galerkin"]:
         sqmark(g, ax.X(h ** p), ax.Y(v), 3.4, "f1")
     for h, v in t["t0"]:
-        g.circle(ax.X(h ** p), ax.Y(v), 4.0, "hole",
-                 ' stroke="var(--c3)" fill="none"')
-    g.circle(ax.X(t["h_min"] ** p), ax.Y(t["theta_hmin"]), 4.0, "hole",
-             ' stroke="var(--c3)" fill="none"')
+        g.circle(ax.X(h ** p), ax.Y(v), 4.0, "hole s3")
+    g.circle(ax.X(t["h_min"] ** p), ax.Y(t["theta_hmin"]), 4.0,
+             "hole s3")
 
     lx, ly = ax.x + 232, ax.y + 200
     sqmark(g, lx, ly - 4, 3.4, "f1")
     g.text(lx + 12, ly, "modular Galerkin frame, a = 1, L = 2 (§1b)",
            "note")
-    g.circle(lx, ly + 15, 4.0, "hole", ' stroke="var(--c3)" fill="none"')
+    g.circle(lx, ly + 15, 4.0, "hole s3")
     g.text(lx + 12, ly + 19, "T0 Wiener–Hopf frame, geometry-free "
                              "(§3c, §4)", "note")
     g.line(lx - 7, ly + 34, lx + 7, ly + 34, "s2")
@@ -856,3 +844,166 @@ def fig_theta_ladder() -> Path:
         g.text(24, yy, line, "note")
         yy += 17
     return g.write("theta-ladder.svg")
+
+
+# --------------------------------------------------------------------------
+# F5  corner-calculus.svg
+# --------------------------------------------------------------------------
+
+def fig_corner_calculus() -> Path:
+    d, s = parse_corner()
+    MSCALE = 46.0 / abs(d["ctrl_naive"])      # px per unit Schwarzian mass
+
+    W, H = 780, 648
+    g = Svg(W, H, "The corner calculus: three protocols and their Schwarzian "
+                  "masses",
+            "Theorem 5.2 places a mass at the preimage of each junction "
+            "scaled by the later maps' derivatives; Theorem 5.3 is the "
+            "junction form, which holds under hypothesis (H).")
+    g.text(24, 30, "Recovery networks: three protocols on a chain, and the "
+                   "Schwarzian point masses each produces", "ttl")
+    g.text(24, 50, "Source: rigor/network_corner_calculus.tex, Theorem 5.2 "
+                   "(no hypothesis), Theorem 5.3 (junction form, under (H)), "
+                   "Examples ex:displaced and ex:swallow.", "sub")
+    g.rect(24, 62, W - 48, 56, "frame", 4)
+    g.text(34, 80, "Thm 5.2, unconditional:   𝒮(Φ) = "
+                   "−2 Σₘ σₘ Gₘ′(xₘ) "
+                   "δ(xₘ),   Gₘ = kₘ₊₁∘"
+                   "…∘k_N,   xₘ = Gₘ⁻¹"
+                   "(p⁽ᵐ⁾);  a corner with p⁽ᵐ⁾ "
+                   "∉ Gₘ(J_N) contributes nothing.", "note")
+    g.text(34, 100, "Thm 5.3, under (H) (no earlier corner in the interior "
+                    "of a later step's moving part):   𝒮(Φ) "
+                    "= −2 Σₖ κₖ δ(pₖ) at "
+                    "the junctions, κₖ = Σ σₘ over "
+                    "the steps with p⁽ᵐ⁾ = pₖ — "
+                    "order independent.", "note")
+
+    def panel(yt, head, hcls, detail, pts, names, span, masses, extras,
+              verdict):
+        x0p, x1p = 178.0, 702.0
+        xp = lambda v: x0p + (x1p - x0p) * v / span      # noqa: E731
+        g.text(24, yt, head, "lab bold " + hcls)
+        g.text(24, yt + 18, detail, "note")
+        base = yt + 42
+        g.line(xp(pts[0]) - 14, base, xp(pts[-1]) + 14, base, "axis")
+        for i in range(len(pts) - 1):
+            cls = "f1" if i % 2 == 0 else "f3"
+            g.rect(xp(pts[i]) + 1, base - 7, xp(pts[i + 1]) - xp(pts[i]) - 2,
+                   14, cls, 2)
+            g.text((xp(pts[i]) + xp(pts[i + 1])) / 2, base - 12, names[i],
+                   "note", "middle")
+        for i, v in enumerate(pts):
+            g.line(xp(v), base + 8, xp(v), base + 13, "axis")
+            g.text(xp(v), base + 26, f"p{i+1} = {v:g}", "tick", "middle")
+        maxis = base + 40
+        g.line(x0p - 14, maxis, x1p + 14, maxis, "grid")
+        g.text(24, maxis + 4, "Schwarzian", "note")
+        g.text(24, maxis + 17, "masses", "note")
+        for pos, val, lab, cls in masses:
+            hgt = abs(val) * MSCALE
+            g.line(xp(pos), maxis, xp(pos), maxis + hgt, cls,
+                   ' marker-end="url(#ar-c%s)"' % cls[1])
+            g.text(xp(pos), maxis + hgt + 18, lab, "note " + cls.replace(
+                "s", "t", 1), "middle")
+        for kind, a, b, lab in extras:
+            if kind == "shift":
+                g.line(xp(a), maxis - 10, xp(b), maxis - 10, "grid dash",
+                       ' marker-end="url(#ar-ink)"')
+                g.text((xp(a) + xp(b)) / 2, maxis - 15, lab, "note",
+                       "middle")
+            elif kind == "gone":
+                g.text(xp(a), maxis + 16, "×", "lab bold", "middle")
+                g.text(xp(a), maxis + 32, lab, "note", "middle")
+        g.text(24, yt + 140, verdict, "note " + hcls)
+
+    l = d["l"]
+    p = d["p"]
+    s1, s2c, s2 = d["sigma1"], d["sigma2_ctrl"], d["sigma2"]
+    span = p[-1]
+
+    panel(
+        152,
+        "(a)  single-interval conditioning from a two-interval start "
+        "— (H) holds, Theorem 5.3 applies", "t3",
+        f"chain l = ({', '.join(f'{v:g}' for v in l)}), start J₀ = "
+        f"A₂A₃.  Step 1: adjoin A₄ on A₃, corner p₃, "
+        f"σ₁ = {s1:.6f}.  Step 2: adjoin A₁ on A₂, "
+        f"corner p₃, σ₂ = {s2c:.6f}.",
+        p, ["A₁", "A₂", "A₃", "A₄"], span,
+        [(p[2], -2 * (s1 + s2c),
+          f"−2(σ₁+σ₂) = {d['ctrl_naive']:g} at "
+          f"p₃ (measured {d['ctrl_measured']:g})", "s1")],
+        [],
+        "Both corners sit at the same junction and the masses add: the "
+        "corner measure, hence the recovered state, does not depend on the "
+        "order of the steps.")
+
+    panel(
+        316,
+        "(b)  ex:displaced — conditioning on a union moves the mass "
+        "OFF the junction; (H) fails, only Theorem 5.2 applies", "t5",
+        f"same chain, start J₀ = A₂A₃.  Step 1 as above.  "
+        f"Step 2: adjoin A₁ on the UNION A₂A₃, corner "
+        f"p₄, σ₂ = {s2:.6f}.  Then p⁽¹⁾ = "
+        f"p₃ lies in the interior of step 2's moving part.",
+        p, ["A₁", "A₂", "A₃", "A₄"], span,
+        [(d["x0"], d["mass_x0"],
+          f"−2σ₁k₂′(x₀) = {d['mass_x0']:g} at "
+          f"x₀ = {d['x0']:g}", "s5"),
+         (p[3], -2 * s2, f"−2σ₂ = {-2*s2:g} at p₄",
+          "s1")],
+        [("shift", p[2], d["x0"],
+          "pulled back by k₂⁻¹, scaled by "
+          f"k₂′(x₀) = {d['dk2']:g}")],
+        f"No mass at p₃ (measured {d['measured_p3']:g}); the total mass "
+        f"is {d['percent']:g}% of the naive −2(σ₁+"
+        f"σ₂). The junction form would give the wrong state.")
+
+    panel(
+        480,
+        "(c)  ex:swallow — a single-interval start lets a corner be "
+        "swallowed; (H) fails, only Theorem 5.2 applies", "t5",
+        f"chain l = ({', '.join(f'{v:g}' for v in s['l'])}), start J₀ = "
+        f"A₂, a SINGLE interval.  Step 1: adjoin A₃ on A₂, "
+        f"corner p₂, σ₁ = {s['sigma1']:g}.  Step 2: adjoin "
+        f"A₁ on A₂, corner p₃, σ₂ = "
+        f"{s['sigma2']:g}.  Both conditioning regions are single intervals.",
+        s["p"], ["A₁", "A₂", "A₃"], s["p"][-1],
+        [(s["p"][2], -2 * s["sigma2"],
+          f"−2σ₂ = {-2*s['sigma2']:g} at p₃", "s1")],
+        [("gone", s["p"][1], None,
+          f"k₂((p₁,p₃)) = ({s['image'][0]},{s['image'][1]}) "
+          f"does not contain p₂")],
+        "The first corner is outside the range of the later map, so it "
+        "contributes nothing: Φ = (global Möbius) ∘ "
+        "k₂ and step 1 leaves the recovered state unchanged.")
+
+    g.text(24, H - 22,
+           "Single-interval conditioning alone does NOT imply (H): panel (c) "
+           "is a counterexample. The sufficient condition is single-interval "
+           "conditioning AND a starting block of at least two chain intervals "
+           "(Prop. H-suff(a)).", "note")
+    return g.write("corner-calculus.svg")
+
+
+# --------------------------------------------------------------------------
+
+FIGURES = (fig_geometry, fig_quadratic_law, fig_universality,
+           fig_theta_ladder, fig_corner_calculus)
+
+
+def main() -> int:
+    made = []
+    for fn in FIGURES:
+        path = fn()
+        made.append(path)
+        print(f"wrote {path.relative_to(ROOT)}  "
+              f"({path.stat().st_size:,} bytes)")
+    print(f"{len(made)} figures written to "
+          f"{OUT.relative_to(ROOT)}/")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

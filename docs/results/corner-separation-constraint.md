@@ -16,8 +16,8 @@ rigor/g1a_separation.py (15 checks, all PASS, output a verbatim capture): the mo
 
 ## Evidence
 
-- [rigor/network_corner_calculus.tex](../../rigor/network_corner_calculus.tex) — document — label{thm:sep}
-- [rigor/network_corner_calculus.tex](../../rigor/network_corner_calculus.tex) — document — label{lem:LRdata}
+- [rigor/network_corner_calculus.tex](../../rigor/network_corner_calculus.tex) — document, at `label{thm:sep}`
+- [rigor/network_corner_calculus.tex](../../rigor/network_corner_calculus.tex) — document, at `label{lem:LRdata}`
 - [rigor/g1a_separation.py](../../rigor/g1a_separation.py) — numerics
 - [rigor/ref_p6_0_separation.py](../../rigor/ref_p6_0_separation.py) — numerics
 - [rigor/ref_p6_3_separation.py](../../rigor/ref_p6_3_separation.py) — numerics

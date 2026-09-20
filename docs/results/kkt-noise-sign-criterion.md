@@ -2,7 +2,7 @@
 
 # KKT sign criterion: when the isometric orbit carries the all-channel second-order optimum
 
-**Status:** `proved` — a complete structured proof. **Conditional:** this result holds only under H3, H1, H2; the hypotheses are quoted below.
+**Status:** `proved` — a complete structured proof. **Conditional:** this result holds only under H1, H2, H3; the hypotheses are quoted below.
 
 **Area:** [Optimality of recovery channels (O8, Phases 3 and 3b)](../status.md#area-optimality) · **Card type:** theorem · **Knowledge-base id:** `kkt-noise-sign-criterion`
 
@@ -12,11 +12,17 @@ Let delta_\* be the b-orthogonal residual of ddelta on the closure of the LINEAR
 
 ## Hypotheses
 
-This result is conditional. The sentences below are quoted from the statement above; read the status badge only together with them.
+This result is conditional: it holds only where the hypotheses below hold. The sentences are quoted from the statement above; read the status badge only together with them.
 
-Hypothesis labels used: `H3`, `H1`, `H2`.
+Hypothesis labels used: `H1`, `H2`, `H3`.
 
+> If (a) and (e) hold then kappa_opt = 1 - theta exactly (numerically 0.616 +- 0.003), modulo H1 and H2; if (a) fails with a gain bounded away from zero then kappa_opt \< 1 - theta strictly, but a violating psi must have finite g_Q(d_psi) - a violation vanishing with the weight cap or the mesh is a regularisation artefact.
+>
 > HYPOTHESIS H3 (cone hypothesis, Def 4.12, read in the form domain F): for every admissible isometry generator zeta with A(zeta,0,0) in F there are alpha, beta >= 0 and eta in the b-closure of the linear class with A(zeta,0,0) = alpha A(zeta_0,0,0) + beta A(zeta_inf,0,0) + eta.
+>
+> (No boundary-form reformulation: that would be strictly weaker, trivially true for zeta = i m(y), and would not imply (e).) The reduction to the two model directions is PROVED ONLY for generators of vector-field type; multiplicity->1 shift semigroups (Cooper-Wold) and unbounded skew-adjoint zeta = i m(y) outside the closure of the linear class escape both arguments, and excluding them is exactly the content of H3.
+>
+> Since A(zeta_0,0,0) is NOT in F, the identity forces alpha = 0, so under H3 condition (e) holds OUTRIGHT via E(zeta_inf) > 0 and the junction inequality is never invoked;
 >
 > Hence kappa_opt = 1 - theta = 0.616 +- 0.003 conditional on H1, H2 AND H3.
 
@@ -26,13 +32,13 @@ cd rigor && pdflatex -interaction=nonstopmode -halt-on-error exact_optimum_tange
 
 ## Evidence
 
-- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document — thm:kktmain
-- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document — lem:deriv
-- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document — prop:S
-- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document — prop:bdryfun
-- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document — def:forms
-- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document — cor:better
-- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document — prop:s10
+- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document, at `thm:kktmain`
+- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document, at `lem:deriv`
+- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document, at `prop:S`
+- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document, at `prop:bdryfun`
+- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document, at `def:forms`
+- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document, at `cor:better`
+- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document, at `prop:s10`
 
 ## Related claims
 

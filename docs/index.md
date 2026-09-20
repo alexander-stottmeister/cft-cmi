@@ -9,9 +9,9 @@ Conditional mutual information of adjacent intervals as a quantum-Markov defect.
 | result | status | page |
 |---|---|---|
 | Theorem A: lim Phi/zeta^2 = c/(12 pi^2) | `refereed` | [thm-a-quadratic-law](results/thm-a-quadratic-law.md) |
-| Theorem B: f2 = c/(12 pi^2) for every diffeomorphism-covariant net | `refereed` | [thm-b-universality](results/thm-b-universality.md) |
+| Theorem B: f2 = c/(12 pi^2) for every diffeomorphism-covariant net | `refereed` — stated under H1, H2, H3 | [thm-b-universality](results/thm-b-universality.md) |
 | The all-channel second-order optimum equals the isometric-orbit value: kappa_opt = 1 - theta = 0.616 +- 0.003 (numerical; conditional on H1, H2, H3) | `numerical` — conditional on H1, H2, H3 | [all-channel-optimum-value](results/all-channel-optimum-value.md) |
-| Corner calculus: sequential one-sided recovery = Schwarzian point masses at the junctions | `proved` | [corner-calculus](results/corner-calculus.md) |
+| Corner calculus: sequential one-sided recovery = Schwarzian point masses at the junctions | `proved` — conditional on H | [corner-calculus](results/corner-calculus.md) |
 
 A status word is a claim about how much is known, and nothing more. `numerical` means measured, with an error bar; it is not a theorem. Where a row above says *conditional*, the hypotheses are named on the result's own page, and the badge must not be read without them.
 

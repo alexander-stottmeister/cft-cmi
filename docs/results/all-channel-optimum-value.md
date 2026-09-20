@@ -12,7 +12,7 @@ Phase 5 answer to 'the exact value of the all-channel optimum (non-isometric cha
 
 ## Hypotheses
 
-This result is conditional. The sentences below are quoted from the statement above; read the status badge only together with them.
+This result is conditional: it holds only where the hypotheses below hold. The sentences are quoted from the statement above; read the status badge only together with them.
 
 Hypothesis labels used: `H1`, `H2`, `H3`.
 
@@ -20,7 +20,11 @@ Hypothesis labels used: `H1`, `H2`, `H3`.
 >
 > For the two model boundary directions, E(zeta_inf) = 2 lambda (1 - theta) g_Q > 0 is proved and E(zeta_0) > 0 is numerical; the reduction of the WHOLE cone of admissible generators to these two directions is proved only for vector fields (Prop 4.10) and is otherwise a declared hypothesis H3 (referee2_exact_optimum_tangent_problem.tex S1: multiplicity > 1 shift semigroups and unbounded skew-adjoint multiplication operators escape the argument).
 >
-> Conditional on H1 (differentiability along the scaled family), H2 (minimisers within the scaled-family form) and H3 (cone hypothesis) of the F1 document; the unconditional statements remain E_rec \<= 0.616 f_2 z^2 (1+o(1)) (E1 upper half for isometric channels + theta) and E_rec >= dual form (optimality_all_channels.tex eq.
+> Hence, numerically and under H3, non-isometric quasi-free channels (isometry loss, noise, non-surjective isometries) do NOT lower the second-order recovery error: kappa_opt = 1 - theta with theta = 0.384 +- 0.003 (F3, two discretisations reconciled;
+>
+> Conditional on H1 (differentiability along the scaled family), H2 (minimisers within the scaled-family form) and H3 (cone hypothesis) of the F1 document; the unconditional statements remain E_rec \<= 0.616 f_2 z^2 (1+o(1)) (E1 upper half for isometric channels + theta) and E_rec >= dual form (optimality_all_channels.tex eq. (10)).
+>
+> H1, H2, H3; closed form of theta (Wiener-Hopf problem, prop:thetaframe); analytic proof that theta > 0 (E_D u E_D not self-adjoint).
 
 ## How to verify
 
@@ -28,8 +32,8 @@ rigor/exact_optimum_tangent_problem.tex Thm 4.4 (conditions (a), (e)), Prop 4.10
 
 ## Evidence
 
-- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document — thm:kktmain
-- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document — prop:thetaframe
+- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document, at `thm:kktmain`
+- [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document, at `prop:thetaframe`
 - [rigor/referee_exact_optimum_tangent_problem.tex](../../rigor/referee_exact_optimum_tangent_problem.tex) — document
 - [rigor/referee2_exact_optimum_tangent_problem.tex](../../rigor/referee2_exact_optimum_tangent_problem.tex) — document
 - [numerics/optimality_all/F2_RESULTS.md](../../numerics/optimality_all/F2_RESULTS.md) — numerics

@@ -20,7 +20,9 @@ Source: [`rigor/PHASE1_STATUS.md`](../rigor/PHASE1_STATUS.md)
 ### Corrections applied today to the notes
 
 N5: apparent exponents (PL), 'ten times' -> pi^2 (PW), Prop 4.1 status (PT), Cor 4.2 status (PA/PR), large-zeta paragraph + table (PZ).
+
 N7: Theorem A statement, Sec. 8 items 2 (PA/PR/PT).
+
 
 ### Open after day 1
 
@@ -32,7 +34,9 @@ N7: Theorem A statement, Sec. 8 items 2 (PA/PR/PT).
 ### Agents used today
 
 PA (proof), PN (HS numerics), PL (lattice), PR (referee), PT (tail bound), PZ (large-zeta), PW (paper draft).
+
 <= 80-120 lines per tool call, compile/run after every append, plain LaTeX in findings entries.
+
 
 ## Phase 2 status — 2026-09-08 (day 1 of Phase 2)
 
@@ -63,16 +67,19 @@ Source: [`rigor/PHASE2_STATUS.md`](../rigor/PHASE2_STATUS.md)
 
 QA, QB, QN, QK, QR1, QR2 (+ PA resumed).
 
+
 ## Phase 3 status — started 2026-09-09
 
 Source: [`rigor/PHASE3_STATUS.md`](../rigor/PHASE3_STATUS.md)
 
 Tracks (rigor/phase3_brief.md):
+
 - S8: second-order optimality (O8) [DONE, rigor/optimality_second_order.tex 14 pp]: quasi-free problem is an exact SDP; optimum = (1.00 +- 0.15) f_2 z^2 per chirality = two-chirality geometric-compression value (Petz: 4 f_2 z^2; lattice best/Petz = 0.27-0.28); optimal channel = near-isometric squeeze not reproducing the BC marginal; A-C lower-bound route gives exactly 0; only E_opt >= 0 proved.
 - S9: thermal/RG/gap (O9, O10) [DONE]: two-branch law holds at the thermal cross ratio; shielding rates 2pi (fidelity), pi (CMI); c_M >= c_E along the flow, c_M/c_E -> mR; gap: exact CMI = adjacent law with L_B -> L_B+L_G, -logF ~ L_G^-2; off criticality -logF is LINEAR in the CMI (ratio 0.10-0.17)
 - PP1: referee pass on paper 1 -> rigor/referee_paper1.md [DONE: 23 edits applied + 3 orchestrator edits; 10 wording edits proposed]
 - PP2: referee pass on paper 2 -> rigor/referee_paper2.md [DONE: 26 edits applied; KM section now conjecture + bracket; 10 wording edits proposed]
 Deferred: O11 (sectors, state dependence); Kubo-Mori gauge lemma replacement (renormalised/collar route); D-hat quadrature and box-cutoff certification.
+
 
 ### Phase 3 day 1 complete (2026-09-09). Open: proof of optimality of the geometric compression (dual certificate / quasi-free achievability); multi-interval networks (O10 second half); O11 sectors; KM gauge lemma replacement; D-hat quadrature and box-cutoff certification; paper polishing (13 + 10 proposed wording edits) and internal-citation replacement before submission.
 
@@ -89,27 +96,41 @@ Deferred: O11 (sectors, state dependence); Kubo-Mori gauge lemma replacement (re
 Source: [`rigor/PHASE4_STATUS.md`](../rigor/PHASE4_STATUS.md)
 
 Question (kb card exact-fidelity-optimality-open): is the zero-collar geometric compression beaten in EXACT fidelity, i.e. does the
+
 upper half -log F <= g_Q(delta)(1+o(1)) hold for the rotated channel W_s e^{-eps G_*}?
+
 Reformulation (rigor/phase4_brief.md): the Uhlmann purification may use ANY unitary on the exterior of I = ABC (not only exterior
+
 flows).
+
 P^perp Z_e P are invisible (E_I[P, Z_e]E_I = 0), so the optimised Uhlmann bound equals the second-order functional iff the invisible
+
 part of the channel's direction lies in the closure of the exterior directions Ext.
+
 Results:
+
 - Orchestrator (e0_finite_density.py): on finite hopping chains Ext = N^perp exactly (dim N = |I|^2).
 - E2 (rigor/exterior_extension_numerics.tex, numerics/optimality_all/e2_*.py): in the spectral circle model Ext = N^perp exactly at every L; dist((1-Pi)M, Ext) = 0 to 55-70 digits; optimised UB_c/(1/2 s^2|u|^2) = 1.0000000 (the 4.3 of the fixed taper was an artefact); UB_rot/UB_c = 1 - theta to 5 digits; exact Fredholm determinant agrees at second order; ||Z_e||/s ~ 3 bounded in L.
 - E1 (rigor/exact_fidelity_upper_half.tex, 17 pp): THEOREM closure(Ext) = N^perp (two proofs: compressed reflection Gamma' is a contraction without eigenvalues +-1 so the invisible remainder vanishes; twisted duality).
 Consequences applied: paper1/sec_outlook.tex optimality passages rewritten (bibitems RigorAll, RigorS10, RigorE1, RigorE2); Note 5
+
 remark after Cor. 5.1; plan page O8 status; kb card exact-fidelity-optimality-open -> numerical (answered).
+
 Open after Phase 4: exact value of the all-channel optimum (non-isometric channels; bracket [D_z, 0.71 f2 z^2]); analytic proof
+
 of theta > 0; the Kubo-Mori coefficient (Phase 2b); D-hat quadrature certification; O10 networks; O11 sectors.
+
 
 ## Phase 5 status — exact value of the all-channel optimum (started 2026-09-15)
 
 Source: [`rigor/PHASE5_STATUS.md`](../rigor/PHASE5_STATUS.md)
 
 Question: is the isometric-orbit value (1 - theta) f2 z^2 the exact all-channel second-order optimum, or do
+
 non-isometric quasi-free channels (isometry loss N >= 0, noise 0 <= Y <= N) lower it further? And what is theta?
+
 Brief: rigor/phase5_brief.md.
+
 
 ### Tracks
 
@@ -140,60 +161,110 @@ Brief: rigor/phase5_brief.md.
 ### Propagation (2026-09-15)
 
 Editor P5-EDIT propagated the refereed F3 result (card `theta-value`, passed REF-P5-KB1;
+
 `numerics/optimality_all/F3_RESULTS.md`): **theta = 0.384 +- 0.003**, hence **1 - theta = 0.616 +- 0.003**;
+
 geometry independent, measured order h^0.77, two independent discretisations (modular Galerkin;
+
 parameter-free modular Wiener-Hopf, `rigor/exact_optimum_tangent_problem.tex` Prop 6.2) agreeing to 3e-4
+
 after extrapolation.
+
 **taper-suppressed lower bound** and stays as the historical record (erratum: `rigor/errata_log.md`).
+
 `kappa_opt = 1 - theta` is NOT claimed as settled: the KKT endpoint condition is still under evaluation
+
 (Phase 5, F1/F2).
+
 ### Documents
+
 | file | lines | old -> new |
+
 |---|---|---|
+
 | `rigor/optimality_all_channels.tex` | 468-475 (new) | sentence added after the S10 paragraph: 0.300 +- 0.005 superseded by F3, taper-suppressed lower bound; S10 table kept |
+
 | | 482 | `theta > 0 (numerical, 0.30)` -> `(numerical, 0.384 +- 0.003; F3)` |
+
 | | 485 | bracket `[D_z, 0.71 f2 z^2]` -> `[D_z, 0.616 f2 z^2]` |
+
 | | 583-584 | `at least 0.30 and plausibly 0.34-0.40` -> kept, plus `the Phase 5 reconciliation gives 0.384 +- 0.003 (F3)` |
+
 | | 678-681 | Verdict: `theta = 0.300 +- 0.005` -> lower bound + reconciled `0.384 +- 0.003`; `<= 0.71 f2 z^2` -> `<= 0.616 f2 z^2` |
+
 | | 690, 701 | `D_z <= 0.71 f2 z^2` -> `D_z <= 0.616 f2 z^2` (twice) |
+
 | `rigor/exact_fidelity_upper_half.tex` | 33 | abstract: `theta_fr >= 0.30` -> `theta_fr >= 0.38 (Phase 5, F3: theta = 0.384 +- 0.003)` |
+
 | | 823-852 (Rem. `rem:thetafr`) | title `to 0.30` -> `to 0.38`; `theta = 0.300 +- 0.005` -> `0.384 +- 0.003`; `E_rec <= 0.71 f2 z^2` -> `<= 0.616 f2 z^2`; item (iii) rewritten to the reconciled two-frame statement (Galerkin + Wiener-Hopf, S10 a taper-suppressed lower bound); `kappa_opt <= 0.71` -> `<= 0.616 +- 0.003`; the `0.34-0.40` sentence replaced by the Phase-5 clause on non-isometric channels |
+
 | | 949-958 | Verdict gap: `theta = 0.300 +- 0.005 in two independent discretisations` -> reconciled statement, E2's 0.708-0.711 labelled as the tapered circle-model value; `theta_fr >= 0.30` -> `>= 0.38`; `kappa_opt <= 0.71` -> `<= 0.616 +- 0.003` |
+
 | | 1000-1005 (R1) | `kappa_opt <= 0.71 moved to Rem. 7.4` -> `kappa_opt <= 1 - theta_fr (then 0.71, now 0.616 +- 0.003; see the addendum)`; `both discretisations behind theta ~ 0.30` -> `the discretisations behind the numerical theta` |
+
 | | 1067 | `theta_fr >= 0.30` -> `theta_fr >= 0.38 (theta = 0.384 +- 0.003, F3)` |
+
 | | 1070-1087 (new) | dated addendum at the end of Sec. 10, `Addendum (2026-09-15): the value of theta` -- records the reconciliation, the taper mechanism, the log-L vs 1/L extrapolation error, and that nothing proved changes |
+
 | `paper1/sec_outlook.tex` | 78-82 | `theta >= 0.30 numerically \cite{RigorS10}` -> `theta = 0.384 +- 0.003 numerically \cite{RigorS10,RigorF3}`; bracket upper end -> `0.616 f2 z^2` |
+
 | | 102 | `theta >= 0.30 in two independent discretisations, the spectral circle model (RigorS10, RigorE2) and the modular Galerkin frame (RigorAll)` -> `theta = 0.384 +- 0.003` from Galerkin (RigorAll) + modular Wiener-Hopf (RigorF3), agreeing to 3e-4, the circle model's value a taper-suppressed lower bound; `theta_fr >= 0.30` -> `>= 0.38`; `0.71 f2 z^2` -> `0.616 f2 z^2` |
+
 | `paper1/main.tex` | 122 | new `\bibitem{RigorF3}` after `RigorE2` (F3, theta reconciliation, `numerics/optimality_all/F3_RESULTS.md`, 2026-09-15) |
+
 | `fidelity_recovered_quasifree.tex` | 423 | remark `Optimality beyond the rotated family`: `theta >= 0.30` -> `theta = 0.384 +- 0.003` (S10's value flagged as a taper-suppressed lower bound), `theta_fr >= 0.30` -> `>= 0.38`, bound `<= 0.616 f2 z^2` added |
+
 | `numerics/optimality_all/F2_RESULTS.md` | T2 cap table | `lam_min(M_*)` and `rank-1 gain` rows labelled `half-SLD conv.` with a one-line note: they are 1/2 resp. 1/4 of `f2_capscan.py`'s output (script at L=128, cap 1e10: `-3.4771e-02`, `3.534e-11`, `f2_capscan_L128.out`) |
+
 Compiles: `optimality_all_channels.pdf` 14 pp; `exact_fidelity_upper_half.pdf` 21 pp;
+
 `paper1/main.pdf` 28 pp (pdflatex twice, unchanged); `fidelity_recovered_quasifree.pdf` 15 pp.
+
 Untouched by instruction: `rigor/exact_optimum_tangent_problem.tex`, `rigor/referee_*.tex`,
+
 `rigor/sdp_dual_certificate.tex`, all numerics scripts.
+
 ### KB cards (KB_ACTOR=P5-EDIT; no existing referee note edited, each card carries a dated note)
+
 | card | old -> new |
+
 |---|---|
+
 | `cft_cmi:compression-not-second-order-minimiser` | `theta = 0.300(5)` (S10) and `0.29 -> 0.34` (Galerkin) -> `theta = 0.384 +- 0.003`, S10 read as a taper-suppressed lower bound, Galerkin extrapolating to the same value; `min_F g_Q <= 0.71 f2 z^2` -> `<= (0.616 +- 0.003) f2 z^2`; `related` += `theta-value` |
+
 | `cft_cmi:compression-not-optimal-exact-fidelity` | `theta_fr >= 0.30` -> `>= 0.38`; `kappa_opt <= 0.71` -> `<= 0.616 +- 0.003`; item (iii) rewritten; `next` added: Phase-5 endpoint condition pending, `kappa_opt = 1 - theta` not to be recorded as settled |
+
 | `cft_cmi:exact-fidelity-optimality-open` | `theta_fr >= 0.30 ... kappa_opt <= 0.71` -> `theta_fr >= 0.38 ... kappa_opt <= 0.616 +- 0.003`; `next`: bracket `[D_z, 0.71 f2 z^2]` -> `[D_z, (0.616 +- 0.003) f2 z^2]` + endpoint condition pending |
+
 | `cft_cmi:paper1-status` | outlook description updated (`theta >= 0.30` -> `0.384 +- 0.003`, bracket `0.71` -> `0.616`, `theta_fr >= 0.38`, RigorF3 bibitem, 28 pp unchanged) |
+
 | `cft_cmi:theta-value` | REF-P5-KB1 minor: `19 further candidates are EXCLUDED` -> `16` |
+
 | `cft_cmi:kkt-noise-criterion-numerics` | REF-P5-KB1 minors: cap-scan row labelled half-SLD convention (1/2 of the script's `lam_min`, 1/4 of its gain) and anchored to `f2_capscan_L128.out` (`-3.4771e-02`, `3.534e-11` at L=128, cap 1e10; added to `evidence`); `kappa_max = 5.4-7.7, max w = 1.1e2-1.1e3` restricted to h = 0.24-0.06 (h = 0.03: 8.84, 3.4e3); `FD to 4e-9` -> `FD to <= 3e-8` |
+
 | `cft_cmi:tangent-sdp-noise-directions` | REF-P5-KB1 minor: `homogeneity x4` stated for the ORBIT-ONLY optimum |
+
 | `common:taper-dependence-of-first-order-constants` | REF-P5-KB1 minor: `||u||^2 stable to four digits` restricted to the taper windows S10's gate accepted (untapered `||u||^2 = 0.014889`) |
+
 Not changed, deliberately: `open-problems-plan-note8` and the `e2-*` cards -- their Statements quote no
+
 `0.30`/`0.71` as a current value (the `e2-*` ratios 0.708-0.711 are within-model measurements of the
+
 circle model's own `1 - theta`, and the `0.30` hits are the taper parameter `uv = (0.30,0.42)`).
+
 
 ## Phase 6 status — multi-interval networks (O10, second half) (opened 2026-09-16)
 
 Source: [`rigor/PHASE6_STATUS.md`](../rigor/PHASE6_STATUS.md)
 
 Question: recovery error, order dependence ("holonomy") and universality of sequential one-sided zero-collar recovery along
+
 chains A_1 ...
+
 Decision card: kb -p cft_cmi show phase6-plan.
+
 corner-correlation-kernel, vwz-protocol-ordering (all opened 2026-09-16 by the orchestrator, unrefereed).
+
 
 ### Tracks
 

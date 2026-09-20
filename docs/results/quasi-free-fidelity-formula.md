@@ -16,7 +16,7 @@ Note 5 Thm. 2.1; numerics/optimality/petz_ref.py (mpmath, 60-90 digits); selftes
 
 ## Evidence
 
-- [fidelity_recovered_quasifree.tex](../../fidelity_recovered_quasifree.tex) — document — thm:finite-fidelity
+- [fidelity_recovered_quasifree.tex](../../fidelity_recovered_quasifree.tex) — document, at `thm:finite-fidelity`
 - [numerics/optimality/petz_ref.py](../../numerics/optimality/petz_ref.py) — numerics
 - [numerics/optimality_all/exact_fidelity_rotated.py](../../numerics/optimality_all/exact_fidelity_rotated.py) — numerics
 

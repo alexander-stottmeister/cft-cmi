@@ -16,7 +16,7 @@ rigor/optimality_second_order.tex Sec. 3.
 
 ## Evidence
 
-- [rigor/optimality_second_order.tex](../../rigor/optimality_second_order.tex) — document — Thm3.1
+- [rigor/optimality_second_order.tex](../../rigor/optimality_second_order.tex) — document, at `Thm3.1`
 - [numerics/optimality/run_exact.py](../../numerics/optimality/run_exact.py) — numerics
 
 ## Related claims

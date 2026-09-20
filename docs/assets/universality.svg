@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 452" width="780" height="452" role="img" aria-labelledby="t d">
+<title id="t">Universality of the second-order coefficient</title>
+<desc id="d">The proved line f2 = c/(12 pi^2) of Theorem B, and the three independent measurements, all made at c = 1.</desc>
+<defs><marker id="ar-ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" class="mk-ink"/></marker><marker id="ar-c1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" class="mk-c1"/></marker><marker id="ar-c2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" class="mk-c2"/></marker><marker id="ar-c3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" class="mk-c3"/></marker><marker id="ar-c4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" class="mk-c4"/></marker><marker id="ar-c5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" class="mk-c5"/></marker></defs>
+<style>
+  text { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+         Helvetica, Arial, sans-serif; font-size: 12px; }
+  .ttl { font-size: 16px; font-weight: 600; }
+  .sub, .tick, .note { font-size: 11px; }
+  .lab { font-size: 12px; }
+  .bold { font-weight: 600; }
+  .axis { stroke-width: 1.2; fill: none; }
+  .grid, .frame { stroke-width: 1; fill: none; }
+  .soft { stroke: none; }
+  .s1, .s2, .s3, .s4, .s5 { fill: none; stroke-width: 2; }
+  .f1, .f2, .f3, .f4, .f5 { stroke: none; }
+  .hole { fill: none; stroke-width: 2; }
+  .dash { stroke-dasharray: 6 4; }
+  .dot { stroke-dasharray: 2 3; }
+text{fill:#1f2328;}.sub,.tick,.note{fill:#57606a;}.axis{stroke:#1f2328;}.grid,.frame{stroke:#d0d7de;}.soft{fill:#eaeef2;}.mk-ink{fill:#1f2328;}.s1{stroke:#0550ae;} .f1{fill:#0550ae;} .t1{fill:#0550ae;} .mk-c1{fill:#0550ae;}.s2{stroke:#9a4b00;} .f2{fill:#9a4b00;} .t2{fill:#9a4b00;} .mk-c2{fill:#9a4b00;}.s3{stroke:#1a7f37;} .f3{fill:#1a7f37;} .t3{fill:#1a7f37;} .mk-c3{fill:#1a7f37;}.s4{stroke:#6639ba;} .f4{fill:#6639ba;} .t4{fill:#6639ba;} .mk-c4{fill:#6639ba;}.s5{stroke:#a40e26;} .f5{fill:#a40e26;} .t5{fill:#a40e26;} .mk-c5{fill:#a40e26;}@media (prefers-color-scheme: dark){text{fill:#e6edf3;}.sub,.tick,.note{fill:#9198a1;}.axis{stroke:#e6edf3;}.grid,.frame{stroke:#3d444d;}.soft{fill:#21262d;}.mk-ink{fill:#e6edf3;}.s1{stroke:#79c0ff;} .f1{fill:#79c0ff;} .t1{fill:#79c0ff;} .mk-c1{fill:#79c0ff;}.s2{stroke:#f0a35e;} .f2{fill:#f0a35e;} .t2{fill:#f0a35e;} .mk-c2{fill:#f0a35e;}.s3{stroke:#56d364;} .f3{fill:#56d364;} .t3{fill:#56d364;} .mk-c3{fill:#56d364;}.s4{stroke:#d2a8ff;} .f4{fill:#d2a8ff;} .t4{fill:#d2a8ff;} .mk-c4{fill:#d2a8ff;}.s5{stroke:#ff8a8a;} .f5{fill:#ff8a8a;} .t5{fill:#ff8a8a;} .mk-c5{fill:#ff8a8a;}}</style>
+<text x="24.00" y="30.00" class="ttl" text-anchor="start">Theorem B: the second-order coefficient is linear in c, and three models measure it at c = 1</text>
+<text x="24.00" y="50.00" class="sub" text-anchor="start">The straight line is a theorem, not a fit: no measurement away from c = 1 exists, and none is scaled along the line.</text>
+<line x1="193.33" y1="84.00" x2="193.33" y2="336.00" class="grid"/>
+<line x1="300.67" y1="84.00" x2="300.67" y2="336.00" class="grid"/>
+<line x1="408.00" y1="84.00" x2="408.00" y2="336.00" class="grid"/>
+<line x1="86.00" y1="336.00" x2="408.00" y2="336.00" class="grid"/>
+<line x1="86.00" y1="288.63" x2="408.00" y2="288.63" class="grid"/>
+<line x1="86.00" y1="241.25" x2="408.00" y2="241.25" class="grid"/>
+<line x1="86.00" y1="193.88" x2="408.00" y2="193.88" class="grid"/>
+<line x1="86.00" y1="146.50" x2="408.00" y2="146.50" class="grid"/>
+<line x1="86.00" y1="99.13" x2="408.00" y2="99.13" class="grid"/>
+<rect x="86.00" y="84.00" width="322.00" height="252.00" rx="0" class="frame"/>
+<line x1="86.00" y1="336.00" x2="86.00" y2="340.00" class="axis"/>
+<text x="86.00" y="352.00" class="tick" text-anchor="middle">0</text>
+<line x1="193.33" y1="336.00" x2="193.33" y2="340.00" class="axis"/>
+<text x="193.33" y="352.00" class="tick" text-anchor="middle">1</text>
+<line x1="300.67" y1="336.00" x2="300.67" y2="340.00" class="axis"/>
+<text x="300.67" y="352.00" class="tick" text-anchor="middle">2</text>
+<line x1="408.00" y1="336.00" x2="408.00" y2="340.00" class="axis"/>
+<text x="408.00" y="352.00" class="tick" text-anchor="middle">3</text>
+<line x1="82.00" y1="336.00" x2="86.00" y2="336.00" class="axis"/>
+<text x="78.00" y="340.00" class="tick" text-anchor="end">0.000</text>
+<line x1="82.00" y1="288.63" x2="86.00" y2="288.63" class="axis"/>
+<text x="78.00" y="292.63" class="tick" text-anchor="end">0.005</text>
+<line x1="82.00" y1="241.25" x2="86.00" y2="241.25" class="axis"/>
+<text x="78.00" y="245.25" class="tick" text-anchor="end">0.010</text>
+<line x1="82.00" y1="193.88" x2="86.00" y2="193.88" class="axis"/>
+<text x="78.00" y="197.88" class="tick" text-anchor="end">0.015</text>
+<line x1="82.00" y1="146.50" x2="86.00" y2="146.50" class="axis"/>
+<text x="78.00" y="150.50" class="tick" text-anchor="end">0.020</text>
+<line x1="82.00" y1="99.13" x2="86.00" y2="99.13" class="axis"/>
+<text x="78.00" y="103.13" class="tick" text-anchor="end">0.025</text>
+<text x="30.00" y="210.00" class="lab" text-anchor="middle" transform="rotate(-90 30.00 210.00)">f₂ = lim Φ/ζ²  (per chirality)</text>
+<text x="247.00" y="370.00" class="lab" text-anchor="middle">central charge c</text>
+<polyline points="86.00,336.00 408.00,96.00" class="s4" stroke-width="2.4"/>
+<text x="241.63" y="208.00" class="note t4" text-anchor="start">Theorem B (proved):</text>
+<text x="241.63" y="222.00" class="note t4" text-anchor="start">f₂ = c/(12π²)</text>
+<circle cx="193.33" cy="256.00" r="4.00" class="f1"/>
+<rect x="177.33" y="242.00" width="32.00" height="28.00" rx="3" class="frame dash"/>
+<text x="193.33" y="290.00" class="note" text-anchor="middle">all three measurements</text>
+<text x="193.33" y="304.00" class="note" text-anchor="middle">sit here, at c = 1</text>
+<line x1="211.33" y1="256.00" x2="494.00" y2="200.00" class="grid dash" marker-end="url(#ar-ink)"/>
+<line x1="500.00" y1="336.00" x2="700.00" y2="336.00" class="grid"/>
+<line x1="500.00" y1="264.00" x2="700.00" y2="264.00" class="grid"/>
+<line x1="500.00" y1="192.00" x2="700.00" y2="192.00" class="grid"/>
+<line x1="500.00" y1="120.00" x2="700.00" y2="120.00" class="grid"/>
+<rect x="500.00" y="84.00" width="200.00" height="252.00" rx="0" class="frame"/>
+<line x1="496.00" y1="336.00" x2="500.00" y2="336.00" class="axis"/>
+<text x="492.00" y="340.00" class="tick" text-anchor="end">0.00836</text>
+<line x1="496.00" y1="264.00" x2="500.00" y2="264.00" class="axis"/>
+<text x="492.00" y="268.00" class="tick" text-anchor="end">0.00840</text>
+<line x1="496.00" y1="192.00" x2="500.00" y2="192.00" class="axis"/>
+<text x="492.00" y="196.00" class="tick" text-anchor="end">0.00844</text>
+<line x1="496.00" y1="120.00" x2="500.00" y2="120.00" class="axis"/>
+<text x="492.00" y="124.00" class="tick" text-anchor="end">0.00848</text>
+<polyline points="500.00,185.82 700.00,185.82" class="s4"/>
+<text x="506.00" y="178.82" class="note t4" text-anchor="start">c/(12π²) = 0.0084434</text>
+<text x="600.00" y="74.00" class="note" text-anchor="middle">zoom at c = 1</text>
+<line x1="540.00" y1="186.60" x2="540.00" y2="183.00" class="s1"/>
+<line x1="534.00" y1="186.60" x2="546.00" y2="186.60" class="s1"/>
+<line x1="534.00" y1="183.00" x2="546.00" y2="183.00" class="s1"/>
+<circle cx="540.00" cy="184.80" r="4.20" class="f1"/>
+<text x="540.00" y="354.00" class="tick" text-anchor="middle">fermion</text>
+<line x1="600.00" y1="228.00" x2="600.00" y2="156.00" class="s3"/>
+<line x1="594.00" y1="228.00" x2="606.00" y2="228.00" class="s3"/>
+<line x1="594.00" y1="156.00" x2="606.00" y2="156.00" class="s3"/>
+<circle cx="600.00" cy="192.00" r="4.20" class="f3"/>
+<text x="600.00" y="354.00" class="tick" text-anchor="middle">boson</text>
+<circle cx="660.00" cy="166.80" r="4.40" class="hole s2"/>
+<text x="660.00" y="354.00" class="tick" text-anchor="middle">lattice</text>
+<text x="24.00" y="360.00" class="note" text-anchor="start">free chiral fermion (continuum, certified window + κᶜ→∞ extrapolation):  f₂ = 0.008444(1)  — fidelity_tables.tex, table tab:second-order  [numerical]</text>
+<text x="24.00" y="378.00" class="note" text-anchor="start">U(1) current net, the bosonic check at c = 1:  f₂ = 0.00844(2)  — numerics/boson/README.md §4  [numerical]</text>
+<text x="24.00" y="396.00" class="note" text-anchor="start">hopping chain, c = 1:  Φ/ζ² = 0.008454 at ζ = 0.03175, n = 72 sites (lattice/continuum ratio 1.0316 there; a single finite-ζ, finite-n point, not an extrapolation, so no error bar is quoted)</text>
+<text x="24.00" y="414.00" class="note" text-anchor="start">       — numerics/lattice/petz_lattice.out, table [1], produced by numerics/lattice/petz_lattice.py  [numerical]</text>
+</svg>

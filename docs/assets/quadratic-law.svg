@@ -1,0 +1,165 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 604" width="780" height="604" role="img" aria-labelledby="t d">
+<title id="t">The quadratic law: recovery error against corner strength</title>
+<desc id="d">Phi(zeta) = -log F measured over the range zeta = 0.00833 to 17.07, with the zeta^2 asymptote and the measured remainder.</desc>
+<defs><marker id="ar-ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" class="mk-ink"/></marker><marker id="ar-c1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" class="mk-c1"/></marker><marker id="ar-c2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" class="mk-c2"/></marker><marker id="ar-c3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" class="mk-c3"/></marker><marker id="ar-c4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" class="mk-c4"/></marker><marker id="ar-c5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" class="mk-c5"/></marker></defs>
+<style>
+  text { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+         Helvetica, Arial, sans-serif; font-size: 12px; }
+  .ttl { font-size: 16px; font-weight: 600; }
+  .sub, .tick, .note { font-size: 11px; }
+  .lab { font-size: 12px; }
+  .bold { font-weight: 600; }
+  .axis { stroke-width: 1.2; fill: none; }
+  .grid, .frame { stroke-width: 1; fill: none; }
+  .soft { stroke: none; }
+  .s1, .s2, .s3, .s4, .s5 { fill: none; stroke-width: 2; }
+  .f1, .f2, .f3, .f4, .f5 { stroke: none; }
+  .hole { fill: none; stroke-width: 2; }
+  .dash { stroke-dasharray: 6 4; }
+  .dot { stroke-dasharray: 2 3; }
+text{fill:#1f2328;}.sub,.tick,.note{fill:#57606a;}.axis{stroke:#1f2328;}.grid,.frame{stroke:#d0d7de;}.soft{fill:#eaeef2;}.mk-ink{fill:#1f2328;}.s1{stroke:#0550ae;} .f1{fill:#0550ae;} .t1{fill:#0550ae;} .mk-c1{fill:#0550ae;}.s2{stroke:#9a4b00;} .f2{fill:#9a4b00;} .t2{fill:#9a4b00;} .mk-c2{fill:#9a4b00;}.s3{stroke:#1a7f37;} .f3{fill:#1a7f37;} .t3{fill:#1a7f37;} .mk-c3{fill:#1a7f37;}.s4{stroke:#6639ba;} .f4{fill:#6639ba;} .t4{fill:#6639ba;} .mk-c4{fill:#6639ba;}.s5{stroke:#a40e26;} .f5{fill:#a40e26;} .t5{fill:#a40e26;} .mk-c5{fill:#a40e26;}@media (prefers-color-scheme: dark){text{fill:#e6edf3;}.sub,.tick,.note{fill:#9198a1;}.axis{stroke:#e6edf3;}.grid,.frame{stroke:#3d444d;}.soft{fill:#21262d;}.mk-ink{fill:#e6edf3;}.s1{stroke:#79c0ff;} .f1{fill:#79c0ff;} .t1{fill:#79c0ff;} .mk-c1{fill:#79c0ff;}.s2{stroke:#f0a35e;} .f2{fill:#f0a35e;} .t2{fill:#f0a35e;} .mk-c2{fill:#f0a35e;}.s3{stroke:#56d364;} .f3{fill:#56d364;} .t3{fill:#56d364;} .mk-c3{fill:#56d364;}.s4{stroke:#d2a8ff;} .f4{fill:#d2a8ff;} .t4{fill:#d2a8ff;} .mk-c4{fill:#d2a8ff;}.s5{stroke:#ff8a8a;} .f5{fill:#ff8a8a;} .t5{fill:#ff8a8a;} .mk-c5{fill:#ff8a8a;}}</style>
+<text x="24.00" y="30.00" class="ttl" text-anchor="start">Theorem A: Φ(ζ) = −log F and its ζ² asymptote</text>
+<text x="24.00" y="50.00" class="sub" text-anchor="start">Free chiral fermion, c = 1. Sources: numerics/results_hp2.txt (small ζ, certified window + tail), fidelity_table_largezeta.tex (large ζ, best estimates), fidelity_tables.tex (f₂ = 0.008444(1)).</text>
+<line x1="113.95" y1="76.00" x2="113.95" y2="334.00" class="grid"/>
+<line x1="280.82" y1="76.00" x2="280.82" y2="334.00" class="grid"/>
+<line x1="447.69" y1="76.00" x2="447.69" y2="334.00" class="grid"/>
+<line x1="614.55" y1="76.00" x2="614.55" y2="334.00" class="grid"/>
+<line x1="86.00" y1="307.52" x2="678.00" y2="307.52" class="grid"/>
+<line x1="86.00" y1="262.24" x2="678.00" y2="262.24" class="grid"/>
+<line x1="86.00" y1="216.97" x2="678.00" y2="216.97" class="grid"/>
+<line x1="86.00" y1="171.70" x2="678.00" y2="171.70" class="grid"/>
+<line x1="86.00" y1="126.43" x2="678.00" y2="126.43" class="grid"/>
+<line x1="86.00" y1="81.16" x2="678.00" y2="81.16" class="grid"/>
+<rect x="86.00" y="76.00" width="592.00" height="258.00" rx="0" class="frame"/>
+<line x1="113.95" y1="334.00" x2="113.95" y2="338.00" class="axis"/>
+<text x="113.95" y="350.00" class="tick" text-anchor="middle">0.01</text>
+<line x1="280.82" y1="334.00" x2="280.82" y2="338.00" class="axis"/>
+<text x="280.82" y="350.00" class="tick" text-anchor="middle">0.1</text>
+<line x1="447.69" y1="334.00" x2="447.69" y2="338.00" class="axis"/>
+<text x="447.69" y="350.00" class="tick" text-anchor="middle">1</text>
+<line x1="614.55" y1="334.00" x2="614.55" y2="338.00" class="axis"/>
+<text x="614.55" y="350.00" class="tick" text-anchor="middle">10</text>
+<line x1="82.00" y1="307.52" x2="86.00" y2="307.52" class="axis"/>
+<text x="78.00" y="311.52" class="tick" text-anchor="end">10⁻⁶</text>
+<line x1="82.00" y1="262.24" x2="86.00" y2="262.24" class="axis"/>
+<text x="78.00" y="266.24" class="tick" text-anchor="end">10⁻⁵</text>
+<line x1="82.00" y1="216.97" x2="86.00" y2="216.97" class="axis"/>
+<text x="78.00" y="220.97" class="tick" text-anchor="end">10⁻⁴</text>
+<line x1="82.00" y1="171.70" x2="86.00" y2="171.70" class="axis"/>
+<text x="78.00" y="175.70" class="tick" text-anchor="end">10⁻³</text>
+<line x1="82.00" y1="126.43" x2="86.00" y2="126.43" class="axis"/>
+<text x="78.00" y="130.43" class="tick" text-anchor="end">10⁻²</text>
+<line x1="82.00" y1="81.16" x2="86.00" y2="81.16" class="axis"/>
+<text x="78.00" y="85.16" class="tick" text-anchor="end">10⁻¹</text>
+<text x="36.00" y="205.00" class="lab" text-anchor="middle" transform="rotate(-90 36.00 205.00)">Φ(ζ) = −log F   (nats)</text>
+<polyline points="86.00,326.01 546.76,76.00" class="s4 dash"/>
+<text x="527.30" y="108.56" class="note t4" text-anchor="start">Φ = f₂ζ² (Theorem A)</text>
+<line x1="100.71" y1="318.41" x2="100.71" y2="318.17" class="s1"/>
+<line x1="97.71" y1="318.41" x2="103.71" y2="318.41" class="s1"/>
+<line x1="97.71" y1="318.17" x2="103.71" y2="318.17" class="s1"/>
+<rect x="97.51" y="314.97" width="6.40" height="6.40" rx="0" class="f1"/>
+<line x1="150.98" y1="291.32" x2="150.98" y2="291.07" class="s1"/>
+<line x1="147.98" y1="291.32" x2="153.98" y2="291.32" class="s1"/>
+<line x1="147.98" y1="291.07" x2="153.98" y2="291.07" class="s1"/>
+<rect x="147.78" y="287.87" width="6.40" height="6.40" rx="0" class="f1"/>
+<line x1="201.19" y1="264.39" x2="201.19" y2="264.13" class="s1"/>
+<line x1="198.19" y1="264.39" x2="204.19" y2="264.39" class="s1"/>
+<line x1="198.19" y1="264.13" x2="204.19" y2="264.13" class="s1"/>
+<rect x="197.99" y="260.93" width="6.40" height="6.40" rx="0" class="f1"/>
+<line x1="251.44" y1="237.76" x2="251.44" y2="237.50" class="s1"/>
+<line x1="248.44" y1="237.76" x2="254.44" y2="237.76" class="s1"/>
+<line x1="248.44" y1="237.50" x2="254.44" y2="237.50" class="s1"/>
+<rect x="248.24" y="234.30" width="6.40" height="6.40" rx="0" class="f1"/>
+<line x1="301.66" y1="211.72" x2="301.66" y2="211.45" class="s1"/>
+<line x1="298.66" y1="211.72" x2="304.66" y2="211.72" class="s1"/>
+<line x1="298.66" y1="211.45" x2="304.66" y2="211.45" class="s1"/>
+<rect x="298.46" y="208.25" width="6.40" height="6.40" rx="0" class="f1"/>
+<line x1="351.90" y1="186.75" x2="351.90" y2="186.44" class="s1"/>
+<line x1="348.90" y1="186.75" x2="354.90" y2="186.75" class="s1"/>
+<line x1="348.90" y1="186.44" x2="354.90" y2="186.44" class="s1"/>
+<rect x="348.70" y="183.24" width="6.40" height="6.40" rx="0" class="f1"/>
+<line x1="402.13" y1="163.54" x2="402.13" y2="163.16" class="s1"/>
+<line x1="399.13" y1="163.54" x2="405.13" y2="163.54" class="s1"/>
+<line x1="399.13" y1="163.16" x2="405.13" y2="163.16" class="s1"/>
+<rect x="398.93" y="159.96" width="6.40" height="6.40" rx="0" class="f1"/>
+<line x1="445.39" y1="142.66" x2="459.39" y2="142.66" class="s3"/>
+<line x1="452.39" y1="142.62" x2="452.39" y2="142.44" class="s2"/>
+<line x1="448.39" y1="142.62" x2="456.39" y2="142.62" class="s2"/>
+<line x1="448.39" y1="142.44" x2="456.39" y2="142.44" class="s2"/>
+<circle cx="452.39" cy="142.53" r="4.20" class="hole s2"/>
+<line x1="495.58" y1="125.15" x2="509.58" y2="125.15" class="s3"/>
+<line x1="502.58" y1="125.01" x2="502.58" y2="124.83" class="s2"/>
+<line x1="498.58" y1="125.01" x2="506.58" y2="125.01" class="s2"/>
+<line x1="498.58" y1="124.83" x2="506.58" y2="124.83" class="s2"/>
+<circle cx="502.58" cy="124.92" r="4.20" class="hole s2"/>
+<line x1="545.83" y1="111.04" x2="559.83" y2="111.04" class="s3"/>
+<line x1="552.83" y1="110.69" x2="552.83" y2="110.44" class="s2"/>
+<line x1="548.83" y1="110.69" x2="556.83" y2="110.69" class="s2"/>
+<line x1="548.83" y1="110.44" x2="556.83" y2="110.44" class="s2"/>
+<circle cx="552.83" cy="110.56" r="4.20" class="hole s2"/>
+<line x1="596.06" y1="100.05" x2="610.06" y2="100.05" class="s3"/>
+<line x1="603.06" y1="99.66" x2="603.06" y2="98.95" class="s2"/>
+<line x1="599.06" y1="99.66" x2="607.06" y2="99.66" class="s2"/>
+<line x1="599.06" y1="98.95" x2="607.06" y2="98.95" class="s2"/>
+<circle cx="603.06" cy="99.30" r="4.20" class="hole s2"/>
+<line x1="646.29" y1="92.07" x2="660.29" y2="92.07" class="s3"/>
+<line x1="653.29" y1="91.27" x2="653.29" y2="88.63" class="s2"/>
+<line x1="649.29" y1="91.27" x2="657.29" y2="91.27" class="s2"/>
+<line x1="649.29" y1="88.63" x2="657.29" y2="88.63" class="s2"/>
+<circle cx="653.29" cy="89.90" r="4.20" class="hole s2"/>
+<rect x="100.80" y="90.80" width="6.40" height="6.40" rx="0" class="f1"/>
+<text x="118.00" y="98.00" class="note" text-anchor="start">certified bracket [Φ in the spectral window, + tail ζ²/(15κᶜ²)]</text>
+<line x1="98.00" y1="113.00" x2="110.00" y2="113.00" class="s3"/>
+<text x="118.00" y="117.00" class="note" text-anchor="start">certified lower bound at the largest κᶜ (large ζ)</text>
+<circle cx="104.00" cy="132.00" r="4.20" class="hole s2"/>
+<text x="118.00" y="136.00" class="note" text-anchor="start">best estimate Φ∞, κᶜ→∞ extrapolation, with its quoted error</text>
+<line x1="97.00" y1="151.00" x2="111.00" y2="151.00" class="s4 dash"/>
+<text x="118.00" y="155.00" class="note" text-anchor="start">proved ζ² asymptote, f₂ = c/(12π²)</text>
+<line x1="113.95" y1="404.00" x2="113.95" y2="510.00" class="grid"/>
+<line x1="280.82" y1="404.00" x2="280.82" y2="510.00" class="grid"/>
+<line x1="447.69" y1="404.00" x2="447.69" y2="510.00" class="grid"/>
+<line x1="614.55" y1="404.00" x2="614.55" y2="510.00" class="grid"/>
+<line x1="86.00" y1="510.00" x2="678.00" y2="510.00" class="grid"/>
+<line x1="86.00" y1="486.34" x2="678.00" y2="486.34" class="grid"/>
+<line x1="86.00" y1="462.68" x2="678.00" y2="462.68" class="grid"/>
+<line x1="86.00" y1="439.02" x2="678.00" y2="439.02" class="grid"/>
+<line x1="86.00" y1="415.36" x2="678.00" y2="415.36" class="grid"/>
+<rect x="86.00" y="404.00" width="592.00" height="106.00" rx="0" class="frame"/>
+<line x1="113.95" y1="510.00" x2="113.95" y2="514.00" class="axis"/>
+<text x="113.95" y="526.00" class="tick" text-anchor="middle">0.01</text>
+<line x1="280.82" y1="510.00" x2="280.82" y2="514.00" class="axis"/>
+<text x="280.82" y="526.00" class="tick" text-anchor="middle">0.1</text>
+<line x1="447.69" y1="510.00" x2="447.69" y2="514.00" class="axis"/>
+<text x="447.69" y="526.00" class="tick" text-anchor="middle">1</text>
+<line x1="614.55" y1="510.00" x2="614.55" y2="514.00" class="axis"/>
+<text x="614.55" y="526.00" class="tick" text-anchor="middle">10</text>
+<line x1="82.00" y1="510.00" x2="86.00" y2="510.00" class="axis"/>
+<text x="78.00" y="514.00" class="tick" text-anchor="end">0</text>
+<line x1="82.00" y1="486.34" x2="86.00" y2="486.34" class="axis"/>
+<text x="78.00" y="490.34" class="tick" text-anchor="end">0.25</text>
+<line x1="82.00" y1="462.68" x2="86.00" y2="462.68" class="axis"/>
+<text x="78.00" y="466.68" class="tick" text-anchor="end">0.5</text>
+<line x1="82.00" y1="439.02" x2="86.00" y2="439.02" class="axis"/>
+<text x="78.00" y="443.02" class="tick" text-anchor="end">0.75</text>
+<line x1="82.00" y1="415.36" x2="86.00" y2="415.36" class="axis"/>
+<text x="78.00" y="419.36" class="tick" text-anchor="end">1</text>
+<text x="36.00" y="457.00" class="lab" text-anchor="middle" transform="rotate(-90 36.00 457.00)">Φ / (f₂ζ²)</text>
+<text x="24.00" y="390.00" class="note" text-anchor="start">measured remainder: the ratio to the pure ζ² law</text>
+<polyline points="86.00,415.36 678.00,415.36" class="s4 dash"/>
+<rect x="97.71" y="413.12" width="6.00" height="6.00" rx="0" class="f1"/>
+<rect x="147.98" y="413.88" width="6.00" height="6.00" rx="0" class="f1"/>
+<rect x="198.19" y="415.37" width="6.00" height="6.00" rx="0" class="f1"/>
+<rect x="248.44" y="418.23" width="6.00" height="6.00" rx="0" class="f1"/>
+<rect x="298.66" y="423.50" width="6.00" height="6.00" rx="0" class="f1"/>
+<rect x="348.90" y="432.52" width="6.00" height="6.00" rx="0" class="f1"/>
+<rect x="399.13" y="446.14" width="6.00" height="6.00" rx="0" class="f1"/>
+<circle cx="452.39" cy="466.58" r="3.80" class="hole s2"/>
+<circle cx="502.58" cy="483.40" r="3.80" class="hole s2"/>
+<circle cx="552.83" cy="496.20" r="3.80" class="hole s2"/>
+<circle cx="603.06" cy="503.88" r="3.80" class="hole s2"/>
+<circle cx="653.29" cy="507.53" r="3.80" class="hole s2"/>
+<polyline points="100.71,416.12 150.98,416.88 201.19,418.37 251.44,421.23 301.66,426.50 351.90,435.52 402.13,449.14 452.39,466.58 502.58,483.40 552.83,496.20 603.06,503.88 653.29,507.53" class="s1" stroke-width="1" stroke-dasharray="3 3"/>
+<text x="382.00" y="532.00" class="lab" text-anchor="middle">ζ   (corner strength ζ = as/(a+L), dimensionless)</text>
+<text x="24.00" y="570.00" class="note" text-anchor="start">Measured range ζ = 0.00833 to 17.067. The small-ζ window values are rigorous lower bounds and the tail correction is added; at large ζ that tail is not valid, so the bracket is [Φ at κᶜ(max), Φ∞].</text>
+<text x="24.00" y="588.00" class="note" text-anchor="start">The local log-slope d log Φ / d log ζ falls from 1.29 at ζ = 1.067 to 0.69 at ζ = 17.067 (fidelity_table_largezeta.tex): the ζ² law is a ζ → 0 statement, not a global one.</text>
+</svg>

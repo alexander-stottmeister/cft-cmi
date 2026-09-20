@@ -16,8 +16,8 @@ rigor/optimality_all_channels.tex Sec. 4-5; numerics/optimality_all/all_channels
 
 ## Evidence
 
-- [rigor/optimality_all_channels.tex](../../rigor/optimality_all_channels.tex) — document — thm:main
-- `refs/Sion1958_minimax.pdf` — source — Cor3.3; held privately, not redistributed
+- [rigor/optimality_all_channels.tex](../../rigor/optimality_all_channels.tex) — document, at `thm:main`
+- `refs/Sion1958_minimax.pdf` — source, at `Cor3.3`; held privately, not redistributed
 - [numerics/optimality_all/all_channels_sdp.py](../../numerics/optimality_all/all_channels_sdp.py) — numerics
 
 ## Related claims

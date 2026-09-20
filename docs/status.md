@@ -2,7 +2,7 @@
 
 # Every claim, by area
 
-The knowledge base holds 83 claims. The tally below is counted from the cards, not typed:
+83 cards: 82 claim cards of the knowledge base, plus 1 finding that has reached a status displayed here. The tally below is counted from the cards, not typed:
 
 | status | claims | what it means |
 |---|---:|---|
@@ -20,7 +20,7 @@ The knowledge base holds 83 claims. The tally below is counted from the cards, n
 
 58 of them are `refereed`, `proved`, `numerical`, `conjectural` and have a page of their own under [`results/`](results/); the remainder are listed here with their status only.
 
-**0 cards have never been refereed** and are marked *never refereed* below. Nothing labelled `numerical` is a theorem.
+A referee pass is not implied by a status. Of the cards listed here, **0 have never been refereed** (marked *never refereed*) and **0 carry a failed referee pass** (marked *referee pass failed*): repairs have been asked for and not yet absorbed. Nothing labelled `numerical` is a theorem.
 
 <a id="area-foundations"></a>
 

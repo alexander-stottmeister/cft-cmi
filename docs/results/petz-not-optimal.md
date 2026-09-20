@@ -16,8 +16,8 @@ rigor/optimality_second_order.tex Prop. 1.3(4) and Table 1.
 
 ## Evidence
 
-- [rigor/optimality_second_order.tex](../../rigor/optimality_second_order.tex) — document — Prop1.3
-- [fidelity_recovered_quasifree.tex](../../fidelity_recovered_quasifree.tex) — document — Cor5.1
+- [rigor/optimality_second_order.tex](../../rigor/optimality_second_order.tex) — document, at `Prop1.3`
+- [fidelity_recovered_quasifree.tex](../../fidelity_recovered_quasifree.tex) — document, at `Cor5.1`
 
 ## Related claims
 
