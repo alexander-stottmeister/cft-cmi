@@ -35,6 +35,9 @@ reviewed), **numerical** (measured, with error bars and a convergence order),
 30 proved, 21 numerical, 5 verified, 3 refereed, 3 conjectural, 5 open, 1 refuted,
 2 superseded, and the remainder administrative.
 
+These statuses are maintained in a separate, private knowledge base rather than in this
+repository, which is why the counts above appear here only as a summary.
+
 Nothing labelled numerical should be read as proved. Several results here were wrong at
 some point and were corrected; the errata are kept rather than erased (`rigor/errata_log.md`).
 
