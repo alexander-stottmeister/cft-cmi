@@ -99,3 +99,19 @@ gives **129**, `ev:` 131, zero `data:` tokens — no rule yields 132. **(3)** Th
 generated INDEX.md or CHANGELOG.md counted as a card. **(4)** `restore.sh` refetches **one** of the six: CDIT is listed as `CDIW21`,
 so `getref.sh` writes `refs/CDIW21_1808.02384.pdf` and `ref:refs/CDIT_1808.02384.pdf` stays broken; of the other four only Uhlmann76
 is paywalled (AlbertiUhlmann02, BJL are arXiv, Sion1958 free msp; none in restore.sh's table).
+
+## Fourth pass (REF-INFRA-2c)
+
+Verdict: **fail** on one clause; everything else in this pass checks out.
+
+Re-verified: public **406** / 5,895,838 B, private **229**, both at `origin/main` and both PRIVATE; eight private targets on eight cards under the
+card's own stated rule; front-matter `evidence:` = 129 targets, **0** failures, `kb lint` 0 — so dropping the disputed total is sound and "every
+evidence pointer resolves … none fails" is supported. Nothing else drifted.
+
+**Defect.** "the remaining three are not in REFERENCES.md at all" is false: `AlbertiUhlmann02_math-ph-0202038`, `BJL_twisted_duality_math-ph-0204029`
+and `Sion1958_minimax` each appear once in REFERENCES.md as bullet entries, absent only from the pipe table `restore.sh` parses — as PRIVATE.md
+already words it. Fix: "are not in the table restore.sh parses". Minor: PRIVATE.md's "What this is" bullet omits `pgit-exclude`.
+
+**Closed (REF-INFRA-2d, 2026-09-20): PASS.** The clause now reads "appear in REFERENCES.md only as bullet
+entries, not as rows of the table restore.sh parses" (once in the Statement, false wording gone; the three are
+REFERENCES.md:49-51). Nothing else moved: 406/229, both pushed and PRIVATE, `kb lint` 0, all Statement figures intact.
