@@ -2,7 +2,7 @@
 
 # Type-III sequential recovery bound: Bures angles add along a chain of von Neumann inclusions
 
-**Status:** `proved` — a complete structured proof. **Conditional:** this result holds only under U; the hypotheses are quoted below.
+**Status:** `proved` — a complete structured proof. **Conditional.** The statement is not unconditional: it rests on U, quoted below. Read the badge only together with them.
 
 **Area:** [Lattice, thermal, massive and gapped geometries (O7, O9, O10)](../status.md#area-lattice-thermal) · **Card type:** theorem · **Knowledge-base id:** `sequential-recovery-bound-type-iii`
 
@@ -12,7 +12,7 @@ Let omega be a normal state on a von Neumann algebra M, N_1 subset N_2 subset ..
 
 ## Hypotheses
 
-This result is conditional: it holds only where the hypotheses below hold. The sentences are quoted from the statement above; read the status badge only together with them.
+This result is conditional: at least part of the statement holds only where the hypotheses below hold. The sentences are quoted from the statement above; read the status badge only together with them.
 
 Hypothesis labels used: `U`.
 

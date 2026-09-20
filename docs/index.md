@@ -13,7 +13,7 @@ Conditional mutual information of adjacent intervals as a quantum-Markov defect.
 | The all-channel second-order optimum equals the isometric-orbit value: kappa_opt = 1 - theta = 0.616 +- 0.003 (numerical; conditional on H1, H2, H3) | `numerical` — conditional on H1, H2, H3 | [all-channel-optimum-value](results/all-channel-optimum-value.md) |
 | Corner calculus: sequential one-sided recovery = Schwarzian point masses at the junctions | `proved` — conditional on H | [corner-calculus](results/corner-calculus.md) |
 
-A status word is a claim about how much is known, and nothing more. `numerical` means measured, with an error bar; it is not a theorem. Where a row above says *conditional*, the hypotheses are named on the result's own page, and the badge must not be read without them.
+A status word is a claim about how much is known, and nothing more. `numerical` means measured, with an error bar; it is not a theorem. Where a row above says *conditional*, at least part of the statement holds only under the named hypotheses; they are quoted on the result's own page, and the badge must not be read without them. *Stated under* means the statement carries a hypothesis list of its own, quoted there as well.
 
 ## The pages
 
@@ -40,7 +40,7 @@ The interactive site lives in this same folder and opens at `index.html`; it is 
 | `conjectural` | 3 | believed, with partial evidence; not proved |
 | `verified` | 5 | a check that was carried out and agreed |
 | `open` | 5 | an unsettled question |
-| `active` | 9 | work in progress |
+| `active` | 10 | work in progress |
 | `done` | 3 | a finished piece of project work |
 | `superseded` | 2 | replaced by a later claim |
 | `refuted` | 1 | shown to be false, kept so the correction stays visible |
@@ -129,4 +129,4 @@ One page per claim whose status is `refereed`, `proved`, `numerical`, `conjectur
 
 `tools/build_docs.py` reads the knowledge base and writes every page here except `notation.md` and `definitions.md`, which it assembles once from the conventions appendices and then leaves alone. `tools/build_docs.py --check` regenerates into a temporary directory and fails if anything committed differs, so a page cannot drift away from the claim it describes.
 
-Evidence pointers that resolve into the private companion (source papers that may not be redistributed) are shown as *held privately, not redistributed* instead of as links; which paths are public is decided by asking git, not by a list in the script.
+Evidence pointers that resolve into the private companion (source papers that may not be redistributed) are shown as *held privately, not redistributed* instead of as links; which paths are public is decided by asking git, not by a list in the script. Statements and verification recipes are quoted verbatim, so their prose may still name such material — the page excerpts under `rigor/shots/` and the source PDFs under `refs/` — which a clone will not contain; see [`THIRD-PARTY.md`](../THIRD-PARTY.md) and [`sources.md`](sources.md).

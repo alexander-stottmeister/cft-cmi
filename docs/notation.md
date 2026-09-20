@@ -52,11 +52,11 @@ $$
  \qquad
  \widetilde X(\xi,\xi')=\sqrt{\beta(x)\beta(y)} X(x,y),
 $$
-and $\operatorname{Tr} X=\int d\kappa X(\kappa,\kappa)$ when $X$ is trace class.
+and $ \operatorname{Tr} X=\int d\kappa X(\kappa,\kappa)$ when $X$ is trace class.
 
 ### Cross-ratio variables
 
-Four variables occur, all M\"obius invariants of the same configuration:
+Four variables occur, all Möbius invariants of the same configuration:
 $$
  \eta=\frac{b(a+b+c)}{(a+b)(b+c)},\quad
  z=\frac1\eta-1=\frac{ac}{b(a+b+c)},\quad
@@ -92,7 +92,7 @@ $\dot H^{3/2}$ (Weil--Petersson) norm on the line.
 
 $\langle\cdot,\cdot\rangle$ is conjugate linear in the first
 variable.  $S=J\Delta^{1/2}$, $F=S^{*}=J\Delta^{-1/2}$, $J\Omega=\Omega$, $\Delta\Omega=\Omega$,
-$J\mathcal{M} J=\mathcal{M}'$.  In the line chart with $I=(-\infty,L)$ and $u=L-x$, (BW) says that $\Delta^{it}$ is the
+$J \mathcal{M} J= \mathcal{M}'$.  In the line chart with $I=(-\infty,L)$ and $u=L-x$, (BW) says that $\Delta^{it}$ is the
 dilation $u\mapsto e^{2\pi t}u$ and $J$ implements $u\mapsto-u$, i.e. $x\mapsto 2L-x$.
 
 ### Hardy projections
@@ -112,11 +112,11 @@ p^{3}|\hat f(p)|^{2}dp$, i.e. (eq:appnorm) at $c=1$ (checked numerically to $1.5
 | llp{0.44\textwidth}@{}} Constant | Value | Source |
 |---|---|---|
 | $\gamma_{0}$ | $2/(3\pi^{2})=0.0675$ | (thm:value): $c$-linearity ((thm:linear)) plus the free-fermion distance $\frac{1}{6\pi^{2}}$ of Paper 1 (Paper1,RigorUB) |
-| $g_B$ | $c \gamma_{0}=2c/(3\pi^{2})$ | (thm:value); independently reproduced by the modular-frame computation of Note 7 (Note7) (a confirmation, not a proof: (rem:mellin)) |
-| $f_{2}$ | $g_B/8=c/(12\pi^{2})$ | (thm:B); at $c=1$, $0.0084434$ |
-| $\inf\\|G\\|_{3/2}^{2}$ | $8/\pi=2.546479$ | (rem:varform), equivalent to $g_B$ at $c=1$; Rayleigh--Ritz value $2.547971$ ($0.06\%$) |
-| $g_{\mathrm{KM}}$ | $c/6$ *(conjectural)* | (sec:km); free-fermion reduction $g_{\mathrm{KM}}=1/6$ (RigorKM), an analytic continuation; the gauge lemma is refuted (RigorRK) |
-| $s_{2}$ | $g_{\mathrm{KM}}/2=c/12$ *(conjectural)* | (sec:km); proved bracket $0.034 c\le\liminf\le\limsup\le0.924 c$ (RigorRK); bosonic check $0.083(2)$ ((sec:boson)) |
+| $ g_B$ | $c \gamma_{0}=2c/(3\pi^{2})$ | (thm:value); independently reproduced by the modular-frame computation of Note 7 (Note7) (a confirmation, not a proof: (rem:mellin)) |
+| $f_{2}$ | $ g_B/8=c/(12\pi^{2})$ | (thm:B); at $c=1$, $0.0084434$ |
+| $\inf\\|G\\|_{3/2}^{2}$ | $8/\pi=2.546479$ | (rem:varform), equivalent to $ g_B$ at $c=1$; Rayleigh--Ritz value $2.547971$ ($0.06\%$) |
+| $ g_{\mathrm{KM}}$ | $c/6$ *(conjectural)* | (sec:km); free-fermion reduction $ g_{\mathrm{KM}}=1/6$ (RigorKM), an analytic continuation; the gauge lemma is refuted (RigorRK) |
+| $s_{2}$ | $ g_{\mathrm{KM}}/2=c/12$ *(conjectural)* | (sec:km); proved bracket $0.034 c\le\liminf\le\limsup\le0.924 c$ (RigorRK); bosonic check $0.083(2)$ ((sec:boson)) |
 | $J_{\rm jump}$ | $-1/L$ | (thm:reg): jump of $G''$ at the touching point, $G$ the *circle* representative; the line-chart field has $g_{\rm tot}''$ jumping by $-2/L$ |
 | $\\|T(g_{\rm tot})\Omega\\|^{2}$ | $\frac{c}{12}\\|g_{\rm tot}\\|_{\dot H^{3/2}}^{2}$ | (thm:reg)(f); finite, whereas $\\|L_{0}T(g_{\rm tot})\Omega\\|^{2}$ diverges logarithmically with coefficient $\frac{c}{12}\frac{J_{\rm jump}^{2}}{4\pi^{2}}$ |
 

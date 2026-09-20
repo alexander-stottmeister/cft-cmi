@@ -2,7 +2,7 @@
 
 # The all-channel second-order optimum equals the isometric-orbit value: kappa_opt = 1 - theta = 0.616 +- 0.003 (numerical; conditional on H1, H2, H3)
 
-**Status:** `numerical` — measured, with an error bar and a convergence order; not a theorem. **Conditional:** this result holds only under H1, H2, H3; the hypotheses are quoted below.
+**Status:** `numerical` — measured, with an error bar and a convergence order; not a theorem. **Conditional.** The statement is not unconditional: it rests on H1, H2, H3, quoted below. Read the badge only together with them.
 
 **Area:** [Optimality of recovery channels (O8, Phases 3 and 3b)](../status.md#area-optimality) · **Card type:** result · **Knowledge-base id:** `all-channel-optimum-value`
 
@@ -12,7 +12,7 @@ Phase 5 answer to 'the exact value of the all-channel optimum (non-isometric cha
 
 ## Hypotheses
 
-This result is conditional: it holds only where the hypotheses below hold. The sentences are quoted from the statement above; read the status badge only together with them.
+This result is conditional: at least part of the statement holds only where the hypotheses below hold. The sentences are quoted from the statement above; read the status badge only together with them.
 
 Hypothesis labels used: `H1`, `H2`, `H3`.
 

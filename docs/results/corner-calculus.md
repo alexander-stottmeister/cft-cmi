@@ -2,7 +2,7 @@
 
 # Corner calculus: sequential one-sided recovery = Schwarzian point masses at the junctions
 
-**Status:** `proved` — a complete structured proof. **Conditional:** this result holds only under H; the hypotheses are quoted below.
+**Status:** `proved` — a complete structured proof. **Conditional.** The statement is not unconditional: it rests on H, quoted below. Read the badge only together with them.
 
 **Area:** [Lattice, thermal, massive and gapped geometries (O7, O9, O10)](../status.md#area-lattice-thermal) · **Card type:** theorem · **Knowledge-base id:** `corner-calculus`
 
@@ -12,7 +12,7 @@ One-sided zero-collar protocol on adjacent intervals A_1..A_n: step m adjoins A_
 
 ## Hypotheses
 
-This result is conditional: it holds only where the hypotheses below hold. The sentences are quoted from the statement above; read the status badge only together with them.
+This result is conditional: at least part of the statement holds only where the hypotheses below hold. The sentences are quoted from the statement above; read the status badge only together with them.
 
 Hypothesis labels used: `H`.
 

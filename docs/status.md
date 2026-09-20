@@ -2,7 +2,7 @@
 
 # Every claim, by area
 
-83 cards: 82 claim cards of the knowledge base, plus 1 finding that has reached a status displayed here. The tally below is counted from the cards, not typed:
+84 cards: 83 claim cards of the knowledge base, plus 1 finding that has reached a status displayed here. The tally below is counted from the cards, not typed:
 
 | status | claims | what it means |
 |---|---:|---|
@@ -12,15 +12,15 @@
 | `conjectural` | 3 | believed, with partial evidence; not proved |
 | `verified` | 5 | a check that was carried out and agreed |
 | `open` | 5 | an unsettled question |
-| `active` | 9 | work in progress |
+| `active` | 10 | work in progress |
 | `done` | 3 | a finished piece of project work |
 | `superseded` | 2 | replaced by a later claim |
 | `refuted` | 1 | shown to be false, kept so the correction stays visible |
-| **total** | **83** | |
+| **total** | **84** | |
 
 58 of them are `refereed`, `proved`, `numerical`, `conjectural` and have a page of their own under [`results/`](results/); the remainder are listed here with their status only.
 
-A referee pass is not implied by a status. Of the cards listed here, **0 have never been refereed** (marked *never refereed*) and **0 carry a failed referee pass** (marked *referee pass failed*): repairs have been asked for and not yet absorbed. Nothing labelled `numerical` is a theorem.
+A referee pass is not implied by a status. Of the cards listed here, **0 have never been refereed** and **0 carry a failed referee pass**, that is repairs asked for and not yet absorbed. A further **2 await a pass** after a recent change. All three are marked in the tables below, as *never refereed*, *referee pass failed* and *review pending*. Nothing labelled `numerical` is a theorem.
 
 <a id="area-foundations"></a>
 
@@ -171,9 +171,10 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 | status | claim | |
 |---|---|---|
 | `verified` | Headless screenshots and shell pitfalls on this Mac |  |
+| `active` | Generated documentation subfolder: docs/\*.md from the knowledge base, with a drift check | review pending |
 | `active` | Numerics stack and its limits |  |
 | `active` | Plan page artifact and its source |  |
-| `active` | Plan: public presentation (README with figures, interactive Pages site, generated docs/) |  |
+| `active` | Plan: public presentation (README with figures, interactive Pages site, generated docs/) | review pending |
 | `active` | Two git repositories over one work tree: public project, private third-party material |  |
 | `active` | Rigor pipeline: Lamport proofs, referee passes, findings ledger |  |
 

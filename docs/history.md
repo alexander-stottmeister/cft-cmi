@@ -179,43 +179,24 @@ after extrapolation.
 ### Documents
 
 | file | lines | old -> new |
-
 |---|---|---|
-
 | `rigor/optimality_all_channels.tex` | 468-475 (new) | sentence added after the S10 paragraph: 0.300 +- 0.005 superseded by F3, taper-suppressed lower bound; S10 table kept |
-
 | | 482 | `theta > 0 (numerical, 0.30)` -> `(numerical, 0.384 +- 0.003; F3)` |
-
 | | 485 | bracket `[D_z, 0.71 f2 z^2]` -> `[D_z, 0.616 f2 z^2]` |
-
 | | 583-584 | `at least 0.30 and plausibly 0.34-0.40` -> kept, plus `the Phase 5 reconciliation gives 0.384 +- 0.003 (F3)` |
-
 | | 678-681 | Verdict: `theta = 0.300 +- 0.005` -> lower bound + reconciled `0.384 +- 0.003`; `<= 0.71 f2 z^2` -> `<= 0.616 f2 z^2` |
-
 | | 690, 701 | `D_z <= 0.71 f2 z^2` -> `D_z <= 0.616 f2 z^2` (twice) |
-
 | `rigor/exact_fidelity_upper_half.tex` | 33 | abstract: `theta_fr >= 0.30` -> `theta_fr >= 0.38 (Phase 5, F3: theta = 0.384 +- 0.003)` |
-
 | | 823-852 (Rem. `rem:thetafr`) | title `to 0.30` -> `to 0.38`; `theta = 0.300 +- 0.005` -> `0.384 +- 0.003`; `E_rec <= 0.71 f2 z^2` -> `<= 0.616 f2 z^2`; item (iii) rewritten to the reconciled two-frame statement (Galerkin + Wiener-Hopf, S10 a taper-suppressed lower bound); `kappa_opt <= 0.71` -> `<= 0.616 +- 0.003`; the `0.34-0.40` sentence replaced by the Phase-5 clause on non-isometric channels |
-
 | | 949-958 | Verdict gap: `theta = 0.300 +- 0.005 in two independent discretisations` -> reconciled statement, E2's 0.708-0.711 labelled as the tapered circle-model value; `theta_fr >= 0.30` -> `>= 0.38`; `kappa_opt <= 0.71` -> `<= 0.616 +- 0.003` |
-
 | | 1000-1005 (R1) | `kappa_opt <= 0.71 moved to Rem. 7.4` -> `kappa_opt <= 1 - theta_fr (then 0.71, now 0.616 +- 0.003; see the addendum)`; `both discretisations behind theta ~ 0.30` -> `the discretisations behind the numerical theta` |
-
 | | 1067 | `theta_fr >= 0.30` -> `theta_fr >= 0.38 (theta = 0.384 +- 0.003, F3)` |
-
 | | 1070-1087 (new) | dated addendum at the end of Sec. 10, `Addendum (2026-09-15): the value of theta` -- records the reconciliation, the taper mechanism, the log-L vs 1/L extrapolation error, and that nothing proved changes |
-
 | `paper1/sec_outlook.tex` | 78-82 | `theta >= 0.30 numerically \cite{RigorS10}` -> `theta = 0.384 +- 0.003 numerically \cite{RigorS10,RigorF3}`; bracket upper end -> `0.616 f2 z^2` |
-
 | | 102 | `theta >= 0.30 in two independent discretisations, the spectral circle model (RigorS10, RigorE2) and the modular Galerkin frame (RigorAll)` -> `theta = 0.384 +- 0.003` from Galerkin (RigorAll) + modular Wiener-Hopf (RigorF3), agreeing to 3e-4, the circle model's value a taper-suppressed lower bound; `theta_fr >= 0.30` -> `>= 0.38`; `0.71 f2 z^2` -> `0.616 f2 z^2` |
-
 | `paper1/main.tex` | 122 | new `\bibitem{RigorF3}` after `RigorE2` (F3, theta reconciliation, `numerics/optimality_all/F3_RESULTS.md`, 2026-09-15) |
-
 | `fidelity_recovered_quasifree.tex` | 423 | remark `Optimality beyond the rotated family`: `theta >= 0.30` -> `theta = 0.384 +- 0.003` (S10's value flagged as a taper-suppressed lower bound), `theta_fr >= 0.30` -> `>= 0.38`, bound `<= 0.616 f2 z^2` added |
-
 | `numerics/optimality_all/F2_RESULTS.md` | T2 cap table | `lam_min(M_*)` and `rank-1 gain` rows labelled `half-SLD conv.` with a one-line note: they are 1/2 resp. 1/4 of `f2_capscan.py`'s output (script at L=128, cap 1e10: `-3.4771e-02`, `3.534e-11`, `f2_capscan_L128.out`) |
-
 Compiles: `optimality_all_channels.pdf` 14 pp; `exact_fidelity_upper_half.pdf` 21 pp;
 
 `paper1/main.pdf` 28 pp (pdflatex twice, unchanged); `fidelity_recovered_quasifree.pdf` 15 pp.
@@ -227,25 +208,15 @@ Untouched by instruction: `rigor/exact_optimum_tangent_problem.tex`, `rigor/refe
 ### KB cards (KB_ACTOR=P5-EDIT; no existing referee note edited, each card carries a dated note)
 
 | card | old -> new |
-
 |---|---|
-
 | `cft_cmi:compression-not-second-order-minimiser` | `theta = 0.300(5)` (S10) and `0.29 -> 0.34` (Galerkin) -> `theta = 0.384 +- 0.003`, S10 read as a taper-suppressed lower bound, Galerkin extrapolating to the same value; `min_F g_Q <= 0.71 f2 z^2` -> `<= (0.616 +- 0.003) f2 z^2`; `related` += `theta-value` |
-
 | `cft_cmi:compression-not-optimal-exact-fidelity` | `theta_fr >= 0.30` -> `>= 0.38`; `kappa_opt <= 0.71` -> `<= 0.616 +- 0.003`; item (iii) rewritten; `next` added: Phase-5 endpoint condition pending, `kappa_opt = 1 - theta` not to be recorded as settled |
-
 | `cft_cmi:exact-fidelity-optimality-open` | `theta_fr >= 0.30 ... kappa_opt <= 0.71` -> `theta_fr >= 0.38 ... kappa_opt <= 0.616 +- 0.003`; `next`: bracket `[D_z, 0.71 f2 z^2]` -> `[D_z, (0.616 +- 0.003) f2 z^2]` + endpoint condition pending |
-
 | `cft_cmi:paper1-status` | outlook description updated (`theta >= 0.30` -> `0.384 +- 0.003`, bracket `0.71` -> `0.616`, `theta_fr >= 0.38`, RigorF3 bibitem, 28 pp unchanged) |
-
 | `cft_cmi:theta-value` | REF-P5-KB1 minor: `19 further candidates are EXCLUDED` -> `16` |
-
 | `cft_cmi:kkt-noise-criterion-numerics` | REF-P5-KB1 minors: cap-scan row labelled half-SLD convention (1/2 of the script's `lam_min`, 1/4 of its gain) and anchored to `f2_capscan_L128.out` (`-3.4771e-02`, `3.534e-11` at L=128, cap 1e10; added to `evidence`); `kappa_max = 5.4-7.7, max w = 1.1e2-1.1e3` restricted to h = 0.24-0.06 (h = 0.03: 8.84, 3.4e3); `FD to 4e-9` -> `FD to <= 3e-8` |
-
 | `cft_cmi:tangent-sdp-noise-directions` | REF-P5-KB1 minor: `homogeneity x4` stated for the ORBIT-ONLY optimum |
-
 | `common:taper-dependence-of-first-order-constants` | REF-P5-KB1 minor: `||u||^2 stable to four digits` restricted to the taper windows S10's gate accepted (untapered `||u||^2 = 0.014889`) |
-
 Not changed, deliberately: `open-problems-plan-note8` and the `e2-*` cards -- their Statements quote no
 
 `0.30`/`0.71` as a current value (the `e2-*` ratios 0.708-0.711 are within-model measurements of the

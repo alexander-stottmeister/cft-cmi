@@ -2,7 +2,7 @@
 
 # KKT criterion numerics: every finite run FAILS (a); the violation extrapolates to 0^- as h -> 0, Ymax -> inf; E(zeta_0) > 0 and E(zeta_inf) > 0, so (e) holds for the whole cone under H3
 
-**Status:** `numerical` — measured, with an error bar and a convergence order; not a theorem. **Conditional:** this result holds only under H3; the hypotheses are quoted below.
+**Status:** `numerical` — measured, with an error bar and a convergence order; not a theorem. **Conditional.** The statement is not unconditional: it rests on H3, quoted below. Read the badge only together with them.
 
 **Area:** [Optimality of recovery channels (O8, Phases 3 and 3b)](../status.md#area-optimality) · **Card type:** result · **Knowledge-base id:** `kkt-noise-criterion-numerics`
 
@@ -18,7 +18,7 @@ WHAT MAY AND MAY NOT BE CONCLUDED. The numerics are consistent with the isometri
 
 ## Hypotheses
 
-This result is conditional: it holds only where the hypotheses below hold. The sentences are quoted from the statement above; read the status badge only together with them.
+This result is conditional: at least part of the statement holds only where the hypotheses below hold. The sentences are quoted from the statement above; read the status badge only together with them.
 
 Hypothesis labels used: `H3`.
 

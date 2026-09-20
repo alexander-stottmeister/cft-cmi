@@ -28,7 +28,7 @@ $$
 which is unitary on $L^2(\mathbb R)$ and isometric between the corresponding
 interval subspaces.  We write $u(x)=x-\varphi(x)$ for the displacement, so
 $\varphi'=1-u'$.  The recovery flow inside $D$ is
-$\varphi=h_s$ of (eq:hs), with generator $-x^2/L\cdot\partial_x$, i.e.\
+$\varphi=h_s$ of (eq:hs), with generator $-x^2/L\cdot\partial_x$, i.e.
 $u_s(x)=sx^2/(L+sx)$ on $[0,L]$; the total first-order field is
 $g_{\rm tot}=0$ on $(-a,0)$, $g_{\rm tot}(x)=-x^2/L$ on $(0,L)$, and free on
 $I'=(-\infty,-a]\cup[L,\infty)$.
@@ -39,7 +39,7 @@ The generator normalization is
 $$
  \langle T(x)T(y)\rangle=\frac{c_{\rm cft}}{8\pi^2} (x-y-i0)^{-4},
 $$
-i.e. $T$ is normalized so that its smeared version generates the M\"obius flow
+i.e. $T$ is normalized so that its smeared version generates the Möbius flow
 with unit coefficient.  This is the convention in which the two quadratic forms of
 the recovery curve come out as
 $$
@@ -52,7 +52,7 @@ $$
 $$
 The metric normalizations behind the factors $\frac18$ and $\frac12$ are those of
 (def:gB):
-$-\logF=\frac{\zeta^2}8g_B+o(\zeta^2)$ and $D=\frac{\zeta^2}2g_{\mathrm{KM}}+o(\zeta^2)$ per
+$-\log F=\frac{\zeta^2}8g_B+o(\zeta^2)$ and $D=\frac{\zeta^2}2g_{\mathrm{KM}}+o(\zeta^2)$ per
 unit of the deformation parameter, the parameter being $\zeta$.
 
 ## From `paper2/app_conventions.tex`
@@ -95,7 +95,7 @@ $$
  \zeta=\frac{a s}{a+L}.
 $$
 Two normal forms are used.  The half-line normal form $a=\infty$ gives $\zeta=s$ and is the one in which
-(sec:univ,sec:impl) are written; the bosonic computation of (sec:boson) uses $a=1$, $L=2$, i.e.\
+(sec:univ,sec:impl) are written; the bosonic computation of (sec:boson) uses $a=1$, $L=2$, i.e.
 $\zeta=s/3$.  The first-order field of the extended map $\tilde k_{s}$ is $g_{\rm tot}$ of (eq:chi):
 $g_{\rm tot}=0$ on $A$, $g_{\rm tot}(x)=-x^{2}/L$ on $D$, smooth and compactly supported beyond $L$; it is
 $C^{1,1}$ with a single jump of its second derivative at the touching point, of size $-2/L$ in the line
@@ -104,11 +104,11 @@ of (FHSW) the parameter enters as $\zeta_{t}=z(1+e^{-2\pi t})$, $t=0$ being the 
 
 ### Fidelity and relative entropy
 
-$F$ is the root fidelity, $F=\operatorname{Tr}|\rho^{1/2}\sigma^{1/2}|$
-in finite dimensions, equal to $\sqrt{P_{\mathcal{M}}}$ with $P_{\mathcal{M}}$ the Uhlmann transition probability
-(AU02); $\Phi(\zeta)=-\logF(\omega,\omega_{\zeta})$.  Relative entropy is Araki's
+$ F$ is the root fidelity, $ F= \operatorname{Tr}|\rho^{1/2}\sigma^{1/2}|$
+in finite dimensions, equal to $\sqrt{P_{ \mathcal{M}}}$ with $P_{ \mathcal{M}}$ the Uhlmann transition probability
+(AU02); $\Phi(\zeta)=-\log F(\omega,\omega_{\zeta})$.  Relative entropy is Araki's
 $D(\omega\Vert\omega_{\xi})=-\langle\Omega,\log\Delta_{\xi,\Omega}\Omega\rangle$ (Araki), and the
-Kubo--Mori metric is its second variation, $D=\frac{s^{2}}{2}g_{\mathrm{KM}}+o(s^{2})$, so that $s_{2}=g_{\mathrm{KM}}/2$ with
+Kubo--Mori metric is its second variation, $D=\frac{s^{2}}{2} g_{\mathrm{KM}}+o(s^{2})$, so that $s_{2}= g_{\mathrm{KM}}/2$ with
 $\Phi$ and $D$ both expressed in $\zeta$.
 
 ## From `rigor/phase6_brief.md`

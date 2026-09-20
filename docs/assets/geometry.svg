@@ -61,7 +61,8 @@ text{fill:#1f2328;}.sub,.tick,.note{fill:#57606a;}.axis{stroke:#1f2328;}.grid,.f
 <line x1="450.00" y1="302.00" x2="450.00" y2="307.00" class="axis"/>
 <text x="450.00" y="320.00" class="tick" text-anchor="middle">1 = b</text>
 <circle cx="250.00" cy="292.00" r="4.50" class="f5"/>
-<text x="242.00" y="270.00" class="note t5" text-anchor="end">corner p = 0</text>
+<text x="244.00" y="256.00" class="note t5" text-anchor="end">corner p = 0</text>
+<line x1="246.00" y1="260.00" x2="250.00" y2="285.00" class="grid"/>
 <text x="480.00" y="272.00" class="note" text-anchor="start">the whole of BC now sits inside B</text>
 <text x="24.00" y="348.00" class="note" text-anchor="start">recovery map (Note 4):  kₛ = id on A,  hₛ(x) = Lx/(L+sx) on D = BC;  at s = λ = c/b its range is exactly A(B).</text>
 <text x="24.00" y="367.00" class="note" text-anchor="start">corner p = 0:  Schwarzian mass −2σ = −1 with σ = s/L = 0.5;  strength ζ = as/(a+L) = 0.3333;  Theorem A measures Φ(ζ) = −log F.</text>

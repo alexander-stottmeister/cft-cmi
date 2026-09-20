@@ -497,7 +497,8 @@ def fig_geometry() -> Path:
         g.line(xp(v), Y2 + 10, xp(v), Y2 + 15, "axis")
         g.text(xp(v), Y2 + 28, lab, "tick", "middle")
     g.circle(xp(0), Y2, 4.5, "f5")
-    g.text(xp(-0.04), Y2 - 22, "corner p = 0", "note t5", "end")
+    g.text(xp(-0.03), Y2 - 36, "corner p = 0", "note t5", "end")
+    g.line(xp(-0.02), Y2 - 32, xp(0), Y2 - 7, "grid")
     g.text(xp(1.15), Y2 - 20, "the whole of BC now sits inside B", "note",
            "start")
 
@@ -544,35 +545,36 @@ def fig_quadratic_law() -> Path:
     con = parse_f2_fermion()
     f2 = con["f2"]
     zmin, zmax = small[0]["zeta"], large[-1]["zeta"]
+    wide = large[-1]
 
-    W, H = 780, 604
+    W, H = 780, 626
     g = Svg(W, H, "The quadratic law: recovery error against corner strength",
             "Phi(zeta) = -log F measured over the range zeta = %.4g to %.4g, "
             "with the zeta^2 asymptote and the measured remainder."
             % (zmin, zmax))
-    g.text(24, 30, "Theorem A: Φ(ζ) = −log F and its "
-                   "ζ² asymptote", "ttl")
+    g.text(24, 30, "Theorem A: Φ(ζ) = −log F and its ζ² asymptote", "ttl")
     g.text(24, 50, "Free chiral fermion, c = 1. Sources: "
-                   "numerics/results_hp2.txt (small ζ, certified "
-                   "window + tail), fidelity_table_largezeta.tex (large "
-                   "ζ, best estimates), fidelity_tables.tex "
-                   f"(f₂ = {f2:.6f}({int(con['f2err']*1e6)})).", "sub")
+                   "numerics/results_hp2.txt (small ζ, certified window + "
+                   "tail); fidelity_table_largezeta.tex (large ζ);", "sub")
+    g.text(24, 66, f"fidelity_tables.tex (f₂ = {f2:.6f}"
+                   f"({int(con['f2err']*1e6)}), the κ_c → ∞ extrapolation). "
+                   f"[numerical: measured, not proved]", "sub")
 
-    ax = Axes(g, 86, 76, 592, 258, (0.0068, 24), (2.6e-7, 0.13),
+    ax = Axes(g, 86, 86, 592, 258, (0.0068, 24), (2.6e-7, 0.13),
               xlog=True, ylog=True)
     xt = [0.01, 0.1, 1, 10]
     yt = [1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1]
     ax.xgrid(xt), ax.ygrid(yt), ax.box()
     ax.xticks(xt, lambda v: f"{v:g}")
     ax.yticks(yt, pow10)
-    g.vtext(36, ax.y + ax.h / 2, "Φ(ζ) = −log F   (nats)",
-            "lab")
+    g.vtext(34, ax.y + ax.h / 2, "Φ(ζ) = −log F   (nats)", "lab")
 
     # the proved asymptote, clipped to the panel
     zhi = math.sqrt(0.13 / f2)
     ax.curve([(0.0068, f2 * 0.0068 ** 2), (zhi, f2 * zhi ** 2)], "s4 dash")
-    g.text(ax.X(3.0), ax.Y(f2 * 9.0) + 22,
-           "Φ = f₂ζ² (Theorem A)", "note t4", "start")
+    g.line(ax.X(1.28), ax.Y(2.3e-5), ax.X(0.92), ax.Y(6.0e-3), "grid")
+    g.text(ax.X(1.30), ax.Y(2.1e-5), "Φ = f₂ζ²", "note t4")
+    g.text(ax.X(1.30), ax.Y(2.1e-5) + 14, "(Theorem A, proved)", "note t4")
 
     # small zeta: certified brackets [window value, window value + tail]
     for r in small:
@@ -581,34 +583,76 @@ def fig_quadratic_law() -> Path:
     # large zeta: certified lower end, and the best (extrapolated) estimate
     for r in large:
         x = ax.X(r["zeta"])
-        g.line(x - 7, ax.Y(r["cert"]), x + 7, ax.Y(r["cert"]), "s3")
         ax.vbar(r["zeta"], r["best"] - r["err"], r["best"] + r["err"],
                 "s2", cap=4)
         g.circle(x, ax.Y(r["best"]), 4.2, "hole s2")
+        g.line(x - 10, ax.Y(r["cert"]), x + 10, ax.Y(r["cert"]), "s3")
 
     # legend, in the empty upper-left corner of the panel
     lx, ly = ax.x + 18, ax.y + 22
     for i, (draw, txt) in enumerate((
-        ("sq", "certified bracket [Φ in the spectral window, "
-               "+ tail ζ²/(15κᶜ²)]"),
-        ("tick", "certified lower bound at the largest κᶜ "
-                 "(large ζ)"),
-        ("circ", "best estimate Φ∞, κᶜ→∞ "
-                 "extrapolation, with its quoted error"),
+        ("sq", "certified bracket [window value, + tail]"),
+        ("tick", "certified lower bound, largest κ_c"),
+        ("circ", "best estimate Φ∞ with its quoted error"),
         ("dash", "proved ζ² asymptote, f₂ = c/(12π²)"),
     )):
         y = ly + i * 19
         if draw == "sq":
             sqmark(g, lx, y - 4, 3.2, "f1")
         elif draw == "tick":
-            g.line(lx - 6, y - 4, lx + 6, y - 4, "s3")
+            g.line(lx - 8, y - 4, lx + 8, y - 4, "s3")
         elif draw == "circ":
             g.circle(lx, y - 4, 4.2, "hole s2")
         else:
-            g.line(lx - 7, y - 4, lx + 7, y - 4, "s4 dash")
-        g.text(lx + 14, y, txt, "note")
+            g.line(lx - 8, y - 4, lx + 8, y - 4, "s4 dash")
+        g.text(lx + 16, y, txt, "note")
 
     # ---- lower panel: the measured remainder
+    g.text(24, 398, "measured remainder: the ratio to the pure ζ² law",
+           "note")
+    bx = Axes(g, 86, 410, 592, 100, (0.0068, 24), (0.0, 1.12), xlog=True)
+    bt = [0.0, 0.25, 0.5, 0.75, 1.0]
+    bx.xgrid(xt), bx.ygrid(bt), bx.box()
+    bx.xticks(xt, lambda v: f"{v:g}")
+    bx.yticks(bt, lambda v: f"{v:g}")
+    g.vtext(34, bx.y + bx.h / 2, "Φ / (f₂ζ²)", "lab")
+    bx.curve([(0.0068, 1.0), (24, 1.0)], "s4 dash")
+    pts = []
+    for r in small:
+        v = r["ratio"] / f2
+        pts.append((r["zeta"], v))
+    for r in large:
+        pts.append((r["zeta"], r["best"] / (f2 * r["zeta"] ** 2)))
+    bx.curve(pts, "s1", ' stroke-width="1" stroke-dasharray="3 3"')
+    for r in small:
+        sqmark(g, bx.X(r["zeta"]), bx.Y(r["ratio"] / f2), 3.0, "f1")
+    for r in large:
+        g.circle(bx.X(r["zeta"]), bx.Y(r["best"] / (f2 * r["zeta"] ** 2)),
+                 3.8, "hole s2")
+    g.text(bx.x + bx.w / 2, bx.y + bx.h + 30,
+           "ζ   (corner strength ζ = as/(a+L), dimensionless)", "lab",
+           "middle")
+
+    for i, line in enumerate((
+        f"Measured range ζ = {zmin} to {zmax}. At small ζ the "
+        f"window value is a rigorous lower bound, plus the tail "
+        f"ζ²/(15κ_c²): the bracket is certified.",
+        "At large ζ that tail is not valid, so the bracket is "
+        "[Φ at the largest κ_c, Φ∞]; Φ∞ is an "
+        "extrapolation, not a bound.",
+        f"The widest bracket is at ζ = {wide['zeta']}: "
+        f"[{wide['cert']:.5f}, {wide['phi_inf']:.5f}], and the best estimate "
+        f"quoted there is {wide['best']:.4f} ± {wide['err']:.4f}.",
+        f"The local log-slope d log Φ / d log ζ falls from "
+        f"{large[0]['slope']} at ζ = {large[0]['zeta']} to "
+        f"{large[-1]['slope']} at ζ = {large[-1]['zeta']}: the "
+        f"ζ² law is a ζ → 0 statement, not a global one.",
+    )):
+        g.text(24, 560 + 17 * i, line, "note")
+    return g.write("quadratic-law.svg")
+
+
+# ---- lower panel: the measured remainder
     bx = Axes(g, 86, 404, 592, 106, (0.0068, 24), (0.0, 1.12), xlog=True)
     bt = [0.0, 0.25, 0.5, 0.75, 1.0]
     bx.xgrid(xt), bx.ygrid(bt), bx.box()
@@ -656,43 +700,81 @@ def fig_universality() -> Path:
     lat = parse_f2_lattice()
     f2_of_c = lambda c: c / (12 * math.pi ** 2)              # noqa: E731
 
-    W, H = 780, 452
+    W, H = 780, 480
     g = Svg(W, H, "Universality of the second-order coefficient",
             "The proved line f2 = c/(12 pi^2) of Theorem B, and the three "
             "independent measurements, all made at c = 1.")
     g.text(24, 30, "Theorem B: the second-order coefficient is linear in c, "
-                   "and three models measure it at c = 1", "ttl")
-    g.text(24, 50, "The straight line is a theorem, not a fit: no measurement "
-                   "away from c = 1 exists, and none is scaled along the "
-                   "line.", "sub")
+                   "measured by three models at c = 1", "ttl")
+    g.text(24, 50, "The straight line is a theorem, not a fit to the points: "
+                   "no measurement away from c = 1 exists, and none is scaled "
+                   "along the line.", "sub")
 
     cmax = 3.0
-    ax = Axes(g, 86, 84, 322, 252, (0.0, cmax), (0.0, f2_of_c(cmax) * 1.05))
+    ax = Axes(g, 86, 82, 322, 248, (0.0, cmax), (0.0, f2_of_c(cmax) * 1.05))
     yt = [0.0, 0.005, 0.010, 0.015, 0.020, 0.025]
     ax.xgrid([1, 2, 3]), ax.ygrid(yt), ax.box()
     ax.xticks([0, 1, 2, 3])
     ax.yticks(yt, lambda v: f"{v:.3f}")
-    g.vtext(30, ax.y + ax.h / 2,
-            "f₂ = lim Φ/ζ²  (per chirality)", "lab")
-    g.text(ax.x + ax.w / 2, ax.y + ax.h + 34, "central charge c", "lab",
+    g.vtext(30, ax.y + ax.h / 2, "f₂ = lim Φ/ζ²   (per chirality)", "lab")
+    g.text(ax.x + ax.w / 2, ax.y + ax.h + 40, "central charge c", "lab",
            "middle")
-    ax.curve([(0.0, 0.0), (cmax, f2_of_c(cmax))], "s4",
-             ' stroke-width="2.4"')
-    g.text(ax.X(1.45), ax.Y(f2_of_c(1.45)) - 12,
-           "Theorem B (proved):", "note t4")
-    g.text(ax.X(1.45), ax.Y(f2_of_c(1.45)) + 2,
-           "f₂ = c/(12π²)", "note t4")
-    # the measured cluster and the zoom window
-    g.circle(ax.X(1.0), ax.Y(f2_of_c(1.0)), 4, "f1")
-    g.rect(ax.X(1.0) - 16, ax.Y(f2_of_c(1.0)) - 14, 32, 28, "frame dash", 3)
-    g.text(ax.X(1.0), ax.Y(f2_of_c(1.0)) + 34,
-           "all three measurements", "note", "middle")
-    g.text(ax.X(1.0), ax.Y(f2_of_c(1.0)) + 48, "sit here, at c = 1",
-           "note", "middle")
-    g.line(ax.X(1.0) + 18, ax.Y(f2_of_c(1.0)), 494, 200, "grid dash",
-           ' marker-end="url(#ar-ink)"')
+    ax.curve([(0.0, 0.0), (cmax, f2_of_c(cmax))], "s4", ' stroke-width="2.4"')
+    g.text(ax.X(1.72), ax.y + 150, "Theorem B (proved):", "note t4")
+    g.text(ax.X(1.72), ax.y + 164, "f₂ = c/(12π²)", "note t4")
+
+    yc = ax.Y(f2_of_c(1.0))
+    g.circle(ax.X(1.0), yc, 4, "f1")
+    g.rect(ax.X(1.0) - 15, yc - 13, 30, 26, "frame dash", 3)
+    g.text(ax.X(1.05), yc + 30, "all three measurements", "note")
+    g.text(ax.X(1.05), yc + 44, "sit here, at c = 1", "note")
 
     # ---- zoom panel: the three measurements against the proved value
+    lo, hi = 0.00836, 0.00850
+    zx = Axes(g, 500, 82, 200, 248, (0.0, 3.0), (lo, hi))
+    zt = [0.00836, 0.00840, 0.00844, 0.00848]
+    zx.ygrid(zt), zx.box()
+    zx.yticks(zt, lambda v: f"{v:.5f}")
+    zx.curve([(0.0, f2_of_c(1.0)), (3.0, f2_of_c(1.0))], "s4")
+    g.text(zx.x + zx.w / 2, zx.y - 10, "zoom at c = 1", "note", "middle")
+    g.text(zx.x + 8, zx.y + zx.h - 10, f"line: c/(12π²) = {f2_of_c(1.0):.7f}",
+           "note t4")
+
+    meas = [
+        (0.6, ferm["f2"], ferm["f2err"], "1", "fermion"),
+        (1.5, bos["f2"], bos["f2err"], "3", "boson"),
+        (2.4, lat["f2"], None, "2", "lattice"),
+    ]
+    for xx, val, err, ci, lab in meas:
+        if err:
+            zx.vbar(xx, val - err, val + err, "s" + ci, cap=6)
+            g.circle(zx.X(xx), zx.Y(val), 4.2, "f" + ci)
+        else:
+            g.circle(zx.X(xx), zx.Y(val), 4.4, "hole s" + ci)
+        g.text(zx.X(xx), zx.y + zx.h + 18, lab, "tick", "middle")
+
+    for i, line in enumerate((
+        f"fermion, continuum: f₂ = {ferm['f2']}({int(ferm['f2err']*1e6)}) — "
+        f"fidelity_tables.tex, table tab:second-order (certified window, "
+        f"κ_c → ∞ extrapolation)  [numerical]",
+        f"U(1) current net, the bosonic check at c = 1: f₂ = {bos['f2']}"
+        f"({int(bos['f2err']*1e5)}) — numerics/boson/README.md §4  "
+        f"[numerical]",
+        f"hopping chain, c = 1: Φ/ζ² = {lat['f2']} at ζ = {lat['zeta']}, "
+        f"n = {lat['n']} sites — numerics/lattice/petz_lattice.out, table [1] "
+        f" [numerical]",
+        f"The lattice point is one finite-ζ, finite-n measurement (its "
+        f"lattice/continuum ratio there is {lat['ratio']}), not an "
+        f"extrapolation, so no error bar is quoted.",
+        "Theorem B holds for every diffeomorphism-covariant net; its "
+        "implementer hypotheses (H1)–(H3) are proved for all such nets "
+        "(paper 2).",
+    )):
+        g.text(24, 396 + 17 * i, line, "note")
+    return g.write("universality.svg")
+
+
+# ---- zoom panel: the three measurements against the proved value
     lo, hi = 0.00836, 0.00850
     zx = Axes(g, 500, 84, 200, 252, (0.0, 3.0), (lo, hi))
     zt = [0.00836, 0.00840, 0.00844, 0.00848]
@@ -746,19 +828,19 @@ def fig_theta_ladder() -> Path:
     p = t["p"]
     B = (t["theta_inf_A"] - t["theta_hmin"]) / t["h_min"] ** p
 
-    W, H = 780, 470
+    W, H = 780, 494
     g = Svg(W, H, "The theta convergence ladder and the superseded circle "
                   "model",
             "theta against mesh width plotted as h^0.77, extrapolating to "
             "0.384 +- 0.003, beside the taper-suppressed circle-model value "
             "0.300.")
-    g.text(24, 30, "The first-order gain constant θ: convergence ladder "
-                   f"in h, extrapolated to {t['theta']} ± "
-                   f"{t['theta_err']}", "ttl")
+    g.text(24, 30, "The first-order gain constant θ: convergence ladder in "
+                   f"h, extrapolated to {t['theta']:.3f} ± "
+                   f"{t['theta_err']:.3f}", "ttl")
     g.text(24, 50, "Source: numerics/optimality_all/F3_RESULTS.md "
-                   "(§1(b), §3(c), §4, §5(b)). "
-                   f"Measured convergence order h^{p} ± {t['p_err']}, "
-                   "five mesh families.", "sub")
+                   f"(§1b, §3c, §4, §5b). Convergence order "
+                   f"h^{p} ± {t['p_err']}, five mesh families.  "
+                   f"[numerical]", "sub")
 
     hmax = t["galerkin"][0][0]
     ax = Axes(g, 86, 86, 456, 268, (0.0, hmax ** p * 1.06), (0.27, 0.40))
@@ -770,21 +852,17 @@ def fig_theta_ladder() -> Path:
     ax.yticks(yt, lambda v: f"{v:.2f}")
     ax.xticks([0.0] + [h ** p for h in hs],
               lambda v: "0" if v == 0 else f"{v ** (1/p):.2f}")
-    g.vtext(32, ax.y + ax.h / 2, "θ   (first-order gain constant)",
-            "lab")
-    g.text(ax.x + ax.w / 2, ax.y + ax.h + 38,
+    g.vtext(32, ax.y + ax.h / 2, "θ   (first-order gain constant)", "lab")
+    g.text(ax.x + ax.w / 2, ax.y + ax.h + 42,
            f"mesh width h, plotted on the axis h^{p} so that the "
            f"extrapolation is a straight line", "lab", "middle")
 
-    # the extrapolated value and its error band
     ylo, yhi = t["theta"] - t["theta_err"], t["theta"] + t["theta_err"]
     g.rect(ax.x, ax.Y(yhi), ax.w, ax.Y(ylo) - ax.Y(yhi), "soft")
     ax.curve([(0.0, t["theta"]), (ax.x1, t["theta"])], "s2 dash")
-    g.text(ax.x + 10, ax.Y(t["theta"]) - 8,
-           f"θ = {t['theta']} ± {t['theta_err']}  (h → 0; "
-           f"1 − θ = {1-t['theta']:.3f} ± {t['theta_err']})",
-           "note t2")
-    # the Richardson line through the finest family-A point
+    g.text(ax.x + 10, ax.Y(t["theta"]) - 9,
+           f"θ = {t['theta']:.3f} ± {t['theta_err']:.3f}  (h → 0;  "
+           f"1 − θ = {1-t['theta']:.3f} ± {t['theta_err']:.3f})", "note t2")
     ax.curve([(0.0, t["theta_inf_A"]),
               (ax.x1, t["theta_inf_A"] - B * ax.x1)], "s2")
 
@@ -792,33 +870,69 @@ def fig_theta_ladder() -> Path:
         sqmark(g, ax.X(h ** p), ax.Y(v), 3.4, "f1")
     for h, v in t["t0"]:
         g.circle(ax.X(h ** p), ax.Y(v), 4.0, "hole s3")
-    g.circle(ax.X(t["h_min"] ** p), ax.Y(t["theta_hmin"]), 4.0,
-             "hole s3")
+    g.circle(ax.X(t["h_min"] ** p), ax.Y(t["theta_hmin"]), 4.0, "hole s3")
 
-    lx, ly = ax.x + 232, ax.y + 200
+    lx, ly = ax.x + 22, ax.y + 196
     sqmark(g, lx, ly - 4, 3.4, "f1")
-    g.text(lx + 12, ly, "modular Galerkin frame, a = 1, L = 2 (§1b)",
-           "note")
+    g.text(lx + 12, ly, "modular Galerkin frame, a = 1, L = 2 (§1b)", "note")
     g.circle(lx, ly + 15, 4.0, "hole s3")
-    g.text(lx + 12, ly + 19, "T0 Wiener–Hopf frame, geometry-free "
-                             "(§3c, §4)", "note")
-    g.line(lx - 7, ly + 34, lx + 7, ly + 34, "s2")
+    g.text(lx + 12, ly + 19, "T0 Wiener–Hopf frame, geometry-free (§3c, §4)",
+           "note")
+    g.line(lx - 8, ly + 34, lx + 8, ly + 34, "s2")
     g.text(lx + 12, ly + 38, "Richardson line through the finest point",
            "note")
 
     # ---- the superseded circle model, on the same theta axis
-    cx = Axes(g, 596, 86, 118, 268, (0.0, 2.0), (0.27, 0.40))
+    cx = Axes(g, 580, 86, 140, 268, (0.0, 2.0), (0.27, 0.40))
     cx.ygrid(yt), cx.box()
     g.text(cx.x + cx.w / 2, cx.y - 10, "circle model", "note", "middle")
     taper = dict(t["taper"])
     lo_t, hi_t = taper["(0.30,0.42)"], taper["(0.35,0.47)"]
-    g.line(cx.X(1.35), cx.Y(lo_t), cx.X(1.35), cx.Y(hi_t), "s5 dash",
+    g.line(cx.X(1.5), cx.Y(lo_t), cx.X(1.5), cx.Y(hi_t), "s5 dash",
            ' marker-end="url(#ar-c5)"')
-    g.text(cx.X(1.35) + 6, cx.Y((lo_t + hi_t) / 2) - 4, "relax", "note t5")
-    g.text(cx.X(1.35) + 6, cx.Y((lo_t + hi_t) / 2) + 8, "the taper", "note t5")
-    cx.vbar(0.75, t["circle"] - t["circle_err"], t["circle"] + t["circle_err"],
+    g.text(cx.X(1.5) + 6, cx.Y((lo_t + hi_t) / 2) - 4, "relax", "note t5")
+    g.text(cx.X(1.5) + 6, cx.Y((lo_t + hi_t) / 2) + 8, "the taper",
+           "note t5")
+    cx.vbar(0.6, t["circle"] - t["circle_err"], t["circle"] + t["circle_err"],
             "s5", cap=6)
-    sqmark(g, cx.X(0.75), cx.Y(t["circle"]), 3.6, "f5")
+    sqmark(g, cx.X(0.6), cx.Y(t["circle"]), 3.6, "f5")
+    g.text(cx.X(0.6), cx.Y(t["circle"]) + 22,
+           f"{t['circle']:.3f} ± {t['circle_err']:.3f}", "note t5", "middle")
+    g.text(cx.x + cx.w / 2, cx.y + cx.h + 18, "superseded", "note t5",
+           "middle")
+
+    for i, line in enumerate((
+        f"θ = {t['theta']:.3f} ± {t['theta_err']:.3f} is the "
+        f"h → 0 Richardson closure of five mesh families (§4(iii), "
+        f"spread 0.3835–0.3847); finest point θ = "
+        f"{t['theta_hmin']} at h = {t['h_min']}.",
+        "T0 points are taken at Y = y_max = 10; the finite-y_max correction "
+        "is +0.002 at h = 0.06 (§4(i)), the offset of those points from "
+        "the line.",
+        f"The circle model with the S10 ultraviolet taper gives θ = "
+        f"{t['circle']:.3f} ± {t['circle_err']:.3f}: a taper-suppressed "
+        f"LOWER BOUND, not a competing limit.",
+        f"Relaxing the taper at L = 256 from (0.30,0.42) to (0.35,0.47) "
+        f"moves θ from {lo_t} to {hi_t} (§5(b)); the model has no "
+        f"taper-free limit, and the card is marked superseded.",
+    )):
+        g.text(24, 422 + 17 * i, line, "note")
+    return g.write("theta-ladder.svg")
+
+
+# ---- the superseded circle model, on the same theta axis
+    cx = Axes(g, 580, 86, 140, 268, (0.0, 2.0), (0.27, 0.40))
+    cx.ygrid(yt), cx.box()
+    g.text(cx.x + cx.w / 2, cx.y - 10, "circle model", "note", "middle")
+    taper = dict(t["taper"])
+    lo_t, hi_t = taper["(0.30,0.42)"], taper["(0.35,0.47)"]
+    g.line(cx.X(1.5), cx.Y(lo_t), cx.X(1.5), cx.Y(hi_t), "s5 dash",
+           ' marker-end="url(#ar-c5)"')
+    g.text(cx.X(1.5) + 6, cx.Y((lo_t + hi_t) / 2) - 4, "relax", "note t5")
+    g.text(cx.X(1.5) + 6, cx.Y((lo_t + hi_t) / 2) + 8, "the taper", "note t5")
+    cx.vbar(0.6, t["circle"] - t["circle_err"], t["circle"] + t["circle_err"],
+            "s5", cap=6)
+    sqmark(g, cx.X(0.6), cx.Y(t["circle"]), 3.6, "f5")
     g.text(cx.X(0.75), cx.Y(t["circle"]) + 20,
            f"{t['circle']} ± {t['circle_err']}", "note t5", "middle")
     g.text(cx.x + cx.w / 2, cx.y + cx.h + 18, "superseded", "note t5",

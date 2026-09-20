@@ -2,7 +2,7 @@
 
 # Exact (N,Y,V) chart of F and the tangent problem at the compression
 
-**Status:** `proved` — a complete structured proof. **Conditional:** this result holds only under H1, H2; the hypotheses are quoted below.
+**Status:** `proved` — a complete structured proof. **Conditional.** The statement is not unconditional: it rests on H1, H2, quoted below. Read the badge only together with them.
 
 **Area:** [Optimality of recovery channels (O8, Phases 3 and 3b)](../status.md#area-optimality) · **Card type:** theorem · **Knowledge-base id:** `tangent-problem-exact-parametrisation`
 
@@ -12,7 +12,7 @@ Feasible set: (X,Z) in F iff N := 1 - X X\* >= 0 and Y := Z - X Q_BB X\* satisfi
 
 ## Hypotheses
 
-This result is conditional: it holds only where the hypotheses below hold. The sentences are quoted from the statement above; read the status badge only together with them.
+This result is conditional: at least part of the statement holds only where the hypotheses below hold. The sentences are quoted from the statement above; read the status badge only together with them.
 
 Hypothesis labels used: `H1`, `H2`.
 
