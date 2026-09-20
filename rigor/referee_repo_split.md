@@ -83,3 +83,19 @@ prose `doc:...`, 1 prose `num:f3_t0.py`). **Recipe** does rebuild the tree (178 
 overlap 0, 27 pp / 8) but `clone --bare` sets no fetch refspec or upstream: `./pgit push` dies "no
 upstream branch", `origin/main` is unknown, and untracked `info/exclude` leaves `./pgit status`
 showing 162 stray files.
+
+## Third pass (REF-INFRA-2b)
+
+Verdict: **fail** — the repaired recipe is right and fully verified; four numbers are not.
+
+**(c) verified.** PRIVATE.md's recipe, run verbatim: `main@{upstream}` = `origin/main`, `./pgit status` and `git status` both 0,
+`./pgit check` exits 0 (406/229, overlap 0, shots 178/178), `info/exclude` self-installed byte-identical to `pgit-exclude`, 178
+shots + 47 PDFs restored, `quadratic_limit` builds **27 pp / 8 images**.
+
+**(1)** Public is **406** (`git ls-files`), not 407; 229 private is right (`pgit-exclude` is gitignored publicly). **(2)** My rule:
+322 cards in `areas/ claims/ evidence/`, tokens `(doc|num|data|ref):PATH`, anchor+trailing punctuation stripped, deduped by PATH →
+**130** targets, 129 existing, the one miss (`f3_t0.py`) prose in referee notes, so 0 genuinely fail; front-matter `evidence:` alone
+gives **129**, `ev:` 131, zero `data:` tokens — no rule yields 132. **(3)** The 8 private targets are cited by **8** cards; 9 needs
+generated INDEX.md or CHANGELOG.md counted as a card. **(4)** `restore.sh` refetches **one** of the six: CDIT is listed as `CDIW21`,
+so `getref.sh` writes `refs/CDIW21_1808.02384.pdf` and `ref:refs/CDIT_1808.02384.pdf` stays broken; of the other four only Uhlmann76
+is paywalled (AlbertiUhlmann02, BJL are arXiv, Sion1958 free msp; none in restore.sh's table).
