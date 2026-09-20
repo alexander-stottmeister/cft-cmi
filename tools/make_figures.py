@@ -805,7 +805,7 @@ def fig_theta_ladder() -> Path:
     g.text(lx + 12, ly + 38, "Richardson line through the finest point",
            "note")
 
-        cx = Axes(g, 580, 86, 140, 268, (0.0, 2.0), (0.27, 0.40))
+    cx = Axes(g, 580, 86, 140, 268, (0.0, 2.0), (0.27, 0.40))
     cx.ygrid(yt), cx.box()
     g.text(cx.x + cx.w / 2, cx.y - 10, "circle model", "note", "middle")
     taper = dict(t["taper"])

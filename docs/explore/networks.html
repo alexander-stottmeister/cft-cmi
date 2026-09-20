@@ -304,3 +304,106 @@ function partial(A, st) {
   const map = steps.length ? composeSteps(steps, dom) : null;
   return { steps, dom, map, mFull, f, run, running: run ? A.steps[mFull] : null };
 }
+
+// ------------------------------------------------------------- the chain view
+const chainPlot = new Plot(document.getElementById('chain'), {
+  aspect: 0.46, minH: 215, maxH: 330, margin: { l: 16, r: 16, t: 26, b: 26 },
+  xDomain: [0, 1], yDomain: [0, 1]
+}).onRender(P => {
+  const A = analyse(), pr = partial(A, S.stage);
+  const pad = (A.p[A.n] - A.p[0]) * 0.05;
+  P.domain([A.p[0] - pad, A.p[A.n] + pad], [0, 1]);
+  const X = v => P.sx(v), Y = v => P.sy(v), yTop = 0.76, yBot = 0.28;
+  const b = A.blocks[Math.min(A.N, pr.run ? pr.mFull + 1 : pr.mFull)];
+  const cols = ['var(--series-1)', 'var(--series-3)', 'var(--series-2)', 'var(--series-4)', 'var(--series-5)', 'var(--accent)'];
+
+  for (let i = 0; i < A.n; i++) {
+    const inBlock = i >= b[0] && i <= b[1];
+    svgEl('line', { x1: X(A.p[i]), x2: X(A.p[i + 1]), y1: Y(yTop), y2: Y(yTop),
+      stroke: cols[i % cols.length], 'stroke-width': inBlock ? 8 : 3,
+      opacity: inBlock ? 1 : 0.35, 'stroke-linecap': 'butt' }, P.root);
+    P.text((A.p[i] + A.p[i + 1]) / 2, yTop + 0.11, 'A' + (i + 1),
+      { anchor: 'middle', small: !inBlock, fill: cols[i % cols.length] });
+  }
+  for (let k = 0; k <= A.n; k++) {
+    svgEl('line', { x1: X(A.p[k]), x2: X(A.p[k]), y1: Y(yTop) - 9, y2: Y(yTop) + 9,
+      stroke: 'var(--fg)', 'stroke-width': 1 }, P.root);
+    P.text(A.p[k], yTop - 0.17, 'p' + (k + 1), { anchor: 'middle', small: true });
+  }
+  if (pr.running) {
+    const M = pr.running.moving;
+    svgEl('line', { x1: X(M[0]), x2: X(M[1]), y1: Y(yTop + 0.19), y2: Y(yTop + 0.19),
+      stroke: 'var(--numerical)', 'stroke-width': 3 }, P.root);
+    P.text((M[0] + M[1]) / 2, yTop + 0.25, 'moving part M of step ' + (pr.mFull + 1),
+      { anchor: 'middle', small: true });
+    svgEl('circle', { cx: X(pr.running.p), cy: Y(yTop), r: 5, fill: 'var(--numerical)' }, P.root);
+  }
+  if (pr.map) {
+    const lo = pr.dom[0], hi = pr.dom[1];
+    for (let k = 0; k <= 60; k++) {
+      const x = lo + (hi - lo) * k / 60;
+      svgEl('line', { x1: X(x), x2: X(pmEval(pr.map, x)), y1: Y(yTop) - 10, y2: Y(yBot) + 6,
+        stroke: 'var(--line)', 'stroke-width': 1, opacity: .8 }, P.root);
+    }
+    for (let i = b[0]; i <= b[1]; i++) {
+      svgEl('line', { x1: X(pmEval(pr.map, A.p[i])), x2: X(pmEval(pr.map, A.p[i + 1])),
+        y1: Y(yBot), y2: Y(yBot), stroke: cols[i % cols.length], 'stroke-width': 6,
+        opacity: .75, 'stroke-linecap': 'butt' }, P.root);
+    }
+    P.text(pmEval(pr.map, lo), yBot - 0.15,
+      'Φ of the first ' + (pr.run ? pr.mFull + 1 : pr.mFull) + ' step(s), image in J₀', { small: true });
+  } else {
+    P.text(A.p[0], yBot - 0.05, 'stage 0: no step taken yet, the map is the identity', { small: true });
+  }
+});
+
+// ------------------------------------------------------------ the mass view
+const massPlot = new Plot(document.getElementById('masses'), {
+  aspect: 0.42, minH: 190, maxH: 300, margin: { l: 16, r: 16, t: 22, b: 30 },
+  xDomain: [0, 1], yDomain: [0, 1]
+}).onRender(P => {
+  const A = analyse(), pr = partial(A, S.stage);
+  const pad = (A.p[A.n] - A.p[0]) * 0.05;
+  P.domain([A.p[0] - pad, A.p[A.n] + pad], [0, 1]);
+  const X = v => P.sx(v), Y = v => P.sy(v), base = 0.12;
+  const sch = pr.map ? pmSchwarzian(pr.map) : [];
+  const ghost = A.H.holds ? [] : A.T53;
+  const maxM = Math.max(1e-9, ...sch.map(m => Math.abs(m.mass)), ...ghost.map(g => 2 * g.kappa));
+  const hOf = m => base + 0.66 * Math.abs(m) / maxM;
+
+  svgEl('line', { x1: X(A.p[0] - pad), x2: X(A.p[A.n] + pad), y1: Y(base), y2: Y(base), stroke: 'var(--line)' }, P.root);
+  for (let k = 1; k < A.n; k++) {
+    svgEl('line', { x1: X(A.p[k]), x2: X(A.p[k]), y1: Y(base) - 5, y2: Y(base) + 5, stroke: 'var(--muted)' }, P.root);
+    P.text(A.p[k], base - 0.09, 'p' + (k + 1), { anchor: 'middle', small: true });
+  }
+  if (!A.H.holds) {
+    for (const g of ghost) {
+      svgEl('line', { x1: X(g.x), x2: X(g.x), y1: Y(base), y2: Y(hOf(2 * g.kappa)),
+        stroke: 'var(--muted)', 'stroke-width': 6, opacity: .28 }, P.root);
+    }
+    P.text(A.p[0] - pad, 0.95, 'faint bars: what the junction form of Theorem 5.3 would give — it does not apply here',
+      { small: true });
+  }
+  for (const m of sch) {
+    const onJunction = A.p.some(q => Math.abs(q - m.x) < 1e-8);
+    const col = onJunction ? 'var(--series-1)' : 'var(--numerical)';
+    svgEl('line', { x1: X(m.x), x2: X(m.x), y1: Y(base), y2: Y(hOf(m.mass)),
+      stroke: col, 'stroke-width': 4 }, P.root);
+    svgEl('circle', { cx: X(m.x), cy: Y(hOf(m.mass)), r: 4, fill: col }, P.root);
+    const zeta = (Math.abs(m.mass) / 2) * betaI(m.x, A.dom[0], A.dom[1]);
+    P.text(m.x, hOf(m.mass) + 0.06, fmt(m.mass, 4) + '  (ζ = ' + fmt(zeta, 4) + ')',
+      { anchor: 'middle', small: true, fill: col });
+    if (!onJunction) {
+      const near = A.steps.map(s => s.p).reduce((a, q) => Math.abs(q - m.x) < Math.abs(a - m.x) ? q : a, A.p[0]);
+      svgEl('path', { d: `M${X(near)},${Y(base + 0.03)} L${X(m.x)},${Y(base + 0.03)}`,
+        stroke: 'var(--numerical)', 'stroke-width': 1.5, 'stroke-dasharray': '3 3' }, P.root);
+    }
+  }
+  for (const g of (pr.mFull >= A.N ? A.T52 : [])) {
+    if (!g.swallowed) continue;
+    svgEl('circle', { cx: X(g.step.p), cy: Y(base), r: 6, fill: 'none',
+      stroke: 'var(--open)', 'stroke-width': 2 }, P.root);
+    P.text(g.step.p, base + 0.1, 'swallowed: contributes nothing',
+      { anchor: 'middle', small: true, fill: 'var(--open)' });
+  }
+});
