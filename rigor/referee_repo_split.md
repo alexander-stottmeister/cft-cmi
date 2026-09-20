@@ -58,3 +58,28 @@ Verdict: **pass** — every number reproduces, the public clone builds, sets are
 - Omitted risks are covered in evidence docs (`git clean -xfd` and the second-machine
   two-clone recipe are in PRIVATE.md, repeated in README_AGENTS.md 4-5). `./pgit check`
   *reports* a shots mismatch but still exits 0, so it is not usable as a CI gate.
+
+## Delta review (REF-INFRA-2)
+
+Verdict: **fail** — one false knowledge-base claim; every other changed claim reproduces.
+
+`gh repo view` says **PRIVATE** for both `cft-cmi` and `cft-cmi-private`; local HEAD =
+`origin/main` = `ls-remote` in both (`2bb943f`/`32d7556`), trees clean. Fresh clone of the remote:
+**406** files / 5,892,618 B (card: 406 / 5.9 MB), **406 paths ever added, 0 matching `shots/` or
+`.pdf`** — history claim holds. `quadratic_limit` builds 27 pp / 8 images locally, 26 pp / 0 in
+the clone, as claimed. The four run scripts carry `PY="${PYTHON:-python3}"` and pass `bash -n`;
+**no tracked executable** names the dead interpreter, and only the seven captures/briefs CHECKLIST
+item 4 allows still do. `next` is right: `implementation_C11`:486 `\lstep{1}{4}{\lqed}` vs
+`\lqed[2]` → "Missing number" (TeX says l.488); `referee_implementation_C11`:364 `$\mathbb C\one$`
+→ "Undefined control sequence". KB: separate repo at `origin/main`, `kb sync` touches only `git -C
+kb`, lint 0 issues, the seven packets in `rigor/` tracked by neither.
+
+**Fatal.** "only two pointers (`doc:refs/VWZ_2307.14434.pdf`) reach into the private repo" is
+false: **10 occurrences (9 distinct) on 8 cards** reach 8 private files — 6 `refs/*.pdf` (VWZ ×1,
+AlbertiUhlmann02 ×3, BJL, CDIT, Sion1958, Uhlmann76 = 8) plus `doc:CHECKLIST.md` and
+`doc:PRIVATE.md`; PRIVATE.md repeats it. **Minor.** "128 … pointers" is 129 (this edit added
+`doc:rigor/referee_repo_split.md`); 0 genuinely fail — a naive regex shows 7 (4 trailing stops, 2
+prose `doc:...`, 1 prose `num:f3_t0.py`). **Recipe** does rebuild the tree (178 shots, 47 PDFs,
+overlap 0, 27 pp / 8) but `clone --bare` sets no fetch refspec or upstream: `./pgit push` dies "no
+upstream branch", `origin/main` is unknown, and untracked `info/exclude` leaves `./pgit status`
+showing 162 stray files.
