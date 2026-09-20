@@ -38,3 +38,15 @@ mentioned.  D2(c) contradicts the hosting choice: Pages serves docs/ from main, 
 and `*.pdf` blocks it without a second exception.  `make check` needs SOURCE_DATE_EPOCH and svg.hashsalt to be
 reproducible; 3 MB holds only with a woff2-only KaTeX subset (full dist ~5.5 MB).  The four decisions are the right four but
 incomplete: add D5, whether unreviewed and conditional cards may be published before a referee pass.
+## Second pass (REF-SITE-1b, 2026-09-21).  VERDICT: FAIL — one defect, in the module built first
+Coverage verified mechanically: all 30 proved and 3 refereed ids now appear in the table, exactly 11 numerical claims are
+named, 33+11 = 44 and 11/21 is "about half"; the claim now holds and is checkable.  The nine reassignments are sensible,
+not merely present — quasi-free-fidelity-formula is the formula behind every number module 2 plots and
+second-variation-lemma its second-order engine, w-hat-mellin-formula sits with the <TT> chain in 3,
+sequential-recovery-bound-type-iii is the chain statement module 6 animates, the six optimality theorems belong to 4.
+The six slips, the four omissions and D2(c) are closed.  DEFECT: l.120-121, "(H) fails whenever a step conditions on a
+union of chain intervals or the chain starts from a single interval", is FALSE — protocol-corner-data-n4-n5 (refereed
+twice) records that VWZ 1(A) and 1(B) condition on a union and DO satisfy (H), and l.107's picker offers both, so the
+module would red-flag the exact 1(A)=1(B) identity (2e-16) that is its best demonstration.  Write "(H) CAN fail ...; the
+module tests (H) itself".  Second, l.114-115 drops the qualifier l.107 carries: the counterexample "add D on C, then A on
+BC" has starting block A_2A_3, as L→R and R→L do, so write "the same starting block and single-interval conditioning".

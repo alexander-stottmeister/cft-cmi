@@ -112,14 +112,17 @@ coverage can be checked rather than asserted.
 
 Module 6 is the one worth building first: it is the newest result, it is entirely closed-form, and it is the
 only one where an animation shows something a static figure cannot, namely that two protocols with the same
-starting block land on the same map.
+starting block and single-interval conditioning land on the same map.
 
 It must implement the UNCONDITIONAL rule, Theorem 5.2 of `network_corner_calculus.tex`, which places the
 Schwarzian masses at the preimages of the junctions scaled by the later maps' derivatives, and then show the
 junction form of Theorem 5.3 as the special case that holds under hypothesis (H). Implementing only the
-junction form would teach a false theorem: (H) fails whenever a step conditions on a union of chain intervals
-or the chain starts from a single interval, and in every such configuration the naive corner measure is wrong.
-The module therefore flags a failing configuration rather than silently drawing the wrong masses. Theorem 5.2
+junction form would teach a false theorem: (H) can fail when a step conditions on a union of chain intervals or
+the chain starts from a single interval, and where it fails the naive corner measure is wrong. It does not
+always fail in those shapes: VWZ 1(A) and 1(B) both condition on a union and both satisfy (H), 1(B) because its
+two corners coincide, while "add D on C, then A on BC" does not. The module therefore tests (H) itself rather
+than inferring it from the shape of the protocol, and flags a failing configuration rather than silently
+drawing the wrong masses. Theorem 5.2
 is no more expensive in JavaScript than Theorem 5.3. For the same reason the Protocol 3 panel must say that
 its map equals the over-compressed Theorem-A map up to post-composition with a global Möbius map, which is
 why the two agree as fidelities and differ as point maps.
