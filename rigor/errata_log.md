@@ -233,3 +233,23 @@ no limit because of the second Fermi point); (ii) theta_circ rises linearly in l
 1/L Richardson extrapolation used the wrong variable. S10's qualitative conclusions (theta > 0, compression not the second-order
 minimiser) stand and strengthen; every quantitative use of 0.30 / 0.71 is being replaced by 0.384 +- 0.003 / 0.616 +- 0.003
 (propagation list in rigor/PHASE5_STATUS.md). S10 itself is left as the historical record.
+
+## 2026-09-21 — S10 (sdp_dual_certificate.tex): the taper-independence claim is refuted
+
+Found by REF-P0-TAPER while reviewing `circle-model-taper-suppresses-theta`, a Phase 5 card that had
+never been refereed. S10's note N2 (l. 911-913) asserts that theta is "ultraviolet-taper independent",
+and its verdict box (l. 861-863) asserts stability "in L, ... in the ultraviolet taper". Both are false:
+at fixed smoothstep transition width 0.12 theta rises monotonically as the taper is relaxed, at every L
+measured (L=256: 0.27762, 0.28958, 0.36178; L=512: 0.28986, 0.29511, 0.32313; L=768: 0.29569, 0.29898,
+0.31573), and the widest window that passes S10's own admission gate, uv = (0.25,0.49), gives 0.36040.
+
+What still stands: S10's proofs P1-P5, and every qualitative conclusion drawn from theta > 0, namely that
+(S) fails, that the compression is not the second-order minimiser, and the bound E^(2) <= (1-theta) f2 z^2.
+Only the value moved, from 1 - theta = 0.70 to 0.616 +- 0.003. S10's N3 non-perturbative 0.705 is a
+consistency check of the tapered model, not a measurement of 1 - theta.
+
+Two further corrections to the card, both of causal attribution rather than of data: the |u|^2 = 0.02731
+and 0.62691 of the two narrow windows are a transition-sharpness (Gibbs) artifact and not the second Fermi
+point, since the same upper edge with a wider transition gives a healthy 0.007628; and the untapered model
+is stable in L (|u|^2 = 0.014889, 0.014912, 0.014921), so "destroys the model" was wrong. It doubles the
+Fermi sea, ratio 2.016, and answers a different question.
