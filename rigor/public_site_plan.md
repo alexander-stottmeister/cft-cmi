@@ -203,11 +203,11 @@ workflow compiles without the excerpts, so it also proves continuously that a pu
 
 | phase | work | agent | referee |
 |---|---|---|---|
+| P0 | referee pass on `circle-model-taper-suppresses-theta`, which has never been reviewed | one Opus referee | it is itself the pass |
 | P1 | `tools/make_figures.py`, figures F1-F5, README rewritten | one Opus agent | one pass, checks every number in a caption against its source |
 | P2 | `tools/build_docs.py`, the eight documentation pages, the drift check | one Opus agent | one pass, checks generation is faithful and statuses are not upgraded |
 | P3 | site skeleton, shared `lib/`, modules 1, 2, 6 | one Opus agent | one pass, including that no module displays an unsourced number |
 | P4 | modules 3, 4, 5, 7, 8, 9, 10 | two Opus agents in parallel, disjoint module sets | one pass over both |
-| P0 | referee pass on `circle-model-taper-suppresses-theta`, which has never been reviewed | one Opus referee | it is itself the pass |
 | P5 | Makefile, Actions workflow, Pages enablement | orchestrator | the workflow is its own check |
 
 P0 must precede P4, because module 5 is built around a card that has never been refereed and the display rule
