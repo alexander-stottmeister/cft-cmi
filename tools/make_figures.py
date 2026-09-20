@@ -805,8 +805,7 @@ def fig_theta_ladder() -> Path:
     g.text(lx + 12, ly + 38, "Richardson line through the finest point",
            "note")
 
-    # ---- the superseded circle model, on the same theta axis
-    cx = Axes(g, 580, 86, 140, 268, (0.0, 2.0), (0.27, 0.40))
+        cx = Axes(g, 580, 86, 140, 268, (0.0, 2.0), (0.27, 0.40))
     cx.ygrid(yt), cx.box()
     g.text(cx.x + cx.w / 2, cx.y - 10, "circle model", "note", "middle")
     taper = dict(t["taper"])
@@ -836,14 +835,13 @@ def fig_theta_ladder() -> Path:
         f"{t['circle']:.3f} ± {t['circle_err']:.3f}: a taper-suppressed "
         f"LOWER BOUND, not a competing limit.",
         f"Relaxing the taper at L = 256 from (0.30,0.42) to (0.35,0.47) "
-        f"moves θ from {lo_t} to {hi_t} (§5(b)); the model has no "
-        f"taper-free limit, and superseded by the reconciliation.",
+        f"moves θ from {lo_t} to {hi_t} (§5(b)), and the model has no "
+        f"taper-free limit: its value is superseded, not a competing one.",
     )):
         g.text(24, 422 + 17 * i, line, "note")
     return g.write("theta-ladder.svg")
 
 
-# ---- the superseded circle model, on the same theta axis
 
 
 # --------------------------------------------------------------------------

@@ -109,7 +109,8 @@ lattice/continuum ratio there is `1.0316`, not an extrapolation, so no error bar
 `conjectural`. The relative-entropy coefficient `s₂ = c/12` is not proved. The bracket
 `0.0338c ≤ liminf s⁻²D ≤ limsup ≤ 0.924c` is not proved outright either: the upper end,
 `(11+5√5)c/24 = 0.92418c`, holds under hypothesis (V), which is itself open, and the lower end
-rests on a result of Araki taken from an obtainable source rather than reproved
+rests on results of Araki whose sources were NOT OBTAINED, so it too is carried as a hypothesis
+(Gap RK2 of the same document)
 ([`rigor/kubo_mori_gauge_lemma.tex`](rigor/kubo_mori_gauge_lemma.tex)); the fermion measures
 `0.0837(5)` and the boson `0.083(2)`, both consistent with `c/12 = 0.0833333`.
 
@@ -139,13 +140,14 @@ the cone hypothesis reducing the whole cone of admissible generators to two boun
 (proved for vector fields, a declared hypothesis otherwise). Drop them and what remains is the
 isometric upper bound together with the dual lower bound — with `θ` still numerical.
 
-![θ against mesh width plotted as h^0.77, extrapolating to 0.384 ± 0.003, beside the superseded circle-model value](docs/assets/theta-ladder.svg)
+![θ against mesh width plotted as h^0.77, extrapolating to 0.384 ± 0.003, beside the circle-model value it supersedes](docs/assets/theta-ladder.svg)
 
 **Figure F4.** `numerical`. Two independent discretisations — the modular Galerkin frame at
 `a = 1, L = 2` and the geometry-free T0 Wiener–Hopf frame — on the axis `h^0.77`, the measured
 convergence order (`0.77 ± 0.02`, five mesh families). The `h → 0` Richardson closure is
 `θ = 0.384 ± 0.003` (family spread `0.3835–0.3847`; finest point `θ = 0.37442` at `h = 0.02`).
-Beside it, `superseded`: the spectral circle model with the S10 ultraviolet taper gives
+Beside it, superseded by the reconciliation (though no card carries that status): the spectral
+circle model with the S10 ultraviolet taper gives
 `θ = 0.300 ± 0.005`, which is a **taper-suppressed lower bound**, not a competing limit —
 relaxing the taper window at `L = 256` from `(0.30,0.42)` to `(0.35,0.47)` already moves `θ` from
 `0.28958` to `0.36178`, and the model has no taper-free limit. All values from
@@ -211,8 +213,10 @@ The four figures below are `numerical`, kept as PNG where they are and not regen
 hopping chain in ball arithmetic, up to 72 sites: the apparent exponents `p` of `−log F ~ η^p` are
 `1.986, 1.912, 1.635, 1.151` at `λ = 0, 0.5, 1, 1.5`, against Vardhan–Wei–Zou's `2.00, 1.90, 1.70,
 1.20` (table [3]). The two-branch prediction built from the lattice `Φ` itself reproduces
-`−log F` to ratios `0.969`–`0.990` at `λ = 0.5, 1, 1.5` (table [2]; the `λ = 0` entry is `1.0000`
-by definition, since `Φ_lat` is defined as `½(−log F⁰)` there), and the fixed-`L` two-branch ratio drifts as `1 − 0.15/L`
+`−log F` to within 3% over the nine geometries with `η_V ≤ 0.02`: ratio `0.9686`–`0.9953` at
+`λ = 0.5`, `0.9715`–`0.9907` at `λ = 1`, `0.9795`–`0.9917` at `λ = 1.5` (table [2]). The window
+matters: over all 52 geometries the ratio falls to `0.82`, `0.64` and `0.41`. The `λ = 0` entry is
+`1.0000` by definition, since `Φ_lat` is defined as `½(−log F⁰)` there. And the fixed-`L` two-branch ratio drifts as `1 − 0.15/L`
 (measured `L(1−ratio) = 0.1525, 0.1444, 0.1357` at `L = 4, 6, 8`, table [8])
 ([`numerics/lattice/petz_lattice.out`](numerics/lattice/petz_lattice.out)).
 

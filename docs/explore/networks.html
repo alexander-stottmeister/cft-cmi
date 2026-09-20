@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recovery networks and the holonomy &mdash; cft-cmi module 6</title>
+<meta name="description" content="Build a chain of adjacent intervals, pick a recovery protocol, animate each step's parabolic compression and watch the Schwarzian point masses accumulate.">
+<link rel="stylesheet" href="../lib/site.css">
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<script defer src="../lib/katex/katex.min.js"></script>
+<style>
+  .verdict { border-radius: 8px; padding: .7rem .9rem; margin: .8rem 0; border: 1px solid; }
+  .verdict.ok { border-color: var(--proved); background: var(--proved-bg); }
+  .verdict.bad { border-color: var(--conditional); background: var(--conditional-bg); }
+  .verdict p { margin: .3rem 0; }
+  .steps td.num { font-family: var(--mono); }
+  .flag { font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .03em; }
+  .flag.displaced { color: var(--numerical); }
+  .flag.swallowed { color: var(--open); }
+  .flag.junction { color: var(--proved); }
+  .playrow { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; margin-top: .6rem; }
+  .playrow button { font: inherit; font-size: .85rem; padding: .3rem .8rem; cursor: pointer;
+    background: var(--panel); color: var(--fg); border: 1px solid var(--line); border-radius: 5px; }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="geometry.html">Module 1</a>
+    <a href="quadratic-law.html">Module 2</a>
+    <a href="../lib/mobius.test.html">Unit tests</a>
+    <a href="../index.md">Documentation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+
+<main class="wrap" id="main">
+<h1>Module 6 &mdash; Recovery networks and the holonomy</h1>
+<p class="lede">Recover a long chain one interval at a time. Each step is a parabolic compression
+toward a corner; the whole protocol composes to a C&sup1; piecewise-M&ouml;bius map, and the recovered
+state depends on that map only through its Schwarzian, which is a finite sum of point masses. The
+question this module answers is <em>where those masses sit</em> &mdash; which is not always at the
+junctions.</p>
+
+<div class="claim">
+  <div class="claim-head"><span class="badge proved">proved</span>
+    <span class="claim-title">Theorem 5.2 &mdash; the general transformation rule, no hypothesis</span></div>
+  <p>With <span data-tex="\Phi=k_1\circ\cdots\circ k_N">&Phi; = k&#8321; &compfn; &middot;&middot;&middot; &compfn; k<sub>N</sub></span>
+    (the <em>first</em> step outermost) and
+    <span data-tex="G_m:=k_{m+1}\circ\cdots\circ k_N">G<sub>m</sub> := k<sub>m+1</sub> &compfn; &middot;&middot;&middot; &compfn; k<sub>N</sub></span>,
+    <span data-display data-tex="\mathrm{Sch}(\Phi)=-2\!\!\sum_{m:\,p^{(m)}\in G_m(J_N)}\!\!\sigma_m\,G_m'(x_m)\,\delta_{x_m},\qquad x_m=G_m^{-1}(p^{(m)}).">Sch(&Phi;) = &minus;2 &sum;<sub>m</sub> &sigma;<sub>m</sub> G&prime;<sub>m</sub>(x<sub>m</sub>) &delta;<sub>x<sub>m</sub></sub>, &nbsp; x<sub>m</sub> = G<sub>m</sub><sup>&minus;1</sup>(p<sup>(m)</sup>), &nbsp; summed over those m with p<sup>(m)</sup> in the range of G<sub>m</sub>.</span>
+    The mass sits at the <em>preimage</em> of the corner under the later steps and is scaled by their
+    <em>derivative</em>. A corner outside the range of <span data-tex="G_m">G<sub>m</sub></span>
+    contributes nothing at all. This module always draws this rule.</p>
+  <p class="provenance">Where this comes from:
+    <a href="../results/corner-calculus.md">claim page</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/network_corner_calculus.tex#L622" rel="noopener">rigor/network_corner_calculus.tex:622 (thm:general)</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/g1a_calculus.py" rel="noopener">rigor/g1a_calculus.py</a> &middot;
+    <a href="../lib/mobius.test.html">the browser unit tests</a></p>
+</div>
+
+<div class="claim">
+  <div class="claim-head"><span class="badge conditional">conditional</span>
+    <span class="claim-title">Theorem 5.3 &mdash; the junction form, under hypothesis (H)</span></div>
+  <p><strong>(H)</strong>: no <em>earlier</em> corner lies in the interior of a <em>later</em> step's
+    moving part <span data-tex="M_{m'}=A_B^{(m')}\cup A_{\rm new}^{(m')}">M<sub>m&prime;</sub> = A<sub>B</sub> &cup; A<sub>new</sub></span>.
+    Under (H) and only under it,
+    <span data-display data-tex="\mathrm{Sch}(\Phi)=-2\sum_k\kappa_k\,\delta_{p_k},\qquad \kappa_k=\!\!\sum_{m:\,p^{(m)}=p_k}\!\!\sigma_m,">Sch(&Phi;) = &minus;2 &sum;<sub>k</sub> &kappa;<sub>k</sub> &delta;<sub>p<sub>k</sub></sub>, &nbsp; &kappa;<sub>k</sub> = &sum; &sigma;<sub>m</sub> over the steps whose corner is p<sub>k</sub>,</span>
+    the masses sit on the junctions, and the order of the steps carries no information.</p>
+  <p class="hypo">(H) is tested on the configuration you build, never inferred from the shape of the
+    protocol. It can fail when a step conditions on a union of chain intervals, or when the chain
+    starts from a single interval &mdash; but it does not always fail in those shapes: VWZ 1(A) and
+    1(B) both condition on a union and both satisfy it, 1(B) because its two corners coincide.</p>
+  <p class="provenance">Where this comes from:
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/network_corner_calculus.tex#L658" rel="noopener">rigor/network_corner_calculus.tex:658 (thm:corner)</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/network_corner_calculus.tex#L712" rel="noopener">:712 (sufficient conditions)</a></p>
+</div>
+
+<div class="claim">
+  <div class="claim-head"><span class="badge proved">proved</span>
+    <span class="claim-title">Why the Schwarzian is the whole answer</span></div>
+  <p>Two maps with the same Schwarzian differ by a global M&ouml;bius map without a pole on the open
+    image interval, and the vacuum is M&ouml;bius invariant, so they induce the same state. Hence:
+    equal corner measure &rArr; equal recovered state, equal fidelity, equal relative entropy. And
+    since every mass is negative and the last step is never swallowed, a protocol whose last step
+    keeps a non-empty part never recovers the vacuum exactly.</p>
+  <p class="provenance">Where this comes from:
+    <a href="../results/vacuum-rigidity-exact-recovery.md">exact recovery never happens</a> &middot;
+    <a href="../results/vwz-protocol-ordering.md">protocol ordering</a> &middot;
+    <a href="../results/protocol-corner-data-n4-n5.md">corner data for n = 4, 5</a></p>
+</div>
+
+<figure class="no-js">
+  <img src="../assets/corner-calculus.svg" alt="A chain of adjacent intervals, three recovery protocols, and the Schwarzian point masses each produces.">
+  <figcaption>A chain, three protocols and the Schwarzian point masses they produce. With JavaScript
+    enabled the same picture is built step by step from the M&ouml;bius algebra in your browser, and
+    hypothesis (H) is tested on whatever configuration you make.</figcaption>
+</figure>
+<p class="no-js">The two ways (H) can fail are Examples 5.5 and 5.6 of the rigor document: a mass that
+moves off its junction to its preimage under the later steps, and a corner that a later step swallows
+so that it contributes nothing. Both are reproduced, with the document's own numbers, in
+<a href="../lib/mobius.test.html">the unit tests</a>.</p>
+
+<div class="js-only">
+<div class="panel">
+  <div class="controls">
+    <div class="control">
+      <label for="iproto">Protocol</label>
+      <select id="iproto">
+        <optgroup label="one-sided, single-interval conditioning">
+          <option value="LR" selected>left to right</option>
+          <option value="RL">right to left</option>
+          <option value="MO">middle out</option>
+        </optgroup>
+        <optgroup label="Vardhan&ndash;Wei&ndash;Zou (n = 4)">
+          <option value="V1A">1(A): B &rarr; BCD</option>
+          <option value="V1B">1(B): B &rarr; BC, BC &rarr; BCD</option>
+          <option value="V2">2: B &rarr; BC, C &rarr; CD</option>
+          <option value="V3">3: B &rarr; AB, C &rarr; CD</option>
+        </optgroup>
+        <optgroup label="where (H) fails (the document's own examples)">
+          <option value="EXD">Example 5.5: union conditioning, mass displaced</option>
+          <option value="EXS">Example 5.6: single-interval start, corner swallowed</option>
+        </optgroup>
+      </select>
+      <span class="hint" id="protohint"></span>
+    </div>
+    <div class="control">
+      <label for="in">Chain length n</label>
+      <input id="in" type="range" min="3" max="6" step="1" value="4">
+      <span class="hint" id="nhint">4 intervals, 5 chain points</span>
+    </div>
+    <div class="control">
+      <label for="it">Modular rotation t</label>
+      <input id="it" type="range" min="0" max="1.5" step="0.005" value="0">
+      <span class="hint" id="thint">t = 0: the ordinary Petz map, s = 2&lambda;</span>
+    </div>
+  </div>
+  <div class="controls" id="lengths" style="margin-top:.6rem"></div>
+  <div class="playrow">
+    <button id="play" type="button">Play</button>
+    <button id="stepb" type="button">Step</button>
+    <button id="reset" type="button">Reset</button>
+    <label for="istep" style="font-size:.85rem">stage</label>
+    <input id="istep" type="range" min="0" max="1" step="0.01" value="1" style="flex:1 1 12rem">
+    <span class="hint" id="stagehint"></span>
+  </div>
+</div>
+
+<div class="panel">
+  <h3 style="margin-top:0">The chain and its image</h3>
+  <svg id="chain" role="img" aria-label="The chain of intervals and its image under the composite recovery map"></svg>
+</div>
+
+<div class="panel">
+  <h3 style="margin-top:0">The Schwarzian masses</h3>
+  <svg id="masses" role="img" aria-label="Schwarzian point masses of the composite map, at their positions on the chain"></svg>
+  <div id="hverdict"></div>
+  <div class="readout" id="out"></div>
+</div>
+
+<div class="panel">
+  <h3 style="margin-top:0">The steps, and Theorem 5.2 applied to each</h3>
+  <table class="steps"><thead><tr>
+    <th>m</th><th>conditions on</th><th>adjoins</th><th class="num">&sigma;<sub>m</sub></th>
+    <th class="num">corner p<sup>(m)</sup></th><th class="num">x<sub>m</sub></th>
+    <th class="num">G&prime;<sub>m</sub>(x<sub>m</sub>)</th><th class="num">mass</th><th></th>
+  </tr></thead><tbody id="steptable"></tbody></table>
+  <p class="provenance" id="crosscheck"></p>
+</div>
+
+<div class="panel" id="p3panel" hidden>
+  <h3 style="margin-top:0">Protocol 3: the same fidelity, a different point map</h3>
+  <p>Both steps compress toward the same corner <span data-tex="p_3">p&#8323;</span>, one from the left
+    and one from the right. They commute, so the two orders give literally the same point map, and its
+    Schwarzian is a single mass <span data-tex="-2(\sigma_1+\sigma_2)">&minus;2(&sigma;&#8321;+&sigma;&#8322;)</span>.</p>
+  <p><strong>The point maps are not equal.</strong>
+    <span data-tex="\Phi^{(3)}=M\circ\mathrm R_{p_3,\sigma_1+\sigma_2}">&Phi;<sup>(3)</sup> = M &compfn; R<sub>p&#8323;, &sigma;&#8321;+&sigma;&#8322;</sub></span>
+    with <span data-tex="M\in\mathrm{M\ddot ob}">M</span> a <em>global</em> M&ouml;bius map: the
+    over-compressed Theorem-A step agrees with Protocol 3 only up to post-composition with it. That is
+    exactly why the two agree as <em>fidelities</em> &mdash; the vacuum does not see a global M&ouml;bius
+    map &mdash; and differ as <em>point maps</em>.</p>
+  <div class="readout" id="p3out"></div>
+  <p class="provenance">Where this comes from:
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/network_corner_calculus.tex#L1219" rel="noopener">rigor/network_corner_calculus.tex:1219 (thm:prot3)</a> &middot;
+    <a href="../results/vwz-protocol-ordering.md">claim page</a></p>
+</div>
+</div>
+
+<h2>The two ways (H) fails</h2>
+<p>Choose either example in the protocol menu to see it built. Both are taken from the rigor document,
+and the numbers the document prints are shown beside the ones your browser computes.</p>
+<ul>
+<li><strong>Displaced</strong> (Example 5.5): a later step conditions on a union, its moving part
+  swallows an earlier corner's neighbourhood, and the earlier mass moves to
+  <span data-tex="x_m=G_m^{-1}(p^{(m)})">x<sub>m</sub> = G<sub>m</sub><sup>&minus;1</sup>(p<sup>(m)</sup>)</span>
+  and is rescaled by <span data-tex="G_m'(x_m)<1">G&prime;<sub>m</sub>(x<sub>m</sub>) &lt; 1</span>. The
+  total mass is smaller than the naive corner measure &mdash; in the document's configuration, 71% of it.</li>
+<li><strong>Swallowed</strong> (Example 5.6): the chain starts from a <em>single</em> interval, so the
+  first step is degenerate and its corner is the far end of the block. The second step's image does not
+  contain that corner at all, so the first step contributes nothing: the whole of it is undone by a
+  global M&ouml;bius map and leaves the recovered state unchanged. Both conditioning regions here are
+  single chain intervals, which is why single-interval conditioning alone does <em>not</em> imply (H).</li>
+</ul>
+</main>
+
+<footer class="site"><div class="wrap">
+  <p>Module 6 of <a href="../index.html">the cft-cmi site</a>. The M&ouml;bius algebra is
+    <code>docs/lib/mobius.js</code>; its <a href="../lib/mobius.test.html">unit tests</a> check it
+    against the rigor document's worked examples in your browser.</p>
+</div></footer>
+
+<script type="module">
+import { Plot, el as svgEl, fmt } from '../lib/plot.js';
+import { initTheme, enableJS, loadData, renderRecord, renderMath, failNotice, el as h } from '../lib/ui.js';
+import { pmStep, pmEval, pmSchwarzian, composeSteps, theoremGeneral, hypothesisH,
+         cornerMeasure, betaI, thetaT, sigmaOf, parabolicLeft, apply } from '../lib/mobius.js';
+
+initTheme(document.querySelector('button.theme'));
+renderMath(document);
+window.addEventListener('load', () => renderMath(document));
+
+const S = { proto: 'LR', n: 4, lens: [1.4, 1.0, 1.2, 0.9, 1.1, 1.0], t: 0, stage: 1, playing: false };
+let NET = null;                       // docs/data/networks.json, the document's own numbers
+
+// ---------------------------------------------------------------- protocols
+const PROTOS = {
+  LR:  { label: 'left to right', hint: 'start from A₁A₂, adjoin each interval on the right, conditioning on the one before it' },
+  RL:  { label: 'right to left', hint: 'start from the last pair, adjoin each interval on the left' },
+  MO:  { label: 'middle out', hint: 'start from the middle pair and alternate right, left, right, …' },
+  V1A: { label: 'VWZ 1(A)', n: 4, hint: 'one step: condition on B, adjoin CD — a union, and (H) holds because N = 1' },
+  V1B: { label: 'VWZ 1(B)', n: 4, hint: 'condition on B then on the union BC; (H) holds because both corners are p₂' },
+  V2:  { label: 'VWZ 2', n: 4, hint: 'B → BC then C → CD; single-interval conditioning from a starting pair' },
+  V3:  { label: 'VWZ 3', n: 4, hint: 'start from BC, adjoin A on the left and D on the right: a double corner at p₃' },
+  EXD: { label: 'Example 5.5', n: 4, lens: [1.3, 2.1, 0.9, 1.7],
+         hint: 'the document’s counterexample: step 2 conditions on the union A₂A₃ and displaces the first mass' },
+  EXS: { label: 'Example 5.6', n: 3, lens: [1, 1, 1],
+         hint: 'the document’s second counterexample: the chain starts from the single interval A₂' }
+};
+
+function plan(n) {
+  switch (S.proto) {
+    case 'LR': { const r = []; for (let k = 2; k < n; k++) r.push([k - 1, k - 1, k, k]); return { J0: [0, 1], raw: r }; }
+    case 'RL': { const r = []; for (let k = n - 3; k >= 0; k--) r.push([k + 1, k + 1, k, k]); return { J0: [n - 2, n - 1], raw: r }; }
+    case 'MO': {
+      const m = Math.floor((n - 2) / 2); let lo = m, hi = m + 1; const r = [];
+      while (hi < n - 1 || lo > 0) {
+        if (hi < n - 1) { r.push([hi, hi, hi + 1, hi + 1]); hi++; }
+        if (lo > 0) { r.push([lo, lo, lo - 1, lo - 1]); lo--; }
+      }
+      return { J0: [m, m + 1], raw: r };
+    }
+    case 'V1A': return { J0: [0, 1], raw: [[1, 1, 2, 3]] };
+    case 'V1B': return { J0: [0, 1], raw: [[1, 1, 2, 2], [1, 2, 3, 3]] };
+    case 'V2':  return { J0: [0, 1], raw: [[1, 1, 2, 2], [2, 2, 3, 3]] };
+    case 'V3':  return { J0: [1, 2], raw: [[1, 1, 0, 0], [2, 2, 3, 3]] };
+    case 'EXD': return { J0: [1, 2], raw: [[2, 2, 3, 3], [1, 2, 0, 0]] };
+    case 'EXS': return { J0: [1, 1], raw: [[1, 1, 2, 2], [1, 1, 0, 0]] };
+  }
+}
+
+function mkStep(p, ABlo, ABhi, NEWlo, NEWhi, theta) {
+  const side = NEWlo > ABhi ? 'R' : 'L';
+  const lB = p[ABhi + 1] - p[ABlo], lNew = p[NEWhi + 1] - p[NEWlo];
+  return {
+    ABlo, ABhi, NEWlo, NEWhi, side, lB, lNew,
+    p: side === 'R' ? p[ABlo] : p[ABhi + 1],
+    sigma: sigmaOf(lB, lNew, theta),
+    moving: side === 'R' ? [p[ABlo], p[NEWhi + 1]] : [p[NEWlo], p[ABhi + 1]]
+  };
+}
+
+function analyse() {
+  const n = S.n, lens = S.lens.slice(0, n);
+  const p = [0]; for (const L of lens) p.push(p[p.length - 1] + L);
+  const { J0, raw } = plan(n);
+  const theta = thetaT(S.t);
+  const steps = raw.map(r => mkStep(p, r[0], r[1], r[2], r[3], theta));
+  const blocks = [J0.slice()];
+  let lo = J0[0], hi = J0[1];
+  for (const r of raw) { lo = Math.min(lo, r[2]); hi = Math.max(hi, r[3]); blocks.push([lo, hi]); }
+  const N = steps.length;
+  const dom = [p[blocks[N][0]], p[blocks[N][1] + 1]];
+  const H = hypothesisH(steps);
+  const T52 = theoremGeneral(steps, dom);
+  const T53 = cornerMeasure(steps);
+  const sch = pmSchwarzian(composeSteps(steps, dom));
+  const naive = -2 * steps.reduce((a, s) => a + s.sigma, 0);
+  const total = T52.reduce((a, g) => a + g.mass, 0);
+  return { n, lens, p, J0, raw, steps, blocks, N, dom, H, T52, T53, sch, naive, total, theta };
+}
+
+function partial(A, st) {
+  const mFull = Math.floor(st + 1e-9), f = st - mFull;
+  const run = f > 1e-9 && mFull < A.N;
+  const steps = A.steps.slice(0, mFull);
+  if (run) steps.push(Object.assign({}, A.steps[mFull], { sigma: f * A.steps[mFull].sigma }));
+  const b = A.blocks[Math.min(A.N, run ? mFull + 1 : mFull)];
+  const dom = [A.p[b[0]], A.p[b[1] + 1]];
+  const map = steps.length ? composeSteps(steps, dom) : null;
+  return { steps, dom, map, mFull, f, run, running: run ? A.steps[mFull] : null };
+}
