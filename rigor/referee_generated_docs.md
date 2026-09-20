@@ -1,0 +1,40 @@
+# Referee report — generated-docs (REF-DOCS-1, 2026-09-21)
+
+Scope: `tools/build_docs.py` (1309 lines) and the 65 pages it generates. Excluded as under concurrent edit: `README.md`, `docs/{assets,index.html,explore,lib,data}`.
+
+| claim on card `generated-docs` | measured independently | |
+|---|---|---|
+| 65 files | 65 = 7 top-level + 58 `results/`, all git-tracked | ok |
+| 58 qualifying claims | 58; every card with a page status has exactly one page, no orphans | ok |
+| 30 proved, 3 refereed, 22 numerical, 3 conjectural | 30 / 3 / 22 / 3 (21 numerical in `claims/` + 1 in `evidence/`) | ok |
+| 22nd numerical = `circle-model-taper-suppresses-theta` | confirmed, promoted from `evidence/` | ok |
+| 36 source rows | 36 (38 table lines − header − rule) | ok |
+| 20 fetchable | 20; `refs/restore.sh --list` independently reports 20 | ok |
+| 9 open access, 7 library-only | 9 / 7 by the script's keyword rule; 2 of the 16 not derivable | D2 |
+| 8 private pointers render as held-privately | 8 detected, **6 render** (7 bullets on 6 pages) | D3 |
+| `make check` calls `--check` | **no Makefile exists**, on disk or tracked | D1 |
+| 0 dead links, 0 non-public targets, 0 missing anchors | 783 internal links: 0 / 0 / 0 | ok |
+
+**Faithfulness — all 58 pages, not a sample.** Statement and How-to-verify are byte-identical to the card after reversing the escaping; every `evidence:` and `related:` token is rendered; the badge is the card's own status. 0 problems in 58. Read in full: `thm-a-quadratic-law`, `thm-b-universality` (refereed), `corner-calculus`, `sequential-recovery-bound-type-iii` (proved), `all-channel-optimum-value`, `circle-model-taper-suppresses-theta` (numerical), `conj-s2`, `vwz-protocol-ordering` (conjectural). Nothing paraphrased, truncated or upgraded; Notes and referee reports are withheld, and the page says so.
+
+**Rule (a).** `all-channel-optimum-value` H1,H2,H3; `corner-calculus` (H); `sequential-recovery-bound-type-iii` (U) — each quoted under *Hypotheses* with **Conditional** in the status line. The negation guard is real: `vacuum-rigidity-exact-recovery` ("needs neither hypothesis (H)") is correctly not flagged. See D5.
+**Rule (b).** `Repo.classify` asks `git -C <root> ls-files` and aborts if git is unavailable; no hardcoded list. 8 distinct private targets: `refs/{Sion1958_minimax, BJL_twisted_duality_math-ph-0204029, AlbertiUhlmann02_math-ph-0202038, CDIT_1808.02384, Uhlmann76, VWZ_2307.14434}.pdf`, `PRIVATE.md`, `CHECKLIST.md`. None is linked anywhere. See D3.
+**Rule (c).** Tested on a temp KB copy with `review:` stripped from `gap-law`: marked in four places (page banner, Review section, `status.md` row and its count, `index.md` list). Works.
+
+**Drift guard.** clean tree → 0. One byte in `index.md` → 1. Stale `results/` page → 1. Deleted `results/` page → 1. Card edited in the KB → 1. Four of four. Two holes: D4.
+
+## Defects, with the exact repair
+
+**D1 (blocking, false claim).** The card says "`make check` calls it" and all 65 pages carry `Do not edit by hand: run \`make docs\``. There is no `Makefile`, `makefile` or `GNUmakefile` in the tree and none is tracked, so both commands fail. Repair: add the `Makefile` of `rigor/public_site_plan.md` §4 with at least `docs:` and `check:` targets, or replace both strings with `tools/build_docs.py` and drop the `make check` clause from the card.
+
+**D2 (blocking, unadmitted limitation).** The 9/7 split is a keyword read of the free-text Source column, and `sources.md` never says so; the card states it as fact and as "cross-checked against a live run of `restore.sh --list`", which can only confirm the 20/16 fetchable split, as the page itself admits. Two rows are not derivable: `DaleckiiKrein` ("any open source, e.g. arXiv surveys") is filed as "freely readable at the publisher (Project Euclid, EMS Press / PRIMS)" — false, the row names no publisher; `Petz96` ("maybe not on arXiv (flag)") is hardened from a *maybe* into "paywalled journal or a book" by the default branch of `classify_source`. Repair: add one sentence after "Three ways to obtain a row" — "The fetchable column is `refs/restore.sh`'s own answer; the split of the remaining 16 rows into open access and library access is read off the words of the Source column and is a best guess, wrong for any row whose Source column does not name its publisher" — and amend the card to "16 not fetchable, split 9/7 by a keyword heuristic that `restore.sh` cannot check".
+
+**D3 (blocking, false count as worded).** "the 8 privately held targets … render as 'held privately, not redistributed'" is true of 6 of them. `PRIVATE.md` and `CHECKLIST.md` are cited only by `repo-split-public-private` (status `active`, no page), so they are detected by the sweep and rendered nowhere. Repair: "8 privately held evidence targets are detected by the `git ls-files` test; the 6 source PDFs among them render as *held privately, not redistributed* on 7 bullets across 6 result pages, and `CHECKLIST.md` and `PRIVATE.md` are cited only by a card that has no page."
+
+**D4 (guard hole, not blocking on the four required cases).** Setting `<!-- hand-edited: yes -->` removes the file from the comparison entirely: with `notation.md` marked and its opening paragraph replaced by a falsehood, `--check` printed "64 pages up to date" and exited 0 — and `--quiet`, the form a Makefile would use, suppresses even the "left untouched" note. Separately, `check()` scans only `results/` for extras, so an orphan top-level page (`docs/orphan-page.md`) passes. Repair: keep hand-edited files in the comparison as a warning that is printed under `--quiet` and carries the source mtimes, or hash the three conventions sources into the marker line and fail when they move; and extend the extra-file scan to `docs/*.md`.
+
+**D5 (minor).** The conditional flag is raised only for labelled hypotheses, so `compression-not-optimal-exact-fidelity` ("CONDITIONAL on a test family …"), `exact-fidelity-optimality-open` and `vwz-protocol-ordering` ("CONDITIONAL on the second-order network law") get no *Hypotheses* section and no **Conditional** in the status line. Nothing is lost — the clause is in the verbatim Statement and all three are `numerical` or `conjectural` — but the card should say the rule is label-driven. Also `notation.md` and `definitions.md` admit only that they are "a first assembly awaiting a human pass"; they do not say that the LaTeX conversion is mechanical and unchecked, nor that the symbol table and the symbol-coverage checker of plan §3 do not exist. The conversion is visibly broken at `notation.md:112`, where the tabular column spec leaks into the header cell as `| llp{0.44\textwidth}@{}} Constant |`, because `tabular_to_md`'s `\{[^}]*\}` cannot match `p{0.44\textwidth}`. Repair: one sentence on both pages — "These two pages are a mechanical conversion of the LaTeX appendices; they are not a symbol table and nothing checks that every symbol used under `results/` appears here" — and widen the tabular preamble match.
+
+**Honest omissions, verdict.** The history page admits its own limit where a reader sees it ("The lead of every entry … is reproduced below; each phase links to its full file"), and the truncation is harmless: of 14 truncated bullets only one drops a hedged tail, and that lead is itself a correction notice. The other two admissions are missing or partial: D2 and D5.
+
+`public-site-plan`: the P2 progress note is accurate as written — 65 files, 7 + 58, the three drift experiments, the hypothesis and private-pointer lists, 0 dead links — and it defers the Makefile explicitly rather than claiming it. It inherits none of D1–D3, which are wordings of `generated-docs`. Pass.

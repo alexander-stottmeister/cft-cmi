@@ -736,7 +736,14 @@ def sources_page(repo_root: Path, warnings: list) -> str:
                                 f"disagree about {cells[0]}")
 
     n = len(rows)
+    heuristic_note = (
+        "The split between *open access* and *needs library access* is a **guess**, not a "
+        "measurement: `refs/restore.sh` reports both as MANUAL, so this page classifies them "
+        "by keywords in the Source column of `refs/REFERENCES.md`. Expect misfilings; at the "
+        "time of writing `DaleckiiKrein` and `Petz96` are two of them. Only the *fetchable* "
+        "group is verified, by comparison with a live `refs/restore.sh --list`.")
     out = [BANNER, "", "# External sources, and whether you can obtain them", "",
+           heuristic_note, "",
            f"This page covers **the {n} table rows of "
            "[`refs/REFERENCES.md`](../refs/REFERENCES.md)**. It is *not* a list "
            "of every external result the project relies on: further sources are "
@@ -1133,7 +1140,7 @@ def index_page(claims: list, areas: dict, by_id: dict, pages: set, counts) -> st
 # assembling, writing, checking
 # --------------------------------------------------------------------------- #
 
-HAND_EDIT_MARKER = re.compile(r"^\s*<!--\s*hand-edited:\s*(yes|true)\s*-->\s*$",
+HAND_EDIT_MARKER = re.compile(r"^[ \t]*<!--[ \t]*hand-edited:[ \t]*(yes|true)[ \t]*-->[ \t]*$",
                               re.IGNORECASE)
 
 
@@ -1228,8 +1235,20 @@ def check(files: dict, docs: Path) -> int:
             rel = f"results/{path.name}"
             if rel not in files:
                 extra.append(rel)
+    for path in sorted(docs.glob("*.md")):          # orphan top-level pages
+        if path.name not in files:
+            extra.append(path.name)
+    skipped = []                                     # hand-edited pages leave the guard
+    for name in sorted(files):
+        path = docs / name
+        if path.exists() and HAND_EDIT_MARKER.search(path.read_text(encoding="utf-8")):
+            skipped.append(name)
     if not (missing or extra or changed):
         print(f"build_docs --check: {len(files)} pages up to date")
+        if skipped:
+            print("  NOT CHECKED, marked hand-edited: " + ", ".join(skipped))
+            print("  a hand-edited page is never compared, so it can go stale silently;")
+            print("  re-read it, or clear the marker to put it back under the guard.")
         return 0
     print("build_docs --check: the committed documentation has drifted from the "
           "knowledge base")

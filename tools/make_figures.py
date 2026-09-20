@@ -964,11 +964,21 @@ def fig_theta_ladder() -> Path:
 # F5  corner-calculus.svg
 # --------------------------------------------------------------------------
 
+SUB = "₁₂₃₄₅₆₇₈₉"
+
+
+def num(v, nd=6):
+    s = f"{v:.{nd}f}"
+    if "." in s:
+        s = s.rstrip("0").rstrip(".")
+    return s.replace("-", "−")
+
+
 def fig_corner_calculus() -> Path:
     d, s = parse_corner()
-    MSCALE = 46.0 / abs(d["ctrl_naive"])      # px per unit Schwarzian mass
+    MSCALE = 44.0 / abs(d["ctrl_naive"])      # px per unit Schwarzian mass
 
-    W, H = 780, 648
+    W, H = 780, 772
     g = Svg(W, H, "The corner calculus: three protocols and their Schwarzian "
                   "masses",
             "Theorem 5.2 places a mass at the preimage of each junction "
@@ -976,128 +986,121 @@ def fig_corner_calculus() -> Path:
             "junction form, which holds under hypothesis (H).")
     g.text(24, 30, "Recovery networks: three protocols on a chain, and the "
                    "Schwarzian point masses each produces", "ttl")
-    g.text(24, 50, "Source: rigor/network_corner_calculus.tex, Theorem 5.2 "
-                   "(no hypothesis), Theorem 5.3 (junction form, under (H)), "
-                   "Examples ex:displaced and ex:swallow.", "sub")
-    g.rect(24, 62, W - 48, 56, "frame", 4)
-    g.text(34, 80, "Thm 5.2, unconditional:   𝒮(Φ) = "
-                   "−2 Σₘ σₘ Gₘ′(xₘ) "
-                   "δ(xₘ),   Gₘ = kₘ₊₁∘"
-                   "…∘k_N,   xₘ = Gₘ⁻¹"
-                   "(p⁽ᵐ⁾);  a corner with p⁽ᵐ⁾ "
-                   "∉ Gₘ(J_N) contributes nothing.", "note")
-    g.text(34, 100, "Thm 5.3, under (H) (no earlier corner in the interior "
-                    "of a later step's moving part):   𝒮(Φ) "
-                    "= −2 Σₖ κₖ δ(pₖ) at "
-                    "the junctions, κₖ = Σ σₘ over "
-                    "the steps with p⁽ᵐ⁾ = pₖ — "
+    g.text(24, 48, "Source: rigor/network_corner_calculus.tex — Thm 5.2 "
+                   "(unconditional), Thm 5.3 (junction form, under (H)); "
+                   "Examples ex:displaced, ex:swallow.", "sub")
+    g.rect(24, 58, W - 48, 62, "frame", 4)
+    g.text(34, 76, "Thm 5.2, unconditional:   𝒮(Φ) = −2 Σₘ σₘ Gₘ′(xₘ) δ(xₘ), "
+                   "  Gₘ = kₘ₊₁∘…∘k_N,   xₘ = Gₘ⁻¹(p⁽ᵐ⁾);", "note")
+    g.text(34, 92, "a corner with p⁽ᵐ⁾ ∉ Gₘ(J_N) contributes nothing.  "
+                   "Thm 5.3, under (H) — no earlier corner in the interior of "
+                   "a later step's moving part:", "note")
+    g.text(34, 108, "𝒮(Φ) = −2 Σₖ κₖ δ(pₖ) at the junctions, κₖ = Σ σₘ over "
+                    "the steps with p⁽ᵐ⁾ = pₖ — so the corner measure is "
                     "order independent.", "note")
 
-    def panel(yt, head, hcls, detail, pts, names, span, masses, extras,
-              verdict):
-        x0p, x1p = 178.0, 702.0
+    def panel(yt, head, hcls, det1, det2, verdict, pts, names, masses,
+              extras):
+        x0p, x1p = 182.0, 702.0
+        span = pts[-1]
         xp = lambda v: x0p + (x1p - x0p) * v / span      # noqa: E731
         g.text(24, yt, head, "lab bold " + hcls)
-        g.text(24, yt + 18, detail, "note")
-        base = yt + 42
-        g.line(xp(pts[0]) - 14, base, xp(pts[-1]) + 14, base, "axis")
+        g.text(24, yt + 15, det1, "note")
+        g.text(24, yt + 29, det2, "note")
+        g.text(24, yt + 45, verdict, "note " + hcls)
+        base = yt + 70
+        g.line(xp(pts[0]) - 16, base, xp(pts[-1]) + 16, base, "axis")
         for i in range(len(pts) - 1):
-            cls = "f1" if i % 2 == 0 else "f3"
             g.rect(xp(pts[i]) + 1, base - 7, xp(pts[i + 1]) - xp(pts[i]) - 2,
-                   14, cls, 2)
+                   14, "f1" if i % 2 == 0 else "f3", 2)
             g.text((xp(pts[i]) + xp(pts[i + 1])) / 2, base - 12, names[i],
                    "note", "middle")
         for i, v in enumerate(pts):
             g.line(xp(v), base + 8, xp(v), base + 13, "axis")
-            g.text(xp(v), base + 26, f"p{i+1} = {v:g}", "tick", "middle")
-        maxis = base + 40
-        g.line(x0p - 14, maxis, x1p + 14, maxis, "grid")
-        g.text(24, maxis + 4, "Schwarzian", "note")
-        g.text(24, maxis + 17, "masses", "note")
+            g.text(xp(v), base + 24, f"p{SUB[i]} = {v:g}", "tick", "middle")
+        maxis = base + 48
+        g.line(x0p - 16, maxis, x1p + 16, maxis, "grid")
+        g.text(24, maxis + 1, "Schwarzian", "note")
+        g.text(24, maxis + 14, "masses", "note")
         for pos, val, lab, cls in masses:
             hgt = abs(val) * MSCALE
             g.line(xp(pos), maxis, xp(pos), maxis + hgt, cls,
                    ' marker-end="url(#ar-c%s)"' % cls[1])
-            g.text(xp(pos), maxis + hgt + 18, lab, "note " + cls.replace(
-                "s", "t", 1), "middle")
+            g.text(xp(pos), maxis + hgt + 16, lab,
+                   "note " + cls.replace("s", "t", 1), "middle")
         for kind, a, b, lab in extras:
             if kind == "shift":
-                g.line(xp(a), maxis - 10, xp(b), maxis - 10, "grid dash",
+                g.line(xp(a), maxis - 8, xp(b), maxis - 8, "grid dash",
                        ' marker-end="url(#ar-ink)"')
-                g.text((xp(a) + xp(b)) / 2, maxis - 15, lab, "note",
-                       "middle")
-            elif kind == "gone":
+                g.text(xp(b) - 22, maxis - 4, lab, "note", "end")
+            else:
                 g.text(xp(a), maxis + 16, "×", "lab bold", "middle")
-                g.text(xp(a), maxis + 32, lab, "note", "middle")
-        g.text(24, yt + 140, verdict, "note " + hcls)
+                g.text(xp(a), maxis - 8, lab, "note", "middle")
 
     l = d["l"]
     p = d["p"]
     s1, s2c, s2 = d["sigma1"], d["sigma2_ctrl"], d["sigma2"]
-    span = p[-1]
+    chain = ", ".join(f"{v:g}" for v in l)
 
     panel(
-        152,
-        "(a)  single-interval conditioning from a two-interval start "
-        "— (H) holds, Theorem 5.3 applies", "t3",
-        f"chain l = ({', '.join(f'{v:g}' for v in l)}), start J₀ = "
-        f"A₂A₃.  Step 1: adjoin A₄ on A₃, corner p₃, "
-        f"σ₁ = {s1:.6f}.  Step 2: adjoin A₁ on A₂, "
-        f"corner p₃, σ₂ = {s2c:.6f}.",
-        p, ["A₁", "A₂", "A₃", "A₄"], span,
+        146,
+        "(a)  single-interval conditioning from a two-interval start — "
+        "(H) holds, Theorem 5.3 applies", "t3",
+        f"chain l = ({chain}), start J₀ = A₂A₃.  Step 1: adjoin A₄ "
+        f"conditioning on A₃, corner p₃, σ₁ = {s1:.6f}.",
+        f"Step 2: adjoin A₁ conditioning on A₂ alone, corner p₃ again, "
+        f"σ₂ = {s2c:.6f}.",
+        "Both corners sit at the same junction and the masses add; the corner "
+        "measure, hence the recovered state, is order independent.",
+        p, ["A₁", "A₂", "A₃", "A₄"],
         [(p[2], -2 * (s1 + s2c),
-          f"−2(σ₁+σ₂) = {d['ctrl_naive']:g} at "
-          f"p₃ (measured {d['ctrl_measured']:g})", "s1")],
-        [],
-        "Both corners sit at the same junction and the masses add: the "
-        "corner measure, hence the recovered state, does not depend on the "
-        "order of the steps.")
+          f"−2(σ₁+σ₂) = {num(d['ctrl_naive'])} at p₃  "
+          f"(measured {num(d['ctrl_measured'])})", "s1")],
+        [])
 
     panel(
-        316,
-        "(b)  ex:displaced — conditioning on a union moves the mass "
-        "OFF the junction; (H) fails, only Theorem 5.2 applies", "t5",
-        f"same chain, start J₀ = A₂A₃.  Step 1 as above.  "
-        f"Step 2: adjoin A₁ on the UNION A₂A₃, corner "
-        f"p₄, σ₂ = {s2:.6f}.  Then p⁽¹⁾ = "
-        f"p₃ lies in the interior of step 2's moving part.",
-        p, ["A₁", "A₂", "A₃", "A₄"], span,
+        354,
+        "(b)  ex:displaced — conditioning on a union moves the mass OFF the "
+        "junction; (H) fails, only Theorem 5.2 applies", "t5",
+        f"same chain, start J₀ = A₂A₃.  Step 1 as in (a).  Step 2: adjoin A₁ "
+        f"conditioning on the UNION A₂A₃, corner p₄, σ₂ = {s2:.6f}.",
+        "The earlier corner p₃ then lies in the interior of step 2's moving "
+        "part, so (H) fails and the junction form does not apply.",
+        f"No mass at p₃ (measured {d['measured_p3']:g}); the total is "
+        f"{d['percent']:g}% of the naive −2(σ₁+σ₂). The junction form would "
+        f"give the wrong state.",
+        p, ["A₁", "A₂", "A₃", "A₄"],
         [(d["x0"], d["mass_x0"],
-          f"−2σ₁k₂′(x₀) = {d['mass_x0']:g} at "
-          f"x₀ = {d['x0']:g}", "s5"),
-         (p[3], -2 * s2, f"−2σ₂ = {-2*s2:g} at p₄",
-          "s1")],
+          f"−2σ₁k₂′(x₀) = {num(d['mass_x0'])} at x₀ = {d['x0']:g}", "s5"),
+         (p[3], -2 * s2, f"−2σ₂ = {num(-2*s2)} at p₄", "s1")],
         [("shift", p[2], d["x0"],
-          "pulled back by k₂⁻¹, scaled by "
-          f"k₂′(x₀) = {d['dk2']:g}")],
-        f"No mass at p₃ (measured {d['measured_p3']:g}); the total mass "
-        f"is {d['percent']:g}% of the naive −2(σ₁+"
-        f"σ₂). The junction form would give the wrong state.")
+          f"pulled back by k₂⁻¹, scaled by k₂′(x₀) = {d['dk2']:g}")])
 
     panel(
-        480,
+        562,
         "(c)  ex:swallow — a single-interval start lets a corner be "
         "swallowed; (H) fails, only Theorem 5.2 applies", "t5",
-        f"chain l = ({', '.join(f'{v:g}' for v in s['l'])}), start J₀ = "
-        f"A₂, a SINGLE interval.  Step 1: adjoin A₃ on A₂, "
-        f"corner p₂, σ₁ = {s['sigma1']:g}.  Step 2: adjoin "
-        f"A₁ on A₂, corner p₃, σ₂ = "
-        f"{s['sigma2']:g}.  Both conditioning regions are single intervals.",
-        s["p"], ["A₁", "A₂", "A₃"], s["p"][-1],
-        [(s["p"][2], -2 * s["sigma2"],
-          f"−2σ₂ = {-2*s['sigma2']:g} at p₃", "s1")],
-        [("gone", s["p"][1], None,
-          f"k₂((p₁,p₃)) = ({s['image'][0]},{s['image'][1]}) "
-          f"does not contain p₂")],
+        f"chain l = ({', '.join(f'{v:g}' for v in s['l'])}), start J₀ = A₂, a "
+        f"SINGLE interval.  Step 1: adjoin A₃ on A₂, corner p₂, "
+        f"σ₁ = {s['sigma1']:g}.",
+        f"Step 2: adjoin A₁ on A₂, corner p₃, σ₂ = {s['sigma2']:g}.  Both "
+        f"conditioning regions are single chain intervals, yet (H) fails.",
         "The first corner is outside the range of the later map, so it "
-        "contributes nothing: Φ = (global Möbius) ∘ "
-        "k₂ and step 1 leaves the recovered state unchanged.")
+        "contributes nothing: Φ = (global Möbius) ∘ k₂, and step 1 "
+        "changes nothing.",
+        s["p"], ["A₁", "A₂", "A₃"],
+        [(s["p"][2], -2 * s["sigma2"],
+          f"−2σ₂ = {num(-2*s['sigma2'])} at p₃", "s1")],
+        [("gone", s["p"][1], None,
+          f"swallowed: k₂((p₁,p₃)) = ({s['image'][0]},{s['image'][1]}) "
+          f"does not contain p₂")])
 
-    g.text(24, H - 22,
-           "Single-interval conditioning alone does NOT imply (H): panel (c) "
-           "is a counterexample. The sufficient condition is single-interval "
-           "conditioning AND a starting block of at least two chain intervals "
-           "(Prop. H-suff(a)).", "note")
+    g.text(24, H - 34, "Single-interval conditioning alone does NOT imply "
+                       "(H): panel (c) is a counterexample. The sufficient "
+                       "condition is single-interval conditioning", "note")
+    g.text(24, H - 18, "AND a starting block of at least two chain intervals "
+                       "(Prop. H-suff(a)). Implementing only the junction "
+                       "form would teach a false theorem.", "note")
     return g.write("corner-calculus.svg")
 
 

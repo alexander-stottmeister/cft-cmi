@@ -2,6 +2,8 @@
 
 # External sources, and whether you can obtain them
 
+The split between *open access* and *needs library access* is a **guess**, not a measurement: `refs/restore.sh` reports both as MANUAL, so this page classifies them by keywords in the Source column of `refs/REFERENCES.md`. Expect misfilings; at the time of writing `DaleckiiKrein` and `Petz96` are two of them. Only the *fetchable* group is verified, by comparison with a live `refs/restore.sh --list`.
+
 This page covers **the 36 table rows of [`refs/REFERENCES.md`](../refs/REFERENCES.md)**. It is *not* a list of every external result the project relies on: further sources are cited in that file as bullet entries rather than table rows (4 of them below the table), and the source documents themselves are third-party material that this repository does not redistribute. For the full picture read [`refs/REFERENCES.md`](../refs/REFERENCES.md), which also records the exact result used from each source.
 
 Three ways to obtain a row:
