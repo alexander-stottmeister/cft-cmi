@@ -657,7 +657,8 @@ def _evidence(token, public, private):
 # something the reader could open (REF-MOVE-1g).  The cards themselves are the
 # record and are never rewritten.
 _PRIVATE_PATH = re.compile(
-    r"\b(PRIVATE\.md|CHECKLIST\.md|rigor/shots(?:/[A-Za-z0-9_.+-]+)?|"
+    r"\b(PRIVATE\.md|CHECKLIST\.md|pgit-exclude|rigor/shots(?:/[A-Za-z0-9_.+-]+)?|"
+    r"plan_page(?:/[A-Za-z0-9_.+-]+)?|"
     r"refs/[A-Za-z0-9_.+-]+\.pdf|rigor/cited_R[1-4]\.tex|rigor/cited_results_all\.tex)\b")
 
 
@@ -751,8 +752,8 @@ def build_claim_map():
             "area": fm.get("area", "foundations"),
             "confidence": fm.get("confidence") or None,
             "statement": _mark_private(sec.get("Statement", "").strip()),
-            "verify": sec.get("How to verify", "").strip() or None,
-            "next": fm.get("next") or None,
+            "verify": _mark_private(sec.get("How to verify", "").strip()) or None,
+            "next": _mark_private(fm.get("next") or "") or None,
             "review": review or None,
             "refereed": refereed,
             "awaiting_review": awaiting,
