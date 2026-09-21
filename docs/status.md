@@ -171,7 +171,7 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 | status | claim | |
 |---|---|---|
 | `verified` | Headless screenshots and shell pitfalls on this Mac |  |
-| `active` | Generated documentation subfolder: docs/\*.md from the knowledge base, with a drift check | review pending |
+| `active` | Generated documentation subfolder: docs/\*.md from the knowledge base, with a drift check |  |
 | `active` | Interactive site skeleton: shared lib/, the data generator, and modules 1, 2, 6 |  |
 | `active` | Interactive site: modules 3 (universality), 4 (optimality) and 5 (the theta reconciliation) |  |
 | `active` | Interactive site: modules 7 to 10 and the extra data extractor |  |
