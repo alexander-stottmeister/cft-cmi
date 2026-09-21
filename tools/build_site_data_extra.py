@@ -652,6 +652,27 @@ def _evidence(token, public, private):
     return {k: v for k, v in out.items() if v is not None}
 
 
+# A card's prose may name a file that only the private companion carries.  The map
+# publishes that prose verbatim, so mark such a path rather than let it read as
+# something the reader could open (REF-MOVE-1g).  The cards themselves are the
+# record and are never rewritten.
+_PRIVATE_PATH = re.compile(
+    r"\b(PRIVATE\.md|CHECKLIST\.md|rigor/shots(?:/[A-Za-z0-9_.+-]+)?|"
+    r"refs/[A-Za-z0-9_.+-]+\.pdf|rigor/cited_R[1-4]\.tex|rigor/cited_results_all\.tex)\b")
+
+
+def _mark_private(text: str) -> str:
+    seen = set()
+
+    def one(m):
+        path = m.group(1)
+        if path in seen:
+            return path
+        seen.add(path)
+        return "%s (held privately)" % path
+    return _PRIVATE_PATH.sub(one, text or "")
+
+
 def build_claim_map():
     """docs/data/extra-claim-map.json: every knowledge-base card, its status,
     its evidence and the graph of the areas.
@@ -729,7 +750,7 @@ def build_claim_map():
             "status": fm.get("status", "open"),
             "area": fm.get("area", "foundations"),
             "confidence": fm.get("confidence") or None,
-            "statement": sec.get("Statement", "").strip(),
+            "statement": _mark_private(sec.get("Statement", "").strip()),
             "verify": sec.get("How to verify", "").strip() or None,
             "next": fm.get("next") or None,
             "review": review or None,
