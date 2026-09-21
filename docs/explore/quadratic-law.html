@@ -9,6 +9,26 @@
 <link rel="stylesheet" href="../lib/katex/katex.min.css">
 <script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
 <script defer src="../lib/katex/katex.min.js"></script>
+<script>
+/* If the module fails, say so in the page instead of leaving a blank area:
+   the static text and figure stay visible because .has-js is never set. */
+window.addEventListener('error', function (e) {
+  var host = document.getElementById('main') || document.body;
+  if (!host || host.querySelector('.boot-error')) return;
+  var d = document.createElement('div');
+  d.className = 'panel boot-error';
+  d.innerHTML = '<p><strong>The interactive view did not start.</strong> The text and the static ' +
+    'figure are the whole claim; the animation is an enhancement. Opening these pages straight from ' +
+    'the file system blocks ES modules in most browsers \u2014 serve the folder instead, for example ' +
+    'with <code>python3 -m http.server</code> inside <code>docs/</code>. Nothing is fetched from ' +
+    'another site either way.</p>';
+  var p = document.createElement('p');
+  p.className = 'provenance';
+  p.textContent = (e.message || 'script error') + (e.filename ? '  \u2014  ' + e.filename + ':' + e.lineno : '');
+  d.appendChild(p);
+  host.prepend(d);
+});
+</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -141,11 +161,13 @@ renderMath(document);
 window.addEventListener('load', () => renderMath(document));
 
 let D = null, C = null, sel = 0, show = 'all';
+enableJS();                     // the interactive shell first, the data a moment later
 
 try {
   D = await loadData('../data/quadratic-law.json');
   C = await loadData('../data/constants.json');
 } catch (e) {
+  document.documentElement.classList.remove('has-js');   // fall back to the static figure
   failNotice(document.querySelector('main'), e);
 }
 
@@ -285,7 +307,6 @@ if (D) {
   document.getElementById('ishow').addEventListener('change', e => { show = e.target.value; redraw(); });
   document.addEventListener('themechange', redraw);
 
-  enableJS();
   redraw();
   readout2();
 }

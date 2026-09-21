@@ -37,3 +37,12 @@ These are short attributed quotations made for the purpose of checking the cited
 which is what the quotation right (§51 UrhG) and fair use are for. If you are a rights
 holder and consider a particular quotation too long, open an issue and it will be
 shortened to a paraphrase plus locator.
+
+## Vendored software (`docs/lib/katex/`)
+
+The site renders mathematics with **KaTeX 0.18.7**, vendored rather than loaded from a content
+delivery network, so that a reader's browser makes no third-party request and the pages work from
+a clone with no network at all. KaTeX is MIT-licensed; its licence travels with it in
+`docs/lib/katex/LICENSE`, and the copyright stays with its authors. Only the `.woff2` fonts are
+shipped, and the stylesheet's references to the older `.woff` and `.ttf` formats were removed to
+match. Nothing else on the site is third-party.

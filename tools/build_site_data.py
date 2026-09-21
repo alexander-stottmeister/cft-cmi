@@ -312,21 +312,23 @@ def md_table(relpath: str, lines, anchor: str, after: str = None):
 def build_constants():
     records = []
 
-    src, lines = read("docs/results/const-f2.md")
-    hit = [i for i, ln in enumerate(lines) if "f2 = c/(12 pi^2) = 0.0084434 c" in ln]
+    # the closed forms come from the papers, not from the generated cards, so that
+    # this generator and tools/build_docs.py stay independent of each other.
+    src, lines = read("paper1/app_conventions.tex")
+    hit = [i for i, ln in enumerate(lines)
+           if "f_2=\\frac{g_B}8=\\frac{c_{\\rm cft}}{12\\pi^2}" in ln]
     if not hit:
-        raise Drift("const-f2.md no longer states f2 = c/(12 pi^2) = 0.0084434 c")
+        raise Drift("app_conventions.tex no longer states f_2 = c_cft/(12 pi^2)")
     f2 = 1.0 / (12.0 * math.pi ** 2)
-    if abs(f2 - 0.0084434) > 5e-8:
-        raise Drift("1/(12 pi^2) does not round to the 0.0084434 printed in const-f2.md")
     records.append(record("f2.closed_form", f2, None, src, hit[0] + 1, "proved",
                           series="constants", x=None,
                           label="f2 = c/(12 pi^2), the Theorem-A coefficient, at c = 1"))
 
-    src, lines = read("docs/results/longo-xu-cmi.md")
-    hit = [i for i, ln in enumerate(lines) if "I(A:C|B) = (c/6) log" in ln]
+    src, lines = read("paper1/sec_setting.tex")
+    hit = [i for i, ln in enumerate(lines)
+           if "=\\frac r6\\log(1+z)=-\\frac r6\\log\\eta" in ln]
     if not hit:
-        raise Drift("longo-xu-cmi.md no longer states I(A:C|B) = (c/6) log ...")
+        raise Drift("sec_setting.tex no longer states I(A:C|B) = (r/6) log(1+z)")
     records.append(record("cmi.coefficient", 1.0 / 6.0, None, src, hit[0] + 1, "proved",
                           series="constants", x=None,
                           label="I(A:C|B) = (c/6) log[(a+b)(b+c)/(b(a+b+c))], coefficient at c = 1"))
@@ -344,6 +346,9 @@ def build_constants():
             records.append(record("s2.measured", s2v, s2e, src, ln1, "numerical",
                                   series="constants", x=None,
                                   label="s2 measured, two-point 1/kappa_c extrapolation"))
+            if abs(f2v - 1.0 / (12.0 * math.pi ** 2)) > 2 * (f2e or 1e-6):
+                raise Drift("the measured f2 no longer agrees with c/(12 pi^2) "
+                            "within twice its quoted error")
             continue
         for col, series, status, label in (
             (4, "f2_sub", "certified", "f2 windowed lower bound"),

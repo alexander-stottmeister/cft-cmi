@@ -6,8 +6,8 @@
   {
    "value": 0.00844343197019,
    "error": null,
-   "source": "docs/results/const-f2.md",
-   "line": 11,
+   "source": "paper1/app_conventions.tex",
+   "line": 73,
    "status": "proved",
    "id": "f2.closed_form",
    "series": "constants",
@@ -16,8 +16,8 @@
   {
    "value": 0.166666666667,
    "error": null,
-   "source": "docs/results/longo-xu-cmi.md",
-   "line": 11,
+   "source": "paper1/sec_setting.tex",
+   "line": 85,
    "status": "proved",
    "id": "cmi.coefficient",
    "series": "constants",

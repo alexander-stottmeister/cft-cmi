@@ -19,6 +19,26 @@
   blockquote.prov { margin: 0; border-left: 3px solid var(--line); padding-left: 1rem; }
   blockquote.prov p { max-width: 68ch; }
 </style>
+<script>
+/* If the module fails, say so in the page instead of leaving a blank area:
+   the static text and figure stay visible because .has-js is never set. */
+window.addEventListener('error', function (e) {
+  var host = document.getElementById('main') || document.body;
+  if (!host || host.querySelector('.boot-error')) return;
+  var d = document.createElement('div');
+  d.className = 'panel boot-error';
+  d.innerHTML = '<p><strong>The interactive view did not start.</strong> The text and the static ' +
+    'figure are the whole claim; the animation is an enhancement. Opening these pages straight from ' +
+    'the file system blocks ES modules in most browsers \u2014 serve the folder instead, for example ' +
+    'with <code>python3 -m http.server</code> inside <code>docs/</code>. Nothing is fetched from ' +
+    'another site either way.</p>';
+  var p = document.createElement('p');
+  p.className = 'provenance';
+  p.textContent = (e.message || 'script error') + (e.filename ? '  \u2014  ' + e.filename + ':' + e.lineno : '');
+  d.appendChild(p);
+  host.prepend(d);
+});
+</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -132,7 +152,7 @@ the proof lives. They are produced from the project's knowledge base by
 <tbody>
 <tr><td><a href="index.md">index.md</a></td><td>the map: four results, ten modules, the sections below</td></tr>
 <tr><td><a href="status.md">status.md</a></td><td>every claim, grouped by area, with status and one-line statement</td></tr>
-<tr><td><a href="results/">results/</a></td><td>one page per consequential claim</td></tr>
+<tr><td><code>results/</code></td><td>one page per consequential claim, <a href="status.md">indexed in status.md</a></td></tr>
 <tr><td><a href="notation.md">notation.md</a></td><td>the symbol table</td></tr>
 <tr><td><a href="definitions.md">definitions.md</a></td><td>the objects and what they mean</td></tr>
 <tr><td><a href="open.md">open.md</a></td><td>what is open, and the recorded next step for each</td></tr>

@@ -132,7 +132,7 @@ figcaption { font-size: .85rem; color: var(--muted); margin-top: .4rem; max-widt
 
 table { border-collapse: collapse; width: 100%; font-size: .88rem; display: block; overflow-x: auto; }
 th, td { text-align: left; padding: .32rem .55rem; border-bottom: 1px solid var(--line-soft); }
-th { font-weight: 600; color: var(--muted); font-size: .8rem; text-transform: uppercase; letter-spacing: .03em; }
+th { font-weight: 600; color: var(--muted); font-size: .8rem; letter-spacing: .02em; }
 td.num, th.num { text-align: right; font-family: var(--mono); }
 
 svg.plot { width: 100%; height: auto; display: block; touch-action: none; }
@@ -159,3 +159,9 @@ footer.site { border-top: 1px solid var(--line); margin-top: 3rem; padding-top: 
   .wrap { padding-left: 16px; padding-right: 16px; }
 }
 @media (prefers-reduced-motion: reduce) { * { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+/* KaTeX display math is wider than a phone: scroll it locally rather than clip it,
+   and never let it push the page sideways. */
+.katex-display { overflow-x: auto; overflow-y: hidden; padding: 2px 0 6px; }
+.katex { font-size: 1em; }
+[data-tex] { overflow-wrap: anywhere; }

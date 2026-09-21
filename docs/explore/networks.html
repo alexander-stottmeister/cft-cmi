@@ -23,6 +23,26 @@
   .playrow button { font: inherit; font-size: .85rem; padding: .3rem .8rem; cursor: pointer;
     background: var(--panel); color: var(--fg); border: 1px solid var(--line); border-radius: 5px; }
 </style>
+<script>
+/* If the module fails, say so in the page instead of leaving a blank area:
+   the static text and figure stay visible because .has-js is never set. */
+window.addEventListener('error', function (e) {
+  var host = document.getElementById('main') || document.body;
+  if (!host || host.querySelector('.boot-error')) return;
+  var d = document.createElement('div');
+  d.className = 'panel boot-error';
+  d.innerHTML = '<p><strong>The interactive view did not start.</strong> The text and the static ' +
+    'figure are the whole claim; the animation is an enhancement. Opening these pages straight from ' +
+    'the file system blocks ES modules in most browsers \u2014 serve the folder instead, for example ' +
+    'with <code>python3 -m http.server</code> inside <code>docs/</code>. Nothing is fetched from ' +
+    'another site either way.</p>';
+  var p = document.createElement('p');
+  p.className = 'provenance';
+  p.textContent = (e.message || 'script error') + (e.filename ? '  \u2014  ' + e.filename + ':' + e.lineno : '');
+  d.appendChild(p);
+  host.prepend(d);
+});
+</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -158,6 +178,7 @@ so that it contributes nothing. Both are reproduced, with the document's own num
 
 <div class="panel">
   <h3 style="margin-top:0">The Schwarzian masses</h3>
+  <p class="provenance" id="stagenote"></p>
   <svg id="masses" role="img" aria-label="Schwarzian point masses of the composite map, at their positions on the chain"></svg>
   <div id="hverdict"></div>
   <div class="readout" id="out"></div>
@@ -195,12 +216,12 @@ so that it contributes nothing. Both are reproduced, with the document's own num
 <p>Choose either example in the protocol menu to see it built. Both are taken from the rigor document,
 and the numbers the document prints are shown beside the ones your browser computes.</p>
 <ul>
-<li><strong>Displaced</strong> (Example 5.5): a later step conditions on a union, its moving part
+<li><strong><a href="?protocol=EXD">Displaced</a></strong> (Example 5.5): a later step conditions on a union, its moving part
   swallows an earlier corner's neighbourhood, and the earlier mass moves to
   <span data-tex="x_m=G_m^{-1}(p^{(m)})">x<sub>m</sub> = G<sub>m</sub><sup>&minus;1</sup>(p<sup>(m)</sup>)</span>
   and is rescaled by <span data-tex="G_m'(x_m)<1">G&prime;<sub>m</sub>(x<sub>m</sub>) &lt; 1</span>. The
   total mass is smaller than the naive corner measure &mdash; in the document's configuration, 71% of it.</li>
-<li><strong>Swallowed</strong> (Example 5.6): the chain starts from a <em>single</em> interval, so the
+<li><strong><a href="?protocol=EXS">Swallowed</a></strong> (Example 5.6): the chain starts from a <em>single</em> interval, so the
   first step is degenerate and its corner is the far end of the block. The second step's image does not
   contain that corner at all, so the first step contributes nothing: the whole of it is undone by a
   global M&ouml;bius map and leaves the recovered state unchanged. Both conditioning regions here are
@@ -342,7 +363,7 @@ const chainPlot = new Plot(document.getElementById('chain'), {
     const lo = pr.dom[0], hi = pr.dom[1];
     for (let k = 0; k <= 60; k++) {
       const x = lo + (hi - lo) * k / 60;
-      svgEl('line', { x1: X(x), x2: X(pmEval(pr.map, x)), y1: Y(yTop) - 10, y2: Y(yBot) + 6,
+      svgEl('line', { x1: X(x), x2: X(pmEval(pr.map, x)), y1: Y(yTop) + 10, y2: Y(yBot) - 6,
         stroke: 'var(--line)', 'stroke-width': 1, opacity: .8 }, P.root);
     }
     for (let i = b[0]; i <= b[1]; i++) {
@@ -367,7 +388,8 @@ const massPlot = new Plot(document.getElementById('masses'), {
   P.domain([A.p[0] - pad, A.p[A.n] + pad], [0, 1]);
   const X = v => P.sx(v), Y = v => P.sy(v), base = 0.12;
   const sch = pr.map ? pmSchwarzian(pr.map) : [];
-  const ghost = A.H.holds ? [] : A.T53;
+  const done = pr.mFull >= A.N && !pr.run;
+  const ghost = (A.H.holds || !done) ? [] : A.T53;
   const maxM = Math.max(1e-9, ...sch.map(m => Math.abs(m.mass)), ...ghost.map(g => 2 * g.kappa));
   const hOf = m => base + 0.66 * Math.abs(m) / maxM;
 
@@ -399,7 +421,7 @@ const massPlot = new Plot(document.getElementById('masses'), {
         stroke: 'var(--numerical)', 'stroke-width': 1.5, 'stroke-dasharray': '3 3' }, P.root);
     }
   }
-  for (const g of (pr.mFull >= A.N ? A.T52 : [])) {
+  for (const g of (done ? A.T52 : [])) {
     if (!g.swallowed) continue;
     svgEl('circle', { cx: X(g.step.p), cy: Y(base), r: 6, fill: 'none',
       stroke: 'var(--open)', 'stroke-width': 2 }, P.root);
@@ -407,3 +429,252 @@ const massPlot = new Plot(document.getElementById('masses'), {
       { anchor: 'middle', small: true, fill: 'var(--open)' });
   }
 });
+
+// --------------------------------------------- hypothesis (H), tested, not guessed
+function verdict(A) {
+  const host = document.getElementById('hverdict');
+  const d = h('div', { class: 'verdict ' + (A.H.holds ? 'ok' : 'bad') });
+  if (A.H.holds) {
+    let dev = 0;
+    for (const g of A.T52) {
+      if (g.swallowed) { dev = Infinity; break; }
+      const k = A.T53.find(c => Math.abs(c.x - g.x) < 1e-8);
+      if (!k) { dev = Infinity; break; }
+    }
+    for (const c of A.T53) {
+      const m = A.T52.filter(g => !g.swallowed && Math.abs(g.x - c.x) < 1e-8)
+                     .reduce((a, g) => a + g.mass, 0);
+      dev = Math.max(dev, Math.abs(m + 2 * c.kappa));
+    }
+    d.appendChild(h('p', {}, [
+      h('span', { class: 'badge conditional', text: 'conditional' }), ' ',
+      h('strong', { text: 'Hypothesis (H) holds for this configuration.' }),
+      ' No earlier corner lies in the interior of a later step’s moving part, so the junction ' +
+      'form of Theorem 5.3 applies here: the masses sit on the junctions and the order of the steps ' +
+      'carries no information.'
+    ]));
+    d.appendChild(h('p', { class: 'provenance',
+      text: 'The two rules agree to ' + dev.toExponential(1) + ' on this configuration — computed, ' +
+            'not assumed: Theorem 5.2 is evaluated and then compared with the junction form.' }));
+  } else {
+    const v = A.H.violations[0];
+    d.appendChild(h('p', {}, [
+      h('span', { class: 'badge open', text: '(H) fails' }), ' ',
+      h('strong', { text: 'The junction form does not apply to this configuration.' }),
+      ' Corner p⁽' + (v.m + 1) + '⁾ = ' + fmt(v.p, 5) + ' of step ' + (v.m + 1) +
+      ' lies inside the moving part M = (' + fmt(Math.min(v.M[0], v.M[1]), 5) + ', ' +
+      fmt(Math.max(v.M[0], v.M[1]), 5) + ') of step ' + (v.mp + 1) + '.'
+    ]));
+    const swallowed = A.T52.filter(g => g.swallowed).length;
+    const moved = A.T52.filter(g => !g.swallowed && g.displaced).length;
+    d.appendChild(h('p', {}, [
+      'Theorem 5.2 is what the picture shows: ' +
+      (moved ? moved + ' mass' + (moved > 1 ? 'es move' : ' moves') + ' off its junction' : 'no mass moves') +
+      (swallowed ? ' and ' + swallowed + ' corner' + (swallowed > 1 ? 's are' : ' is') + ' swallowed' : '') +
+      '. The total mass is ' + fmt(A.total, 6) + ' against the naive corner measure ' +
+      fmt(A.naive, 6) + ', i.e. ' + fmt(100 * A.total / A.naive, 3) + '% of it.'
+    ]));
+    d.appendChild(h('p', { class: 'provenance',
+      text: 'Order dependence appears exactly here: under (H) it cannot, and this is the only mechanism ' +
+            'by which it can appear in the vacuum sector (Remark 9.5).' }));
+  }
+  host.replaceChildren(d);
+}
+
+function stepTable(A) {
+  const body = document.getElementById('steptable');
+  const rows = A.steps.map((s, m) => {
+    const g = A.T52[m];
+    const rng = (a, b) => a === b ? 'A' + (a + 1) : 'A' + (a + 1) + '…A' + (b + 1);
+    const flag = g.swallowed ? h('span', { class: 'flag swallowed', text: 'swallowed' })
+      : g.displaced ? h('span', { class: 'flag displaced', text: 'displaced' })
+      : h('span', { class: 'flag junction', text: 'on its junction' });
+    return h('tr', {}, [
+      h('td', { text: String(m + 1) }),
+      h('td', { text: rng(s.ABlo, s.ABhi) + (s.ABhi > s.ABlo ? ' (a union)' : '') }),
+      h('td', { text: rng(s.NEWlo, s.NEWhi) + (s.side === 'R' ? ' on the right' : ' on the left') }),
+      h('td', { class: 'num', text: fmt(s.sigma, 6) }),
+      h('td', { class: 'num', text: fmt(s.p, 5) }),
+      h('td', { class: 'num', text: g.swallowed ? '—' : fmt(g.x, 6) }),
+      h('td', { class: 'num', text: g.swallowed ? '—' : fmt(g.gprime, 6) }),
+      h('td', { class: 'num', text: fmt(g.mass, 6) }),
+      h('td', {}, [flag])
+    ]);
+  });
+  body.replaceChildren(...rows);
+}
+
+function readout(A) {
+  const out = document.getElementById('out');
+  const cell = (k, v) => h('div', { class: 'cell' }, [h('span', { class: 'k', text: k }),
+    typeof v === 'string' ? h('span', { class: 'v', text: v }) : v]);
+  const singles = A.steps.every(s => s.ABhi === s.ABlo);
+  const pairStart = A.J0[1] > A.J0[0];
+  out.replaceChildren(
+    cell('steps', String(A.N)),
+    cell('starting block J₀', 'A' + (A.J0[0] + 1) + (A.J0[1] > A.J0[0] ? '…A' + (A.J0[1] + 1) : ' (a single interval)')),
+    cell('θ_t', fmt(A.theta, 5)),
+    cell('total mass, complete protocol', fmt(A.total, 6)),
+    cell('naive corner measure −2Σσ', fmt(A.naive, 6)),
+    cell('masses, complete protocol', String(A.sch.length)),
+    h('div', { class: 'cell' }, [h('span', { class: 'k', text: 'holonomy' }),
+      h('span', { style: 'font-size:.85rem', text: singles && pairStart
+        ? 'single-interval conditioning from a starting pair: the corner measure, hence the state, depends only on J₀'
+        : 'not in the single-interval class: the order can matter' })])
+  );
+}
+
+function crosscheck(A) {
+  const host = document.getElementById('crosscheck');
+  if (!NET || (S.proto !== 'EXD' && S.proto !== 'EXS')) { host.replaceChildren(); return; }
+  const pairs = S.proto === 'EXD'
+    ? [['displaced.sigma1', A.steps[0].sigma, 'σ₁'],
+       ['displaced.sigma2', A.steps[1].sigma, 'σ₂'],
+       ['displaced.x0', A.T52[0].x, 'x₀'],
+       ['displaced.k2prime', A.T52[0].gprime, "k₂'(x₀)"],
+       ['displaced.mass_x0', A.T52[0].mass, 'the displaced mass']]
+    : [['swallow.sigma1', A.steps[0].sigma, 'σ₁'],
+       ['swallow.sigma2', A.steps[1].sigma, 'σ₂'],
+       ['swallow.image_left', pmEval(pmStep(A.steps[1].p, A.steps[1].sigma, 'L'), A.p[0]), 'k₂(p₁)']];
+  const kids = [h('strong', { text: 'Checked against the document: ' })];
+  for (const [id, live, name] of pairs) {
+    const rec = NET.get(id);
+    kids.push(h('span', {}, [name + ' = ' + fmt(live, 7) + ' here, ']));
+    kids.push(renderRecord(rec, { sig: 7 }));
+    kids.push(document.createTextNode(' (Δ = ' + Math.abs(live - rec.value).toExponential(1) + ')  '));
+  }
+  host.replaceChildren(...kids);
+}
+
+function protocol3(A) {
+  const panel = document.getElementById('p3panel');
+  panel.hidden = S.proto !== 'V3';
+  if (panel.hidden) return;
+  const p3 = A.steps[0].p, s1 = A.steps[0].sigma, s2 = A.steps[1].sigma;
+  const Phi = composeSteps(A.steps, A.dom);
+  const R = pmStep(p3, s1 + s2, 'R');
+  const Mg = parabolicLeft(p3, s1);
+  let dR = 0, dMR = 0;
+  for (let k = 0; k <= 50; k++) {
+    const x = A.dom[0] + (A.dom[1] - A.dom[0]) * k / 50;
+    dR = Math.max(dR, Math.abs(pmEval(Phi, x) - pmEval(R, x)));
+    dMR = Math.max(dMR, Math.abs(pmEval(Phi, x) - apply(Mg, pmEval(R, x))));
+  }
+  const c = A.lens[2], d = A.lens[3];
+  const sPrime = (s1 + s2) * (c + d);
+  const cell = (k, v) => h('div', { class: 'cell' }, [h('span', { class: 'k', text: k }),
+    h('span', { class: 'v', text: v })]);
+  document.getElementById('p3out').replaceChildren(
+    cell('σ₁ (left) + σ₂ (right)', fmt(s1, 6) + ' + ' + fmt(s2, 6) + ' = ' + fmt(s1 + s2, 6)),
+    cell('ζ_eff = (σ₁+σ₂) β_I(p₃)', fmt((s1 + s2) * betaI(p3, A.dom[0], A.dom[1]), 6)),
+    cell('s′ = (σ₁+σ₂)(c+d)', fmt(sPrime, 6) + '  >  2λ′ = ' + fmt(2 * d / c, 6) + ' (over-compressed)'),
+    cell('max |Φ⁽³⁾ − R| over the chain', fmt(dR, 4) + '  — the point maps differ'),
+    cell('max |Φ⁽³⁾ − M∘R|', dMR.toExponential(1) + '  — they agree up to the global Möbius map M'),
+    cell('consequence', 'same Schwarzian ⇒ same recovered state ⇒ Φ_fid = Φ_A(ζ_eff)')
+  );
+}
+
+// ------------------------------------------------------------------- wiring
+function buildLengthInputs() {
+  const host = document.getElementById('lengths');
+  const locked = !!PROTOS[S.proto].lens;
+  const kids = [];
+  for (let i = 0; i < S.n; i++) {
+    const id = 'len' + i;
+    const c = h('div', { class: 'control' }, [
+      h('label', { for: id, html: 'Length of A<sub>' + (i + 1) + '</sub>' }),
+      h('input', { id, type: 'range', min: '0.3', max: '3', step: '0.05', value: String(S.lens[i]) }),
+      h('span', { class: 'hint', text: fmt(S.lens[i], 3) + (locked ? ' (fixed by the example)' : '') })
+    ]);
+    const inp = c.querySelector('input');
+    if (locked) inp.disabled = true;
+    inp.addEventListener('input', e => {
+      S.lens[i] = +e.target.value;
+      c.querySelector('.hint').textContent = fmt(S.lens[i], 3);
+      redraw();
+    });
+    kids.push(c);
+  }
+  host.replaceChildren(...kids);
+}
+
+function applyProto() {
+  const P = PROTOS[S.proto];
+  const nIn = document.getElementById('in');
+  if (P.n) { S.n = P.n; nIn.value = String(P.n); nIn.disabled = true; } else { nIn.disabled = false; S.n = +nIn.value; }
+  if (P.lens) S.lens = P.lens.slice();
+  document.getElementById('protohint').textContent = P.hint;
+  document.getElementById('nhint').textContent = S.n + ' intervals, ' + (S.n + 1) + ' chain points'
+    + (P.n ? ' (fixed by this protocol)' : '');
+  buildLengthInputs();
+  const A = analyse();
+  const st = document.getElementById('istep');
+  st.max = String(A.N); st.step = '0.02';
+  S.stage = Math.min(S.stage, A.N);
+  st.value = String(S.stage);
+  redraw();
+}
+
+function redraw() {
+  const A = analyse();
+  chainPlot.render(); massPlot.render();
+  verdict(A); stepTable(A); readout(A); crosscheck(A); protocol3(A);
+  const pr = partial(A, S.stage);
+  document.getElementById('stagenote').textContent = pr.mFull >= A.N && !pr.run
+    ? 'The complete protocol: all ' + A.N + ' steps taken.'
+    : 'Showing the map after ' + (pr.run ? pr.mFull + ' complete step(s) and step ' + (pr.mFull + 1)
+        + ' part way through' : pr.mFull + ' of ' + A.N + ' steps') + '. Press Play to finish it.';
+  document.getElementById('stagehint').textContent = pr.run
+    ? 'step ' + (pr.mFull + 1) + ' of ' + A.N + ', ' + Math.round(pr.f * 100) + '% compressed'
+    : pr.mFull + ' of ' + A.N + ' steps taken';
+  document.getElementById('thint').textContent = S.t === 0
+    ? 't = 0: the ordinary Petz map, s = 2λ'
+    : 't = ' + S.t.toFixed(3) + ', θ_t = ' + fmt(thetaT(S.t), 5);
+}
+
+document.getElementById('iproto').addEventListener('change', e => { S.proto = e.target.value; applyProto(); });
+document.getElementById('in').addEventListener('input', e => { S.n = +e.target.value; applyProto(); });
+document.getElementById('it').addEventListener('input', e => { S.t = +e.target.value; redraw(); });
+document.getElementById('istep').addEventListener('input', e => { S.stage = +e.target.value; redraw(); });
+document.getElementById('stepb').addEventListener('click', () => {
+  const A = analyse();
+  S.stage = Math.min(A.N, Math.floor(S.stage + 1e-9) + 1);
+  document.getElementById('istep').value = String(S.stage);
+  redraw();
+});
+document.getElementById('reset').addEventListener('click', () => {
+  S.stage = 0; S.playing = false;
+  document.getElementById('play').textContent = 'Play';
+  document.getElementById('istep').value = '0';
+  redraw();
+});
+document.getElementById('play').addEventListener('click', () => {
+  S.playing = !S.playing;
+  document.getElementById('play').textContent = S.playing ? 'Pause' : 'Play';
+  if (S.playing) { last = performance.now(); requestAnimationFrame(tick); }
+});
+document.addEventListener('themechange', redraw);
+
+let last = 0;
+function tick(now) {
+  if (!S.playing) return;
+  const A = analyse();
+  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  S.stage += dt * 0.8;
+  if (S.stage >= A.N) { S.stage = A.N; S.playing = false; document.getElementById('play').textContent = 'Play'; }
+  document.getElementById('istep').value = String(S.stage);
+  redraw();
+  if (S.playing) requestAnimationFrame(tick);
+}
+
+// a protocol may be chosen by link, so the two failure examples can be pointed at
+const q = new URLSearchParams(location.search).get('protocol');
+if (q && PROTOS[q]) { S.proto = q; document.getElementById('iproto').value = q; }
+
+enableJS();
+applyProto();
+try { NET = await loadData('../data/networks.json'); redraw(); }
+catch (e) { failNotice(document.querySelector('main'), e); }
+</script>
+</body>
+</html>
