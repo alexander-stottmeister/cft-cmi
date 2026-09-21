@@ -190,7 +190,8 @@ def inline(text: str, link, autolink: bool = True) -> str:
                 i += run
             else:
                 tag = "strong" if run == 2 else "em"
-                out.append("<%s>%s</%s>" % (tag, inline(text[i + run:j], link), tag))
+                out.append("<%s>%s</%s>"
+                           % (tag, inline(text[i + run:j], link, autolink), tag))
                 i = j + run
         elif autolink and text.startswith(("http://", "https://"), i):
             m = BARE_URL.match(text, i)
@@ -272,7 +273,7 @@ UNSUPPORTED_INLINE = [
     (re.compile(r"(?<!\\)\]\(<"), "pointy-bracket link target"),
     (re.compile(r"(?<!\\)~~"), "strikethrough"),
     (re.compile(r"(?<!\\)(\*\*\*|___)"), "triple emphasis"),
-    (re.compile(r"\S<!--|-->\s*\S"), "HTML comment inside a line"),
+    (re.compile(r"(?<!^)<!--|-->\s*\S"), "HTML comment inside a line"),
 ]
 _CODE_SPAN = re.compile(r"`[^`\n]*`")
 
@@ -356,6 +357,9 @@ def render_table(rows: list, link) -> str:
     if len(rows) < 2 or not all(ALIGN.match(c) for c in split_row(rows[1])):
         raise Unsupported("a pipe table without an alignment row: %r" % rows[:2])
     head = split_row(rows[0])
+    if len(split_row(rows[1])) != len(head):
+        raise Unsupported("alignment row has %d cells, header has %d: %r"
+                          % (len(split_row(rows[1])), len(head), rows[1][:90]))
     # Structural invariant rather than a pattern: a row whose cell count differs
     # from the header's means the row was split somewhere it should not have been,
     # and the surplus or missing cell is content the reader would never see.

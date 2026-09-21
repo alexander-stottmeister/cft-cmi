@@ -805,6 +805,28 @@ def sources_page(repo_root: Path, warnings: list) -> str:
 # docs/history.md
 # --------------------------------------------------------------------------- #
 
+def _escape_bare_pipes(cell: str) -> str:
+    """Escape a pipe that is not already escaped, counting the backslashes.
+
+    A lookbehind for one backslash is not enough: in `\\|` the bar is live, because
+    the pair before it is an escaped backslash, and leaving it alone splits the row."""
+    out, i = [], 0
+    while i < len(cell):
+        if cell[i] == "\\":
+            run = 0
+            while i + run < len(cell) and cell[i + run] == "\\":
+                run += 1
+            out.append(cell[i:i + run])
+            i += run
+            if i < len(cell) and cell[i] == "|":
+                out.append("|" if run % 2 else "\\|")
+                i += 1
+            continue
+        out.append("\\|" if cell[i] == "|" else cell[i])
+        i += 1
+    return "".join(out)
+
+
 def pipes_in_code_spans(line: str) -> str:
     """Escape the pipes inside a code span of a table row copied from a source file.
 
@@ -824,7 +846,7 @@ def pipes_in_code_spans(line: str) -> str:
                 out.append(c)
                 i += 1
                 continue
-            out.append(line[i:close + 1].replace("|", "\\|"))
+            out.append(_escape_bare_pipes(line[i:close + 1]))
             i = close + 1
             continue
         out.append(c)
@@ -983,28 +1005,6 @@ def tex_to_md(tex: str) -> str:
     tex = re.sub(r"\$\$\n+", "$$\n", tex)
     tex = re.sub(r"\n+\$\$", "\n$$", tex)
     return tex.strip()
-
-
-def _escape_bare_pipes(cell: str) -> str:
-    """Escape a pipe that is not already escaped, counting the backslashes.
-
-    A lookbehind for one backslash is not enough: in `\\|` the bar is live, because
-    the pair before it is an escaped backslash, and leaving it alone splits the row."""
-    out, i = [], 0
-    while i < len(cell):
-        if cell[i] == "\\":
-            run = 0
-            while i + run < len(cell) and cell[i + run] == "\\":
-                run += 1
-            out.append(cell[i:i + run])
-            i += run
-            if i < len(cell) and cell[i] == "|":
-                out.append("|" if run % 2 else "\\|")
-                i += 1
-            continue
-        out.append("\\|" if cell[i] == "|" else cell[i])
-        i += 1
-    return "".join(out)
 
 
 def tabular_to_md(tex: str) -> str:
