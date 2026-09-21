@@ -88,9 +88,18 @@ export class Plot {
   }
 
   render() {
+    // A re-render rebuilds the subtree, so a focused handle would lose focus and
+    // the next arrow key would go to <body>.  Remember it by key and restore it.
+    const active = this.root.ownerDocument && this.root.ownerDocument.activeElement;
+    const key = active && this.root.contains(active)
+      ? active.getAttribute('data-handle-key') : null;
     this.measure();
     while (this.root.firstChild) this.root.removeChild(this.root.firstChild);
     this._render(this);
+    if (key) {
+      const again = this.root.querySelector('[data-handle-key="' + key + '"]');
+      if (again && again.focus) again.focus({ preventScroll: true });
+    }
     return this;
   }
 
@@ -238,11 +247,22 @@ export class Plot {
     The move listeners live on `window`, not on the node: a module typically
     redraws (and so replaces) its handles on every update, and a listener bound
     to the node would lose the drag on the first move. */
-export function draggable(plot, node, { onMove, step = 0.01, axis = 'x', label }) {
+export function draggable(plot, node, opts) {
+  const { onMove, step = 0.01, axis = 'x', label } = opts || {};
   node.classList.add('handle');
   node.setAttribute('tabindex', '0');
   node.setAttribute('role', 'slider');
-  if (label) node.setAttribute('aria-label', label);
+  if (label) {
+    node.setAttribute('aria-label', label);
+    node.setAttribute('data-handle-key', label);
+  }
+  if (opts && opts.aria) {
+    const a = opts.aria;
+    if (a.min !== undefined) node.setAttribute('aria-valuemin', String(a.min));
+    if (a.max !== undefined) node.setAttribute('aria-valuemax', String(a.max));
+    if (a.now !== undefined) node.setAttribute('aria-valuenow', String(a.now));
+    if (a.text !== undefined) node.setAttribute('aria-valuetext', String(a.text));
+  }
   const emit = ev => { const d = plot.toData(ev); onMove(d.x, d.y, ev); };
   const onPointerMove = ev => { ev.preventDefault(); emit(ev); };
   const stop = () => {

@@ -347,6 +347,8 @@ try {
   constants = await loadData('../data/constants.json');
   readout();
 } catch (e) {
+  // the data is gone or unreadable: fall back to the no-JavaScript rendering
+  document.documentElement.classList.remove('has-js');
   failNotice(document.querySelector('main'), e);
 }
 </script>

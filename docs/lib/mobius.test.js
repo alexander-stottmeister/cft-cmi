@@ -147,7 +147,7 @@ test('VWZ 1(B) = 1(A) as point maps, for every rotation t', 'Prop. 8.2', t => {
   }
 });
 
-test('VWZ Protocol 3: both orders, one double corner at p_3, zeta_eff', 'Thm. 8.4', t => {
+test('VWZ Protocol 3: both orders, one double corner at p_3, zeta_eff', 'Thm. 8.5', t => {
   const [a, b, c, d] = [1.1, 0.8, 1.4, 0.6];
   const p1 = 0, p3 = a + b, p5 = a + b + c + d;
   const s1 = M.sigmaOf(b, a), s2 = M.sigmaOf(c, d);
@@ -170,7 +170,7 @@ test('VWZ Protocol 3: both orders, one double corner at p_3, zeta_eff', 'Thm. 8.
 });
 
 // ----------------------------------------------- the published n=4, n=5 tables
-test('Table 9.3 (n=4, equal lengths): the published zeta of every starting pair',
+test('Table 1 (n=4, equal lengths): the published zeta of every starting pair',
      'rigor/network_corner_calculus.tex, tab:n4', t => {
   const l = [1, 1, 1, 1], p = [0, 1, 2, 3, 4], T = 4;
   const sR = k => M.sigmaOf(l[k - 2], l[k - 1]);            // adjoin A_k on A_{k-1}
@@ -184,7 +184,7 @@ test('Table 9.3 (n=4, equal lengths): the published zeta of every starting pair'
   t.eq(T, p[4] - p[0], 'T = 4');
 });
 
-test('Table 9.4 (n=5, l=(1.0,1.3,0.7,1.9,1.1)): the published zeta of the L->R chain',
+test('Table 2 (n=5, l=(1.0,1.3,0.7,1.9,1.1)): the published zeta of the L->R chain',
      'rigor/network_corner_calculus.tex, tab:n5', t => {
   const l = [1.0, 1.3, 0.7, 1.9, 1.1];
   const p = [0]; for (const li of l) p.push(p[p.length - 1] + li);
@@ -195,7 +195,7 @@ test('Table 9.4 (n=5, l=(1.0,1.3,0.7,1.9,1.1)): the published zeta of the L->R c
   t.close(p[5], 6.0, 1e-12, 'T = 6.0');
 });
 
-test('order independence under (H), and its failure without it', 'Thm. 5.3, Rem. 9.5', t => {
+test('order independence under (H), and its failure without it', 'Thm. 5.3, Rem. 9.3', t => {
   const l = [1.0, 1.3, 0.7, 1.9], p = [0]; for (const li of l) p.push(p[p.length - 1] + li);
   const add = (lB, lNew, corner, side, mv) => ({ p: corner, sigma: M.sigmaOf(lB, lNew), side, moving: mv });
   // start A_2A_3; LR and RL, both with single-interval conditioning

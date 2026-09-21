@@ -360,6 +360,14 @@ def build_constants():
                 records.append(record("so.%s.%d" % (series, k), v, e, src, ln1, status,
                                       series=series, x=kc, label=label))
 
+    # The table's header scales every entry by 10^5; if that changes, every number
+    # below is silently ten times wrong, so refuse rather than emit (REF-SITE-P3 D1).
+    header = "\n".join(lines)
+    for cell in ("10^5\\,\\Phi_{\\mathrm{sub}}",
+                 "10^5\\,(\\Phi_{\\mathrm{sub}}+\\text{tail})"):
+        if cell not in header:
+            raise Drift("the 10^5 scaling of tab:convergence in fidelity_tables.tex "
+                        "has changed: %r is gone" % cell)
     for k, (ln1, cells) in enumerate(tex_rows(src, lines, "tab:convergence"), start=1):
         lam, _ = parse_paren(cells[0])
         kmax, _ = parse_paren(cells[1])
