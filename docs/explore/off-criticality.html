@@ -66,8 +66,9 @@ information.</p>
     the adjacent-interval formula with <span data-tex="L_B\to L_B+L_G">L<sub>B</sub> &rarr; L<sub>B</sub> + L<sub>G</sub></span>:
     <span data-display data-tex="I(A{:}C\mid B)=\tfrac13\log\frac{(a+g+b)(g+b+c)}{(g+b)(a+g+b+c)}\ \sim\ \tfrac13\frac{L_AL_C}{L_G^{2}} .">I(A:C|B) = (1/3) log[(a+g+b)(g+b+c) / ((g+b)(a+g+b+c))] ~ (1/3) L_A L_C / L_G².</span>
     Every <span data-tex="\log L_G">log L<sub>G</sub></span> term cancels. Your browser evaluates this
-    formula live; the lattice confirms it to 0.116% at the default block length and to 0.06% at
-    <span data-tex="L_G=96">L<sub>G</sub> = 96</span>.</p>
+    formula live; at <span data-tex="L_G=96">L<sub>G</sub> = 96</span> the lattice confirms it to
+    0.116% at <span data-tex="L=6">L = 6</span> and to 0.055% at
+    <span data-tex="L=12">L = 12</span>.</p>
   <p class="provenance">Where this comes from:
     <a href="../results/longo-xu-cmi.md">the adjacent-interval CMI</a> &middot;
     <a href="../results/gap-law.md">the gap claim</a> &middot;
@@ -116,8 +117,13 @@ information.</p>
     c-theorem requires, and <span data-tex="c_M/c_E\to mR">c<sub>M</sub>/c<sub>E</sub> &rarr; mR</span>
     in the infrared &mdash; so <span data-tex="c_M">c<sub>M</sub></span> is not an independent infrared
     quantity, it is <span data-tex="c_E">c<sub>E</sub></span> times the RG time.</p>
-  <div class="note-block">The Richardson-extrapolated column overshoots by 2&ndash;3%, <span data-tex="c_M>1">c<sub>M</sub> &gt; 1</span>, at
-    <span data-tex="R=6,8">R = 6, 8</span> does not collapse between
+  <div class="note-block">Both columns overshoot at small <span data-tex="R">R</span>. The plotted
+    <span data-tex="c_M^{(2)}">c<sub>M</sub><sup>(2)</sup></span> reaches 1.1079 at
+    <span data-tex="m=0.05">m = 0.05</span>, <span data-tex="R=6">R = 6</span>, and stays above 1 out to
+    <span data-tex="R=14">R = 14</span>; at <span data-tex="m=0">m = 0</span> it exceeds 1 at every
+    <span data-tex="R">R</span>, as does <span data-tex="c_E">c<sub>E</sub></span>. The
+    Richardson-extrapolated column overshoots by 2&ndash;3% at
+    <span data-tex="R=6,8">R = 6, 8</span>, and that overshoot does not collapse between
     <span data-tex="m=0.05">m = 0.05</span> and <span data-tex="m=0.1">m = 0.1</span> at fixed
     <span data-tex="\mu R">&mu;R</span>, so it is a lattice artefact of the smallest admissible
     <span data-tex="\delta=2">&delta; = 2</span>, not evidence against monotonicity. The curves below
@@ -465,7 +471,14 @@ try {
       cell('Markov c_M', renderRecord(cM)),
       cell('c_M ≥ c_E', cM.value >= cE.value ? 'yes, as the c-theorem requires' : 'NO')
     ];
-    if (rmr && rmr.value !== null) kids.push(cell('(c_M/c_E)/(mR) at m = ' + fmt(S.m, 3) + ', tending to 1 as mR grows', renderRecord(rmr)));
+    if (rmr && rmr.value !== null) {
+      // at R = 40 this ratio is 1.3554, 1.1493, 1.0513, 0.9722, 0.8251, 0.5632 for
+      // m = 0.05 ... 1.6: it approaches 1 from above for the light masses and settles
+      // below 1 for the heavy ones, so "tends to 1" would be false (REF-MOD710b E2)
+      const drift = Number(m) <= 0.2 ? 'approaching 1 from above as mR grows'
+                                     : 'settling below 1: the light-mass reading does not hold here';
+      kids.push(cell('(c_M/c_E)/(mR) at m = ' + Number(m) + ', ' + drift, renderRecord(rmr)));
+    }
     document.getElementById('outc').replaceChildren(...kids);
     document.getElementById('mhint').textContent = 'm = ' + Number(m)
       + (Number(m) ? ', correlation length ξ = ' + fmt(2 / Number(m), 4) + ' sites' : ', critical');

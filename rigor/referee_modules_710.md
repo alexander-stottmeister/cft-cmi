@@ -24,3 +24,25 @@ Inherited fixes that do reach these pages: `draggable()` rewrites `role="img"` �
 
 ## Shared files, for central repair
 `docs/lib/plot.js:46` — `fmt` still emits `×10^-4` where `ui.js` emits `×10⁻⁴`; both appear in one readout list on module 8 and in module 7's `aria-valuetext`. `docs/lib/site.css:134` — `table { display: block }` still strips the table role from "Claims this module carries" on all four pages. Nits: `claim-map.html` `#graph` keeps `role="img"` over 88 clickable non-focusable nodes, pruning the `<title>`s that carry "never refereed" (the list beside it is the working keyboard path); module 8's thermal curve is evaluated at non-integer `L_B = x·β` while the source prints `x` to two decimals, so the dots sit up to 4% off the curve at β = 32. `docs/lib/extra.css` is clean: every colour is a site.css token, so both themes follow.
+
+## Second pass — REF-MOD710b (2026-09-21) — FAIL, four repairs, all in `off-criticality.html`
+
+Re-verified fixed: D2 (`liveBadge` takes a status; both call sites read `numerical` and name closed form vs
+lattice fit, the thermal one adding "at two temperatures only"), D5 (full check labels, no bare "min"), D6
+(a missing record throws; both injections drop `has-js` and show the notice), D7 (11.09 now `proved`). Shared:
+`plot.js` `fmt` and `ui.js` `fmtValue` agree — `3.91111×10⁻⁴` beside `9.25215×10⁻⁸` in one readout; `table`
+keeps its role inside `.table-wrap`, 11/11 pages wrapped; all 11 head scripts parse and a non-bubbling resource
+error now drops `has-js` on all four pages; `#zplot` and `#graph` are `group`. `--check` exit 0 from root and
+/tmp; claim map recounts to 88/8/147, 12 private pointers over 9 files (`plan_page/petz_program_plan.html` left
+the public index and the git test followed it), 0 rendered as links, 301/301 links tracked, the "awaiting a
+pass" chip now exercised.
+
+- **E1** `:468` prints `fmt(S.m, 3)` — the slider *index*, not the mass: "at m = 6" for m = 1.6 and "at m = 1"
+  for m = 0.05. Use `fmt(Number(m), 3)`; `m` is already bound on line 459.
+- **E2** `:468` "tending to 1 as mR grows" is false for m ≥ 0.4, which settle at 0.972, 0.825 and 0.563 at
+  R = 40. Say it approaches 1 from above for m ≤ 0.2 and lands below 1 for the heavier masses.
+- **E3** `:119` "The Richardson-extrapolated column overshoots by 2–3%, c_M > 1, at R = 6, 8 does not collapse"
+  has no main verb, and the plotted `c_M^(2)` overshoot is still unstated: 1.1079 at m = 0.05, R = 6, above 1
+  to R = 14, and above 1 at every R when m = 0, where c_E is too. Name both columns.
+- **E4** `:69` "to 0.116% at the default block length and to 0.06% at L_G = 96" reads as two gaps; both are at
+  L_G = 96 and differ by L. Write "at L_G = 96, to 0.116% at L = 6 (the default) and 0.055% at L = 12".
