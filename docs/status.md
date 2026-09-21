@@ -20,7 +20,7 @@
 
 58 of them are `refereed`, `proved`, `numerical`, `conjectural` and have a page of their own under [`results/`](results/); the remainder are listed here with their status only.
 
-A referee pass is not implied by a status. Of the cards listed here, **0 have never been refereed** and **1 carries a failed referee pass**, that is repairs asked for and not yet absorbed. Cards awaiting a pass after a recent change are marked too, but not counted here: that number moves with day-to-day editing of infrastructure cards that have no page. All three are marked in the tables below, as *never refereed*, *referee pass failed* and *review pending*. Nothing labelled `numerical` is a theorem.
+A referee pass is not implied by a status. Of the cards listed here, **0 have never been refereed** and **2 carry a failed referee pass**, that is repairs asked for and not yet absorbed. Cards awaiting a pass after a recent change are marked too, but not counted here: that number moves with day-to-day editing of infrastructure cards that have no page. All three are marked in the tables below, as *never refereed*, *referee pass failed* and *review pending*. Nothing labelled `numerical` is a theorem.
 
 <a id="area-foundations"></a>
 
@@ -179,7 +179,7 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 | `active` | Plan page artifact and its source |  |
 | `active` | Plan: public presentation (README with figures, interactive Pages site, generated docs/) |  |
 | `active` | Public README and the five generated SVG figures |  |
-| `active` | Two git repositories over one work tree: public project, private third-party material | review pending |
+| `active` | Two git repositories over one work tree: public project, private third-party material | referee pass failed |
 | `active` | Rigor pipeline: Lamport proofs, referee passes, findings ledger |  |
 
 ---
