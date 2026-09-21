@@ -1,0 +1,205 @@
+{
+ "generator": "tools/build_site_data_extra.py",
+ "module": "relative-entropy",
+ "note": "s2 = c/12 is a conjecture.  The two ends of the bracket are conditional, not proved: the upper end needs (V) (open), the lower end needs Araki's perturbation expansion, whose sources were not obtained (Gap RK2 of rigor/kubo_mori_gauge_lemma.tex).  The two measurements are at c = 1.",
+ "records": [
+  {
+   "value": 0.92418,
+   "error": null,
+   "source": "rigor/kubo_mori_gauge_lemma.tex",
+   "line": 601,
+   "status": "conditional",
+   "id": "bracket.upper",
+   "hypotheses": [
+    "(V), uniform integrability along the orbit"
+   ],
+   "label": "limsup s^-2 D <= (11+5 sqrt5)/24 c, Corollary 'what the route proves'",
+   "note": "(V) is open (Gap RK1); it holds at sigma = 0 only."
+  },
+  {
+   "value": 0.0338,
+   "error": null,
+   "source": "rigor/kubo_mori_gauge_lemma.tex",
+   "line": 816,
+   "status": "conditional",
+   "id": "bracket.lower",
+   "hypotheses": [
+    "(H3)",
+    "Araki's perturbation expansion (Gap RK2)"
+   ],
+   "label": "liminf s^-2 D >= (1/2) G(M, phi) >= c/(3 pi^2)",
+   "note": "Gap RK2: Araki 1973 and Bratteli-Robinson II 5.4.1 were NOT OBTAINED, so hypothesis (ii) of the lower-bound theorem is carried as a hypothesis rather than checked."
+  },
+  {
+   "value": 1.848,
+   "error": null,
+   "source": "rigor/kubo_mori_gauge_lemma.tex",
+   "line": 41,
+   "status": "proved",
+   "id": "gauge.inf",
+   "label": "inf over stress-tensor gauges of the Kubo-Mori form = (11+5 sqrt5)/12 c, attained in the limit at R* = (3+sqrt5)/2"
+  },
+  {
+   "value": 11.09,
+   "error": null,
+   "source": "rigor/kubo_mori_gauge_lemma.tex",
+   "line": 42,
+   "status": "refuted",
+   "id": "gauge.factor",
+   "label": "the Phase-2b gauge lemma claimed inf = c/6; the true infimum is larger by this factor, so the lemma is false"
+  },
+  {
+   "value": 0.067167,
+   "error": null,
+   "source": "fidelity_tables.tex",
+   "line": 19,
+   "status": "certified",
+   "id": "ladder.s2.1",
+   "series": "s2_ladder",
+   "x": 18.4,
+   "label": "s2 restricted to the spectral window, kappa_c = 18.4 (a rigorous lower bound, Lambda = 120)"
+  },
+  {
+   "value": 0.067209,
+   "error": null,
+   "source": "fidelity_tables.tex",
+   "line": 20,
+   "status": "certified",
+   "id": "ladder.s2.2",
+   "series": "s2_ladder",
+   "x": 18.4,
+   "label": "s2 restricted to the spectral window, kappa_c = 18.4 (a rigorous lower bound, Lambda = 120)"
+  },
+  {
+   "value": 0.067289,
+   "error": null,
+   "source": "fidelity_tables.tex",
+   "line": 21,
+   "status": "certified",
+   "id": "ladder.s2.3",
+   "series": "s2_ladder",
+   "x": 18.4,
+   "label": "s2 restricted to the spectral window, kappa_c = 18.4 (a rigorous lower bound, Lambda = 240)"
+  },
+  {
+   "value": 0.071785,
+   "error": null,
+   "source": "fidelity_tables.tex",
+   "line": 22,
+   "status": "certified",
+   "id": "ladder.s2.4",
+   "series": "s2_ladder",
+   "x": 25.3,
+   "label": "s2 restricted to the spectral window, kappa_c = 25.3 (a rigorous lower bound, Lambda = 120)"
+  },
+  {
+   "value": 0.071731,
+   "error": null,
+   "source": "fidelity_tables.tex",
+   "line": 23,
+   "status": "certified",
+   "id": "ladder.s2.5",
+   "series": "s2_ladder",
+   "x": 25.3,
+   "label": "s2 restricted to the spectral window, kappa_c = 25.3 (a rigorous lower bound, Lambda = 120)"
+  },
+  {
+   "value": 0.071703,
+   "error": null,
+   "source": "fidelity_tables.tex",
+   "line": 24,
+   "status": "certified",
+   "id": "ladder.s2.6",
+   "series": "s2_ladder",
+   "x": 25.3,
+   "label": "s2 restricted to the spectral window, kappa_c = 25.3 (a rigorous lower bound, Lambda = 240)"
+  },
+  {
+   "value": 0.074268,
+   "error": null,
+   "source": "fidelity_tables.tex",
+   "line": 25,
+   "status": "certified",
+   "id": "ladder.s2.7",
+   "series": "s2_ladder",
+   "x": 32.2,
+   "label": "s2 restricted to the spectral window, kappa_c = 32.2 (a rigorous lower bound, Lambda = 120)"
+  },
+  {
+   "value": 0.074229,
+   "error": null,
+   "source": "fidelity_tables.tex",
+   "line": 26,
+   "status": "certified",
+   "id": "ladder.s2.8",
+   "series": "s2_ladder",
+   "x": 32.2,
+   "label": "s2 restricted to the spectral window, kappa_c = 32.2 (a rigorous lower bound, Lambda = 120)"
+  },
+  {
+   "value": 0.074177,
+   "error": null,
+   "source": "fidelity_tables.tex",
+   "line": 27,
+   "status": "certified",
+   "id": "ladder.s2.9",
+   "series": "s2_ladder",
+   "x": 32.2,
+   "label": "s2 restricted to the spectral window, kappa_c = 32.2 (a rigorous lower bound, Lambda = 240)"
+  },
+  {
+   "value": 0.008444,
+   "error": 1e-06,
+   "source": "fidelity_tables.tex",
+   "line": 28,
+   "status": "numerical",
+   "id": "fermion.f2",
+   "label": "free fermion f2, extrapolated to kappa_c -> infinity"
+  },
+  {
+   "value": 0.0837,
+   "error": 0.0005,
+   "source": "fidelity_tables.tex",
+   "line": 28,
+   "status": "numerical",
+   "id": "fermion.s2",
+   "label": "free fermion s2, a two-point 1/kappa_c extrapolation from the ladder below, not a measurement at finite kappa_c"
+  },
+  {
+   "value": 0.00844,
+   "error": 2e-05,
+   "source": "rigor/findings.tex",
+   "line": 237,
+   "status": "numerical",
+   "id": "boson.f2",
+   "label": "U(1) current net, Gaussian mode compression in the modular frame (numerics/boson)"
+  },
+  {
+   "value": 0.083,
+   "error": 0.002,
+   "source": "rigor/findings.tex",
+   "line": 237,
+   "status": "numerical",
+   "id": "boson.s2",
+   "label": "U(1) current net s2, the second independent net at c = 1"
+  },
+  {
+   "value": 0.083333333,
+   "error": null,
+   "source": "rigor/check_note5_numerics.tex",
+   "line": 700,
+   "status": "conjectural",
+   "id": "conj.s2",
+   "label": "s2 = c/12 at c = 1: believed, and consistent with both measurements, but not proved for any net"
+  },
+  {
+   "value": 0.008443432,
+   "error": null,
+   "source": "rigor/check_note5_numerics.tex",
+   "line": 700,
+   "status": "proved",
+   "id": "thm.f2",
+   "label": "f2 = c/(12 pi^2) at c = 1, Theorem A: the coefficient that IS proved"
+  }
+ ]
+}

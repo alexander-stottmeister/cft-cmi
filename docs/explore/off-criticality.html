@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Off criticality: gap, temperature, mass &mdash; cft-cmi module 8</title>
+<meta name="description" content="Sliders for the gap length, the inverse temperature and the mass: the exact gap law, exponential thermal shielding at rate 2 pi, and the Markov c-function falling along the massive flow.">
+<link rel="stylesheet" href="../lib/site.css">
+<link rel="stylesheet" href="../lib/extra.css">
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<script defer src="../lib/katex/katex.min.js"></script>
+<script>
+/* If the module fails, say so in the page instead of leaving a blank area:
+   the static text and figure stay visible because .has-js is never set. */
+window.addEventListener('error', function (e) {
+  var host = document.getElementById('main') || document.body;
+  if (!host || host.querySelector('.boot-error')) return;
+  document.documentElement.classList.remove('has-js');
+  var d = document.createElement('div');
+  d.className = 'panel boot-error';
+  d.innerHTML = '<p><strong>The interactive view did not start.</strong> The text and the static ' +
+    'figure are the whole claim; the animation is an enhancement. Opening these pages straight from ' +
+    'the file system blocks ES modules in most browsers — serve the folder instead, for example ' +
+    'with <code>python3 -m http.server</code> inside <code>docs/</code>. Nothing is fetched from ' +
+    'another site either way.</p>';
+  var p = document.createElement('p');
+  p.className = 'provenance';
+  p.textContent = (e.message || 'script error') + (e.filename ? '  —  ' + e.filename + ':' + e.lineno : '');
+  d.appendChild(p);
+  host.prepend(d);
+});
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="quadratic-law.html">Module 2</a>
+    <a href="separation.html">Module 7</a>
+    <a href="relative-entropy.html">Module 9</a>
+    <a href="../index.md">Documentation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+
+<main class="wrap" id="main">
+<h1>Module 8 &mdash; Off criticality: gap, temperature, mass</h1>
+<p class="lede">The quadratic law is a statement about <em>adjacent</em> intervals at a conformal fixed
+point. Open a gap, heat the state, or turn on a mass, and you can watch which parts survive. Heating
+is a conformal change of state and the law survives it, with the cross ratio transported; a gap or a
+mass is not, and there the recovery error becomes <em>linear</em> in the conditional mutual
+information.</p>
+
+<div class="claim">
+  <div class="claim-head"><span class="badge proved">proved</span>
+    <span class="claim-title">The gap law itself is a closed form</span></div>
+  <p>With a gap <span data-tex="G">G</span> between <span data-tex="A">A</span> and
+    <span data-tex="B">B</span>, traced out, the massless Dirac two-interval entropies give exactly
+    the adjacent-interval formula with <span data-tex="L_B\to L_B+L_G">L<sub>B</sub> &rarr; L<sub>B</sub> + L<sub>G</sub></span>:
+    <span data-display data-tex="I(A{:}C\mid B)=\tfrac13\log\frac{(a+g+b)(g+b+c)}{(g+b)(a+g+b+c)}\ \sim\ \tfrac13\frac{L_AL_C}{L_G^{2}} .">I(A:C|B) = (1/3) log[(a+g+b)(g+b+c) / ((g+b)(a+g+b+c))] ~ (1/3) L_A L_C / L_G².</span>
+    Every <span data-tex="\log L_G">log L<sub>G</sub></span> term cancels. Your browser evaluates this
+    formula live; the lattice confirms it to 0.06% at
+    <span data-tex="L_G=96">L<sub>G</sub> = 96</span>.</p>
+  <p class="provenance">Where this comes from:
+    <a href="../results/longo-xu-cmi.md">the adjacent-interval CMI</a> &middot;
+    <a href="../results/gap-law.md">the gap claim</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/thermal_rg_gap_summary.md" rel="noopener">rigor/thermal_rg_gap_summary.md</a></p>
+</div>
+
+<div class="claim">
+  <div class="claim-head"><span class="badge numerical">numerical</span>
+    <span class="claim-title">Separated intervals: the recovery error decays with the <em>same</em> power</span></div>
+  <p>If the quadratic law held, <span data-tex="-\log F">&minus;log F</span> would go like
+    <span data-tex="L_G^{-4}">L<sub>G</sub><sup>&minus;4</sup></span>. It does not: it decays like
+    <span data-tex="L_G^{-2}">L<sub>G</sub><sup>&minus;2</sup></span>, so the ratio
+    <span data-tex="-\log F/I">&minus;log F / I</span> tends to a constant near 0.09, independent of
+    the interval length. Recovery is only quadratic in the CMI at a conformal fixed point with
+    adjacency.</p>
+  <p class="provenance">Where this comes from:
+    <a href="../results/gap-law.md">claim page</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/lattice/petz_thermal_rg.py" rel="noopener">numerics/lattice/petz_thermal_rg.py</a>
+    (output <code>petz_thermal_rg.out</code>, section 3)</p>
+</div>
+
+<div class="claim">
+  <div class="claim-head"><span class="badge numerical">numerical</span>
+    <span class="claim-title">Thermal states: the vacuum law at the cylinder cross ratio, and exponential shielding</span></div>
+  <p>KMS states obey the vacuum two-branch law at the thermal cross ratio
+    <span data-display data-tex="\eta_\beta=\frac{\sinh(\pi a/\beta_{\rm len})\sinh(\pi c/\beta_{\rm len})}{\sinh(\pi(a{+}b)/\beta_{\rm len})\sinh(\pi(b{+}c)/\beta_{\rm len})},\qquad \beta_{\rm len}=2\beta,">eta_beta = sinh(pi a/bl) sinh(pi c/bl) / [sinh(pi(a+b)/bl) sinh(pi(b+c)/bl)], bl = 2 beta,</span>
+    the vacuum cross ratio of the images of the four endpoints under the exponential map. For
+    <span data-tex="L_B\gg\beta">L<sub>B</sub> &gg; &beta;</span> the error is shielded exponentially,
+    at rate <span data-tex="2\pi">2&pi;</span> in <span data-tex="-\log F">&minus;log F</span> and
+    <span data-tex="\pi">&pi;</span> in the CMI, in thermal-length units
+    (<span data-tex="v=2">v = 2</span> sites per unit lattice time, so
+    <span data-tex="\xi=\beta/\pi">&xi; = &beta;/&pi;</span> sites).</p>
+  <p class="provenance">Where this comes from:
+    <a href="../results/thermal-shielding.md">claim page</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/thermal_rg_gap_summary.md" rel="noopener">rigor/thermal_rg_gap_summary.md</a> &sect;1</p>
+</div>
+
+<div class="claim">
+  <div class="claim-head"><span class="badge numerical">numerical</span>
+    <span class="claim-title">The Markov c-function along the massive flow</span></div>
+  <p>With <span data-tex="c_M(R):=3R^2I_{R-2}(2)/4">c<sub>M</sub>(R) = 3R&sup2; I<sub>R&minus;2</sub>(2)/4</span>,
+    a genuine lattice CMI and so non-negative by strong subadditivity, and
+    <span data-tex="c_E(R):=3R(S(R{+}2)-S(R{-}2))/4">c<sub>E</sub>(R) = 3R (S(R+2) &minus; S(R&minus;2))/4</span>:
+    both fall monotonically from 1 to 0 along the flow,
+    <span data-tex="c_M\ge c_E">c<sub>M</sub> &ge; c<sub>E</sub></span> everywhere as the entropic
+    c-theorem requires, and <span data-tex="c_M/c_E\to mR">c<sub>M</sub>/c<sub>E</sub> &rarr; mR</span>
+    in the infrared &mdash; so <span data-tex="c_M">c<sub>M</sub></span> is not an independent infrared
+    quantity, it is <span data-tex="c_E">c<sub>E</sub></span> times the RG time.</p>
+  <div class="note-block">A 2&ndash;3% overshoot <span data-tex="c_M>1">c<sub>M</sub> &gt; 1</span> at
+    <span data-tex="R=6,8">R = 6, 8</span> does not collapse between
+    <span data-tex="m=0.05">m = 0.05</span> and <span data-tex="m=0.1">m = 0.1</span> at fixed
+    <span data-tex="\mu R">&mu;R</span>, so it is a lattice artefact of the smallest admissible
+    <span data-tex="\delta=2">&delta; = 2</span>, not evidence against monotonicity. The curves below
+    are measurements on a finite chain, not a theorem.</div>
+  <p class="provenance">Where this comes from:
+    <a href="../results/rg-c-function.md">claim page</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/lattice/petz_thermal_rg.py" rel="noopener">numerics/lattice/petz_thermal_rg.py</a>
+    (output section 2)</p>
+</div>
+
+<figure class="no-js">
+  <svg viewBox="0 0 640 190" role="img" aria-labelledby="f8t f8d">
+    <title id="f8t">Three ways to leave the fixed point</title>
+    <desc id="f8d">Three sketches: with a gap, the conditional mutual information and the recovery
+      error fall with the same power of the gap length; at finite temperature the error is shielded
+      exponentially; along the massive flow both c-functions fall to zero.</desc>
+    <g transform="translate(10,10)">
+      <text x="0" y="10" fill="var(--fg)" font-size="12">gap: same power</text>
+      <line x1="0" y1="20" x2="0" y2="150" stroke="var(--line)"/>
+      <line x1="0" y1="150" x2="180" y2="150" stroke="var(--line)"/>
+      <path d="M8,34 L176,126" stroke="var(--series-1)" stroke-width="2" fill="none"/>
+      <path d="M8,66 L176,158" stroke="var(--series-2)" stroke-width="2" fill="none"/>
+      <text x="96" y="52" fill="var(--series-1)" font-size="11">I ~ L_G^-2</text>
+      <text x="96" y="146" fill="var(--series-2)" font-size="11">-log F ~ L_G^-2</text>
+    </g>
+    <g transform="translate(230,10)">
+      <text x="0" y="10" fill="var(--fg)" font-size="12">temperature: shielding</text>
+      <line x1="0" y1="20" x2="0" y2="150" stroke="var(--line)"/>
+      <line x1="0" y1="150" x2="180" y2="150" stroke="var(--line)"/>
+      <path d="M4,26 C60,120 110,146 176,150" stroke="var(--series-2)" stroke-width="2" fill="none"/>
+      <text x="60" y="80" fill="var(--series-2)" font-size="11">e^(-2 pi L_B/beta)</text>
+    </g>
+    <g transform="translate(450,10)">
+      <text x="0" y="10" fill="var(--fg)" font-size="12">mass: c falls to 0</text>
+      <line x1="0" y1="20" x2="0" y2="150" stroke="var(--line)"/>
+      <line x1="0" y1="150" x2="170" y2="150" stroke="var(--line)"/>
+      <path d="M4,40 C60,44 110,120 166,148" stroke="var(--series-3)" stroke-width="2" fill="none"/>
+      <path d="M4,52 C60,60 110,134 166,150" stroke="var(--series-1)" stroke-width="2" fill="none"/>
+      <text x="40" y="34" fill="var(--series-3)" font-size="11">c_M</text>
+      <text x="40" y="74" fill="var(--series-1)" font-size="11">c_E</text>
+    </g>
+  </svg>
+  <figcaption>What each deformation does. With JavaScript enabled the three panels below carry the
+    measured points, and the closed forms are evaluated as you move the sliders.</figcaption>
+</figure>
+
+<div class="js-only">
+<div class="panel">
+  <h3 style="margin-top:0">Open a gap</h3>
+  <p style="font-size:.9rem;margin-top:0">Geometry <span class="mono">A(L) | G(L<sub>G</sub>) | B(L) | C(L)</span>,
+    the gap traced out. The line is the closed form evaluated here; the dots are the lattice.</p>
+  <svg id="gapplot" role="img" aria-label="The conditional mutual information and the recovery error against the gap length, logarithmic axes"></svg>
+  <div class="controls" style="margin-top:.7rem">
+    <div class="control">
+      <label for="ig">Gap length <span class="mono">L<sub>G</sub></span></label>
+      <input id="ig" type="range" min="0" max="13" step="1" value="9" aria-describedby="ghint">
+      <span class="hint" id="ghint">fourteen measured gaps, 0 to 96 sites</span>
+    </div>
+    <div class="control">
+      <label for="iL">Interval length <span class="mono">L</span></label>
+      <input id="iL" type="range" min="0" max="2" step="1" value="0" aria-describedby="Lhint">
+      <span class="hint" id="Lhint">L = 6, 8 or 12: the ratio is L-independent</span>
+    </div>
+  </div>
+  <div class="readout" id="outgap"></div>
+</div>
+
+<div class="panel">
+  <h3 style="margin-top:0">Heat the state</h3>
+  <p style="font-size:.9rem;margin-top:0">The curve is the KMS closed form at the thermal cross ratio,
+    evaluated here; the dots are the lattice at the same inverse temperature; the dashed lines are the
+    predicted shielding rates <span data-tex="2\pi">2&pi;</span> and <span data-tex="\pi">&pi;</span>,
+    anchored at the last measured point, not fitted.</p>
+  <svg id="thplot" role="img" aria-label="Recovery error and conditional mutual information against L_B over beta, logarithmic in the vertical direction"></svg>
+  <div class="controls" style="margin-top:.7rem">
+    <div class="control">
+      <label for="ib">Inverse temperature <span class="mono">&beta;</span></label>
+      <input id="ib" type="range" min="0" max="3" step="1" value="1" aria-describedby="bhint">
+      <span class="hint" id="bhint">four measured temperatures</span>
+    </div>
+    <div class="control">
+      <label for="ix">Read off at <span class="mono">L<sub>B</sub>/&beta;</span></label>
+      <input id="ix" type="range" min="0.1" max="8" step="0.05" value="2" aria-describedby="xhint">
+      <span class="hint" id="xhint">the closed form is evaluated at this point</span>
+    </div>
+  </div>
+  <div class="readout" id="outth"></div>
+</div>
+
+<div class="panel">
+  <h3 style="margin-top:0">Turn on a mass</h3>
+  <p style="font-size:.9rem;margin-top:0">Both c-functions against the RG variable
+    <span data-tex="\mu R=mR/2">&mu;R = mR/2</span>. Everything in this panel is measured.</p>
+  <svg id="cplot" role="img" aria-label="The entropic and Markov c-functions along the massive flow"></svg>
+  <div class="controls" style="margin-top:.7rem">
+    <div class="control">
+      <label for="im">Mass <span class="mono">m</span></label>
+      <input id="im" type="range" min="0" max="6" step="1" value="4" aria-describedby="mhint">
+      <span class="hint" id="mhint">seven measured masses, 0 to 1.6</span>
+    </div>
+    <div class="control">
+      <label for="iR">Read off at <span class="mono">R</span></label>
+      <input id="iR" type="range" min="0" max="17" step="1" value="2" aria-describedby="Rhint">
+      <span class="hint" id="Rhint">R = 6 to 40, in steps of 2</span>
+    </div>
+  </div>
+  <div class="readout" id="outc"></div>
+</div>
+
+<div class="panel">
+  <h3 style="margin-top:0">The two-branch law on the lattice</h3>
+  <p style="font-size:.9rem;margin-top:0">The apparent exponent of
+    <span data-tex="-\log F^{(\lambda)}\sim\eta^{p}">&minus;log F<sup>(&lambda;)</sup> ~ &eta;<sup>p</sup></span>,
+    fitted over <span data-tex="\eta\le0.1">&eta; &le; 0.1</span>, against the values Vardhan, Wei and
+    Zou fitted. A single-branch law is off by factors of 22 to 5000; the two-branch law holds with
+    <span data-tex="1-0.15/L">1 &minus; 0.15/L</span>, constant in <span data-tex="\eta">&eta;</span>.</p>
+  <svg id="tbplot" role="img" aria-label="Lattice and published exponents against the rotation parameter"></svg>
+  <div class="readout" id="outtb"></div>
+  <p class="provenance"><a href="../results/two-branch-law-lattice.md">two-branch law on the lattice</a>
+    &middot; <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/lattice/petz_lattice.py" rel="noopener">numerics/lattice/petz_lattice.py</a></p>
+</div>
+</div>
+
+<h2>Claims this module carries</h2>
+<table>
+<thead><tr><th>claim</th><th>status</th></tr></thead>
+<tbody>
+<tr><td><a href="../results/gap-law.md">the gap law and linearity off criticality</a></td><td><span class="badge numerical">numerical</span></td></tr>
+<tr><td><a href="../results/thermal-shielding.md">thermal states and exponential shielding</a></td><td><span class="badge numerical">numerical</span></td></tr>
+<tr><td><a href="../results/rg-c-function.md">the Markov c-function along the massive flow</a></td><td><span class="badge numerical">numerical</span></td></tr>
+<tr><td><a href="../results/two-branch-law-lattice.md">the two-branch law on the lattice</a></td><td><span class="badge numerical">numerical</span></td></tr>
+<tr><td><a href="../results/longo-xu-cmi.md">the adjacent-interval CMI the gap law transports</a></td><td><span class="badge proved">proved</span></td></tr>
+</tbody>
+</table>
+<p class="provenance">Four of these five are measurements with the geometry and the chain length they
+were measured at, not theorems: the closed forms this page evaluates live are exact, the lattice
+values are not extrapolated to the continuum.</p>
+</main>
+
+<footer class="site"><div class="wrap">
+  <p>Module 8 of <a href="../index.html">the cft-cmi site</a>. Every measured number is read from
+    <code>docs/data/extra-off-criticality.json</code>, generated by
+    <code>tools/build_site_data_extra.py</code> from <code>numerics/lattice/</code>. No analytics, no
+    external requests.</p>
+</div></footer>
+
+<script type="module">
+import { Plot, fmt } from '../lib/plot.js';
+import { initTheme, enableJS, loadData, renderRecord, renderMath, failNotice, el as h } from '../lib/ui.js';
+
+initTheme(document.querySelector('button.theme'));
+renderMath(document);
+window.addEventListener('load', () => renderMath(document));
+
+/* the closed forms, exact and evaluated here */
+const gapCMI = (L, g) => Math.log((2 * L + g) * (2 * L + g) / ((L + g) * (3 * L + g))) / 3;
+const thermalCMI = (L, b, beta) => {          // beta_len = 2 beta, v = 2 sites per unit time
+  const bl = 2 * beta, s = x => Math.sinh(Math.PI * x / bl);
+  const eta = s(L) * s(L) / (s(L + b) * s(L + b));
+  return -Math.log(1 - eta) / 3;
+};
+
+const LS = [6, 8, 12], BETAS = ['4.0', '8.0', '16.0', '32.0'], LTH = 8;
+const S = { g: 9, L: 0, b: 1, x: 2, m: 4, R: 2 };
+
+let D = null;
+enableJS();
+try {
+  D = await loadData('../data/extra-off-criticality.json');
+  const MASSES = D.json.masses;
+  const cell = (k, node) => h('div', { class: 'cell' },
+    [h('span', { class: 'k', text: k }), typeof node === 'string' ? h('span', { class: 'v', text: node }) : node]);
+  const liveBadge = text => h('div', { class: 'cell' }, [
+    h('span', { class: 'k', text: 'status' }),
+    h('span', {}, [Object.assign(document.createElement('span'),
+      { className: 'badge proved', textContent: 'proved' }), ' ' + text])]);
+  const L = () => LS[S.L];
+  const beta = () => Number(BETAS[S.b]);
+  const gaps = () => D.series('gap.I.L' + L());
+
+  // ------------------------------------------------------------------- gap
+  const gapPlot = new Plot(document.getElementById('gapplot'), {
+    aspect: 0.55, minH: 210, maxH: 340, margin: { l: 66, r: 16, t: 14, b: 42 },
+    xScale: 'log', yScale: 'log', xDomain: [0.8, 130], yDomain: [4e-5, 0.3],
+    xLabel: 'gap length L_G (sites)', yLabel: 'I and −log F'
+  }).onRender(P => {
+    P.axes();
+    const live = [];
+    for (let i = 0; i <= 80; i++) {
+      const g = 0.8 * Math.pow(130 / 0.8, i / 80);
+      live.push([g, gapCMI(L(), g)]);
+    }
+    P.curve(live, { stroke: 'var(--series-1)', width: 2 });
+    const I = D.series('gap.I.L' + L()).filter(r => r.x > 0);
+    const F = D.series('gap.phi.L' + L()).filter(r => r.x > 0);
+    P.dots(I.map(r => [r.x, r.value]), { fill: 'var(--series-1)', r: 3.6 });
+    P.dots(F.map(r => [r.x, r.value]), { shape: 'square', stroke: 'var(--series-2)', fill: 'var(--panel)', r: 3.6 });
+    const f0 = F[0], quartic = [], quadratic = [];
+    for (let i = 0; i <= 40; i++) {
+      const g = f0.x * Math.pow(130 / f0.x, i / 40);
+      quartic.push([g, f0.value * Math.pow(f0.x / g, 4)]);
+      quadratic.push([g, f0.value * Math.pow(f0.x / g, 2)]);
+    }
+    P.curve(quartic, { stroke: 'var(--series-5)', dash: '2 4', width: 1.3 });
+    P.curve(quadratic, { stroke: 'var(--series-2)', dash: '6 4', width: 1.3 });
+    const cur = gaps()[S.g];
+    if (cur.x > 0) P.vline(cur.x, { stroke: 'var(--series-4)', dash: '3 3' });
+    P.legend([
+      { stroke: 'var(--series-1)', label: 'I, closed form evaluated here' },
+      { stroke: 'var(--series-2)', label: '−log F, measured' },
+      { stroke: 'var(--series-2)', dash: '6 4', label: 'L_G^−2 through the first point' },
+      { stroke: 'var(--series-5)', dash: '2 4', label: 'L_G^−4, what the quadratic law would give' }
+    ], { x: P.inner.x0 + 12, y: P.inner.y1 + 12 });
+  });
+
+  // --------------------------------------------------------------- thermal
+  const thPlot = new Plot(document.getElementById('thplot'), {
+    aspect: 0.55, minH: 210, maxH: 340, margin: { l: 70, r: 16, t: 14, b: 42 },
+    yScale: 'log', xDomain: [0, 8], yDomain: [1e-18, 1],
+    xLabel: 'L_B / β', yLabel: 'I and −log F'
+  }).onRender(P => {
+    P.axes();
+    const b = beta(), live = [];
+    for (let i = 1; i <= 100; i++) {
+      const x = 8 * i / 100;
+      live.push([x, thermalCMI(LTH, x * b, b)]);
+    }
+    P.curve(live, { stroke: 'var(--series-1)', width: 2 });
+    const cmi = D.series('thermal.cmi.b' + BETAS[S.b]);
+    const phi = D.series('thermal.phi.b' + BETAS[S.b]);
+    P.dots(cmi.map(r => [r.x, r.value]), { fill: 'var(--series-1)', r: 3.4 });
+    P.dots(phi.map(r => [r.x, r.value]), { shape: 'square', stroke: 'var(--series-2)', fill: 'var(--panel)', r: 3.4 });
+    const anchor = (rows, rate) => {
+      const last = rows[rows.length - 1], out = [];
+      for (let i = 0; i <= 30; i++) {
+        const x = last.x - 3 + 3 * i / 30 * 1.1;
+        out.push([x, last.value * Math.exp(-rate * (x - last.x))]);
+      }
+      return out;
+    };
+    P.curve(anchor(phi, 2 * Math.PI), { stroke: 'var(--series-2)', dash: '6 4', width: 1.3 });
+    P.curve(anchor(cmi, Math.PI), { stroke: 'var(--series-1)', dash: '6 4', width: 1.3 });
+    P.vline(S.x, { stroke: 'var(--series-4)', dash: '3 3' });
+    P.legend([
+      { stroke: 'var(--series-1)', label: 'I, KMS closed form evaluated here' },
+      { stroke: 'var(--series-2)', label: '−log F, measured' },
+      { stroke: 'var(--series-2)', dash: '6 4', label: 'slope 2π, predicted not fitted' }
+    ], { x: P.inner.x0 + 12, y: P.inner.y1 + 12 });
+  });
+
+  // ------------------------------------------------------------ c-function
+  const cPlot = new Plot(document.getElementById('cplot'), {
+    aspect: 0.5, minH: 200, maxH: 320, margin: { l: 58, r: 16, t: 14, b: 42 },
+    xDomain: [0, 2], yDomain: [0, 1.25], xLabel: 'μR = mR/2', yLabel: 'c'
+  }).onRender(P => {
+    const cE = D.series('cfun.cE.m' + MASSES[S.m]);
+    const cM = D.series('cfun.cM.m' + MASSES[S.m]);
+    const xmax = Math.max(0.5, cE[cE.length - 1].x);
+    P.domain([0, xmax * 1.02], [0, 1.25]);
+    P.axes();
+    P.hline(1, { stroke: 'var(--muted)', dash: '4 4' });
+    P.curve(cM.map(r => [r.x, r.value]), { stroke: 'var(--series-3)', width: 2 });
+    P.curve(cE.map(r => [r.x, r.value]), { stroke: 'var(--series-1)', width: 2 });
+    P.dots(cM.map(r => [r.x, r.value]), { fill: 'var(--series-3)', r: 3 });
+    P.dots(cE.map(r => [r.x, r.value]), { fill: 'var(--series-1)', r: 3 });
+    P.vline(cE[S.R].x, { stroke: 'var(--series-4)', dash: '3 3' });
+    P.legend([
+      { stroke: 'var(--series-3)', label: 'Markov c_M (a lattice CMI)' },
+      { stroke: 'var(--series-1)', label: 'entropic c_E' }
+    ], { x: P.inner.x0 + 12, y: P.inner.y1 + 12 });
+  });
+
+  // ----------------------------------------------------------- two branches
+  const tbPlot = new Plot(document.getElementById('tbplot'), {
+    aspect: 0.4, minH: 170, maxH: 260, margin: { l: 52, r: 16, t: 14, b: 42 },
+    xDomain: [-0.1, 1.6], yDomain: [0.8, 2.2], xLabel: 'λ (rotation)', yLabel: 'exponent p'
+  }).onRender(P => {
+    P.axes();
+    P.hline(2, { stroke: 'var(--muted)', dash: '4 4' });
+    const lat = D.series('twobranch.lattice'), vwz = D.series('twobranch.vwz');
+    P.curve(lat.map(r => [r.x, r.value]), { stroke: 'var(--series-1)' });
+    P.dots(lat.map(r => [r.x, r.value]), { fill: 'var(--series-1)', r: 4 });
+    P.dots(vwz.map(r => [r.x, r.value]), { shape: 'square', stroke: 'var(--series-2)', fill: 'var(--panel)', r: 4 });
+    P.legend([
+      { stroke: 'var(--series-1)', label: 'this lattice, fitted over η ≤ 0.1' },
+      { stroke: 'var(--series-2)', label: 'Vardhan–Wei–Zou fit' }
+    ], { x: P.inner.x0 + 12, y: P.inner.y1 + 12 });
+  });
+
+  // -------------------------------------------------------------- readouts
+  function readGap() {
+    const g = gaps()[S.g].x, L0 = L();
+    document.getElementById('outgap').replaceChildren(
+      cell('L, L_G', L0 + ', ' + g),
+      cell('I, closed form here', fmt(gapCMI(L0, g), 6)),
+      cell('I, closed form in the pipeline', renderRecord(D.get('gap.Icont.L' + L0 + '.' + g))),
+      cell('I, measured on the lattice', renderRecord(D.get('gap.I.L' + L0 + '.' + g))),
+      cell('−log F, measured', renderRecord(D.get('gap.phi.L' + L0 + '.' + g))),
+      cell('−log F / I', renderRecord(D.get('gap.ratio.L' + L0 + '.' + g))),
+      cell('the same ratio at L_G = 96, L = 6, 8, 12',
+        h('span', {}, [renderRecord(D.get('gap.ratio.L6.96'), { sig: 4 }), ' ',
+          renderRecord(D.get('gap.ratio.L8.96'), { sig: 4 }), ' ',
+          renderRecord(D.get('gap.ratio.L12.96'), { sig: 4 })])),
+      liveBadge('the closed form is exact; every record above is a lattice measurement')
+    );
+    document.getElementById('ghint').textContent = 'L_G = ' + g + (g ? '' : ' — adjacent, no gap');
+    document.getElementById('Lhint').textContent = 'L = ' + L0 + '; the ratio is L-independent';
+  }
+
+  function readTh() {
+    const b = beta(), cmi = D.series('thermal.cmi.b' + BETAS[S.b]);
+    const near = cmi.reduce((a, r) => (Math.abs(r.x - S.x) < Math.abs(a.x - S.x) ? r : a));
+    const kf = D.series('rate.kapF').filter(r => r.x === b);
+    const ki = D.series('rate.kapI').filter(r => r.x === b);
+    const kids = [
+      cell('β, L_B/β', fmt(b, 3) + ', ' + fmt(S.x, 3)),
+      cell('ξ = β/π sites', fmt(b / Math.PI, 4)),
+      cell('I, KMS closed form here', fmt(thermalCMI(LTH, S.x * b, b), 6)),
+      cell('nearest measured L_B/β', fmt(near.x, 3)),
+      cell('I measured there', renderRecord(near)),
+      cell('−log F measured there',
+        renderRecord(D.series('thermal.phi.b' + BETAS[S.b]).find(r => r.x === near.x)))
+    ];
+    if (kf.length) {
+      kids.push(cell('fitted shielding rate of −log F', renderRecord(kf[0])));
+      kids.push(cell('the prediction 2π', fmt(2 * Math.PI, 6)));
+      kids.push(cell('fitted rate of the CMI', renderRecord(ki[0])));
+      kids.push(cell('the prediction π', fmt(Math.PI, 6)));
+    } else {
+      kids.push(cell('shielding rates', 'fitted only at β = 4 and β = 8, where L_B/β ≥ 2 was reached'));
+    }
+    kids.push(liveBadge('the KMS cross ratio is a closed form; the rates are fits to lattice data'));
+    document.getElementById('outth').replaceChildren(...kids);
+    document.getElementById('bhint').textContent = 'β = ' + b + ' (thermal length ' + fmt(2 * b, 3) + ')';
+    document.getElementById('xhint').textContent = 'L_B/β = ' + fmt(S.x, 3);
+  }
+
+  function readC() {
+    const m = MASSES[S.m];
+    const cE = D.series('cfun.cE.m' + m)[S.R], cM = D.series('cfun.cM.m' + m)[S.R];
+    const rmr = D.series('cfun.ratio_mR.m' + m)[S.R];
+    const kids = [
+      cell('m, R, μR', Number(m) + ', ' + cE.R + ', ' + fmt(cE.x, 4)),
+      cell('entropic c_E', renderRecord(cE)),
+      cell('Markov c_M', renderRecord(cM)),
+      cell('c_M ≥ c_E', cM.value >= cE.value ? 'yes, as the c-theorem requires' : 'NO')
+    ];
+    if (rmr && rmr.value !== null) kids.push(cell('(c_M/c_E)/(mR), → 1 in the infrared', renderRecord(rmr)));
+    document.getElementById('outc').replaceChildren(...kids);
+    document.getElementById('mhint').textContent = 'm = ' + Number(m)
+      + (Number(m) ? ', correlation length ξ = ' + fmt(2 / Number(m), 4) + ' sites' : ', critical');
+    document.getElementById('Rhint').textContent = 'R = ' + cE.R;
+  }
+
+  function readTb() {
+    const lat = D.series('twobranch.lattice'), vwz = D.series('twobranch.vwz');
+    const kids = [];
+    lat.forEach((r, i) => {
+      kids.push(cell('λ = ' + r.x + ', this lattice', renderRecord(r, { sig: 4 })));
+      kids.push(cell('λ = ' + r.x + ', Vardhan–Wei–Zou', renderRecord(vwz[i], { sig: 3 })));
+    });
+    document.getElementById('outtb').replaceChildren(...kids);
+  }
+
+  const redraw = () => {
+    gapPlot.render(); thPlot.render(); cPlot.render();
+    readGap(); readTh(); readC();
+  };
+  const bind = (id, key, fn) => document.getElementById(id).addEventListener('input', e => {
+    S[key] = fn(+e.target.value);
+    redraw();
+  });
+  bind('ig', 'g', v => Math.max(0, Math.min(13, Math.round(v))));
+  bind('iL', 'L', v => Math.max(0, Math.min(2, Math.round(v))));
+  bind('ib', 'b', v => Math.max(0, Math.min(3, Math.round(v))));
+  bind('ix', 'x', v => Math.max(0.1, Math.min(8, v)));
+  bind('im', 'm', v => Math.max(0, Math.min(MASSES.length - 1, Math.round(v))));
+  bind('iR', 'R', v => Math.max(0, Math.min(17, Math.round(v))));
+  document.addEventListener('themechange', () => { redraw(); tbPlot.render(); });
+
+  redraw();
+  tbPlot.render();
+  readTb();
+} catch (e) {
+  document.documentElement.classList.remove('has-js');
+  failNotice(document.querySelector('main'), e);
+}
+</script>
+</body>
+</html>

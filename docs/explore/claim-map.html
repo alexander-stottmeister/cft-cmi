@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The claim map &mdash; cft-cmi module 10</title>
+<meta name="description" content="Every claim of the project as a graph of its areas: click a claim for its statement, status and evidence, and filter by status. Cards never refereed say so; evidence held privately is not a link.">
+<link rel="stylesheet" href="../lib/site.css">
+<link rel="stylesheet" href="../lib/extra.css">
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<script defer src="../lib/katex/katex.min.js"></script>
+<script>
+/* If the module fails, say so in the page instead of leaving a blank area:
+   the static text and figure stay visible because .has-js is never set. */
+window.addEventListener('error', function (e) {
+  var host = document.getElementById('main') || document.body;
+  if (!host || host.querySelector('.boot-error')) return;
+  document.documentElement.classList.remove('has-js');
+  var d = document.createElement('div');
+  d.className = 'panel boot-error';
+  d.innerHTML = '<p><strong>The interactive view did not start.</strong> The text and the static ' +
+    'figure are the whole claim; the animation is an enhancement. The same claims, with the same ' +
+    'statuses, are listed in <code>docs/status.md</code>, which is generated from the same ' +
+    'knowledge base. Opening these pages straight from the file system blocks ES modules in most ' +
+    'browsers — serve the folder instead, for example with <code>python3 -m http.server</code> ' +
+    'inside <code>docs/</code>. Nothing is fetched from another site either way.</p>';
+  var p = document.createElement('p');
+  p.className = 'provenance';
+  p.textContent = (e.message || 'script error') + (e.filename ? '  —  ' + e.filename + ':' + e.lineno : '');
+  d.appendChild(p);
+  host.prepend(d);
+});
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="separation.html">Module 7</a>
+    <a href="off-criticality.html">Module 8</a>
+    <a href="relative-entropy.html">Module 9</a>
+    <a href="../status.md">All claims as a table</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+
+<main class="wrap" id="main">
+<h1>Module 10 &mdash; The claim map</h1>
+<p class="lede">Every card of the project's knowledge base, grouped into its areas, with what it says,
+what its status is, and what evidence it rests on. Nothing is hidden from this map: a card that has
+never been through a referee pass is shown and marked as such, and a piece of evidence that lives in
+the private companion is shown and marked as held privately, rather than linked to a page that would
+not resolve.</p>
+
+<div class="claim">
+  <div class="claim-head"><span class="badge active">how to read it</span>
+    <span class="claim-title">Statuses are not a ranking, and two of them are not claims at all</span></div>
+  <p><span class="badge proved">proved</span> and <span class="badge refereed">refereed</span> are
+    complete structured proofs, the second having survived an independent pass.
+    <span class="badge certified">certified</span> is a rigorous enclosure.
+    <span class="badge numerical">numerical</span> is a measurement with an error bar &mdash; never a
+    theorem, and never styled like one. <span class="badge conditional">conditional</span> holds only
+    under the hypotheses named on the card. <span class="badge conjectural">conjectural</span> and
+    <span class="badge open">open</span> are unsettled. <span class="badge refuted">refuted</span> is
+    kept because the record of what failed is part of the result.
+    <span class="badge verified">verified</span>, <span class="badge active">active</span>,
+    <span class="badge done">done</span> and <span class="badge superseded">superseded</span> mark
+    lessons, decisions and tools rather than mathematical claims.</p>
+  <p>Three further marks are about the record, not the mathematics:
+    <span class="chip unrefereed">never refereed</span> on a card with no verdict anywhere in its
+    record, <span class="chip">awaiting a referee pass</span> on one whose review line says pending
+    &mdash; which is not the same thing, since its history may already hold several verdicts &mdash;
+    and <span class="chip failed">last verdict failed</span> where the most recent pass failed and the
+    repair is not yet recorded.</p>
+</div>
+
+<div class="claim">
+  <div class="claim-head"><span class="badge active">provenance</span>
+    <span class="claim-title">Where this page comes from, and what it cannot show</span></div>
+  <p>The knowledge base itself is <strong>not published</strong>: it lives beside the repository, and
+    this page is generated from it by
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/tools/build_site_data_extra.py" rel="noopener">tools/build_site_data_extra.py</a>
+    into <code>docs/data/extra-claim-map.json</code>. Whether a piece of evidence is public is decided
+    at build time by asking both repositories over this one work tree what they track:
+    <code>git ls-files</code> for the public one, and the same question of the private companion's
+    <code>.git-private</code>. Tracked publicly gives a link; tracked privately gives
+    <span class="chip private">held privately</span> and no link; tracked by neither gives
+    <span class="chip unrefereed">not committed yet</span>. A file being present on the machine that
+    built this page says nothing about whether it ships, which is why the question is asked of git and
+    never of a list written by hand.</p>
+  <p class="provenance">The same claims, with the same statuses and one page each, are also generated
+    as Markdown: <a href="../status.md">docs/status.md</a> &middot;
+    <a href="../open.md">docs/open.md</a> &middot; <a href="../index.md">the documentation index</a>.</p>
+</div>
+
+<figure class="no-js">
+  <svg viewBox="0 0 640 260" role="img" aria-labelledby="f10t f10d">
+    <title id="f10t">The eight areas</title>
+    <desc id="f10d">Eight areas arranged in a ring around the project: foundations, Theorem A,
+      Theorem B, Kubo-Mori, optimality, lattice and thermal, papers, and infrastructure. With
+      JavaScript the ring carries every card as a dot, coloured by status.</desc>
+    <circle cx="320" cy="130" r="34" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+    <text x="320" y="134" text-anchor="middle" fill="var(--fg)" font-size="11">cft-cmi</text>
+    <g font-size="11" fill="var(--fg)" text-anchor="middle">
+      <circle cx="320" cy="34" r="22" fill="var(--panel)" stroke="var(--line)"/><text x="320" y="38">found.</text>
+      <circle cx="470" cy="62" r="22" fill="var(--panel)" stroke="var(--line)"/><text x="470" y="66">Thm A</text>
+      <circle cx="556" cy="130" r="22" fill="var(--panel)" stroke="var(--line)"/><text x="556" y="134">Thm B</text>
+      <circle cx="470" cy="198" r="22" fill="var(--panel)" stroke="var(--line)"/><text x="470" y="202">KM</text>
+      <circle cx="320" cy="226" r="22" fill="var(--panel)" stroke="var(--line)"/><text x="320" y="230">optim.</text>
+      <circle cx="170" cy="198" r="22" fill="var(--panel)" stroke="var(--line)"/><text x="170" y="202">lattice</text>
+      <circle cx="84" cy="130" r="22" fill="var(--panel)" stroke="var(--line)"/><text x="84" y="134">papers</text>
+      <circle cx="170" cy="62" r="22" fill="var(--panel)" stroke="var(--line)"/><text x="170" y="66">infra.</text>
+    </g>
+    <g stroke="var(--line)" fill="none">
+      <line x1="320" y1="96" x2="320" y2="56"/><line x1="350" y1="108" x2="450" y2="76"/>
+      <line x1="354" y1="130" x2="534" y2="130"/><line x1="350" y1="152" x2="450" y2="184"/>
+      <line x1="320" y1="164" x2="320" y2="204"/><line x1="290" y1="152" x2="190" y2="184"/>
+      <line x1="286" y1="130" x2="106" y2="130"/><line x1="290" y1="108" x2="190" y2="76"/>
+    </g>
+  </svg>
+  <figcaption>The eight areas. With JavaScript enabled every card appears as a dot around its area,
+    coloured by status, and clicking one opens its statement and evidence. Without JavaScript the same
+    list, generated from the same knowledge base, is <a href="../status.md">docs/status.md</a>.</figcaption>
+</figure>
+
+<div class="js-only">
+<div class="panel">
+  <div class="controls">
+    <div class="control">
+      <label for="fstatus">Filter by status</label>
+      <select id="fstatus"><option value="">every status</option></select>
+      <span class="hint" id="fhint">the graph and the list follow this filter</span>
+    </div>
+    <div class="control">
+      <label for="farea">Filter by area</label>
+      <select id="farea"><option value="">every area</option></select>
+      <span class="hint">eight areas</span>
+    </div>
+    <div class="control">
+      <label for="fq">Search the titles and statements</label>
+      <input id="fq" type="search" placeholder="e.g. Schwarzian">
+      <span class="hint">plain substring, case-insensitive</span>
+    </div>
+    <div class="control">
+      <label for="fonly">Show only</label>
+      <select id="fonly">
+        <option value="">everything that passes the filters</option>
+        <option value="unrefereed">cards never refereed</option>
+        <option value="awaiting">cards awaiting a referee pass</option>
+        <option value="failed">cards whose last verdict failed</option>
+        <option value="private">cards citing the private companion</option>
+        <option value="open">cards that are open or conjectural</option>
+      </select>
+      <span class="hint">the record, not the mathematics</span>
+    </div>
+  </div>
+  <div class="readout" id="counts"></div>
+</div>
+
+<div class="map-wrap">
+  <div class="panel">
+    <svg id="graph" class="map" role="img" aria-label="The areas as a ring, each carrying its cards as dots coloured by status"></svg>
+    <p class="hint" id="legend"></p>
+    <p class="hint">Clicking a dot opens its card. Every card is also in the list beside the graph,
+      which is reachable with the keyboard.</p>
+  </div>
+  <div class="panel">
+    <p class="hint" id="listhint"></p>
+    <div class="cardlist" id="list" role="listbox" aria-label="Claims matching the filters"></div>
+  </div>
+</div>
+
+<div class="detail" id="detail"><p class="hint">Select a claim.</p></div>
+</div>
+
+<h2>What this map is for</h2>
+<p>Modules 1 to 9 each carry a handful of claims. This one carries all of them, including the ones no
+module displays: the open questions, the lessons learned, the decisions, and the cards that record
+something that turned out to be false. A reader who wants to know what this project believes, and how
+firmly, should be able to find every one of them in a single place, with the same status vocabulary
+throughout and no card quietly left out.</p>
+</main>
+
+<footer class="site"><div class="wrap">
+  <p>Module 10 of <a href="../index.html">the cft-cmi site</a>. Generated from the private knowledge
+    base into <code>docs/data/extra-claim-map.json</code> by
+    <code>tools/build_site_data_extra.py</code>; the public/private test is <code>git ls-files</code>,
+    run at build time. No analytics, no external requests.</p>
+</div></footer>
+
+<script type="module">
+import { el as svgEl } from '../lib/plot.js';
+import { initTheme, enableJS, loadData, renderRecord, renderMath, failNotice, badge,
+         el as h, REPO } from '../lib/ui.js';
+
+initTheme(document.querySelector('button.theme'));
+renderMath(document);
+window.addEventListener('load', () => renderMath(document));
+
+const COLOUR = {
+  proved: 'var(--proved)', refereed: 'var(--proved)',
+  certified: 'var(--certified)', verified: 'var(--certified)',
+  numerical: 'var(--numerical)', conditional: 'var(--conditional)',
+  conjectural: 'var(--open)', open: 'var(--open)', refuted: 'var(--open)',
+  active: 'var(--muted)', done: 'var(--muted)', superseded: 'var(--muted)'
+};
+const colour = s => COLOUR[s] || 'var(--muted)';
+const S = { status: '', area: '', q: '', only: '', sel: null };
+
+let D = null;
+enableJS();
+try {
+  D = await loadData('../data/extra-claim-map.json');
+  const J = D.json, CARDS = J.cards, AREAS = J.areas;
+  const byId = new Map(CARDS.map(c => [c.id, c]));
+
+  // --------------------------------------------------------------- layout
+  const W = 760, H = 700, CX = W / 2, CY = H / 2, RH = 232, GOLD = 2.399963;
+  const pos = new Map();
+  AREAS.forEach((a, ai) => {
+    const th = -Math.PI / 2 + 2 * Math.PI * ai / AREAS.length;
+    a.x = CX + RH * Math.cos(th);
+    a.y = CY + RH * Math.sin(th);
+    const mine = CARDS.filter(c => c.area === a.id);
+    mine.forEach((c, i) => {
+      const r = 24 + 5.8 * Math.sqrt(i), ang = th + i * GOLD;
+      pos.set(c.id, { x: a.x + r * Math.cos(ang), y: a.y + r * Math.sin(ang) });
+    });
+  });
+
+  const passes = c => (!S.status || c.status === S.status)
+    && (!S.area || c.area === S.area)
+    && (!S.q || (c.title + ' ' + c.statement + ' ' + c.id).toLowerCase().includes(S.q))
+    && (S.only !== 'unrefereed' || !c.refereed)
+    && (S.only !== 'awaiting' || c.awaiting_review)
+    && (S.only !== 'failed' || c.review_failed)
+    && (S.only !== 'private' || c.evidence.some(e => e.access === 'private'))
+    && (S.only !== 'open' || c.status === 'open' || c.status === 'conjectural');
+
+  // ---------------------------------------------------------------- graph
+  const svg = document.getElementById('graph');
+  function drawGraph() {
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    const g = svgEl('g', {}, svg);
+    for (const e of J.edges) {
+      const a = pos.get(e.a), b = pos.get(e.b);
+      if (!a || !b) continue;
+      const on = passes(byId.get(e.a)) && passes(byId.get(e.b));
+      svgEl('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y,
+        class: 'edge' + (e.cross ? ' cross' : ''), opacity: on ? 0.85 : 0.12 }, g);
+    }
+    for (const a of AREAS) {
+      svgEl('circle', { cx: a.x, cy: a.y, r: 13, class: 'hub' }, g);
+      const t = svgEl('text', { x: a.x, y: a.y - 20, class: 'hublabel',
+        'text-anchor': 'middle' }, g);
+      t.textContent = a.id + ' (' + a.n + ')';
+    }
+    for (const c of CARDS) {
+      const p = pos.get(c.id), on = passes(c);
+      const node = svgEl('circle', { cx: p.x, cy: p.y, r: S.sel === c.id ? 8 : 5.5,
+        fill: colour(c.status),
+        class: 'node' + (on ? '' : ' dim') + (S.sel === c.id ? ' sel' : '') }, g);
+      const title = svgEl('title', {}, node);
+      title.textContent = c.title + ' — ' + c.status + (c.refereed ? '' : ' — never refereed');
+      node.addEventListener('click', () => select(c.id));
+    }
+  }
+
+  // ----------------------------------------------------------------- list
+  const list = document.getElementById('list');
+  function drawList() {
+    const shown = CARDS.filter(passes);
+    list.replaceChildren(...shown.map(c => {
+      const b = h('button', { type: 'button', 'data-id': c.id,
+        'aria-current': S.sel === c.id ? 'true' : 'false' }, [
+        h('span', { class: 'row' }, [
+          h('span', { class: 'swatch', style: 'background:' + colour(c.status) }),
+          badge(c.status),
+          c.refereed ? null : h('span', { class: 'chip unrefereed', text: 'never refereed' }),
+          c.refereed && c.awaiting_review
+            ? h('span', { class: 'chip', text: 'awaiting a pass' }) : null,
+          c.review_failed ? h('span', { class: 'chip failed', text: 'last verdict failed' }) : null,
+          h('span', { text: c.title })
+        ])
+      ]);
+      b.addEventListener('click', () => select(c.id));
+      return b;
+    }));
+    document.getElementById('listhint').textContent =
+      shown.length + ' of ' + CARDS.length + ' cards match; every one of them is listed here.';
+  }
+
+  // --------------------------------------------------------------- detail
+  function evidenceItem(e) {
+    if (e.access === 'public') {
+      const href = REPO + e.path + (e.anchor ? '#' + e.anchor.replace(/[^A-Za-z0-9_-]/g, '') : '');
+      return h('li', {}, [h('span', { class: 'chip', text: e.kind }), ' ',
+        h('a', { href, rel: 'noopener' }, [e.path]),
+        e.anchor ? h('span', { class: 'provenance', text: '  ' + e.anchor }) : null]);
+    }
+    if (e.access === 'private') {
+      return h('li', {}, [h('span', { class: 'chip', text: e.kind }), ' ',
+        h('span', { class: 'mono', text: e.path }), ' ',
+        h('span', { class: 'chip private', text: 'held privately' }),
+        h('span', { class: 'provenance', text: '  in the private companion; not published, so not a link' })]);
+    }
+    if (e.access === 'uncommitted') {
+      return h('li', {}, [h('span', { class: 'chip', text: e.kind }), ' ',
+        h('span', { class: 'mono', text: e.path }), ' ',
+        h('span', { class: 'chip unrefereed', text: 'not committed yet' }),
+        h('span', { class: 'provenance', text: '  the file is on the machine that built this page '
+          + 'but neither repository tracks it, so it is not linked' })]);
+    }
+    if (e.access === 'kb') {
+      return h('li', {}, [h('span', { class: 'chip', text: 'ev' }), ' ',
+        h('span', { class: 'mono', text: e.target }), ' ',
+        h('span', { class: 'chip kb', text: 'knowledge base' }),
+        h('span', { class: 'provenance', text: '  a card of the knowledge base, which is not published' })]);
+    }
+    return h('li', {}, [h('span', { class: 'chip', text: e.kind }), ' ',
+      h('span', { class: 'mono', text: e.path }), ' ',
+      h('span', { class: 'chip failed', text: 'target not found' })]);
+  }
+
+  function drawDetail() {
+    const host = document.getElementById('detail');
+    const c = S.sel && byId.get(S.sel);
+    if (!c) {
+      host.replaceChildren(h('p', { class: 'hint', text: 'Select a claim.' }));
+      return;
+    }
+    const head = h('div', { class: 'claim-head' }, [
+      badge(c.status),
+      c.refereed ? null : h('span', { class: 'chip unrefereed', text: 'never refereed' }),
+      c.refereed && c.awaiting_review
+        ? h('span', { class: 'chip', text: 'awaiting a referee pass' }) : null,
+      c.review_failed ? h('span', { class: 'chip failed', text: 'last verdict failed' }) : null,
+      h('span', { class: 'claim-title', text: c.title })
+    ]);
+    const meta = h('p', { class: 'provenance' }, [
+      c.id + ' · ' + c.type + ' · area ' + c.area
+      + (c.confidence ? ' · confidence ' + c.confidence : '')
+      + (c.review ? ' · review: ' + c.review : ' · no review line')
+      + (c.verdicts ? ' · ' + c.verdicts + ' verdict(s) in its history' : '')
+      + (c.refereed ? '' : ' · no referee verdict anywhere in its record')
+    ]);
+    const kids = [head, meta, h('p', { class: 'statement', text: c.statement || '(no statement)' })];
+    if (c.verify) kids.push(h('p', { class: 'provenance', text: 'How to verify: ' + c.verify }));
+    if (c.next) kids.push(h('p', { class: 'provenance', text: 'Next step: ' + c.next }));
+    if (c.evidence.length) {
+      kids.push(h('h3', { text: 'Evidence' }));
+      kids.push(h('ul', {}, c.evidence.map(evidenceItem)));
+    } else {
+      kids.push(h('p', { class: 'provenance', text: 'No evidence pointer on this card.' }));
+    }
+    const rel = c.related.filter(r => byId.has(r));
+    if (rel.length) {
+      kids.push(h('h3', { text: 'Related' }));
+      const p = h('p', {}, []);
+      rel.forEach((r, i) => {
+        if (i) p.appendChild(document.createTextNode(' · '));
+        const a = h('a', { href: '#', text: byId.get(r).title });
+        a.addEventListener('click', ev => { ev.preventDefault(); select(r); });
+        p.appendChild(a);
+      });
+      kids.push(p);
+    }
+    if (c.page) {
+      kids.push(h('p', { class: 'provenance' }, [
+        h('a', { href: '../results/' + c.page }, ['the generated page for this claim'])]));
+    } else {
+      kids.push(h('p', { class: 'provenance',
+        text: 'This card has no generated page: pages are written only for claims, not for '
+              + 'decisions, lessons and tools.' }));
+    }
+    host.replaceChildren(...kids);
+  }
+
+  function select(id, push = true) {
+    S.sel = id;
+    // a card is addressable: relative-entropy.html links straight to the refuted
+    // one, which has no generated page of its own.
+    if (push && typeof history !== 'undefined' && history.replaceState) {
+      try { history.replaceState(null, '', '#' + id); } catch (e) { /* file:// */ }
+    }
+    drawGraph();
+    drawList();
+    drawDetail();
+  }
+
+  // --------------------------------------------------------------- counts
+  function counts() {
+    const cell = (k, node) => h('div', { class: 'cell' },
+      [h('span', { class: 'k', text: k }), node]);
+    document.getElementById('counts').replaceChildren(
+      cell('cards on this map', renderRecord(D.get('count.cards'))),
+      cell('never refereed', renderRecord(D.get('count.never_refereed'))),
+      cell('awaiting a referee pass', renderRecord(D.get('count.awaiting_review'))),
+      cell('last verdict failed', renderRecord(D.get('count.review_failed'))),
+      cell('evidence pointers, public', renderRecord(D.get('count.public_pointers'))),
+      cell('pointers into the private companion', renderRecord(D.get('count.private_pointers'))),
+      cell('distinct private files they name', renderRecord(D.get('count.private_targets'))),
+      cell('pointers into the knowledge base itself', renderRecord(D.get('count.kb_pointers'))),
+      cell('pointers to files not committed yet', renderRecord(D.get('count.uncommitted_pointers'))),
+      cell('pointers whose target is missing', renderRecord(D.get('count.missing_pointers'))),
+      cell('related-to edges', renderRecord(D.get('count.edges')))
+    );
+  }
+
+  function legend() {
+    const host = document.getElementById('legend');
+    host.replaceChildren(document.createTextNode('Colour by status: '));
+    for (const s of J.statuses) {
+      const n = D.get('count.status.' + s);
+      host.appendChild(h('span', {}, [
+        h('span', { class: 'swatch', style: 'background:' + colour(s) }), ' ' + s + ' ']));
+      host.appendChild(renderRecord(n, { sig: 3 }));
+      host.appendChild(document.createTextNode('  '));
+    }
+  }
+
+  // ---------------------------------------------------------------- wiring
+  const fs = document.getElementById('fstatus');
+  for (const s of J.statuses) fs.appendChild(h('option', { value: s, text: s }));
+  const fa = document.getElementById('farea');
+  for (const a of AREAS) fa.appendChild(h('option', { value: a.id, text: a.id + ' — ' + a.title }));
+  const refresh = () => { drawGraph(); drawList(); drawDetail(); };
+  fs.addEventListener('change', e => { S.status = e.target.value; refresh(); });
+  fa.addEventListener('change', e => { S.area = e.target.value; refresh(); });
+  document.getElementById('fonly').addEventListener('change', e => { S.only = e.target.value; refresh(); });
+  document.getElementById('fq').addEventListener('input', e => {
+    S.q = String(e.target.value || '').toLowerCase().trim();
+    refresh();
+  });
+  document.addEventListener('themechange', refresh);
+
+  counts();
+  legend();
+  const wanted = (typeof location !== 'undefined' && location.hash || '').replace(/^#/, '');
+  if (wanted && byId.has(wanted)) select(wanted, false); else refresh();
+} catch (e) {
+  document.documentElement.classList.remove('has-js');
+  failNotice(document.querySelector('main'), e);
+}
+</script>
+</body>
+</html>

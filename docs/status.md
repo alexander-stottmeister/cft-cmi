@@ -2,7 +2,7 @@
 
 # Every claim, by area
 
-86 cards: 85 claim cards of the knowledge base, plus 1 finding that has reached a status displayed here. The tally below is counted from the cards, not typed:
+88 cards: 87 claim cards of the knowledge base, plus 1 finding that has reached a status displayed here. The tally below is counted from the cards, not typed:
 
 | status | claims | what it means |
 |---|---:|---|
@@ -12,11 +12,11 @@
 | `conjectural` | 3 | believed, with partial evidence; not proved |
 | `verified` | 5 | a check that was carried out and agreed |
 | `open` | 5 | an unsettled question |
-| `active` | 12 | work in progress |
+| `active` | 14 | work in progress |
 | `done` | 3 | a finished piece of project work |
 | `superseded` | 2 | replaced by a later claim |
 | `refuted` | 1 | shown to be false, kept so the correction stays visible |
-| **total** | **86** | |
+| **total** | **88** | |
 
 58 of them are `refereed`, `proved`, `numerical`, `conjectural` and have a page of their own under [`results/`](results/); the remainder are listed here with their status only.
 
@@ -172,7 +172,9 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 |---|---|---|
 | `verified` | Headless screenshots and shell pitfalls on this Mac |  |
 | `active` | Generated documentation subfolder: docs/\*.md from the knowledge base, with a drift check |  |
-| `active` | Interactive site skeleton: shared lib/, the data generator, and modules 1, 2, 6 | review pending |
+| `active` | Interactive site skeleton: shared lib/, the data generator, and modules 1, 2, 6 |  |
+| `active` | Interactive site: modules 3 (universality), 4 (optimality) and 5 (the theta reconciliation) | review pending |
+| `active` | Interactive site: modules 7 to 10 and the extra data extractor | review pending |
 | `active` | Numerics stack and its limits |  |
 | `active` | Plan page artifact and its source |  |
 | `active` | Plan: public presentation (README with figures, interactive Pages site, generated docs/) | review pending |

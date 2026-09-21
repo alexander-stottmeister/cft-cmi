@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why two documents disagreed about theta &mdash; cft-cmi module 5</title>
+<meta name="description" content="Two separate controls, never one slider: relax the ultraviolet taper at a fixed transition width, and sharpen the transition at a fixed upper edge. The first moves theta, the second is established only in the norm of the defect.">
+<link rel="stylesheet" href="../lib/site.css">
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<script defer src="../lib/katex/katex.min.js"></script>
+<script>
+/* If the module fails, say so in the page instead of leaving a blank area:
+   the static text and figure stay visible because .has-js is never set. */
+window.addEventListener('error', function (e) {
+  var host = document.getElementById('main') || document.body;
+  if (!host || host.querySelector('.boot-error')) return;
+  var d = document.createElement('div');
+  d.className = 'panel boot-error';
+  d.innerHTML = '<p><strong>The interactive view did not start.</strong> The text and the static ' +
+    'figure are the whole claim; the animation is an enhancement. Opening these pages straight from ' +
+    'the file system blocks ES modules in most browsers — serve the folder instead, for example ' +
+    'with <code>python3 -m http.server</code> inside <code>docs/</code>. Nothing is fetched from ' +
+    'another site either way.</p>';
+  var p = document.createElement('p');
+  p.className = 'provenance';
+  p.textContent = (e.message || 'script error') + (e.filename ? '  —  ' + e.filename + ':' + e.lineno : '');
+  d.appendChild(p);
+  host.prepend(d);
+});
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="optimality.html">Module 4</a>
+    <a href="quadratic-law.html">Module 2</a>
+    <a href="../index.md">Documentation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+
+<main class="wrap" id="main">
+<h1>Module 5 &mdash; Why two documents disagreed about <span data-tex="\theta">&theta;</span></h1>
+<p class="lede">One document measured <span data-tex="\theta=0.300\pm0.005">&theta; = 0.300 &plusmn; 0.005</span>
+in a spectral model on the circle; another measured <span data-tex="0.384\pm0.003">0.384 &plusmn; 0.003</span>
+in a modular Galerkin frame. They are not two limits of the same quantity. The circle model carries an
+ultraviolet taper, the taper damps exactly the modes that carry the difference, and its number is a
+lower bound rather than an estimate. This page lets you move the taper &mdash; but with
+<strong>two separate controls</strong>, because the sweep that first showed the effect moved two
+things at once.</p>
+
+<div class="claim">
+  <div class="claim-head"><span class="badge numerical">numerical</span>
+    <span class="claim-title">The taper suppresses <span data-tex="\theta">&theta;</span>, and the original sweep confounded two knobs</span></div>
+  <p>The circle model puts a smoothstep taper on the spectral derivative, over a window
+    <span data-tex="uv=(u,v)">uv = (u, v)</span> <em>in units of L</em> &mdash; the Nyquist frequency
+    and the periodic grid's second Fermi point both sit at
+    <span data-tex="|\nu|/L=0.5">|&nu;|/L = 0.5</span>. Relaxing the taper towards that edge raises
+    <span data-tex="\theta">&theta;</span>. But the five-window sweep that first showed this is
+    <strong>not a one-parameter scan</strong>: its first three windows share a transition width of
+    0.12 while the last two are 0.07 and 0.039 wide. Its two largest values, in the last two rows of the
+    table below, are artefacts of the <em>sharp transition</em>, not measurements of taper strength &mdash; so a single slider through that sweep would teach the wrong lesson. The two
+    knobs are separated below.</p>
+  <p class="provenance">Where this comes from:
+    <a href="../results/circle-model-taper-suppresses-theta.md">claim page</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/referee_taper_card.md" rel="noopener">rigor/referee_taper_card.md</a> (REF-P0-TAPER, 2026-09-21) &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/F3_RESULTS.md" rel="noopener">numerics/optimality_all/F3_RESULTS.md</a> &sect;5 &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/f3_circ_taper2.out" rel="noopener">f3_circ_taper2.out</a></p>
+</div>
+
+<div class="claim">
+  <div class="claim-head"><span class="badge" title="a numerical lesson the phase referees accepted">verified</span>
+    <span class="claim-title">Finite spectral models do not resolve exact fidelities</span></div>
+  <p>The same mechanism, stated as a method rule. A tapered spectral discretisation of the
+    M&ouml;bius flow does not preserve the Hardy space in the ultraviolet, and the resulting defect
+    in modes with exponentially large SLD weights corrupts exact fidelities even while the visible
+    second-order functional is resolved to one per cent. Exact fidelities may be compared only in
+    Hardy-preserving discretisations; windowed fidelities are lower bounds, and their ratios prove
+    nothing.</p>
+  <p class="provenance">Where this comes from:
+    <a href="../status.md#area-optimality">the claim list</a> (no page of its own) &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/optimality_all_channels.tex" rel="noopener">rigor/optimality_all_channels.tex</a> &sect;5.2 &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/exact_fidelity_rotated.py" rel="noopener">exact_fidelity_rotated.py</a></p>
+</div>
+
+<figure class="no-js">
+  <img src="../assets/theta-ladder.svg" alt="Theta against mesh width with the Richardson line to 0.384, and beside it the circle-model value 0.300 marked as taper suppressed and superseded.">
+  <figcaption>The reconciled value, and the circle model's number beside it. With JavaScript enabled
+    the two knobs of the taper become two separate controls; the numbers below then name the file
+    and line they came from.</figcaption>
+</figure>
+
+<div class="js-only">
+<div class="panel">
+  <h3 style="margin-top:0">Exhibit: the sweep that caused the trouble</h3>
+  <p style="font-size:.9rem;margin-top:0">Five windows, quoted as if they were a scan in taper
+    strength. Two things change down the row, and the transition width is printed beside each
+    window so you can see it happen. Nothing below this table uses the sweep as a scan.</p>
+  <div id="sweep"></div>
+</div>
+
+<div class="panel">
+  <h3 style="margin-top:0">Control 1 &mdash; relax the window, at a <em>fixed</em> transition width 0.12</h3>
+  <p style="font-size:.9rem;margin-top:0">One knob moves: where the taper sits. The transition width
+    is held at 0.12 for every point, and the same three windows were run at
+    <span data-tex="L=256,\,512,\,768">L = 256, 512, 768</span>.
+    <span data-tex="\theta">&theta;</span> rises monotonically at every
+    <span data-tex="L">L</span>. <strong>The control stops at an upper edge of 0.47</strong>: the
+    next window at this width is (0.38, 0.50), which sits on the grid's second Fermi point, and its
+    <span data-tex="\theta">&theta;</span> is not a taper-strength datum. The panel beneath shows
+    <span data-tex="|u|^2">|u|&sup2;</span>, the norm of the visible defect, so you can see the
+    health of the model beside every value of <span data-tex="\theta">&theta;</span>.</p>
+  <svg id="relax" role="img" aria-label="Theta against the upper edge of the taper window at fixed transition width, for three system sizes"></svg>
+  <div class="controls" style="margin-top:.7rem">
+    <div class="control">
+      <label for="iwin">Taper window, transition width 0.12</label>
+      <input id="iwin" type="range" min="0" max="2" step="1" value="1" aria-describedby="whint">
+      <span class="hint" id="whint">three admissible windows; the slider is bounded on purpose</span>
+    </div>
+  </div>
+  <svg id="relaxu" role="img" aria-label="The squared norm of the visible defect at the same windows, with the excluded window and the untapered value for comparison"></svg>
+  <div class="readout" id="out1"></div>
+</div>
+
+<div class="panel">
+  <h3 style="margin-top:0">Control 2 &mdash; sharpen the transition, at a <em>fixed</em> upper edge</h3>
+  <p style="font-size:.9rem;margin-top:0"><strong>This control shows
+    <span data-tex="|u|^2">|u|&sup2;</span>, not <span data-tex="\theta">&theta;</span>.</strong>
+    The sharpening effect is established as a complete scan only in
+    <span data-tex="|u|^2">|u|&sup2;</span>; in <span data-tex="\theta">&theta;</span> it exists at
+    scattered windows and no scan at a fixed upper edge has been run. Rather than interpolate a
+    curve through three points that were never a scan, the page shows the quantity it has. Narrowing
+    the transition at a fixed edge is a Gibbs effect: the norm blows up as the transition narrows &mdash;
+    the readout gives the exact factor at each edge &mdash; while a <em>wider</em> transition
+    reaching the same band edge leaves it healthy. That is why the two largest numbers of the original sweep are not evidence about taper
+    strength.</p>
+  <svg id="sharp" role="img" aria-label="The squared norm of the visible defect against the transition width, at two fixed upper edges"></svg>
+  <div class="controls" style="margin-top:.7rem">
+    <div class="control">
+      <label for="iw">Transition width</label>
+      <input id="iw" type="range" min="0" max="3" step="1" value="0" aria-describedby="shint">
+      <span class="hint" id="shint">widest first; the transition narrows as you move right</span>
+    </div>
+    <div class="control">
+      <label for="iedge">Upper edge</label>
+      <select id="iedge">
+        <option value="0.49" selected>0.49</option>
+        <option value="0.499">0.499</option>
+      </select>
+      <span class="hint">both edges stop just short of the second Fermi point at 0.5</span>
+    </div>
+  </div>
+  <div class="readout" id="out2"></div>
+  <p class="provenance" id="scatter"></p>
+</div>
+
+<div class="panel">
+  <h3 style="margin-top:0">Without the taper: stable, and answering a different question</h3>
+  <p style="font-size:.9rem;margin-top:0">Dropping the taper does not give a taper-free limit. The
+    periodic grid's second Fermi point at <span data-tex="|\nu|/L=0.5">|&nu;|/L = 0.5</span> doubles
+    the Fermi sea, and <span data-tex="|u|^2">|u|&sup2;</span> with it. The untapered model is then
+    perfectly stable in <span data-tex="L">L</span> &mdash; four digits of
+    <span data-tex="|u|^2">|u|&sup2;</span> and a smoothly rising
+    <span data-tex="\theta">&theta;</span> &mdash; it is simply solving a different problem, one with
+    twice the Fermi sea. So the taper is <em>necessary</em>, and it biases
+    <span data-tex="\theta">&theta;</span> downwards.</p>
+  <div class="readout" id="out3"></div>
+</div>
+
+<div class="panel">
+  <h3 style="margin-top:0">What settles it: the same mesh, without the taper</h3>
+  <p style="font-size:.9rem;margin-top:0">Run the modular Galerkin functional &mdash; exact vacuum
+    symbol, exact continuum defect kernel, no taper, no cap &mdash; on the <em>circle model's own
+    mesh</em>, at the same <span data-tex="|D|">|D|</span> and the same geometry. It reproduces the
+    Galerkin values, not the circle ones. So the mesh is not responsible. Meanwhile the tapered
+    number rises linearly in <span data-tex="\log L">log L</span>, which is why a Richardson
+    extrapolation in <span data-tex="1/L">1/L</span> was the wrong variable: a law linear in
+    <span data-tex="\log L">log L</span> is unbounded and cannot converge to anything.</p>
+  <svg id="logL" role="img" aria-label="Theta against system size on a logarithmic axis, for the tapered circle model, the untapered circle model and the same mesh without a taper"></svg>
+  <div class="readout" id="out4"></div>
+</div>
+</div>
+
+<h2>What stands, and what does not</h2>
+<p>Everything drawn from <span data-tex="\theta>0">&theta; &gt; 0</span> stands and is strengthened:
+condition&nbsp;(S) fails, the compression is not the second-order minimiser, and
+<span data-tex="E^{(2)}\le(1-\theta)f_2z^2">E<sup>(2)</sup> &le; (1&minus;&theta;) f&#8322;z&sup2;</span>
+with <span data-tex="1-\theta">1&minus;&theta;</span> read from the reconciled
+<span data-tex="\theta">&theta;</span> rather than from the tapered one. What does <em>not</em>
+stand is the spectral document's own assertion that <span data-tex="\theta">&theta;</span> is
+ultraviolet-taper independent; and its non-perturbative figure is a consistency check of the
+tapered model, not a measurement of <span data-tex="1-\theta">1&minus;&theta;</span>.</p>
+
+<h2>Claims this module carries</h2>
+<table>
+<thead><tr><th>claim</th><th>status</th></tr></thead>
+<tbody>
+<tr><td><a href="../results/circle-model-taper-suppresses-theta.md">the circle model's taper suppresses &theta;</a></td><td><span class="badge numerical">numerical</span></td></tr>
+<tr><td><a href="../status.md#area-optimality">finite spectral models do not resolve exact fidelities</a></td><td><span class="badge" title="a numerical lesson the phase referees accepted">verified</span></td></tr>
+<tr><td><a href="../results/theta-value.md">&theta; = 0.384 &plusmn; 0.003, the reconciled value</a></td><td><span class="badge numerical">numerical</span></td></tr>
+</tbody>
+</table>
+</main>
+
+<footer class="site"><div class="wrap">
+  <p>Module 5 of <a href="../index.html">the cft-cmi site</a>. Every number is read from
+    <code>docs/data/theta.json</code>, generated by <code>tools/build_site_data.py</code> from
+    <code>numerics/optimality_all/</code> and from the referee's control runs recorded in
+    <code>rigor/referee_taper_card.md</code>. See also <a href="optimality.html">module 4</a>.</p>
+</div></footer>
+
+<script type="module">
+import { Plot, fmt, el as svgEl, draggable } from '../lib/plot.js';
+import { initTheme, enableJS, loadData, renderRecord, renderMath, failNotice, el as h } from '../lib/ui.js';
+
+initTheme(document.querySelector('button.theme'));
+renderMath(document);
+window.addEventListener('load', () => renderMath(document));
+
+const S = { win: 1, wid: 0, edge: '0.49' };
+let T = null;
+
+try {
+  T = await loadData('../data/theta.json');
+} catch (e) {
+  document.documentElement.classList.remove('has-js');
+  failNotice(document.querySelector('main'), e);
+}
+
+if (T) try {
+  const cell = (k, node) => h('div', { class: 'cell' }, [h('span', { class: 'k', text: k }), node]);
+  const plain = s => h('span', { class: 'v', text: s });
+  const all = k => T.json.records.filter(r => r.series === k);
+  const THETA = T.get('theta');
+
+  // ---- control 1: ONE knob, the window position, at transition width 0.12 ----
+  const W12 = 0.12, LS = [256, 512, 768], EDGE_STOP = 0.47;
+  const pick = (k, w, L) => all(k).find(r => r.width === W12 && r.uv_hi === w && r.x === L);
+  const EDGES = [...new Set(all('circ_theta_run').filter(r => r.width === W12)
+    .map(r => r.uv_hi))].sort((a, b) => a - b);
+  if (EDGES.length !== 3 || EDGES[2] > EDGE_STOP + 1e-9) {
+    throw new Error('the fixed-width sub-sweep is no longer the three windows this control is '
+      + 'bounded for: ' + EDGES.join(', '));
+  }
+  const untap = all('circ_u2_run').filter(r => r.window === 'none' && r.cap === '1e+10');
+  const untapTh = all('circ_theta_run').filter(r => r.window === 'none' && r.cap === '1e+10');
+  const FERMI_U2 = all('ref_control_u2').find(r => r.uv_hi === 0.5);
+  const FERMI_TH = all('ref_control_theta').find(r => r.uv_hi === 0.5);
+  const LCOL = { 256: 'var(--series-1)', 512: 'var(--series-2)', 768: 'var(--series-3)' };
+
+  const relaxPlot = new Plot(document.getElementById('relax'), {
+    aspect: 0.48, minH: 200, maxH: 300, margin: { l: 60, r: 16, t: 14, b: 44 },
+    xDomain: [0.295, 0.505], yDomain: [0.26, 0.40],
+    xLabel: 'upper edge of the taper window, in units of L', yLabel: 'θ'
+  }).onRender(P => {
+    P.axes();
+    P.band([[0.295, THETA.value - THETA.error], [0.505, THETA.value - THETA.error]],
+           [[0.295, THETA.value + THETA.error], [0.505, THETA.value + THETA.error]],
+           { fill: 'var(--series-4)', opacity: 0.16 });
+    P.hline(THETA.value, { stroke: 'var(--series-4)', dash: '6 4', width: 1.6 });
+    P.text(0.30, THETA.value, ' θ = 0.384 ± 0.003, the taper-free value', { small: true, dy: -6 });
+    for (const L of LS) {
+      const pts = EDGES.map(w => [w, pick('circ_theta_run', w, L).value]);
+      P.curve(pts, { stroke: LCOL[L], width: 1.8 });
+      P.dots(pts, { fill: LCOL[L], r: 3.6 });
+    }
+    // the wall: the control stops here, and the reason is in the |u|^2 panel below
+    P.vline(EDGE_STOP + 0.012, { stroke: 'var(--series-5)', dash: '4 3', width: 1.6 });
+    P.text(EDGE_STOP + 0.008, 0.268, 'the control stops here " + ARR + "',
+      { small: true, anchor: 'end', fill: 'var(--series-5)' });
+    const w = EDGES[S.win];
+    const hnd = svgEl('circle', { cx: P.sx(w), cy: P.sy(pick('circ_theta_run', w, 256).value), r: 8,
+      fill: 'none', stroke: 'var(--fg)', 'stroke-width': 2 }, P.root);
+    draggable(P, hnd, {
+      label: 'taper window at fixed transition width', step: 1,
+      aria: { min: 0, max: EDGES.length - 1, now: S.win,
+        text: 'window ' + pick('circ_theta_run', w, 256).window + ', transition width 0.12' },
+      onMove: (x, y, ev, dx) => setWin(dx === undefined
+        ? EDGES.reduce((b, e, i) => Math.abs(e - x) < Math.abs(EDGES[b] - x) ? i : b, 0)
+        : S.win + Math.sign(dx))
+    });
+    P.legend(LS.map(L => ({ stroke: LCOL[L], label: 'L = ' + L + ', transition width 0.12' })),
+      { x: P.inner.x0 + 12, y: P.inner.y1 + 12 });
+  });
+
+  const relaxUPlot = new Plot(document.getElementById('relaxu'), {
+    aspect: 0.4, minH: 175, maxH: 260, margin: { l: 66, r: 16, t: 14, b: 44 },
+    yScale: 'log', xDomain: [0.295, 0.505], yDomain: [0.006, 0.04],
+    xLabel: 'upper edge of the taper window, in units of L', yLabel: '|u|²'
+  }).onRender(P => {
+    P.axes();
+    for (const L of LS) {
+      const pts = EDGES.map(w => [w, pick('circ_u2_run', w, L).value]);
+      P.curve(pts, { stroke: LCOL[L], width: 1.8 });
+      P.dots(pts, { fill: LCOL[L], r: 3.4 });
+    }
+    P.hline(untap[0].value, { stroke: 'var(--muted)', dash: '6 4' });
+    P.text(0.30, untap[0].value, ' untapered: the Fermi sea is doubled', { small: true, dy: -5 });
+    P.dots([[FERMI_U2.uv_hi, FERMI_U2.value]], { shape: 'square', stroke: 'var(--series-5)',
+      fill: 'var(--panel)', r: 5, width: 2.2 });
+    P.text(FERMI_U2.uv_hi, FERMI_U2.value, ' (0.38, 0.50): on the second Fermi point',
+      { small: true, dy: -8, anchor: 'end', fill: 'var(--series-5)' });
+    P.vline(EDGE_STOP + 0.012, { stroke: 'var(--series-5)', dash: '4 3', width: 1.6 });
+  });
+
+  // ---- control 2: the OTHER knob, at a fixed upper edge; shown in |u|^2 ----
+  const sharpAt = e => all('sharpen_u2').filter(r => String(r.edge) === e).sort((a, b) => b.x - a.x);
+  const sharpPlot = new Plot(document.getElementById('sharp'), {
+    aspect: 0.46, minH: 190, maxH: 290, margin: { l: 66, r: 16, t: 14, b: 44 },
+    yScale: 'log', xDomain: [0, 0.45], yDomain: [0.006, 1],
+    xLabel: 'transition width of the taper', yLabel: '|u|²'
+  }).onRender(P => {
+    P.axes();
+    for (const [e, col] of [['0.49', 'var(--series-1)'], ['0.499', 'var(--series-2)']]) {
+      const pts = sharpAt(e).map(r => [r.x, r.value]);
+      P.curve(pts, { stroke: col, width: e === S.edge ? 2.4 : 1.4, opacity: e === S.edge ? 1 : 0.5 });
+      P.dots(pts, { fill: col, r: e === S.edge ? 3.8 : 3 });
+    }
+    P.hline(untap[0].value, { stroke: 'var(--muted)', dash: '6 4' });
+    P.text(0.005, untap[0].value, ' untapered', { small: true, dy: -5 });
+    const cur = sharpAt(S.edge)[S.wid];
+    const hnd = svgEl('circle', { cx: P.sx(cur.x), cy: P.sy(cur.value), r: 8,
+      fill: 'none', stroke: 'var(--fg)', 'stroke-width': 2 }, P.root);
+    const ws = sharpAt(S.edge).map(r => r.x);
+    draggable(P, hnd, {
+      label: 'transition width at fixed upper edge', step: 1,
+      aria: { min: 0, max: ws.length - 1, now: S.wid,
+        text: 'transition width ' + cur.x + ' at upper edge ' + S.edge },
+      onMove: (x, y, ev, dx) => setWid(dx === undefined
+        ? ws.reduce((b, w, i) => Math.abs(w - x) < Math.abs(ws[b] - x) ? i : b, 0)
+        : S.wid - Math.sign(dx))
+    });
+    P.legend([
+      { stroke: 'var(--series-1)', label: 'upper edge 0.49' },
+      { stroke: 'var(--series-2)', label: 'upper edge 0.499' },
+      { stroke: 'var(--muted)', dash: '6 4', label: 'the untapered model, for scale' }
+    ], { x: P.inner.x0 + 12, y: P.inner.y1 + 12 });
+  });
+
+  // ---- what settles it: theta against log L ----
+  const logLPlot = new Plot(document.getElementById('logL'), {
+    aspect: 0.5, minH: 205, maxH: 320, margin: { l: 58, r: 16, t: 14, b: 44 },
+    xScale: 'log', xDomain: [100, 2600], yDomain: [0.15, 0.42],
+    xLabel: 'L (logarithmic)', yLabel: 'θ'
+  }).onRender(P => {
+    P.axes();
+    P.band([[100, THETA.value - THETA.error], [2600, THETA.value - THETA.error]],
+           [[100, THETA.value + THETA.error], [2600, THETA.value + THETA.error]],
+           { fill: 'var(--series-4)', opacity: 0.16 });
+    P.hline(THETA.value, { stroke: 'var(--series-4)', dash: '6 4', width: 1.6 });
+    const mim = T.series('theta_mimic_L').map(r => [r.x, r.value]);
+    const tap = T.series('circle_theta_L').map(r => [r.x, r.value]);
+    const non = untapTh.map(r => [r.x, r.value]).sort((a, b) => a[0] - b[0]);
+    P.curve(mim, { stroke: 'var(--series-3)', width: 2 }); P.dots(mim, { fill: 'var(--series-3)', r: 3.6 });
+    P.curve(tap, { stroke: 'var(--series-1)', width: 2 }); P.dots(tap, { fill: 'var(--series-1)', r: 3.2 });
+    P.curve(non, { stroke: 'var(--series-5)', width: 2 }); P.dots(non, { fill: 'var(--series-5)', r: 3.4 });
+    P.legend([
+      { stroke: 'var(--series-3)', width: 2, label: 'circle mesh, no taper' },
+      { stroke: 'var(--series-1)', width: 2, label: 'circle model, taper (0.30,0.42)' },
+      { stroke: 'var(--series-5)', width: 2, label: 'no taper: doubled Fermi sea' },
+      { stroke: 'var(--series-4)', dash: '6 4', label: 'θ = 0.384 ± 0.003' }
+    ], { x: P.inner.x0 + 12, y: P.inner.y1 + 12 });
+  });
+
+  // -------------------------------------------------------------- the tables
+  function sweep() {
+    const th = all('taper_theta'), u2 = all('taper_u2');
+    const tb = h('tbody', {});
+    for (let i = 0; i < th.length; i++) {
+      const m = /\(([0-9.]+),([0-9.]+)\)/.exec(th[i].window);
+      const wd = m ? (+m[2] - +m[1]).toFixed(3) : '—';
+      const same = m && Math.abs(+wd - W12) < 1e-9;
+      const tdT = h('td', {}), tdU = h('td', {});
+      tdT.appendChild(renderRecord(th[i]));
+      tdU.appendChild(renderRecord(u2[i]));
+      tb.appendChild(h('tr', {}, [
+        h('td', { class: 'mono', text: th[i].window }),
+        h('td', { class: 'mono', text: wd + (m ? (same ? '  (same)' : '  (different!)') : '') }),
+        tdT, tdU]));
+    }
+    document.getElementById('sweep').replaceChildren(h('table', {}, [
+      h('thead', {}, [h('tr', {}, [h('th', { text: 'taper window uv' }),
+        h('th', { text: 'transition width' }), h('th', { text: 'θ' }),
+        h('th', { text: '|u|²' })])]), tb]));
+  }
+
+  function readout1() {
+    const w = EDGES[S.win], kids = [];
+    kids.push(cell('window (upper edge ' + w + '), transition width',
+      plain(fmt(W12, 2) + ' — the same for all three')));
+    for (const L of LS) kids.push(cell('θ at L = ' + L, renderRecord(pick('circ_theta_run', w, L), { sig: 5 })));
+    for (const L of LS) kids.push(cell('|u|² at L = ' + L, renderRecord(pick('circ_u2_run', w, L), { sig: 4 })));
+    kids.push(cell('the window this control refuses to reach',
+      h('span', {}, ['(0.38, 0.50): |u|² ', renderRecord(FERMI_U2, { sig: 5 }),
+        ' — three times the healthy value, because the window sits on the second Fermi point. '
+        + 'Its θ is ', renderRecord(FERMI_TH, { sig: 5 }),
+        ', which is not a measurement of taper strength.'])));
+    document.getElementById('out1').replaceChildren(...kids);
+    document.getElementById('whint').textContent =
+      'window ' + pick('circ_theta_run', w, 256).window + ', ' + (S.win + 1) + ' of ' + EDGES.length
+      + '; bounded at an upper edge of 0.47 on purpose';
+  }
+
+  function readout2() {
+    const rows = sharpAt(S.edge), cur = rows[S.wid], kids = [];
+    kids.push(cell('upper edge (held fixed)', plain(S.edge)));
+    for (const r of rows) {
+      kids.push(cell('|u|² at transition width ' + r.x + (r === cur ? '  ←' : ''),
+        renderRecord(r, { sig: 5 })));
+    }
+    kids.push(cell('the untapered model, for scale', renderRecord(untap[0], { sig: 5 })));
+    kids.push(cell('sharpest / widest at this edge',
+      plain(fmt(rows[rows.length - 1].value / rows[0].value, 3) + '×')));
+    document.getElementById('out2').replaceChildren(...kids);
+    document.getElementById('shint').textContent = 'transition width ' + cur.x + ', '
+      + (S.wid + 1) + ' of ' + rows.length + '; this axis is |u|², not θ';
+  }
+
+  function scatter() {
+    const p = document.getElementById('scatter');
+    p.replaceChildren(document.createTextNode(
+      'The three windows at which θ was measured away from the fixed-width sub-sweep are '));
+    all('ref_control_theta').forEach((r, i) => {
+      if (i) p.appendChild(document.createTextNode('; '));
+      p.appendChild(document.createTextNode(r.window + ' (transition width ' + r.x + '): '));
+      p.appendChild(renderRecord(r, { sig: 5 }));
+    });
+    p.appendChild(document.createTextNode('. They are three points, not a scan, and this control '
+      + 'therefore does not draw a θ curve through them. Running the missing θ scan at a '
+      + 'fixed upper edge is what would replace this panel’s vertical axis.'));
+  }
+
+  function readout3() {
+    const kids = [];
+    for (const r of untap) kids.push(cell('|u|², untapered, L = ' + r.x, renderRecord(r, { sig: 5 })));
+    for (const r of untapTh.slice().sort((a, b) => a.x - b.x)) {
+      kids.push(cell('θ, untapered, L = ' + r.x, renderRecord(r, { sig: 5 })));
+    }
+    const tapered = pick('circ_u2_run', 0.42, 256);
+    kids.push(cell('|u|² with the taper (0.30, 0.42), L = 256', renderRecord(tapered, { sig: 5 })));
+    kids.push(cell('the Fermi sea, doubled',
+      plain(fmt(untap[0].value / tapered.value, 4) + '×  (both records above)')));
+    document.getElementById('out3').replaceChildren(...kids);
+  }
+
+  function readout4() {
+    const tap = T.series('circle_theta_L'), mim = T.series('theta_mimic_L');
+    // the card's own endpoints, so the slope below is paired with the range it
+    // was measured over -- REF-P0-TAPER flagged that mispairing on the card
+    const lo = tap.find(r => r.x === 256), hi = tap.find(r => r.x === 1024);
+    if (!lo || !hi) throw new Error('the L = 256 and L = 1024 rungs are gone');
+    document.getElementById('out4').replaceChildren(
+      cell('tapered circle model, L = ' + lo.x, renderRecord(lo, { sig: 5 })),
+      cell('tapered circle model, L = ' + hi.x, renderRecord(hi, { sig: 5 })),
+      cell('dθ / d log L across L = 256 → 1024',
+        plain(fmt((hi.value - lo.value) / Math.log(hi.x / lo.x), 3)
+          + ' — a law linear in log L is unbounded')),
+      cell('same mesh, no taper, L = ' + mim[0].x, renderRecord(mim[0], { sig: 5 })),
+      cell('same mesh, no taper, L = ' + mim[mim.length - 1].x, renderRecord(mim[mim.length - 1], { sig: 5 })),
+      cell('the circle model as published', renderRecord(T.get('circle_published'))),
+      cell('the reconciled value', renderRecord(THETA)),
+      cell('1 − θ, from the reconciled value',
+        renderRecord(T.get('one_minus_theta')))
+    );
+  }
+
+  function setWin(k) {
+    S.win = Math.round(Math.min(EDGES.length - 1, Math.max(0, k)));
+    const inp = document.getElementById('iwin');
+    if (+inp.value !== S.win) inp.value = String(S.win);
+    relaxPlot.render(); relaxUPlot.render(); readout1();
+  }
+  function setWid(k) {
+    S.wid = Math.round(Math.min(sharpAt(S.edge).length - 1, Math.max(0, k)));
+    const inp = document.getElementById('iw');
+    if (+inp.value !== S.wid) inp.value = String(S.wid);
+    sharpPlot.render(); readout2();
+  }
+  document.getElementById('iwin').addEventListener('input', e => setWin(+e.target.value));
+  document.getElementById('iw').addEventListener('input', e => setWid(+e.target.value));
+  document.getElementById('iedge').addEventListener('change', e => {
+    if (!sharpAt(e.target.value).length) return;      // ignore a value no option offers
+    S.edge = e.target.value; setWid(S.wid);
+  });
+  document.addEventListener('themechange', () => {
+    relaxPlot.render(); relaxUPlot.render(); sharpPlot.render(); logLPlot.render();
+  });
+
+  sweep();
+  relaxPlot.render(); relaxUPlot.render(); sharpPlot.render(); logLPlot.render();
+  readout1(); readout2(); scatter(); readout3(); readout4();
+  enableJS();                    // only now: every panel came up
+} catch (e) {
+  document.documentElement.classList.remove('has-js');
+  failNotice(document.querySelector('main'), e);
+}
+</script>
+</body>
+</html>

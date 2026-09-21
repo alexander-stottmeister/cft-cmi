@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The separation constraint &mdash; cft-cmi module 7</title>
+<meta name="description" content="Set epsilon, drag the corner strengths of a recovery chain, and watch the bound e^Delta >= 2/eps bind: it is approached and never attained, sharp only as epsilon tends to zero.">
+<link rel="stylesheet" href="../lib/site.css">
+<link rel="stylesheet" href="../lib/extra.css">
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<script defer src="../lib/katex/katex.min.js"></script>
+<script>
+/* If the module fails, say so in the page instead of leaving a blank area:
+   the static text and figure stay visible because .has-js is never set. */
+window.addEventListener('error', function (e) {
+  var host = document.getElementById('main') || document.body;
+  if (!host || host.querySelector('.boot-error')) return;
+  document.documentElement.classList.remove('has-js');
+  var d = document.createElement('div');
+  d.className = 'panel boot-error';
+  d.innerHTML = '<p><strong>The interactive view did not start.</strong> The text and the static ' +
+    'figure are the whole claim; the animation is an enhancement. Opening these pages straight from ' +
+    'the file system blocks ES modules in most browsers — serve the folder instead, for example ' +
+    'with <code>python3 -m http.server</code> inside <code>docs/</code>. Nothing is fetched from ' +
+    'another site either way.</p>';
+  var p = document.createElement('p');
+  p.className = 'provenance';
+  p.textContent = (e.message || 'script error') + (e.filename ? '  —  ' + e.filename + ':' + e.lineno : '');
+  d.appendChild(p);
+  host.prepend(d);
+});
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="networks.html">Module 6</a>
+    <a href="off-criticality.html">Module 8</a>
+    <a href="claim-map.html">Module 10</a>
+    <a href="../index.md">Documentation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+
+<main class="wrap" id="main">
+<h1>Module 7 &mdash; The separation constraint</h1>
+<p class="lede">If every corner of a recovery chain is weak, the corners cannot be close together.
+The bound is <span data-tex="e^{\Delta_k}\ge2/\varepsilon">e<sup>&Delta;<sub>k</sub></sup> &ge; 2/&epsilon;</span>,
+and the interesting thing about it is that it is never attained: the chain that comes closest still
+exceeds it, by 2.2% at <span data-tex="\varepsilon=0.3">&epsilon; = 0.3</span> and by two parts in a
+million at <span data-tex="\varepsilon=0.003">&epsilon; = 0.003</span>. The constant 2 is sharp only
+in the limit.</p>
+
+<div class="claim">
+  <div class="claim-head"><span class="badge proved">proved</span>
+    <span class="claim-title">Theorem 11.1 &mdash; weak corners must be far apart</span></div>
+  <p>For the L&rarr;R ordinary-Petz chain and <span data-tex="0<\varepsilon<2">0 &lt; &epsilon; &lt; 2</span>,
+    if <span data-tex="\zeta_j\le\varepsilon">&zeta;<sub>j</sub> &le; &epsilon;</span> for every corner
+    <span data-tex="j\ge k">j &ge; k</span> &mdash; only the corners to the <em>right</em> of
+    <span data-tex="p_k">p<sub>k</sub></span> are used &mdash; then
+    <span data-display data-tex="e^{\Delta_k}\ \ge\ \frac2\varepsilon,\qquad e^{\Delta_{n-1}}\ \ge\ 1+\frac2\varepsilon .">e^&Delta;&#8342; &ge; 2/&epsilon;, and e^&Delta;&#8345;&#8331;&#185; &ge; 1 + 2/&epsilon;.</span>
+    The proof is a one-dimensional downward recursion. With
+    <span data-tex="\gamma_j:=\coth(\Delta_j/2)-1=2/(e^{\Delta_j}-1)">&gamma;<sub>j</sub> = coth(&Delta;<sub>j</sub>/2) &minus; 1 = 2/(e<sup>&Delta;<sub>j</sub></sup> &minus; 1)</span>
+    the exact corner data of Lemma&nbsp;10.3 give
+    <span data-tex="\gamma_j\le\zeta_j(1+\tfrac12\gamma_{j+1})">&gamma;<sub>j</sub> &le; &zeta;<sub>j</sub>(1 + &gamma;<sub>j+1</sub>/2)</span>,
+    and downward induction from <span data-tex="\gamma_n=0">&gamma;<sub>n</sub> = 0</span> reaches the
+    fixed point <span data-tex="\gamma_j\le2\varepsilon/(2-\varepsilon)">&gamma;<sub>j</sub> &le; 2&epsilon;/(2&minus;&epsilon;)</span>.</p>
+  <p>Lemma&nbsp;10.3 is what makes this possible: the corner strengths are functions of the modular
+    lengths alone,
+    <span data-display data-tex="\frac1{\zeta_k}=\sinh^2\!\frac{\Delta_k}2\coth\frac{\Delta_{k+1}}2+\tfrac12\sinh\Delta_k ,">1/&zeta;&#8342; = sinh&sup2;(&Delta;&#8342;/2) coth(&Delta;&#8342;&#8330;&#8321;/2) + (1/2) sinh &Delta;&#8342;,</span>
+    so <span data-tex="e^{\Delta_k}\le1+2/\zeta_k">e<sup>&Delta;<sub>k</sub></sup> &le; 1 + 2/&zeta;<sub>k</sub></span>
+    with equality <em>if and only if</em> <span data-tex="k=n-1">k = n&minus;1</span>, where
+    <span data-tex="\Delta_n=\infty">&Delta;<sub>n</sub> = &infin;</span> and the coth is 1.</p>
+  <p class="provenance">Where this comes from:
+    <a href="../results/corner-separation-constraint.md">claim page</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/network_corner_calculus.tex" rel="noopener">rigor/network_corner_calculus.tex</a> (Thm.&nbsp;11.1, Lem.&nbsp;10.3) &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/g1a_separation.py" rel="noopener">rigor/g1a_separation.py</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/ref_p6_3_separation.py" rel="noopener">rigor/ref_p6_3_separation.py</a>
+    &mdash; referee pass REF-P6-3b, 2026-09-16.</p>
+</div>
+
+<div class="claim">
+  <div class="claim-head"><span class="badge conjectural">conjectural</span>
+    <span class="claim-title">The second-order network law, and why the separation matters to it</span></div>
+  <p>The conjecture is
+    <span data-display data-tex="-\log F=\sum_{j,k}\zeta_j\zeta_k\,G(y_j-y_k)+o(\lvert\zeta\rvert^2),\qquad G=c\,\widehat G,\quad \widehat G(0)=\tfrac1{12\pi^2}.">&minus;log F = &sum;<sub>j,k</sub> &zeta;<sub>j</sub>&zeta;<sub>k</sub> G(y<sub>j</sub> &minus; y<sub>k</sub>) + o(|&zeta;|&sup2;), G = c &Gcirc;, &Gcirc;(0) = 1/(12&pi;&sup2;).</span>
+    Theorem&nbsp;11.1 is the part of it that is proved. It is what bounds the off-diagonal terms: all
+    corners weak forces every separation above
+    <span data-tex="\log(2/\varepsilon)">log(2/&epsilon;)</span>, so the cross terms are
+    <span data-tex="O(\varepsilon^2\sup_{\Delta\ge\log(2/\varepsilon)}\lvert\widehat G\rvert)">O(&epsilon;&sup2; sup<sub>&Delta; &ge; log(2/&epsilon;)</sub> |&Gcirc;|)</span>
+    and distinct junctions add in <span data-tex="\zeta^2">&zeta;&sup2;</span>.</p>
+  <div class="note-block">What is <em>not</em> settled: the law itself, the uniformity of its
+    <span data-tex="o(\lvert\zeta\rvert^2)">o(|&zeta;|&sup2;)</span> remainder in the separations (needed
+    wherever <span data-tex="\zeta\to0">&zeta; &rarr; 0</span> and
+    <span data-tex="\Delta\to\infty">&Delta; &rarr; &infin;</span> together), and everything about
+    <span data-tex="\widehat G">&Gcirc;</span> away from the origin. Positive-definiteness does not make
+    <span data-tex="\widehat G">&Gcirc;</span> pointwise positive; its sign for
+    <span data-tex="\Delta>0">&Delta; &gt; 0</span> is open.</div>
+  <p class="provenance">Where this comes from:
+    <a href="../results/network-second-order-law.md">claim page</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/phase6_brief.md" rel="noopener">rigor/phase6_brief.md</a> (track W2) &middot;
+    <a href="networks.html">module 6 builds the chains this law is about</a></p>
+</div>
+
+<h2>What is exact here, and what is measured</h2>
+<p>The recursion below is a closed form: given the strengths, one square root per corner gives every
+<span data-tex="\Delta_j">&Delta;<sub>j</sub></span> exactly, because Lemma&nbsp;10.3 turns
+<span data-tex="1/\zeta_j">1/&zeta;<sub>j</sub></span> into the quadratic
+<span data-tex="(c+1)E^2-(4/\zeta_j+2c)E+(c-1)=0">(c+1)E&sup2; &minus; (4/&zeta;<sub>j</sub> + 2c)E + (c&minus;1) = 0</span>
+in <span data-tex="E=e^{\Delta_j}">E = e<sup>&Delta;<sub>j</sub></sup></span>, with
+<span data-tex="c=1+\gamma_{j+1}">c = 1 + &gamma;<sub>j+1</sub></span>. Your browser runs exactly that.
+The five minima it is checked against were computed by the referee's independent script and are read
+from its output file, with the line they came from under each number.</p>
+
+<figure class="no-js">
+  <svg viewBox="0 0 640 210" role="img" aria-labelledby="figt figd">
+    <title id="figt">Weak corners are pushed apart</title>
+    <desc id="figd">A modular axis carrying two corners. The gap between them is at least log of two
+      over epsilon, and the recursion that forces it runs backwards from the last corner, where gamma
+      is zero, to the corner in question.</desc>
+    <line x1="30" y1="60" x2="610" y2="60" stroke="var(--line)" stroke-width="2"/>
+    <circle cx="90" cy="60" r="7" fill="var(--panel)" stroke="var(--series-1)" stroke-width="2.5"/>
+    <circle cx="430" cy="60" r="7" fill="var(--panel)" stroke="var(--series-1)" stroke-width="2.5"/>
+    <circle cx="560" cy="60" r="7" fill="var(--panel)" stroke="var(--series-1)" stroke-width="2.5"/>
+    <text x="90" y="44" text-anchor="middle" fill="var(--fg)" font-size="12">p_k</text>
+    <text x="430" y="44" text-anchor="middle" fill="var(--fg)" font-size="12">p_k+1</text>
+    <text x="560" y="44" text-anchor="middle" fill="var(--fg)" font-size="12">p_n-1</text>
+    <line x1="90" y1="82" x2="430" y2="82" stroke="var(--series-3)" stroke-width="2"/>
+    <text x="260" y="100" text-anchor="middle" fill="var(--series-3)" font-size="12">
+      modular length Delta_k, at least log(2/eps)</text>
+    <text x="30" y="130" fill="var(--muted)" font-size="12">the backward recursion:</text>
+    <text x="30" y="150" fill="var(--fg)" font-size="12">gamma_n = 0</text>
+    <text x="150" y="150" fill="var(--muted)" font-size="12">&#8594;</text>
+    <text x="175" y="150" fill="var(--fg)" font-size="12">gamma_j &#8804; zeta_j (1 + gamma_j+1 / 2)</text>
+    <text x="430" y="150" fill="var(--muted)" font-size="12">&#8594;</text>
+    <text x="455" y="150" fill="var(--fg)" font-size="12">gamma &#8804; 2 eps/(2 - eps)</text>
+    <text x="30" y="176" fill="var(--fg)" font-size="12">and therefore e^Delta_k &#8805; 2/eps,</text>
+    <text x="30" y="194" fill="var(--muted)" font-size="12">approached as eps &#8594; 0, never attained at a fixed eps.</text>
+  </svg>
+  <figcaption>The whole theorem in one line: weak corners are pushed apart, and the recursion that
+    proves it starts at the far end of the chain, where <span data-tex="\Delta_n=\infty">&Delta;<sub>n</sub> = &infin;</span>.
+    With JavaScript enabled you can set <span data-tex="\varepsilon">&epsilon;</span>, drag each corner
+    strength, and watch the bound bind.</figcaption>
+</figure>
+
+<div class="js-only">
+<div class="panel">
+  <h3 style="margin-top:0">Drag the corner strengths</h3>
+  <p style="font-size:.9rem;margin-top:0">Each handle is one corner, and the hypothesis is the dashed
+    line: every strength at or below <span data-tex="\varepsilon">&epsilon;</span>. Drag a handle, or
+    focus it and use the arrow keys.</p>
+  <svg id="zplot" role="img" aria-label="The corner strengths of the chain, each bounded by epsilon"></svg>
+  <div class="controls" style="margin-top:.7rem">
+    <div class="control">
+      <label for="ieps">&epsilon;, the weakness bound</label>
+      <input id="ieps" type="range" min="-2.6" max="-0.3" step="0.01" value="-1" aria-describedby="ehint">
+      <span class="hint" id="ehint">logarithmic slider</span>
+    </div>
+    <div class="control">
+      <label for="im">Corners at and to the right of <span class="mono">p<sub>k</sub></span></label>
+      <input id="im" type="range" min="1" max="8" step="1" value="4">
+      <span class="hint" id="mhint">only these enter the hypothesis</span>
+    </div>
+    <div class="control">
+      <label for="isat">Saturate every corner</label>
+      <button id="isat" type="button" class="theme" style="justify-self:start">set all &zeta; = &epsilon;</button>
+      <span class="hint">the configuration that minimises the separation</span>
+    </div>
+  </div>
+  <div class="readout" id="out"></div>
+</div>
+
+<div class="panel">
+  <h3 style="margin-top:0">The backward recursion, drawn</h3>
+  <p style="font-size:.9rem;margin-top:0">It runs right to left, from
+    <span data-tex="\gamma_n=0">&gamma;<sub>n</sub> = 0</span> at the far end of the chain to the corner
+    the bound is about. The grey line is the fixed point
+    <span data-tex="2\varepsilon/(2-\varepsilon)">2&epsilon;/(2&minus;&epsilon;)</span> that the
+    induction never crosses; the bars are the exact
+    <span data-tex="\gamma_j">&gamma;<sub>j</sub></span> your strengths produce.</p>
+  <svg id="rec" role="img" aria-label="The backward recursion: gamma at each corner against the fixed point"></svg>
+  <div class="readout" id="out2"></div>
+</div>
+
+<div class="panel">
+  <h3 style="margin-top:0">Approached, never attained</h3>
+  <p style="font-size:.9rem;margin-top:0">The exact constrained minimum of
+    <span data-tex="e^{\Delta_k}">e<sup>&Delta;<sub>k</sub></sup></span> against the bound
+    <span data-tex="2/\varepsilon">2/&epsilon;</span>. The curve is the recursion running in your
+    browser; the dots are the referee's independent computation, read from its output file.</p>
+  <svg id="minplot" role="img" aria-label="The exact constrained minimum against the bound, on logarithmic axes"></svg>
+  <div class="readout" id="out3"></div>
+  <p class="provenance" id="checkline"></p>
+</div>
+</div>
+
+<h2>Claims this module carries</h2>
+<table>
+<thead><tr><th>claim</th><th>status</th></tr></thead>
+<tbody>
+<tr><td><a href="../results/corner-separation-constraint.md">the separation constraint, Theorem 11.1</a></td><td><span class="badge proved">proved</span></td></tr>
+<tr><td><a href="../results/network-second-order-law.md">the second-order network law</a></td><td><span class="badge conjectural">conjectural</span></td></tr>
+</tbody>
+</table>
+<p class="provenance">The second row is a conjecture: only its separation constraint is proved, and its
+remainder and its kernel <span data-tex="\widehat G">&Gcirc;</span> are open.</p>
+</main>
+
+<footer class="site"><div class="wrap">
+  <p>Module 7 of <a href="../index.html">the cft-cmi site</a>. The recursion is evaluated in your
+    browser from <code>docs/lib/separation.js</code>; every measured number is read from
+    <code>docs/data/extra-separation.json</code>, generated by
+    <code>tools/build_site_data_extra.py</code>. No analytics, no external requests.</p>
+</div></footer>
+
+<script type="module">
+import { Plot, el as svgEl, draggable, fmt } from '../lib/plot.js';
+import { initTheme, enableJS, loadData, renderRecord, renderMath, failNotice, el as h } from '../lib/ui.js';
+import { backward, minValue, bound, fixedPoint } from '../lib/separation.js';
+
+initTheme(document.querySelector('button.theme'));
+renderMath(document);
+window.addEventListener('load', () => renderMath(document));
+
+const S = { eps: 0.1, m: 4, z: [] };
+const nearest = eps => [0.3, 0.1, 0.03, 0.01, 0.003]
+  .reduce((a, b) => (Math.abs(Math.log(b / eps)) < Math.abs(Math.log(a / eps)) ? b : a));
+const resize = () => {
+  while (S.z.length < S.m) S.z.push(S.eps);
+  S.z.length = S.m;
+  S.z = S.z.map(v => Math.min(S.eps, Math.max(S.eps / 1000, v)));
+};
+const chain = () => backward(S.z);
+
+let D = null;
+enableJS();
+try {
+  D = await loadData('../data/extra-separation.json');
+  const rec = (series, eps) => D.series(series).find(r => Math.abs(r.x - eps) < 1e-12);
+
+  // ------------------------------------------------ the strengths, draggable
+  const zPlot = new Plot(document.getElementById('zplot'), {
+    aspect: 0.42, minH: 190, maxH: 300, margin: { l: 62, r: 16, t: 14, b: 40 },
+    xDomain: [0.4, 8.6], yDomain: [0, 0.12], xLabel: 'corner, k first', yLabel: 'strength ζ'
+  }).onRender(P => {
+    P.domain([0.4, S.m + 0.6], [0, S.eps * 1.25]);
+    P.axes();
+    P.hline(S.eps, { stroke: 'var(--series-3)', dash: '6 4', width: 1.6 });
+    P.text(0.5, S.eps, ' the hypothesis: every ζ ≤ ε', { small: true, dy: -6 });
+    const pts = S.z.map((z, i) => [i + 1, z]);
+    P.curve(pts, { stroke: 'var(--series-1)', width: 1.4, dash: '2 3' });
+    S.z.forEach((z, i) => {
+      const c = svgEl('circle', { cx: P.sx(i + 1), cy: P.sy(z), r: 9,
+        fill: 'var(--panel)', stroke: 'var(--series-1)', 'stroke-width': 2.5 }, P.root);
+      draggable(P, c, {
+        label: 'strength of corner ' + (i + 1),
+        axis: 'y', step: S.eps / 40,
+        aria: { min: 0, max: S.eps, now: +z.toPrecision(4),
+          text: 'zeta = ' + fmt(z, 4) + ', at most epsilon = ' + fmt(S.eps, 3) },
+        onMove: (x, y, ev, d) => setZ(i, d === undefined ? y : S.z[i] + d)
+      });
+    });
+  });
+  function setZ(i, v) {
+    S.z[i] = Math.min(S.eps, Math.max(S.eps / 1000, v));
+    redraw();
+  }
+
+  // --------------------------------------------------- the recursion, drawn
+  const recPlot = new Plot(document.getElementById('rec'), {
+    aspect: 0.4, minH: 180, maxH: 280, margin: { l: 62, r: 16, t: 14, b: 40 },
+    xDomain: [0.4, 8.6], yDomain: [0, 1], xLabel: 'corner (the recursion runs right to left)',
+    yLabel: 'γ = 2/(e^Δ − 1)'
+  }).onRender(P => {
+    const rows = chain(), fp = fixedPoint(S.eps);
+    P.domain([0.4, S.m + 1.1], [0, Math.max(fp, ...rows.map(r => r.gamma)) * 1.3]);
+    P.axes();
+    P.hline(fp, { stroke: 'var(--series-3)', dash: '6 4', width: 1.6 });
+    P.text(0.5, fp, ' fixed point 2ε/(2−ε)', { small: true, dy: -6 });
+    rows.forEach((r, i) => {
+      const x = P.sx(i + 1), y0 = P.sy(0), y = P.sy(r.gamma);
+      svgEl('rect', { x: x - 9, y: y, width: 18, height: y0 - y,
+        fill: 'var(--series-1)', opacity: 0.75 }, P.root);
+      P.text(i + 1, r.gamma, fmt(r.gamma, 3), { small: true, anchor: 'middle', dy: -6 });
+    });
+    const xl = P.sx(S.m + 1);
+    svgEl('circle', { cx: xl, cy: P.sy(0), r: 4, fill: 'var(--muted)' }, P.root);
+    P.text(S.m + 1, 0, 'γ_n = 0', { small: true, anchor: 'middle', dy: -10 });
+  });
+
+  // ------------------------------------------- the minimum against the bound
+  const XD = [0.0025, 0.6];
+  const minPlot = new Plot(document.getElementById('minplot'), {
+    aspect: 0.55, minH: 210, maxH: 340, margin: { l: 62, r: 16, t: 14, b: 42 },
+    xScale: 'log', yScale: 'log', xDomain: XD, yDomain: [1, 900],
+    xLabel: 'ε', yLabel: 'e^Δ at the corner k'
+  }).onRender(P => {
+    P.axes();
+    const live = [], bnd = [];
+    for (let i = 0; i <= 90; i++) {
+      const e = XD[0] * Math.pow(XD[1] / XD[0], i / 90);
+      live.push([e, minValue(e, S.m)]);
+      bnd.push([e, bound(e)]);
+    }
+    P.curve(bnd, { stroke: 'var(--muted)', dash: '6 4', width: 1.5 });
+    P.curve(live, { stroke: 'var(--series-1)', width: 2.2 });
+    P.dots(D.series('min_inf').map(r => [r.x, r.value]),
+      { shape: 'square', stroke: 'var(--series-2)', fill: 'var(--panel)', r: 4 });
+    const now = chain()[0].E;
+    P.dots([[S.eps, now]], { fill: 'var(--series-4)', r: 5 });
+    P.text(S.eps, now, '  your chain', { small: true, dy: -8 });
+    P.legend([
+      { stroke: 'var(--muted)', dash: '6 4', label: 'the bound 2/ε (proved)' },
+      { stroke: 'var(--series-1)', label: 'exact minimum, recursion run here' },
+      { stroke: 'var(--series-2)', label: 'exact minimum, referee’s computation' },
+      { stroke: 'var(--series-4)', label: 'your chain' }
+    ], { x: P.inner.x0 + 12, y: P.inner.y1 + 12 });
+  });
+
+  // ------------------------------------------------------------- readouts
+  const cell = (k, node) => h('div', { class: 'cell' },
+    [h('span', { class: 'k', text: k }), typeof node === 'string' ? h('span', { class: 'v', text: node }) : node]);
+  const liveBadge = text => h('div', { class: 'cell' }, [
+    h('span', { class: 'k', text: 'status of the numbers in this panel' }),
+    h('span', {}, [Object.assign(document.createElement('span'),
+      { className: 'badge proved', textContent: 'proved' }), ' ' + text])]);
+
+  function readout() {
+    const rows = chain(), E = rows[0].E, last = rows[rows.length - 1];
+    document.getElementById('out').replaceChildren(
+      cell('ε', fmt(S.eps, 4)),
+      cell('corners used, m', String(S.m)),
+      cell('e^Δ at the corner k', fmt(E, 6)),
+      cell('the bound 2/ε', fmt(bound(S.eps), 6)),
+      cell('(ε/2) e^Δ — 1 would be attainment', fmt(S.eps / 2 * E, 8)),
+      cell('margin above the bound', fmt(100 * (E / bound(S.eps) - 1), 3) + ' %'),
+      cell('last corner: e^Δ − (1 + 2/ζ)', fmt(last.E - (1 + 2 / last.zeta), 3)
+        + '  (exactly 0: the one equality)'),
+      liveBadge('closed forms of Lemma 10.3 and Theorem 11.1, evaluated live')
+    );
+    const fp = fixedPoint(S.eps);
+    document.getElementById('out2').replaceChildren(
+      cell('γ at the corner k', fmt(rows[0].gamma, 6)),
+      cell('fixed point 2ε/(2−ε)', fmt(fp, 6)),
+      cell('γ_k ≤ the fixed point', rows[0].gamma <= fp * (1 + 1e-12) ? 'yes, as the induction says' : 'NO'),
+      cell('Δ at the corner k', fmt(rows[0].delta, 6)),
+      cell('log(2/ε)', fmt(Math.log(bound(S.eps)), 6)),
+      liveBadge('the same closed form, one square root per corner')
+    );
+    const e0 = nearest(S.eps);
+    document.getElementById('out3').replaceChildren(
+      cell('nearest recorded ε', fmt(e0, 3)),
+      cell('exact minimum there, recorded', renderRecord(rec('min_inf', e0))),
+      cell('the same number, computed here', fmt(minValue(e0, 400), 6)),
+      cell('the bound there', renderRecord(rec('bound', e0))),
+      cell('(ε/2) × minimum, recorded', renderRecord(rec('ratio', e0), { sig: 7 })),
+      cell('m = 10 corners, recorded', renderRecord(rec('min_m10', e0)))
+    );
+    document.getElementById('ehint').textContent = 'ε = ' + fmt(S.eps, 3)
+      + ' — the bound is 2/ε = ' + fmt(bound(S.eps), 5);
+    document.getElementById('mhint').textContent = 'm = ' + S.m
+      + ' corner' + (S.m === 1 ? '' : 's') + '; only these enter the hypothesis';
+  }
+
+  function checks() {
+    const line = document.getElementById('checkline');
+    line.replaceChildren(document.createTextNode('Independent checks: '));
+    for (const r of D.series('check')) {
+      line.appendChild(h('span', {}, [r.label.split(':')[0].split('(')[0].trim() + ' = ']));
+      line.appendChild(renderRecord(r, { sig: 9 }));
+      line.appendChild(document.createTextNode(' · '));
+    }
+  }
+
+  function redraw() { zPlot.render(); recPlot.render(); minPlot.render(); readout(); }
+
+  document.getElementById('ieps').addEventListener('input', e => {
+    S.eps = Math.pow(10, +e.target.value);
+    resize();
+    redraw();
+  });
+  document.getElementById('im').addEventListener('input', e => {
+    S.m = Math.max(1, Math.min(8, Math.round(+e.target.value)));
+    resize();
+    redraw();
+  });
+  document.getElementById('isat').addEventListener('click', () => {
+    S.z = new Array(S.m).fill(S.eps);
+    redraw();
+  });
+  document.addEventListener('themechange', redraw);
+
+  resize();
+  redraw();
+  checks();
+} catch (e) {
+  document.documentElement.classList.remove('has-js');
+  failNotice(document.querySelector('main'), e);
+}
+</script>
+</body>
+</html>

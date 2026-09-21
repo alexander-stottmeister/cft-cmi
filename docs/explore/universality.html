@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Universality in the central charge &mdash; cft-cmi module 3</title>
+<meta name="description" content="Slide the central charge and watch the second-order coefficient move along the line Theorem B proves. The fermion, boson and lattice measurements stay where they were made, at c = 1.">
+<link rel="stylesheet" href="../lib/site.css">
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<script defer src="../lib/katex/katex.min.js"></script>
+<script>
+/* If the module fails, say so in the page instead of leaving a blank area:
+   the static text and figure stay visible because .has-js is never set. */
+window.addEventListener('error', function (e) {
+  var host = document.getElementById('main') || document.body;
+  if (!host || host.querySelector('.boot-error')) return;
+  var d = document.createElement('div');
+  d.className = 'panel boot-error';
+  d.innerHTML = '<p><strong>The interactive view did not start.</strong> The text and the static ' +
+    'figure are the whole claim; the animation is an enhancement. Opening these pages straight from ' +
+    'the file system blocks ES modules in most browsers — serve the folder instead, for example ' +
+    'with <code>python3 -m http.server</code> inside <code>docs/</code>. Nothing is fetched from ' +
+    'another site either way.</p>';
+  var p = document.createElement('p');
+  p.className = 'provenance';
+  p.textContent = (e.message || 'script error') + (e.filename ? '  —  ' + e.filename + ':' + e.lineno : '');
+  d.appendChild(p);
+  host.prepend(d);
+});
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="quadratic-law.html">Module 2</a>
+    <a href="optimality.html">Module 4</a>
+    <a href="../index.md">Documentation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+
+<main class="wrap" id="main">
+<h1>Module 3 &mdash; Universality in the central charge</h1>
+<p class="lede">The second-order coefficient of the recovery error is not a property of the free
+fermion. Theorem B proves it is <span data-tex="c/(12\pi^2)">c/(12&pi;&sup2;)</span> for every
+diffeomorphism-covariant net &mdash; a straight line through the origin in the central charge. Slide
+<span data-tex="c">c</span> below and the coefficient moves along that line. The measurements do not
+move: all three were made at <span data-tex="c=1">c&nbsp;=&nbsp;1</span>, and nothing here is
+evidence at any other central charge.</p>
+
+<div class="claim">
+  <div class="claim-head"><span class="badge refereed">refereed</span>
+    <span class="badge conditional" title="conditional on H1, H2, H3">conditional</span>
+    <span class="claim-title">Theorem B &mdash; universality of the coefficient</span></div>
+  <p>For every diffeomorphism-covariant net on <span data-tex="S^1">S&sup1;</span> (separable, CDIT
+    axioms, Bisognano&ndash;Wichmann, Haag duality, Reeh&ndash;Schlieder),
+    <span data-display data-tex="-\log F=\frac{\zeta^2}8\,g_B+o(\zeta^2),\qquad g_B=4\,\operatorname{dist}\bigl(T(g_{\rm tot})\Omega,\ \overline{\mathcal A(I)'_{\rm sa}\Omega}\bigr)^2=\frac{2c}{3\pi^2},\qquad f_2=\frac{g_B}8=\frac{c}{12\pi^2}.">&minus;log F = (&zeta;&sup2;/8) g<sub>B</sub> + o(&zeta;&sup2;), &nbsp; g<sub>B</sub> = 4 dist(T(g<sub>tot</sub>)&Omega;, cl A(I)&prime;<sub>sa</sub>&Omega;)&sup2; = 2c/(3&pi;&sup2;), &nbsp; f&#8322; = g<sub>B</sub>/8 = c/(12&pi;&sup2;).</span>
+    The stress-tensor subspace reduces <span data-tex="\Delta">&Delta;</span> and
+    <span data-tex="J">J</span>, so the linearity in <span data-tex="c">c</span> is
+    <em>structural</em>: the deformation only ever sees the stress tensor, whose two-point function
+    carries <span data-tex="c">c</span> as an overall factor. The constant in front comes from the
+    fermion.</p>
+  <div class="hypo"><strong>Stated under hypotheses.</strong>
+    <strong>(H1)</strong> an implementation <span data-tex="U_s">U<sub>s</sub></span> of the
+    <span data-tex="C^{1,1}">C<sup>1,1</sup></span> map exists;
+    <strong>(H2)</strong> <span data-tex="U_s\Omega=\Omega+isT(g_{\rm tot})\Omega+o(s)">U<sub>s</sub>&Omega; = &Omega; + i s T(g<sub>tot</sub>)&Omega; + o(s)</span>
+    with <span data-tex="T(g_{\rm tot})\Omega">T(g<sub>tot</sub>)&Omega;</span> in the stress-tensor
+    subspace; <strong>(H3)</strong> first-order differentiability on a core. Read the badge only
+    together with them &mdash; and see the next card, which discharges them.</div>
+  <p class="provenance">Where this comes from:
+    <a href="../results/thm-b-universality.md">claim page</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/universality_theorem_B.tex" rel="noopener">rigor/universality_theorem_B.tex</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/referee_universality_theorem_B.tex" rel="noopener">rigor/referee_universality_theorem_B.tex</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/universality_normalization.tex" rel="noopener">universality_normalization.tex</a></p>
+</div>
+
+<div class="claim">
+  <div class="claim-head"><span class="badge refereed">refereed</span>
+    <span class="claim-title">(H1)&ndash;(H3) hold for <em>all</em> diffeomorphism-covariant nets</span></div>
+  <p>The first-order field <span data-tex="g_{\rm tot}">g<sub>tot</sub></span> has a single jump of
+    its second derivative, so its Carpi&ndash;Weiner
+    <span data-tex="3/2">3/2</span>-norm is finite; essential self-adjointness follows from
+    Carpi&ndash;Weiner Thm&nbsp;4.4, Stone and a Trotter split, with the scalar phase from
+    Fewster&ndash;Hollands. The form bound needs <span data-tex="\beta=1">&beta; = 1</span> and is
+    sharp; the Nelson route and <span data-tex="D(L_0)">D(L&#8320;)</span>-invariance are closed in
+    the negative. So the hypotheses above are not an extra assumption on the net &mdash; they are a
+    theorem about it.</p>
+  <p class="provenance">Where this comes from:
+    <a href="../results/implementer-hypotheses.md">claim page</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/implementation_C11.tex" rel="noopener">rigor/implementation_C11.tex</a></p>
+</div>
+
+<div class="claim">
+  <div class="claim-head"><span class="badge numerical">numerical</span>
+    <span class="claim-title">What the points below are, and what they are not</span></div>
+  <p>Three independent models are drawn: the Dirac fermion in the continuum, the
+    <span data-tex="U(1)">U(1)</span> current net, and the half-filled hopping chain. Each has
+    <span data-tex="c=1">c = 1</span>, and each was computed at <span data-tex="c=1">c = 1</span>.
+    <strong>No measurement at any other central charge exists in this repository</strong>, so no
+    point is ever moved along the line when you change <span data-tex="c">c</span>: the line is the
+    theorem, the points are the data, and a point drawn at <span data-tex="c=3">c = 3</span> would be
+    a fabrication. What the slider shows is the theorem being evaluated, nothing more.</p>
+  <p class="provenance">Where this comes from:
+    <a href="../results/boson-check.md">the bosonic check</a> &middot;
+    <a href="../results/two-branch-law-lattice.md">the lattice</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/boson/README.md" rel="noopener">numerics/boson/README.md</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/lattice/petz_lattice.out" rel="noopener">numerics/lattice/petz_lattice.out</a></p>
+</div>
+
+<figure class="no-js">
+  <img src="../assets/universality.svg" alt="The proved line f2 = c/(12 pi squared) through the origin, with the fermion, boson and lattice measurements all drawn at c = 1, and a zoomed panel showing the three agreeing there.">
+  <figcaption>Theorem B's line, and the three measurements &mdash; all of them at
+    <span data-tex="c=1">c&nbsp;=&nbsp;1</span>. With JavaScript enabled the same picture gains a
+    central-charge slider, the Mellin kernel behind the proof, and the two-chirality law; every
+    number then names the file and line it was read from.</figcaption>
+</figure>
+
+<div class="js-only">
+<div class="panel">
+  <h3 style="margin-top:0">The line, and the one place the data live</h3>
+  <svg id="line" role="img" aria-label="The coefficient f2 against the central charge: a straight line through the origin, with three measurements at c = 1"></svg>
+  <div class="controls" style="margin-top:.7rem">
+    <div class="control">
+      <label for="ic">Central charge <span class="mono">c</span></label>
+      <input id="ic" type="range" min="0.1" max="4" step="0.05" value="1" aria-describedby="chint">
+      <span class="hint" id="chint">the theorem is evaluated here; the measurements stay at c = 1</span>
+    </div>
+    <div class="control">
+      <label for="iq">Quantity</label>
+      <select id="iq">
+        <option value="f2" selected>f&#8322; = c/(12&pi;&sup2;), the fidelity coefficient</option>
+        <option value="gb">g<sub>B</sub> = 2c/(3&pi;&sup2;), the Bures metric</option>
+        <option value="s2">s&#8322; = c/12, the relative-entropy coefficient</option>
+      </select>
+      <span class="hint">all three are the same theorem in different normalisations</span>
+    </div>
+  </div>
+  <div class="readout" id="out"></div>
+  <p class="provenance" id="cnote"></p>
+</div>
+
+<div class="panel">
+  <h3 style="margin-top:0">At <span data-tex="c=1">c = 1</span>, where the measurements are</h3>
+  <p style="font-size:.9rem;margin-top:0">The same axis, magnified by a factor of about a thousand
+    around the theorem's value. The bar through a point is its quoted uncertainty; the lattice point
+    is one finite-<span data-tex="\zeta">&zeta;</span>, finite-<span data-tex="n">n</span>
+    measurement rather than an extrapolation, so it has none.</p>
+  <svg id="zoom" role="img" aria-label="The three measurements at c = 1 against the value the theorem predicts there"></svg>
+  <div class="readout" id="out2"></div>
+</div>
+
+<div class="panel">
+  <h3 style="margin-top:0">Why <span data-tex="c">c</span> can only enter as a factor</h3>
+  <p style="font-size:.9rem;margin-top:0">The deformation only ever touches the stress tensor, and
+    <span data-tex="\langle T(x)T(y)\rangle=\frac{c}{8\pi^2}(x-y-i0)^{-4}">&lang;T(x)T(y)&rang; = (c/8&pi;&sup2;)(x&minus;y&minus;i0)<sup>&minus;4</sup></span>
+    carries <span data-tex="c">c</span> as an overall factor. Its <span data-tex="x">x</span>-space
+    Mellin transform is exactly
+    <span data-tex="\widehat W(k)=\frac{c}{24\pi}\frac{k(k^2+1)}{e^{2\pi k}-1}">W&#770;(k) = (c/24&pi;) k(k&sup2;+1)/(e<sup>2&pi;k</sup>&minus;1)</span>,
+    which satisfies the KMS relation <span data-tex="\widehat W(-k)=e^{2\pi k}\widehat W(k)">W&#770;(&minus;k) = e<sup>2&pi;k</sup> W&#770;(k)</span>
+    and integrates to <span data-tex="g_B=2c/(3\pi^2)">g<sub>B</sub> = 2c/(3&pi;&sup2;)</span> &mdash;
+    the third independent route to the same metric. Change <span data-tex="c">c</span> with the
+    slider above and the whole curve scales; its shape cannot change.</p>
+  <svg id="mellin" role="img" aria-label="The Mellin transform of the stress-tensor two-point function against the Mellin variable"></svg>
+  <div class="readout" id="out3"></div>
+</div>
+
+<div class="panel">
+  <h3 style="margin-top:0">The bosonic check converges to the same number</h3>
+  <p style="font-size:.9rem;margin-top:0">The <span data-tex="U(1)">U(1)</span> current net is a
+    genuinely different theory with the same central charge: its modular symbol is the Bose factor
+    <span data-tex="\pi\kappa\coth(\pi\kappa)">&pi;&kappa; coth(&pi;&kappa;)</span> rather than the
+    Fermi one. Its coefficients are computed inside a spectral window
+    <span data-tex="\kappa_c">&kappa;<sub>c</sub></span> and extrapolated; the ladder below is the
+    window opening.</p>
+  <svg id="boson" role="img" aria-label="The bosonic f2 and s2 against the spectral window cutoff, approaching the values the theorem predicts"></svg>
+  <div class="readout" id="out4"></div>
+</div>
+
+<div class="panel">
+  <h3 style="margin-top:0">Two chiralities, and why the rotation angle matters there</h3>
+  <p style="font-size:.9rem;margin-top:0">For a 2D CFT the rotated Petz maps give
+    <span data-display data-tex="-\log F^{(\lambda)}=\Phi\bigl(z(1+e^{-\pi\lambda})\bigr)+\Phi\bigl(z(1+e^{\pi\lambda})\bigr),">&minus;log F<sup>(&lambda;)</sup> = &Phi;(z(1+e<sup>&minus;&pi;&lambda;</sup>)) + &Phi;(z(1+e<sup>&pi;&lambda;</sup>)),</span>
+    even in <span data-tex="\lambda">&lambda;</span> with its minimum at
+    <span data-tex="\lambda=0">&lambda; = 0</span>: for two chiralities the <em>ordinary</em> Petz map
+    is the best member of the rotated family, matching Vardhan&ndash;Wei&ndash;Zou. For a single
+    chirality the family is monotone instead and the compression endpoint wins. The curves below use
+    the small-<span data-tex="z">z</span> law <span data-tex="\Phi(\zeta)=f_2\zeta^2">&Phi;(&zeta;) = f&#8322;&zeta;&sup2;</span>,
+    so they are drawn in units of <span data-tex="f_2z^2">f&#8322;z&sup2;</span> and are independent
+    of <span data-tex="c">c</span>.</p>
+  <svg id="chir" role="img" aria-label="The recovery error of the rotated Petz family against the rotation parameter, for one and for two chiralities"></svg>
+  <div class="readout" id="out5"></div>
+</div>
+</div>
+
+<h2>Claims this module carries</h2>
+<table>
+<thead><tr><th>claim</th><th>status</th></tr></thead>
+<tbody>
+<tr><td><a href="../results/thm-b-universality.md">Theorem B: f&#8322; = c/(12&pi;&sup2;) for every diffeomorphism-covariant net</a></td><td><span class="badge refereed">refereed</span> <span class="badge conditional" title="conditional on H1, H2, H3">conditional</span></td></tr>
+<tr><td><a href="../results/implementer-hypotheses.md">(H1)&ndash;(H3) hold for all such nets</a></td><td><span class="badge refereed">refereed</span></td></tr>
+<tr><td><a href="../results/stress-tensor-normalisation.md">the stress-tensor normalisation chain</a></td><td><span class="badge proved">proved</span></td></tr>
+<tr><td><a href="../results/w-hat-mellin-formula.md">the exact Mellin transform W&#770;(k) and the invariant formula for g<sub>B</sub></a></td><td><span class="badge proved">proved</span></td></tr>
+<tr><td><a href="../results/two-chirality-law.md">the two-chirality law for 2D CFTs</a></td><td><span class="badge proved">proved</span></td></tr>
+<tr><td><a href="../results/boson-check.md">the bosonic check: the U(1) current net agrees</a></td><td><span class="badge numerical">numerical</span></td></tr>
+</tbody>
+</table>
+</main>
+
+<footer class="site"><div class="wrap">
+  <p>Module 3 of <a href="../index.html">the cft-cmi site</a>. Every number is read from
+    <code>docs/data/universality.json</code> and <code>docs/data/constants.json</code>, generated by
+    <code>tools/build_site_data.py</code> from the repository's own result files.</p>
+</div></footer>
+
+<script type="module">
+import { Plot, fmt, linTicks, el as svgEl, draggable } from '../lib/plot.js';
+import { initTheme, enableJS, loadData, renderRecord, renderMath, failNotice, el as h } from '../lib/ui.js';
+
+initTheme(document.querySelector('button.theme'));
+renderMath(document);
+window.addEventListener('load', () => renderMath(document));
+
+const C_MIN = 0.1, C_MAX = 4;
+const S = { c: 1, q: 'f2' };
+let U = null, K = null;
+
+try {
+  U = await loadData('../data/universality.json');
+  K = await loadData('../data/constants.json');
+} catch (e) {
+  document.documentElement.classList.remove('has-js');
+  failNotice(document.querySelector('main'), e);
+}
+
+if (U) try {
+  // ---- the three normalisations, each a closed form with a file and a line ----
+  const QUANT = {
+    f2: { rec: K.get('f2.closed_form'), name: 'f₂', tex: 'f₂ = c/(12π²)',
+          yLabel: 'f₂  (per chirality)',
+          data: [{ key: 'Dirac fermion, continuum', short: 'Dirac fermion', rec: K.get('f2.measured'), stroke: 'var(--series-1)' },
+                 { key: 'U(1) current net', short: 'U(1) current net', rec: U.get('boson.f2'), stroke: 'var(--series-2)' },
+                 { key: 'hopping chain', short: 'hopping chain', rec: U.get('lattice.f2_point'), stroke: 'var(--series-5)' }] },
+    gb: { rec: U.get('gb.closed_form'), name: 'g_B', tex: 'g_B = 2c/(3π²)',
+          yLabel: 'g_B  (one-particle Bures metric)', data: [] },
+    s2: { rec: U.get('s2.closed_form'), name: 's₂', tex: 's₂ = c/12',
+          yLabel: 's₂  (relative-entropy coefficient)',
+          data: [{ key: 'Dirac fermion, continuum', short: 'Dirac fermion', rec: K.get('s2.measured'), stroke: 'var(--series-1)' },
+                 { key: 'U(1) current net', short: 'U(1) current net', rec: U.get('boson.s2'), stroke: 'var(--series-2)' }] }
+  };
+  const cell = (k, node) => h('div', { class: 'cell' }, [h('span', { class: 'k', text: k }), node]);
+  const plain = s => h('span', { class: 'v', text: s });
+
+  // ------------------------------------------------- 1. the line in c
+  const linePlot = new Plot(document.getElementById('line'), {
+    aspect: 0.56, minH: 220, maxH: 400, margin: { l: 70, r: 16, t: 14, b: 42 },
+    xDomain: [0, 4.2], yDomain: [0, 1], xLabel: 'central charge c'
+  }).onRender(P => {
+    const Q = QUANT[S.q], k = Q.rec.value, top = 4.2 * k * 1.2;
+    P.o.yDomain = [0, top];
+    P.o.yLabel = Q.yLabel;
+    P.axes();
+    P.curve([[0, 0], [4.2, 4.2 * k]], { stroke: 'var(--series-3)', width: 2.2 });
+    P.vline(1, { stroke: 'var(--line)', dash: '2 4' });
+    for (const d of Q.data) {
+      P.dots([[1, d.rec.value, d.rec.error]], { fill: d.stroke, stroke: d.stroke, r: 4 });
+    }
+    P.text(1, top, ' the data live here, at c = 1', { small: true, dy: 12 });
+    const hnd = svgEl('circle', { cx: P.sx(S.c), cy: P.sy(S.c * k), r: 7,
+      fill: 'var(--panel)', stroke: 'var(--series-4)', 'stroke-width': 2.6 }, P.root);
+    draggable(P, hnd, {
+      label: 'central charge', step: 0.05,
+      aria: { min: C_MIN, max: C_MAX, now: S.c, text: 'c = ' + fmt(S.c, 3) },
+      onMove: (x, y, ev, dx) => setC(dx === undefined ? x : S.c + dx)
+    });
+    P.text(S.c, S.c * k, '  ' + Q.name + ' = ' + fmt(S.c * k, 6), { small: true, dy: -10 });
+    P.legend([{ stroke: 'var(--series-3)', width: 2.2, label: Q.tex + ' — Theorem B, proved' }]
+      .concat(Q.data.map(d => ({ stroke: d.stroke, label: d.short + ', at c = 1' }))),
+      { x: P.inner.x0 + 12, y: P.inner.y1 + 14 });
+  });
+
+  // ------------------------------------------------- 2. the zoom at c = 1
+  const zoomPlot = new Plot(document.getElementById('zoom'), {
+    aspect: 0.42, minH: 190, maxH: 280, margin: { l: 118, r: 18, t: 14, b: 42 },
+    xDomain: [0.00836, 0.00848], yDomain: [0.42, 3.62], xLabel: 'f₂ at c = 1'
+  }).onRender(P => {
+    const f2 = K.get('f2.closed_form').value;
+    const rows = QUANT.f2.data;
+    // The vertical axis is three model names, so draw the horizontal axis alone
+    // rather than let the shared axes() label the rows with numbers.
+    const g = svgEl('g', { class: 'axis' }, P.root), { x0, x1, y0 } = P.inner;
+    svgEl('line', { x1: x0, x2: x1, y1: y0, y2: y0 }, g);
+    for (const t of linTicks(P.o.xDomain[0], P.o.xDomain[1], 4)) {
+      svgEl('line', { x1: P.sx(t), x2: P.sx(t), y1: y0, y2: y0 + 5 }, g);
+      svgEl('text', { x: P.sx(t), y: y0 + 17, 'text-anchor': 'middle' }, g).textContent = fmt(t, 5);
+    }
+    svgEl('text', { x: (x0 + x1) / 2, y: P.H - 4, 'text-anchor': 'middle' }, g)
+      .textContent = P.o.xLabel;
+    P.vline(f2, { stroke: 'var(--series-3)', dash: '6 4', width: 1.8 });
+    P.text(f2, 3.55, 'c/(12π²) = ' + fmt(f2, 6) + ' ',
+      { small: true, dx: -4, anchor: 'end' });
+    rows.forEach((d, i) => {
+      const y = 3 - i, X = P.sx(d.rec.value), Y = P.sy(y);
+      if (d.rec.error) {
+        const a = P.sx(d.rec.value - d.rec.error), b = P.sx(d.rec.value + d.rec.error);
+        svgEl('line', { x1: a, x2: b, y1: Y, y2: Y, stroke: d.stroke, 'stroke-width': 2 }, P.root);
+        for (const xx of [a, b]) svgEl('line', { x1: xx, x2: xx, y1: Y - 4, y2: Y + 4,
+          stroke: d.stroke, 'stroke-width': 2 }, P.root);
+      }
+      svgEl('circle', { cx: X, cy: Y, r: 4.2, fill: d.stroke }, P.root);
+      const t = svgEl('text', { x: P.inner.x0 - 10, y: Y + 4, 'text-anchor': 'end',
+        class: 'small' }, P.root);
+      t.textContent = d.short;
+    });
+  });
+
+  // ------------------------------------------------- 3. the Mellin kernel
+  const what = c => k => {
+    const pre = c / (24 * Math.PI);
+    if (Math.abs(k) < 1e-7) return pre / (2 * Math.PI);
+    return pre * k * (k * k + 1) / Math.expm1(2 * Math.PI * k);
+  };
+  const mellinPlot = new Plot(document.getElementById('mellin'), {
+    aspect: 0.5, minH: 200, maxH: 320, margin: { l: 66, r: 16, t: 14, b: 42 },
+    yScale: 'log', xDomain: [-1.8, 2.6], yDomain: [1e-9, 1],
+    xLabel: 'Mellin variable k', yLabel: 'Ŵ(k)'
+  }).onRender(P => {
+    P.axes();
+    const sample = f => {
+      const out = [];
+      for (let i = 0; i <= 220; i++) out.push([-1.8 + i * 4.4 / 220, f(-1.8 + i * 4.4 / 220)]);
+      return out;
+    };
+    if (Math.abs(S.c - 1) > 1e-9) P.curve(sample(what(1)), { stroke: 'var(--muted)', dash: '5 4', width: 1.4 });
+    P.curve(sample(what(S.c)), { stroke: 'var(--series-3)', width: 2.2 });
+    P.dots(U.series('what_check').map(r => [r.x, r.value]),
+      { shape: 'square', stroke: 'var(--series-1)', fill: 'var(--panel)', r: 3.6 });
+    P.legend([
+      { stroke: 'var(--series-3)', width: 2.2, label: 'Ŵ(k) at c = ' + fmt(S.c, 3) + ' — closed form, proved' },
+      { stroke: 'var(--series-1)', label: 'x-space Mellin transform, at c = 1' }
+    ], { x: P.inner.x0 + 12, y: P.inner.y1 + 14 });
+  });
+
+  // ------------------------------------------------- 4. the bosonic ladder
+  const bosonPlot = new Plot(document.getElementById('boson'), {
+    aspect: 0.44, minH: 190, maxH: 290, margin: { l: 58, r: 16, t: 14, b: 42 },
+    xDomain: [1.3, 5.6], yDomain: [0.68, 1.03],
+    xLabel: 'spectral window κ_c', yLabel: 'measured / theorem'
+  }).onRender(P => {
+    const f2 = K.get('f2.closed_form').value, s2 = U.get('s2.closed_form').value;
+    P.axes();
+    P.hline(1, { stroke: 'var(--series-3)', dash: '6 4', width: 1.6 });
+    const f = U.series('boson_f2_kc').map(r => [r.x, r.value / f2]);
+    const s = U.series('boson_s2_kc').map(r => [r.x, r.value / s2]);
+    P.curve(f, { stroke: 'var(--series-2)' }); P.dots(f, { fill: 'var(--series-2)', r: 3.2 });
+    P.curve(s, { stroke: 'var(--series-4)' }); P.dots(s, { fill: 'var(--series-4)', r: 3.2 });
+    P.legend([
+      { stroke: 'var(--series-2)', label: 'boson f₂ ÷ c/(12π²)' },
+      { stroke: 'var(--series-4)', label: 'boson s₂ ÷ c/12' },
+      { stroke: 'var(--series-3)', dash: '6 4', label: 'the extrapolated values are in the readout' }
+    ], { x: P.inner.x0 + 12, y: P.inner.y1 + 14 });
+  });
+
+  // ------------------------------------------------- 5. the two-chirality law
+  const chirPlot = new Plot(document.getElementById('chir'), {
+    aspect: 0.46, minH: 190, maxH: 300, margin: { l: 58, r: 16, t: 14, b: 42 },
+    yScale: 'log', xDomain: [-0.8, 0.8], yDomain: [0.8, 220],
+    xLabel: 'rotation parameter λ', yLabel: '−log F  /  f₂ z²'
+  }).onRender(P => {
+    const one = l => Math.pow(1 + Math.exp(-Math.PI * l), 2);
+    const two = l => one(l) + Math.pow(1 + Math.exp(Math.PI * l), 2);
+    const samp = f => { const o = []; for (let i = 0; i <= 200; i++) { const l = -0.8 + i * 1.6 / 200; o.push([l, f(l)]); } return o; };
+    P.axes();
+    P.curve(samp(two), { stroke: 'var(--series-1)', width: 2.2 });
+    P.curve(samp(one), { stroke: 'var(--series-2)', width: 2.2 });
+    P.hline(U.get('twochirality.compression').value, { stroke: 'var(--series-3)', dash: '6 4' });
+    P.hline(U.get('compression.per_chirality').value, { stroke: 'var(--series-3)', dash: '2 4' });
+    P.dots([[0, U.get('twochirality.petz').value]], { fill: 'var(--series-1)', r: 4.2 });
+    P.text(-0.78, U.get('twochirality.compression').value, ' compression, 2 chiralities: 2 f₂z²', { small: true, dy: -5 });
+    P.text(-0.78, U.get('compression.per_chirality').value, ' compression, 1 chirality: f₂z²', { small: true, dy: -5 });
+    P.legend([
+      { stroke: 'var(--series-1)', width: 2.2, label: 'two chiralities: minimal at λ = 0' },
+      { stroke: 'var(--series-2)', width: 2.2, label: 'one chirality: monotone' }
+    ], { x: P.inner.x0 + 12, y: P.inner.y1 + 14 });
+  });
+
+  // ------------------------------------------------------------- readouts
+  function readout() {
+    const Q = QUANT[S.q], k = Q.rec.value;
+    const kids = [
+      cell('central charge c (the control)', plain(fmt(S.c, 4))),
+      cell('the coefficient at c = 1, as a theorem', renderRecord(Q.rec)),
+      cell(Q.name + ' at c = ' + fmt(S.c, 4) + ' = c × the record above', plain(fmt(S.c * k, 6)))
+    ];
+    for (const d of Q.data) kids.push(cell(d.key + ', measured at c = 1', renderRecord(d.rec)));
+    document.getElementById('out').replaceChildren(...kids);
+    document.getElementById('cnote').textContent = Math.abs(S.c - 1) < 1e-9
+      ? 'c = 1 is where all three models were computed, so the line and the points may be compared here.'
+      : 'No measurement at c = ' + fmt(S.c, 4) + ' exists in this repository. The marker is the theorem '
+        + 'evaluated there; the points stay at c = 1, where they were made, and are never rescaled.';
+    if (S.q === 'gb') {
+      document.getElementById('cnote').textContent +=
+        '  g_B is measured only through f₂ = g_B/8, so no separate g_B measurement is drawn.';
+    }
+  }
+  function readout2() {
+    const f2 = K.get('f2.closed_form');
+    const kids = [cell('the theorem at c = 1', renderRecord(f2))];
+    for (const d of QUANT.f2.data) kids.push(cell(d.key, renderRecord(d.rec)));
+    kids.push(cell('lattice / continuum at the same ζ', renderRecord(U.get('lattice.over_continuum'))));
+    document.getElementById('out2').replaceChildren(...kids);
+  }
+  function readout3() {
+    document.getElementById('out3').replaceChildren(
+      cell('⟨T(x)T(y)⟩ prefactor at c = 1', renderRecord(U.get('tt.normalisation'))),
+      cell('Ŵ prefactor c/(24π) at c = 1', renderRecord(U.get('what.prefactor'))),
+      cell('g_B = 2c/(3π²) at c = 1', renderRecord(U.get('gb.closed_form'))),
+      cell('largest relative error of the Mellin check', plain(
+        fmt(Math.max(...U.series('what_check').map(r => r.rel_err)), 2)))
+    );
+  }
+  function readout4() {
+    document.getElementById('out4').replaceChildren(
+      cell('boson f₂, extrapolated', renderRecord(U.get('boson.f2'))),
+      cell('the theorem at c = 1', renderRecord(K.get('f2.closed_form'))),
+      cell('boson s₂, extrapolated', renderRecord(U.get('boson.s2'))),
+      cell('s₂ = c/12 at c = 1', renderRecord(U.get('s2.closed_form'))),
+      cell('boson / fermion vacuum overlap at second order', renderRecord(U.get('boson.clinearity')))
+    );
+  }
+  function readout5() {
+    document.getElementById('out5').replaceChildren(
+      cell('ordinary Petz, 2 chiralities (λ = 0)', renderRecord(U.get('twochirality.petz'), { sig: 2 })),
+      cell('compression, 2 chiralities', renderRecord(U.get('twochirality.compression'), { sig: 2 })),
+      cell('ordinary Petz, 1 chirality', renderRecord(U.get('petz.per_chirality'), { sig: 2 })),
+      cell('compression, 1 chirality', renderRecord(U.get('compression.per_chirality'), { sig: 2 }))
+    );
+  }
+
+  function setC(v) {
+    S.c = Math.min(C_MAX, Math.max(C_MIN, v));
+    const inp = document.getElementById('ic');
+    if (Math.abs(+inp.value - S.c) > 1e-9) inp.value = String(S.c);
+    redraw();
+  }
+  const redraw = () => { linePlot.render(); mellinPlot.render(); readout(); };
+
+  document.getElementById('ic').addEventListener('input', e => setC(+e.target.value));
+  document.getElementById('iq').addEventListener('change', e => {
+    if (!QUANT[e.target.value]) return;           // ignore a value no option offers
+    S.q = e.target.value; linePlot.render(); readout();
+  });
+  document.addEventListener('themechange', () => {
+    linePlot.render(); zoomPlot.render(); mellinPlot.render(); bosonPlot.render(); chirPlot.render();
+  });
+
+  redraw();
+  zoomPlot.render(); bosonPlot.render(); chirPlot.render();
+  readout2(); readout3(); readout4(); readout5();
+  enableJS();                    // only now: every panel came up
+} catch (e) {
+  document.documentElement.classList.remove('has-js');
+  failNotice(document.querySelector('main'), e);
+}
+</script>
+</body>
+</html>

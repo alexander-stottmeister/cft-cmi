@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Is the compression optimal? &mdash; cft-cmi module 4</title>
+<meta name="description" content="Toggle between the ordinary Petz map, the rotated family and the all-channel optimum, watch the gain 1 - theta, and animate the mesh ladder that measures theta to 0.384.">
+<link rel="stylesheet" href="../lib/site.css">
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<script defer src="../lib/katex/katex.min.js"></script>
+<script>
+/* If the module fails, say so in the page instead of leaving a blank area:
+   the static text and figure stay visible because .has-js is never set. */
+window.addEventListener('error', function (e) {
+  var host = document.getElementById('main') || document.body;
+  if (!host || host.querySelector('.boot-error')) return;
+  var d = document.createElement('div');
+  d.className = 'panel boot-error';
+  d.innerHTML = '<p><strong>The interactive view did not start.</strong> The text and the static ' +
+    'figure are the whole claim; the animation is an enhancement. Opening these pages straight from ' +
+    'the file system blocks ES modules in most browsers — serve the folder instead, for example ' +
+    'with <code>python3 -m http.server</code> inside <code>docs/</code>. Nothing is fetched from ' +
+    'another site either way.</p>';
+  var p = document.createElement('p');
+  p.className = 'provenance';
+  p.textContent = (e.message || 'script error') + (e.filename ? '  —  ' + e.filename + ':' + e.lineno : '');
+  d.appendChild(p);
+  host.prepend(d);
+});
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="quadratic-law.html">Module 2</a>
+    <a href="theta-reconciliation.html">Module 5</a>
+    <a href="../index.md">Documentation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+
+<main class="wrap" id="main">
+<h1>Module 4 &mdash; Is the compression optimal?</h1>
+<p class="lede">The zero-collar compression beats the ordinary Petz map by exactly a factor four, and
+no quasi-free channel found anywhere beats it. That is not the same as being optimal. A first-order
+rotation inside <span data-tex="B">B</span> lowers the error by a measured factor
+<span data-tex="1-\theta">1 &minus; &theta;</span>, and this module shows where that number comes
+from, what is proved about it and what is only measured.</p>
+
+<div class="claim">
+  <div class="claim-head"><span class="badge proved">proved</span>
+    <span class="claim-title">The compression beats the Petz map by a factor four</span></div>
+  <p>Per chirality the zero-collar compression gives
+    <span data-tex="\Phi(z)=f_2z^2+O(z^3)">&Phi;(z) = f&#8322;z&sup2; + O(z&sup3;)</span> against the
+    ordinary Petz map's <span data-tex="\Phi(2z)=4f_2z^2+O(z^3)">&Phi;(2z) = 4f&#8322;z&sup2; + O(z&sup3;)</span>;
+    for a 2D CFT, <span data-tex="2f_2z^2">2f&#8322;z&sup2;</span> against
+    <span data-tex="8f_2z^2">8f&#8322;z&sup2;</span>. The reason is structural: inside the rotated
+    family the range constraint
+    <span data-tex="\beta(\mathcal A(BC))\subseteq\mathcal A(B)">&beta;(A(BC)) &sube; A(B)</span> is
+    active exactly at the compression endpoint, and for a single chirality the family is monotone,
+    so the ordinary Petz map is its <em>worst</em> admissible member.</p>
+  <p class="provenance">Where this comes from:
+    <a href="../results/petz-not-optimal.md">claim page</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/optimality_second_order.tex" rel="noopener">rigor/optimality_second_order.tex</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/fidelity_recovered_quasifree.tex" rel="noopener">fidelity_recovered_quasifree.tex</a></p>
+</div>
+
+<div class="claim">
+  <div class="claim-head"><span class="badge proved">proved</span>
+    <span class="claim-title">Why a convex programme decides this at all</span></div>
+  <p>Gauge-invariant quasi-free channels have data <span data-tex="(X,Y)">(X, Y)</span>, completely
+    positive iff <span data-tex="Y\ge0">Y &ge; 0</span> and
+    <span data-tex="XX^*+Y\le1">XX* + Y &le; 1</span>. In the variables
+    <span data-tex="(X,Z=XQ_{BB}X^*+Y)">(X, Z = X Q<sub>BB</sub> X* + Y)</span> the feasible set is
+    convex and semidefinite representable, the recovered symbol is affine in it and the SLD form
+    <span data-tex="g_Q">g<sub>Q</sub></span> is a convex quadratic, so every local minimum is
+    global. Two further theorems close the gap to <em>all</em> channels: every normal unital CP even
+    map <span data-tex="\beta:\mathcal A(BC)\to\mathcal A(B)">&beta;: A(BC) &rarr; A(B)</span> has a
+    feasible symbol, and by a Sion minimax the dual value equals the quasi-free minimum &mdash; so
+    the relaxation is tight, not merely an upper bound. The lower-bound side is an
+    Alberti&ndash;Uhlmann single-observable bound; the upper-bound side is an exact Uhlmann
+    construction whose exterior directions are invisible because
+    <span data-tex="\overline{\mathrm{Ext}}=N^\perp">cl(Ext) = N<sup>&perp;</sup></span>.</p>
+  <p class="provenance">Where this comes from:
+    <a href="../results/quasi-free-sdp.md">the SDP</a> &middot;
+    <a href="../results/all-channels-symbol-feasible.md">every channel is feasible</a> &middot;
+    <a href="../results/all-channel-equals-quasi-free.md">all channels = quasi-free</a> &middot;
+    <a href="../results/single-observable-bound.md">the lower bound</a> &middot;
+    <a href="../results/uhlmann-upper-half-proved.md">the upper half</a> &middot;
+    <a href="../results/exterior-exhaust-invisible.md">the exterior is invisible</a> &middot;
+    <a href="../results/ac-lower-bound-zero.md">why the A&ndash;C route gives nothing</a></p>
+</div>
+
+<div class="claim">
+  <div class="claim-head"><span class="badge proved">proved</span>
+    <span class="claim-title">The certificate, and the one thing it needs</span></div>
+  <p>In the continuum the two linear matrix inequalities are active, the multipliers are unique, and
+    the compression maximises <span data-tex="\operatorname{Tr}(tQ_{\rm rec})">Tr(t Q<sub>rec</sub>)</span>
+    over the feasible set <em>iff</em>
+    <span data-tex="\Sigma_1=\Sigma_1^*\ge0">&Sigma;&#8321; = &Sigma;&#8321;* &ge; 0</span> and
+    <span data-tex="\Sigma_1+t_{DD}\ge0">&Sigma;&#8321; + t<sub>DD</sub> &ge; 0</span> &mdash;
+    necessary and sufficient, with no constraint qualification. Reducing it, the certificate at the
+    compression exists precisely when
+    <span data-tex="E_DuE_D=0">E<sub>D</sub> u E<sub>D</sub> = 0</span>. The measurement below says
+    that quantity is <em>not</em> zero, so no certificate for
+    <span data-tex="f_2z^2">f&#8322;z&sup2;</span> exists.</p>
+  <p class="provenance">Where this comes from:
+    <a href="../results/kkt-certificate.md">claim page</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/sdp_dual_certificate.tex" rel="noopener">rigor/sdp_dual_certificate.tex</a></p>
+</div>
+
+<div class="claim">
+  <div class="claim-head"><span class="badge numerical">numerical</span>
+    <span class="badge conditional" title="conditional on H1, H2, H3">conditional on H1, H2, H3</span>
+    <span class="claim-title">The all-channel optimum: <span data-tex="(1-\theta)f_2z^2">(1&minus;&theta;) f&#8322;z&sup2;</span></span></div>
+  <p>That the isometric orbit carries the whole tangent optimum &mdash; that noise and isometry loss
+    buy nothing &mdash; is <strong>not</strong> a theorem here. It rests on three hypotheses.
+    <strong>(H1)</strong> and <strong>(H2)</strong> are the parametrisation and derivative
+    conditions of the tangent problem; <strong>(H3)</strong> is the model-cone hypothesis, that the
+    whole cone of admissible isometry generators reduces to two boundary directions. That reduction
+    is proved for vector fields only: multiplicity&nbsp;&gt;&nbsp;1 shift semigroups and unbounded
+    skew-adjoint multiplication operators escape the argument. Within those hypotheses the numerics
+    exclude any <span data-tex="O(1)">O(1)</span> gain from non-isometric directions &mdash; every
+    measured gain falls like
+    <span data-tex="h^{1.85}/Y_{\max}^2">h<sup>1.85</sup>/Y<sub>max</sub>&sup2;</span>, and the four values are
+    in the last panel of this page &mdash; but
+    they do <em>not</em> establish that the optimal noise vanishes, and the marginal case found here
+    is exactly where uniqueness is not delivered.</p>
+  <div class="hypo"><strong>Read the badge only with its hypotheses.</strong> Everything above the
+    dividing line on this page is proved outright. This card, and the criterion numerics below, are
+    measurements under <strong>H1</strong>, <strong>H2</strong> and <strong>H3</strong>; and at every
+    finite discretisation the run itself prints <span class="mono">CRITERION: False</span>. What the
+    numerics establish is that the violation scales to zero in the double limit, with clean power
+    laws &mdash; an extrapolation, not a verified sign.</div>
+  <p class="provenance">Where this comes from:
+    <a href="../results/all-channel-optimum-value.md">claim page</a> &middot;
+    <a href="../results/tangent-problem-exact-parametrisation.md">the exact parametrisation</a> &middot;
+    <a href="../results/kkt-noise-sign-criterion.md">the sign criterion</a> &middot;
+    <a href="../results/kkt-noise-criterion-numerics.md">the criterion numerics</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_optimum_tangent_problem.tex" rel="noopener">rigor/exact_optimum_tangent_problem.tex</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/F2_RESULTS.md" rel="noopener">numerics/optimality_all/F2_RESULTS.md</a></p>
+</div>
+
+<figure class="no-js">
+  <img src="../assets/theta-ladder.svg" alt="Theta against mesh width plotted on an h to the 0.77 axis, the Richardson line extrapolating to 0.384 plus or minus 0.003, and the superseded circle-model value 0.300 beside it.">
+  <figcaption>The convergence ladder for <span data-tex="\theta">&theta;</span>, and the superseded
+    circle-model value. With JavaScript enabled the ladder animates, the toggle below compares the
+    Petz map, the rotated family, the compression and the optimum, and every number names the file
+    and line it came from. Why the circle model reads low is
+    <a href="theta-reconciliation.html">module&nbsp;5</a>.</figcaption>
+</figure>
+
+<div class="js-only">
+<div class="panel">
+  <h3 style="margin-top:0">Four channels, one axis</h3>
+  <p style="font-size:.9rem;margin-top:0">The vertical axis is the second-order coefficient in units
+    of <span data-tex="f_2z^2">f&#8322;z&sup2;</span>, per chirality. The rotated family runs from the
+    ordinary Petz map at <span data-tex="\lambda=0">&lambda; = 0</span> down to the compression as
+    <span data-tex="\lambda\to\infty">&lambda; &rarr; &infin;</span>; the optimum sits below the
+    family, because it is not in it.</p>
+  <svg id="gain" role="img" aria-label="The second-order coefficient of the rotated family against the rotation parameter, with the Petz map, the compression and the all-channel optimum marked"></svg>
+  <div class="controls" style="margin-top:.7rem">
+    <div class="control">
+      <label for="ich">Highlight</label>
+      <select id="ich">
+        <option value="petz">the ordinary Petz map</option>
+        <option value="rot" selected>the rotated family</option>
+        <option value="comp">the zero-collar compression</option>
+        <option value="opt">the all-channel optimum</option>
+      </select>
+      <span class="hint">the optimum is measured, the other three are closed forms</span>
+    </div>
+    <div class="control">
+      <label for="ilam">Rotation parameter &lambda;</label>
+      <input id="ilam" type="range" min="0" max="2" step="0.01" value="0.5" aria-describedby="lhint">
+      <span class="hint" id="lhint">or drag the handle on the curve</span>
+    </div>
+  </div>
+  <div class="readout" id="out"></div>
+</div>
+
+<div class="panel">
+  <h3 style="margin-top:0">Where <span data-tex="\theta">&theta;</span> comes from: the mesh ladder</h3>
+  <p style="font-size:.9rem;margin-top:0">The horizontal axis is
+    <span data-tex="h^{0.77}">h<sup>0.77</sup></span>, the measured convergence order, so the
+    extrapolation is a straight line and <span data-tex="h=0">h = 0</span> is the left-hand edge.
+    Two independent discretisations are drawn: the parameter-free T0 Wiener&ndash;Hopf frame and the
+    modular Galerkin frame at a different geometry. They agree, which is what M&ouml;bius covariance
+    requires.</p>
+  <svg id="ladder" role="img" aria-label="Theta against mesh width to the power 0.77, for two frames, with the Richardson line to the extrapolated value"></svg>
+  <div class="controls" style="margin-top:.7rem">
+    <div class="control">
+      <label for="irung">Refine the mesh</label>
+      <input id="irung" type="range" min="0" max="5" step="1" value="0" aria-describedby="rhint">
+      <span class="hint" id="rhint">rung of the T0 ladder; the last stop is the extrapolation</span>
+    </div>
+    <div class="control">
+      <label for="iplay">Animation</label>
+      <button id="iplay" type="button" style="justify-self:start;font:inherit;font-size:.82rem;padding:.25rem .6rem;cursor:pointer;background:var(--panel);color:var(--fg);border:1px solid var(--line);border-radius:999px">Play the ladder</button>
+      <span class="hint">the slider does the same thing from the keyboard</span>
+    </div>
+  </div>
+  <div class="readout" id="out2"></div>
+</div>
+
+<div class="panel">
+  <h3 style="margin-top:0">The five families, and the number they close on</h3>
+  <p style="font-size:.9rem;margin-top:0">Each row is an independent ladder extrapolated by
+    Richardson with its own measured ratio <span data-tex="\rho">&rho;</span>. The spread over the
+    families and fit windows below is where the quoted uncertainty comes from.</p>
+  <div id="fam"></div>
+</div>
+
+<div class="panel">
+  <h3 style="margin-top:0">The criterion that is extrapolated, not verified</h3>
+  <p style="font-size:.9rem;margin-top:0">Condition&nbsp;(a) of the tangent problem asks for
+    <span data-tex="M_*\ge0">M<sub>*</sub> &ge; 0</span>. At every finite mesh it fails. What is
+    measured is that the violation and the gain a violating direction could buy both go to zero,
+    with clean power laws &mdash; about <span data-tex="h^{1.15}">h<sup>1.15</sup></span> and
+    <span data-tex="h^{1.85}">h<sup>1.85</sup></span>. Both axes are logarithmic.</p>
+  <svg id="kkt" role="img" aria-label="The magnitude of the condition-(a) violation and the achievable gain against mesh width, both on logarithmic axes"></svg>
+  <div class="readout" id="out3"></div>
+</div>
+</div>
+
+<h2>Claims this module carries</h2>
+<table>
+<thead><tr><th>claim</th><th>status</th></tr></thead>
+<tbody>
+<tr><td><a href="../results/petz-not-optimal.md">the compression beats the Petz map by four</a></td><td><span class="badge proved">proved</span></td></tr>
+<tr><td><a href="../results/quasi-free-sdp.md">the quasi-free problem is a convex SDP</a></td><td><span class="badge proved">proved</span></td></tr>
+<tr><td><a href="../results/all-channels-symbol-feasible.md">every channel's symbol is feasible</a></td><td><span class="badge proved">proved</span></td></tr>
+<tr><td><a href="../results/all-channel-equals-quasi-free.md">all channels equal quasi-free</a></td><td><span class="badge proved">proved</span></td></tr>
+<tr><td><a href="../results/single-observable-bound.md">the single-observable lower bound</a></td><td><span class="badge proved">proved</span></td></tr>
+<tr><td><a href="../results/uhlmann-upper-half-proved.md">the Uhlmann upper half</a></td><td><span class="badge proved">proved</span></td></tr>
+<tr><td><a href="../results/exterior-exhaust-invisible.md">the exterior directions are invisible</a></td><td><span class="badge proved">proved</span></td></tr>
+<tr><td><a href="../results/kkt-certificate.md">the KKT certificate and E<sub>D</sub>uE<sub>D</sub></a></td><td><span class="badge proved">proved</span></td></tr>
+<tr><td><a href="../results/ac-lower-bound-zero.md">the A&ndash;C lower bound is zero</a></td><td><span class="badge proved">proved</span></td></tr>
+<tr><td><a href="../results/tangent-problem-exact-parametrisation.md">the exact tangent parametrisation</a></td><td><span class="badge proved">proved</span> <span class="badge conditional" title="conditional on H1, H2">conditional on H1, H2</span></td></tr>
+<tr><td><a href="../results/kkt-noise-sign-criterion.md">the noise sign criterion</a></td><td><span class="badge proved">proved</span> <span class="badge conditional" title="conditional on H1, H2, H3">conditional on H1, H2, H3</span></td></tr>
+<tr><td><a href="../results/theta-value.md">&theta; = 0.384 &plusmn; 0.003</a></td><td><span class="badge numerical">numerical</span></td></tr>
+<tr><td><a href="../results/compression-not-second-order-minimiser.md">the compression is not the second-order minimiser</a></td><td><span class="badge numerical">numerical</span></td></tr>
+<tr><td><a href="../results/kkt-noise-criterion-numerics.md">the criterion numerics</a></td><td><span class="badge numerical">numerical</span> <span class="badge conditional" title="conditional on H3">conditional on H3</span></td></tr>
+<tr><td><a href="../results/all-channel-optimum-value.md">the all-channel optimum (1&minus;&theta;) f&#8322;z&sup2;</a></td><td><span class="badge numerical">numerical</span> <span class="badge conditional" title="conditional on H1, H2, H3">conditional on H1, H2, H3</span></td></tr>
+</tbody>
+</table>
+</main>
+
+<footer class="site"><div class="wrap">
+  <p>Module 4 of <a href="../index.html">the cft-cmi site</a>. Every number is read from
+    <code>docs/data/theta.json</code>, <code>docs/data/universality.json</code> and
+    <code>docs/data/constants.json</code>, generated by <code>tools/build_site_data.py</code> from
+    the repository's own result files.</p>
+</div></footer>
+
+<script type="module">
+import { Plot, fmt, linTicks, el as svgEl, draggable } from '../lib/plot.js';
+import { initTheme, enableJS, loadData, renderRecord, renderMath, failNotice, badge, el as h } from '../lib/ui.js';
+
+initTheme(document.querySelector('button.theme'));
+renderMath(document);
+window.addEventListener('load', () => renderMath(document));
+
+const LAM_MIN = 0, LAM_MAX = 2, P_ORDER = 0.77;
+const S = { lam: 0.5, hi: 'rot', rung: 0 };
+let T = null, U = null, timer = null;
+
+try {
+  T = await loadData('../data/theta.json');
+  U = await loadData('../data/universality.json');
+} catch (e) {
+  document.documentElement.classList.remove('has-js');
+  failNotice(document.querySelector('main'), e);
+}
+
+if (T) try {
+  const cell = (k, node) => h('div', { class: 'cell' }, [h('span', { class: 'k', text: k }), node]);
+  const plain = s => h('span', { class: 'v', text: s });
+  const PETZ = U.get('petz.per_chirality'), COMP = U.get('compression.per_chirality');
+  const THETA = T.get('theta'), GAIN = T.get('one_minus_theta'), ORDER = T.get('order_p');
+  const rot = l => Math.pow(1 + Math.exp(-Math.PI * l), 2);   // Phi(z(1+e^{-pi lambda}))/f2 z^2
+
+  // ------------------------------------------------ 1. the four channels
+  const gainPlot = new Plot(document.getElementById('gain'), {
+    aspect: 0.5, minH: 210, maxH: 330, margin: { l: 62, r: 16, t: 14, b: 42 },
+    xDomain: [LAM_MIN, LAM_MAX], yDomain: [0, 4.4],
+    xLabel: 'rotation parameter λ', yLabel: '−log F  /  f₂ z²'
+  }).onRender(P => {
+    const on = k => (S.hi === k ? 2.8 : 1.6);
+    const dim = k => (S.hi === k ? 1 : 0.55);
+    P.axes();
+    const pts = [];
+    for (let i = 0; i <= 200; i++) { const l = LAM_MIN + i * (LAM_MAX - LAM_MIN) / 200; pts.push([l, rot(l)]); }
+    P.curve(pts, { stroke: 'var(--series-1)', width: on('rot'), opacity: dim('rot') });
+    P.hline(COMP.value, { stroke: 'var(--series-3)', dash: '6 4', width: on('comp') });
+    P.hline(GAIN.value, { stroke: 'var(--series-4)', dash: '2 3', width: on('opt') });
+    P.dots([[0, PETZ.value]], { fill: 'var(--series-2)', r: S.hi === 'petz' ? 6 : 4 });
+    P.text(LAM_MIN, COMP.value, '  compression, λ → ∞', { small: true, dy: -6 });
+    P.text(LAM_MIN, GAIN.value, '  all-channel optimum, 1 − θ (measured)', { small: true, dy: 14 });
+    P.text(0, PETZ.value, '  ordinary Petz map, λ = 0', { small: true, dy: -8 });
+    const hnd = svgEl('circle', { cx: P.sx(S.lam), cy: P.sy(rot(S.lam)), r: 7,
+      fill: 'var(--panel)', stroke: 'var(--series-1)', 'stroke-width': 2.6 }, P.root);
+    draggable(P, hnd, {
+      label: 'rotation parameter', step: 0.02,
+      aria: { min: LAM_MIN, max: LAM_MAX, now: S.lam,
+        text: 'λ = ' + fmt(S.lam, 3) + ', coefficient ' + fmt(rot(S.lam), 4) + ' f2 z squared' },
+      onMove: (x, y, ev, dx) => setLam(dx === undefined ? x : S.lam + dx)
+    });
+  });
+
+  // ------------------------------------------------ 2. the mesh ladder
+  const t0 = T.series('theta_T0_ladder');            // family A, Y = Ymax = 10
+  const gal = T.series('theta_galerkin_h');          // the modular Galerkin frame
+  const famA = T.series('theta_extrap').filter(r => r.ladder === 'h=0.24...0.015')[0];
+  const XMAX = Math.pow(0.34, P_ORDER);
+  const hx = hh => Math.pow(hh, P_ORDER);
+  const rungs = t0.slice().sort((a, b) => b.x - a.x);   // coarse first, the way it is refined
+  document.getElementById('irung').setAttribute('max', String(rungs.length));
+  document.getElementById('irung').max = String(rungs.length);
+
+  const ladderPlot = new Plot(document.getElementById('ladder'), {
+    aspect: 0.56, minH: 220, maxH: 380, margin: { l: 58, r: 16, t: 14, b: 46 },
+    xDomain: [0, XMAX], yDomain: [0.28, 0.4],
+    xLabel: 'mesh width h, on the h^0.77 axis', yLabel: 'θ'
+  }).onRender(P => {
+    // the axis is h^0.77, so label it with h itself rather than with its power
+    const g = svgEl('g', { class: 'axis' }, P.root), { x0, x1, y0, y1 } = P.inner;
+    svgEl('line', { x1: x0, x2: x1, y1: y0, y2: y0 }, g);
+    svgEl('line', { x1: x0, x2: x0, y1: y0, y2: y1 }, g);
+    for (const hh of [0, 0.015, 0.03, 0.06, 0.12, 0.24, 0.32]) {
+      const X = P.sx(hx(hh));
+      svgEl('line', { x1: X, x2: X, y1: y0, y2: y0 + 5 }, g);
+      svgEl('text', { x: X, y: y0 + 17, 'text-anchor': 'middle' }, g).textContent = String(hh);
+    }
+    svgEl('text', { x: (x0 + x1) / 2, y: P.H - 4, 'text-anchor': 'middle' }, g)
+      .textContent = P.o.xLabel;
+    for (const t of linTicks(0.28, 0.4, 5)) {
+      const Y = P.sy(t);
+      svgEl('line', { x1: x0 - 5, x2: x0, y1: Y, y2: Y }, g);
+      svgEl('line', { x1: x0, x2: x1, y1: Y, y2: Y, class: 'grid' }, P.root);
+      svgEl('text', { x: x0 - 8, y: Y + 4, 'text-anchor': 'end' }, g).textContent = fmt(t, 3);
+    }
+    svgEl('text', { x: 12, y: (y0 + y1) / 2, 'text-anchor': 'middle', class: 'axis',
+      transform: 'rotate(-90 12 ' + ((y0 + y1) / 2) + ')' }, g).textContent = P.o.yLabel;
+
+    // the Richardson line through the two finest T0 rungs, extended to h = 0
+    const fine = t0.slice().sort((a, b) => a.x - b.x).slice(0, 2);
+    const slope = (fine[1].value - fine[0].value) / (hx(fine[1].x) - hx(fine[0].x));
+    P.curve([[0, fine[0].value - slope * hx(fine[0].x)], [hx(0.34), fine[0].value + slope * (hx(0.34) - hx(fine[0].x))]],
+      { stroke: 'var(--muted)', dash: '5 4', width: 1.4 });
+
+    const band = [[0, THETA.value - THETA.error], [XMAX, THETA.value - THETA.error]];
+    P.band(band, [[0, THETA.value + THETA.error], [XMAX, THETA.value + THETA.error]],
+      { fill: 'var(--series-3)', opacity: 0.18 });
+    P.hline(THETA.value, { stroke: 'var(--series-3)', dash: '6 4', width: 1.8 });
+    P.curve(gal.map(r => [hx(r.x), r.value]), { stroke: 'var(--series-2)', width: 1.6, opacity: 0.85 });
+    P.dots(gal.map(r => [hx(r.x), r.value]), { fill: 'var(--series-2)', r: 3 });
+
+    const shown = rungs.slice(0, Math.min(S.rung + 1, rungs.length));
+    P.curve(shown.map(r => [hx(r.x), r.value]), { stroke: 'var(--series-1)', width: 2 });
+    P.dots(shown.map(r => [hx(r.x), r.value]), { fill: 'var(--series-1)', r: 3.6 });
+    if (S.rung >= rungs.length) {
+      P.dots([[0, famA.value]], { shape: 'square', stroke: 'var(--series-1)', fill: 'var(--panel)', r: 5 });
+      P.text(0, famA.value, '  h → 0: ' + fmt(famA.value, 5), { small: true, dy: -9 });
+    } else {
+      const cur = rungs[S.rung];
+      P.vline(hx(cur.x), { stroke: 'var(--series-4)', dash: '3 3' });
+    }
+    P.legend([
+      { stroke: 'var(--series-1)', width: 2, label: 'T0 Wiener–Hopf frame, geometry-free' },
+      { stroke: 'var(--series-2)', label: 'modular Galerkin frame, a = 1, L = 2' },
+      { stroke: 'var(--series-3)', dash: '6 4', width: 1.8, label: 'θ = 0.384 ± 0.003, five families' },
+      { stroke: 'var(--muted)', dash: '5 4', label: 'Richardson line, two finest rungs' }
+    ], { x: P.inner.x0 + 14, y: P.inner.y1 + 12 });
+  });
+
+  // ------------------------------------------------ 3. the criterion ladder
+  const viol = T.series('kkt_violation_h'), kgain = T.series('kkt_gain_h');
+  const kktPlot = new Plot(document.getElementById('kkt'), {
+    aspect: 0.46, minH: 200, maxH: 300, margin: { l: 66, r: 16, t: 14, b: 42 },
+    xScale: 'log', yScale: 'log', xDomain: [0.025, 0.3], yDomain: [5e-6, 1e-2],
+    xLabel: 'mesh width h', yLabel: 'magnitude'
+  }).onRender(P => {
+    P.axes();
+    const v = viol.map(r => [r.x, Math.abs(r.value)]), gg = kgain.map(r => [r.x, r.value]);
+    P.curve(v, { stroke: 'var(--series-5)' }); P.dots(v, { fill: 'var(--series-5)', r: 3.4 });
+    P.curve(gg, { stroke: 'var(--series-4)' }); P.dots(gg, { fill: 'var(--series-4)', r: 3.4 });
+    P.legend([
+      { stroke: 'var(--series-5)', label: 'violation |λ_min(M*)|/‖M*‖ ~ h^1.15' },
+      { stroke: 'var(--series-4)', label: 'rank-one gain / g_Q ~ h^1.85' }
+    ], { x: P.inner.x0 + 12, y: P.inner.y1 + 14 });
+  });
+
+  // ------------------------------------------------------------- readouts
+  const CH = {
+    petz: () => ['ordinary Petz map, per chirality', renderRecord(PETZ, { sig: 2 })],
+    comp: () => ['zero-collar compression, per chirality', renderRecord(COMP, { sig: 2 })],
+    opt: () => ['all-channel optimum, 1 − θ', renderRecord(GAIN)],
+    rot: () => ['rotated family at λ = ' + fmt(S.lam, 3), plain(fmt(rot(S.lam), 5))]
+  };
+  function readout() {
+    const sel = CH[S.hi]();
+    const kids = [
+      cell(sel[0] + ' — highlighted', sel[1]),
+      cell('rotated family at λ = ' + fmt(S.lam, 3) + ', in units of f₂z²',
+        plain(fmt(rot(S.lam), 5))),
+      cell('cost relative to the compression at this λ',
+        plain(fmt(rot(S.lam) / COMP.value, 4) + '×')),
+      cell('θ, the first-order gain constant', renderRecord(THETA)),
+      cell('1 − θ, what the optimum keeps', renderRecord(GAIN)),
+      cell('2D CFT: ordinary Petz', renderRecord(U.get('twochirality.petz'), { sig: 2 })),
+      cell('2D CFT: compression', renderRecord(U.get('twochirality.compression'), { sig: 2 })),
+      cell('lattice optimum, in units of 2f₂z²', h('span', {}, [
+        renderRecord(T.get('lattice.best_lo'), { sig: 3 }), ' … ',
+        renderRecord(T.get('lattice.best_hi'), { sig: 3 })]))
+    ];
+    T.series('lattice_best_over_petz').forEach((r, i) =>
+      kids.push(cell('lattice best / Petz, row ' + (i + 1), renderRecord(r, { sig: 3 }))));
+    document.getElementById('out').replaceChildren(...kids);
+  }
+  function readout2() {
+    const last = S.rung >= rungs.length;
+    const cur = last ? null : rungs[S.rung];
+    const gq = T.series('gQ_T0_ladder').filter(r => !cur || r.x === cur.x);
+    const kids = [
+      cell('mesh width h', plain(last ? 'h → 0 (Richardson)' : fmt(cur.x, 3))),
+      cell(last ? 'θ extrapolated, family A' : 'θ at this mesh',
+        renderRecord(last ? famA : cur)),
+      cell('measured convergence order p', renderRecord(ORDER)),
+      cell('θ, five families closed', renderRecord(THETA)),
+      cell('1 − θ', renderRecord(GAIN))
+    ];
+    if (!last && gq.length) kids.splice(2, 0, cell('g_Q(δ̇)/f₂ at this mesh', renderRecord(gq[0])));
+    document.getElementById('out2').replaceChildren(...kids);
+    document.getElementById('rhint').textContent = last
+      ? 'the Richardson closure of this ladder, θ_inf = θ(h_min) + Δρ/(1−ρ)'
+      : 'rung ' + (S.rung + 1) + ' of ' + rungs.length + '; the last stop is the extrapolation';
+  }
+  function families() {
+    // document order, not the h_min order Data.series() would impose
+    const rows = T.json.records.filter(r => r.series === 'theta_extrap');
+    const tb = h('tbody', {});
+    for (const r of rows) {
+      const td = h('td', {});
+      td.appendChild(renderRecord(r, { sig: 5 }));
+      tb.appendChild(h('tr', {}, [
+        h('td', { text: r.label }), h('td', { class: 'mono', text: r.ladder }),
+        h('td', { class: 'mono', text: r.rho }), td]));
+    }
+    const t = h('table', {}, [
+      h('thead', {}, [h('tr', {}, [h('th', { text: 'mesh family' }), h('th', { text: 'ladder' }),
+        h('th', { text: 'ρ' }), h('th', { text: 'θ extrapolated' })])]), tb]);
+    const note = h('p', { class: 'provenance' }, [
+      'Family D is the circle model’s own mesh run without a taper; the tapered circle model '
+      + 'on that same mesh reads 0.29 instead — see ']);
+    note.appendChild(h('a', { href: 'theta-reconciliation.html' }, ['module 5']));
+    note.appendChild(document.createTextNode('.'));
+    const mim = h('div', { class: 'readout' }, T.series('theta_mimic_L').map(
+      r => cell('circle mesh, no taper, L = ' + r.x, renderRecord(r, { sig: 5 }))));
+    document.getElementById('fam').replaceChildren(t, mim, note);
+  }
+  function readout3() {
+    const kids = [];
+    for (const r of viol) kids.push(cell('violation at h = ' + fmt(r.x, 3), renderRecord(r, { sig: 4 })));
+    for (const r of kgain) kids.push(cell('achievable gain at h = ' + fmt(r.x, 3), renderRecord(r, { sig: 3 })));
+    const b = badge('numerical', ['H3']);
+    kids.push(h('div', { class: 'cell' }, [
+      h('span', { class: 'k', text: 'status of the sign claim' }),
+      h('span', {}, [b, ' on H3 - extrapolated, never verified at a finite mesh'])]));
+    document.getElementById('out3').replaceChildren(...kids);
+  }
+
+  function setLam(v) {
+    S.lam = Math.min(LAM_MAX, Math.max(LAM_MIN, v));
+    const inp = document.getElementById('ilam');
+    if (Math.abs(+inp.value - S.lam) > 1e-9) inp.value = String(S.lam);
+    gainPlot.render(); readout();
+  }
+  function setRung(k) {
+    S.rung = Math.round(Math.min(rungs.length, Math.max(0, k)));
+    const inp = document.getElementById('irung');
+    if (+inp.value !== S.rung) inp.value = String(S.rung);
+    ladderPlot.render(); readout2();
+  }
+  function stopPlay() {
+    if (timer !== null) { clearInterval(timer); timer = null; }
+    document.getElementById('iplay').textContent = 'Play the ladder';
+  }
+  document.getElementById('iplay').addEventListener('click', () => {
+    if (timer !== null) { stopPlay(); return; }
+    const reduced = typeof matchMedia === 'function'
+      && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) { setRung(rungs.length); return; }   // no animation: show the answer
+    setRung(0);
+    document.getElementById('iplay').textContent = 'Stop';
+    timer = setInterval(() => {
+      if (S.rung >= rungs.length) { stopPlay(); return; }
+      setRung(S.rung + 1);
+    }, 900);
+  });
+  document.getElementById('ilam').addEventListener('input', e => setLam(+e.target.value));
+  document.getElementById('irung').addEventListener('input', e => { stopPlay(); setRung(+e.target.value); });
+  document.getElementById('ich').addEventListener('change', e => {
+    if (!CH[e.target.value]) return;            // ignore a value no option offers
+    S.hi = e.target.value; gainPlot.render(); readout();
+  });
+  document.addEventListener('themechange', () => {
+    gainPlot.render(); ladderPlot.render(); kktPlot.render();
+  });
+
+  gainPlot.render(); ladderPlot.render(); kktPlot.render();
+  readout(); readout2(); families(); readout3();
+  enableJS();                    // only now: every panel came up
+} catch (e) {
+  document.documentElement.classList.remove('has-js');
+  failNotice(document.querySelector('main'), e);
+}
+</script>
+</body>
+</html>

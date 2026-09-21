@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Relative entropy: the conjecture and its bracket &mdash; cft-cmi module 9</title>
+<meta name="description" content="s2 = c/12 is a conjecture. Its bracket runs from 0.0338c to 0.924c, both ends conditional, and two independent measurements at c = 1 sit on c/12.">
+<link rel="stylesheet" href="../lib/site.css">
+<link rel="stylesheet" href="../lib/extra.css">
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<script defer src="../lib/katex/katex.min.js"></script>
+<script>
+/* If the module fails, say so in the page instead of leaving a blank area:
+   the static text and figure stay visible because .has-js is never set. */
+window.addEventListener('error', function (e) {
+  var host = document.getElementById('main') || document.body;
+  if (!host || host.querySelector('.boot-error')) return;
+  document.documentElement.classList.remove('has-js');
+  var d = document.createElement('div');
+  d.className = 'panel boot-error';
+  d.innerHTML = '<p><strong>The interactive view did not start.</strong> The text and the static ' +
+    'figure are the whole claim; the animation is an enhancement. Opening these pages straight from ' +
+    'the file system blocks ES modules in most browsers — serve the folder instead, for example ' +
+    'with <code>python3 -m http.server</code> inside <code>docs/</code>. Nothing is fetched from ' +
+    'another site either way.</p>';
+  var p = document.createElement('p');
+  p.className = 'provenance';
+  p.textContent = (e.message || 'script error') + (e.filename ? '  —  ' + e.filename + ':' + e.lineno : '');
+  d.appendChild(p);
+  host.prepend(d);
+});
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="quadratic-law.html">Module 2</a>
+    <a href="off-criticality.html">Module 8</a>
+    <a href="claim-map.html">Module 10</a>
+    <a href="../index.md">Documentation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+
+<main class="wrap" id="main">
+<h1>Module 9 &mdash; Relative entropy: the conjecture and its bracket</h1>
+<p class="lede">The fidelity coefficient is a theorem. The relative-entropy coefficient is not. Two
+independent measurements land on <span data-tex="c/12">c/12</span> to about one per cent, and the
+best bracket anyone here can prove around them is a factor of twenty-seven wide &mdash; and even its
+two ends are conditional, on a hypothesis that is open and on a source that was never obtained.</p>
+
+<div class="claim">
+  <div class="claim-head"><span class="badge conjectural">conjectural</span>
+    <span class="claim-title">s&#8322; = c/12 for a general net</span></div>
+  <p>Along the zero-collar recovery curve
+    <span data-tex="\omega_s=\omega\circ\mathrm{Ad}\,U_s">&omega;<sub>s</sub> = &omega; &compfn; Ad U<sub>s</sub></span>,
+    the conjecture is
+    <span data-display data-tex="s_2:=\lim_{s\downarrow0}\frac{D(\omega_s\Vert\omega)}{s^2}\overset{?}{=}\frac c{12}.">s2 = lim D(omega_s || omega)/s² =? c/12.</span>
+    Believed, consistent with both measurements, and not proved for any net. This is the one headline
+    number of the programme that is <em>not</em> a theorem.</p>
+  <p class="provenance">Where this comes from:
+    <a href="../results/conj-s2.md">claim page</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/kubo_mori_gauge_lemma.tex" rel="noopener">rigor/kubo_mori_gauge_lemma.tex</a></p>
+</div>
+
+<div class="claim">
+  <div class="claim-head"><span class="badge conditional">conditional</span>
+    <span class="claim-title">The bracket, and what each end depends on</span></div>
+  <p>Neither end of
+    <span data-tex="0.0338c\le\liminf\le\limsup\le0.924c">0.0338c &le; liminf &le; limsup &le; 0.924c</span>
+    is unconditional.</p>
+  <div class="hypo"><strong>Upper end, <span data-tex="0.924c">0.924c</span>:</strong> proved
+    <em>under hypothesis (V)</em>, uniform integrability along the orbit. (V) is open &mdash; Gap RK1 &mdash;
+    and is known only at <span data-tex="\sigma=0">&sigma; = 0</span>. Two hypotheses of the earlier
+    route, <span data-tex="(\mathrm U_\varepsilon)">(U<sub>&epsilon;</sub>)</span> and
+    <span data-tex="(\mathrm A_\varepsilon)">(A<sub>&epsilon;</sub>)</span>, are <em>refuted</em> for
+    the big interval algebra: locality in <span data-tex="K">K</span> forbids them.</div>
+  <div class="hypo"><strong>Lower end, <span data-tex="0.0338c">0.0338c</span>:</strong> proved
+    <em>modulo Araki's perturbation expansion</em>, which is hypothesis (ii) of the lower-bound
+    theorem. The locators are Araki's 1973 paper and Bratteli&ndash;Robinson II &sect;5.4.1; neither was
+    opened here (<strong>NOT OBTAINED</strong>), so it is carried as a hypothesis and not as a checked
+    citation. That is Gap&nbsp;RK2, and it is recorded rather than glossed.</div>
+  <p>So the honest reading of the bracket is: <em>conditional</em> at both ends, with named hypotheses.
+    It is still worth having &mdash; it is what makes the second variation finite at all &mdash; but it
+    is not the same kind of statement as Theorem&nbsp;A.</p>
+  <p class="provenance">Where this comes from:
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/kubo_mori_gauge_lemma.tex" rel="noopener">rigor/kubo_mori_gauge_lemma.tex</a>
+    &sect;&ldquo;The lower bound&rdquo; (Gap RK2) and &sect;&ldquo;Summary, and what is open&rdquo;</p>
+</div>
+
+<div class="claim">
+  <div class="claim-head"><span class="badge refuted">refuted</span>
+    <span class="claim-title">The Kubo&ndash;Mori gauge lemma by restriction to A(K)</span></div>
+  <p><strong>What was claimed.</strong> The Phase-2b route to
+    <span data-tex="s_2=c/12">s&#8322; = c/12</span> had three steps: (a) choose an interval
+    <span data-tex="K\supseteq I">K &supe; I</span> that also carries the implementer, so that
+    <span data-tex="\mathrm{Ad}\,U_s">Ad U<sub>s</sub></span> is an automorphism of
+    <span data-tex="\mathcal A(K)">A(K)</span> and monotonicity applies; (b) evaluate the result to
+    second order; (c) the <em>gauge lemma</em>: the infimum of the Kubo&ndash;Mori form over admissible
+    gauges is <span data-tex="c/6">c/6</span>.</p>
+  <p><strong>What is true.</strong> Steps (a) and (b) are correct. Step (c) is false. The infimum
+    exists, is attained in the limit by an explicit one-parameter family, and equals
+    <span data-tex="\tfrac{11+5\sqrt5}{12}c">(11+5&radic;5)c/12</span> at
+    <span data-tex="R_*=\tfrac{3+\sqrt5}2">R* = (3+&radic;5)/2</span> &mdash; a factor 11.09 above
+    <span data-tex="c/6">c/6</span>.</p>
+  <p><strong>Why.</strong> In the modular frame of <em>any</em> interval
+    <span data-tex="K\supsetneq I">K &supsetneq; I</span> the Kubo&ndash;Mori form is the local Sobolev
+    functional
+    <span data-display data-tex="g^{(K)}_{\rm KM}(T(f)\Omega)=\frac c{12}\int\bigl[\tilde f''^2+\tilde f'^2\bigr]\mathrm d\xi ,">g_KM(T(f)Omega) = (c/12) integral [f''² + f'²] dxi,</span>
+    and the <em>fixed</em> part of the field &mdash;
+    <span data-tex="g_{\rm tot}=-x^2">g<sub>tot</sub> = &minus;x&sup2;</span> on the compressed
+    interval, which no gauge may alter &mdash; already costs
+    <span data-tex="11+5\sqrt5">11 + 5&radic;5</span> units, where
+    <span data-tex="c/6">c/6</span> corresponds to 2. Note 7's <span data-tex="c/6">c/6</span> was the
+    analytic continuation of a divergent integral. Kosaki and Petz&ndash;Donald give suprema, so they
+    bound from below only.</p>
+  <div class="note-block bad">This card is kept because the record is part of the result: the route was
+    tried, the constant it needed is false by a factor of 11.09, and what survives is the finite
+    bracket above, not the conjecture.</div>
+  <p class="provenance">Where this comes from:
+    <a href="claim-map.html#km-gauge-lemma-refuted">the card in the claim map</a>
+    (a refuted card gets no page under <code>results/</code>, so the map is where it lives) &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/kubo_mori_gauge_lemma.tex" rel="noopener">rigor/kubo_mori_gauge_lemma.tex</a> &sect;4&ndash;5</p>
+</div>
+
+<div class="claim">
+  <div class="claim-head"><span class="badge proved">proved</span>
+    <span class="claim-title">The exact identity on unitary orbits &mdash; and why it does not apply here</span></div>
+  <p>For <span data-tex="\omega_s=\omega(e^{-isA}\cdot e^{isA})">&omega;<sub>s</sub> = &omega;(e<sup>&minus;isA</sup> &middot; e<sup>isA</sup>)</span>
+    with <span data-tex="A">A</span> affiliated with the algebra,
+    <span data-display data-tex="D(\omega\Vert\omega_s)=\bigl\Vert h(\Delta)^{1/2}(e^{isA}-1)\Omega\bigr\Vert^2,\qquad h(\lambda)=\lambda-1-\log\lambda .">D(omega || omega_s) = || h(Delta)^(1/2) (e^{isA} - 1) Omega ||², h(lambda) = lambda - 1 - log lambda.</span>
+    It gives the lower bound unconditionally and the full second-order expansion under modular
+    analyticity. It is <em>not</em> applicable to the recovery curve, whose generator is not affiliated
+    with the interval algebra &mdash; which is exactly why the gauge route was tried at all.</p>
+  <p class="provenance">Where this comes from:
+    <a href="../results/km-exact-identity.md">claim page</a> &middot;
+    <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/kubo_mori_second_variation.tex" rel="noopener">rigor/kubo_mori_second_variation.tex</a></p>
+</div>
+
+<figure class="no-js">
+  <svg viewBox="0 0 640 150" role="img" aria-labelledby="f9t f9d">
+    <title id="f9t">The bracket around the conjecture</title>
+    <desc id="f9d">A logarithmic scale from 0.03 to 1 in units of the central charge. A band runs from
+      0.0338 to 0.924; the conjectured value one twelfth, 0.08333, sits near its lower end, and the
+      two measurements, 0.0837 and 0.083, sit on the conjecture.</desc>
+    <line x1="40" y1="90" x2="610" y2="90" stroke="var(--line)" stroke-width="2"/>
+    <rect x="70" y="70" width="500" height="40" fill="var(--conditional)" opacity="0.18"/>
+    <line x1="70" y1="62" x2="70" y2="118" stroke="var(--conditional)" stroke-width="3"/>
+    <line x1="570" y1="62" x2="570" y2="118" stroke="var(--conditional)" stroke-width="3"/>
+    <text x="70" y="52" text-anchor="middle" fill="var(--conditional)" font-size="12">0.0338 c</text>
+    <text x="570" y="52" text-anchor="middle" fill="var(--conditional)" font-size="12">0.924 c</text>
+    <text x="320" y="30" text-anchor="middle" fill="var(--muted)" font-size="12">
+      conditional at both ends: (V) above, Araki below</text>
+    <line x1="150" y1="72" x2="150" y2="108" stroke="var(--open)" stroke-width="2.5" stroke-dasharray="4 3"/>
+    <text x="150" y="130" text-anchor="middle" fill="var(--open)" font-size="12">c/12 = 0.08333, conjectured</text>
+    <circle cx="152" cy="90" r="5" fill="var(--series-1)"/>
+    <circle cx="148" cy="90" r="5" fill="var(--series-2)" opacity="0.8"/>
+    <text x="330" y="130" fill="var(--fg)" font-size="12">fermion 0.0837(5), boson 0.083(2), both at c = 1</text>
+  </svg>
+  <figcaption>The bracket is a factor of 27 wide; the conjecture and both measurements sit close to
+    its lower end. With JavaScript enabled the same picture carries the file and line each number was
+    read from.</figcaption>
+</figure>
+
+<div class="js-only">
+<div class="panel">
+  <h3 style="margin-top:0">The bracket against the conjecture</h3>
+  <p style="font-size:.9rem;margin-top:0">Both ends of the bracket and the conjecture are exactly
+    linear in <span data-tex="c">c</span>, which is proved; the two measurements were made at
+    <span data-tex="c=1">c = 1</span> and are drawn there, not scaled along the line.</p>
+  <svg id="brk" role="img" aria-label="The bracket, the conjecture and the two measurements against the central charge"></svg>
+  <div class="controls" style="margin-top:.7rem">
+    <div class="control">
+      <label for="ic">Central charge <span class="mono">c</span></label>
+      <input id="ic" type="range" min="1" max="8" step="1" value="1" aria-describedby="chint">
+      <span class="hint" id="chint">the marker only; nothing is rescaled</span>
+    </div>
+  </div>
+  <div class="readout" id="out1"></div>
+</div>
+
+<div class="panel">
+  <h3 style="margin-top:0">What the fermion measurement rests on</h3>
+  <p style="font-size:.9rem;margin-top:0">The nine rigorous window values and the extrapolation drawn
+    through them. The measured <span data-tex="s_2">s&#8322;</span> is a two-point
+    <span data-tex="1/\kappa_c">1/&kappa;<sub>c</sub></span> extrapolation, and it lies well above the
+    last window value: that gap is the reason its error bar is what it is.</p>
+  <svg id="lad" role="img" aria-label="The window values of s2 against the window depth, with the extrapolated value"></svg>
+  <div class="controls" style="margin-top:.7rem">
+    <div class="control">
+      <label for="il">Window row</label>
+      <input id="il" type="range" min="0" max="8" step="1" value="8" aria-describedby="lhint">
+      <span class="hint" id="lhint">nine rows, three window depths</span>
+    </div>
+  </div>
+  <div class="readout" id="out2"></div>
+</div>
+
+<div class="panel">
+  <h3 style="margin-top:0">The refuted lemma, in numbers</h3>
+  <p style="font-size:.9rem;margin-top:0">What the route needed, what it got, and what that leaves.</p>
+  <svg id="ref" role="img" aria-label="The claimed infimum against the true one, on a logarithmic scale"></svg>
+  <div class="readout" id="out3"></div>
+</div>
+</div>
+
+<h2>Claims this module carries</h2>
+<table>
+<thead><tr><th>claim</th><th>status</th></tr></thead>
+<tbody>
+<tr><td><a href="../results/conj-s2.md">s&#8322; = c/12 for general nets</a></td><td><span class="badge conjectural">conjectural</span></td></tr>
+<tr><td>the upper end 0.924c</td><td><span class="badge conditional">conditional</span> on (V), open</td></tr>
+<tr><td>the lower end 0.0338c</td><td><span class="badge conditional">conditional</span> on Araki's expansion, not obtained</td></tr>
+<tr><td><a href="../results/km-exact-identity.md">the exact identity on unitary orbits</a></td><td><span class="badge proved">proved</span></td></tr>
+<tr><td><a href="claim-map.html#km-gauge-lemma-refuted">the gauge lemma by restriction to A(K)</a></td><td><span class="badge refuted">refuted</span></td></tr>
+</tbody>
+</table>
+<p class="provenance">Compare <a href="quadratic-law.html">module 2</a>: the fidelity coefficient
+<span data-tex="f_2=c/(12\pi^2)">f&#8322; = c/(12&pi;&sup2;)</span> is a refereed theorem. The
+relative-entropy coefficient is the open one.</p>
+</main>
+
+<footer class="site"><div class="wrap">
+  <p>Module 9 of <a href="../index.html">the cft-cmi site</a>. Every number is read from
+    <code>docs/data/extra-relative-entropy.json</code>, generated by
+    <code>tools/build_site_data_extra.py</code>. No analytics, no external requests.</p>
+</div></footer>
+
+<script type="module">
+import { Plot, el as svgEl, fmt } from '../lib/plot.js';
+import { initTheme, enableJS, loadData, renderRecord, renderMath, failNotice, el as h } from '../lib/ui.js';
+
+initTheme(document.querySelector('button.theme'));
+renderMath(document);
+window.addEventListener('load', () => renderMath(document));
+
+const S = { c: 1, row: 8 };
+let D = null;
+enableJS();
+try {
+  D = await loadData('../data/extra-relative-entropy.json');
+  const lo = D.get('bracket.lower'), hi = D.get('bracket.upper'), conj = D.get('conj.s2');
+  const fer = D.get('fermion.s2'), bos = D.get('boson.s2');
+  const cell = (k, node) => h('div', { class: 'cell' },
+    [h('span', { class: 'k', text: k }), typeof node === 'string' ? h('span', { class: 'v', text: node }) : node]);
+  const chip = (cls, text) => Object.assign(document.createElement('span'),
+    { className: 'chip ' + cls, textContent: text });
+
+  // ------------------------------------------------- the bracket against c
+  const brk = new Plot(document.getElementById('brk'), {
+    aspect: 0.55, minH: 210, maxH: 340, margin: { l: 66, r: 16, t: 14, b: 42 },
+    yScale: 'log', xDomain: [0.6, 8.4], yDomain: [0.02, 10],
+    xLabel: 'central charge c', yLabel: 's₂'
+  }).onRender(P => {
+    P.axes();
+    const xs = [];
+    for (let c = 0.6; c <= 8.4001; c += 0.2) xs.push(+c.toFixed(4));
+    P.band(xs.map(c => [c, lo.value * c]), xs.map(c => [c, hi.value * c]),
+      { fill: 'var(--conditional)', opacity: 0.2 });
+    P.curve(xs.map(c => [c, lo.value * c]), { stroke: 'var(--conditional)', width: 1.8 });
+    P.curve(xs.map(c => [c, hi.value * c]), { stroke: 'var(--conditional)', width: 1.8 });
+    P.curve(xs.map(c => [c, conj.value * c]), { stroke: 'var(--open)', dash: '6 4', width: 2 });
+    P.dots([[1, fer.value, fer.error]], { fill: 'var(--series-1)', stroke: 'var(--series-1)', r: 4 });
+    P.dots([[1, bos.value, bos.error]], { shape: 'square', stroke: 'var(--series-2)', fill: 'var(--panel)', r: 4 });
+    P.vline(S.c, { stroke: 'var(--series-4)', dash: '3 3' });
+    P.text(8.4, hi.value * 8.4, 'upper end, under (V)', { small: true, anchor: 'end', dy: -6 });
+    P.text(8.4, lo.value * 8.4, 'lower end, modulo Araki', { small: true, anchor: 'end', dy: 14 });
+    P.legend([
+      { stroke: 'var(--conditional)', width: 3, label: 'the bracket: conditional at both ends' },
+      { stroke: 'var(--open)', dash: '6 4', label: 'c/12, conjectured' },
+      { stroke: 'var(--series-1)', label: 'free fermion, measured at c = 1' },
+      { stroke: 'var(--series-2)', label: 'U(1) current net, measured at c = 1' }
+    ], { x: P.inner.x0 + 12, y: P.inner.y1 + 12 });
+  });
+
+  // ------------------------------------------------------------ the ladder
+  const ladder = D.series('s2_ladder');
+  const lad = new Plot(document.getElementById('lad'), {
+    aspect: 0.5, minH: 200, maxH: 320, margin: { l: 70, r: 16, t: 14, b: 42 },
+    xDomain: [0, 0.06], yDomain: [0.06, 0.095], xLabel: '1/κ_c (the extrapolation variable)',
+    yLabel: 's₂'
+  }).onRender(P => {
+    P.axes();
+    P.hline(conj.value, { stroke: 'var(--open)', dash: '6 4', width: 1.6 });
+    P.text(0.001, conj.value, ' c/12, conjectured', { small: true, dy: -6 });
+    const pts = ladder.map(r => [1 / r.x, r.value]);
+    P.dots(pts, { fill: 'var(--series-3)', r: 3.6 });
+    // the two-point extrapolation, drawn through the two deepest window groups
+    const deep = ladder.filter(r => r.x > 30), mid = ladder.filter(r => r.x > 20 && r.x < 30);
+    const mean = a => a.reduce((s, r) => s + r.value, 0) / a.length;
+    const xm = 1 / mid[0].x, xd = 1 / deep[0].x, ym = mean(mid), yd = mean(deep);
+    const slope = (yd - ym) / (xd - xm);
+    P.curve([[0, yd - slope * xd], [xm * 1.15, ym + slope * (xm * 0.15)]],
+      { stroke: 'var(--muted)', dash: '4 4', width: 1.4 });
+    P.dots([[0, fer.value, fer.error]], { fill: 'var(--series-1)', stroke: 'var(--series-1)', r: 4.5 });
+    P.text(0, fer.value, '  the quoted value, extrapolated', { small: true, dy: -8 });
+    const cur = ladder[S.row];
+    P.vline(1 / cur.x, { stroke: 'var(--series-4)', dash: '3 3' });
+    P.legend([
+      { stroke: 'var(--series-3)', label: 'rigorous window values (certified)' },
+      { stroke: 'var(--muted)', dash: '4 4', label: 'the extrapolation, drawn here' },
+      { stroke: 'var(--series-1)', label: 'the quoted 0.0837(5)' }
+    ], { x: P.inner.x0 + 12, y: P.inner.y1 + 12 });
+  });
+
+  // ------------------------------------------------------- the refuted step
+  const factor = D.get('gauge.factor');
+  const ref = new Plot(document.getElementById('ref'), {
+    aspect: 0.34, minH: 150, maxH: 230, margin: { l: 66, r: 16, t: 14, b: 40 },
+    xScale: 'log', xDomain: [0.5, 20], yDomain: [0, 2],
+    xLabel: 'in units of c/6, the value the lemma asserted'
+  }).onRender(P => {
+    P.axes({ grid: false });
+    const bar = (y, x, colour, label) => {
+      svgEl('rect', { x: P.sx(0.5), y: P.sy(y) - 11, width: P.sx(x) - P.sx(0.5), height: 22,
+        fill: colour, opacity: 0.35, stroke: colour }, P.root);
+      P.text(0.52, y, ' ' + label, { small: true, dy: 4 });
+    };
+    bar(1.45, 1, 'var(--open)', 'the gauge lemma: inf = c/6 — refuted, this is the unit');
+    bar(0.55, factor.value, 'var(--proved)', 'the true infimum, (11+5√5)/12 c = '
+      + fmt(factor.value, 4) + ' × c/6');
+  });
+
+  // --------------------------------------------------------------- readouts
+  function readout() {
+    document.getElementById('out1').replaceChildren(
+      cell('lower end of the bracket', h('span', {}, [renderRecord(lo), ' ',
+        chip('', 'hypotheses: H3, Araki (Gap RK2)')])),
+      cell('upper end of the bracket', h('span', {}, [renderRecord(hi), ' ',
+        chip('', 'hypothesis: (V), open')])),
+      cell('the conjecture, c/12', renderRecord(conj)),
+      cell('free fermion, measured at c = 1', renderRecord(fer)),
+      cell('U(1) current net, measured at c = 1', renderRecord(bos)),
+      cell('for contrast: f₂ = c/(12π²), a theorem', renderRecord(D.get('thm.f2'))),
+      cell('marker at c =', String(S.c) + '  — the bracket and the conjecture are exactly linear in c '
+        + '(proved); the two measurements are not scaled')
+    );
+    const cur = ladder[S.row];
+    document.getElementById('out2').replaceChildren(
+      cell('window depth κ_c', fmt(cur.x, 4)),
+      cell('s₂ in that window', renderRecord(cur)),
+      cell('the quoted value', renderRecord(fer)),
+      cell('the conjecture', renderRecord(conj)),
+      cell('gap between the last window and the quoted value',
+        fmt(100 * (fer.value / ladder[ladder.length - 1].value - 1), 3) + ' %'),
+      h('div', { class: 'cell' }, [h('span', { class: 'k', text: 'what the two are' }),
+        h('span', {}, [Object.assign(document.createElement('span'),
+          { className: 'badge certified', textContent: 'certified' }),
+          ' window value, a rigorous lower bound · ',
+          Object.assign(document.createElement('span'),
+            { className: 'badge numerical', textContent: 'numerical' }),
+          ' the extrapolation'])])
+    );
+    document.getElementById('out3').replaceChildren(
+      cell('the true infimum, in units of c/6', renderRecord(factor)),
+      cell('the infimum itself, in units of c', renderRecord(D.get('gauge.inf'))),
+      cell('what it leaves: limsup s⁻²D ≤', renderRecord(hi)),
+      cell('what was wanted: c/12', renderRecord(conj)),
+      cell('status of the lemma', h('span', {}, [Object.assign(document.createElement('span'),
+        { className: 'badge refuted', textContent: 'refuted' }),
+        ' the infimum is not c/6, and no gauge choice reaches it']))
+    );
+    document.getElementById('chint').textContent = 'c = ' + S.c
+      + ' — nothing is rescaled, the measurements stay at c = 1';
+    document.getElementById('lhint').textContent = 'row ' + (S.row + 1) + ' of ' + ladder.length
+      + ', κ_c = ' + fmt(cur.x, 4);
+  }
+
+  const redraw = () => { brk.render(); lad.render(); ref.render(); readout(); };
+  document.getElementById('ic').addEventListener('input', e => {
+    S.c = Math.max(1, Math.min(8, Math.round(+e.target.value)));
+    redraw();
+  });
+  document.getElementById('il').addEventListener('input', e => {
+    S.row = Math.max(0, Math.min(ladder.length - 1, Math.round(+e.target.value)));
+    redraw();
+  });
+  document.addEventListener('themechange', redraw);
+  redraw();
+} catch (e) {
+  document.documentElement.classList.remove('has-js');
+  failNotice(document.querySelector('main'), e);
+}
+</script>
+</body>
+</html>
