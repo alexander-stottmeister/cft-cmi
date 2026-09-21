@@ -388,4 +388,5 @@ step, which LaTeX reported on the next line. Nothing in either proof changed.
 [`tools/check_rigor_builds.py`](tools/check_rigor_builds.py) compiles all of them and compares the
 failures with [`rigor/known_build_failures.json`](rigor/known_build_failures.json), now empty. It
 fails if a document that used to build stops, and also if a listed failure starts building, so the
-list can only shrink. Continuous integration runs it on every push.
+list stays honest; `--update` rewrites it deliberately, which a commit should justify. Continuous
+integration runs it on every push to `main` and on every pull request.
