@@ -3,19 +3,32 @@
 
 `docs/*.md` stays the source: it is what GitHub renders when someone browses the
 repository, and what `build_docs.py` compares against the knowledge base.  GitHub
-Pages renders none of it.  `docs/.nojekyll` turns Jekyll off, so a `.md` file is
-served as a raw download, and every link from the interactive site into the
-documentation used to land a reader on a text file.  This module writes the
-mirror those links point at instead: `docs/read/`, one `.html` per `.md`, same
-directory structure, so a relative link between two documentation pages is the
-same string in both trees.
+Pages renders none of it: a `.md` file with no YAML front matter is a static file
+and is served verbatim, with or without `docs/.nojekyll`, so every link from the
+interactive site into the documentation used to land a reader on a text file.
+This module writes the mirror those links point at instead: `docs/read/`, one
+`.html` per `.md`, same directory structure, so the directory prefix of a relative
+link between two documentation pages is preserved and only the suffix changes.
 
-The Markdown is not arbitrary.  `build_docs.py` wrote it, so the subset is closed
-and small: ATX headings, paragraphs, bullet lists, pipe tables, block quotes,
-horizontal rules, HTML comments and bare anchor tags as blocks; code spans, bold,
-italic, links and backslash escapes inline.  Nothing here guesses.  A construct
-outside that subset raises `Unsupported`, because rendering an unknown line as a
-paragraph is how a generated page starts quietly lying.
+The Markdown is not arbitrary.  `build_docs.py` wrote it, so the subset is small:
+ATX headings, paragraphs, bullet lists, pipe tables, block quotes, horizontal
+rules, HTML comments and bare anchor tags as blocks; code spans, bold, italic,
+links, bare URLs and backslash escapes inline.
+
+The subset is NOT closed, and saying otherwise cost three referee passes.
+`reject_unsupported` is a blacklist: it makes the constructs it names loud and
+leaves everything else silent, so it is a guard and not a proof.  One property is
+structural rather than pattern-matched, and it is the one that was destroying
+content: a table's alignment row and every body row must carry the header's cell
+count and a closing bar.  What is still rendered wrongly without complaint, none
+of it occurring in what the generator emits, is listed on the card
+`docs-pages-rendering`.
+
+Emphasis is deliberately stricter than CommonMark.  A run may open only after the
+start of a line or whitespace and close only before the end of a line, whitespace
+or punctuation.  Conforming flanking deletes characters that carry meaning in this
+corpus -- `XX* >= 0 ... X* <= N` loses both adjoint stars and `$\|f\|_{\beta}$`
+loses its subscripts -- and GitHub renders those files exactly that badly.
 
 Three link classes occur, and each has one correct answer on Pages, where only
 `docs/` is published:
