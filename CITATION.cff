@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+title: >-
+  Conditional mutual information of adjacent intervals as a
+  quantum-Markov defect
+message: >-
+  If you use this work, cite the papers rather than the repository
+  where possible; the repository is the working record behind them.
+type: software
+authors:
+  - family-names: Stottmeister
+    given-names: Alexander
+    affiliation: >-
+      Institut für Theoretische Physik, Leibniz Universität Hannover
+repository-code: https://github.com/alexander-stottmeister/cft-cmi
+abstract: >-
+  For three adjacent intervals in the vacuum of a chiral conformal field theory
+  the Longo-Xu conditional mutual information is finite and strictly positive.
+  This project reads that number as the failure of a Petz recovery map,
+  constructs the recovery channel at zero collar width in the type-III setting,
+  and measures how well it works: an exact quadratic law for the free fermion,
+  universality of its coefficient for every diffeomorphism-covariant net, the
+  second-order optimum over all recovery channels, and a corner calculus for
+  sequential recovery along a chain of intervals.
+keywords:
+  - conformal field theory
+  - conditional mutual information
+  - Petz recovery map
+  - operator algebras
+  - quantum Markov chains
+license: CC-BY-4.0
+license-url: https://creativecommons.org/licenses/by/4.0/
+# The code under numerics/ and tools/ is MIT; see LICENSE for the split.
+# A DOI will be added once the papers are on arXiv and the repository is
+# deposited with Zenodo (release v0.1.0-draft is not archived).

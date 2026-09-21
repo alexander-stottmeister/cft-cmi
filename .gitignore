@@ -40,6 +40,8 @@ rigor/review_packet_*.md
 /CHECKLIST.md
 /pgit
 /pgit-exclude
+# superseded by module 10 of the site; kept privately as the artifact's backup
+/plan_page/
 
 # --- LaTeX hyperref .out files ---------------------------------------------
 # NOTE: *.out is NOT ignored globally: 97 files under numerics/ and rigor/ are

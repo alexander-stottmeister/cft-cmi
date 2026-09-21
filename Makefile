@@ -12,7 +12,8 @@ help:
 	@echo "make figures  regenerate docs/assets/*.svg"
 	@echo "make data     regenerate docs/data/*.json from the result files"
 	@echo "make papers   compile paper1 and paper2 (twice each)"
-	@echo "make check    fail if any generated artefact has drifted from its source"
+	@echo "make check    links, documentation drift, site data drift"
+	@echo "make rigor    compile every rigor document against the known-failure baseline"
 	@echo "make site     figures + data + docs, then serve docs/ locally"
 	@echo ""
 	@echo "PYTHON=<interpreter> overrides the interpreter (default: python3)."
@@ -39,6 +40,7 @@ papers:
 # The gate: documentation must match the knowledge base, and every number on the
 # site must still match the file it was extracted from.
 check:
+	$(PYTHON) tools/check_links.py
 	$(PYTHON) tools/build_docs.py --check
 	@if [ -f tools/build_site_data.py ]; then $(PYTHON) tools/build_site_data.py --check; else echo "site data: no extractor yet, skipped"; fi
 	@if [ -f tools/build_site_data_extra.py ]; then $(PYTHON) tools/build_site_data_extra.py --check; fi
@@ -46,3 +48,9 @@ check:
 site: figures data docs
 	@echo "serving docs/ at http://localhost:8000  (ctrl-c to stop)"
 	cd docs && $(PYTHON) -m http.server 8000
+
+# The two documents that have not built since 8 September are recorded in
+# rigor/known_build_failures.json.  This fails on a NEW failure, and also when a
+# known one starts building, so the list can only shrink.
+rigor:
+	$(PYTHON) tools/check_rigor_builds.py

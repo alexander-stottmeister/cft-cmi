@@ -1,0 +1,60 @@
+name: check
+
+# Every generated artefact must still match its source, and the two papers must
+# still build.  Pages deployment is deliberately absent: the repository is
+# private and the free tier serves Pages for public repositories only, so
+# publishing waits until the repository goes public (decision D1).
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  generated-artefacts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: documentation matches the knowledge base
+        # The knowledge base is a separate private repository, so the generator
+        # cannot run here.  What CI can check is that the committed pages are
+        # internally consistent and that nothing links outside the repository.
+        run: python3 tools/check_links.py
+      - name: site data matches its source files
+        run: |
+          python3 tools/build_site_data.py --check
+          python3 tools/build_site_data_extra.py --check
+      - name: figures are reproducible
+        run: |
+          python3 tools/make_figures.py
+          git diff --exit-code -- docs/assets
+
+  papers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: TeX Live
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends texlive-latex-recommended texlive-latex-extra texlive-science texlive-fonts-recommended
+      - name: the two papers build
+        run: make papers
+      - name: the rigor documents that are expected to build still do
+        run: python3 tools/check_rigor_builds.py
+
+  # Written and disabled.  Enable by removing the `if: false` once the
+  # repository is public; nothing else here needs to change.
+  pages:
+    if: false
+    runs-on: ubuntu-latest
+    permissions: { pages: write, id-token: write }
+    environment: { name: github-pages, url: '${{ steps.deploy.outputs.page_url }}' }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: docs }
+      - id: deploy
+        uses: actions/deploy-pages@v4
