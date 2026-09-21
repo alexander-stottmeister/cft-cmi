@@ -8,7 +8,7 @@ labels: build
 
 **What happened**, with the exact error.
 
-**Before reporting:** all 46 rigor documents build, and
+**Before reporting:** all 41 rigor documents in this repository build, and
 `tools/check_rigor_builds.py` checks that on every push against an empty
 known-failure list, so a failure you see is a real report.
 

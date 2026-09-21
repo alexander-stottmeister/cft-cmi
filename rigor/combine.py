@@ -1,4 +1,7 @@
 r"""Combine the standalone cited_R*.tex documents into one compendium cited_results_all.tex.
+
+Both its inputs and its output are held in the private companion, not in this repository
+(see THIRD-PARTY.md), so this script does nothing in a public clone.
 Packages/theorem environments of the parts go (deduplicated) into the preamble; macro definitions are re-issued
 inside the body right before each \part (as \providecommand{}{}+\renewcommand), so each part keeps its own macros."""
 import re, glob

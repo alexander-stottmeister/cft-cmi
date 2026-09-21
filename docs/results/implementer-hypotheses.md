@@ -4,6 +4,8 @@
 
 **Status:** `refereed` — a complete structured proof that an independent referee pass has accepted. **Stated under hypotheses** H1, H2, H3, quoted below.
 
+> **Referee pass pending.** This card has been changed since its last pass and is queued for review; the verdict below is the state of that queue, not an accepted result.
+
 **Area:** [Theorem B: universality for diffeomorphism-covariant nets](../status.md#area-universality) · **Card type:** theorem · **Knowledge-base id:** `implementer-hypotheses`
 
 ## Statement
@@ -20,7 +22,7 @@ Hypothesis labels used: `H1`, `H2`, `H3`.
 
 ## How to verify
 
-rigor/implementation_C11.tex Sec. 8 with screenshots of Carpi-Weiner Thm 4.4 in rigor/shots/.
+rigor/implementation_C11.tex Sec. 8 with screenshots of Carpi-Weiner Thm 4.4 in rigor/shots/. (the screenshots are page excerpts of the cited publications and are not redistributed; see THIRD-PARTY.md)
 
 ## Evidence
 
@@ -34,7 +36,7 @@ _None recorded._
 
 ## Review
 
-**Review record:** passed 2026-09-14 by phase referees (rigor/referee_\*.tex, findings ledger).
+**Review record:** a referee pass is pending; the card has no accepted verdict at present.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

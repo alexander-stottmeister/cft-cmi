@@ -372,9 +372,11 @@ equation being relied upon, and those 178 images are excerpts of other authors' 
 absent from this repository, so some rigor documents show a framed placeholder where an excerpt
 would be. The source PDFs are absent too: of the 36 entries in
 [`refs/REFERENCES.md`](refs/REFERENCES.md), [`refs/restore.sh`](refs/restore.sh) can fetch 20 from
-arXiv or open Project Euclid and reports the remaining 16 as needing library access. The 221
-quotations that remain in the text are short attributed quotations, each paired with our own
-verdict, made for the purpose of checking the cited result.
+arXiv or open Project Euclid and reports the remaining 16 as needing library access. The 77
+quotations in this repository are short attributed quotations, each paired with our own verdict,
+made for the purpose of checking the cited result. The other 144 are gathered in the five
+cited-result compendia, which are held privately and whose content is available on request; see
+[`THIRD-PARTY.md`](THIRD-PARTY.md).
 
 ## 13. Every document builds
 

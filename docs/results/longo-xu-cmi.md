@@ -4,7 +4,7 @@
 
 **Status:** `proved` — a complete structured proof.
 
-> **Referee pass pending.** This card has been changed since its last pass and is queued for review; the verdict below is the state of that queue, not an accepted result.
+> **The last referee pass failed.** An independent pass has asked for repairs that the card has not yet absorbed. The verdict and its date are below; the report itself stays in the private knowledge base.
 
 **Area:** [Foundations: CMI as a Markov defect (Notes 1-3)](../status.md#area-foundations) · **Card type:** theorem · **Knowledge-base id:** `longo-xu-cmi`
 
@@ -27,7 +27,7 @@ _None recorded._
 
 ## Review
 
-**Review record:** a referee pass is pending; the card has no accepted verdict at present.
+**Review record:** failed 2026-09-21 by REF-MOVE-1.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

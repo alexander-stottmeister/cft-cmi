@@ -33,8 +33,8 @@ cited-result box. Two of the 178 excerpts are from public-domain or NIST sources
 
 Five documents collected, in one place, what every external result this project relies on actually
 says: `rigor/cited_R1.tex` to `cited_R4.tex`, one per reviewer, and `cited_results_all.tex`, their
-union. Together they hold 144 of the project's 221 transcriptions and 176 of its excerpt images,
-257 pages in all. Each entry is a passage transcribed from the source, its exact locator, an image
+union. Together they hold 144 of the project's 221 transcriptions and 172 of its 256 image insertions,
+covering 86 distinct excerpts of which 79 appear nowhere else, 257 pages in all. Each entry is a passage transcribed from the source, its exact locator, an image
 of the passage, how this project uses it, and a verdict on whether the hypotheses are satisfied.
 
 They are **not** published here. The verdicts make each entry criticism rather than reproduction,
@@ -45,13 +45,15 @@ reader little, because the originals are better sources than our transcriptions 
 `refs/REFERENCES.md` lists every one with the exact result used, and `refs/restore.sh` fetches the
 openly available ones.
 
-**Their content is available on request.** Open an issue, or write to the author. A specific
-question, of the form "which locator does the project use for result X and what is its verdict",
-can usually be answered in the issue itself without sending anything.
+**Their content is available on request.** Open an issue using the *Ask for a cited-result entry*
+template. That is the only route this repository offers: no e-mail address is published here. A
+specific question, of the form "which locator does the project use for result X and what is its
+verdict", can usually be answered in the issue itself without sending anything.
 
 ## Quotations in the text
 
-The rigor documents contain 221 `citedbox` environments, each transcribing a theorem,
+The rigor documents contain 221 `citedbox` environments, 77 of them in this repository and 144 in the
+privately held compendia above, each transcribing a theorem,
 definition or equation from a source, followed by our own verdict on how it is used.
 These are short attributed quotations made for the purpose of checking the cited result,
 which is what the quotation right (§51 UrhG) and fair use are for. If you are a rights

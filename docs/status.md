@@ -20,7 +20,7 @@
 
 58 of them are `refereed`, `proved`, `numerical`, `conjectural` and have a page of their own under [`results/`](results/); the remainder are listed here with their status only.
 
-A referee pass is not implied by a status. Of the cards listed here, **0 have never been refereed** and **0 carry a failed referee pass**, that is repairs asked for and not yet absorbed. Cards awaiting a pass after a recent change are marked too, but not counted here: that number moves with day-to-day editing of infrastructure cards that have no page. All three are marked in the tables below, as *never refereed*, *referee pass failed* and *review pending*. Nothing labelled `numerical` is a theorem.
+A referee pass is not implied by a status. Of the cards listed here, **0 have never been refereed** and **1 carries a failed referee pass**, that is repairs asked for and not yet absorbed. Cards awaiting a pass after a recent change are marked too, but not counted here: that number moves with day-to-day editing of infrastructure cards that have no page. All three are marked in the tables below, as *never refereed*, *referee pass failed* and *review pending*. Nothing labelled `numerical` is a theorem.
 
 <a id="area-foundations"></a>
 
@@ -31,7 +31,7 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 | status | claim | |
 |---|---|---|
 | `proved` | [CMI as the data-processing defect of tracing out C (Note 2)](results/cmi-markov-defect-interpretation.md) |  |
-| `proved` | [Longo-Xu CMI of adjacent intervals](results/longo-xu-cmi.md) | review pending |
+| `proved` | [Longo-Xu CMI of adjacent intervals](results/longo-xu-cmi.md) | referee pass failed |
 | `proved` | [Type-III second-variation lemma (fidelity half)](results/second-variation-lemma.md) |  |
 | `verified` | Cross-ratio conventions used across the notes |  |
 | `verified` | The Delta^(1/2) fidelity formula was wrong (Wigner-Yanase quantity) |  |
@@ -66,7 +66,7 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 
 | status | claim | |
 |---|---|---|
-| `refereed` | [(H1)-(H3) hold for all diffeomorphism-covariant nets](results/implementer-hypotheses.md) |  |
+| `refereed` | [(H1)-(H3) hold for all diffeomorphism-covariant nets](results/implementer-hypotheses.md) | review pending |
 | `refereed` | [Theorem B: f2 = c/(12 pi^2) for every diffeomorphism-covariant net](results/thm-b-universality.md) |  |
 | `proved` | [Stress-tensor normalisation chain](results/stress-tensor-normalisation.md) |  |
 | `numerical` | [Bosonic check: U(1) current net agrees](results/boson-check.md) |  |
@@ -93,7 +93,7 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 |---|---|---|
 | `proved` | [The A-C restriction lower bound is exactly zero](results/ac-lower-bound-zero.md) |  |
 | `proved` | [All-channel second-order optimum = quasi-free SDP value](results/all-channel-equals-quasi-free.md) |  |
-| `proved` | [Every recovery channel's recovered symbol is quasi-free feasible](results/all-channels-symbol-feasible.md) |  |
+| `proved` | [Every recovery channel's recovered symbol is quasi-free feasible](results/all-channels-symbol-feasible.md) | review pending |
 | `proved` | [Exterior directions exhaust the invisible space: closure(Ext) = N^perp (question (Q) settled, YES)](results/exterior-exhaust-invisible.md) |  |
 | `proved` | [Exact KKT certificate at the compression; Moebius rigidity](results/kkt-certificate.md) |  |
 | `proved` | [KKT sign criterion: when the isometric orbit carries the all-channel second-order optimum](results/kkt-noise-sign-criterion.md) |  |

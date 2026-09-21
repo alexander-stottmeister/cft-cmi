@@ -44,5 +44,6 @@ All 93 findings were re-read against the current text of notes 1–7 and the rep
 ## Where to look
 - rigor/findings.pdf — all findings by severity, status table of every result, errata summary.
 - rigor/cited_results_all.pdf — every cited result with screenshot and usage cross-check (130 pp).
+  Held in the private companion since 21 September; content available on request (THIRD-PARTY.md).
 - rigor/check_*.pdf, rigor/audit_dependencies.pdf — Lamport step checks per note; rigor/kernel_identity.pdf, lemma_second_variation.pdf, quadratic_limit.pdf (+ referee_*.pdf) — new proofs and their referee reports.
 - rigor/errata_log.md — every edit applied to the notes; numerics/README.md — result files.

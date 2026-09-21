@@ -4,6 +4,8 @@
 
 **Status:** `proved` — a complete structured proof.
 
+> **Referee pass pending.** This card has been changed since its last pass and is queued for review; the verdict below is the state of that queue, not an accepted result.
+
 **Area:** [Optimality of recovery channels (O8, Phases 3 and 3b)](../status.md#area-optimality) · **Card type:** theorem · **Knowledge-base id:** `all-channels-symbol-feasible`
 
 ## Statement
@@ -12,7 +14,7 @@ For every normal unital CP even beta: A(BC) -> A(B), with xi_g = beta(a(g)) Omeg
 
 ## How to verify
 
-rigor/optimality_all_channels.tex Sec. 3 with screenshots rigor/shots/BJL_p\*.png; lattice test numerics/optimality_all/symbol_in_F_test.py.
+rigor/optimality_all_channels.tex Sec. 3 with screenshots rigor/shots/BJL_p\*.png; lattice test numerics/optimality_all/symbol_in_F_test.py. (the screenshots are page excerpts of the cited publications and are not redistributed; see THIRD-PARTY.md)
 
 ## Evidence
 
@@ -25,7 +27,7 @@ rigor/optimality_all_channels.tex Sec. 3 with screenshots rigor/shots/BJL_p\*.pn
 
 ## Review
 
-**Review record:** passed 2026-09-14 by phase referees (rigor/referee_\*.tex, findings ledger).
+**Review record:** a referee pass is pending; the card has no accepted verdict at present.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 
