@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Compile every rigor document and compare the set of failures with a baseline.
 
-Two documents have not built since 8 September, for reasons that predate the
-public-release work.  A permanently red build teaches people to ignore the build,
-so this is a ratchet instead: it fails when a document that used to build stops,
-and also when a document on the known-broken list starts building, which means the
-list is stale and should shrink.
+A permanently red build teaches people to ignore the build, so this is a ratchet:
+it fails when a document that used to build stops, and also when a document on the
+known-broken list starts building, which means the list is stale.  The list is
+empty as of 21 September 2026, when the last two failures were repaired, so any
+failure now is a regression.  Note that --update rewrites the baseline without
+argument: it is for recording a deliberate change, and the commit should say why.
 
     tools/check_rigor_builds.py            compile and compare with the baseline
     tools/check_rigor_builds.py --update   rewrite the baseline (say why in the commit)

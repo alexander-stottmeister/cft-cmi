@@ -320,13 +320,13 @@ Standard library only; it reads every number out of the files named in the capti
 loudly if a source file has changed shape.
 
 **Documents.** `cd rigor && pdflatex -halt-on-error <file>.tex` twice, or
-[`rigor/build_all.sh`](rigor/build_all.sh). Two documents currently fail; see §13.
+[`rigor/build_all.sh`](rigor/build_all.sh). All of them build; see §13.
 
 **Numerics.** Python with `numpy scipy mpmath python-flint cvxpy clarabel scs`. Scripts resolve
 paths relative to the repository, so any checkout works. The cached intermediates (`*.npz`,
 `*.pkl`) are not distributed; regenerating them takes hours for the large boxes.
 
-**Excerpts are absent**, and their absence breaks no build: the two documents that fail (§13) fail for unrelated reasons, with the excerpts present or not. Where an excerpt would appear
+**Excerpts are absent**, and their absence breaks no build: every document compiles with them and without them (§13). Where an excerpt would appear
 the `\shot` macro of `rigor/rigor_preamble.tex` prints a framed placeholder naming the missing
 image, and the exact locator is given in the accompanying cited-result box, so the citation can
 be checked against any copy of the source.
@@ -383,7 +383,7 @@ typographic rather than mathematical: `implementation_C11.tex` ended a proof wit
 `\lstep{1}{4}{\lqed}`, which passes no arguments to a macro that takes two, where the house
 pattern is a standalone `\lqed{1}{4}`; and `referee_implementation_C11.tex` used `\one`, a
 shortcut from the notes that `rigor_preamble.tex` does not define, and left a `$` unclosed in a
-step, which LaTeX reported two lines later. Nothing in either proof changed.
+step, which LaTeX reported on the next line. Nothing in either proof changed.
 
 [`tools/check_rigor_builds.py`](tools/check_rigor_builds.py) compiles all of them and compares the
 failures with [`rigor/known_build_failures.json`](rigor/known_build_failures.json), now empty. It

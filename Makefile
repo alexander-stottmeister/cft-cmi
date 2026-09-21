@@ -49,8 +49,9 @@ site: figures data docs
 	@echo "serving docs/ at http://localhost:8000  (ctrl-c to stop)"
 	cd docs && $(PYTHON) -m http.server 8000
 
-# The two documents that have not built since 8 September are recorded in
-# rigor/known_build_failures.json.  This fails on a NEW failure, and also when a
-# known one starts building, so the list can only shrink.
+# Compile every rigor document and compare with rigor/known_build_failures.json,
+# which is empty since 21 September: any failure is now a regression.  It also
+# fails if a listed failure starts building, so the list stays honest; --update
+# rewrites it deliberately.
 rigor:
 	$(PYTHON) tools/check_rigor_builds.py
