@@ -4,8 +4,6 @@
 
 **Status:** `proved` — a complete structured proof.
 
-> **The last referee pass failed.** An independent pass has asked for repairs that the card has not yet absorbed. The verdict and its date are below; the report itself stays in the private knowledge base.
-
 **Area:** [Foundations: CMI as a Markov defect (Notes 1-3)](../status.md#area-foundations) · **Card type:** theorem · **Knowledge-base id:** `longo-xu-cmi`
 
 ## Statement
@@ -27,7 +25,7 @@ _None recorded._
 
 ## Review
 
-**Review record:** failed 2026-09-21 by REF-MOVE-1.
+**Review record:** passed 2026-09-21 by REF-MOVE-1j.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

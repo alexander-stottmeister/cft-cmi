@@ -20,7 +20,7 @@
 
 58 of them are `refereed`, `proved`, `numerical`, `conjectural` and have a page of their own under [`results/`](results/); the remainder are listed here with their status only.
 
-A referee pass is not implied by a status. Of the cards listed here, **0 have never been refereed** and **1 carries a failed referee pass**, that is repairs asked for and not yet absorbed. Cards awaiting a pass after a recent change are marked too, but not counted here: that number moves with day-to-day editing of infrastructure cards that have no page. All three are marked in the tables below, as *never refereed*, *referee pass failed* and *review pending*. Nothing labelled `numerical` is a theorem.
+A referee pass is not implied by a status. Of the cards listed here, **0 have never been refereed** and **0 carry a failed referee pass**, that is repairs asked for and not yet absorbed. Cards awaiting a pass after a recent change are marked too, but not counted here: that number moves with day-to-day editing of infrastructure cards that have no page. All three are marked in the tables below, as *never refereed*, *referee pass failed* and *review pending*. Nothing labelled `numerical` is a theorem.
 
 <a id="area-foundations"></a>
 
@@ -31,7 +31,7 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 | status | claim | |
 |---|---|---|
 | `proved` | [CMI as the data-processing defect of tracing out C (Note 2)](results/cmi-markov-defect-interpretation.md) |  |
-| `proved` | [Longo-Xu CMI of adjacent intervals](results/longo-xu-cmi.md) | referee pass failed |
+| `proved` | [Longo-Xu CMI of adjacent intervals](results/longo-xu-cmi.md) |  |
 | `proved` | [Type-III second-variation lemma (fidelity half)](results/second-variation-lemma.md) |  |
 | `verified` | Cross-ratio conventions used across the notes |  |
 | `verified` | The Delta^(1/2) fidelity formula was wrong (Wigner-Yanase quantity) |  |

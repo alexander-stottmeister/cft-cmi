@@ -2405,11 +2405,11 @@
    "statement": "For adjacent intervals A=(-a,0), B=(0,b), C=(b,b+c) in the vacuum of a chiral net of central charge c (c = r for r complex fermions), I(A:C|B) = (c/6) log[(a+b)(b+c)/(b(a+b+c))]. Read as the quantum-Markov defect of the chain A-B-C; the Petz recovery error is the natural quantitative companion.",
    "verify": "Notes 1-2; the formula is the Longo-Xu result quoted with screenshots in rigor/cited_R1.tex (held privately) (held in the private companion; its content is available on request, see THIRD-PARTY.md).",
    "next": null,
-   "review": "FAILED 2026-09-21 by REF-MOVE-1",
+   "review": "passed 2026-09-21 by REF-MOVE-1j",
    "refereed": true,
    "awaiting_review": false,
-   "verdicts": 1,
-   "review_failed": true,
+   "verdicts": 2,
+   "review_failed": false,
    "page": "longo-xu-cmi.md",
    "related": [],
    "evidence": [
@@ -4296,7 +4296,7 @@
    "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published; the line this record links to is the count itself."
   },
   {
-   "value": 1,
+   "value": 0,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
    "line": 4299,
