@@ -157,7 +157,7 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 |---|---|---|
 | `active` | Note 8: open problems O1-O11 and phases |  |
 | `active` | Paper 1 (free fermion): refereed draft, edits pending |  |
-| `active` | Paper 2 (universality): refereed draft, KM as conjecture |  |
+| `active` | Paper 2 (universality): refereed draft, KM as conjecture | review pending |
 | `done` | Errata to Notes 1-7 applied and logged |  |
 | `superseded` | Note 3 programme: remove the collar (superseded by the plan of Note 8) |  |
 | `superseded` | Strategy note (Note 6): the four-step programme for universality |  |

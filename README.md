@@ -376,17 +376,16 @@ arXiv or open Project Euclid and reports the remaining 16 as needing library acc
 quotations that remain in the text are short attributed quotations, each paired with our own
 verdict, made for the purpose of checking the cited result.
 
-## 13. Two documents that do not build
+## 13. Every document builds
 
-Both failures are pre-existing; `rigor/implementation_C11.pdf` on disk dates from 8 September and
-its referee report has no PDF at all. They are recorded in the project's release checklist, which
-is held privately, and are listed here so that a reader who runs
-`rigor/build_all.sh` is not surprised.
+All 46 rigor documents compile. Two did not until 21 September, and both failures were
+typographic rather than mathematical: `implementation_C11.tex` ended a proof with
+`\lstep{1}{4}{\lqed}`, which passes no arguments to a macro that takes two, where the house
+pattern is a standalone `\lqed{1}{4}`; and `referee_implementation_C11.tex` used `\one`, a
+shortcut from the notes that `rigor_preamble.tex` does not define, and left a `$` unclosed in a
+step, which LaTeX reported two lines later. Nothing in either proof changed.
 
-| document | line | cause |
-|---|---|---|
-| [`rigor/implementation_C11.tex`](rigor/implementation_C11.tex) | 486 | `\lstep{1}{4}{\lqed}` passes no arguments to `\lqed`, which takes two: "Missing number, treated as zero" (TeX reports `l.488`) |
-| [`rigor/referee_implementation_C11.tex`](rigor/referee_implementation_C11.tex) | 364 | uses `\one`, which `rigor/rigor_preamble.tex` does not define: "Undefined control sequence" |
-
-Any continuous integration that compiles the documents is red until these are fixed. That is the
-intended behaviour, not something to be worked around.
+[`tools/check_rigor_builds.py`](tools/check_rigor_builds.py) compiles all of them and compares the
+failures with [`rigor/known_build_failures.json`](rigor/known_build_failures.json), now empty. It
+fails if a document that used to build stops, and also if a listed failure starts building, so the
+list can only shrink. Continuous integration runs it on every push.

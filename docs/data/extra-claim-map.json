@@ -2739,9 +2739,9 @@
    "statement": "24 pp, refereed (26 edits applied). Theorem B with the implementer hypotheses, bosonic check, Kubo-Mori section as conjecture plus bracket.",
    "verify": "paper2/main.pdf; rigor/referee_paper2.md.",
    "next": "Apply the 10 proposed wording edits; keep s2 = c/12 as a conjecture with the bracket; replace internal citations.",
-   "review": "passed 2026-09-21 by REF-AUTHOR-1c",
+   "review": "pending",
    "refereed": true,
-   "awaiting_review": false,
+   "awaiting_review": true,
    "verdicts": 3,
    "review_failed": false,
    "page": null,
@@ -4286,7 +4286,7 @@
    "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published; the line this record links to is the count itself."
   },
   {
-   "value": 0,
+   "value": 1,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
    "line": 4289,

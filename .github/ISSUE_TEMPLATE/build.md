@@ -8,8 +8,8 @@ labels: build
 
 **What happened**, with the exact error.
 
-**Known already:** two rigor documents do not build, `implementation_C11.tex`
-and its referee report; `tools/check_rigor_builds.py` tracks that set, so a new
-failure is a real report and those two are not.
+**Before reporting:** all 46 rigor documents build, and
+`tools/check_rigor_builds.py` checks that on every push against an empty
+known-failure list, so a failure you see is a real report.
 
 **Your environment:** operating system, TeX distribution, Python version.
