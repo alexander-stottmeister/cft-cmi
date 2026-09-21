@@ -258,8 +258,10 @@ def split_row(row: str) -> list:
 
 # Constructs outside the subset.  None of them occurs in what build_docs.py emits
 # today, and each would be rendered wrongly and in silence if one appeared, so each
-# is a hard error instead.  This is what makes the subset closed: the paragraph
-# branch is the fallback for PROSE, never for an unrecognised construct.
+# is a hard error instead.  This does NOT close the subset: it is a blacklist, so it
+# makes the constructs it names loud and leaves the rest silent.  The paragraph
+# branch is still the fallback for anything unrecognised, which is why the table
+# invariant in render_table() is checked structurally instead of by pattern.
 UNSUPPORTED_LINE = [
     (re.compile(r"^\s*\d+[.)] "), "ordered list"),
     (re.compile(r"^\s*(```|~~~)"), "fenced code block"),
