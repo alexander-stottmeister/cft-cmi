@@ -728,14 +728,6 @@ def sources_page(repo_root: Path, warnings: list) -> str:
         elif re.match(r"^- +`", line):
             bullets.append(line)
 
-    # REFERENCES.md sometimes says a PDF is 'already in refs/...'.  That is true of
-    # the working tree and false of a clone, where refs/*.pdf is not redistributed,
-    # so strip the assertion rather than publish it (REF-MOVE-1b).
-    def _no_presence_claim(text):
-        text = re.sub(r'\s*\(already in [^)]*\)', '', text)
-        text = re.sub(r'\brefs/([A-Za-z0-9_.+-]+\.pdf)\b', r'\1 (not redistributed)', text)
-        return text
-
     fetchable = restore_sh_says(repo_root)
     groups = {"fetch": [], "open": [], "library": []}
     for cells in rows:
@@ -821,6 +813,16 @@ def first_sentence(text: str) -> str:
     return lead
 
 
+# A source file may assert that a PDF is "already in refs/..." or name one by path.
+# Both are true of this working tree and false of a clone, where refs/*.pdf is not
+# redistributed, so the generated pages drop the assertion (REF-MOVE-1b, 1c).  The
+# source files themselves are historical records and are never rewritten.
+def _no_presence_claim(text: str) -> str:
+    text = re.sub(r"\s*\(already in [^)]*\)", "", text)
+    text = re.sub(r"\brefs/([A-Za-z0-9_.+-]+\.pdf)\b", r"\1 (not redistributed)", text)
+    return text
+
+
 def history_page(repo_root: Path, repo: Repo) -> str:
     files = sorted((repo_root / "rigor").glob("PHASE*_STATUS.md"),
                    key=lambda p: (len(p.name), p.name))
@@ -843,7 +845,9 @@ def history_page(repo_root: Path, repo: Repo) -> str:
 
         def flush():
             if bullet is not None:
-                pending.append("- " + first_sentence(bullet))
+                # a status file may name a file a clone will not have; the file itself
+                # is the historical record and stays as written, the page does not
+                pending.append("- " + _no_presence_claim(first_sentence(bullet)))
 
         for line in lines:
             if line.startswith("# "):
