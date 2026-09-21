@@ -30,5 +30,7 @@ keywords:
 license: CC-BY-4.0
 license-url: https://creativecommons.org/licenses/by/4.0/
 # The code under numerics/ and tools/ is MIT; see LICENSE for the split.
-# A DOI will be added once the papers are on arXiv and the repository is
-# deposited with Zenodo (release v0.1.0-draft is not archived).
+# There is no DOI and no preprint: the project is ongoing and nothing has been
+# submitted. Release v0.1.0-draft is a snapshot of the drafts, not an archived
+# version. A DOI would follow a Zenodo deposit, which in turn would follow the
+# papers being posted, both at a later stage.

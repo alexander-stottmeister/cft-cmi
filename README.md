@@ -8,6 +8,10 @@
 > pass did not break; `numerical` means a measurement with an error bar and is not a theorem;
 > `conjectural` means neither. No result here has yet been refereed by a human other than me.
 > Section 11 says exactly what the agents did, in the same words as the papers.
+>
+> The work is **ongoing**. Nothing here has been submitted anywhere: the two papers are
+> drafts, not preprints, and there is no arXiv posting to cite. Results still move, and the
+> open problems in section 8 are live rather than decorative.
 
 Alexander Stottmeister, Institut für Theoretische Physik, Leibniz Universität Hannover.
 
