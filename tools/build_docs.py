@@ -811,7 +811,7 @@ def pipes_in_code_spans(line: str) -> str:
     GFM splits a table row on every unescaped pipe BEFORE it looks for code spans, so
     `||u||^2` inside backticks silently becomes four extra cells.  The author of the
     source meant one cell; escaping restores that without touching the source."""
-    out, i, in_code = [], 0, False
+    out, i = [], 0
     while i < len(line):
         c = line[i]
         if c == "\\" and i + 1 < len(line):
@@ -819,11 +819,15 @@ def pipes_in_code_spans(line: str) -> str:
             i += 2
             continue
         if c == "`":
-            in_code = not in_code
-        if c == "|" and in_code:
-            out.append("\\|")
-        else:
-            out.append(c)
+            close = line.find("`", i + 1)
+            if close < 0:                      # an unpaired tick opens no span
+                out.append(c)
+                i += 1
+                continue
+            out.append(line[i:close + 1].replace("|", "\\|"))
+            i = close + 1
+            continue
+        out.append(c)
         i += 1
     return "".join(out)
 
@@ -981,6 +985,28 @@ def tex_to_md(tex: str) -> str:
     return tex.strip()
 
 
+def _escape_bare_pipes(cell: str) -> str:
+    """Escape a pipe that is not already escaped, counting the backslashes.
+
+    A lookbehind for one backslash is not enough: in `\\|` the bar is live, because
+    the pair before it is an escaped backslash, and leaving it alone splits the row."""
+    out, i = [], 0
+    while i < len(cell):
+        if cell[i] == "\\":
+            run = 0
+            while i + run < len(cell) and cell[i + run] == "\\":
+                run += 1
+            out.append(cell[i:i + run])
+            i += run
+            if i < len(cell) and cell[i] == "|":
+                out.append("|" if run % 2 else "\\|")
+                i += 1
+            continue
+        out.append("\\|" if cell[i] == "|" else cell[i])
+        i += 1
+    return "".join(out)
+
+
 def tabular_to_md(tex: str) -> str:
     m = re.search(r"\\begin\{tabular\}\{[^}]*\}(.*?)\\end\{tabular\}", tex, re.S)
     if not m:
@@ -995,8 +1021,7 @@ def tabular_to_md(tex: str) -> str:
         # Escape only an UNESCAPED pipe: the LaTeX in these appendices writes norm
         # bars as \|, and blindly escaping that gives \\| -- an escaped backslash
         # followed by a live cell delimiter, which shreds the row.
-        table.append("| " + " | ".join(re.sub(r"(?<!\\)\|", r"\\|", c)
-                                       for c in cells) + " |")
+        table.append("| " + " | ".join(_escape_bare_pipes(c) for c in cells) + " |")
         if i == 0:
             table.append("|" + "---|" * len(cells))
     return tex[:m.start()] + "\n" + "\n".join(table) + "\n" + tex[m.end():]

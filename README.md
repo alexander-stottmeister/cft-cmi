@@ -34,10 +34,10 @@ can read in a browser, starting at
 [every claim by area](https://alexander-stottmeister.github.io/cft-cmi/read/status.html). **That
 address does not serve anything yet.** The site is built and committed, but the repository is
 private and the Pages deploy job in [`.github/workflows/check.yml`](.github/workflows/check.yml) is
-deliberately disabled. Publishing needs two things: the repository going public, because the free
-tier serves Pages for public repositories only, and the `if: false` on that job being removed. Until
-then the same content is in [`docs/`](docs/), and GitHub renders the Markdown when you browse it
-here.
+deliberately disabled. Publishing needs three things: the repository going public, because the free
+tier serves Pages for public repositories only; the `if: false` on that job being removed; and Pages
+enabled once on the repository, which the workflow cannot do for itself. Until then the same content
+is in [`docs/`](docs/), and GitHub renders the Markdown when you browse it here.
 
 ## 1. The four headline results
 

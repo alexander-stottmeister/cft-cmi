@@ -44,7 +44,8 @@ jobs:
         # arrives anyway as a Depends of texlive-latex-extra and is named here only for
         # the record.  lmodern is the one package that had to be added: it carries
         # lmodern.sty, which paper1/main.tex, paper2/main.tex and rigor_preamble.tex all
-        # load on line 2, and its absence is what failed every run before 9aed69a.
+        # load on line 2, and its absence is what failed every papers job before 9aed69a
+        # (the other job failed independently, on the claim map).
         # fonts-lmodern is not a substitute; it ships fonts and no .sty.
         run: |
           sudo apt-get update -qq
@@ -56,10 +57,13 @@ jobs:
       - name: the rigor documents that are expected to build still do
         run: python3 tools/check_rigor_builds.py
 
-  # Written and disabled.  Removing the `if: false` is the whole of what publishing
-  # needs once the repository is public: `enablement: true` turns Pages on and sets its
-  # source to this workflow, so no click in Settings is required, and the free tier
-  # serves Pages for public repositories only, which is why it waits (decision D1).
+  # Written and disabled.  Publishing needs THREE things, as decision D1 says
+  # (rigor/public_site_plan.md): the repository going public, because the free tier
+  # serves Pages for public repositories only; this `if: false` removed; and Pages
+  # enabled once on the repository.  configure-pages has an `enablement` input, but
+  # its own action.yml says it needs a token other than GITHUB_TOKEN, since creating
+  # the site requires Administration (write) and that is not a key of the workflow
+  # `permissions:` schema -- so it cannot do the third step, and is not set here.
   pages:
     if: false
     runs-on: ubuntu-latest
@@ -68,7 +72,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
-        with: { enablement: true }
       - uses: actions/upload-pages-artifact@v3
         with: { path: docs }
       - id: deploy

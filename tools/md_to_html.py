@@ -93,12 +93,23 @@ def _flanking(text: str, start: int, n: int) -> tuple:
 
 
 def _can_open_close(ch: str, text: str, start: int, n: int) -> tuple:
+    """Stricter than CommonMark, deliberately.
+
+    This corpus is mathematics written as plain text, and CommonMark's flanking
+    rules delete characters that carry meaning in it: `XX* >= 0 ... X* <= N` loses
+    both adjoint stars, `M_*` loses four more, and `$\\|f\\|_{\\beta}$` loses its
+    subscript underscores, because a delimiter next to punctuation is a legal
+    opener.  GitHub renders those files exactly that badly.  Here an emphasis run
+    may open only after the start of a line or whitespace, and close only before
+    the end of a line, whitespace or punctuation, which is what the generator's
+    own `**bold**` and `*em*` always look like and what a norm bar never does."""
     left, right, before, after = _flanking(text, start, n)
-    if ch == "*":
-        return left, right
-    # `_` never opens or closes inside a word, so x_m and A_B stay literal.
-    return (left and (not right or _punct(before)),
-            right and (not left or _punct(after)))
+    opens = left and _ws(before)
+    closes = right and (_ws(after) or _punct(after))
+    if ch == "_":                     # and never inside a word
+        opens = opens and (not right or _punct(before))
+        closes = closes and (not left or _punct(after))
+    return opens, closes
 
 
 def _run_length(text: str, i: int, ch: str) -> int:
@@ -130,8 +141,14 @@ def _find_closer(text: str, start: int, ch: str, n: int) -> int:
     return -1
 
 
-def inline(text: str, link) -> str:
-    """Render one run of inline Markdown.  `link` rewrites a link target."""
+BARE_URL = re.compile(r"https?://[^\s<>\"]+")
+
+
+def inline(text: str, link, autolink: bool = True) -> str:
+    """Render one run of inline Markdown.  `link` rewrites a link target.
+
+    `autolink` is false inside a link's own label, where a bare URL would nest
+    one anchor inside another."""
     out = []
     i = 0
     n = len(text)
@@ -161,7 +178,8 @@ def inline(text: str, link) -> str:
                 continue
             label = text[i + 1:end]
             target = text[end + 2:close]
-            out.append('<a href="%s">%s</a>' % (attr(link(target)), inline(label, link)))
+            out.append('<a href="%s">%s</a>'
+                       % (attr(link(target)), inline(label, link, autolink=False)))
             i = close + 1
         elif c in "*_":
             run = min(_run_length(text, i, c), 2)
@@ -174,6 +192,13 @@ def inline(text: str, link) -> str:
                 tag = "strong" if run == 2 else "em"
                 out.append("<%s>%s</%s>" % (tag, inline(text[i + run:j], link), tag))
                 i = j + run
+        elif autolink and text.startswith(("http://", "https://"), i):
+            m = BARE_URL.match(text, i)
+            url = m.group(0).rstrip(".,;:!?")
+            while url.endswith(")") and url.count("(") < url.count(")"):
+                url = url[:-1]
+            out.append('<a href="%s">%s</a>' % (attr(url), esc(url)))
+            i += len(url)
         else:
             out.append(esc(c))
             i += 1
@@ -222,22 +247,32 @@ def split_row(row: str) -> list:
 # is a hard error instead.  This is what makes the subset closed: the paragraph
 # branch is the fallback for PROSE, never for an unrecognised construct.
 UNSUPPORTED_LINE = [
-    (re.compile(r"^\s*\d+\. "), "ordered list"),
+    (re.compile(r"^\s*\d+[.)] "), "ordered list"),
     (re.compile(r"^\s*(```|~~~)"), "fenced code block"),
-    (re.compile(r"^\s+[-*] "), "nested bullet"),
+    (re.compile(r"^\s+[-*+] "), "nested bullet"),
+    (re.compile(r"^\s*\+ "), "list with a + marker"),
     (re.compile(r"^=+\s*$"), "setext heading underline"),
+    (re.compile(r"^_{3,}\s*$"), "underscore thematic break"),
+    (re.compile(r"^\s*([-*_])( +\1){2,} *$"), "spaced thematic break"),
     (re.compile(r"^\s*<(?!!--)(?!a id=\")[A-Za-z!/?]"), "raw HTML block"),
     (re.compile(r"^#{1,6} .*[^\\]#\s*$"), "closed ATX heading"),
     (re.compile(r"\S {2,}$"), "hard line break"),
+    (re.compile(r"[^\\]\\$"), "backslash line break"),
+    (re.compile(r"``"), "doubled backtick code span"),
 ]
 UNSUPPORTED_INLINE = [
     (re.compile(r"(?<!\\)!\["), "image"),
     (re.compile(r"(?<!\\)<https?://"), "autolink"),
     (re.compile(r"(?<!\\)<[^\s>]+@"), "e-mail autolink"),
+    (re.compile(r"(?<!\\)<[A-Za-z/][A-Za-z0-9-]*[\s/>]"), "inline raw HTML tag"),
+    (re.compile(r"(?<!\\)&(?:#[0-9]+|#[xX][0-9A-Fa-f]+|[A-Za-z][A-Za-z0-9]*);"),
+     "HTML entity"),
     (re.compile(r"(?<!\\)\]\["), "reference link"),
-    (re.compile(r"(?<!\\)\]\([^)]*\s+\"[^\"]*\"\)"), "link title"),
+    (re.compile(r"(?<!\\)\]\([^)]*\s"), "link target with whitespace or a title"),
+    (re.compile(r"(?<!\\)\]\(<"), "pointy-bracket link target"),
     (re.compile(r"(?<!\\)~~"), "strikethrough"),
-    (re.compile(r"(?<!\\)\*\*\*"), "triple emphasis"),
+    (re.compile(r"(?<!\\)(\*\*\*|___)"), "triple emphasis"),
+    (re.compile(r"\S<!--|-->\s*\S"), "HTML comment inside a line"),
 ]
 _CODE_SPAN = re.compile(r"`[^`\n]*`")
 
@@ -245,6 +280,8 @@ _CODE_SPAN = re.compile(r"`[^`\n]*`")
 def reject_unsupported(lines: list):
     """Raise on any construct this renderer would mis-render without noticing."""
     for n, raw in enumerate(lines, 1):
+        if ANCHOR.match(raw.rstrip()):        # the one raw tag the subset allows
+            continue
         for pattern, name in UNSUPPORTED_LINE:
             if pattern.search(raw):
                 raise Unsupported("%s at line %d: %r" % (name, n, raw[:70]))
@@ -319,6 +356,17 @@ def render_table(rows: list, link) -> str:
     if len(rows) < 2 or not all(ALIGN.match(c) for c in split_row(rows[1])):
         raise Unsupported("a pipe table without an alignment row: %r" % rows[:2])
     head = split_row(rows[0])
+    # Structural invariant rather than a pattern: a row whose cell count differs
+    # from the header's means the row was split somewhere it should not have been,
+    # and the surplus or missing cell is content the reader would never see.
+    for row in rows[2:]:
+        got = len(split_row(row))
+        if got != len(head):
+            raise Unsupported("table row has %d cells, header has %d: %r"
+                              % (got, len(head), row[:90]))
+    if not all(r.rstrip().endswith("|") for r in rows):
+        raise Unsupported("table row without a closing pipe: %r"
+                          % next(r for r in rows if not r.rstrip().endswith("|"))[:90])
     aligns = ["num" if c.endswith(":") and not c.startswith(":") else ""
               for c in split_row(rows[1])]
 
