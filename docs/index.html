@@ -41,7 +41,7 @@ window.addEventListener('error', function (e) {
   p.textContent = (e.message || 'script error') + (e.filename ? '  \u2014  ' + e.filename + ':' + e.lineno : '');
   d.appendChild(p);
   host.prepend(d);
-});
+}, true);
 </script>
 </head>
 <body>
@@ -132,7 +132,7 @@ like one; <span class="badge certified">certified</span> is a rigorous bound;
 <h2 id="modules">The ten modules</h2>
 <p>Each module carries a status badge per displayed claim, works as text and a static figure with
 JavaScript switched off, and makes no request to any other site.</p>
-<table class="modules">
+<div class="table-wrap"><table class="modules">
 <thead><tr><th>#</th><th>module</th><th>what you do</th><th>state</th></tr></thead>
 <tbody>
 <tr><td>1</td><td><a href="explore/geometry.html">Geometry and the recovery map</a></td><td>drag the four endpoints; watch <span data-tex="z">z</span>, <span data-tex="\zeta">&zeta;</span>, the cross ratio and the Longo&ndash;Xu CMI</td><td>live</td></tr>
@@ -146,13 +146,13 @@ JavaScript switched off, and makes no request to any other site.</p>
 <tr><td>9</td><td><a href="explore/relative-entropy.html">Relative entropy: the conjecture and its bracket</a></td><td>the proved bracket against the conjecture and the measurement</td><td>built</td></tr>
 <tr><td>10</td><td><a href="explore/claim-map.html">The claim map</a></td><td>every claim as a graph, filtered by status</td><td>built</td></tr>
 </tbody>
-</table>
+</table></div>
 
 <h2>The documentation</h2>
 <p>The same folder carries a generated set of pages: what is claimed, with what status, and where
 the proof lives. They are produced from the project's knowledge base by
 <code>tools/build_docs.py</code>, so they cannot drift from it.</p>
-<table>
+<div class="table-wrap"><table>
 <tbody>
 <tr><td><a href="index.md">index.md</a></td><td>the map: four results, ten modules, the sections below</td></tr>
 <tr><td><a href="status.md">status.md</a></td><td>every claim, grouped by area, with status and one-line statement</td></tr>
@@ -163,7 +163,7 @@ the proof lives. They are produced from the project's knowledge base by
 <tr><td><a href="sources.md">sources.md</a></td><td>external results relied upon, and whether they can be obtained</td></tr>
 <tr><td><a href="history.md">history.md</a></td><td>phases 1 to 6, what each settled, and the errata</td></tr>
 </tbody>
-</table>
+</table></div>
 <p>The two papers are attached as PDFs to the
 <a href="https://github.com/alexander-stottmeister/cft-cmi/releases/latest" rel="noopener">latest release</a>,
 so a citation points at a fixed version rather than a moving file. The M&ouml;bius layer that module 6

@@ -45,7 +45,7 @@ window.addEventListener('error', function (e) {
   p.textContent = (e.message || 'script error') + (e.filename ? '  \u2014  ' + e.filename + ':' + e.lineno : '');
   d.appendChild(p);
   host.prepend(d);
-});
+}, true);
 </script>
 </head>
 <body>
@@ -190,11 +190,11 @@ so that it contributes nothing. Both are reproduced, with the document's own num
 
 <div class="panel">
   <h3 style="margin-top:0">The steps, and Theorem 5.2 applied to each</h3>
-  <table class="steps"><thead><tr>
+  <div class="table-wrap"><table class="steps"><thead><tr>
     <th>m</th><th>conditions on</th><th>adjoins</th><th class="num">&sigma;<sub>m</sub></th>
     <th class="num">corner p<sup>(m)</sup></th><th class="num">x<sub>m</sub></th>
     <th class="num">G&prime;<sub>m</sub>(x<sub>m</sub>)</th><th class="num">mass</th><th></th>
-  </tr></thead><tbody id="steptable"></tbody></table>
+  </tr></thead><tbody id="steptable"></tbody></table></div>
   <p class="provenance" id="crosscheck"></p>
 </div>
 

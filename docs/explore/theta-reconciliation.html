@@ -31,7 +31,7 @@ window.addEventListener('error', function (e) {
   p.textContent = (e.message || 'script error') + (e.filename ? '  —  ' + e.filename + ':' + e.lineno : '');
   d.appendChild(p);
   host.prepend(d);
-});
+}, true);
 </script>
 </head>
 <body>
@@ -200,14 +200,14 @@ ultraviolet-taper independent; and its non-perturbative figure is a consistency 
 tapered model, not a measurement of <span data-tex="1-\theta">1&minus;&theta;</span>.</p>
 
 <h2>Claims this module carries</h2>
-<table>
+<div class="table-wrap"><table>
 <thead><tr><th>claim</th><th>status</th></tr></thead>
 <tbody>
 <tr><td><a href="../results/circle-model-taper-suppresses-theta.md">the circle model's taper suppresses &theta;</a></td><td><span class="badge numerical">numerical</span></td></tr>
 <tr><td><a href="../status.md#area-optimality">finite spectral models do not resolve exact fidelities</a></td><td><span class="badge" title="a numerical lesson the phase referees accepted">verified</span></td></tr>
 <tr><td><a href="../results/theta-value.md">&theta; = 0.384 &plusmn; 0.003, the reconciled value</a></td><td><span class="badge numerical">numerical</span></td></tr>
 </tbody>
-</table>
+</table></div>
 </main>
 
 <footer class="site"><div class="wrap">

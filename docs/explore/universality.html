@@ -31,7 +31,7 @@ window.addEventListener('error', function (e) {
   p.textContent = (e.message || 'script error') + (e.filename ? '  —  ' + e.filename + ':' + e.lineno : '');
   d.appendChild(p);
   host.prepend(d);
-});
+}, true);
 </script>
 </head>
 <body>
@@ -201,7 +201,7 @@ evidence at any other central charge.</p>
 </div>
 
 <h2>Claims this module carries</h2>
-<table>
+<div class="table-wrap"><table>
 <thead><tr><th>claim</th><th>status</th></tr></thead>
 <tbody>
 <tr><td><a href="../results/thm-b-universality.md">Theorem B: f&#8322; = c/(12&pi;&sup2;) for every diffeomorphism-covariant net</a></td><td><span class="badge refereed">refereed</span> <span class="badge conditional" title="conditional on H1, H2, H3">conditional</span></td></tr>
@@ -211,7 +211,7 @@ evidence at any other central charge.</p>
 <tr><td><a href="../results/two-chirality-law.md">the two-chirality law for 2D CFTs</a></td><td><span class="badge proved">proved</span></td></tr>
 <tr><td><a href="../results/boson-check.md">the bosonic check: the U(1) current net agrees</a></td><td><span class="badge numerical">numerical</span></td></tr>
 </tbody>
-</table>
+</table></div>
 </main>
 
 <footer class="site"><div class="wrap">

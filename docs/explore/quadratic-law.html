@@ -31,7 +31,7 @@ window.addEventListener('error', function (e) {
   p.textContent = (e.message || 'script error') + (e.filename ? '  \u2014  ' + e.filename + ':' + e.lineno : '');
   d.appendChild(p);
   host.prepend(d);
-});
+}, true);
 </script>
 </head>
 <body>
@@ -134,7 +134,7 @@ the cross ratio grows.</p>
 </div>
 
 <h2>Claims this module carries</h2>
-<table>
+<div class="table-wrap"><table>
 <thead><tr><th>claim</th><th>status</th></tr></thead>
 <tbody>
 <tr><td><a href="../results/thm-a-quadratic-law.md">Theorem A: the quadratic law</a></td><td><span class="badge refereed">refereed</span></td></tr>
@@ -147,7 +147,7 @@ the cross ratio grows.</p>
 <tr><td><a href="../results/certified-numerics.md">certified enclosures of the windowed error</a></td><td><span class="badge numerical">numerical</span></td></tr>
 <tr><td><a href="../results/large-zeta-values.md">&Phi; at large &zeta; and the drifting exponent</a></td><td><span class="badge numerical">numerical</span></td></tr>
 </tbody>
-</table>
+</table></div>
 </main>
 
 <footer class="site"><div class="wrap">

@@ -43,7 +43,13 @@ export function logTicks(lo, hi) {
 export function fmt(v, sig = 4) {
   if (v === null || v === undefined || !isFinite(v)) return '—';
   const a = Math.abs(v);
-  if (a !== 0 && (a < 1e-3 || a >= 1e5)) return v.toExponential(Math.max(0, sig - 1)).replace('e', '×10^');
+  if (a !== 0 && (a < 1e-3 || a >= 1e5)) {
+    // the same superscript form ui.js uses, so one readout cannot show two
+    // notations for the same kind of number (REF-MOD710)
+    const [mant, ex] = v.toExponential(Math.max(0, sig - 1)).split('e');
+    const digits = String(Math.abs(Number(ex))).split('').map(d => '\u2070\u00b9\u00b2\u00b3\u2074\u2075\u2076\u2077\u2078\u2079'[+d]).join('');
+    return mant + '\u00d710' + (Number(ex) < 0 ? '\u207b' : '') + digits;
+  }
   return String(+v.toPrecision(sig));
 }
 

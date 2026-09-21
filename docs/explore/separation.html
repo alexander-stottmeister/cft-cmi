@@ -33,7 +33,7 @@ window.addEventListener('error', function (e) {
   p.textContent = (e.message || 'script error') + (e.filename ? '  —  ' + e.filename + ':' + e.lineno : '');
   d.appendChild(p);
   host.prepend(d);
-});
+}, true);
 </script>
 </head>
 <body>
@@ -203,13 +203,13 @@ from its output file, with the line they came from under each number.</p>
 </div>
 
 <h2>Claims this module carries</h2>
-<table>
+<div class="table-wrap"><table>
 <thead><tr><th>claim</th><th>status</th></tr></thead>
 <tbody>
 <tr><td><a href="../results/corner-separation-constraint.md">the separation constraint, Theorem 11.1</a></td><td><span class="badge proved">proved</span></td></tr>
 <tr><td><a href="../results/network-second-order-law.md">the second-order network law</a></td><td><span class="badge conjectural">conjectural</span></td></tr>
 </tbody>
-</table>
+</table></div>
 <p class="provenance">The second row is a conjecture: only its separation constraint is proved, and its
 remainder and its kernel <span data-tex="\widehat G">&Gcirc;</span> are open.</p>
 </main>
@@ -244,7 +244,13 @@ let D = null;
 enableJS();
 try {
   D = await loadData('../data/extra-separation.json');
-  const rec = (series, eps) => D.series(series).find(r => Math.abs(r.x - eps) < 1e-12);
+  const rec = (series, eps) => {
+    const r = D.series(series).find(q => Math.abs(q.x - eps) < 1e-12);
+    // a missing record must fail loudly, like D.get: rendering an em dash would
+    // leave has-js set and quietly show nothing (REF-MOD710 D6)
+    if (!r) throw new Error('no record in ' + series + ' at eps = ' + eps);
+    return r;
+  };
 
   // ------------------------------------------------ the strengths, draggable
   const zPlot = new Plot(document.getElementById('zplot'), {
@@ -374,7 +380,7 @@ try {
     const line = document.getElementById('checkline');
     line.replaceChildren(document.createTextNode('Independent checks: '));
     for (const r of D.series('check')) {
-      line.appendChild(h('span', {}, [r.label.split(':')[0].split('(')[0].trim() + ' = ']));
+      line.appendChild(h('span', {}, [r.label.split(':')[0].trim() + ' = ']));
       line.appendChild(renderRecord(r, { sig: 9 }));
       line.appendChild(document.createTextNode(' · '));
     }

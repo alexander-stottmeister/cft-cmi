@@ -44,7 +44,7 @@
    "error": null,
    "source": "rigor/kubo_mori_gauge_lemma.tex",
    "line": 42,
-   "status": "refuted",
+   "status": "proved",
    "id": "gauge.factor",
    "label": "the Phase-2b gauge lemma claimed inf = c/6; the true infimum is larger by this factor, so the lemma is false"
   },

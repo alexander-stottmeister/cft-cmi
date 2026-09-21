@@ -34,7 +34,7 @@ window.addEventListener('error', function (e) {
   p.textContent = (e.message || 'script error') + (e.filename ? '  —  ' + e.filename + ':' + e.lineno : '');
   d.appendChild(p);
   host.prepend(d);
-});
+}, true);
 </script>
 </head>
 <body>
@@ -166,7 +166,7 @@ not resolve.</p>
 
 <div class="map-wrap">
   <div class="panel">
-    <svg id="graph" class="map" role="img" aria-label="The areas as a ring, each carrying its cards as dots coloured by status"></svg>
+    <svg id="graph" class="map" role="group" aria-label="The areas as a ring, each carrying its cards as dots coloured by status"></svg>
     <p class="hint" id="legend"></p>
     <p class="hint">Clicking a dot opens its card. Every card is also in the list beside the graph,
       which is reachable with the keyboard.</p>

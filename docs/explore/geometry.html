@@ -31,7 +31,7 @@ window.addEventListener('error', function (e) {
   p.textContent = (e.message || 'script error') + (e.filename ? '  \u2014  ' + e.filename + ':' + e.lineno : '');
   d.appendChild(p);
   host.prepend(d);
-});
+}, true);
 </script>
 </head>
 <body>
@@ -97,7 +97,7 @@ conditional mutual information moves with it.</p>
 <p>All four are M&ouml;bius invariants of the same configuration, and the conventions are fixed once in
 <a href="../notation.md">the symbol table</a> and in
 <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/paper1/app_conventions.tex#L85" rel="noopener">paper1/app_conventions.tex:85</a>:</p>
-<table>
+<div class="table-wrap"><table>
 <thead><tr><th>symbol</th><th>value</th><th>what it is</th></tr></thead>
 <tbody>
 <tr><td><span data-tex="\eta">&eta;</span></td><td class="mono">b(a+b+c) / ((a+b)(b+c))</td><td>the cross ratio of Note&nbsp;1; the CMI is <span data-tex="-\frac{c}{6}\log\eta">&minus;(c/6) log &eta;</span></td></tr>
@@ -105,7 +105,7 @@ conditional mutual information moves with it.</p>
 <tr><td><span data-tex="\eta_{\rm V}">&eta;<sub>V</sub></span></td><td class="mono">1 &minus; &eta; = z/(1+z)</td><td>the cross ratio of Vardhan&ndash;Wei&ndash;Zou</td></tr>
 <tr><td><span data-tex="\zeta">&zeta;</span></td><td class="mono">as / (a+L)</td><td>the recovery variable; <span data-tex="1+\zeta">1+&zeta;</span> is the cross ratio of <span data-tex="J_s">J<sub>s</sub></span> inside <span data-tex="I">I</span></td></tr>
 </tbody>
-</table>
+</table></div>
 <p>For the ordinary Petz map <span data-tex="\zeta=2z">&zeta; = 2z</span>; for the rotated map
 <span data-tex="\zeta_t=z(1+e^{-2\pi t})">&zeta;<sub>t</sub> = z(1+e<sup>&minus;2&pi;t</sup>)</span>;
 for the pure geometric compression <span data-tex="\zeta=z">&zeta; = z</span>.</p>

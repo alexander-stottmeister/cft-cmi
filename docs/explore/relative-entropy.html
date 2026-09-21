@@ -33,7 +33,7 @@ window.addEventListener('error', function (e) {
   p.textContent = (e.message || 'script error') + (e.filename ? '  —  ' + e.filename + ':' + e.lineno : '');
   d.appendChild(p);
   host.prepend(d);
-});
+}, true);
 </script>
 </head>
 <body>
@@ -213,7 +213,7 @@ two ends are conditional, on a hypothesis that is open and on a source that was 
 </div>
 
 <h2>Claims this module carries</h2>
-<table>
+<div class="table-wrap"><table>
 <thead><tr><th>claim</th><th>status</th></tr></thead>
 <tbody>
 <tr><td><a href="../results/conj-s2.md">s&#8322; = c/12 for general nets</a></td><td><span class="badge conjectural">conjectural</span></td></tr>
@@ -222,7 +222,7 @@ two ends are conditional, on a hypothesis that is open and on a source that was 
 <tr><td><a href="../results/km-exact-identity.md">the exact identity on unitary orbits</a></td><td><span class="badge proved">proved</span></td></tr>
 <tr><td><a href="claim-map.html#km-gauge-lemma-refuted">the gauge lemma by restriction to A(K)</a></td><td><span class="badge refuted">refuted</span></td></tr>
 </tbody>
-</table>
+</table></div>
 <p class="provenance">Compare <a href="quadratic-law.html">module 2</a>: the fidelity coefficient
 <span data-tex="f_2=c/(12\pi^2)">f&#8322; = c/(12&pi;&sup2;)</span> is a refereed theorem. The
 relative-entropy coefficient is the open one.</p>

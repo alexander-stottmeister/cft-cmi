@@ -131,7 +131,10 @@ figcaption { font-size: .85rem; color: var(--muted); margin-top: .4rem; max-widt
 .readout .k { font-size: .78rem; color: var(--muted); display: block; }
 .readout .v { font-family: var(--mono); font-size: .95rem; }
 
-table { border-collapse: collapse; width: 100%; font-size: .88rem; display: block; overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: .88rem; }
+/* display:block on a table strips its role from assistive technology, so the
+   scrolling lives on a wrapper and every table stays a table (REF-MOD710). */
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; }
 th, td { text-align: left; padding: .32rem .55rem; border-bottom: 1px solid var(--line-soft); }
 th { font-weight: 600; color: var(--muted); font-size: .8rem; letter-spacing: .02em; }
 td.num, th.num { text-align: right; font-family: var(--mono); }

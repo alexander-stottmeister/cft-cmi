@@ -500,7 +500,7 @@ def build_relative_entropy():
 
     ln1, m = _one(src, lines, r"\\;=\\;(%s)\\times\\frac c6" % _NUM,
                   "the factor by which the gauge lemma is false")
-    records.append(record("gauge.factor", float(m.group(1)), None, src, ln1, "refuted",
+    records.append(record("gauge.factor", float(m.group(1)), None, src, ln1, "proved",
                           label="the Phase-2b gauge lemma claimed inf = c/6; the true infimum is "
                                 "larger by this factor, so the lemma is false"))
 
