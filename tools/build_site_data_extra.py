@@ -677,7 +677,21 @@ def build_claim_map():
     cards, priv, pub, kbp, missing, never, uncommitted = [], 0, 0, 0, 0, 0, 0
     pending = 0
     priv_targets = set()
-    for p in sorted((KB / "claims").glob("*.md")):
+    # Which cards the map shows, and why: every card of claims/, plus a card of
+    # evidence/ that has reached a displayed status, which is the rule
+    # tools/build_docs.py uses for the generated pages.  Holding the two
+    # surfaces to one rule is the point: a card on one and not the other would
+    # be a card quietly left out.  The findings that stay behind are counted.
+    PROMOTED = ("refereed", "proved", "numerical", "conjectural")
+    sources = [(p, "claims") for p in sorted((KB / "claims").glob("*.md"))]
+    findings_left = 0
+    for p in sorted((KB / "evidence").glob("*.md")):
+        fm0, _ = _front_matter(p)
+        if fm0.get("status", "").strip() in PROMOTED:
+            sources.append((p, "evidence"))
+        else:
+            findings_left += 1
+    for p, origin in sources:
         fm, sec = _front_matter(p)
         review = fm.get("review", "").strip()
         verdict = re.match(r"^(passed|FAILED)\b", review)
@@ -709,6 +723,7 @@ def build_claim_map():
         page = "%s.md" % fm["id"]
         cards.append({
             "id": fm["id"],
+            "origin": origin,
             "title": fm.get("title", fm["id"]),
             "type": fm.get("type", "result"),
             "status": fm.get("status", "open"),
@@ -777,6 +792,12 @@ def build_claim_map():
         ("count.edges", len(edges), "related-to edges between cards"),
         ("count.with_page", sum(1 for c in cards if c["page"]),
          "cards that also have a generated page under docs/results/"),
+        ("count.promoted", sum(1 for c in cards if c["origin"] == "evidence"),
+         "cards that started as findings in the knowledge base's evidence folder and reached a "
+         "displayed status"),
+        ("count.findings_left", findings_left,
+         "findings that stay in the knowledge base because they reached no displayed status: they "
+         "are audit records, not claims"),
     ]
     records = [record(rid, value, None, "docs/data/extra-claim-map.json", 0, "numerical",
                       label=label,

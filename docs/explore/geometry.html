@@ -233,7 +233,11 @@ function drawLine(P) {
       stroke: 'var(--fg)', 'stroke-width': 2 }, P.root);
     draggable(P, c, {
       label: 'endpoint ' + (i + 1) + ', currently ' + S.p[i].toFixed(2),
+      key: 'endpoint-' + i,
       step: 0.05,
+      aria: { min: i === 0 ? WIN[0] : S.p[i - 1] + GAP,
+              max: i === 3 ? WIN[1] : S.p[i + 1] - GAP,
+              now: S.p[i], text: S.p[i].toFixed(2) },
       onMove: (x, y, ev, dx) => { setPoint(i, dx === undefined ? x : S.p[i] + dx); }
     });
   }

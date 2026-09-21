@@ -248,14 +248,16 @@ export class Plot {
     redraws (and so replaces) its handles on every update, and a listener bound
     to the node would lose the drag on the first move. */
 export function draggable(plot, node, opts) {
-  const { onMove, step = 0.01, axis = 'x', label } = opts || {};
+  const { onMove, step = 0.01, axis = 'x', label, key } = opts || {};
   node.classList.add('handle');
   node.setAttribute('tabindex', '0');
   node.setAttribute('role', 'slider');
-  if (label) {
-    node.setAttribute('aria-label', label);
-    node.setAttribute('data-handle-key', label);
-  }
+  if (label) node.setAttribute('aria-label', label);
+  // The focus key must be STABLE across a re-render.  Defaulting it to the label
+  // is wrong whenever the label carries the current value, which is exactly what
+  // a good aria-label does, so pass `key` for anything value-bearing (P4b).
+  const focusKey = key || label;
+  if (focusKey) node.setAttribute('data-handle-key', focusKey);
   if (opts && opts.aria) {
     const a = opts.aria;
     if (a.min !== undefined) node.setAttribute('aria-valuemin', String(a.min));

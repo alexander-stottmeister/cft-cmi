@@ -182,6 +182,13 @@ module displays: the open questions, the lessons learned, the decisions, and the
 something that turned out to be false. A reader who wants to know what this project believes, and how
 firmly, should be able to find every one of them in a single place, with the same status vocabulary
 throughout and no card quietly left out.</p>
+<p>Which cards those are is decided by one rule, the same rule the generated Markdown pages use: every
+card of the knowledge base's <code>claims/</code> folder, and every card of its <code>evidence/</code>
+folder that has reached a displayed status &mdash; a finding promoted to a result. The findings that
+have not are audit records of what an adversarial pass found in a document, not claims about the
+mathematics; their number is in the count above, and the claims they support carry them as evidence.
+Holding both surfaces to one rule is the point: a card on one and not the other would be a card
+quietly left out.</p>
 </main>
 
 <footer class="site"><div class="wrap">
@@ -226,7 +233,7 @@ try {
     a.y = CY + RH * Math.sin(th);
     const mine = CARDS.filter(c => c.area === a.id);
     mine.forEach((c, i) => {
-      const r = 24 + 5.8 * Math.sqrt(i), ang = th + i * GOLD;
+      const r = 27 + 6.2 * Math.sqrt(i), ang = th + i * GOLD;
       pos.set(c.id, { x: a.x + r * Math.cos(ang), y: a.y + r * Math.sin(ang) });
     });
   });
@@ -254,14 +261,14 @@ try {
         class: 'edge' + (e.cross ? ' cross' : ''), opacity: on ? 0.85 : 0.12 }, g);
     }
     for (const a of AREAS) {
-      svgEl('circle', { cx: a.x, cy: a.y, r: 13, class: 'hub' }, g);
-      const t = svgEl('text', { x: a.x, y: a.y - 20, class: 'hublabel',
+      svgEl('circle', { cx: a.x, cy: a.y, r: 15, class: 'hub' }, g);
+      const t = svgEl('text', { x: a.x, y: a.y - 22, class: 'hublabel',
         'text-anchor': 'middle' }, g);
       t.textContent = a.id + ' (' + a.n + ')';
     }
     for (const c of CARDS) {
       const p = pos.get(c.id), on = passes(c);
-      const node = svgEl('circle', { cx: p.x, cy: p.y, r: S.sel === c.id ? 8 : 5.5,
+      const node = svgEl('circle', { cx: p.x, cy: p.y, r: S.sel === c.id ? 9.5 : 6.5,
         fill: colour(c.status),
         class: 'node' + (on ? '' : ' dim') + (S.sel === c.id ? ' sel' : '') }, g);
       const title = svgEl('title', {}, node);
@@ -339,6 +346,8 @@ try {
       c.refereed && c.awaiting_review
         ? h('span', { class: 'chip', text: 'awaiting a referee pass' }) : null,
       c.review_failed ? h('span', { class: 'chip failed', text: 'last verdict failed' }) : null,
+      c.origin === 'evidence'
+        ? h('span', { class: 'chip', text: 'promoted finding' }) : null,
       h('span', { class: 'claim-title', text: c.title })
     ]);
     const meta = h('p', { class: 'provenance' }, [
@@ -407,7 +416,9 @@ try {
       cell('pointers into the knowledge base itself', renderRecord(D.get('count.kb_pointers'))),
       cell('pointers to files not committed yet', renderRecord(D.get('count.uncommitted_pointers'))),
       cell('pointers whose target is missing', renderRecord(D.get('count.missing_pointers'))),
-      cell('related-to edges', renderRecord(D.get('count.edges')))
+      cell('related-to edges', renderRecord(D.get('count.edges'))),
+      cell('findings promoted to a displayed status', renderRecord(D.get('count.promoted'))),
+      cell('findings that stay in the knowledge base', renderRecord(D.get('count.findings_left')))
     );
   }
 

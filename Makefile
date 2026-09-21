@@ -28,6 +28,7 @@ figures:
 data:
 	@test -f tools/build_site_data.py || { echo "tools/build_site_data.py not present yet"; exit 1; }
 	$(PYTHON) tools/build_site_data.py
+	@test -f tools/build_site_data_extra.py && $(PYTHON) tools/build_site_data_extra.py || true
 
 papers:
 	cd paper1 && pdflatex -halt-on-error -interaction=nonstopmode main.tex >/dev/null && pdflatex -halt-on-error -interaction=nonstopmode main.tex >/dev/null
@@ -39,6 +40,7 @@ papers:
 check:
 	$(PYTHON) tools/build_docs.py --check
 	@if [ -f tools/build_site_data.py ]; then $(PYTHON) tools/build_site_data.py --check; else echo "site data: no extractor yet, skipped"; fi
+	@if [ -f tools/build_site_data_extra.py ]; then $(PYTHON) tools/build_site_data_extra.py --check; fi
 
 site: figures data docs
 	@echo "serving docs/ at http://localhost:8000  (ctrl-c to stop)"

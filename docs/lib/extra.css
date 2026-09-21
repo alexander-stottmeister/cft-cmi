@@ -33,7 +33,7 @@ svg.map .edge.cross { stroke: var(--series-4); stroke-dasharray: 3 3; }
 svg.map .node { stroke: var(--panel); stroke-width: 1.2; cursor: pointer; }
 svg.map .node.sel { stroke: var(--fg); stroke-width: 2.4; }
 svg.map .node.dim { opacity: .18; }
-svg.map text.hublabel { fill: var(--fg); font: 600 11px var(--sans); }
+svg.map text.hublabel { fill: var(--fg); font: 600 17px var(--sans); }
 svg.map [tabindex]:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 
 .cardlist { max-height: 26rem; overflow-y: auto; border: 1px solid var(--line-soft); border-radius: 6px; }

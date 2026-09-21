@@ -36,7 +36,7 @@
    "title": "Optimality of recovery channels (O8, Phases 3 and 3b)",
    "status": "active",
    "order": 5,
-   "n": 29
+   "n": 30
   },
   {
    "id": "lattice-thermal",
@@ -394,6 +394,11 @@
    "cross": true
   },
   {
+   "a": "circle-model-taper-suppresses-theta",
+   "b": "interactive-site-modules-3-4-5",
+   "cross": true
+  },
+  {
    "a": "interactive-site-modules-3-4-5",
    "b": "spectral-model-uv-pollution",
    "cross": true
@@ -719,6 +724,11 @@
    "cross": false
   },
   {
+   "a": "circle-model-taper-suppresses-theta",
+   "b": "theta-value",
+   "cross": false
+  },
+  {
    "a": "const-f2",
    "b": "thm-a-quadratic-law",
    "cross": false
@@ -787,11 +797,22 @@
    "a": "const-f2",
    "b": "vwz-protocol-ordering",
    "cross": true
+  },
+  {
+   "a": "circle-model-taper-suppresses-theta",
+   "b": "phase5-plan",
+   "cross": false
+  },
+  {
+   "a": "circle-model-taper-suppresses-theta",
+   "b": "theta-modular-wiener-hopf",
+   "cross": false
   }
  ],
  "cards": [
   {
    "id": "ac-lower-bound-zero",
+   "origin": "claims",
    "title": "The A-C restriction lower bound is exactly zero",
    "type": "result",
    "status": "proved",
@@ -823,6 +844,7 @@
   },
   {
    "id": "all-channel-equals-quasi-free",
+   "origin": "claims",
    "title": "All-channel second-order optimum = quasi-free SDP value",
    "type": "theorem",
    "status": "proved",
@@ -863,6 +885,7 @@
   },
   {
    "id": "all-channel-optimum-value",
+   "origin": "claims",
    "title": "The all-channel second-order optimum equals the isometric-orbit value: kappa_opt = 1 - theta = 0.616 +- 0.003 (numerical; conditional on H1, H2, H3)",
    "type": "result",
    "status": "numerical",
@@ -939,6 +962,7 @@
   },
   {
    "id": "all-channels-symbol-feasible",
+   "origin": "claims",
    "title": "Every recovery channel's recovered symbol is quasi-free feasible",
    "type": "theorem",
    "status": "proved",
@@ -973,6 +997,7 @@
   },
   {
    "id": "boson-check",
+   "origin": "claims",
    "title": "Bosonic check: U(1) current net agrees",
    "type": "result",
    "status": "numerical",
@@ -1003,6 +1028,7 @@
   },
   {
    "id": "certified-numerics",
+   "origin": "claims",
    "title": "Certified enclosures of the compressed recovery error",
    "type": "result",
    "status": "numerical",
@@ -1038,6 +1064,7 @@
   },
   {
    "id": "cmi-markov-defect-interpretation",
+   "origin": "claims",
    "title": "CMI as the data-processing defect of tracing out C (Note 2)",
    "type": "result",
    "status": "proved",
@@ -1068,6 +1095,7 @@
   },
   {
    "id": "compression-not-optimal-exact-fidelity",
+   "origin": "claims",
    "title": "E_rec <= (1-theta) f2 z^2 (1+o(1)): the zero-collar compression is NOT optimal in exact fidelity",
    "type": "result",
    "status": "numerical",
@@ -1110,6 +1138,7 @@
   },
   {
    "id": "compression-not-second-order-minimiser",
+   "origin": "claims",
    "title": "The compression is not the minimiser of the second-order functional",
    "type": "result",
    "status": "numerical",
@@ -1155,6 +1184,7 @@
   },
   {
    "id": "conj-s2",
+   "origin": "claims",
    "title": "s2 = c/12 for general nets",
    "type": "conjecture",
    "status": "conjectural",
@@ -1188,6 +1218,7 @@
   },
   {
    "id": "const-f2",
+   "origin": "claims",
    "title": "f2 = c/(12 pi^2)",
    "type": "constant",
    "status": "proved",
@@ -1218,6 +1249,7 @@
   },
   {
    "id": "const-gb",
+   "origin": "claims",
    "title": "One-particle metrics g_B = 2c/(3 pi^2), g_KM = c/6",
    "type": "constant",
    "status": "proved",
@@ -1248,6 +1280,7 @@
   },
   {
    "id": "corner-calculus",
+   "origin": "claims",
    "title": "Corner calculus: sequential one-sided recovery = Schwarzian point masses at the junctions",
    "type": "theorem",
    "status": "proved",
@@ -1299,6 +1332,7 @@
   },
   {
    "id": "corner-correlation-kernel",
+   "origin": "claims",
    "title": "The universal corner-correlation kernel Ghat(Delta): closed form, positivity, decay",
    "type": "question",
    "status": "open",
@@ -1334,6 +1368,7 @@
   },
   {
    "id": "corner-separation-constraint",
+   "origin": "claims",
    "title": "Separation constraint: all-weak L->R Petz chains have e^{Delta_k} >= 2/eps (sharp)",
    "type": "theorem",
    "status": "proved",
@@ -1386,6 +1421,7 @@
   },
   {
    "id": "cross-ratio-conventions",
+   "origin": "claims",
    "title": "Cross-ratio conventions used across the notes",
    "type": "lesson",
    "status": "verified",
@@ -1421,6 +1457,7 @@
   },
   {
    "id": "dhat-quadrature-certification",
+   "origin": "claims",
    "title": "Certify the defect-matrix quadrature and the box cutoff",
    "type": "question",
    "status": "open",
@@ -1442,6 +1479,7 @@
   },
   {
    "id": "e2-exact-fidelity-optimised-extension",
+   "origin": "claims",
    "title": "Exact -1/2 log det(1-V^*V) with the optimised extension confirms (UH) beyond first order",
    "type": "result",
    "status": "numerical",
@@ -1477,6 +1515,7 @@
   },
   {
    "id": "e2-ext-equals-nperp-circle",
+   "origin": "claims",
    "title": "NS-circle model: Ext = N^perp exactly, with the dimension identity (L-|I|)^2",
    "type": "result",
    "status": "numerical",
@@ -1517,6 +1556,7 @@
   },
   {
    "id": "e2-mpmath-distance-exactly-zero",
+   "origin": "claims",
    "title": "mpmath at 60-80 digits: dist((1-Pi)M, Ext) = 0 exactly",
    "type": "result",
    "status": "numerical",
@@ -1551,6 +1591,7 @@
   },
   {
    "id": "e2-optimised-uhlmann",
+   "origin": "claims",
    "title": "Optimised exterior extension: UB_c = (1/2)s^2|u|^2 exactly and UB_rot/UB_c = 1-theta",
    "type": "result",
    "status": "numerical",
@@ -1586,6 +1627,7 @@
   },
   {
    "id": "exact-fidelity-optimality-open",
+   "origin": "claims",
    "title": "Is the compression beaten in EXACT fidelity?",
    "type": "question",
    "status": "numerical",
@@ -1639,6 +1681,7 @@
   },
   {
    "id": "exterior-exhaust-invisible",
+   "origin": "claims",
    "title": "Exterior directions exhaust the invisible space: closure(Ext) = N^perp (question (Q) settled, YES)",
    "type": "theorem",
    "status": "proved",
@@ -1681,6 +1724,7 @@
   },
   {
    "id": "fidelity-formula-correction",
+   "origin": "claims",
    "title": "The Delta^(1/2) fidelity formula was wrong (Wigner-Yanase quantity)",
    "type": "lesson",
    "status": "verified",
@@ -1712,6 +1756,7 @@
   },
   {
    "id": "finite-dim-exterior-density",
+   "origin": "claims",
    "title": "Finite chains: exterior directions span exactly the invisible space (Ext = N^perp)",
    "type": "result",
    "status": "numerical",
@@ -1745,6 +1790,7 @@
   },
   {
    "id": "frame-strength-amplification",
+   "origin": "claims",
    "title": "Amplification: the corner strength in the chain frame is zeta_step (1 + z')",
    "type": "theorem",
    "status": "proved",
@@ -1785,6 +1831,7 @@
   },
   {
    "id": "galerkin-full-f-uninformative",
+   "origin": "claims",
    "title": "Full primal SDP over F in the modular Galerkin frame: min_F g_Q = 8.41 and 7.13 times g_Q(delta_c) at h = 0.4, 0.3 -- the S11 representability obstruction, not a statement about non-isometric channels",
    "type": "result",
    "status": "numerical",
@@ -1835,6 +1882,7 @@
   },
   {
    "id": "gap-law",
+   "origin": "claims",
    "title": "Separated intervals: CMI with a gap and linearity off criticality",
    "type": "result",
    "status": "numerical",
@@ -1865,6 +1913,7 @@
   },
   {
    "id": "generated-docs",
+   "origin": "claims",
    "title": "Generated documentation subfolder: docs/*.md from the knowledge base, with a drift check",
    "type": "tool",
    "status": "active",
@@ -1910,6 +1959,7 @@
   },
   {
    "id": "implementer-hypotheses",
+   "origin": "claims",
    "title": "(H1)-(H3) hold for all diffeomorphism-covariant nets",
    "type": "theorem",
    "status": "refereed",
@@ -1945,6 +1995,7 @@
   },
   {
    "id": "interactive-site-modules-3-4-5",
+   "origin": "claims",
    "title": "Interactive site: modules 3 (universality), 4 (optimality) and 5 (the theta reconciliation)",
    "type": "tool",
    "status": "active",
@@ -1976,17 +2027,17 @@
     {
      "kind": "doc",
      "path": "docs/explore/universality.html",
-     "access": "uncommitted"
+     "access": "public"
     },
     {
      "kind": "doc",
      "path": "docs/explore/optimality.html",
-     "access": "uncommitted"
+     "access": "public"
     },
     {
      "kind": "doc",
      "path": "docs/explore/theta-reconciliation.html",
-     "access": "uncommitted"
+     "access": "public"
     },
     {
      "kind": "num",
@@ -1997,6 +2048,7 @@
   },
   {
    "id": "interactive-site-modules-7-10",
+   "origin": "claims",
    "title": "Interactive site: modules 7 to 10 and the extra data extractor",
    "type": "tool",
    "status": "active",
@@ -2029,32 +2081,33 @@
     {
      "kind": "doc",
      "path": "docs/explore/separation.html",
-     "access": "uncommitted"
+     "access": "public"
     },
     {
      "kind": "doc",
      "path": "docs/explore/off-criticality.html",
-     "access": "uncommitted"
+     "access": "public"
     },
     {
      "kind": "doc",
      "path": "docs/explore/relative-entropy.html",
-     "access": "uncommitted"
+     "access": "public"
     },
     {
      "kind": "doc",
      "path": "docs/explore/claim-map.html",
-     "access": "uncommitted"
+     "access": "public"
     },
     {
      "kind": "num",
      "path": "tools/build_site_data_extra.py",
-     "access": "uncommitted"
+     "access": "public"
     }
    ]
   },
   {
    "id": "interactive-site",
+   "origin": "claims",
    "title": "Interactive site skeleton: shared lib/, the data generator, and modules 1, 2, 6",
    "type": "tool",
    "status": "active",
@@ -2092,6 +2145,7 @@
   },
   {
    "id": "kkt-certificate",
+   "origin": "claims",
    "title": "Exact KKT certificate at the compression; Moebius rigidity",
    "type": "theorem",
    "status": "proved",
@@ -2124,6 +2178,7 @@
   },
   {
    "id": "kkt-noise-criterion-numerics",
+   "origin": "claims",
    "title": "KKT criterion numerics: every finite run FAILS (a); the violation extrapolates to 0^- as h -> 0, Ymax -> inf; E(zeta_0) > 0 and E(zeta_inf) > 0, so (e) holds for the whole cone under H3",
    "type": "result",
    "status": "numerical",
@@ -2190,6 +2245,7 @@
   },
   {
    "id": "kkt-noise-sign-criterion",
+   "origin": "claims",
    "title": "KKT sign criterion: when the isometric orbit carries the all-channel second-order optimum",
    "type": "theorem",
    "status": "proved",
@@ -2257,6 +2313,7 @@
   },
   {
    "id": "km-exact-identity",
+   "origin": "claims",
    "title": "Exact relative-entropy identity on unitary orbits",
    "type": "theorem",
    "status": "proved",
@@ -2282,6 +2339,7 @@
   },
   {
    "id": "km-gauge-lemma-refuted",
+   "origin": "claims",
    "title": "Kubo-Mori gauge lemma by restriction to A(K) is false",
    "type": "result",
    "status": "refuted",
@@ -2307,6 +2365,7 @@
   },
   {
    "id": "large-zeta-values",
+   "origin": "claims",
    "title": "Continuum Phi at large zeta and the drifting exponent",
    "type": "result",
    "status": "numerical",
@@ -2337,6 +2396,7 @@
   },
   {
    "id": "longo-xu-cmi",
+   "origin": "claims",
    "title": "Longo-Xu CMI of adjacent intervals",
    "type": "theorem",
    "status": "proved",
@@ -2367,6 +2427,7 @@
   },
   {
    "id": "multi-interval-networks",
+   "origin": "claims",
    "title": "Multi-interval networks (O10, second half)",
    "type": "question",
    "status": "open",
@@ -2392,6 +2453,7 @@
   },
   {
    "id": "network-second-order-law",
+   "origin": "claims",
    "title": "Second-order network law: Phi_tot = sum zeta_j zeta_k G(y_j - y_k), G = c Ghat universal",
    "type": "conjecture",
    "status": "conjectural",
@@ -2435,6 +2497,7 @@
   },
   {
    "id": "note3-collar-removal-programme",
+   "origin": "claims",
    "title": "Note 3 programme: remove the collar (superseded by the plan of Note 8)",
    "type": "decision",
    "status": "superseded",
@@ -2470,6 +2533,7 @@
   },
   {
    "id": "note5-numerics-verified",
+   "origin": "claims",
    "title": "Note 5 numerics independently verified",
    "type": "result",
    "status": "verified",
@@ -2505,6 +2569,7 @@
   },
   {
    "id": "notes-errata",
+   "origin": "claims",
    "title": "Errata to Notes 1-7 applied and logged",
    "type": "result",
    "status": "done",
@@ -2535,6 +2600,7 @@
   },
   {
    "id": "numerics-stack",
+   "origin": "claims",
    "title": "Numerics stack and its limits",
    "type": "tool",
    "status": "active",
@@ -2565,6 +2631,7 @@
   },
   {
    "id": "open-problems-plan-note8",
+   "origin": "claims",
    "title": "Note 8: open problems O1-O11 and phases",
    "type": "decision",
    "status": "active",
@@ -2600,6 +2667,7 @@
   },
   {
    "id": "optimal-channel-structure",
+   "origin": "claims",
    "title": "Structure of the numerical optimum",
    "type": "result",
    "status": "numerical",
@@ -2631,6 +2699,7 @@
   },
   {
    "id": "paper1-status",
+   "origin": "claims",
    "title": "Paper 1 (free fermion): refereed draft, edits pending",
    "type": "decision",
    "status": "active",
@@ -2661,6 +2730,7 @@
   },
   {
    "id": "paper2-status",
+   "origin": "claims",
    "title": "Paper 2 (universality): refereed draft, KM as conjecture",
    "type": "decision",
    "status": "active",
@@ -2691,6 +2761,7 @@
   },
   {
    "id": "petz-not-optimal",
+   "origin": "claims",
    "title": "The Petz map is not second-order optimal (compression 4x better)",
    "type": "result",
    "status": "proved",
@@ -2723,6 +2794,7 @@
   },
   {
    "id": "petz-zero-collar-channel",
+   "origin": "claims",
    "title": "Zero-collar Petz map of the free fermion is a geometric compression",
    "type": "result",
    "status": "proved",
@@ -2758,6 +2830,7 @@
   },
   {
    "id": "phase4-plan",
+   "origin": "claims",
    "title": "Phase 4 plan: settle exact-fidelity optimality via the Uhlmann route with arbitrary exterior extensions",
    "type": "decision",
    "status": "done",
@@ -2798,6 +2871,7 @@
   },
   {
    "id": "phase5-plan",
+   "origin": "claims",
    "title": "Phase 5 plan: exact value of the all-channel optimum (non-isometric channels) and reconciliation of theta",
    "type": "decision",
    "status": "done",
@@ -2852,6 +2926,7 @@
   },
   {
    "id": "phase6-plan",
+   "origin": "claims",
    "title": "Phase 6 plan: multi-interval networks as a corner calculus",
    "type": "decision",
    "status": "active",
@@ -2888,6 +2963,7 @@
   },
   {
    "id": "plan-page",
+   "origin": "claims",
    "title": "Plan page artifact and its source",
    "type": "tool",
    "status": "active",
@@ -2913,6 +2989,7 @@
   },
   {
    "id": "protocol-corner-data-n4-n5",
+   "origin": "claims",
    "title": "Corner data of all one-sided protocols for n = 4 and n = 5: the holonomy is the starting block",
    "type": "result",
    "status": "proved",
@@ -2959,6 +3036,7 @@
   },
   {
    "id": "public-site-plan",
+   "origin": "claims",
    "title": "Plan: public presentation (README with figures, interactive Pages site, generated docs/)",
    "type": "decision",
    "status": "active",
@@ -2989,6 +3067,7 @@
   },
   {
    "id": "quasi-free-fidelity-formula",
+   "origin": "claims",
    "title": "Exact root fidelity of two quasi-free CAR states from their symbols (Note 5 Thm. 2.1)",
    "type": "theorem",
    "status": "proved",
@@ -3025,6 +3104,7 @@
   },
   {
    "id": "quasi-free-sdp",
+   "origin": "claims",
    "title": "Second-order problem over quasi-free channels is a convex SDP",
    "type": "theorem",
    "status": "proved",
@@ -3056,6 +3136,7 @@
   },
   {
    "id": "rate-of-remainder",
+   "origin": "claims",
    "title": "Remainder of Theorem A: integer powers, c3 = -0.99",
    "type": "result",
    "status": "proved",
@@ -3091,6 +3172,7 @@
   },
   {
    "id": "readme-and-figures",
+   "origin": "claims",
    "title": "Public README and the five generated SVG figures",
    "type": "tool",
    "status": "active",
@@ -3121,6 +3203,7 @@
   },
   {
    "id": "repo-split-public-private",
+   "origin": "claims",
    "title": "Two git repositories over one work tree: public project, private third-party material",
    "type": "tool",
    "status": "active",
@@ -3169,6 +3252,7 @@
   },
   {
    "id": "rg-c-function",
+   "origin": "claims",
    "title": "Markov c-function along the massive flow",
    "type": "result",
    "status": "numerical",
@@ -3194,6 +3278,7 @@
   },
   {
    "id": "rigor-pipeline",
+   "origin": "claims",
    "title": "Rigor pipeline: Lamport proofs, referee passes, findings ledger",
    "type": "tool",
    "status": "active",
@@ -3229,6 +3314,7 @@
   },
   {
    "id": "screenshot-tooling-lessons",
+   "origin": "claims",
    "title": "Headless screenshots and shell pitfalls on this Mac",
    "type": "lesson",
    "status": "verified",
@@ -3256,6 +3342,7 @@
   },
   {
    "id": "second-variation-lemma",
+   "origin": "claims",
    "title": "Type-III second-variation lemma (fidelity half)",
    "type": "theorem",
    "status": "proved",
@@ -3281,6 +3368,7 @@
   },
   {
    "id": "sectors-o11",
+   "origin": "claims",
    "title": "Charged sectors, state dependence, collar Gaussianity (O11)",
    "type": "question",
    "status": "open",
@@ -3300,6 +3388,7 @@
   },
   {
    "id": "sequential-recovery-bound-type-iii",
+   "origin": "claims",
    "title": "Type-III sequential recovery bound: Bures angles add along a chain of von Neumann inclusions",
    "type": "theorem",
    "status": "proved",
@@ -3358,6 +3447,7 @@
   },
   {
    "id": "single-observable-bound",
+   "origin": "claims",
    "title": "Exact single-observable fidelity bound (Alberti-Uhlmann)",
    "type": "theorem",
    "status": "proved",
@@ -3390,6 +3480,7 @@
   },
   {
    "id": "spectral-model-uv-pollution",
+   "origin": "claims",
    "title": "Finite spectral models do not resolve exact fidelities",
    "type": "lesson",
    "status": "verified",
@@ -3420,6 +3511,7 @@
   },
   {
    "id": "strategy-note-6",
+   "origin": "claims",
    "title": "Strategy note (Note 6): the four-step programme for universality",
    "type": "decision",
    "status": "superseded",
@@ -3450,6 +3542,7 @@
   },
   {
    "id": "stress-tensor-normalisation",
+   "origin": "claims",
    "title": "Stress-tensor normalisation chain",
    "type": "result",
    "status": "proved",
@@ -3475,6 +3568,7 @@
   },
   {
    "id": "tail-bound",
+   "origin": "claims",
    "title": "Ultraviolet tail bound for the windowed fidelity",
    "type": "theorem",
    "status": "proved",
@@ -3500,6 +3594,7 @@
   },
   {
    "id": "tangent-problem-exact-parametrisation",
+   "origin": "claims",
    "title": "Exact (N,Y,V) chart of F and the tangent problem at the compression",
    "type": "theorem",
    "status": "proved",
@@ -3564,6 +3659,7 @@
   },
   {
    "id": "tangent-sdp-noise-directions",
+   "origin": "claims",
    "title": "Tangent SDP over (G, N1, Y1) in the circle model: orbit-only optimum matches (1-theta) to 1.1e-7, full optimum not resolvable (measured Gram cond 2.4e22)",
    "type": "result",
    "status": "numerical",
@@ -3614,6 +3710,7 @@
   },
   {
    "id": "thermal-shielding",
+   "origin": "claims",
    "title": "Thermal states: two-branch law at the cylinder cross ratio, exponential shielding",
    "type": "result",
    "status": "numerical",
@@ -3644,6 +3741,7 @@
   },
   {
    "id": "theta-modular-wiener-hopf",
+   "origin": "claims",
    "title": "theta as a geometry-free Wiener-Hopf constant in the modular frame of I",
    "type": "method",
    "status": "open",
@@ -3690,6 +3788,7 @@
   },
   {
    "id": "theta-value",
+   "origin": "claims",
    "title": "The first-order gain constant theta = 0.384 +- 0.003 (S10's 0.300 is a taper-suppressed lower bound)",
    "type": "constant",
    "status": "numerical",
@@ -3771,6 +3870,7 @@
   },
   {
    "id": "thm-a-quadratic-law",
+   "origin": "claims",
    "title": "Theorem A: lim Phi/zeta^2 = c/(12 pi^2)",
    "type": "theorem",
    "status": "refereed",
@@ -3822,6 +3922,7 @@
   },
   {
    "id": "thm-b-universality",
+   "origin": "claims",
    "title": "Theorem B: f2 = c/(12 pi^2) for every diffeomorphism-covariant net",
    "type": "theorem",
    "status": "refereed",
@@ -3860,6 +3961,7 @@
   },
   {
    "id": "two-branch-law-lattice",
+   "origin": "claims",
    "title": "Two-branch law confirmed on the lattice",
    "type": "result",
    "status": "numerical",
@@ -3885,6 +3987,7 @@
   },
   {
    "id": "two-chirality-law",
+   "origin": "claims",
    "title": "Two-chirality law for 2D CFTs",
    "type": "result",
    "status": "proved",
@@ -3916,6 +4019,7 @@
   },
   {
    "id": "uhlmann-upper-half-proved",
+   "origin": "claims",
    "title": "(UH) proved: optimised Uhlmann bound = g_Q of the defect, for every isometric quasi-free channel",
    "type": "theorem",
    "status": "proved",
@@ -3965,6 +4069,7 @@
   },
   {
    "id": "vacuum-rigidity-exact-recovery",
+   "origin": "claims",
    "title": "Vacuum rigidity: the pulled-back vacuum is the vacuum iff the map is Moebius; no protocol recovers exactly",
    "type": "theorem",
    "status": "proved",
@@ -4011,6 +4116,7 @@
   },
   {
    "id": "vwz-protocol-ordering",
+   "origin": "claims",
    "title": "VWZ four-interval protocols: Phi(1):Phi(2):Phi(3) -> 1:2:4; middle-out is the worst order",
    "type": "conjecture",
    "status": "conjectural",
@@ -4047,6 +4153,7 @@
   },
   {
    "id": "w-hat-mellin-formula",
+   "origin": "claims",
    "title": "Exact x-space Mellin transform W-hat(k) and the invariant formula for g_B",
    "type": "result",
    "status": "proved",
@@ -4079,14 +4186,80 @@
      "access": "kb"
     }
    ]
+  },
+  {
+   "id": "circle-model-taper-suppresses-theta",
+   "origin": "evidence",
+   "title": "S10's circle model: the ultraviolet taper suppresses theta by ~20%, and there is no taper-free limit",
+   "type": "finding",
+   "status": "numerical",
+   "area": "optimality",
+   "confidence": null,
+   "statement": "Mechanism of the 0.300 vs 0.384 discrepancy. (1) In the NS-circle model of S10 Sec 7 the smoothstep taper on the spectral derivative (window uv in units of L; the Nyquist and the grid's second Fermi point both sit at |nu|/L = 0.5) damps exactly the ultraviolet modes near the moving endpoint where G_* lives. At L=256, a=2, Lg=1: theta = 0.27762, 0.28958, 0.36178, 0.72688, 0.54681 for uv = (0.20,0.32), (0.30,0.42), (0.35,0.47), (0.42,0.49), (0.46,0.499), and 0.17175 with no taper. The sweep is NOT a one-parameter scan: the first three windows share a transition width 0.12, and at that fixed width theta rises monotonically as the taper is relaxed at every L in the file (L=512: 0.28986, 0.29511, 0.32313; L=768: 0.29569, 0.29898, 0.31573); the last two have widths 0.07 and 0.039, and their theta = 0.72688, 0.54681 are artifacts of the sharp transition, not taper-strength data (REF-P0-TAPER). (2) There is NO taper-free limit: without the taper the periodic grid's second Fermi point (nu = +-L/2) doubles the Fermi sea and |u|^2 with it, 0.00739 -> 0.014889 (ratio 2.016), reproducibly in L (0.014889, 0.014912, 0.014921 at L = 256, 512, 768) with theta stuck at 0.17175, 0.19652, 0.20822: the untapered model is STABLE, it simply solves a different problem. Moving the taper's upper edge onto the second Fermi point at fixed transition width does the same (uv = (0.38,0.50): |u|^2 = 0.024005, theta = 0.56798). The |u|^2 = 0.02731 and 0.62691 of the two narrow windows are a separate, transition-sharpness (Gibbs) artifact, NOT the second Fermi point: at the same upper edge with a wider transition the norm is healthy again (uv = (0.25,0.49): 0.007628, theta = 0.36040; uv = (0.09,0.49): 0.007404, theta = 0.30780) (REF-P0-TAPER controls). So the taper is necessary AND it biases theta downwards; S10's window (0.30,0.42) is the safe one and its theta lies below the taper-free value at every L measured; a wider-transition window that passes the same gate more comfortably, uv = (0.25,0.49) (transition width 0.24, |u|^2 3.3% off against the 4.7% for which S10 discards (0.35,0.47)), already gives theta = 0.36040, the taper-free same-mesh value (no superlative is claimed: (0.09,0.49) has a wider transition still and a better norm, 0.007404, but damps the mid-band and gives 0.30780). (3) Proof that the MESH is not responsible (that the taper is the cause is (1)): running the modular Galerkin functional (exact vacuum symbol in closed form, exact continuum defect kernel, no taper, no cap) on the CIRCLE MODEL'S OWN MESH -- cells whose edges are the xi-midpoints of theta_j = 2 pi j / L mapped by xi = log((x+a)/(Lg-x)), x = tan(theta_j/2) -- gives theta = 0.34058, 0.35830, 0.36904, 0.37534, 0.37893 at L = 128, 256, 512, 1024, 2048, i.e. the Galerkin values, at the same |D| and the same geometry where the tapered circle model gives 0.291, 0.290, 0.295, with |D| = 31, 63, 127, 255 on both sides; and the endpoint cap is not doing the work, since extending it to xi_max = 8.81, 20.81, 260.81 moves theta 0.35830 -> 0.35922 -> 0.35938 -> 0.35938 and saturates (f3_mimic_deep.out). (4) Consequently S10's Richardson in 1/L is also misapplied: the tapered theta_circ rises linearly in log L (theta = 0.28958 -> 0.30173 from L = 256 to 1024; d theta/d log L is flat at 0.0095-0.0096 over L = 512..1024, 0.0094 over 384..1024, and 0.0088 across the quoted endpoints), so continuing that trend to 0.384 would need xi_max ~ 14.8, L ~ 5e6 -- which is a reductio, since a law linear in log L is unbounded and cannot converge to 0.384 at all. S10's proofs P1-P5 and the qualitative conclusions DRAWN FROM theta > 0 ((S) fails, the compression is not the second-order minimiser, E^(2) <= (1-theta) f2 z^2) stand and are strengthened: 1 - theta = 0.616 +- 0.003 instead of 0.70. What does NOT stand is S10's own N2, 'ultraviolet-taper independent', and its verdict box's stability 'in L ... in the ultraviolet taper' (sdp_dual_certificate.tex l.861-863, l.911-913); and N3's non-perturbative 0.705 is a consistency check of the tapered model, not a measurement of 1 - theta.",
+   "verify": "cd numerics/optimality_all; $V/bin/python f3_circ2.py taper (fast solver, validated against s10_diag.py at L=256: 0.28958) and f3_circ2.py Lsweep; f3_mimic.py main|big for the circle-mesh cross test. F3_RESULTS.md Sec. 5.",
+   "next": null,
+   "review": "passed 2026-09-21 by REF-P0-TAPER-b",
+   "refereed": true,
+   "awaiting_review": false,
+   "verdicts": 2,
+   "review_failed": false,
+   "page": "circle-model-taper-suppresses-theta.md",
+   "related": [
+    "theta-value",
+    "phase5-plan",
+    "theta-modular-wiener-hopf"
+   ],
+   "evidence": [
+    {
+     "kind": "num",
+     "path": "numerics/optimality_all/f3_circ_taper2.out",
+     "access": "public"
+    },
+    {
+     "kind": "num",
+     "path": "numerics/optimality_all/f3_circ_L.out",
+     "access": "public"
+    },
+    {
+     "kind": "num",
+     "path": "numerics/optimality_all/f3_mimic.out",
+     "access": "public"
+    },
+    {
+     "kind": "num",
+     "path": "numerics/optimality_all/f3_mimic_big.out",
+     "access": "public"
+    },
+    {
+     "kind": "num",
+     "path": "numerics/optimality_all/f3_mimic_deep.out",
+     "access": "public"
+    },
+    {
+     "kind": "num",
+     "path": "numerics/optimality_all/F3_RESULTS.md",
+     "access": "public"
+    },
+    {
+     "kind": "doc",
+     "path": "rigor/sdp_dual_certificate.tex",
+     "anchor": "sec:num",
+     "access": "public"
+    },
+    {
+     "kind": "doc",
+     "path": "rigor/referee_taper_card.md",
+     "access": "public"
+    }
+   ]
   }
  ],
  "records": [
   {
-   "value": 87,
+   "value": 88,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4086,
+   "line": 4259,
    "status": "numerical",
    "id": "count.cards",
    "label": "cards in the knowledge base, all of them shown",
@@ -4096,7 +4269,7 @@
    "value": 8,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4096,
+   "line": 4269,
    "status": "numerical",
    "id": "count.areas",
    "label": "areas",
@@ -4106,7 +4279,7 @@
    "value": 2,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4106,
+   "line": 4279,
    "status": "numerical",
    "id": "count.never_refereed",
    "label": "cards with no referee verdict anywhere in their record: shown, and marked never refereed",
@@ -4116,7 +4289,7 @@
    "value": 3,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4116,
+   "line": 4289,
    "status": "numerical",
    "id": "count.awaiting_review",
    "label": "cards whose review line says pending: awaiting a pass, which is not the same as never refereed when the history already records one",
@@ -4126,7 +4299,7 @@
    "value": 1,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4126,
+   "line": 4299,
    "status": "numerical",
    "id": "count.review_failed",
    "label": "cards whose latest recorded verdict is a failure",
@@ -4136,7 +4309,7 @@
    "value": 10,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4136,
+   "line": 4309,
    "status": "numerical",
    "id": "count.private_pointers",
    "label": "evidence pointers into the private companion: rendered as held privately, never as a link",
@@ -4146,17 +4319,17 @@
    "value": 8,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4146,
+   "line": 4319,
    "status": "numerical",
    "id": "count.private_targets",
    "label": "distinct files in the private companion that those pointers name",
    "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published; the line this record links to is the count itself."
   },
   {
-   "value": 229,
+   "value": 245,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4156,
+   "line": 4329,
    "status": "numerical",
    "id": "count.public_pointers",
    "label": "evidence pointers to files git tracks, rendered as links",
@@ -4166,7 +4339,7 @@
    "value": 8,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4166,
+   "line": 4339,
    "status": "numerical",
    "id": "count.kb_pointers",
    "label": "evidence pointers into the knowledge base itself, which is not published",
@@ -4176,47 +4349,67 @@
    "value": 0,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4176,
+   "line": 4349,
    "status": "numerical",
    "id": "count.missing_pointers",
    "label": "evidence pointers whose target is neither tracked nor on disk",
    "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published; the line this record links to is the count itself."
   },
   {
-   "value": 8,
+   "value": 0,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4186,
+   "line": 4359,
    "status": "numerical",
    "id": "count.uncommitted_pointers",
    "label": "evidence pointers to files that exist but neither repository tracks yet",
    "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published; the line this record links to is the count itself."
   },
   {
-   "value": 143,
+   "value": 147,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4196,
+   "line": 4369,
    "status": "numerical",
    "id": "count.edges",
    "label": "related-to edges between cards",
    "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published; the line this record links to is the count itself."
   },
   {
-   "value": 57,
+   "value": 58,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4206,
+   "line": 4379,
    "status": "numerical",
    "id": "count.with_page",
    "label": "cards that also have a generated page under docs/results/",
    "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published; the line this record links to is the count itself."
   },
   {
+   "value": 1,
+   "error": null,
+   "source": "docs/data/extra-claim-map.json",
+   "line": 4389,
+   "status": "numerical",
+   "id": "count.promoted",
+   "label": "cards that started as findings in the knowledge base's evidence folder and reached a displayed status",
+   "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published; the line this record links to is the count itself."
+  },
+  {
+   "value": 232,
+   "error": null,
+   "source": "docs/data/extra-claim-map.json",
+   "line": 4399,
+   "status": "numerical",
+   "id": "count.findings_left",
+   "label": "findings that stay in the knowledge base because they reached no displayed status: they are audit records, not claims",
+   "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published; the line this record links to is the count itself."
+  },
+  {
    "value": 14,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4216,
+   "line": 4409,
    "status": "numerical",
    "id": "count.status.active",
    "label": "cards with status active",
@@ -4226,7 +4419,7 @@
    "value": 3,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4226,
+   "line": 4419,
    "status": "numerical",
    "id": "count.status.conjectural",
    "label": "cards with status conjectural",
@@ -4236,17 +4429,17 @@
    "value": 3,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4236,
+   "line": 4429,
    "status": "numerical",
    "id": "count.status.done",
    "label": "cards with status done",
    "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published."
   },
   {
-   "value": 21,
+   "value": 22,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4246,
+   "line": 4439,
    "status": "numerical",
    "id": "count.status.numerical",
    "label": "cards with status numerical",
@@ -4256,7 +4449,7 @@
    "value": 5,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4256,
+   "line": 4449,
    "status": "numerical",
    "id": "count.status.open",
    "label": "cards with status open",
@@ -4266,7 +4459,7 @@
    "value": 30,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4266,
+   "line": 4459,
    "status": "numerical",
    "id": "count.status.proved",
    "label": "cards with status proved",
@@ -4276,7 +4469,7 @@
    "value": 3,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4276,
+   "line": 4469,
    "status": "numerical",
    "id": "count.status.refereed",
    "label": "cards with status refereed",
@@ -4286,7 +4479,7 @@
    "value": 1,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4286,
+   "line": 4479,
    "status": "numerical",
    "id": "count.status.refuted",
    "label": "cards with status refuted",
@@ -4296,7 +4489,7 @@
    "value": 2,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4296,
+   "line": 4489,
    "status": "numerical",
    "id": "count.status.superseded",
    "label": "cards with status superseded",
@@ -4306,7 +4499,7 @@
    "value": 5,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4306,
+   "line": 4499,
    "status": "numerical",
    "id": "count.status.verified",
    "label": "cards with status verified",
