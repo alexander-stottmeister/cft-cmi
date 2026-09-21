@@ -52,7 +52,7 @@ One page per claim whose status is `refereed`, `proved`, `numerical`, `conjectur
 ### [Foundations: CMI as a Markov defect (Notes 1-3)](status.md#area-foundations)
 
 - `proved` [CMI as the data-processing defect of tracing out C (Note 2)](results/cmi-markov-defect-interpretation.md)
-- `proved` [Longo-Xu CMI of adjacent intervals](results/longo-xu-cmi.md)
+- `proved` [Longo-Xu CMI of adjacent intervals](results/longo-xu-cmi.md) — review pending
 - `proved` [Type-III second-variation lemma (fidelity half)](results/second-variation-lemma.md)
 
 ### [Theorem A: exact recovery error of the free fermion](status.md#area-theorem-a)

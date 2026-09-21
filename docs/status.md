@@ -31,7 +31,7 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 | status | claim | |
 |---|---|---|
 | `proved` | [CMI as the data-processing defect of tracing out C (Note 2)](results/cmi-markov-defect-interpretation.md) |  |
-| `proved` | [Longo-Xu CMI of adjacent intervals](results/longo-xu-cmi.md) |  |
+| `proved` | [Longo-Xu CMI of adjacent intervals](results/longo-xu-cmi.md) | review pending |
 | `proved` | [Type-III second-variation lemma (fidelity half)](results/second-variation-lemma.md) |  |
 | `verified` | Cross-ratio conventions used across the notes |  |
 | `verified` | The Delta^(1/2) fidelity formula was wrong (Wigner-Yanase quantity) |  |

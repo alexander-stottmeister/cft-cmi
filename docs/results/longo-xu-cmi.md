@@ -4,6 +4,8 @@
 
 **Status:** `proved` — a complete structured proof.
 
+> **Referee pass pending.** This card has been changed since its last pass and is queued for review; the verdict below is the state of that queue, not an accepted result.
+
 **Area:** [Foundations: CMI as a Markov defect (Notes 1-3)](../status.md#area-foundations) · **Card type:** theorem · **Knowledge-base id:** `longo-xu-cmi`
 
 ## Statement
@@ -12,7 +14,7 @@ For adjacent intervals A=(-a,0), B=(0,b), C=(b,b+c) in the vacuum of a chiral ne
 
 ## How to verify
 
-Notes 1-2; the formula is the Longo-Xu result quoted with screenshots in rigor/cited_R1.tex.
+Notes 1-2; the formula is the Longo-Xu result quoted with screenshots in rigor/cited_R1.tex (held in the private companion; its content is available on request, see THIRD-PARTY.md).
 
 ## Evidence
 
@@ -25,7 +27,7 @@ _None recorded._
 
 ## Review
 
-**Review record:** passed 2026-09-14 by phase referees (rigor/referee_\*.tex, findings ledger).
+**Review record:** a referee pass is pending; the card has no accepted verdict at present.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

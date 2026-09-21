@@ -378,7 +378,7 @@ verdict, made for the purpose of checking the cited result.
 
 ## 13. Every document builds
 
-All 46 rigor documents compile. Two did not until 21 September, and both failures were
+All 41 rigor documents in this repository compile. (Five more, the cited-result compendia, are held privately; see THIRD-PARTY.md.) Two did not until 21 September, and both failures were
 typographic rather than mathematical: `implementation_C11.tex` ended a proof with
 `\lstep{1}{4}{\lqed}`, which passes no arguments to a macro that takes two, where the house
 pattern is a standalone `\lqed{1}{4}`; and `referee_implementation_C11.tex` used `\one`, a

@@ -28,6 +28,16 @@ refs/*.pdf
 # Page excerpts of cited publications; documents compile without them
 rigor/shots/
 
+# The five cited-result compendia: 144 of the project's 221 transcriptions of
+# other people's theorems, in one place.  Held in the private companion; their
+# content is available on request, and every source is listed in
+# refs/REFERENCES.md so the originals can be consulted directly.
+rigor/cited_R1.tex
+rigor/cited_R2.tex
+rigor/cited_R3.tex
+rigor/cited_R4.tex
+rigor/cited_results_all.tex
+
 # --- transient tooling output ----------------------------------------------
 rigor/review_packet_*.md
 

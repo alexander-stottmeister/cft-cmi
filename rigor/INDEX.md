@@ -9,11 +9,6 @@ Conventions: README_AGENTS.md. Preamble: rigor_preamble.tex. Screenshots: shots/
 | check_note5_numerics.tex | 20 | V4: independent recomputation of the Note 5 numerics (basis-phase bug, tail correction accuracy) |
 | check_note5_theory.tex | 36 | V3: Lamport check of Note 5 theory (exact first-order kernel, monotonicity proof) |
 | check_notes_1_2.tex | 36 | V1: Lamport check of Notes 1 and 2 |
-| cited_R1.tex | 31 | R1: LX, CH, BGL, Wiesbrock, Borchers with screenshots |
-| cited_R2.tex | 32 | R2: FHSW, FH22, Araki, Petz, Ohya-Petz, VWZ with screenshots |
-| cited_R3.tex | 26 | R3: Uhlmann/Alberti, Powers-Stormer, Araki-Yamagami, Petz variational formulas |
-| cited_R4.tex | 38 | R4: Carpi-Weiner, CDIT, Fewster-Hollands, Nag-Sullivan, Takhtajan-Teo, Shen, VWZ numerics |
-| cited_results_all.tex | 130 | Compendium of cited_R1-R4 (one document) |
 | findings.tex | 28 | Consolidated findings by severity + status tables + errata (assembled from findings_entries.tex) |
 | kernel_identity.tex | 15 | P3: analytic proof of the kernel identity; refereed correct by V8; orchestrator note + A&S/DLMF screenshots appended |
 | lamport_example.tex | 1 | Template of the Lamport notation |
@@ -66,3 +61,7 @@ Phase 5 (2026-09-15): brief in phase5_brief.md; status PHASE5_STATUS.md; tracks 
 Phase 6 (2026-09-16): brief in phase6_brief.md; status PHASE6_STATUS.md; tracks G1a (network_corner_calculus.tex), G1b (network_second_order.tex), G2/G3 numerics ../numerics/networks/.
 
 Public presentation (2026-09-21): plan in public_site_plan.md — README with figures, interactive site on GitHub Pages, generated docs/ subfolder.
+
+The five cited-result compendia (`cited_R1`-`cited_R4`, `cited_results_all`: 257 pages, 144
+transcriptions of external results with locators, images and verdicts) are held in the private
+companion and are available on request; see THIRD-PARTY.md.
