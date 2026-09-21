@@ -30,7 +30,7 @@ Three ways to obtain a row:
 | `FR` | Fawzi, Renner, Quantum CMI and approximate Markov chains, CMP 340 (2015) | arXiv:1410.0664 | N2 |
 | `HJPW` | Hayden, Jozsa, Petz, Winter, Structure of states which satisfy SSA with equality, CMP 246 (2004) | arXiv:quant-ph/0304007 | N2 |
 | `Jencova02` | Jencova, Quantum information geometry and standard purification, JMP 43 (2002) | arXiv:math-ph/0107020 (check id) | N7 |
-| `VWZ` | Vardhan, Wei, Zou, Petz recovery from subsystems in CFT, JHEP 03 (2024) 016 | arXiv:2307.14434 (already in refs/VWZ_2307.14434.pdf) | N3,N5,N6,N7 |
+| `VWZ` | Vardhan, Wei, Zou, Petz recovery from subsystems in CFT, JHEP 03 (2024) 016 | arXiv:2307.14434 | N3,N5,N6,N7 |
 | `SwingleWang19` | Swingle, Wang, Recovery map for fermionic Gaussian channels, JMP 60 (2019) | arXiv:1811.04956 | N3,N6 |
 | `CDIW21` | Carpi, Del Vecchio, Iovieno, Tanimoto (cited as CDIW in the notes; correct acronym CDIT), Positive energy representations of Sobolev diffeomorphism groups of the circle, AHP 22 (2021) | arXiv:1808.02384 | N6 |
 | `TakhtajanTeo06` | Takhtajan, Teo, Weil-Petersson metric on the universal Teichmuller space, Mem. AMS 183 (2006) | arXiv:math/0312172 | N6 |

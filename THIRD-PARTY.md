@@ -34,8 +34,8 @@ cited-result box. Two of the 178 excerpts are from public-domain or NIST sources
 Five documents collected, in one place, what every external result this project relies on actually
 says: `rigor/cited_R1.tex` to `cited_R4.tex`, one per reviewer, and `cited_results_all.tex`, their
 union. Together they hold 144 of the project's 221 transcriptions and 172 of its 256 image insertions,
-covering 86 distinct excerpts of which 79 appear nowhere else, 257 pages in all. Each entry is a passage transcribed from the source, its exact locator, an image
-of the passage, how this project uses it, and a verdict on whether the hypotheses are satisfied.
+covering 86 distinct excerpts of which 79 appear nowhere else, 257 pages in all. A typical entry is a passage transcribed from the source, its exact locator, an image
+of the passage, how this project uses it, and, in 64 of the 72 cases, a verdict on whether the hypotheses are satisfied; 69 of the 72 carry an image.
 
 They are **not** published here. The verdicts make each entry criticism rather than reproduction,
 which is what the quotation right protects, but a hundred and forty-four transcriptions gathered

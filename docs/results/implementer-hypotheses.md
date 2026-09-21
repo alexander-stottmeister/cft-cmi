@@ -4,8 +4,6 @@
 
 **Status:** `refereed` — a complete structured proof that an independent referee pass has accepted. **Stated under hypotheses** H1, H2, H3, quoted below.
 
-> **Referee pass pending.** This card has been changed since its last pass and is queued for review; the verdict below is the state of that queue, not an accepted result.
-
 **Area:** [Theorem B: universality for diffeomorphism-covariant nets](../status.md#area-universality) · **Card type:** theorem · **Knowledge-base id:** `implementer-hypotheses`
 
 ## Statement
@@ -36,7 +34,7 @@ _None recorded._
 
 ## Review
 
-**Review record:** a referee pass is pending; the card has no accepted verdict at present.
+**Review record:** passed 2026-09-21 by REF-MOVE-1b.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

@@ -71,7 +71,7 @@ One page per claim whose status is `refereed`, `proved`, `numerical`, `conjectur
 
 ### [Theorem B: universality for diffeomorphism-covariant nets](status.md#area-universality)
 
-- `refereed` [(H1)-(H3) hold for all diffeomorphism-covariant nets](results/implementer-hypotheses.md) — review pending
+- `refereed` [(H1)-(H3) hold for all diffeomorphism-covariant nets](results/implementer-hypotheses.md)
 - `refereed` [Theorem B: f2 = c/(12 pi^2) for every diffeomorphism-covariant net](results/thm-b-universality.md)
 - `proved` [Stress-tensor normalisation chain](results/stress-tensor-normalisation.md)
 - `numerical` [Bosonic check: U(1) current net agrees](results/boson-check.md)
@@ -85,7 +85,7 @@ One page per claim whose status is `refereed`, `proved`, `numerical`, `conjectur
 
 - `proved` [The A-C restriction lower bound is exactly zero](results/ac-lower-bound-zero.md)
 - `proved` [All-channel second-order optimum = quasi-free SDP value](results/all-channel-equals-quasi-free.md)
-- `proved` [Every recovery channel's recovered symbol is quasi-free feasible](results/all-channels-symbol-feasible.md) — review pending
+- `proved` [Every recovery channel's recovered symbol is quasi-free feasible](results/all-channels-symbol-feasible.md)
 - `proved` [Exterior directions exhaust the invisible space: closure(Ext) = N^perp (question (Q) settled, YES)](results/exterior-exhaust-invisible.md)
 - `proved` [Exact KKT certificate at the compression; Moebius rigidity](results/kkt-certificate.md)
 - `proved` [KKT sign criterion: when the isometric orbit carries the all-channel second-order optimum](results/kkt-noise-sign-criterion.md)
@@ -116,7 +116,7 @@ One page per claim whose status is `refereed`, `proved`, `numerical`, `conjectur
 - `proved` [Separation constraint: all-weak L->R Petz chains have e^{Delta_k} >= 2/eps (sharp)](results/corner-separation-constraint.md)
 - `proved` [Amplification: the corner strength in the chain frame is zeta_step (1 + z')](results/frame-strength-amplification.md)
 - `proved` [Corner data of all one-sided protocols for n = 4 and n = 5: the holonomy is the starting block](results/protocol-corner-data-n4-n5.md)
-- `proved` [Type-III sequential recovery bound: Bures angles add along a chain of von Neumann inclusions](results/sequential-recovery-bound-type-iii.md)
+- `proved` [Type-III sequential recovery bound: Bures angles add along a chain of von Neumann inclusions](results/sequential-recovery-bound-type-iii.md) — review pending
 - `proved` [Vacuum rigidity: the pulled-back vacuum is the vacuum iff the map is Moebius; no protocol recovers exactly](results/vacuum-rigidity-exact-recovery.md)
 - `numerical` [Separated intervals: CMI with a gap and linearity off criticality](results/gap-law.md)
 - `numerical` [Markov c-function along the massive flow](results/rg-c-function.md)
@@ -129,4 +129,4 @@ One page per claim whose status is `refereed`, `proved`, `numerical`, `conjectur
 
 `tools/build_docs.py` reads the knowledge base and writes every page here except `notation.md` and `definitions.md`, which it assembles once from the conventions appendices and then leaves alone. `tools/build_docs.py --check` regenerates into a temporary directory and fails if anything committed differs, so a page cannot drift away from the claim it describes.
 
-Evidence pointers that resolve into the private companion (source papers that may not be redistributed) are shown as *held privately, not redistributed* instead of as links; which paths are public is decided by asking git, not by a list in the script. Statements and verification recipes are quoted verbatim, so their prose may still name such material — the page excerpts under `rigor/shots/` and the source PDFs under `refs/` — which a clone will not contain; see [`THIRD-PARTY.md`](../THIRD-PARTY.md) and [`sources.md`](sources.md).
+Evidence pointers that resolve into the private companion (source papers, page excerpts, and the five cited-result compendia, none of which may be redistributed) are shown as *held privately, not redistributed* instead of as links; which paths are public is decided by asking git, not by a list in the script. Statements and verification recipes are quoted verbatim, so their prose may still name such material — the page excerpts under `rigor/shots/`, the source PDFs under `refs/`, and the five cited-result compendia — which a clone will not contain; see [`THIRD-PARTY.md`](../THIRD-PARTY.md) and [`sources.md`](sources.md).

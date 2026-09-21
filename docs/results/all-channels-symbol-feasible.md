@@ -4,8 +4,6 @@
 
 **Status:** `proved` — a complete structured proof.
 
-> **Referee pass pending.** This card has been changed since its last pass and is queued for review; the verdict below is the state of that queue, not an accepted result.
-
 **Area:** [Optimality of recovery channels (O8, Phases 3 and 3b)](../status.md#area-optimality) · **Card type:** theorem · **Knowledge-base id:** `all-channels-symbol-feasible`
 
 ## Statement
@@ -27,7 +25,7 @@ rigor/optimality_all_channels.tex Sec. 3 with screenshots rigor/shots/BJL_p\*.pn
 
 ## Review
 
-**Review record:** a referee pass is pending; the card has no accepted verdict at present.
+**Review record:** passed 2026-09-21 by REF-MOVE-1b.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

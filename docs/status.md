@@ -66,7 +66,7 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 
 | status | claim | |
 |---|---|---|
-| `refereed` | [(H1)-(H3) hold for all diffeomorphism-covariant nets](results/implementer-hypotheses.md) | review pending |
+| `refereed` | [(H1)-(H3) hold for all diffeomorphism-covariant nets](results/implementer-hypotheses.md) |  |
 | `refereed` | [Theorem B: f2 = c/(12 pi^2) for every diffeomorphism-covariant net](results/thm-b-universality.md) |  |
 | `proved` | [Stress-tensor normalisation chain](results/stress-tensor-normalisation.md) |  |
 | `numerical` | [Bosonic check: U(1) current net agrees](results/boson-check.md) |  |
@@ -93,7 +93,7 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 |---|---|---|
 | `proved` | [The A-C restriction lower bound is exactly zero](results/ac-lower-bound-zero.md) |  |
 | `proved` | [All-channel second-order optimum = quasi-free SDP value](results/all-channel-equals-quasi-free.md) |  |
-| `proved` | [Every recovery channel's recovered symbol is quasi-free feasible](results/all-channels-symbol-feasible.md) | review pending |
+| `proved` | [Every recovery channel's recovered symbol is quasi-free feasible](results/all-channels-symbol-feasible.md) |  |
 | `proved` | [Exterior directions exhaust the invisible space: closure(Ext) = N^perp (question (Q) settled, YES)](results/exterior-exhaust-invisible.md) |  |
 | `proved` | [Exact KKT certificate at the compression; Moebius rigidity](results/kkt-certificate.md) |  |
 | `proved` | [KKT sign criterion: when the isometric orbit carries the all-channel second-order optimum](results/kkt-noise-sign-criterion.md) |  |
@@ -134,7 +134,7 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 | `proved` | [Separation constraint: all-weak L->R Petz chains have e^{Delta_k} >= 2/eps (sharp)](results/corner-separation-constraint.md) |  |
 | `proved` | [Amplification: the corner strength in the chain frame is zeta_step (1 + z')](results/frame-strength-amplification.md) |  |
 | `proved` | [Corner data of all one-sided protocols for n = 4 and n = 5: the holonomy is the starting block](results/protocol-corner-data-n4-n5.md) |  |
-| `proved` | [Type-III sequential recovery bound: Bures angles add along a chain of von Neumann inclusions](results/sequential-recovery-bound-type-iii.md) |  |
+| `proved` | [Type-III sequential recovery bound: Bures angles add along a chain of von Neumann inclusions](results/sequential-recovery-bound-type-iii.md) | review pending |
 | `proved` | [Vacuum rigidity: the pulled-back vacuum is the vacuum iff the map is Moebius; no protocol recovers exactly](results/vacuum-rigidity-exact-recovery.md) |  |
 | `numerical` | [Separated intervals: CMI with a gap and linearity off criticality](results/gap-law.md) |  |
 | `numerical` | [Markov c-function along the massive flow](results/rg-c-function.md) |  |

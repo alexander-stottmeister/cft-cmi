@@ -728,9 +728,18 @@ def sources_page(repo_root: Path, warnings: list) -> str:
         elif re.match(r"^- +`", line):
             bullets.append(line)
 
+    # REFERENCES.md sometimes says a PDF is 'already in refs/...'.  That is true of
+    # the working tree and false of a clone, where refs/*.pdf is not redistributed,
+    # so strip the assertion rather than publish it (REF-MOVE-1b).
+    def _no_presence_claim(text):
+        text = re.sub(r'\s*\(already in [^)]*\)', '', text)
+        text = re.sub(r'\brefs/([A-Za-z0-9_.+-]+\.pdf)\b', r'\1 (not redistributed)', text)
+        return text
+
     fetchable = restore_sh_says(repo_root)
     groups = {"fetch": [], "open": [], "library": []}
     for cells in rows:
+        cells = [_no_presence_claim(c) for c in cells]
         key, sentence = classify_source(cells[2])
         groups[key].append((cells, sentence))
         if fetchable is not None:
@@ -1135,12 +1144,14 @@ def index_page(claims: list, areas: dict, by_id: dict, pages: set, counts) -> st
             "and fails if anything committed differs, so a page cannot drift away "
             "from the claim it describes.", "",
             "Evidence pointers that resolve into the private companion (source "
-            "papers that may not be redistributed) are shown as *held privately, "
-            "not redistributed* instead of as links; which paths are public is "
+            "papers, page excerpts, and the five cited-result compendia, none of "
+            "which may be redistributed) are shown as *held privately, not "
+            "redistributed* instead of as links; which paths are public is "
             "decided by asking git, not by a list in the script. Statements and "
             "verification recipes are quoted verbatim, so their prose may still "
-            "name such material — the page excerpts under `rigor/shots/` and the "
-            "source PDFs under `refs/` — which a clone will not contain; see "
+            "name such material — the page excerpts under `rigor/shots/`, the "
+            "source PDFs under `refs/`, and the five cited-result compendia — "
+            "which a clone will not contain; see "
             "[`THIRD-PARTY.md`](../THIRD-PARTY.md) and "
             "[`sources.md`](sources.md).", ""]
     return "\n".join(out)
