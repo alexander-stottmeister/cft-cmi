@@ -4,8 +4,6 @@
 
 **Status:** `proved` — a complete structured proof. **Conditional.** The statement is not unconditional: it rests on U, quoted below. Read the badge only together with them.
 
-> **Referee pass pending.** This card has been changed since its last pass and is queued for review; the verdict below is the state of that queue, not an accepted result.
-
 **Area:** [Lattice, thermal, massive and gapped geometries (O7, O9, O10)](../status.md#area-lattice-thermal) · **Card type:** theorem · **Knowledge-base id:** `sequential-recovery-bound-type-iii`
 
 ## Statement
@@ -48,7 +46,7 @@ No numerics needed: the proof is from the cited variational formula plus element
 
 ## Review
 
-**Review record:** a referee pass is pending; the card has no accepted verdict at present.
+**Review record:** passed 2026-09-21 by REF-MOVE-1d.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

@@ -3397,11 +3397,11 @@
    "statement": "Let omega be a normal state on a von Neumann algebra M, N_1 subset N_2 subset ... subset N_m subset M von Neumann subalgebras with the same unit, and R_k: N_{k+1} -> N_k normal unital 2-positive (Heisenberg-picture) recovery maps, R = R_1 o ... o R_{m-1}. TWO FORMS. (a) ANGLE FORM (Thm 12.5), under hypothesis (U): with the Bures angle A(phi,psi) = arccos F(phi,psi), A(omega|N_m, omega|N_1 o R) <= sum_k A(omega|N_{k+1}, omega|N_k o R_k). (b) CHORDAL FORM (Thm 12.6), UNCONDITIONAL: the same telescoping for the Bures distance d_B = sqrt(2 - 2F), whose triangle inequality is Alberti-Uhlmann 2002 Prop. 1(1), p. 3 (obtained and read; stated there WITHOUT proof and attributed to Bures 1969, which is NOT OBTAINED). Both proofs telescope through mu_j = omega|N_{m-j} o R_{m-j} o S_j with S_j = R_{m-j+1} o ... o R_{m-1} and use monotonicity of F under the channel S_j. Ingredients proved in the document: the Choi inequality T(a^{-1}) >= T(a)^{-1} for unital 2-positive T (Schur complement), monotonicity of F from Alberti-Uhlmann 2002 Thm 2(1), p. 6 (product form) and Cor 2(5), p. 8 (normalised form) plus eq. (1-4), and the spherical triangle inequality <x,z> >= cos(alpha+beta). HYPOTHESIS (U), declared, NOT dischargeable: in the standard form of a sigma-finite von Neumann algebra, F(phi,psi) = <xi_phi, xi_psi> for the natural-cone representatives. Sources: Araki-Raggio 1982 could not be obtained; Uhlmann 1976 was obtained and was read -- it contains the explicit-formula theorem (p. 277), one-argument concavity of the transition probability (eq. (8), p. 274) and monotonicity under RESTRICTION to a subalgebra (eq. (24), p. 277), but no standard-form/natural-cone statement, no CP-monotonicity and no metric statement, so (U) cannot be cited from it (the earlier claim that both sources were NOT OBTAINED was factually wrong). (U) is used ONLY for the angle form (a) and for the exact form Phi_tot <= -log cos(sum_k arccos e^{-Phi_k}). SECOND-ORDER FORM (Cor 12.7), UNCONDITIONAL: Phi_tot <= (sum_k sqrt(Phi_k))^2 (1+o(1)) as all Phi_k -> 0, obtained from the chordal form (b) via d_B = sqrt(2 Phi)(1+O(Phi)); if each step extends to a normal unital 2-positive map on F(I) with error Phi_k^(I) then Phi_k <= Phi_k^(I) and the same bound holds with Phi_k^(I). SATURATION at second order iff all corners coincide (then Phi_tot = Phi_A(sum zeta_k) = f2 (sum zeta_k)^2 = (sum sqrt(Phi_k))^2); for distinct corners the bound is far from sharp, the network law W2 replacing (sum zeta)^2 by sum_{jk} zeta_j zeta_k Ghat(y_j-y_k)/Ghat(0).",
    "verify": "No numerics needed: the proof is from the cited variational formula plus elementary Hilbert-space geometry. The saturation statement uses Theorem A (card thm-a-quadratic-law) and the Protocol 3 reduction (corner-calculus).",
    "next": null,
-   "review": "pending",
+   "review": "passed 2026-09-21 by REF-MOVE-1d",
    "refereed": true,
-   "awaiting_review": true,
-   "verdicts": 3,
-   "review_failed": true,
+   "awaiting_review": false,
+   "verdicts": 4,
+   "review_failed": false,
    "page": "sequential-recovery-bound-type-iii.md",
    "related": [
     "corner-calculus",
@@ -4286,7 +4286,7 @@
    "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published; the line this record links to is the count itself."
   },
   {
-   "value": 1,
+   "value": 0,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
    "line": 4289,
@@ -4296,7 +4296,7 @@
    "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published; the line this record links to is the count itself."
   },
   {
-   "value": 2,
+   "value": 1,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
    "line": 4299,

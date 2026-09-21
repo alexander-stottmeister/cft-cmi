@@ -819,6 +819,9 @@ def first_sentence(text: str) -> str:
 # source files themselves are historical records and are never rewritten.
 def _no_presence_claim(text: str) -> str:
     text = re.sub(r"\s*\(already in [^)]*\)", "", text)
+    # keep the annotation OUTSIDE any surrounding backticks: the path is code, the
+    # remark about it is not (REF-MOVE-1d)
+    text = re.sub(r"`refs/([A-Za-z0-9_.+-]+\.pdf)`", r"`\1` (not redistributed)", text)
     text = re.sub(r"\brefs/([A-Za-z0-9_.+-]+\.pdf)\b", r"\1 (not redistributed)", text)
     return text
 

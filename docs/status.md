@@ -134,7 +134,7 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 | `proved` | [Separation constraint: all-weak L->R Petz chains have e^{Delta_k} >= 2/eps (sharp)](results/corner-separation-constraint.md) |  |
 | `proved` | [Amplification: the corner strength in the chain frame is zeta_step (1 + z')](results/frame-strength-amplification.md) |  |
 | `proved` | [Corner data of all one-sided protocols for n = 4 and n = 5: the holonomy is the starting block](results/protocol-corner-data-n4-n5.md) |  |
-| `proved` | [Type-III sequential recovery bound: Bures angles add along a chain of von Neumann inclusions](results/sequential-recovery-bound-type-iii.md) | review pending |
+| `proved` | [Type-III sequential recovery bound: Bures angles add along a chain of von Neumann inclusions](results/sequential-recovery-bound-type-iii.md) |  |
 | `proved` | [Vacuum rigidity: the pulled-back vacuum is the vacuum iff the map is Moebius; no protocol recovers exactly](results/vacuum-rigidity-exact-recovery.md) |  |
 | `numerical` | [Separated intervals: CMI with a gap and linearity off criticality](results/gap-law.md) |  |
 | `numerical` | [Markov c-function along the massive flow](results/rg-c-function.md) |  |
