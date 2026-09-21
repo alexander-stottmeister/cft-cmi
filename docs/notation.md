@@ -116,11 +116,11 @@ p^{3}|\hat f(p)|^{2}dp$, i.e. (eq:appnorm) at $c=1$ (checked numerically to $1.5
 | $\gamma_{0}$ | $2/(3\pi^{2})=0.0675$ | (thm:value): $c$-linearity ((thm:linear)) plus the free-fermion distance $\frac{1}{6\pi^{2}}$ of Paper 1 (Paper1,RigorUB) |
 | $ g_B$ | $c \gamma_{0}=2c/(3\pi^{2})$ | (thm:value); independently reproduced by the modular-frame computation of Note 7 (Note7) (a confirmation, not a proof: (rem:mellin)) |
 | $f_{2}$ | $ g_B/8=c/(12\pi^{2})$ | (thm:B); at $c=1$, $0.0084434$ |
-| $\inf\\|G\\|_{3/2}^{2}$ | $8/\pi=2.546479$ | (rem:varform), equivalent to $ g_B$ at $c=1$; Rayleigh--Ritz value $2.547971$ ($0.06\%$) |
+| $\inf\|G\|_{3/2}^{2}$ | $8/\pi=2.546479$ | (rem:varform), equivalent to $ g_B$ at $c=1$; Rayleigh--Ritz value $2.547971$ ($0.06\%$) |
 | $ g_{\mathrm{KM}}$ | $c/6$ *(conjectural)* | (sec:km); free-fermion reduction $ g_{\mathrm{KM}}=1/6$ (RigorKM), an analytic continuation; the gauge lemma is refuted (RigorRK) |
 | $s_{2}$ | $ g_{\mathrm{KM}}/2=c/12$ *(conjectural)* | (sec:km); proved bracket $0.034 c\le\liminf\le\limsup\le0.924 c$ (RigorRK); bosonic check $0.083(2)$ ((sec:boson)) |
 | $J_{\rm jump}$ | $-1/L$ | (thm:reg): jump of $G''$ at the touching point, $G$ the *circle* representative; the line-chart field has $g_{\rm tot}''$ jumping by $-2/L$ |
-| $\\|T(g_{\rm tot})\Omega\\|^{2}$ | $\frac{c}{12}\\|g_{\rm tot}\\|_{\dot H^{3/2}}^{2}$ | (thm:reg)(f); finite, whereas $\\|L_{0}T(g_{\rm tot})\Omega\\|^{2}$ diverges logarithmically with coefficient $\frac{c}{12}\frac{J_{\rm jump}^{2}}{4\pi^{2}}$ |
+| $\|T(g_{\rm tot})\Omega\|^{2}$ | $\frac{c}{12}\|g_{\rm tot}\|_{\dot H^{3/2}}^{2}$ | (thm:reg)(f); finite, whereas $\|L_{0}T(g_{\rm tot})\Omega\|^{2}$ diverges logarithmically with coefficient $\frac{c}{12}\frac{J_{\rm jump}^{2}}{4\pi^{2}}$ |
 
 ## From `rigor/phase6_brief.md`
 

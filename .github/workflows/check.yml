@@ -40,10 +40,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: TeX Live
-        # --no-install-recommends keeps the download small, so every package has to
-        # be named.  texlive-pictures carries tikz, which paper1 loads directly and
-        # which tcolorbox pulls in for every rigor document; lmodern is the text font
-        # of both papers and of rigor_preamble.tex.
+        # --no-install-recommends suppresses Recommends, not Depends, so texlive-pictures
+        # arrives anyway as a Depends of texlive-latex-extra and is named here only for
+        # the record.  lmodern is the one package that had to be added: it carries
+        # lmodern.sty, which paper1/main.tex, paper2/main.tex and rigor_preamble.tex all
+        # load on line 2, and its absence is what failed every run before 9aed69a.
+        # fonts-lmodern is not a substitute; it ships fonts and no .sty.
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends \
@@ -54,8 +56,10 @@ jobs:
       - name: the rigor documents that are expected to build still do
         run: python3 tools/check_rigor_builds.py
 
-  # Written and disabled.  Enable by removing the `if: false` once the
-  # repository is public; nothing else here needs to change.
+  # Written and disabled.  Removing the `if: false` is the whole of what publishing
+  # needs once the repository is public: `enablement: true` turns Pages on and sets its
+  # source to this workflow, so no click in Settings is required, and the free tier
+  # serves Pages for public repositories only, which is why it waits (decision D1).
   pages:
     if: false
     runs-on: ubuntu-latest
@@ -64,6 +68,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+        with: { enablement: true }
       - uses: actions/upload-pages-artifact@v3
         with: { path: docs }
       - id: deploy

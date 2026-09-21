@@ -57,7 +57,7 @@
    "title": "Project infrastructure: rigor pipeline, numerics stack, agents",
    "status": "active",
    "order": 8,
-   "n": 11
+   "n": 13
   }
  ],
  "statuses": [
@@ -126,6 +126,21 @@
   {
    "a": "all-channels-symbol-feasible",
    "b": "quasi-free-sdp",
+   "cross": false
+  },
+  {
+   "a": "ci-green",
+   "b": "generated-docs",
+   "cross": false
+  },
+  {
+   "a": "ci-green",
+   "b": "interactive-site",
+   "cross": false
+  },
+  {
+   "a": "ci-green",
+   "b": "repo-split-public-private",
    "cross": false
   },
   {
@@ -221,6 +236,21 @@
   {
    "a": "certified-numerics",
    "b": "dhat-quadrature-certification",
+   "cross": false
+  },
+  {
+   "a": "docs-pages-rendering",
+   "b": "generated-docs",
+   "cross": false
+  },
+  {
+   "a": "docs-pages-rendering",
+   "b": "interactive-site",
+   "cross": false
+  },
+  {
+   "a": "docs-pages-rendering",
+   "b": "public-site-plan",
    "cross": false
   },
   {
@@ -1063,6 +1093,46 @@
    ]
   },
   {
+   "id": "ci-green",
+   "origin": "claims",
+   "title": "Continuous integration passes, for the first time since the workflow was added",
+   "type": "tool",
+   "status": "done",
+   "area": "infrastructure",
+   "confidence": null,
+   "statement": "Every run of .github/workflows/check.yml failed from the moment it was added on 2026-09-21 until 9aed69a: 24 runs, 0 successes, and because each of the two jobs stopped at its second step, the figure-reproducibility check and tools/check_rigor_builds.py had never executed once. Two unrelated causes. (1) The site-data step ran tools/build_site_data_extra.py --check, whose fourth payload, the claim map, is built from the knowledge base; that is a separate private repository the runner does not check out, so the script raised Drift and exited 2. It now takes --allow-missing-kb, which drops that one payload and checks the three built from result files in this repository; the skip prints the name of the unchecked file, and WITHOUT the flag a missing knowledge base is still an error, so a working clone cannot quietly stop checking the claim map. (2) The papers job failed compiling paper1, and the cause was isolated only afterwards, because the Makefile sent pdflatex's output to /dev/null and no run ever recorded the error. The missing package was lmodern, which carries lmodern.sty (/usr/share/texmf/tex/latex/lm/lmodern.sty); paper1/main.tex loads it on line 2, so with -halt-on-error nothing past line 2 was ever reached. The commit also names texlive-pictures, which was a no-op: it is a hard Depends of texlive-latex-extra and appears in the failing runs' own apt log ('Setting up texlive-pictures (2023.20240207-1)'), and --no-install-recommends suppresses Recommends, not Depends. fonts-lmodern, installed in both the failing and the passing runs, ships no .sty file. REF-CI-PAGES established this after the fact by diffing the apt 'NEW packages will be installed' lists of runs 35595433844 (28 packages) and 35602149545 (31: the same 28 plus lmodern, xfonts-encodings, xfonts-utils), not by reading a LaTeX error, which no run produced; the workflow comment at check.yml has been corrected to say this. The Makefile also sent pdflatex's output to /dev/null, so the log recorded a non-zero exit with no reason attached; on failure it now prints the last 40 lines of main.log. Separately, make rigor had never run at all: the target's name matches the rigor/ directory and was absent from .PHONY, so make reported it up to date and did nothing. Run 35602149545 is the first success: both jobs green, and check_rigor_builds.py reports 41 document(s), 0 failing, 0 known in a clone that carries no private material, which is the number README section 13 claims. The pages job stays behind if: false by decision D1; it is enabled when the repository goes public. WHAT THE FLAG DOES NOT DO is protect CI: with the knowledge base absent a drifted docs/data/extra-claim-map.json is announced as unchecked and then waved through, and nothing on the runner can rebuild it, so only `make check` in a clone that has the knowledge base beside it will catch that, i.e. a human before committing. This is not hypothetical: at 5a3988b the committed claim map was missing the ci-green and docs-pages-rendering nodes and six edges, and run 35603853632 was green over it (REF-CI-PAGES). It was regenerated in the following commit.",
+   "verify": "gh run list --repo alexander-stottmeister/cft-cmi shows 24 failures then success at 35602149545. gh run view 35602149545 --log shows the NOT CHECKED line naming extra-claim-map.json and '41 document(s), 0 failing, 0 known'. For the cause: compare the 'NEW packages will be installed' lists of runs 35595433844 and 35602149545; the difference is lmodern and its two font deps. Locally: make rigor dispatches to the checker instead of printing 'up to date'.",
+   "next": "Nothing blocking. The Node 20 deprecation warning on actions/checkout@v4 and actions/setup-python@v5 will become an error at some point and wants a version bump.",
+   "review": "pending (was FAILED 2026-09-21 by REF-CI-PAGES)",
+   "refereed": true,
+   "awaiting_review": true,
+   "verdicts": 1,
+   "review_failed": true,
+   "page": null,
+   "related": [
+    "generated-docs",
+    "interactive-site",
+    "repo-split-public-private"
+   ],
+   "evidence": [
+    {
+     "kind": "doc",
+     "path": ".github/workflows/check.yml",
+     "access": "public"
+    },
+    {
+     "kind": "doc",
+     "path": "Makefile",
+     "access": "public"
+    },
+    {
+     "kind": "num",
+     "path": "tools/build_site_data_extra.py",
+     "access": "public"
+    }
+   ]
+  },
+  {
    "id": "cmi-markov-defect-interpretation",
    "origin": "claims",
    "title": "CMI as the data-processing defect of tracing out C (Note 2)",
@@ -1476,6 +1546,56 @@
     "certified-numerics"
    ],
    "evidence": []
+  },
+  {
+   "id": "docs-pages-rendering",
+   "origin": "claims",
+   "title": "The generated documentation is rendered to HTML for Pages, with the Markdown still the source",
+   "type": "tool",
+   "status": "done",
+   "area": "infrastructure",
+   "confidence": null,
+   "statement": "GitHub Pages does not render Markdown: a .md file with no YAML front matter is a static file and is served verbatim, content-type text/markdown, with or without docs/.nojekyll, so a browser shows it as plain text or saves it. Every link from the interactive site into the generated documentation therefore landed a reader on a text file, 113 in 12 HTML files plus one built at runtime in claim-map.html from the JSON field 'page'. Removing .nojekyll is not the fix, because Jekyll converts only pages carrying front matter (a file without it is a static file and is never processed, so a defaults: block cannot rescue it) and front matter would then appear in the Markdown that GitHub renders when someone browses the repository. So the Markdown stays the source and gains a rendering. tools/md_to_html.py (494 lines, stdlib only) writes docs/read/, one .html per .md, the same directory structure, so the directory prefix of a relative link between two documentation pages is preserved and only the suffix changes. THE SUBSET IS CLOSED, and this is enforced rather than intended: reject_unsupported() raises Unsupported on an ordered list, a fenced code block, a nested bullet, a setext underline, a raw HTML block other than the anchor pattern, a closed ATX heading, a hard line break, an image, an autolink, a reference link, a link title, strikethrough and triple emphasis, and blocks() raises on an indented code block, a pipe table with no alignment row, a link target escaping the repository, an unterminated HTML comment and text after a comment's close; the paragraph branch is the fallback for prose, never for an unrecognised construct. Emphasis follows CommonMark's flanking rules for both * and _, so intraword underscores stay literal and a bare adjoint star is not an emphasis delimiter. Three link classes occur and each has one answer on Pages, where only docs/ is published: another documentation page keeps its relative path with .md swapped for .html; a file elsewhere in the repository becomes an absolute blob URL, since it is not deployed; a directory gets its index, which is why read/results/index.html is generated (two pages link to results/ and Pages does not list directories). A fourth, per page and by design: each mirror page's footer links to its own .md source on github.com. The mirror is generated by build_docs.py, so --check covers it (a changed byte, a deleted mirror page, and an orphan anywhere under read/ including a nested one, verified by REF-CI-PAGES); 65 pages became 131 in total, namely 65 Markdown and 66 HTML. A page a human has taken over by the hand-edit marker is mirrored from what is on disk, because that is what a reader sees. FIDELITY. The rendered text loses no source word: all 65 pages match at alphanumeric-word granularity against two independent extractors and a markdown-it GFM baseline, and all 8 anchor ids survive as attributes. Word-level fidelity is not character-level fidelity, and REF-CI-PAGES found five character-level defects in the mirror committed at 5a3988b, all now repaired and each verified against the source line: history.md:143 lost both adjoint stars of 'N = 1 - XX* >= 0 ... X* <= N' to a spurious em (fixed by flanking); _underscore_ emphasis was unimplemented and showed as literal underscores on 28 of 66 pages (fixed, 27 result pages now render it as emphasis); title_of() de-escaped by stripping [`*] from raw Markdown, so three titles disagreed with their own h1 (fixed by rendering the heading to plain text); notation.md:119,123 became 5- and 9-cell rows in a 3-column table because tabular_to_md escaped every pipe and so turned a LaTeX norm bar \\| into \\\\|, an escaped backslash followed by a live delimiter (fixed upstream by escaping only unescaped pipes; both rows are 3 cells); history.md:219 became a 10-cell row in a 2-column table because a table copied verbatim out of rigor/PHASE5_STATUS.md carries bare pipes inside a code span, which GFM splits on (fixed upstream by pipes_in_code_spans(); the row is 2 cells and ||u||^2 is intact). LaTeX norm bars still degrade to single bars in these tables, as they do on GitHub, because the mirror ships no math renderer. Also repaired here: check_links.py was applying the Markdown link pattern to HTML too, where mathematics like [h''/h'](p) arrives as rendered text with its backslashes already resolved, and reported three links that do not exist; the pattern now applies to Markdown only. README carries the Pages address four times, three in the introduction and one in section 9, and says that the address serves nothing yet and that publishing needs two things: the repository going public and the if: false on the Pages job being removed. configure-pages now passes enablement: true, so no click in Settings is needed; as of this card Pages has never been enabled on the repository (has_pages false).",
+   "verify": "After make docs data, make check is green: check_links 155 pages and 2210 links resolve, build_docs --check 131 pages up to date, all nine data files ok. python3 -m http.server in docs/ then curl -o /dev/null -w '%{content_type}' gives text/html for read/status.html and text/markdown for status.md; that measures Python's mimetypes table, not GitHub's, and Pages has never been enabled on this repository, so the content-type claim about Pages itself rests on the documented static-file rule and not on a measurement. Fidelity spot checks: grep the five repaired sites named in the Statement against their source lines.",
+   "next": "The mirror has no heading anchors: only the eight explicit <a id> tags in status.md are linkable, which is all the current links need. LaTeX in tables renders as degraded text because the mirror ships no math renderer, unlike the interactive pages, which vendor KaTeX.",
+   "review": "pending (was FAILED 2026-09-21 by REF-CI-PAGES)",
+   "refereed": true,
+   "awaiting_review": true,
+   "verdicts": 1,
+   "review_failed": true,
+   "page": null,
+   "related": [
+    "generated-docs",
+    "interactive-site",
+    "public-site-plan"
+   ],
+   "evidence": [
+    {
+     "kind": "num",
+     "path": "tools/md_to_html.py",
+     "access": "public"
+    },
+    {
+     "kind": "num",
+     "path": "tools/build_docs.py",
+     "access": "public"
+    },
+    {
+     "kind": "doc",
+     "path": "docs/read/status.html",
+     "access": "public"
+    },
+    {
+     "kind": "doc",
+     "path": "docs/read/results/index.html",
+     "access": "public"
+    },
+    {
+     "kind": "num",
+     "path": "tools/check_links.py",
+     "access": "public"
+    }
+   ]
   },
   {
    "id": "e2-exact-fidelity-optimised-extension",
@@ -1919,14 +2039,14 @@
    "status": "active",
    "area": "infrastructure",
    "confidence": null,
-   "statement": "tools/build_docs.py (about 1300 lines) generates the public documentation subfolder from the knowledge base: 65 files, namely seven top-level pages (index, status, notation, definitions, open, sources, history) and 58 per-claim pages under docs/results/ for every card at status proved, refereed, numerical or conjectural (30 proved, 3 refereed, 22 numerical, 3 conjectural of the 85 cards listed). Every count is computed, never typed. REF-DOCS-1 verified all 58 result pages byte-faithful to their cards (Statement and How-to-verify verbatim, every evidence and related token rendered, the badge being the card own status, 0 problems in 58), recounted every figure, and measured 783 internal links with 0 dead, 0 untracked and 0 missing anchors. The three rules of the plan hold and were tested independently: a conditional result names its hypotheses on its own page (all-channel-optimum-value H1-H3, corner-calculus the junction form under (H), sequential-recovery-bound-type-iii the angle form under (U), each marked Conditional); the evidence pointers held only in the private companion are DETECTED (8: six source PDFs plus PRIVATE.md (held privately) and CHECKLIST.md (held privately)) by a genuine git ls-files membership test rather than a hardcoded list and RENDERED without a link where a page cites them (6, since the two Markdown files are cited only by a card that reaches no displayed status); and a card never refereed is marked in four places, tested on a temporary knowledge-base copy with the review field stripped. The drift guard, tools/build_docs.py --check and make check, fails on a changed byte, a stale results page, a deleted results page and a changed card, and now also on an orphan top-level page; it reports rather than hides pages skipped by the hand-edit marker, which is the one way a page can still go stale unnoticed. Admitted on the pages themselves and not only here: the open-access versus library-access split of the 36 source rows is a keyword GUESS (only the 20 fetchable are verified against a live refs/restore.sh --list), with DaleckiiKrein and Petz96 named as known misfilings; notation.md and definitions.md are a mechanical LaTeX-to-Markdown pass with no true symbol table and still need a human pass; history.md reproduces only the lead sentence of each phase entry.",
+   "statement": "tools/build_docs.py (1427 lines) generates the public documentation subfolder from the knowledge base: 65 files, namely seven top-level pages (index, status, notation, definitions, open, sources, history) and 58 per-claim pages under docs/results/ for every card at status proved, refereed, numerical or conjectural (30 proved, 3 refereed, 22 numerical, 3 conjectural of the 90 cards the knowledge base now lists; the count moves with the knowledge base, and docs/status.md carries the current figure and is inside the drift guard). Every count is computed, never typed. REF-DOCS-1 verified all 58 result pages byte-faithful to their cards (Statement and How-to-verify verbatim, every evidence and related token rendered, the badge being the card own status, 0 problems in 58), recounted every figure, and measured 783 internal links with 0 dead, 0 untracked and 0 missing anchors. The three rules of the plan hold and were tested independently: a conditional result names its hypotheses on its own page (all-channel-optimum-value H1-H3, corner-calculus the junction form under (H), sequential-recovery-bound-type-iii the angle form under (U), each marked Conditional); the evidence pointers held only in the private companion are DETECTED (8: six source PDFs plus PRIVATE.md (held privately) and CHECKLIST.md (held privately)) by a genuine git ls-files membership test rather than a hardcoded list and RENDERED without a link where a page cites them (6, since the two Markdown files are cited only by a card that reaches no displayed status); and a card never refereed is marked in four places, tested on a temporary knowledge-base copy with the review field stripped. The drift guard, tools/build_docs.py --check and make check, fails on a changed byte, a stale results page, a deleted results page and a changed card, and now also on an orphan top-level page; it reports rather than hides pages skipped by the hand-edit marker, which is the one way a page can still go stale unnoticed. Admitted on the pages themselves and not only here: the open-access versus library-access split of the 36 source rows is a keyword GUESS (only the 20 fetchable are verified against a live refs/restore.sh --list), with DaleckiiKrein and Petz96 named as known misfilings; notation.md and definitions.md are a mechanical LaTeX-to-Markdown pass with no true symbol table and still need a human pass; history.md reproduces only the lead sentence of each phase entry.",
    "verify": null,
    "next": null,
-   "review": "passed 2026-09-21 by REF-DOCS-1c",
+   "review": "pending (was FAILED 2026-09-21 by REF-CI-PAGES)",
    "refereed": true,
-   "awaiting_review": false,
-   "verdicts": 3,
-   "review_failed": false,
+   "awaiting_review": true,
+   "verdicts": 4,
+   "review_failed": true,
    "page": null,
    "related": [],
    "evidence": [
@@ -4256,10 +4376,10 @@
  ],
  "records": [
   {
-   "value": 88,
+   "value": 90,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4259,
+   "line": 4379,
    "status": "numerical",
    "id": "count.cards",
    "label": "cards in the knowledge base, all of them shown",
@@ -4269,7 +4389,7 @@
    "value": 8,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4269,
+   "line": 4389,
    "status": "numerical",
    "id": "count.areas",
    "label": "areas",
@@ -4279,27 +4399,27 @@
    "value": 0,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4279,
+   "line": 4399,
    "status": "numerical",
    "id": "count.never_refereed",
    "label": "cards with no referee verdict anywhere in their record: shown, and marked never refereed",
    "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published; the line this record links to is the count itself."
   },
   {
-   "value": 0,
+   "value": 3,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4289,
+   "line": 4409,
    "status": "numerical",
    "id": "count.awaiting_review",
    "label": "cards whose review line says pending: awaiting a pass, which is not the same as never refereed when the history already records one",
    "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published; the line this record links to is the count itself."
   },
   {
-   "value": 0,
+   "value": 3,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4299,
+   "line": 4419,
    "status": "numerical",
    "id": "count.review_failed",
    "label": "cards whose latest recorded verdict is a failure",
@@ -4309,7 +4429,7 @@
    "value": 12,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4309,
+   "line": 4429,
    "status": "numerical",
    "id": "count.private_pointers",
    "label": "evidence pointers into the private companion: rendered as held privately, never as a link",
@@ -4319,17 +4439,17 @@
    "value": 9,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4319,
+   "line": 4439,
    "status": "numerical",
    "id": "count.private_targets",
    "label": "distinct files in the private companion that those pointers name",
    "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published; the line this record links to is the count itself."
   },
   {
-   "value": 243,
+   "value": 251,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4329,
+   "line": 4449,
    "status": "numerical",
    "id": "count.public_pointers",
    "label": "evidence pointers to files git tracks, rendered as links",
@@ -4339,7 +4459,7 @@
    "value": 8,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4339,
+   "line": 4459,
    "status": "numerical",
    "id": "count.kb_pointers",
    "label": "evidence pointers into the knowledge base itself, which is not published",
@@ -4349,7 +4469,7 @@
    "value": 0,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4349,
+   "line": 4469,
    "status": "numerical",
    "id": "count.missing_pointers",
    "label": "evidence pointers whose target is neither tracked nor on disk",
@@ -4359,17 +4479,17 @@
    "value": 0,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4359,
+   "line": 4479,
    "status": "numerical",
    "id": "count.uncommitted_pointers",
    "label": "evidence pointers to files that exist but neither repository tracks yet",
    "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published; the line this record links to is the count itself."
   },
   {
-   "value": 147,
+   "value": 153,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4369,
+   "line": 4489,
    "status": "numerical",
    "id": "count.edges",
    "label": "related-to edges between cards",
@@ -4379,7 +4499,7 @@
    "value": 58,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4379,
+   "line": 4499,
    "status": "numerical",
    "id": "count.with_page",
    "label": "cards that also have a generated page under docs/results/",
@@ -4389,7 +4509,7 @@
    "value": 1,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4389,
+   "line": 4509,
    "status": "numerical",
    "id": "count.promoted",
    "label": "cards that started as findings in the knowledge base's evidence folder and reached a displayed status",
@@ -4399,7 +4519,7 @@
    "value": 232,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4399,
+   "line": 4519,
    "status": "numerical",
    "id": "count.findings_left",
    "label": "findings that stay in the knowledge base because they reached no displayed status: they are audit records, not claims",
@@ -4409,7 +4529,7 @@
    "value": 14,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4409,
+   "line": 4529,
    "status": "numerical",
    "id": "count.status.active",
    "label": "cards with status active",
@@ -4419,17 +4539,17 @@
    "value": 3,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4419,
+   "line": 4539,
    "status": "numerical",
    "id": "count.status.conjectural",
    "label": "cards with status conjectural",
    "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published."
   },
   {
-   "value": 3,
+   "value": 5,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4429,
+   "line": 4549,
    "status": "numerical",
    "id": "count.status.done",
    "label": "cards with status done",
@@ -4439,7 +4559,7 @@
    "value": 22,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4439,
+   "line": 4559,
    "status": "numerical",
    "id": "count.status.numerical",
    "label": "cards with status numerical",
@@ -4449,7 +4569,7 @@
    "value": 5,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4449,
+   "line": 4569,
    "status": "numerical",
    "id": "count.status.open",
    "label": "cards with status open",
@@ -4459,7 +4579,7 @@
    "value": 30,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4459,
+   "line": 4579,
    "status": "numerical",
    "id": "count.status.proved",
    "label": "cards with status proved",
@@ -4469,7 +4589,7 @@
    "value": 3,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4469,
+   "line": 4589,
    "status": "numerical",
    "id": "count.status.refereed",
    "label": "cards with status refereed",
@@ -4479,7 +4599,7 @@
    "value": 1,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4479,
+   "line": 4599,
    "status": "numerical",
    "id": "count.status.refuted",
    "label": "cards with status refuted",
@@ -4489,7 +4609,7 @@
    "value": 2,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4489,
+   "line": 4609,
    "status": "numerical",
    "id": "count.status.superseded",
    "label": "cards with status superseded",
@@ -4499,7 +4619,7 @@
    "value": 5,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 4499,
+   "line": 4619,
    "status": "numerical",
    "id": "count.status.verified",
    "label": "cards with status verified",

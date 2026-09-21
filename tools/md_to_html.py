@@ -50,23 +50,6 @@ def attr(text: str) -> str:
 
 # --------------------------------------------------------------------- inline
 
-def _closing(text: str, start: int, token: str) -> int:
-    """Index of the next unescaped `token` at or after `start`, or -1."""
-    i = start
-    while i < len(text):
-        if text[i] == "\\" and i + 1 < len(text):
-            i += 2
-            continue
-        if text[i] == "`":                      # a code span hides its contents
-            j = text.find("`", i + 1)
-            i = len(text) if j < 0 else j + 1
-            continue
-        if text.startswith(token, i):
-            return i
-        i += 1
-    return -1
-
-
 def _link_text_end(text: str, start: int) -> int:
     """Index of the `]` closing the `[` at `start`, or -1.  Nesting is not a
     case the generator produces, so one level is enough."""
@@ -82,6 +65,67 @@ def _link_text_end(text: str, start: int) -> int:
             continue
         if c == "]":
             return i
+        i += 1
+    return -1
+
+
+# CommonMark's flanking rules, which decide whether a run of `*` or `_` can open
+# or close emphasis.  Without them a naive scan turns the adjoints of
+# `N = 1 - XX* >= 0 and 0 <= Y = Z - X Q_BB X* <= N` into an <em> and DELETES both
+# stars, which is what the first version of this file shipped.
+_ASCII_PUNCT = re.compile(r"[!-/:-@\[-`{-~]")
+
+
+def _ws(c: str) -> bool:
+    return c == "" or c.isspace()
+
+
+def _punct(c: str) -> bool:
+    return bool(c) and bool(_ASCII_PUNCT.match(c))
+
+
+def _flanking(text: str, start: int, n: int) -> tuple:
+    before = text[start - 1] if start > 0 else ""
+    after = text[start + n] if start + n < len(text) else ""
+    left = (not _ws(after)) and (not _punct(after) or _ws(before) or _punct(before))
+    right = (not _ws(before)) and (not _punct(before) or _ws(after) or _punct(after))
+    return left, right, before, after
+
+
+def _can_open_close(ch: str, text: str, start: int, n: int) -> tuple:
+    left, right, before, after = _flanking(text, start, n)
+    if ch == "*":
+        return left, right
+    # `_` never opens or closes inside a word, so x_m and A_B stay literal.
+    return (left and (not right or _punct(before)),
+            right and (not left or _punct(after)))
+
+
+def _run_length(text: str, i: int, ch: str) -> int:
+    n = 0
+    while i + n < len(text) and text[i + n] == ch:
+        n += 1
+    return n
+
+
+def _find_closer(text: str, start: int, ch: str, n: int) -> int:
+    """Index of a run of `ch` at or after `start`, at least n long, that can close."""
+    i = start
+    while i < len(text):
+        c = text[i]
+        if c == "\\" and i + 1 < len(text):
+            i += 2
+            continue
+        if c == "`":
+            j = text.find("`", i + 1)
+            i = len(text) if j < 0 else j + 1
+            continue
+        if c == ch:
+            m = _run_length(text, i, ch)
+            if m >= n and _can_open_close(ch, text, i, m)[1]:
+                return i
+            i += m
+            continue
         i += 1
     return -1
 
@@ -119,22 +163,17 @@ def inline(text: str, link) -> str:
             target = text[end + 2:close]
             out.append('<a href="%s">%s</a>' % (attr(link(target)), inline(label, link)))
             i = close + 1
-        elif text.startswith("**", i):
-            j = _closing(text, i + 2, "**")
+        elif c in "*_":
+            run = min(_run_length(text, i, c), 2)
+            opens = _can_open_close(c, text, i, run)[0]
+            j = _find_closer(text, i + run, c, run) if opens else -1
             if j < 0:
-                out.append(esc("*"))
-                i += 1
+                out.append(esc(c * run))
+                i += run
             else:
-                out.append("<strong>%s</strong>" % inline(text[i + 2:j], link))
-                i = j + 2
-        elif c == "*":
-            j = _closing(text, i + 1, "*")
-            if j < 0:
-                out.append(esc(c))
-                i += 1
-            else:
-                out.append("<em>%s</em>" % inline(text[i + 1:j], link))
-                i = j + 1
+                tag = "strong" if run == 2 else "em"
+                out.append("<%s>%s</%s>" % (tag, inline(text[i + run:j], link), tag))
+                i = j + run
         else:
             out.append(esc(c))
             i += 1
@@ -172,7 +211,47 @@ def split_row(row: str) -> list:
             cur.append(c)
             i += 1
     cells.append("".join(cur))
-    return [c.strip() for c in cells[1:-1]]      # the leading and trailing bars
+    # GFM resolves the escape at table-parse time, so `\\|` inside a cell -- including
+    # inside a code span, where a backslash escape would otherwise be literal -- is a
+    # pipe in the cell's text, not a delimiter.
+    return [c.strip().replace("\\|", "|") for c in cells[1:-1]]
+
+
+# Constructs outside the subset.  None of them occurs in what build_docs.py emits
+# today, and each would be rendered wrongly and in silence if one appeared, so each
+# is a hard error instead.  This is what makes the subset closed: the paragraph
+# branch is the fallback for PROSE, never for an unrecognised construct.
+UNSUPPORTED_LINE = [
+    (re.compile(r"^\s*\d+\. "), "ordered list"),
+    (re.compile(r"^\s*(```|~~~)"), "fenced code block"),
+    (re.compile(r"^\s+[-*] "), "nested bullet"),
+    (re.compile(r"^=+\s*$"), "setext heading underline"),
+    (re.compile(r"^\s*<(?!!--)(?!a id=\")[A-Za-z!/?]"), "raw HTML block"),
+    (re.compile(r"^#{1,6} .*[^\\]#\s*$"), "closed ATX heading"),
+    (re.compile(r"\S {2,}$"), "hard line break"),
+]
+UNSUPPORTED_INLINE = [
+    (re.compile(r"(?<!\\)!\["), "image"),
+    (re.compile(r"(?<!\\)<https?://"), "autolink"),
+    (re.compile(r"(?<!\\)<[^\s>]+@"), "e-mail autolink"),
+    (re.compile(r"(?<!\\)\]\["), "reference link"),
+    (re.compile(r"(?<!\\)\]\([^)]*\s+\"[^\"]*\"\)"), "link title"),
+    (re.compile(r"(?<!\\)~~"), "strikethrough"),
+    (re.compile(r"(?<!\\)\*\*\*"), "triple emphasis"),
+]
+_CODE_SPAN = re.compile(r"`[^`\n]*`")
+
+
+def reject_unsupported(lines: list):
+    """Raise on any construct this renderer would mis-render without noticing."""
+    for n, raw in enumerate(lines, 1):
+        for pattern, name in UNSUPPORTED_LINE:
+            if pattern.search(raw):
+                raise Unsupported("%s at line %d: %r" % (name, n, raw[:70]))
+        bare = _CODE_SPAN.sub(lambda m: " " * len(m.group(0)), raw)
+        for pattern, name in UNSUPPORTED_INLINE:
+            if pattern.search(bare):
+                raise Unsupported("%s at line %d: %r" % (name, n, raw[:70]))
 
 
 def blocks(lines: list):
@@ -186,6 +265,11 @@ def blocks(lines: list):
             j = i
             while j < n and "-->" not in lines[j]:
                 j += 1
+            if j >= n:
+                raise Unsupported("unterminated HTML comment at line %d" % (i + 1))
+            tail = lines[j].split("-->", 1)[1].strip()
+            if tail:
+                raise Unsupported("text after --> at line %d: %r" % (j + 1, tail[:60]))
             i = j + 1
             continue
         if ANCHOR.match(line):
@@ -260,13 +344,15 @@ def render_table(rows: list, link) -> str:
 def render_body(text: str, link) -> tuple:
     """Return (title, body html).  The title is the first level-1 heading."""
     title, out = "", []
-    for kind, payload in blocks(text.splitlines()):
+    lines = text.splitlines()
+    reject_unsupported(lines)
+    for kind, payload in blocks(lines):
         if kind == "anchor":
             out.append(payload)
         elif kind == "heading":
             level, content = payload
             if level == 1 and not title:
-                title = re.sub(r"[`*]", "", content)
+                title = plain(content)
             out.append("<h%d>%s</h%d>" % (level, inline(content, link), level))
         elif kind == "rule":
             out.append("<hr>")
@@ -376,12 +462,21 @@ def render_page(md_text: str, md_rel: str) -> str:
     return shell(title, body, md_rel[:-3] + ".html", md_rel)
 
 
+def plain(md: str) -> str:
+    """Inline Markdown as plain text: escapes resolved, markup dropped.
+
+    Stripping "[`*]" from the raw source instead, as the first version did, turns
+    an escaped star into a stray backslash and makes a page's <title> disagree
+    with its own <h1>."""
+    return html.unescape(re.sub(r"<[^>]+>", "", inline(md, lambda t: t)))
+
+
 def title_of(md_text: str) -> str:
     """The first level-1 heading, without inline markup.  Empty if there is none."""
     for line in md_text.splitlines():
         m = HEADING.match(line.rstrip())
         if m and len(m.group(1)) == 1:
-            return re.sub(r"[`*]", "", m.group(2).strip())
+            return plain(m.group(2).strip())
     return ""
 
 

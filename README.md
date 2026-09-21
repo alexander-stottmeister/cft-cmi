@@ -31,9 +31,13 @@ accumulate. Every number displayed there carries the repository file and line it
 and nothing is fetched at runtime. The same address serves the generated documentation as pages you
 can read in a browser, starting at
 [the documentation map](https://alexander-stottmeister.github.io/cft-cmi/read/index.html) and
-[every claim by area](https://alexander-stottmeister.github.io/cft-cmi/read/status.html). The site
-goes live when this repository becomes public, which it is not yet; until then the same content is
-in [`docs/`](docs/), and GitHub renders the Markdown when you browse it here.
+[every claim by area](https://alexander-stottmeister.github.io/cft-cmi/read/status.html). **That
+address does not serve anything yet.** The site is built and committed, but the repository is
+private and the Pages deploy job in [`.github/workflows/check.yml`](.github/workflows/check.yml) is
+deliberately disabled. Publishing needs two things: the repository going public, because the free
+tier serves Pages for public repositories only, and the `if: false` on that job being removed. Until
+then the same content is in [`docs/`](docs/), and GitHub renders the Markdown when you browse it
+here.
 
 ## 1. The four headline results
 
@@ -331,7 +335,11 @@ and the errata, [`docs/sources.md`](docs/sources.md) the external results relied
 is written twice from the same text: as the Markdown you are reading links to, which is what GitHub
 renders when you browse the repository, and as a page under [`docs/read/`](docs/read/), because
 GitHub Pages serves a Markdown file as a raw download instead of rendering it. The interactive site
-links to the second; neither is edited by hand.
+links to the second; neither is edited by hand. Once the repository is public these pages are served
+at <https://alexander-stottmeister.github.io/cft-cmi/read/>, for example
+[`read/status.html`](https://alexander-stottmeister.github.io/cft-cmi/read/status.html) for every
+claim by area and [`read/results/`](https://alexander-stottmeister.github.io/cft-cmi/read/results/)
+for the index of result pages.
 
 Statuses themselves are maintained in a separate, private knowledge base rather than in this
 repository; [`docs/status.md`](docs/status.md) is generated from it and is the list to read here,

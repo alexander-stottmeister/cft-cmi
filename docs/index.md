@@ -41,7 +41,7 @@ The interactive site lives in this same folder and opens at `index.html`; it is 
 | `verified` | 5 | a check that was carried out and agreed |
 | `open` | 5 | an unsettled question |
 | `active` | 14 | work in progress |
-| `done` | 3 | a finished piece of project work |
+| `done` | 5 | a finished piece of project work |
 | `superseded` | 2 | replaced by a later claim |
 | `refuted` | 1 | shown to be false, kept so the correction stays visible |
 

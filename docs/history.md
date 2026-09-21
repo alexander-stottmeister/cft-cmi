@@ -216,7 +216,7 @@ Untouched by instruction: `rigor/exact_optimum_tangent_problem.tex`, `rigor/refe
 | `cft_cmi:theta-value` | REF-P5-KB1 minor: `19 further candidates are EXCLUDED` -> `16` |
 | `cft_cmi:kkt-noise-criterion-numerics` | REF-P5-KB1 minors: cap-scan row labelled half-SLD convention (1/2 of the script's `lam_min`, 1/4 of its gain) and anchored to `f2_capscan_L128.out` (`-3.4771e-02`, `3.534e-11` at L=128, cap 1e10; added to `evidence`); `kappa_max = 5.4-7.7, max w = 1.1e2-1.1e3` restricted to h = 0.24-0.06 (h = 0.03: 8.84, 3.4e3); `FD to 4e-9` -> `FD to <= 3e-8` |
 | `cft_cmi:tangent-sdp-noise-directions` | REF-P5-KB1 minor: `homogeneity x4` stated for the ORBIT-ONLY optimum |
-| `common:taper-dependence-of-first-order-constants` | REF-P5-KB1 minor: `||u||^2 stable to four digits` restricted to the taper windows S10's gate accepted (untapered `||u||^2 = 0.014889`) |
+| `common:taper-dependence-of-first-order-constants` | REF-P5-KB1 minor: `\|\|u\|\|^2 stable to four digits` restricted to the taper windows S10's gate accepted (untapered `\|\|u\|\|^2 = 0.014889`) |
 Not changed, deliberately: `open-problems-plan-note8` and the `e2-*` cards -- their Statements quote no
 
 `0.30`/`0.71` as a current value (the `e2-*` ratios 0.708-0.711 are within-model measurements of the

@@ -805,6 +805,29 @@ def sources_page(repo_root: Path, warnings: list) -> str:
 # docs/history.md
 # --------------------------------------------------------------------------- #
 
+def pipes_in_code_spans(line: str) -> str:
+    """Escape the pipes inside a code span of a table row copied from a source file.
+
+    GFM splits a table row on every unescaped pipe BEFORE it looks for code spans, so
+    `||u||^2` inside backticks silently becomes four extra cells.  The author of the
+    source meant one cell; escaping restores that without touching the source."""
+    out, i, in_code = [], 0, False
+    while i < len(line):
+        c = line[i]
+        if c == "\\" and i + 1 < len(line):
+            out.append(line[i:i + 2])
+            i += 2
+            continue
+        if c == "`":
+            in_code = not in_code
+        if c == "|" and in_code:
+            out.append("\\|")
+        else:
+            out.append(c)
+        i += 1
+    return "".join(out)
+
+
 def first_sentence(text: str) -> str:
     text = " ".join(text.split())
     m = re.search(r"(?<=[.])\s+(?=[A-Z(\[])", text)
@@ -878,7 +901,7 @@ def history_page(repo_root: Path, repo: Repo) -> str:
             elif line.lstrip().startswith("|"):        # a table: keep it intact
                 flush()
                 bullet = None
-                pending.append(line.rstrip())
+                pending.append(pipes_in_code_spans(line.rstrip()))
             else:
                 flush()
                 bullet = None
@@ -969,7 +992,11 @@ def tabular_to_md(tex: str) -> str:
     table = []
     for i, row in enumerate(rows):
         cells = [" ".join(c.split()) for c in row.split("&")]
-        table.append("| " + " | ".join(c.replace("|", "\\|") for c in cells) + " |")
+        # Escape only an UNESCAPED pipe: the LaTeX in these appendices writes norm
+        # bars as \|, and blindly escaping that gives \\| -- an escaped backslash
+        # followed by a live cell delimiter, which shreds the row.
+        table.append("| " + " | ".join(re.sub(r"(?<!\\)\|", r"\\|", c)
+                                       for c in cells) + " |")
         if i == 0:
             table.append("|" + "---|" * len(cells))
     return tex[:m.start()] + "\n" + "\n".join(table) + "\n" + tex[m.end():]

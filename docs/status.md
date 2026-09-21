@@ -2,7 +2,7 @@
 
 # Every claim, by area
 
-88 cards: 87 claim cards of the knowledge base, plus 1 finding that has reached a status displayed here. The tally below is counted from the cards, not typed:
+90 cards: 89 claim cards of the knowledge base, plus 1 finding that has reached a status displayed here. The tally below is counted from the cards, not typed:
 
 | status | claims | what it means |
 |---|---:|---|
@@ -13,10 +13,10 @@
 | `verified` | 5 | a check that was carried out and agreed |
 | `open` | 5 | an unsettled question |
 | `active` | 14 | work in progress |
-| `done` | 3 | a finished piece of project work |
+| `done` | 5 | a finished piece of project work |
 | `superseded` | 2 | replaced by a later claim |
 | `refuted` | 1 | shown to be false, kept so the correction stays visible |
-| **total** | **88** | |
+| **total** | **90** | |
 
 58 of them are `refereed`, `proved`, `numerical`, `conjectural` and have a page of their own under [`results/`](results/); the remainder are listed here with their status only.
 
@@ -171,7 +171,7 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 | status | claim | |
 |---|---|---|
 | `verified` | Headless screenshots and shell pitfalls on this Mac |  |
-| `active` | Generated documentation subfolder: docs/\*.md from the knowledge base, with a drift check |  |
+| `active` | Generated documentation subfolder: docs/\*.md from the knowledge base, with a drift check | review pending |
 | `active` | Interactive site skeleton: shared lib/, the data generator, and modules 1, 2, 6 |  |
 | `active` | Interactive site: modules 3 (universality), 4 (optimality) and 5 (the theta reconciliation) |  |
 | `active` | Interactive site: modules 7 to 10 and the extra data extractor |  |
@@ -181,6 +181,8 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 | `active` | Public README and the five generated SVG figures |  |
 | `active` | Two git repositories over one work tree: public project, private third-party material |  |
 | `active` | Rigor pipeline: Lamport proofs, referee passes, findings ledger |  |
+| `done` | Continuous integration passes, for the first time since the workflow was added | review pending |
+| `done` | The generated documentation is rendered to HTML for Pages, with the Markdown still the source | review pending |
 
 ---
 
