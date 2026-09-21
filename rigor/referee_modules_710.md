@@ -46,3 +46,15 @@ pass" chip now exercised.
   to R = 14, and above 1 at every R when m = 0, where c_E is too. Name both columns.
 - **E4** `:69` "to 0.116% at the default block length and to 0.06% at L_G = 96" reads as two gaps; both are at
   L_G = 96 and differ by L. Write "at L_G = 96, to 0.116% at L = 6 (the default) and 0.055% at L = 12".
+
+## Third pass — REF-MOD710c (2026-09-21) — PASS
+
+E1-E4 all verified in a jsdom re-run. The mass cell now prints 0.05 … 1.6 from `Number(m)` and its trend clause
+switches at m = 0.2, matching the series (1.3554, 1.1493, 1.0513 | 0.9722, 0.8251, 0.5632 at R = 40). The note
+leads with the plotted `c_M^(2)` (1.1079 at m = 0.05, R = 6; above 1 to R = 14; above 1 at every R at m = 0, as
+is c_E) and keeps the Richardson clause separate. The gap agreement reads 0.116% at L = 6 and 0.055% at L = 12,
+both at L_G = 96. No regression: `--check` exit 0 from root and /tmp; all 719 non-null records re-verify at the
+file and line they name (the 18 nulls are the m = 0 ratio column, which the page suppresses); both status cells
+read `numerical`; the two formatters agree; every page falls back and captures. Claim map: 88/8/147, 12 private
+pointers over 9 files, 0 as links, 301/301 links tracked, counts panel consistent with a walk of all 88 cards.
+Recording this verdict changes the card's review line, so `make data` must follow.
