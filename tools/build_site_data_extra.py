@@ -657,7 +657,7 @@ def _evidence(token, public, private):
 # something the reader could open (REF-MOVE-1g).  The cards themselves are the
 # record and are never rewritten.
 _PRIVATE_PATH = re.compile(
-    r"\b(PRIVATE\.md|CHECKLIST\.md|pgit-exclude|rigor/shots(?:/[A-Za-z0-9_.+-]+)?|"
+    r"\b(PRIVATE\.md|CHECKLIST\.md|pgit-exclude|pgit|rigor/shots(?:/[A-Za-z0-9_.+-]+)?|"
     r"plan_page(?:/[A-Za-z0-9_.+-]+)?|"
     r"refs/[A-Za-z0-9_.+-]+\.pdf|rigor/cited_R[1-4]\.tex|rigor/cited_results_all\.tex)\b")
 
