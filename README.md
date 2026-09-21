@@ -1,5 +1,14 @@
 # Conditional mutual information of adjacent intervals as a quantum-Markov defect
 
+> **An AI-assisted, experimental open-science project.** The proofs, the numerics and most of the
+> prose here were produced by AI agents working under my direction, and reviewed by other AI agents
+> whose job was to break them. That pipeline has caught a great deal and has also missed things:
+> the errata are kept rather than erased, and several results were wrong before they were right.
+> Read the status on every claim. `proved` means a structured proof that an independent referee
+> pass did not break; `numerical` means a measurement with an error bar and is not a theorem;
+> `conjectural` means neither. No result here has yet been refereed by a human other than me.
+> Section 11 says exactly what the agents did, in the same words as the papers.
+
 Alexander Stottmeister, Institut für Theoretische Physik, Leibniz Universität Hannover.
 
 For three adjacent intervals `A`, `B`, `C` in the vacuum of a chiral conformal field theory the
