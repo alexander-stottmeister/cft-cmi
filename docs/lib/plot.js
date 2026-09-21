@@ -258,6 +258,11 @@ export function draggable(plot, node, opts) {
   // a good aria-label does, so pass `key` for anything value-bearing (P4b).
   const focusKey = key || label;
   if (focusKey) node.setAttribute('data-handle-key', focusKey);
+  // An <svg role="img"> is a leaf to assistive technology: it prunes this
+  // handle and its aria values from the tree.  A plot that can be driven is a
+  // group, not an image (REF-MOD345 R6).
+  const host = node.ownerSVGElement || (node.closest && node.closest('svg'));
+  if (host && host.getAttribute('role') === 'img') host.setAttribute('role', 'group');
   if (opts && opts.aria) {
     const a = opts.aria;
     if (a.min !== undefined) node.setAttribute('aria-valuemin', String(a.min));

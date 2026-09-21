@@ -173,11 +173,11 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 | `verified` | Headless screenshots and shell pitfalls on this Mac |  |
 | `active` | Generated documentation subfolder: docs/\*.md from the knowledge base, with a drift check |  |
 | `active` | Interactive site skeleton: shared lib/, the data generator, and modules 1, 2, 6 |  |
-| `active` | Interactive site: modules 3 (universality), 4 (optimality) and 5 (the theta reconciliation) | review pending |
+| `active` | Interactive site: modules 3 (universality), 4 (optimality) and 5 (the theta reconciliation) |  |
 | `active` | Interactive site: modules 7 to 10 and the extra data extractor | review pending |
 | `active` | Numerics stack and its limits |  |
 | `active` | Plan page artifact and its source |  |
-| `active` | Plan: public presentation (README with figures, interactive Pages site, generated docs/) | review pending |
+| `active` | Plan: public presentation (README with figures, interactive Pages site, generated docs/) |  |
 | `active` | Public README and the five generated SVG figures | referee pass failed |
 | `active` | Two git repositories over one work tree: public project, private third-party material |  |
 | `active` | Rigor pipeline: Lamport proofs, referee passes, findings ledger |  |

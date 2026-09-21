@@ -2,6 +2,7 @@
    Light and dark, a 16px gutter, no horizontal scroll at phone width. */
 
 :root {
+  color-scheme: light dark;  /* form controls and scrollbars follow the theme */
   --bg: #fbfbfa;          --panel: #ffffff;      --fg: #17181a;
   --muted: #5c6066;       --line: #8d939c;       --line-soft: #ecedef;
   --accent: #1f5fa9;      --accent-soft: #e6eefa;

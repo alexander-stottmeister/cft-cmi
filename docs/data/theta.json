@@ -21,7 +21,12 @@
    "status": "numerical",
    "id": "one_minus_theta",
    "series": "constants",
-   "label": "1 - theta, the all-channel second-order gain"
+   "label": "1 - theta, the all-channel second-order gain",
+   "hypotheses": [
+    "H1",
+    "H2",
+    "H3"
+   ]
   },
   {
    "value": 0.77,

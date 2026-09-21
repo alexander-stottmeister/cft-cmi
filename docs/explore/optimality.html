@@ -13,6 +13,10 @@
 /* If the module fails, say so in the page instead of leaving a blank area:
    the static text and figure stay visible because .has-js is never set. */
 window.addEventListener('error', function (e) {
+  // capture phase, so a module that throws before its own handlers exist is
+  // still caught; and drop has-js so the no-JavaScript rendering takes over
+  // instead of leaving an empty frame (REF-MOD345 R4).
+  document.documentElement.classList.remove('has-js');
   var host = document.getElementById('main') || document.body;
   if (!host || host.querySelector('.boot-error')) return;
   var d = document.createElement('div');
@@ -43,7 +47,7 @@ window.addEventListener('error', function (e) {
   <button class="theme" type="button" hidden></button>
 </div></header>
 
-<main class="wrap" id="main">
+<main class="wrap" id="main" tabindex="-1">
 <h1>Module 4 &mdash; Is the compression optimal?</h1>
 <p class="lede">The zero-collar compression beats the ordinary Petz map by exactly a factor four, and
 no quasi-free channel found anywhere beats it. That is not the same as being optimal. A first-order

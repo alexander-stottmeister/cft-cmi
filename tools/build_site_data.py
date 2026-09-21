@@ -591,19 +591,23 @@ def build_theta():
     records = []
     joined = "\n".join(lines)
 
-    def scalar(rid, pattern, status, label):
+    def scalar(rid, pattern, status, label, hypotheses=None):
         m = re.search(pattern, joined)
         if not m:
             raise Drift("pattern %r not found in %s" % (pattern, src))
         ln1 = joined[:m.start()].count("\n") + 1
         err = float(m.group(2)) if m.lastindex and m.lastindex >= 2 else None
+        extra = {"hypotheses": list(hypotheses)} if hypotheses else {}
         records.append(record(rid, float(m.group(1)), err, src, ln1, status,
-                              series="constants", x=None, label=label))
+                              series="constants", x=None, label=label, **extra))
 
     scalar("theta", r"\*\*theta = (0\.\d+) \+- (0\.\d+)\*\*", "numerical",
            "theta, five mesh families, h -> 0")
+    # The all-channel reading of this number holds only under H1, H2 and H3, so the
+    # record carries them and renderRecord prints them beside the badge (R5).
     scalar("one_minus_theta", r"1 - theta = (0\.\d+) \+- (0\.\d+)", "numerical",
-           "1 - theta, the all-channel second-order gain")
+           "1 - theta, the all-channel second-order gain",
+           hypotheses=("H1", "H2", "H3"))
     scalar("order_p", r"\*\*p = log2\(1/rho\) = (0\.\d+) \+- (0\.\d+)\*\*", "numerical",
            "measured convergence order in the mesh width h")
     scalar("circle_published", r"S10's (0\.\d+) \+- (0\.\d+) is a lower bound", "numerical",
@@ -1086,7 +1090,7 @@ def main(argv=None):
               "Run: python3 tools/build_site_data.py", file=sys.stderr)
         return 1
     if args.check:
-        dangling = check_page_records(Path("docs"), dict(payloads))
+        dangling = check_page_records(ROOT / "docs", dict(payloads))
         for msg in dangling:
             print("  DANGLING %s" % msg, file=sys.stderr)
         if dangling:

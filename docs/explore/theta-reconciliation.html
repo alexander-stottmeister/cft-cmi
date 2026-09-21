@@ -13,6 +13,10 @@
 /* If the module fails, say so in the page instead of leaving a blank area:
    the static text and figure stay visible because .has-js is never set. */
 window.addEventListener('error', function (e) {
+  // capture phase, so a module that throws before its own handlers exist is
+  // still caught; and drop has-js so the no-JavaScript rendering takes over
+  // instead of leaving an empty frame (REF-MOD345 R4).
+  document.documentElement.classList.remove('has-js');
   var host = document.getElementById('main') || document.body;
   if (!host || host.querySelector('.boot-error')) return;
   var d = document.createElement('div');
@@ -43,7 +47,7 @@ window.addEventListener('error', function (e) {
   <button class="theme" type="button" hidden></button>
 </div></header>
 
-<main class="wrap" id="main">
+<main class="wrap" id="main" tabindex="-1">
 <h1>Module 5 &mdash; Why two documents disagreed about <span data-tex="\theta">&theta;</span></h1>
 <p class="lede">One document measured <span data-tex="\theta=0.300\pm0.005">&theta; = 0.300 &plusmn; 0.005</span>
 in a spectral model on the circle; another measured <span data-tex="0.384\pm0.003">0.384 &plusmn; 0.003</span>
@@ -97,7 +101,7 @@ things at once.</p>
 <div class="js-only">
 <div class="panel">
   <h3 style="margin-top:0">Exhibit: the sweep that caused the trouble</h3>
-  <p style="font-size:.9rem;margin-top:0">Five windows, quoted as if they were a scan in taper
+  <p style="font-size:.9rem;margin-top:0">Five taper windows, only three of them width-matched, and two untapered runs, quoted as if they were a scan in taper
     strength. Two things change down the row, and the transition width is printed beside each
     window so you can see it happen. Nothing below this table uses the sweep as a scan.</p>
   <div id="sweep"></div>
@@ -270,7 +274,7 @@ if (T) try {
     }
     // the wall: the control stops here, and the reason is in the |u|^2 panel below
     P.vline(EDGE_STOP + 0.012, { stroke: 'var(--series-5)', dash: '4 3', width: 1.6 });
-    P.text(EDGE_STOP + 0.008, 0.268, 'the control stops here " + ARR + "',
+    P.text(EDGE_STOP + 0.008, 0.268, 'the control stops here \u2192',
       { small: true, anchor: 'end', fill: 'var(--series-5)' });
     const w = EDGES[S.win];
     const hnd = svgEl('circle', { cx: P.sx(w), cy: P.sy(pick('circ_theta_run', w, 256).value), r: 8,

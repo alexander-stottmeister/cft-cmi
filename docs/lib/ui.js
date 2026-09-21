@@ -108,6 +108,14 @@ export function renderRecord(rec, opts = {}) {
     span.appendChild(el('span', { class: 'err' }, [' ± ' + fmtValue(rec.error, 2)]));
   }
   const wrap = el('span', {}, [span, ' ', badge(rec.status), ' ']);
+  // A record may be conditional on hypotheses.  The status badge alone would
+  // claim more than the record supports, so name them beside it (REF-MOD345 R5).
+  if (rec.hypotheses && rec.hypotheses.length) {
+    const h = rec.hypotheses.join(', ');
+    wrap.insertBefore(el('span', { class: 'badge conditional',
+      title: 'conditional on ' + h }, ['conditional on ' + h]), wrap.lastChild);
+    wrap.insertBefore(document.createTextNode(' '), wrap.lastChild);
+  }
   wrap.appendChild(el('a', {
     class: 'provenance', href: REPO + rec.source + '#L' + rec.line, rel: 'noopener',
     title: rec.label || ''

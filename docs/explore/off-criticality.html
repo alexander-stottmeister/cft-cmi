@@ -14,6 +14,10 @@
 /* If the module fails, say so in the page instead of leaving a blank area:
    the static text and figure stay visible because .has-js is never set. */
 window.addEventListener('error', function (e) {
+  // capture phase, so a module that throws before its own handlers exist is
+  // still caught; and drop has-js so the no-JavaScript rendering takes over
+  // instead of leaving an empty frame (REF-MOD345 R4).
+  document.documentElement.classList.remove('has-js');
   var host = document.getElementById('main') || document.body;
   if (!host || host.querySelector('.boot-error')) return;
   document.documentElement.classList.remove('has-js');
@@ -46,7 +50,7 @@ window.addEventListener('error', function (e) {
   <button class="theme" type="button" hidden></button>
 </div></header>
 
-<main class="wrap" id="main">
+<main class="wrap" id="main" tabindex="-1">
 <h1>Module 8 &mdash; Off criticality: gap, temperature, mass</h1>
 <p class="lede">The quadratic law is a statement about <em>adjacent</em> intervals at a conformal fixed
 point. Open a gap, heat the state, or turn on a mass, and you can watch which parts survive. Heating

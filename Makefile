@@ -1,6 +1,7 @@
 # cft_cmi — build the public surface.  NOTE: docs/ records each card's review
-# state, so a referee verdict makes `make check` fail until `make docs` is re-run.
-# Run `make docs` before committing after any knowledge-base change.
+# state, and so does the claim map's data, so a referee verdict makes `make check`
+# fail until both are rebuilt.  Run `make docs data` before committing after any
+# knowledge-base change.
 #  Every target is re-runnable and writes
 # only inside the repository.  See rigor/public_site_plan.md section 4.
 PYTHON ?= python3
