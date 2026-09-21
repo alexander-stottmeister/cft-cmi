@@ -44,8 +44,10 @@ jobs:
         # arrives anyway as a Depends of texlive-latex-extra and is named here only for
         # the record.  lmodern is the one package that had to be added: it carries
         # lmodern.sty, which paper1/main.tex, paper2/main.tex and rigor_preamble.tex all
-        # load on line 2, and its absence is what failed every papers job before 9aed69a
-        # (the other job failed independently, on the claim map).
+        # load on line 2, and its absence is what failed every papers job until the repair
+        # of 2026-09-21 (the other job failed independently, on the claim map).  Commit hashes
+        # from before that day name a history that no longer exists: the remote was deleted
+        # and recreated to clear the objects an earlier rewrite had left recoverable.
         # fonts-lmodern is not a substitute; it ships fonts and no .sty.
         run: |
           sudo apt-get update -qq
