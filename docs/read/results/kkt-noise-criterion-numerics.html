@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KKT criterion numerics: every finite run FAILS (a); the violation extrapolates to 0^- as h -&gt; 0, Ymax -&gt; inf; E(zeta_0) &gt; 0 and E(zeta_inf) &gt; 0, so (e) holds for the whole cone under H3 &mdash; cft-cmi</title>
+<meta name="description" content="KKT criterion numerics: every finite run FAILS (a); the violation extrapolates to 0^- as h -&gt; 0, Ymax -&gt; inf; E(zeta_0) &gt; 0 and E(zeta_inf) &gt; 0, so (e) holds for the whole cone under H3. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../../index.html">Interactive site</a>
+    <a href="../index.html">Documentation</a>
+    <a href="../status.html">All claims</a>
+    <a href="../open.html">Open problems</a>
+    <a href="../notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>KKT criterion numerics: every finite run FAILS (a); the violation extrapolates to 0^- as h -&gt; 0, Ymax -&gt; inf; E(zeta_0) &gt; 0 and E(zeta_inf) &gt; 0, so (e) holds for the whole cone under H3</h1>
+<p><strong>Status:</strong> <code>numerical</code> — measured, with an error bar and a convergence order; not a theorem. <strong>Conditional.</strong> The statement is not unconditional: it rests on H3, quoted below. Read the badge only together with them.</p>
+<p><strong>Area:</strong> <a href="../status.html#area-optimality">Optimality of recovery channels (O8, Phases 3 and 3b)</a> · <strong>Card type:</strong> result · <strong>Knowledge-base id:</strong> <code>kkt-noise-criterion-numerics</code></p>
+<h2>Statement</h2>
+<p>Numerical evaluation of the F1 Thm 4.4 criterion for the tangent problem (orbit = global optimum iff (a) M_* &gt;= 0 and M_* - tau_* &gt;= 0, and (e) the endpoint functional E(zeta_0) &gt;= 0; t_* is the SLD normalised by g_Q(delta_*) = (1/4) Tr(t_* delta_*), tau_* = E_D t_* E_D, M_* = Herm((t_* Q)_DD)). READ THE SIGN CLAIM AS AN EXTRAPOLATION: at every finite discretisation the run prints "CRITERION (M&gt;=0 and M-tau&gt;=0): False" (f2_t4_h024.out l.4, f2_t4_hladder.out l.5 and l.14, f2_t4_h003.out l.5, every Ymax row of f2_t4_ymax12.out); what the numerics establish is that the violation scales to zero in the double limit, with clean power laws, while the endpoint functional is positive with a large margin on the two model boundary directions (condition (e) for the whole cone then follows only under F1's model-cone hypothesis H3).
+(1) PRIMARY FRAME, parameter-free modular Wiener-Hopf (F1 Prop 6.2 as built by F3 in f3_t0.py; I = (-inf,1), y = -log(1-x), A = {y&lt;0}, D = {y&gt;0}, Q exact in the cell basis, ddot in closed form, Moebius rigidity EXACT: ||ddot_DD|| = 0 identically). Structural checks all pass: SLD identity (1/4)Tr(t_* delta_*)/g_Q(delta_*) = 1.0000000000; ||AntiHerm((t_* Q)_DD)||/||M_*|| = 2.8e-9, 8.5e-8, 1.5e-7, 3.5e-7 at h = 0.24, 0.12, 0.06, 0.03; F1's derivative formula d g_Q = (1/2)[Tr(N1 M_*) - Tr(Y1 tau_*)] verified by central finite differences to &lt;= 3e-8 (measured relative errors 3.94e-10, 7.56e-09, 1.08e-08, 2.63e-08 at h = 0.24, 0.12, 0.06, 0.03); theta reproduces F3's ladder (0.31367, 0.34236, 0.35934, 0.36945 at h = 0.24, 0.12, 0.06, 0.03, Y = Ymax = 10).
+(a) SCALING OF THE VIOLATION. h-ladder at Y = Ymax = 10: lam_min(M_*)/||M_*|| = -4.076e-3, -1.859e-3, -8.228e-4, -3.667e-4 at h = 0.24, 0.12, 0.06, 0.03 (ratios 2.19, 2.26, 2.24 per halving, i.e. ~ h^1.15), and lam_min(M_* - tau_*) equals lam_min(M_*) to 5 digits (same eigenvector, &lt;p,M_*p&gt; ~ -&lt;p,tau_*p&gt;). Outer-cutoff scan at h = 0.12, Y = 6: lam_min(M_*)/||M_*|| = -3.014e-3, -2.286e-3, -1.865e-3, -1.339e-3, -9.459e-4, -6.360e-4 for Ymax = 6, 8, 10, 14, 20, 30, i.e. lam_min/||M_*|| * Ymax = -0.0181, -0.0183, -0.0186, -0.0187, -0.0189, -0.0191 (~ 1/Ymax), and the rank-one gain Delta^2/g_Q(eta) in units of g_Q(ddot) = 3.325e-4, 1.874e-4, 1.230e-4, 6.236e-5, 3.080e-5, 1.380e-5 with gain * Ymax^2 = 0.0120 ... 0.0124 (~ 1/Ymax^2); on the h-ladder the same gain is 3.85e-4, 1.23e-4, 3.51e-5, 9.69e-6 (~ h^1.85). So lam_min(M_*)/||M_*|| ~ -c(h)/Ymax with c(0.24) = 0.041, c(0.12) = 0.0187 (c ~ h^1.1), and the gain ~ c'(h)/Ymax^2 with c'(0.24) = 0.039, c'(0.12) = 0.0123: both -&gt; 0 in the double limit h -&gt; 0, Ymax -&gt; infinity, i.e. lam_min -&gt; 0^- (a marginal, not a strict, sign). The violating eigenvector p supports this reading: in the Ymax scans at fixed h it is a delocalised mode at y ~ (0.4-0.6) Ymax, tracking the artificial outer end of the y window (the moving endpoint x = 1); the A-side cutoff is irrelevant (Y = 6, 10, 14 give lam_min/||M_*|| = -4.0904e-3, -4.0756e-3, -4.0751e-3 at h = 0.24, Ymax = 10; f2_t4_h024.out and the Y-scan block of f2_t5_endpoint.out). At fixed Ymax = 10 the mode moves inward as h falls (y ~ 5.5, 5.1, 4.3, 1.9) while its eigenvalue keeps shrinking; the two vanishing scalings, not the location, carry the conclusion.
+(e) ENDPOINT CONDITION (T5, f2_t5_endpoint.out). E(zeta) = 2 b(delta_*, A(zeta,0,0)) = (1/2)Tr(t_* A(zeta,0,0)) with A from F1 eq:Ablocks. Convention check, exact to machine precision at all four h: E(zeta_inf)/g_Q(ddot) = (1/2)Tr(t_* ddot)/g_Q(ddot) = 1.37265519, 1.31527744, 1.28132522, 1.26109076 against the proved 2(1-theta) = same to 2e-16..1e-15. For zeta_0 = -E_D d/dy E_D discretised on the uniform D-mesh, only the backward (upwind) difference is the admissible shift semigroup (sigma = Herm(zeta_0) &lt;= 0); it gives a TOTAL E(zeta_0)/g_Q(ddot) = +34.122, +66.873, +131.298, +257.998 at h = 0.24, 0.12, 0.06, 0.03, but that total is the scheme-DEPENDENT quantity: the discrete boundary form decomposes as E(zeta_0) = (1/2)[M_*(0,0) + h Tr((-Laplacian) M_*) + M_*(Ymax,Ymax)] and the total (~ h^-0.97) is dominated by the O(h) upwind-viscosity middle term, an artefact of the difference scheme. The scheme-invariant piece, and the only one that converges to F1's continuum boundary form, is the CORNER row (1/2)(M_*)_00/h = +10.304, +16.096, +24.672, +37.210 (~ h^-0.60); it is the continuum margin quoted below. The centred difference is exactly anti-Hermitian (sigma = 0, lies in L-bar) and gives E = 0 to 2e-5; the forward difference has sigma &gt;= 0 (decompression, inadmissible) and gives the negative of the backward value. Both quantities saturate in Ymax (E_bwd = +66.90, +67.07, +67.23, +67.36, +67.45 and corner = +16.46, +16.15, +16.03, +15.96, +15.89 for Ymax = 6, 10, 14, 20, 30 at h = 0.12) and are independent of Y (+67.07, +66.87, +66.87 for Y = 6, 10, 14). The corner term does NOT saturate in h (it grows like h^-0.6), i.e. M_*(y,y) diverges as y -&gt; 0+ and E(zeta_0) = +infinity in the continuum -- a fortiori &gt;= 0. Cross-check (ii): the first-cell diagonal of M_*/h is +0.160, +0.261, +0.409, +0.623 (same sign as E(zeta_0)) and the last-cell diagonal is +3.2e-3, +3.9e-3, +4.4e-3 (same sign as the proved E(zeta_inf) &gt; 0). VERDICT ON (e), QUALIFIED: numerically E(zeta_0) &gt; 0 and E(zeta_inf) &gt; 0, i.e. (e) is verified for the TWO MODEL boundary directions of F1 Prop 4.10(3) -- continuum margin +10.3, +16.1, +24.7, +37.2 g_Q(ddot) (the corner row) at h = 0.24, 0.12, 0.06, 0.03, with no sign change at any h, Y, Ymax, and E(zeta_inf) = 2(1-theta) g_Q(ddot) &gt; 0 exactly. The sign of E(zeta_0) is structurally forced in this frame because -2 sigma &gt;= 0 is a legitimate N_1 direction, so E(zeta_0) = (1/2)Tr((-2 sigma) M_*) &gt;= 0 follows from M_* &gt;= 0. Condition (e) for the WHOLE admissible cone follows from these two numbers only under the model-cone reduction -- F1's hypothesis (H3 in Sec. 4; Prop 4.10(3) and (5)) that modulo L-bar the cone of admissible isometry generators is generated by zeta_0 and zeta_inf -- which is a hypothesis, not something these numerics test. So: numerically (a) in the limit; E(zeta_0) &gt; 0 and E(zeta_inf) &gt; 0; (e) for the whole cone under H3.
+CAVEAT ON THE PRIMARY FRAME. It needs no weight cap at the h computed, but the weights are not bounded uniformly in h: kappa_max = 5.38, 6.51, 7.66, 8.84 and max w = 1.09e2, 3.36e2, 1.07e3, 3.44e3 at h = 0.24, 0.12, 0.06, 0.03 (ratios ~3.1-3.2 per halving, i.e. max w ~ h^-1.65). So h -&gt; 0 is exactly the limit in which this frame's weights diverge as well; the extrapolation above is over a window in which max w grows by a factor 32, and a much finer h would eventually re-enter the regime where the T2 artefact mechanism (below) operates.
+(2) SECONDARY FRAME, ARTEFACT-SUSPECT, S10 spectral circle model: the criterion FAILS at every L = 64, 96, 128, 192, 256, with lam_min(M_*)/||M_*|| = -0.206, -0.0075, -0.0352, -0.0579, -0.0498 and lam_min(M_* - tau_*) equal to it to 4 digits (f2_kkt_f1_L.out). That verdict must NOT be used, for three reasons, all in F1's normalisation as printed by f2_capscan.py (file f2_capscan_L128.out; the half-SLD convention of kkt_continuum.gQ_sld would halve lam_min and quarter the gain): (i) it is not cap-stable -- at L = 128, taper uv = 0.30, lam_min(M_*) = -3.211e-3, -3.134e-3, -7.887e-3, -3.477e-2, -1.050e-1 and lam_min/||M_*|| = -0.0122, -0.0067, -0.0105, -0.0352, -0.0753 for cap = 1e4, 1e6, 1e8, 1e10, 1e12, while theta is cap-stable to 5 digits (0.29117, 0.29119, 0.29116, 0.29118, 0.29119); (ii) the achievable gain collapses as the cap grows: rank-one gain/g_Q(dc) = 1.463e-4, 1.948e-6, 1.722e-10, 3.534e-11, 3.718e-12 on the same ladder (the violating directions have diverging curvature, g_Q(noise)/g_Q(dc) = 1.3e3 ... 5.5e13); the second taper uv = 0.20 repeats the pattern (lam_min/||M_*|| = -0.0125, -0.0070, -0.0088, -0.0258, -0.0287; gain = 5.808e-4 ... 6.444e-13) with theta shifted by 10% (0.2615); (iii) the mechanism: the circle model violates Moebius rigidity at O(1/L) (|dc_DD|/|dc| = 0.346, 0.214, 0.153, 0.101, 0.075 and |dc_AA|/|dc| = 0.048, 0.032, 0.024, 0.016, 0.012 at L = 64..256, both ~ 1/L, whereas the exact defect is purely A-D off-diagonal), and g_Q weights those spurious blocks by w up to the cap -- taken separately the blocks of delta_c carry g_Q of order 1e5 x g_Q(delta_c), so t_* and hence M_*, tau_* are contaminated exactly where the weights are largest.
+WHAT MAY AND MAY NOT BE CONCLUDED. The numerics are consistent with the isometric orbit carrying the tangent optimum and kappa_opt = 1 - theta, and they exclude any O(1) gain from non-isometric or boundary-moving directions (every measured gain is &lt;= 4e-4 g_Q(ddot) and falls like h^1.85/Ymax^2). They do NOT establish that the optimal N_1, Y_1 vanish: Thm 4.4(d) delivers a global minimiser, not uniqueness, and the marginal case lam_min -&gt; 0^- found here is precisely where uniqueness is not delivered.</p>
+<h2>Hypotheses</h2>
+<p>This result is conditional: at least part of the statement holds only where the hypotheses below hold. The sentences are quoted from the statement above; read the status badge only together with them.</p>
+<p>Hypothesis labels used: <code>H3</code>.</p>
+<blockquote>
+<p>E(zeta_0) &gt; 0 and E(zeta_inf) &gt; 0, so (e) holds for the whole cone under H3.</p>
+<p>READ THE SIGN CLAIM AS AN EXTRAPOLATION: at every finite discretisation the run prints "CRITERION (M&gt;=0 and M-tau&gt;=0): False" (f2_t4_h024.out l.4, f2_t4_hladder.out l.5 and l.14, f2_t4_h003.out l.5, every Ymax row of f2_t4_ymax12.out); what the numerics establish is that the violation scales to zero in the double limit, with clean power laws, while the endpoint functional is positive with a large margin on the two model boundary directions (condition (e) for the whole cone then follows only under F1's model-cone hypothesis H3).</p>
+<p>Condition (e) for the WHOLE admissible cone follows from these two numbers only under the model-cone reduction -- F1's hypothesis (H3 in Sec. 4;</p>
+<p>(e) for the whole cone under H3.</p>
+</blockquote>
+<h2>How to verify</h2>
+<p>cd numerics/optimality_all; $V/bin/python f2_t4_wh.py 0.24 10 10 &gt; f2_t4_h024.out (smoke: theta=0.31367, |dc_DD|=0, SLD id=1.0000000000, lam_min(M_*)=-5.432e-4, CRITERION False); f2_t4_wh.py 0.12,0.06 10 10 &gt; f2_t4_hladder.out; f2_t4_wh.py 0.03 10 10 &gt; f2_t4_h003.out; the Ymax/Y scan one-liners quoted in F2_RESULTS.md ("Exact commands to reproduce") -&gt; f2_t4_ymax12.out; endpoint test: f2_t5_endpoint.py 0.24 10 10 and the driver quoted in F2_RESULTS.md T5 -&gt; f2_t5_endpoint.out; circle model: f2_kkt_f1.py 64,96,128,192,256 1e10 -&gt; f2_kkt_f1_L.out and f2_capscan.py 128 1e4,1e6,1e8,1e10,1e12 0.30,0.20 -&gt; f2_capscan_L128.out</p>
+<h2>Evidence</h2>
+<ul>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/F2_RESULTS.md">numerics/optimality_all/F2_RESULTS.md</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/f2_t4_h024.out">numerics/optimality_all/f2_t4_h024.out</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/f2_t4_hladder.out">numerics/optimality_all/f2_t4_hladder.out</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/f2_t4_h003.out">numerics/optimality_all/f2_t4_h003.out</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/f2_t4_ymax12.out">numerics/optimality_all/f2_t4_ymax12.out</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/f2_t5_endpoint.out">numerics/optimality_all/f2_t5_endpoint.out</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/f2_kkt_f1_L.out">numerics/optimality_all/f2_kkt_f1_L.out</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/f2_capscan_L128.out">numerics/optimality_all/f2_capscan_L128.out</a> — numerics</li>
+</ul>
+<h2>Related claims</h2>
+<ul>
+<li><a href="kkt-noise-sign-criterion.html">KKT sign criterion: when the isometric orbit carries the all-channel second-order optimum</a> — <code>proved</code></li>
+<li><code>phase5-plan</code> — <code>done</code>, no page of its own</li>
+<li><a href="theta-value.html">The first-order gain constant theta = 0.384 +- 0.003 (S10's 0.300 is a taper-suppressed lower bound)</a> — <code>numerical</code></li>
+<li><code>theta-modular-wiener-hopf</code> — <code>open</code>, no page of its own</li>
+<li><a href="compression-not-second-order-minimiser.html">The compression is not the minimiser of the second-order functional</a> — <code>numerical</code></li>
+</ul>
+<h2>Review</h2>
+<p><strong>Review record:</strong> passed 2026-09-15 by REF-P5-4.</p>
+<p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
+<hr>
+<p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/results/kkt-noise-criterion-numerics.md"><code>docs/results/kkt-noise-criterion-numerics.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

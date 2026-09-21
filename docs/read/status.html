@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Every claim, by area &mdash; cft-cmi</title>
+<meta name="description" content="Every claim, by area. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../index.html">Interactive site</a>
+    <a href="index.html">Documentation</a>
+    <a href="status.html">All claims</a>
+    <a href="open.html">Open problems</a>
+    <a href="notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>Every claim, by area</h1>
+<p>88 cards: 87 claim cards of the knowledge base, plus 1 finding that has reached a status displayed here. The tally below is counted from the cards, not typed:</p>
+<table>
+<thead><tr>
+<th>status</th>
+<th class="num">claims</th>
+<th>what it means</th>
+</tr></thead>
+<tbody>
+<tr><td><code>refereed</code></td><td class="num">3</td><td>a complete structured proof that an independent referee pass has accepted</td></tr>
+<tr><td><code>proved</code></td><td class="num">30</td><td>a complete structured proof</td></tr>
+<tr><td><code>numerical</code></td><td class="num">22</td><td>measured, with an error bar and a convergence order; not a theorem</td></tr>
+<tr><td><code>conjectural</code></td><td class="num">3</td><td>believed, with partial evidence; not proved</td></tr>
+<tr><td><code>verified</code></td><td class="num">5</td><td>a check that was carried out and agreed</td></tr>
+<tr><td><code>open</code></td><td class="num">5</td><td>an unsettled question</td></tr>
+<tr><td><code>active</code></td><td class="num">14</td><td>work in progress</td></tr>
+<tr><td><code>done</code></td><td class="num">3</td><td>a finished piece of project work</td></tr>
+<tr><td><code>superseded</code></td><td class="num">2</td><td>replaced by a later claim</td></tr>
+<tr><td><code>refuted</code></td><td class="num">1</td><td>shown to be false, kept so the correction stays visible</td></tr>
+<tr><td><strong>total</strong></td><td class="num"><strong>88</strong></td><td></td></tr>
+</tbody>
+</table>
+<p>58 of them are <code>refereed</code>, <code>proved</code>, <code>numerical</code>, <code>conjectural</code> and have a page of their own under <a href="results/index.html"><code>results/</code></a>; the remainder are listed here with their status only.</p>
+<p>A referee pass is not implied by a status. Of the cards listed here, <strong>0 have never been refereed</strong> and <strong>0 carry a failed referee pass</strong>, that is repairs asked for and not yet absorbed. Cards awaiting a pass after a recent change are marked too, but not counted here: that number moves with day-to-day editing of infrastructure cards that have no page. All three are marked in the tables below, as <em>never refereed</em>, <em>referee pass failed</em> and <em>review pending</em>. Nothing labelled <code>numerical</code> is a theorem.</p>
+<a id="area-foundations"></a>
+<h2>Foundations: CMI as a Markov defect (Notes 1-3)</h2>
+<blockquote>
+<p>Longo-Xu conditional mutual information of adjacent intervals, its reading as a quantum-Markov (Petz recovery) defect, and the research programme of Note 3.</p>
+</blockquote>
+<table>
+<thead><tr>
+<th>status</th>
+<th>claim</th>
+<th></th>
+</tr></thead>
+<tbody>
+<tr><td><code>proved</code></td><td><a href="results/cmi-markov-defect-interpretation.html">CMI as the data-processing defect of tracing out C (Note 2)</a></td><td></td></tr>
+<tr><td><code>proved</code></td><td><a href="results/longo-xu-cmi.html">Longo-Xu CMI of adjacent intervals</a></td><td></td></tr>
+<tr><td><code>proved</code></td><td><a href="results/second-variation-lemma.html">Type-III second-variation lemma (fidelity half)</a></td><td></td></tr>
+<tr><td><code>verified</code></td><td>Cross-ratio conventions used across the notes</td><td></td></tr>
+<tr><td><code>verified</code></td><td>The Delta^(1/2) fidelity formula was wrong (Wigner-Yanase quantity)</td><td></td></tr>
+</tbody>
+</table>
+<a id="area-theorem-a"></a>
+<h2>Theorem A: exact recovery error of the free fermion</h2>
+<blockquote>
+<p>Zero-collar Petz map = geometric compression; Phi(zeta) = -log F; lim Phi/zeta^2 = c/(12 pi^2); remainder, ultraviolet tail, certified numerics, large-zeta values.</p>
+</blockquote>
+<table>
+<thead><tr>
+<th>status</th>
+<th>claim</th>
+<th></th>
+</tr></thead>
+<tbody>
+<tr><td><code>refereed</code></td><td><a href="results/thm-a-quadratic-law.html">Theorem A: lim Phi/zeta^2 = c/(12 pi^2)</a></td><td></td></tr>
+<tr><td><code>proved</code></td><td><a href="results/const-f2.html">f2 = c/(12 pi^2)</a></td><td></td></tr>
+<tr><td><code>proved</code></td><td><a href="results/const-gb.html">One-particle metrics g_B = 2c/(3 pi^2), g_KM = c/6</a></td><td></td></tr>
+<tr><td><code>proved</code></td><td><a href="results/petz-zero-collar-channel.html">Zero-collar Petz map of the free fermion is a geometric compression</a></td><td></td></tr>
+<tr><td><code>proved</code></td><td><a href="results/quasi-free-fidelity-formula.html">Exact root fidelity of two quasi-free CAR states from their symbols (Note 5 Thm. 2.1)</a></td><td></td></tr>
+<tr><td><code>proved</code></td><td><a href="results/rate-of-remainder.html">Remainder of Theorem A: integer powers, c3 = -0.99</a></td><td></td></tr>
+<tr><td><code>proved</code></td><td><a href="results/tail-bound.html">Ultraviolet tail bound for the windowed fidelity</a></td><td></td></tr>
+<tr><td><code>proved</code></td><td><a href="results/two-chirality-law.html">Two-chirality law for 2D CFTs</a></td><td></td></tr>
+<tr><td><code>proved</code></td><td><a href="results/w-hat-mellin-formula.html">Exact x-space Mellin transform W-hat(k) and the invariant formula for g_B</a></td><td></td></tr>
+<tr><td><code>numerical</code></td><td><a href="results/certified-numerics.html">Certified enclosures of the compressed recovery error</a></td><td></td></tr>
+<tr><td><code>numerical</code></td><td><a href="results/large-zeta-values.html">Continuum Phi at large zeta and the drifting exponent</a></td><td></td></tr>
+<tr><td><code>verified</code></td><td>Note 5 numerics independently verified</td><td></td></tr>
+<tr><td><code>open</code></td><td>Certify the defect-matrix quadrature and the box cutoff</td><td></td></tr>
+</tbody>
+</table>
+<a id="area-universality"></a>
+<h2>Theorem B: universality for diffeomorphism-covariant nets</h2>
+<blockquote>
+<p>The second-order coefficient f2 = c/(12 pi^2) holds for every diffeomorphism-covariant net on the circle; implementer hypotheses; bosonic check.</p>
+</blockquote>
+<table>
+<thead><tr>
+<th>status</th>
+<th>claim</th>
+<th></th>
+</tr></thead>
+<tbody>
+<tr><td><code>refereed</code></td><td><a href="results/implementer-hypotheses.html">(H1)-(H3) hold for all diffeomorphism-covariant nets</a></td><td></td></tr>
+<tr><td><code>refereed</code></td><td><a href="results/thm-b-universality.html">Theorem B: f2 = c/(12 pi^2) for every diffeomorphism-covariant net</a></td><td></td></tr>
+<tr><td><code>proved</code></td><td><a href="results/stress-tensor-normalisation.html">Stress-tensor normalisation chain</a></td><td></td></tr>
+<tr><td><code>numerical</code></td><td><a href="results/boson-check.html">Bosonic check: U(1) current net agrees</a></td><td></td></tr>
+</tbody>
+</table>
+<a id="area-kubo-mori"></a>
+<h2>Kubo-Mori (relative entropy) coefficient s2</h2>
+<blockquote>
+<p>The relative-entropy analogue of f2: exact identity for unitary orbits, the refuted gauge lemma, and the conjecture s2 = c/12 with its proved bracket.</p>
+</blockquote>
+<table>
+<thead><tr>
+<th>status</th>
+<th>claim</th>
+<th></th>
+</tr></thead>
+<tbody>
+<tr><td><code>proved</code></td><td><a href="results/km-exact-identity.html">Exact relative-entropy identity on unitary orbits</a></td><td></td></tr>
+<tr><td><code>conjectural</code></td><td><a href="results/conj-s2.html">s2 = c/12 for general nets</a></td><td></td></tr>
+<tr><td><code>refuted</code></td><td>Kubo-Mori gauge lemma by restriction to A(K) is false</td><td></td></tr>
+</tbody>
+</table>
+<a id="area-optimality"></a>
+<h2>Optimality of recovery channels (O8, Phases 3 and 3b)</h2>
+<blockquote>
+<p>Is the Petz map, or the geometric compression, optimal at second order? Quasi-free SDP, reduction of all channels to it, KKT certificate, and what is still open in exact fidelity.</p>
+</blockquote>
+<table>
+<thead><tr>
+<th>status</th>
+<th>claim</th>
+<th></th>
+</tr></thead>
+<tbody>
+<tr><td><code>proved</code></td><td><a href="results/ac-lower-bound-zero.html">The A-C restriction lower bound is exactly zero</a></td><td></td></tr>
+<tr><td><code>proved</code></td><td><a href="results/all-channel-equals-quasi-free.html">All-channel second-order optimum = quasi-free SDP value</a></td><td></td></tr>
+<tr><td><code>proved</code></td><td><a href="results/all-channels-symbol-feasible.html">Every recovery channel's recovered symbol is quasi-free feasible</a></td><td></td></tr>
+<tr><td><code>proved</code></td><td><a href="results/exterior-exhaust-invisible.html">Exterior directions exhaust the invisible space: closure(Ext) = N^perp (question (Q) settled, YES)</a></td><td></td></tr>
+<tr><td><code>proved</code></td><td><a href="results/kkt-certificate.html">Exact KKT certificate at the compression; Moebius rigidity</a></td><td></td></tr>
+<tr><td><code>proved</code></td><td><a href="results/kkt-noise-sign-criterion.html">KKT sign criterion: when the isometric orbit carries the all-channel second-order optimum</a></td><td></td></tr>
+<tr><td><code>proved</code></td><td><a href="results/petz-not-optimal.html">The Petz map is not second-order optimal (compression 4x better)</a></td><td></td></tr>
+<tr><td><code>proved</code></td><td><a href="results/quasi-free-sdp.html">Second-order problem over quasi-free channels is a convex SDP</a></td><td></td></tr>
+<tr><td><code>proved</code></td><td><a href="results/single-observable-bound.html">Exact single-observable fidelity bound (Alberti-Uhlmann)</a></td><td></td></tr>
+<tr><td><code>proved</code></td><td><a href="results/tangent-problem-exact-parametrisation.html">Exact (N,Y,V) chart of F and the tangent problem at the compression</a></td><td></td></tr>
+<tr><td><code>proved</code></td><td><a href="results/uhlmann-upper-half-proved.html">(UH) proved: optimised Uhlmann bound = g_Q of the defect, for every isometric quasi-free channel</a></td><td></td></tr>
+<tr><td><code>numerical</code></td><td><a href="results/all-channel-optimum-value.html">The all-channel second-order optimum equals the isometric-orbit value: kappa_opt = 1 - theta = 0.616 +- 0.003 (numerical; conditional on H1, H2, H3)</a></td><td></td></tr>
+<tr><td><code>numerical</code></td><td><a href="results/circle-model-taper-suppresses-theta.html">S10's circle model: the ultraviolet taper suppresses theta by ~20%, and there is no taper-free limit</a></td><td></td></tr>
+<tr><td><code>numerical</code></td><td><a href="results/compression-not-optimal-exact-fidelity.html">E_rec &lt;= (1-theta) f2 z^2 (1+o(1)): the zero-collar compression is NOT optimal in exact fidelity</a></td><td></td></tr>
+<tr><td><code>numerical</code></td><td><a href="results/compression-not-second-order-minimiser.html">The compression is not the minimiser of the second-order functional</a></td><td></td></tr>
+<tr><td><code>numerical</code></td><td><a href="results/e2-exact-fidelity-optimised-extension.html">Exact -1/2 log det(1-V^*V) with the optimised extension confirms (UH) beyond first order</a></td><td></td></tr>
+<tr><td><code>numerical</code></td><td><a href="results/e2-ext-equals-nperp-circle.html">NS-circle model: Ext = N^perp exactly, with the dimension identity (L-|I|)^2</a></td><td></td></tr>
+<tr><td><code>numerical</code></td><td><a href="results/e2-mpmath-distance-exactly-zero.html">mpmath at 60-80 digits: dist((1-Pi)M, Ext) = 0 exactly</a></td><td></td></tr>
+<tr><td><code>numerical</code></td><td><a href="results/e2-optimised-uhlmann.html">Optimised exterior extension: UB_c = (1/2)s^2|u|^2 exactly and UB_rot/UB_c = 1-theta</a></td><td></td></tr>
+<tr><td><code>numerical</code></td><td><a href="results/exact-fidelity-optimality-open.html">Is the compression beaten in EXACT fidelity?</a></td><td></td></tr>
+<tr><td><code>numerical</code></td><td><a href="results/finite-dim-exterior-density.html">Finite chains: exterior directions span exactly the invisible space (Ext = N^perp)</a></td><td></td></tr>
+<tr><td><code>numerical</code></td><td><a href="results/galerkin-full-f-uninformative.html">Full primal SDP over F in the modular Galerkin frame: min_F g_Q = 8.41 and 7.13 times g_Q(delta_c) at h = 0.4, 0.3 -- the S11 representability obstruction, not a statement about non-isometric channels</a></td><td></td></tr>
+<tr><td><code>numerical</code></td><td><a href="results/kkt-noise-criterion-numerics.html">KKT criterion numerics: every finite run FAILS (a); the violation extrapolates to 0^- as h -&gt; 0, Ymax -&gt; inf; E(zeta_0) &gt; 0 and E(zeta_inf) &gt; 0, so (e) holds for the whole cone under H3</a></td><td></td></tr>
+<tr><td><code>numerical</code></td><td><a href="results/optimal-channel-structure.html">Structure of the numerical optimum</a></td><td></td></tr>
+<tr><td><code>numerical</code></td><td><a href="results/tangent-sdp-noise-directions.html">Tangent SDP over (G, N1, Y1) in the circle model: orbit-only optimum matches (1-theta) to 1.1e-7, full optimum not resolvable (measured Gram cond 2.4e22)</a></td><td></td></tr>
+<tr><td><code>numerical</code></td><td><a href="results/theta-value.html">The first-order gain constant theta = 0.384 +- 0.003 (S10's 0.300 is a taper-suppressed lower bound)</a></td><td></td></tr>
+<tr><td><code>verified</code></td><td>Finite spectral models do not resolve exact fidelities</td><td></td></tr>
+<tr><td><code>open</code></td><td>theta as a geometry-free Wiener-Hopf constant in the modular frame of I</td><td></td></tr>
+<tr><td><code>done</code></td><td>Phase 4 plan: settle exact-fidelity optimality via the Uhlmann route with arbitrary exterior extensions</td><td></td></tr>
+<tr><td><code>done</code></td><td>Phase 5 plan: exact value of the all-channel optimum (non-isometric channels) and reconciliation of theta</td><td></td></tr>
+</tbody>
+</table>
+<a id="area-lattice-thermal"></a>
+<h2>Lattice, thermal, massive and gapped geometries (O7, O9, O10)</h2>
+<blockquote>
+<p>Gaussian lattice tests of the two-branch law, KMS states and shielding, the Markov c-function along the massive flow, and separated intervals.</p>
+</blockquote>
+<table>
+<thead><tr>
+<th>status</th>
+<th>claim</th>
+<th></th>
+</tr></thead>
+<tbody>
+<tr><td><code>proved</code></td><td><a href="results/corner-calculus.html">Corner calculus: sequential one-sided recovery = Schwarzian point masses at the junctions</a></td><td></td></tr>
+<tr><td><code>proved</code></td><td><a href="results/corner-separation-constraint.html">Separation constraint: all-weak L-&gt;R Petz chains have e^{Delta_k} &gt;= 2/eps (sharp)</a></td><td></td></tr>
+<tr><td><code>proved</code></td><td><a href="results/frame-strength-amplification.html">Amplification: the corner strength in the chain frame is zeta_step (1 + z')</a></td><td></td></tr>
+<tr><td><code>proved</code></td><td><a href="results/protocol-corner-data-n4-n5.html">Corner data of all one-sided protocols for n = 4 and n = 5: the holonomy is the starting block</a></td><td></td></tr>
+<tr><td><code>proved</code></td><td><a href="results/sequential-recovery-bound-type-iii.html">Type-III sequential recovery bound: Bures angles add along a chain of von Neumann inclusions</a></td><td></td></tr>
+<tr><td><code>proved</code></td><td><a href="results/vacuum-rigidity-exact-recovery.html">Vacuum rigidity: the pulled-back vacuum is the vacuum iff the map is Moebius; no protocol recovers exactly</a></td><td></td></tr>
+<tr><td><code>numerical</code></td><td><a href="results/gap-law.html">Separated intervals: CMI with a gap and linearity off criticality</a></td><td></td></tr>
+<tr><td><code>numerical</code></td><td><a href="results/rg-c-function.html">Markov c-function along the massive flow</a></td><td></td></tr>
+<tr><td><code>numerical</code></td><td><a href="results/thermal-shielding.html">Thermal states: two-branch law at the cylinder cross ratio, exponential shielding</a></td><td></td></tr>
+<tr><td><code>numerical</code></td><td><a href="results/two-branch-law-lattice.html">Two-branch law confirmed on the lattice</a></td><td></td></tr>
+<tr><td><code>conjectural</code></td><td><a href="results/network-second-order-law.html">Second-order network law: Phi_tot = sum zeta_j zeta_k G(y_j - y_k), G = c Ghat universal</a></td><td></td></tr>
+<tr><td><code>conjectural</code></td><td><a href="results/vwz-protocol-ordering.html">VWZ four-interval protocols: Phi(1):Phi(2):Phi(3) -&gt; 1:2:4; middle-out is the worst order</a></td><td></td></tr>
+<tr><td><code>open</code></td><td>The universal corner-correlation kernel Ghat(Delta): closed form, positivity, decay</td><td></td></tr>
+<tr><td><code>open</code></td><td>Multi-interval networks (O10, second half)</td><td></td></tr>
+<tr><td><code>open</code></td><td>Charged sectors, state dependence, collar Gaussianity (O11)</td><td></td></tr>
+<tr><td><code>active</code></td><td>Phase 6 plan: multi-interval networks as a corner calculus</td><td></td></tr>
+</tbody>
+</table>
+<a id="area-papers"></a>
+<h2>Papers and notes: status and pending edits</h2>
+<blockquote>
+<p>Paper 1 (free fermion), paper 2 (universality), the eight notes and their errata; what must be reworded before submission.</p>
+</blockquote>
+<table>
+<thead><tr>
+<th>status</th>
+<th>claim</th>
+<th></th>
+</tr></thead>
+<tbody>
+<tr><td><code>active</code></td><td>Note 8: open problems O1-O11 and phases</td><td></td></tr>
+<tr><td><code>active</code></td><td>Paper 1 (free fermion): refereed draft, edits pending</td><td></td></tr>
+<tr><td><code>active</code></td><td>Paper 2 (universality): refereed draft, KM as conjecture</td><td></td></tr>
+<tr><td><code>done</code></td><td>Errata to Notes 1-7 applied and logged</td><td></td></tr>
+<tr><td><code>superseded</code></td><td>Note 3 programme: remove the collar (superseded by the plan of Note 8)</td><td></td></tr>
+<tr><td><code>superseded</code></td><td>Strategy note (Note 6): the four-step programme for universality</td><td></td></tr>
+</tbody>
+</table>
+<a id="area-infrastructure"></a>
+<h2>Project infrastructure: rigor pipeline, numerics stack, agents</h2>
+<blockquote>
+<p>How proofs, referee passes, findings and numerics are produced and checked in this project; tool limits.</p>
+</blockquote>
+<table>
+<thead><tr>
+<th>status</th>
+<th>claim</th>
+<th></th>
+</tr></thead>
+<tbody>
+<tr><td><code>verified</code></td><td>Headless screenshots and shell pitfalls on this Mac</td><td></td></tr>
+<tr><td><code>active</code></td><td>Generated documentation subfolder: docs/*.md from the knowledge base, with a drift check</td><td></td></tr>
+<tr><td><code>active</code></td><td>Interactive site skeleton: shared lib/, the data generator, and modules 1, 2, 6</td><td></td></tr>
+<tr><td><code>active</code></td><td>Interactive site: modules 3 (universality), 4 (optimality) and 5 (the theta reconciliation)</td><td></td></tr>
+<tr><td><code>active</code></td><td>Interactive site: modules 7 to 10 and the extra data extractor</td><td></td></tr>
+<tr><td><code>active</code></td><td>Numerics stack and its limits</td><td></td></tr>
+<tr><td><code>active</code></td><td>Plan page artifact and its source</td><td></td></tr>
+<tr><td><code>active</code></td><td>Plan: public presentation (README with figures, interactive Pages site, generated docs/)</td><td></td></tr>
+<tr><td><code>active</code></td><td>Public README and the five generated SVG figures</td><td></td></tr>
+<tr><td><code>active</code></td><td>Two git repositories over one work tree: public project, private third-party material</td><td></td></tr>
+<tr><td><code>active</code></td><td>Rigor pipeline: Lamport proofs, referee passes, findings ledger</td><td></td></tr>
+</tbody>
+</table>
+<hr>
+<p><a href="index.html">Documentation map</a> · <a href="open.html">What is open</a> · <a href="sources.html">Sources</a> · <a href="history.html">History</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/status.md"><code>docs/status.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

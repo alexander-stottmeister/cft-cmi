@@ -24,6 +24,17 @@ whether any other channel does better, and extends the calculus to chains of int
 answers are an exact quadratic law, a universality theorem, a conditional optimality value, and a
 Schwarzian corner calculus for recovery networks.
 
+**Interactive companion: <https://alexander-stottmeister.github.io/cft-cmi/>.** Ten modules, one for
+each consequential result: drag the interval endpoints and watch the Longo-Xu value and the corner
+strength move, sweep the measured range of `Phi(zeta)`, build a chain and watch the Schwarzian masses
+accumulate. Every number displayed there carries the repository file and line it was extracted from,
+and nothing is fetched at runtime. The same address serves the generated documentation as pages you
+can read in a browser, starting at
+[the documentation map](https://alexander-stottmeister.github.io/cft-cmi/read/index.html) and
+[every claim by area](https://alexander-stottmeister.github.io/cft-cmi/read/status.html). The site
+goes live when this repository becomes public, which it is not yet; until then the same content is
+in [`docs/`](docs/), and GitHub renders the Markdown when you browse it here.
+
 ## 1. The four headline results
 
 | | result | status | where it is established |
@@ -316,7 +327,11 @@ raw run captures those tables were read from.
 Generated documentation is in [`docs/`](docs/): [`docs/index.md`](docs/index.md) is the map,
 [`docs/status.md`](docs/status.md) lists every claim with its status,
 [`docs/open.md`](docs/open.md) the open problems, [`docs/history.md`](docs/history.md) the phases
-and the errata, [`docs/sources.md`](docs/sources.md) the external results relied upon.
+and the errata, [`docs/sources.md`](docs/sources.md) the external results relied upon. Each of those
+is written twice from the same text: as the Markdown you are reading links to, which is what GitHub
+renders when you browse the repository, and as a page under [`docs/read/`](docs/read/), because
+GitHub Pages serves a Markdown file as a raw download instead of rendering it. The interactive site
+links to the second; neither is edited by hand.
 
 Statuses themselves are maintained in a separate, private knowledge base rather than in this
 repository; [`docs/status.md`](docs/status.md) is generated from it and is the list to read here,

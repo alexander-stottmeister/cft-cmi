@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>External sources, and whether you can obtain them &mdash; cft-cmi</title>
+<meta name="description" content="External sources, and whether you can obtain them. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../index.html">Interactive site</a>
+    <a href="index.html">Documentation</a>
+    <a href="status.html">All claims</a>
+    <a href="open.html">Open problems</a>
+    <a href="notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>External sources, and whether you can obtain them</h1>
+<p>The split between <em>open access</em> and <em>needs library access</em> is a <strong>guess</strong>, not a measurement: <code>refs/restore.sh</code> reports both as MANUAL, so this page classifies them by keywords in the Source column of <code>refs/REFERENCES.md</code>. Expect misfilings; at the time of writing <code>DaleckiiKrein</code> and <code>Petz96</code> are two of them. Only the <em>fetchable</em> group is verified, by comparison with a live <code>refs/restore.sh --list</code>.</p>
+<p>This page covers <strong>the 36 table rows of <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/refs/REFERENCES.md"><code>refs/REFERENCES.md</code></a></strong>. It is <em>not</em> a list of every external result the project relies on: further sources are cited in that file as bullet entries rather than table rows (4 of them below the table), and the source documents themselves are third-party material that this repository does not redistribute. For the full picture read <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/refs/REFERENCES.md"><code>refs/REFERENCES.md</code></a>, which also records the exact result used from each source.</p>
+<p>Three ways to obtain a row:</p>
+<table>
+<thead><tr>
+<th></th>
+<th class="num">rows</th>
+<th>meaning</th>
+</tr></thead>
+<tbody>
+<tr><td>fetchable</td><td class="num">20</td><td><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/refs/restore.sh"><code>refs/restore.sh --fetch</code></a> downloads it (arXiv identifier or direct link in the Source column)</td></tr>
+<tr><td>open access</td><td class="num">9</td><td>freely readable at the publisher (Project Euclid, EMS Press / PRIMS), but the Source column carries no link <code>refs/restore.sh</code> can follow, so fetch it by hand</td></tr>
+<tr><td>library access</td><td class="num">7</td><td>paywalled journal or a book; a library or an open restatement is needed</td></tr>
+</tbody>
+</table>
+<p><code>refs/restore.sh</code> with no argument lists what it would download and reports everything else as <code>MANUAL</code>; it does not distinguish open-access <code>MANUAL</code> rows from paywalled ones, which is the distinction this page adds.</p>
+<h2>Fetchable by <code>refs/restore.sh</code> (20)</h2>
+<table>
+<thead><tr>
+<th>short</th>
+<th>reference</th>
+<th>source column</th>
+<th>used in</th>
+</tr></thead>
+<tbody>
+<tr><td><code>LongoXu</code></td><td>Longo, Xu, Relative entropy in CFT, Adv. Math. 337 (2018)</td><td>arXiv:1712.07283</td><td>N1,N2,N4,N5,N7</td></tr>
+<tr><td><code>CasiniHuerta09</code></td><td>Casini, Huerta, Reduced density matrix and internal dynamics for multicomponent regions, CQG 26 (2009)</td><td>arXiv:0903.5284</td><td>N5,N7</td></tr>
+<tr><td><code>BGL93</code></td><td>Brunetti, Guido, Longo, Modular structure and duality in conformal QFT, CMP 156 (1993)</td><td>Project Euclid (open) https://projecteuclid.org/journals/communications-in-mathematical-physics/volume-156/issue-1/</td><td>N4,N7</td></tr>
+<tr><td><code>FHSW20</code></td><td>Faulkner, Hollands, Swingle, Wang, Approximate recovery and relative entropy I, CMP 389 (2022)</td><td>arXiv:2006.08002</td><td>N2,N4,N5,N6,N7</td></tr>
+<tr><td><code>FH22</code></td><td>Faulkner, Hollands, Approximate recoverability and relative entropy II, LMP 112 (2022)</td><td>arXiv:2010.05513</td><td>N2</td></tr>
+<tr><td><code>JRSWW</code></td><td>Junge, Renner, Sutter, Wilde, Winter, Universal recovery maps..., AHP 19 (2018)</td><td>arXiv:1509.07127</td><td>N2</td></tr>
+<tr><td><code>SFR</code></td><td>Sutter, Fawzi, Renner, Universal recovery map for approximate Markov chains, Proc R Soc A (2016)</td><td>arXiv:1504.07251</td><td>N2</td></tr>
+<tr><td><code>FR</code></td><td>Fawzi, Renner, Quantum CMI and approximate Markov chains, CMP 340 (2015)</td><td>arXiv:1410.0664</td><td>N2</td></tr>
+<tr><td><code>HJPW</code></td><td>Hayden, Jozsa, Petz, Winter, Structure of states which satisfy SSA with equality, CMP 246 (2004)</td><td>arXiv:quant-ph/0304007</td><td>N2</td></tr>
+<tr><td><code>Jencova02</code></td><td>Jencova, Quantum information geometry and standard purification, JMP 43 (2002)</td><td>arXiv:math-ph/0107020 (check id)</td><td>N7</td></tr>
+<tr><td><code>VWZ</code></td><td>Vardhan, Wei, Zou, Petz recovery from subsystems in CFT, JHEP 03 (2024) 016</td><td>arXiv:2307.14434</td><td>N3,N5,N6,N7</td></tr>
+<tr><td><code>SwingleWang19</code></td><td>Swingle, Wang, Recovery map for fermionic Gaussian channels, JMP 60 (2019)</td><td>arXiv:1811.04956</td><td>N3,N6</td></tr>
+<tr><td><code>CDIW21</code></td><td>Carpi, Del Vecchio, Iovieno, Tanimoto (cited as CDIW in the notes; correct acronym CDIT), Positive energy representations of Sobolev diffeomorphism groups of the circle, AHP 22 (2021)</td><td>arXiv:1808.02384</td><td>N6</td></tr>
+<tr><td><code>TakhtajanTeo06</code></td><td>Takhtajan, Teo, Weil-Petersson metric on the universal Teichmuller space, Mem. AMS 183 (2006)</td><td>arXiv:math/0312172</td><td>N6</td></tr>
+<tr><td><code>Shen18</code></td><td>Shen, Weil-Petersson Teichmuller space, Amer. J. Math. 140 (2018)</td><td>arXiv:1304.3197</td><td>N6</td></tr>
+<tr><td><code>FewsterHollands05</code></td><td>Fewster, Hollands, Quantum energy inequalities in 2D CFT, RMP 17 (2005)</td><td>arXiv:math-ph/0412028</td><td>N6,N7</td></tr>
+<tr><td><code>CalabreseCardy04</code></td><td>Calabrese, Cardy, Entanglement entropy and QFT, JSTAT (2004)</td><td>arXiv:hep-th/0405152</td><td>N3</td></tr>
+<tr><td><code>CasiniHuerta04</code></td><td>Casini, Huerta, A finite entanglement entropy and the c-theorem, PLB 600 (2004)</td><td>arXiv:hep-th/0405111</td><td>N3</td></tr>
+<tr><td><code>CTT17</code></td><td>Casini, Teste, Torroba, Modular Hamiltonians on the null plane and the Markov property, JPA 50 (2017)</td><td>arXiv:1703.10656</td><td>N2,N3</td></tr>
+<tr><td><code>Camassa12</code></td><td>Camassa, Longo, Tanimoto, Weiner, Thermal states in conformal QFT II, CMP 315 (2012)</td><td>arXiv:1109.2064</td><td>N3</td></tr>
+</tbody>
+</table>
+<h2>Open access, fetch by hand (9)</h2>
+<table>
+<thead><tr>
+<th>short</th>
+<th>reference</th>
+<th>source column</th>
+<th>used in</th>
+</tr></thead>
+<tbody>
+<tr><td><code>Wiesbrock93</code></td><td>Wiesbrock, Half-sided modular inclusions of von Neumann algebras, CMP 157 (1993) 83-92; and CMP 158 (1993) 537-543 (conformal QFT and hsm inclusions)</td><td>Project Euclid (open)</td><td>N4</td></tr>
+<tr><td><code>Borchers92</code></td><td>Borchers, The CPT-theorem in two-dimensional theories of local observables, CMP 143 (1992)</td><td>Project Euclid (open)</td><td>N4,N7</td></tr>
+<tr><td><code>Petz86</code></td><td>Petz, Sufficient subalgebras and the relative entropy of states of a von Neumann algebra, CMP 105 (1986)</td><td>Project Euclid (open)</td><td>N2</td></tr>
+<tr><td><code>PowersStormer70</code></td><td>Powers, Stormer, Free states of the CAR, CMP 16 (1970)</td><td>Project Euclid (open)</td><td>N4,N5</td></tr>
+<tr><td><code>Araki71</code></td><td>Araki, On quasifree states of CAR and Bogoliubov automorphisms, PRIMS 6 (1971)</td><td>EMS Press / PRIMS open access</td><td>N4</td></tr>
+<tr><td><code>Araki76</code></td><td>Araki, Relative entropy of states of von Neumann algebras (I), PRIMS 11 (1976)</td><td>EMS Press open</td><td>N5</td></tr>
+<tr><td><code>Araki77</code></td><td>Araki, Relative entropy for states of von Neumann algebras II, PRIMS 13 (1977)</td><td>EMS Press open</td><td>N5,N7</td></tr>
+<tr><td><code>DaleckiiKrein</code></td><td>Daleckii-Krein formula (derivative of matrix functions)</td><td>any open source, e.g. arXiv surveys</td><td>N5</td></tr>
+<tr><td><code>NagSullivan95</code></td><td>Nag, Sullivan, Teichmuller theory and the universal period mapping via quantum calculus and the H^{1/2} space, Osaka J. Math. 32 (1995)</td><td>Project Euclid (open)</td><td>N6</td></tr>
+</tbody>
+</table>
+<h2>Needs library access (7)</h2>
+<table>
+<thead><tr>
+<th>short</th>
+<th>reference</th>
+<th>source column</th>
+<th>used in</th>
+</tr></thead>
+<tbody>
+<tr><td><code>Petz88</code></td><td>Petz, Sufficiency of channels over von Neumann algebras, Quart. J. Math. 39 (1988)</td><td>paywalled (flag; use Petz86 + arXiv surveys)</td><td>N3</td></tr>
+<tr><td><code>OhyaPetz</code></td><td>Ohya, Petz, Quantum Entropy and Its Use, Springer 1993/2004</td><td>book (not downloadable): use Araki77 and Petz's arXiv surveys; flag</td><td>N5</td></tr>
+<tr><td><code>Alberti83</code></td><td>Alberti, A note on the transition probability over C*-algebras, LMP 7 (1983)</td><td>paywalled: find open restatement (e.g. arXiv papers on fidelity for vN algebras)</td><td>N4,N5</td></tr>
+<tr><td><code>Uhlmann76</code></td><td>Uhlmann, The transition probability in the state space of a *-algebra, Rep. Math. Phys. 9 (1976)</td><td>paywalled: find open restatement</td><td>N5,N7</td></tr>
+<tr><td><code>ArakiRaggio82</code></td><td>Araki, Raggio, A remark on transition probability, LMP 6 (1982)</td><td>paywalled (flag)</td><td>N7</td></tr>
+<tr><td><code>Petz96</code></td><td>Petz, Monotone metrics on matrix spaces, LAA 244 (1996)</td><td>maybe not on arXiv (flag)</td><td>N7</td></tr>
+<tr><td><code>KirillovYuriev87</code></td><td>Kirillov, Yuriev, Kahler geometry of the infinite-dimensional homogeneous space Diff/Rot, Funct. Anal. Appl. 21 (1987)</td><td>paywalled (flag)</td><td>N6</td></tr>
+</tbody>
+</table>
+<h2>What is taken from each source</h2>
+<p>Quoted from the <code>Results used</code> column of <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/refs/REFERENCES.md"><code>refs/REFERENCES.md</code></a>; an empty entry means the file records none.</p>
+<ul>
+<li><strong>LongoXu</strong> — Thm 3.18 (free-fermion MI), Thm 4.1 (generalized MI, positivity, finite-dim limit), Thm 4.2 (G-identity, singular limit), Rmk 4.3; mutual-information formula for two intervals; Hardy-projection realization of the vacuum</li>
+<li><strong>CasiniHuerta09</strong> — modular Hamiltonian / eigenfunctions of the interval Hardy compression; spectrum 1/(1+e^kappa); thermal form</li>
+<li><strong>BGL93</strong> — geometric modular group of interval algebras (Bisognano-Wichmann for conformal nets), modular conjugation geometric</li>
+<li><strong>Wiesbrock93</strong> — hsm inclusion &lt;-&gt; Borchers translations; interval algebras with a common endpoint are hsm</li>
+<li><strong>Borchers92</strong> — Borchers' commutation relations Delta^{it} U(s) Delta^{-it} = U(e^{-2 pi t} s), J U(s) J = U(-s)</li>
+<li><strong>FHSW20</strong> — rotated Petz maps alpha_{sigma,t}; Sec 4.2 hsm inclusions (Petz map = Borchers translation, rotated = translation by 1+e^{-+2 pi t}); strengthened DPI with p(t)=pi/(cosh 2 pi t +1) (integrated form); standard-form Petz formula J_N V^* J_M x J_M V J_N</li>
+<li><strong>FH22</strong> — 2-positive channels version</li>
+<li><strong>JRSWW</strong> — universal recovery with the p(t) average</li>
+<li><strong>SFR</strong> — _no result recorded in the table_</li>
+<li><strong>FR</strong> — _no result recorded in the table_</li>
+<li><strong>HJPW</strong> — direct-sum decomposition of exact Markov states</li>
+<li><strong>Petz86</strong> — sufficiency &lt;-&gt; equality of relative entropies &lt;-&gt; Connes cocycle in N</li>
+<li><strong>Petz88</strong> — _no result recorded in the table_</li>
+<li><strong>PowersStormer70</strong> — quasi-equivalence criterion for gauge-invariant quasi-free states (S^{1/2}-T^{1/2} and (1-S)^{1/2}-(1-T)^{1/2} Hilbert-Schmidt); Powers-Stormer inequality</li>
+<li><strong>Araki71</strong> — quasi-equivalence of quasi-free states (self-dual formalism)</li>
+<li><strong>Araki76</strong> — Araki relative entropy definition</li>
+<li><strong>Araki77</strong> — monotone (martingale) convergence of relative entropy along increasing subalgebras (exact hypotheses!)</li>
+<li><strong>OhyaPetz</strong> — Cor 5.12 (relative entropy convergence)</li>
+<li><strong>Alberti83</strong> — F(phi,psi)^2 = inf_{x&gt;0} phi(x) psi(x^{-1})</li>
+<li><strong>Uhlmann76</strong> — Uhlmann fidelity, standard-form formula &lt;Omega, Delta_{phi,omega}^{1/2} Omega&gt;</li>
+<li><strong>ArakiRaggio82</strong> — _no result recorded in the table_</li>
+<li><strong>Jencova02</strong> — monotone metrics on vN algebra state spaces</li>
+<li><strong>Petz96</strong> — _no result recorded in the table_</li>
+<li><strong>DaleckiiKrein</strong> — second-order expansion of Tr X log X</li>
+<li><strong>VWZ</strong> — eqs (1.3),(1.8),(2.1),(2.13),(2.14),(3.15),(3.24); lambda statements; Fig 5 exponents; App A.5</li>
+<li><strong>SwingleWang19</strong> — Gaussian Petz map formulas</li>
+<li><strong>CDIW21</strong> — extension to D^s(S^1), which s?</li>
+<li><strong>TakhtajanTeo06</strong> — WP class, Hilbert-Schmidt condition</li>
+<li><strong>NagSullivan95</strong> — Segal-Shale condition &lt;-&gt; H^{1/2}</li>
+<li><strong>Shen18</strong> — characterization log phi' in H^{1/2}</li>
+<li><strong>FewsterHollands05</strong> — energy bounds / smearing class for T(f)</li>
+<li><strong>KirillovYuriev87</strong> — _no result recorded in the table_</li>
+<li><strong>CalabreseCardy04</strong> — thermal single-interval entropy</li>
+<li><strong>CasiniHuerta04</strong> — entropic c-function</li>
+<li><strong>CTT17</strong> — null Markov property</li>
+<li><strong>Camassa12</strong> — _no result recorded in the table_</li>
+</ul>
+<hr>
+<p><a href="index.html">Documentation map</a> · <a href="status.html">All claims by area</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/sources.md"><code>docs/sources.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

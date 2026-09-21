@@ -47,6 +47,9 @@ import sys
 import tempfile
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import md_to_html                            # noqa: E402  (needs the line above)
+
 REPO = Path(__file__).resolve().parent.parent
 DEFAULT_KB = REPO.parent / "kb" / "projects" / "cft_cmi"
 
@@ -1220,8 +1223,26 @@ def build_all(kb: Path, repo_root: Path, docs: Path):
             files[name] = content
 
 
+    # docs/*.md is the source and is what GitHub renders when someone browses the
+    # repository.  GitHub Pages renders none of it, so the site's links into the
+    # documentation point at docs/read/, a mirror written here from the same text.
+    # A page a human has taken over is mirrored from what is on disk, because that
+    # is what a reader sees.
+    mirror_of = dict(files)
+    for name in skipped_hand_edited:
+        on_disk = docs / name
+        if on_disk.exists():
+            mirror_of[name] = on_disk.read_text(encoding="utf-8")
+    titles = {}
+    for name, text in sorted(mirror_of.items()):
+        files["read/" + name[:-3] + ".html"] = md_to_html.render_page(text, name)
+        if name.startswith("results/"):
+            titles[name[len("results/"):-3]] = md_to_html.title_of(text)
+    files["read/results/index.html"] = md_to_html.results_index(titles)
+
     stats = {
         "claims": len(claims),
+        "mirrored": len(mirror_of) + 1,
         "pages": len(pages),
         "private": list(repo.private),
         "missing": list(repo.missing),
@@ -1238,19 +1259,22 @@ def build_all(kb: Path, repo_root: Path, docs: Path):
     return files, stats
 
 
-# The generator owns exactly two things inside docs/: the top-level *.md pages it
-# writes, and everything under results/.  docs/assets/, docs/explore/, docs/lib/
-# and docs/data/ belong to the figure and site builders and are never scanned,
-# never reported and never deleted here.
+# The generator owns three things inside docs/: the top-level *.md pages it writes,
+# everything under results/, and the whole of read/, which is the HTML mirror of
+# both.  docs/assets/, docs/explore/, docs/lib/ and docs/data/ belong to the figure
+# and site builders and are never scanned, never reported and never deleted here.
 OWNED_SUBDIR = "results"
+MIRROR_SUBDIR = "read"
 OWNED_SUFFIXES = (".md", ".markdown")
 
 
 def owned(rel: str) -> bool:
     """True for a path inside docs/ that this generator is responsible for."""
+    parts = rel.split("/")
+    if parts[0] == MIRROR_SUBDIR:
+        return True                      # every file in the mirror is generated
     if not rel.endswith(OWNED_SUFFIXES):
         return False
-    parts = rel.split("/")
     return len(parts) == 1 or parts[0] == OWNED_SUBDIR
 
 
@@ -1261,13 +1285,17 @@ def write_out(files: dict, docs: Path):
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(content, encoding="utf-8")
     stale = []
-    for path in sorted((docs / OWNED_SUBDIR).rglob("*")):
-        if not path.is_file():
+    for sub in (OWNED_SUBDIR, MIRROR_SUBDIR):
+        base = docs / sub
+        if not base.is_dir():
             continue
-        rel = path.relative_to(docs).as_posix()
-        if owned(rel) and rel not in files:
-            path.unlink()
-            stale.append(rel)
+        for path in sorted(base.rglob("*")):
+            if not path.is_file():
+                continue
+            rel = path.relative_to(docs).as_posix()
+            if owned(rel) and rel not in files:
+                path.unlink()
+                stale.append(rel)
     return stale
 
 

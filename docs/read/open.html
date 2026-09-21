@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What is open &mdash; cft-cmi</title>
+<meta name="description" content="What is open. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../index.html">Interactive site</a>
+    <a href="index.html">Documentation</a>
+    <a href="status.html">All claims</a>
+    <a href="open.html">Open problems</a>
+    <a href="notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>What is open</h1>
+<p>Every <code>next:</code> field below is quoted verbatim from its knowledge-base card: this page records the concrete next step, not an aspiration. Project-management cards (paper edits, plans, infrastructure) are deliberately left out.</p>
+<h2>Open questions (5)</h2>
+<h3>The universal corner-correlation kernel Ghat(Delta): closed form, positivity, decay</h3>
+<p><code>open</code> · knowledge-base id <code>corner-correlation-kernel</code></p>
+<p>Ghat(Delta) = g_Q(delta_0, delta_Delta)/c, where delta_Delta is the y-translate by Delta of the closed-form first-order corner defect ddot(y1,y2) = -(i/2 pi) sinh(y1/2) sinh(y2/2)/sinh^2((y1-y2)/2) (y1 &lt; 0 &lt; y2, + h.c.) in the modular frame I = (-inf, 1), y = -log(1-x). Ghat(0) = 1/(12 pi^2). Open: closed form (Fourier transform of rho(q) = (1/4) int dp |dhat_0(p,p-q)|^2 / W(p,p-q) with the SLD weight W); sign for all Delta; decay rate (e^{-Delta/2}? e^{-Delta}?), which fixes the order of the cross-term correction in the network law. No closed-form candidate is to be selected by fitting to numerics (lesson of theta-value).</p>
+<p><strong>next:</strong> G1b + G3 in parallel.</p>
+<h3>Certify the defect-matrix quadrature and the box cutoff</h3>
+<p><code>open</code> · knowledge-base id <code>dhat-quadrature-certification</code></p>
+<p>The certified enclosures refer to the compressed problem; two steps are uncertified: the two-dimensional quadrature producing the defect matrix D-hat and the truncation of the box frame at kappa_max.</p>
+<p><strong>next:</strong> Interval-arithmetic 2-D quadrature of the defect kernel on the box frame, and a rigorous bound for the modes beyond kappa_max (box asymptotics 0.0641 zeta^2/kappa_max^2).</p>
+<h3>Multi-interval networks (O10, second half)</h3>
+<p><code>open</code> · knowledge-base id <code>multi-interval-networks</code></p>
+<p>Not started. The gap geometry is done; networks of recovery maps and their holonomy remain.</p>
+<p><strong>next:</strong> Phase 6 (rigor/phase6_brief.md, card phase6-plan): corner calculus (G1a), second-order network law with the universal kernel Ghat (G1b), lattice sequential Petz chains and the VWZ protocol test 1:2:4 (G2), Ghat(Delta) in two frames (G3).</p>
+<h3>Charged sectors, state dependence, collar Gaussianity (O11)</h3>
+<p><code>open</code> · knowledge-base id <code>sectors-o11</code></p>
+<p>Deferred throughout Phases 1-3.</p>
+<p><strong>next:</strong> Sector-dependent Markov defect for the free fermion (quasi-free or finite rank); write the half-page collar-Gaussianity lemma.</p>
+<h3>theta as a geometry-free Wiener-Hopf constant in the modular frame of I</h3>
+<p><code>open</code> · knowledge-base id <code>theta-modular-wiener-hopf</code></p>
+<p>Frame-free form: ddelta = [Q,d] with d = E_I D_chi E_I, and on the isometric orbit delta^(1) = [Q, d - zeta], so 1 - theta = inf_G g_Q([Q, d + G]) / g_Q([Q,d]), the INFIMUM over BOUNDED anti-self-adjoint G supported in D (not a min; the distinction from theta_HS is open, cf. exact_fidelity_upper_half.tex Rem 7.4(i)). In the modular frame of the half-line I = (-inf,1) — coordinate y = -log(1-x), implemented by the half-density push-forward, A = {y&lt;0}, D = {y&gt;0} — Bisognano-Wichmann makes Q a Fourier multiplier Q = (1 + e^{-2 pi p})^{-1}, p = -i d/dy, E_D = 1_{y&gt;0}, and the compression field becomes w(y) = -4 sinh^2(y/2) 1_{y&gt;0} (C^{1,1} at 0, ~ -e^y as y -&gt; +inf: the moving endpoint x=1 sits at y=+inf). With X^ the kernel in the Fourier variable, g_Q([Q,X]) = (1/4) int int K(p,p') |X^(p,p')|^2, K(p,p') = sinh^2(pi(p-p')) / [cosh(pi(p-p')) (cosh(pi(p+p')) + cosh(pi(p-p')))]. So theta is the value of a parameter-free quadratic Wiener-Hopf problem (minimise over kernels supported in the quadrant y,y' &gt; 0): theta is a pure number, independent of a,b,c,L,z. NUMERICAL VALUE (track F3, numerics/optimality_all/F3_RESULTS.md, f3_t0.py): theta = 0.384 +- 0.003, 1 - theta = 0.616 +- 0.003; the modular Galerkin frame and a direct discretisation of the frame above agree to 3e-4 after extrapolation (order h^0.77, five mesh families), the modular window Lambda is irrelevant, and the residual h-dependence is a BULK effect (the endpoint piece saturates at coarse h). S10's 0.300 +- 0.005 is not a competing estimate but a TAPER-SUPPRESSED LOWER BOUND: relaxing the circle model's smoothstep UV taper moves theta at L=256 from 0.2896 to 0.36 and beyond. Consequently the three circulated candidates are EXCLUDED: 3/pi^2 = 0.30396 and 1/3 far below, 1 - 2/pi = 0.36338 still 6.9 sigma low; that all three fell in the old 0.30-0.40 window is a cautionary datum about unmotivated candidates. Structural reading: theta &gt; 0 iff E_D u E_D != 0 (S10 Thm 6.2 + Cor 11.2, non-vanishing numerical). theta &lt; 1 is NOT proved: only the converse is established (if d were anti-self-adjoint then G = -d would be admissible and theta = 1); d is skew-symmetric but not skew-adjoint, its boundary form sitting at the moving endpoint. K -&gt; 1 as |p-p'| -&gt; inf at fixed p+p', and K -&gt; 0 as |p+p'| -&gt; inf at fixed p-p' — the latter is the direction the circle taper suppresses, consistent with its downward bias. NO closed form is claimed or fitted.</p>
+<p><strong>next:</strong> Solve or bound the Wiener-Hopf problem of Prop 6.2 and compare with theta = 0.384 +- 0.003 (F3 is done); a closed form is open, and no candidate is to be fitted to the numerics</p>
+<h2>Conjectures (3)</h2>
+<p>Believed, with partial evidence, and not proved.</p>
+<h3><a href="results/conj-s2.html">s2 = c/12 for general nets</a></h3>
+<p><code>conjectural</code> · knowledge-base id <code>conj-s2</code></p>
+<p><strong>next:</strong> Renormalised/collar route for a gauge lemma modulo the commutant orbit; then the exact identity applies. Until then paper 2 states s2 = c/12 as a conjecture with the bracket.</p>
+<h3><a href="results/network-second-order-law.html">Second-order network law: Phi_tot = sum zeta_j zeta_k G(y_j - y_k), G = c Ghat universal</a></h3>
+<p><code>conjectural</code> · knowledge-base id <code>network-second-order-law</code></p>
+<p><strong>next:</strong> G1b proof; G3 numerics; then compare with the lattice (G2).</p>
+<h3><a href="results/vwz-protocol-ordering.html">VWZ four-interval protocols: Phi(1):Phi(2):Phi(3) -&gt; 1:2:4; middle-out is the worst order</a></h3>
+<p><code>conjectural</code> · knowledge-base id <code>vwz-protocol-ordering</code></p>
+<p><strong>next:</strong> G2 run; G1a proof of the exact reductions.</p>
+<h2>Settled claims that still record a next step (4)</h2>
+<p>These carry a status of their own; the step recorded is what would sharpen or extend them.</p>
+<h3><a href="results/compression-not-optimal-exact-fidelity.html">E_rec &lt;= (1-theta) f2 z^2 (1+o(1)): the zero-collar compression is NOT optimal in exact fidelity</a></h3>
+<p><code>numerical</code> · knowledge-base id <code>compression-not-optimal-exact-fidelity</code></p>
+<p><strong>next:</strong> kappa_opt &lt;= 0.616 +- 0.003; whether non-isometric channels lower it further is the subject of Phase 5 -- the KKT criterion's endpoint condition is still being evaluated (F1/F2), numerically no (card kkt-noise-criterion-numerics). Do not record kappa_opt = 1 - theta as settled.</p>
+<h3><a href="results/corner-calculus.html">Corner calculus: sequential one-sided recovery = Schwarzian point masses at the junctions</a></h3>
+<p><code>proved</code> · knowledge-base id <code>corner-calculus</code></p>
+<p><strong>next:</strong> G2 to test the general rule (Thm 5.2) on the lattice, including union-conditioning and single-interval-start protocols where (H) fails.</p>
+<h3><a href="results/exact-fidelity-optimality-open.html">Is the compression beaten in EXACT fidelity?</a></h3>
+<p><code>numerical</code> · knowledge-base id <code>exact-fidelity-optimality-open</code></p>
+<p><strong>next:</strong> Remaining: the exact value of the all-channel optimum (non-isometric channels; bracket [D_z, (0.616 +- 0.003) f2 z^2]) and an analytic proof that E_D u E_D is not self-adjoint (theta &gt; 0). kappa_opt = 1 - theta is NOT settled: the KKT criterion's endpoint condition is still being evaluated (Phase 5, F1/F2); numerically non-isometric channels do not lower it further (card kkt-noise-criterion-numerics).</p>
+<h3><a href="results/kkt-noise-sign-criterion.html">KKT sign criterion: when the isometric orbit carries the all-channel second-order optimum</a></h3>
+<p><code>proved</code> · knowledge-base id <code>kkt-noise-sign-criterion</code></p>
+<p><strong>next:</strong> F2 evaluates the endpoint number E(zeta_0) of condition (e) in the rigid frame; (a) is numerically settled (F2 T4)</p>
+<hr>
+<p><a href="index.html">Documentation map</a> · <a href="status.html">All claims by area</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/open.md"><code>docs/open.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

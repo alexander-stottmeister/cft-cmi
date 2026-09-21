@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>E_rec \&lt;= (1-theta) f2 z^2 (1+o(1)): the zero-collar compression is NOT optimal in exact fidelity &mdash; cft-cmi</title>
+<meta name="description" content="E_rec \&lt;= (1-theta) f2 z^2 (1+o(1)): the zero-collar compression is NOT optimal in exact fidelity. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../../index.html">Interactive site</a>
+    <a href="../index.html">Documentation</a>
+    <a href="../status.html">All claims</a>
+    <a href="../open.html">Open problems</a>
+    <a href="../notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>E_rec &lt;= (1-theta) f2 z^2 (1+o(1)): the zero-collar compression is NOT optimal in exact fidelity</h1>
+<p><strong>Status:</strong> <code>numerical</code> — measured, with an error bar and a convergence order; not a theorem.</p>
+<p><strong>Area:</strong> <a href="../status.html#area-optimality">Optimality of recovery channels (O8, Phases 3 and 3b)</a> · <strong>Card type:</strong> result · <strong>Knowledge-base id:</strong> <code>compression-not-optimal-exact-fidelity</code></p>
+<h2>Statement</h2>
+<p>PROVED (no numerical input): per chirality E_rec &lt;= (1 - theta_fr) f2 z^2 (1+o(1)) (Thm 7.3), where theta_fr is the isometric-orbit gain sup over FINITE-RANK anti-self-adjoint G = E_D G E_D with v_G != 0; and theta_fr &gt; 0 iff R_a != 0, equivalently (S10 Cor. 11.2: E_D u E_D is purely anti-self-adjoint) iff E_D u E_D != 0. Proof: the g_Q-free (UH) (card uhlmann-upper-half-proved) minimised in lambda and maximised in G, plus ||u||_2^2 = g_B/4 (S10 Prop. 4.3(2)) so (1/2)||u||^2 = f2. NUMERICAL: theta_fr &gt;= 0.38, hence kappa_opt &lt;= 0.616 +- 0.003 &lt; 1, i.e. the zero-collar compression is beaten in EXACT fidelity, not merely in the second-order functional. The bridge from the published theta to theta_fr is Remark 7.4: (i) theta_fr = theta_HS by S_2-density of finite-rank anti-Hermitian G supported in D (all quantities depend on G only through P^perp G P, S_2-continuously), only theta_HS = theta (bounded G with P^perp G P in S_2 but G not in S_2) is open and is irrelevant for a LOWER bound; (ii) the explicit admissible HS direction G = R_a gives theta_fr &gt;= 0.0143; (iii) every discretisation behind the numerical theta is finite-dimensional, so its optimisers are finite rank -- and F3's extrapolations are themselves taken over finite meshes, so theta_fr &gt;= 0.38 is as well supported as theta = 0.384 +- 0.003 (Phase 5, F3, card theta-value; the modular Galerkin frame of S12 Sec. 5.2 and the parameter-free modular Wiener-Hopf frame of rigor/exact_optimum_tangent_problem.tex Prop 6.2 agree to 3e-4 after extrapolation; S10 Sec. 7's 0.300 +- 0.005 is a taper-suppressed LOWER bound). Wording updated in rigor/exact_fidelity_upper_half.tex Remark 7.4 (rem:thetafr) and the dated addendum to its Sec. 10. Sandwich (Cor 7.5): sup over admissible test families of liminf Delta_z(t_z)^2/(8 V(t_z) z^2) &lt;= liminf E_rec/z^2 &lt;= limsup E_rec/z^2 &lt;= (1 - theta_fr) f2; the identification of the left side with D_z = min_F g_Q is S12 Thm 4.1(2) and is CONDITIONAL on a test family with ||t_z||_1^2/V(t_z) bounded and Delta_z(t_z)||t_z||_1/V(t_z) -&gt; 0. Also note (referee R7): the structural chain is duality-free but the constant f2 reaches back to PA Prop. 7.6, hence to twisted duality.</p>
+<h2>How to verify</h2>
+<p>rigor/exact_fidelity_upper_half.tex Sec. 7 (Thm 7.3, Remark 7.4, Cor 7.5), Verdict and Sec. 10; rigor/optimality_all_channels.tex Secs. 5.1-5.2 for theta.</p>
+<h2>Evidence</h2>
+<ul>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_fidelity_upper_half.tex">rigor/exact_fidelity_upper_half.tex</a> — document, at <code>thm:main</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_fidelity_upper_half.tex">rigor/exact_fidelity_upper_half.tex</a> — document, at <code>cor:sandwich</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/findings_entries.tex">rigor/findings_entries.tex</a> — document</li>
+</ul>
+<h2>Related claims</h2>
+<ul>
+<li><a href="uhlmann-upper-half-proved.html">(UH) proved: optimised Uhlmann bound = g_Q of the defect, for every isometric quasi-free channel</a> — <code>proved</code></li>
+<li><a href="exterior-exhaust-invisible.html">Exterior directions exhaust the invisible space: closure(Ext) = N^perp (question (Q) settled, YES)</a> — <code>proved</code></li>
+<li><a href="exact-fidelity-optimality-open.html">Is the compression beaten in EXACT fidelity?</a> — <code>numerical</code></li>
+<li><a href="compression-not-second-order-minimiser.html">The compression is not the minimiser of the second-order functional</a> — <code>numerical</code></li>
+</ul>
+<h2>Review</h2>
+<p><strong>Review record:</strong> passed 2026-09-15 by REF-P5-3.</p>
+<p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
+<hr>
+<p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/results/compression-not-optimal-exact-fidelity.md"><code>docs/results/compression-not-optimal-exact-fidelity.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

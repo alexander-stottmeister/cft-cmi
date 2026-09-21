@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exterior directions exhaust the invisible space: closure(Ext) = N^perp (question (Q) settled, YES) &mdash; cft-cmi</title>
+<meta name="description" content="Exterior directions exhaust the invisible space: closure(Ext) = N^perp (question (Q) settled, YES). Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../../index.html">Interactive site</a>
+    <a href="../index.html">Documentation</a>
+    <a href="../status.html">All claims</a>
+    <a href="../open.html">Open problems</a>
+    <a href="../notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>Exterior directions exhaust the invisible space: closure(Ext) = N^perp (question (Q) settled, YES)</h1>
+<p><strong>Status:</strong> <code>proved</code> — a complete structured proof.</p>
+<p><strong>Area:</strong> <a href="../status.html#area-optimality">Optimality of recovery channels (O8, Phases 3 and 3b)</a> · <strong>Card type:</strong> theorem · <strong>Knowledge-base id:</strong> <code>exterior-exhaust-invisible</code></p>
+<h2>Statement</h2>
+<p>In the real Hilbert space S_2(PH, P^perp H) with inner product Re Tr(X^* Y), let N = {P^perp l P : l = l^* = E_I l E_I} (visible space) and Ext = {P^perp Z_e P : Z_e^* = -Z_e = E_{I^c} Z_e E_{I^c}} (exterior directions). Then closure(Ext) = N^perp = {B : E_I(B + B^*)E_I = 0}, and finite-rank Z_e already suffice. Proof (invariant, no Halmos normal form): B orthogonal to both spaces means, with Xi := B + B^*, Gamma := 2P-1: Gamma Xi + Xi Gamma = 0, E_I Xi E_I = 0, E_{I^c} Gamma Xi E_{I^c} = 0. Compressing Gamma Xi Gamma = -Xi with E_{I^c} and inserting 1 = E_I + E_{I^c} twice gives Gamma' pi Gamma' = pi with pi = E_{I^c} Xi E_{I^c}, Gamma' = E_{I^c}(2P-1)E_{I^c}; since Gamma' is a self-adjoint contraction with no eigenvalue +-1 (generic position) Gamma'^n -&gt; 0 strongly, and pi is compact, so pi = 0; then E_{I^c} P E_I (E_I Xi E_{I^c}) = 0 with E_{I^c} P E_I injective gives Xi = 0. FINITE-RANK exterior generators already suffice (closure(Ext_fr) = closure(Ext) = N^perp). Compactness of the test element is NOT needed (referee R3): for any BOUNDED pi with pi = Gamma'^n pi Gamma'^n one has |&lt;xi, pi eta&gt;| &lt;= ||Gamma'^n xi|| ||pi|| ||Gamma'^n eta|| -&gt; 0, so pi = 0 by two-sided strong convergence alone; the earlier claim that bounded solutions exist (from approximate eigenvectors) is false, since approximate eigenvectors at +-1 tend weakly to 0. Generic position IS essential: one failure in each of the two groups breaks it (f in h_{I^c} cap PH and g in h_I cap P^perp H give B = |g&gt;&lt;f| nonzero in N^perp cap Ext^perp). Only a CLOSURE is claimed because Z_e -&gt; P^perp Z_e P has unbounded inverse on N^perp (E2 Sec. 2.3), not because of the fixed-point equation. Second, independent proof: N and Ext are the (1,1)-sector standard subspaces of F(I) and F(I)', so (Q) IS Haag/twisted duality (Tomita: K^perp_R = i K').</p>
+<h2>How to verify</h2>
+<p>rigor/exact_fidelity_upper_half.tex Sec. 5 (Lemma 5.1 generic position, Thm 5.3 invariant proof, Thm 5.4 duality (which, for a bounded interval, uses twisted duality for the disconnected complement plus additivity, circle picture) proof); numerically corroborated by E0 card finite-dim-exterior-density.</p>
+<h2>Evidence</h2>
+<ul>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_fidelity_upper_half.tex">rigor/exact_fidelity_upper_half.tex</a> — document, at <code>thm:Q</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_fidelity_upper_half.tex">rigor/exact_fidelity_upper_half.tex</a> — document, at <code>thm:Qdual</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_fidelity_upper_half.tex">rigor/exact_fidelity_upper_half.tex</a> — document, at <code>lem:generic</code></li>
+</ul>
+<h2>Related claims</h2>
+<ul>
+<li><code>phase4-plan</code> — <code>done</code>, no page of its own</li>
+<li><a href="exact-fidelity-optimality-open.html">Is the compression beaten in EXACT fidelity?</a> — <code>numerical</code></li>
+<li><a href="finite-dim-exterior-density.html">Finite chains: exterior directions span exactly the invisible space (Ext = N^perp)</a> — <code>numerical</code></li>
+</ul>
+<h2>Review</h2>
+<p><strong>Review record:</strong> passed 2026-09-15 by REF-KB-8.</p>
+<p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
+<hr>
+<p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/results/exterior-exhaust-invisible.md"><code>docs/results/exterior-exhaust-invisible.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

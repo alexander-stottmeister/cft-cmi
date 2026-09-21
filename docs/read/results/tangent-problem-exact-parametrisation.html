@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exact (N,Y,V) chart of F and the tangent problem at the compression &mdash; cft-cmi</title>
+<meta name="description" content="Exact (N,Y,V) chart of F and the tangent problem at the compression. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../../index.html">Interactive site</a>
+    <a href="../index.html">Documentation</a>
+    <a href="../status.html">All claims</a>
+    <a href="../open.html">Open problems</a>
+    <a href="../notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>Exact (N,Y,V) chart of F and the tangent problem at the compression</h1>
+<p><strong>Status:</strong> <code>proved</code> — a complete structured proof. <strong>Conditional.</strong> The statement is not unconditional: it rests on H1, H2, quoted below. Read the badge only together with them.</p>
+<p><strong>Area:</strong> <a href="../status.html#area-optimality">Optimality of recovery channels (O8, Phases 3 and 3b)</a> · <strong>Card type:</strong> theorem · <strong>Knowledge-base id:</strong> <code>tangent-problem-exact-parametrisation</code></p>
+<h2>Statement</h2>
+<p>Feasible set: (X,Z) in F iff N := 1 - X X* &gt;= 0 and Y := Z - X Q_BB X* satisfies 0 &lt;= Y &lt;= N. Polar: X = (1-N)^{1/2} V with V : h_B -&gt; h_D the polar partial isometry; V V* = 1 - 1_{{1}}(N), so the POLAR V is a co-isometry iff 1 is not an eigenvalue of N (sharp: for X = the forward shift no co-isometric factor exists); existence of SOME co-isometric factor is the weaker dim ker(1-N) &lt;= dim ker X. Then V* = W U with W the compression unitary h_D -&gt; h_B and U an isometry of h_D (onto iff V unitary). Scaling N = s N_1 (N_1 a bounded positive operator), Y = s Y_1, U_s = 1 + s zeta + o(s) with (U_s) a C_0-semigroup of isometries gives, exactly feasible at every small s, the first-order defect (as sesquilinear forms on C_c^inf) delta^(1) = ddelta + A(zeta,N_1,Y_1) with A_AA = 0, A_AD = -Q_AD zeta + (1/2) Q_AD N_1, A_DD = -(zeta* Q_DD + Q_DD zeta) + (1/2){N_1,Q_DD} - Y_1 (noise enters DD with a MINUS sign); ddelta = [Q,d] with d = E_I D_chi E_I (Lemma 6.1), and ddelta has zero AA block (locality of D_chi, chi = chi' = 0 on A) and zero DD block (Moebius rigidity, S10 Lemma 11.1). Boundary-moving (non-surjective) isometry directions: the absorption identity A(zeta,N_1,Y_1) = A(G, N_1 - 2 sigma, Y_1) holds with G = anti-symmetric part and sigma &lt;= 0 the BOUNDARY FORM &lt;sigma g,g&gt; := Re&lt;zeta* g,g&gt; on dom(zeta*) (sigma &lt;= 0 by Lumer-Phillips for the adjoint contraction semigroup; for BOUNDED zeta, sigma = 0 and zeta is anti-self-adjoint, so bounded isometry families give nothing beyond S10's class). This yields only an INCLUSION of cones: the anti-symmetric G on the right must themselves be isometry generators. The inclusion cannot be reversed - +lambda D_chi|_D is anti-symmetric but generates an OUTWARD flow, and admitting it would give delta^(1) = (1-lambda) ddelta and tangent value T = 0. Also the singular boundary N_1 are NOT in the g_Q-closure of the bounded ones (||Q_AD N_1^(n)||_2 -&gt; inf), so they need their own one-sided condition, not a limit. The tangent value T = inf g_Q(delta^(1)) is an upper bound for limsup z^{-2} min_F g_Q under hypothesis H1 (g_Q-differentiability along the scaled family); the matching lower bound needs hypothesis H2 (Def 3.16: a minimiser EXISTS, is of the scaled-family form, with ||N_1||+||Y_1|| &lt;= C and a uniform o(s^2) remainder - i.e. H2 is the lower bound in disguise), which is NOT proved: g_Q &gt;= (1/4)||.||_2^2 gives O(s) defect blocks but does not localise (X,Z) because Q_AB has 0 in its essential spectrum.</p>
+<h2>Hypotheses</h2>
+<p>This result is conditional: at least part of the statement holds only where the hypotheses below hold. The sentences are quoted from the statement above; read the status badge only together with them.</p>
+<p>Hypothesis labels used: <code>H1</code>, <code>H2</code>.</p>
+<blockquote>
+<p>The tangent value T = inf g_Q(delta^(1)) is an upper bound for limsup z^{-2} min_F g_Q under hypothesis H1 (g_Q-differentiability along the scaled family); the matching lower bound needs hypothesis H2 (Def 3.16: a minimiser EXISTS, is of the scaled-family form, with ||N_1||+||Y_1|| &lt;= C and a uniform o(s^2) remainder - i.e. H2 is the lower bound in disguise), which is NOT proved: g_Q &gt;= (1/4)||.||_2^2 gives O(s) defect blocks but does not localise (X,Z) because Q_AB has 0 in its essential spectrum.</p>
+</blockquote>
+<h2>How to verify</h2>
+<p>cd rigor &amp;&amp; pdflatex -interaction=nonstopmode -halt-on-error exact_optimum_tangent_problem.tex; check Lemma 2.1 (both directions), Lemma 2.2(1) and (4) with the shift counterexample in Remark 2.3, Prop 3.4 steps &lt;1&gt;1-&lt;1&gt;5 (the o(s) bookkeeping uses E_D ddelta E_D = 0, S10 Lemma 11.1), Lemma 6.1 (ddelta = [Q,d]), Thm 3.11 steps &lt;1&gt;1-&lt;1&gt;4 (Lumer-Phillips for sigma &lt;= 0; the absorption algebra; the INCLUSION, not equality) together with Remark 4.8 (why the cone must not be enlarged: T = 0 and H1 fails for the contraction family), and Thm 3.9 step &lt;1&gt;2 (triangle inequality in g_Q^{1/2} + H1)</p>
+<h2>Evidence</h2>
+<ul>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_optimum_tangent_problem.tex">rigor/exact_optimum_tangent_problem.tex</a> — document, at <code>lem:NY</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_optimum_tangent_problem.tex">rigor/exact_optimum_tangent_problem.tex</a> — document, at <code>lem:polar</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_optimum_tangent_problem.tex">rigor/exact_optimum_tangent_problem.tex</a> — document, at <code>prop:delta1</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_optimum_tangent_problem.tex">rigor/exact_optimum_tangent_problem.tex</a> — document, at <code>thm:bdry</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_optimum_tangent_problem.tex">rigor/exact_optimum_tangent_problem.tex</a> — document, at <code>rem:coneT0</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_optimum_tangent_problem.tex">rigor/exact_optimum_tangent_problem.tex</a> — document, at <code>lem:commQ</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_optimum_tangent_problem.tex">rigor/exact_optimum_tangent_problem.tex</a> — document, at <code>thm:upper</code></li>
+</ul>
+<h2>Related claims</h2>
+<ul>
+<li><code>phase5-plan</code> — <code>done</code>, no page of its own</li>
+</ul>
+<h2>Review</h2>
+<p><strong>Review record:</strong> passed 2026-09-15 by REF-P5-4.</p>
+<p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
+<hr>
+<p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/results/tangent-problem-exact-parametrisation.md"><code>docs/results/tangent-problem-exact-parametrisation.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

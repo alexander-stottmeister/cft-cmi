@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tangent SDP over (G, N1, Y1) in the circle model: orbit-only optimum matches (1-theta) to 1.1e-7, full optimum not resolvable (measured Gram cond 2.4e22) &mdash; cft-cmi</title>
+<meta name="description" content="Tangent SDP over (G, N1, Y1) in the circle model: orbit-only optimum matches (1-theta) to 1.1e-7, full optimum not resolvable (measured Gram cond 2.4e22). Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../../index.html">Interactive site</a>
+    <a href="../index.html">Documentation</a>
+    <a href="../status.html">All claims</a>
+    <a href="../open.html">Open problems</a>
+    <a href="../notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>Tangent SDP over (G, N1, Y1) in the circle model: orbit-only optimum matches (1-theta) to 1.1e-7, full optimum not resolvable (measured Gram cond 2.4e22)</h1>
+<p><strong>Status:</strong> <code>numerical</code> — measured, with an error bar and a convergence order; not a theorem.</p>
+<p><strong>Area:</strong> <a href="../status.html#area-optimality">Optimality of recovery channels (O8, Phases 3 and 3b)</a> · <strong>Card type:</strong> result · <strong>Knowledge-base id:</strong> <code>tangent-sdp-noise-directions</code></p>
+<h2>Statement</h2>
+<p>The fixed-geometry tangent problem, min over G = iH anti-Hermitian on D, N1 &gt;= 0, 0 &lt;= Y1 &lt;= N1 of g_Q(delta_c + [G,Q] + noise(N1,Y1)) with noise_DD = (1/2){N1,Q_DD} - Y1, noise_DA = (1/2) N1 Q_DA, noise_AA = 0, was posed as an SDP in the S10 spectral circle model (cvxpy, CLARABEL/SCS). SOLID OUTPUTS. (a) The ORBIT-ONLY restriction (N1 = Y1 = 0 forced) reproduces (1 - theta) g_Q(delta_c) to 1.1e-7 relative at L = 64 (cap 1e10) and 4.0e-7 (cap 1e6) -- this is agreement to 1.1e-7, not "exactly", and it is a statement about the orbit-only problem, i.e. a validation of the SDP formulation against the S10 CG, not about the full tangent optimum. (b) Homogeneity: delta_c -&gt; 2 delta_c scales the ORBIT-ONLY optimum by exactly 4.00000000 in both the direct and the Gram form (L = 64, cap 1e6). (c) The rank-one gains along the KKT-violating directions, computed exactly without a solver, are 6.3e-9, 1.8e-12, 3.5e-11, 1.2e-10, 1.1e-10 in units of g_Q(delta_c) at L = 64, 96, 128, 192, 256 (cap 1e10), and the isometric rotations cannot absorb those directions (g_red/g_Q = 1 - 5e-4); no statement about kappa_opt is made here (that is the business of card kkt-noise-criterion-numerics, in a frame where rigidity is exact). (d) Subspace lower bounds on the gain (f2_sub_gain_fixed.out; each returned (N1,Y1) is checked for cone feasibility, and l and g_red are recomputed exactly outside the solver, so the numbers are valid lower bounds independently of the solver's own objective): at L = 64, subspace eigMtau k=4 gives gain/g_Q(delta_c) = 2.843e-07 (status optimal, cone feasibility -2.4e-12), svdQDA k=4 gives 9.204e-09 (optimal_inaccurate, -4.4e-14), mix k=8 gives 2.106e-04 (optimal_inaccurate, cone feasibility -3.4e-17, l recomputed -1.0000, g_red recomputed 3.2049e+05 by CG; the solver's own objective 6.970e+05 is 2.17x higher, i.e. the returned point is better than the solver thought, and a non-converged CG would only weaken the bound); at L = 128, eigMtau k=4 gives 5.586e-10 (optimal_inaccurate, -7.8e-16). Hence kappa_full &lt;= 1 - theta - 2.106e-4 = 0.64883481 at L = 64 (1 - theta = 0.64904541) and kappa_full &lt;= 0.70882131 at L = 128 (1 - theta = 0.70882131 to 9 digits). The remaining subspaces return no point, with honest solver statuses: infeasible_inaccurate (eigM and rand at L = 64, eigM and mix at L = 128) and infeasible (svdQDA at L = 128).
+CORRECTION TO THE FIRST VERSION OF THIS CARD. The earlier statement "at L = 128 and 256 every subspace solve failed" was wrong in its cause: the script crashed with "ValueError: matmul: Input operand 1 does not have enough dimensions" whenever the solver returned no point, because of an unguarded basis @ Nr.value with Nr.value = None. That is a code defect, not conditioning. It has been fixed (status caught, SCS fallback, cone feasibility measured) and the run redone; the table above is the corrected result.
+WHAT IS NOT RESOLVED: the FULL tangent optimum kappa_full in the circle model. The quadratic form is numerically singular there: measured Gram condition numbers (f2_gram_cond.out, 3|D|^2 real coordinates) are 2.50e+18 (L = 64, cap 1e4), 2.65e+19 (L = 64, cap 1e6), 2.37e+22 (L = 64, cap 1e10) and 2.51e+26 (L = 96, cap 1e10), with the smallest positive eigenvalue at the double-precision floor -- a direct consequence of the circle model's O(1/L) violation of Moebius rigidity, since the individual blocks of delta_c carry g_Q of order 1e5 x g_Q(delta_c). Consequences observed: CLARABEL fails with SolverError on the direct form at L = 64 for caps 1e4 and 1e10 and on the scale-free cone form for all caps; SCS does not converge in 1e5 iterations; the Gram-reduced form appears to succeed but its answer is a rank-cutoff artefact (it drops 161 of 675 directions below tol*max and then reports kappa_full = 0.5990 against 1 - theta = 0.6490 at L = 64, a spurious 5 percent gain obtained by treating small-curvature directions as free); and the UNCONSTRAINED relaxation (arbitrary Hermitian N1, Y1, no cone) is genuinely ill-posed -- CG on Ghat x = l does not converge and the gain estimate grows monotonically with the iteration count (8.7e-4 -&gt; 6.8e-3 of g_Q(delta_c) between iterations 75 and 200 at L = 64), because with Y1 free the DD block of the defect can be set arbitrarily. The cone constraints are therefore essential and the correct scale-free formulation is q* = min{g_Q([G,Q] + noise(v)) : l(v) = -1, v in the cone} with gain = 1/(4 q*), l(v) = Tr(N1 M_*) - Tr(Y1 tau_*) in the half-SLD normalisation of t_*.
+This card reports BOUNDS in the circle model, not a value, and in a frame whose criterion verdict is shown to be artefact-dominated (card kkt-noise-criterion-numerics).</p>
+<h2>How to verify</h2>
+<p>cd numerics/optimality_all; $V/bin/python f2_tangent_sdp.py 64 (orbit-only check and homogeneity); f2_sub_gain.py 64,128 1e10 4 -&gt; f2_sub_gain_fixed.out (each subspace prints its solver status, the cone feasibility of the returned point, and the exactly recomputed l and g_red); the Gram condition numbers are the one-liner quoted in F2_RESULTS.md T1 -&gt; f2_gram_cond.out; f2_gram_verify.py 64 1e6 1e-14,1e-10,1e-6 (rank-cutoff artefact); f2_gain.py 64 1e10,1e4 200 (non-convergent CG ladder of the unconstrained relaxation)</p>
+<h2>Evidence</h2>
+<ul>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/F2_RESULTS.md">numerics/optimality_all/F2_RESULTS.md</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/f2_sub_gain_fixed.out">numerics/optimality_all/f2_sub_gain_fixed.out</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/f2_gram_cond.out">numerics/optimality_all/f2_gram_cond.out</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/f2_kkt_f1_L.out">numerics/optimality_all/f2_kkt_f1_L.out</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/f2_conefast_L64.out">numerics/optimality_all/f2_conefast_L64.out</a> — numerics</li>
+</ul>
+<h2>Related claims</h2>
+<ul>
+<li><a href="kkt-noise-criterion-numerics.html">KKT criterion numerics: every finite run FAILS (a); the violation extrapolates to 0^- as h -&gt; 0, Ymax -&gt; inf; E(zeta_0) &gt; 0 and E(zeta_inf) &gt; 0, so (e) holds for the whole cone under H3</a> — <code>numerical</code></li>
+<li><a href="kkt-noise-sign-criterion.html">KKT sign criterion: when the isometric orbit carries the all-channel second-order optimum</a> — <code>proved</code></li>
+<li><code>phase5-plan</code> — <code>done</code>, no page of its own</li>
+<li><a href="compression-not-second-order-minimiser.html">The compression is not the minimiser of the second-order functional</a> — <code>numerical</code></li>
+</ul>
+<h2>Review</h2>
+<p><strong>Review record:</strong> passed 2026-09-15 by REF-P5-3.</p>
+<p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
+<hr>
+<p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/results/tangent-sdp-noise-directions.md"><code>docs/results/tangent-sdp-noise-directions.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

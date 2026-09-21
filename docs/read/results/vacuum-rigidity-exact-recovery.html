@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vacuum rigidity: the pulled-back vacuum is the vacuum iff the map is Moebius; no protocol recovers exactly &mdash; cft-cmi</title>
+<meta name="description" content="Vacuum rigidity: the pulled-back vacuum is the vacuum iff the map is Moebius; no protocol recovers exactly. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../../index.html">Interactive site</a>
+    <a href="../index.html">Documentation</a>
+    <a href="../status.html">All claims</a>
+    <a href="../open.html">Open problems</a>
+    <a href="../notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>Vacuum rigidity: the pulled-back vacuum is the vacuum iff the map is Moebius; no protocol recovers exactly</h1>
+<p><strong>Status:</strong> <code>proved</code> — a complete structured proof.</p>
+<p><strong>Area:</strong> <a href="../status.html#area-lattice-thermal">Lattice, thermal, massive and gapped geometries (O7, O9, O10)</a> · <strong>Card type:</strong> theorem · <strong>Knowledge-base id:</strong> <code>vacuum-rigidity-exact-recovery</code></p>
+<h2>Statement</h2>
+<p>(a) ELEMENTARY RIGIDITY (Lem 7.1): if Phi: J -&gt; R is C^1 with Phi' &gt; 0 and sqrt(Phi'(x)Phi'(y))/(Phi(x)-Phi(y)) = 1/(x-y) for all x != y in J, then Phi is the restriction of a global Moebius map. Proof: the relation with y = y_1 fixed is the separable ODE g' = g^2/(c (x-y_1)^2) for g = Phi - Phi(y_1), c = Phi'(y_1), whose exact integral (1/g)' = (1/(c(x-y_1)))' gives Phi = Phi(y_1) + c(x-y_1)/(1 + A c (x-y_1)) on each side of y_1; varying the base point and using that two Moebius maps agreeing on an open interval are equal shows the two sides agree. (b) STATE RIGIDITY (Thm 7.3): for the chiral free fermion with vacuum kernel Q(x,y) = (1/2 pi i)(x-y-i0)^{-1}, the state omega o beta_{V_Phi} on F(I) equals the vacuum iff Phi is Moebius iff S(Phi) = 0; the 'only if' follows by testing the two-point function with disjointly supported functions (which avoids the diagonal) and applying (a), the 'if' from [V_g, P] = 0 for g in Moeb (the Moebius group preserves the Hardy space). (c) NO EXACT RECOVERY (Thm 7.3(2,3)): for EVERY non-empty one-sided protocol whose last step keeps a non-empty part, S(Phi) is a non-zero negative measure -- all masses in the general rule -2 sum_m sigma_m G_m'(x_m) delta_{x_m} have the same sign, so they cannot cancel, and the last step's mass is never displaced or swallowed (G_N = id). Hence omega o beta_P != omega and Phi_fid = -log F &gt; 0, using that F = 1 forces equality of the states (Lem 7.2, proved from Alberti's inequality P_tr &lt;= phi(a) psi(a^{-1}) with a = 1 + tb). This needs neither hypothesis (H) nor the second-order law. Degenerate exception: a step conditioning on the ENTIRE block has its corner at an endpoint of I, where beta_I = 0 and zeta = 0; such a step is a pure Moebius compression (Theorem A at a = 0) and is not a recovery in the Petz sense.</p>
+<h2>How to verify</h2>
+<p>rigor/g1a_calculus.py section 3 (the swallowed corner and Phi = Moebius o k_2 to 1e-13); the negative-sign argument is algebraic.</p>
+<h2>Evidence</h2>
+<ul>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/network_corner_calculus.tex">rigor/network_corner_calculus.tex</a> — document, at <code>label{lem:2pt}</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/network_corner_calculus.tex">rigor/network_corner_calculus.tex</a> — document, at <code>label{thm:rigidity}</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/g1a_calculus.py">rigor/g1a_calculus.py</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/ref_p6_3_calculus.py">rigor/ref_p6_3_calculus.py</a> — numerics</li>
+</ul>
+<h2>Related claims</h2>
+<ul>
+<li><a href="corner-calculus.html">Corner calculus: sequential one-sided recovery = Schwarzian point masses at the junctions</a> — <code>proved</code></li>
+<li><a href="thm-a-quadratic-law.html">Theorem A: lim Phi/zeta^2 = c/(12 pi^2)</a> — <code>refereed</code></li>
+<li><a href="network-second-order-law.html">Second-order network law: Phi_tot = sum zeta_j zeta_k G(y_j - y_k), G = c Ghat universal</a> — <code>conjectural</code></li>
+</ul>
+<h2>Review</h2>
+<p><strong>Review record:</strong> passed 2026-09-16 by REF-P6-3.</p>
+<p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
+<hr>
+<p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/results/vacuum-rigidity-exact-recovery.md"><code>docs/results/vacuum-rigidity-exact-recovery.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The all-channel second-order optimum equals the isometric-orbit value: kappa_opt = 1 - theta = 0.616 +- 0.003 (numerical; conditional on H1, H2, H3) &mdash; cft-cmi</title>
+<meta name="description" content="The all-channel second-order optimum equals the isometric-orbit value: kappa_opt = 1 - theta = 0.616 +- 0.003 (numerical; conditional on H1, H2, H3). Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../../index.html">Interactive site</a>
+    <a href="../index.html">Documentation</a>
+    <a href="../status.html">All claims</a>
+    <a href="../open.html">Open problems</a>
+    <a href="../notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>The all-channel second-order optimum equals the isometric-orbit value: kappa_opt = 1 - theta = 0.616 +- 0.003 (numerical; conditional on H1, H2, H3)</h1>
+<p><strong>Status:</strong> <code>numerical</code> — measured, with an error bar and a convergence order; not a theorem. <strong>Conditional.</strong> The statement is not unconditional: it rests on H1, H2, H3, quoted below. Read the badge only together with them.</p>
+<p><strong>Area:</strong> <a href="../status.html#area-optimality">Optimality of recovery channels (O8, Phases 3 and 3b)</a> · <strong>Card type:</strong> result · <strong>Knowledge-base id:</strong> <code>all-channel-optimum-value</code></p>
+<h2>Statement</h2>
+<p>Phase 5 answer to 'the exact value of the all-channel optimum (non-isometric channels)'. Analytic (rigor/exact_optimum_tangent_problem.tex, refereed, repairs applied): every feasible quasi-free channel is exactly (co-isometry V, isometry loss N = 1 - XX* &gt;= 0, noise 0 &lt;= Y = Z - X Q_BB X* &lt;= N); the leading-order problem is a convex tangent programme, and the isometric-orbit optimum (value (1 - theta) g_Q(deltadot)) is its global optimum iff (a) M_* = Herm((t_* Q)_DD) &gt;= 0 and M_* - tau_* &gt;= 0 (tau_* = (t_*)_DD, as forms) and (e) the one-sided endpoint functional E(zeta) = 2 b(delta_*, A(zeta,0,0)) &gt;= 0 for every admissible (dissipative) isometry generator zeta. For the two model boundary directions, E(zeta_inf) = 2 lambda (1 - theta) g_Q &gt; 0 is proved and E(zeta_0) &gt; 0 is numerical; the reduction of the WHOLE cone of admissible generators to these two directions is proved only for vector fields (Prop 4.10) and is otherwise a declared hypothesis H3 (referee2_exact_optimum_tangent_problem.tex S1: multiplicity &gt; 1 shift semigroups and unbounded skew-adjoint multiplication operators escape the argument). Numerical (F2, rigid parameter-free modular frame with exact Moebius rigidity): (a) holds in the limit (violation lambda_min/||M_*|| = -4.1e-3 ... -3.7e-4 at h = 0.24 ... 0.03, scaling as h^1.15 and 1/Ymax, achievable gain ~ h^1.85 -&gt; 0); (e) on the model cone: E(zeta_inf) &gt; 0 is proved; at zeta_0 the corner term (1/2) M_*(0,0)/h = +10.3, +16.1, +24.7, +37.2 at h = 0.24 ... 0.03 (~h^-0.60, the scheme-invariant continuum quantity; the discrete total +34 ... +258 is upwind-viscosity dominated and is not the margin) diverges, so A(zeta_0,0,0) is not in the form domain, E(zeta_0) = +infinity and (e) is VACUOUS at zeta_0 rather than satisfied with a margin (F1 Rem 4.11(ii), Prop 4.10(5)); no sign change in h, Y, Ymax. Hence, numerically and under H3, non-isometric quasi-free channels (isometry loss, noise, non-surjective isometries) do NOT lower the second-order recovery error: kappa_opt = 1 - theta with theta = 0.384 +- 0.003 (F3, two discretisations reconciled; S10's 0.300 was a taper-suppressed lower bound), i.e. E^(2) = (0.616 +- 0.003) f_2 z^2 per chirality. Conditional on H1 (differentiability along the scaled family), H2 (minimisers within the scaled-family form) and H3 (cone hypothesis) of the F1 document; the unconditional statements remain E_rec &lt;= 0.616 f_2 z^2 (1+o(1)) (E1 upper half for isometric channels + theta) and E_rec &gt;= dual form (optimality_all_channels.tex eq. (10)). Exact fidelity for NON-isometric channels was not needed: the optimum is attained on the isometric orbit, where E1 applies. Open: analytic proof of (a) and (e); H1, H2, H3; closed form of theta (Wiener-Hopf problem, prop:thetaframe); analytic proof that theta &gt; 0 (E_D u E_D not self-adjoint).</p>
+<h2>Hypotheses</h2>
+<p>This result is conditional: at least part of the statement holds only where the hypotheses below hold. The sentences are quoted from the statement above; read the status badge only together with them.</p>
+<p>Hypothesis labels used: <code>H1</code>, <code>H2</code>, <code>H3</code>.</p>
+<blockquote>
+<p>The all-channel second-order optimum equals the isometric-orbit value: kappa_opt = 1 - theta = 0.616 +- 0.003 (numerical; conditional on H1, H2, H3).</p>
+<p>For the two model boundary directions, E(zeta_inf) = 2 lambda (1 - theta) g_Q &gt; 0 is proved and E(zeta_0) &gt; 0 is numerical; the reduction of the WHOLE cone of admissible generators to these two directions is proved only for vector fields (Prop 4.10) and is otherwise a declared hypothesis H3 (referee2_exact_optimum_tangent_problem.tex S1: multiplicity &gt; 1 shift semigroups and unbounded skew-adjoint multiplication operators escape the argument).</p>
+<p>Hence, numerically and under H3, non-isometric quasi-free channels (isometry loss, noise, non-surjective isometries) do NOT lower the second-order recovery error: kappa_opt = 1 - theta with theta = 0.384 +- 0.003 (F3, two discretisations reconciled;</p>
+<p>Conditional on H1 (differentiability along the scaled family), H2 (minimisers within the scaled-family form) and H3 (cone hypothesis) of the F1 document; the unconditional statements remain E_rec &lt;= 0.616 f_2 z^2 (1+o(1)) (E1 upper half for isometric channels + theta) and E_rec &gt;= dual form (optimality_all_channels.tex eq. (10)).</p>
+<p>H1, H2, H3; closed form of theta (Wiener-Hopf problem, prop:thetaframe); analytic proof that theta &gt; 0 (E_D u E_D not self-adjoint).</p>
+</blockquote>
+<h2>How to verify</h2>
+<p>rigor/exact_optimum_tangent_problem.tex Thm 4.4 (conditions (a), (e)), Prop 4.10, Sec. 5 and Sec. 7; rigor/referee_exact_optimum_tangent_problem.tex Secs. 11-12; numerics/optimality_all/F2_RESULTS.md Secs. T4, T5 with reproduce commands (f2_t4_wh.py, f2_t5_endpoint.py); numerics/optimality_all/F3_RESULTS.md Secs. 3-7 (theta).</p>
+<h2>Evidence</h2>
+<ul>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_optimum_tangent_problem.tex">rigor/exact_optimum_tangent_problem.tex</a> — document, at <code>thm:kktmain</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_optimum_tangent_problem.tex">rigor/exact_optimum_tangent_problem.tex</a> — document, at <code>prop:thetaframe</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/referee_exact_optimum_tangent_problem.tex">rigor/referee_exact_optimum_tangent_problem.tex</a> — document</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/referee2_exact_optimum_tangent_problem.tex">rigor/referee2_exact_optimum_tangent_problem.tex</a> — document</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/F2_RESULTS.md">numerics/optimality_all/F2_RESULTS.md</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/f2_t4_hladder.out">numerics/optimality_all/f2_t4_hladder.out</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/f2_t5_endpoint.out">numerics/optimality_all/f2_t5_endpoint.out</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/F3_RESULTS.md">numerics/optimality_all/F3_RESULTS.md</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/PHASE5_STATUS.md">rigor/PHASE5_STATUS.md</a> — document</li>
+</ul>
+<h2>Related claims</h2>
+<ul>
+<li><code>phase5-plan</code> — <code>done</code>, no page of its own</li>
+<li><a href="tangent-problem-exact-parametrisation.html">Exact (N,Y,V) chart of F and the tangent problem at the compression</a> — <code>proved</code></li>
+<li><a href="kkt-noise-sign-criterion.html">KKT sign criterion: when the isometric orbit carries the all-channel second-order optimum</a> — <code>proved</code></li>
+<li><a href="kkt-noise-criterion-numerics.html">KKT criterion numerics: every finite run FAILS (a); the violation extrapolates to 0^- as h -&gt; 0, Ymax -&gt; inf; E(zeta_0) &gt; 0 and E(zeta_inf) &gt; 0, so (e) holds for the whole cone under H3</a> — <code>numerical</code></li>
+<li><a href="theta-value.html">The first-order gain constant theta = 0.384 +- 0.003 (S10's 0.300 is a taper-suppressed lower bound)</a> — <code>numerical</code></li>
+<li><a href="compression-not-second-order-minimiser.html">The compression is not the minimiser of the second-order functional</a> — <code>numerical</code></li>
+<li><a href="exact-fidelity-optimality-open.html">Is the compression beaten in EXACT fidelity?</a> — <code>numerical</code></li>
+<li><a href="compression-not-optimal-exact-fidelity.html">E_rec &lt;= (1-theta) f2 z^2 (1+o(1)): the zero-collar compression is NOT optimal in exact fidelity</a> — <code>numerical</code></li>
+</ul>
+<h2>Review</h2>
+<p><strong>Review record:</strong> passed 2026-09-15 by REF-P5-4.</p>
+<p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
+<hr>
+<p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/results/all-channel-optimum-value.md"><code>docs/results/all-channel-optimum-value.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

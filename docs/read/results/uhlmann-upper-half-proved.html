@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>(UH) proved: optimised Uhlmann bound = g_Q of the defect, for every isometric quasi-free channel &mdash; cft-cmi</title>
+<meta name="description" content="(UH) proved: optimised Uhlmann bound = g_Q of the defect, for every isometric quasi-free channel. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../../index.html">Interactive site</a>
+    <a href="../index.html">Documentation</a>
+    <a href="../status.html">All claims</a>
+    <a href="../open.html">Open problems</a>
+    <a href="../notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>(UH) proved: optimised Uhlmann bound = g_Q of the defect, for every isometric quasi-free channel</h1>
+<p><strong>Status:</strong> <code>proved</code> — a complete structured proof.</p>
+<p><strong>Area:</strong> <a href="../status.html#area-optimality">Optimality of recovery channels (O8, Phases 3 and 3b)</a> · <strong>Card type:</strong> theorem · <strong>Knowledge-base id:</strong> <code>uhlmann-upper-half-proved</code></p>
+<h2>Statement</h2>
+<p>For an isometric quasi-free channel with one-particle isometry W_I, every unitary W~ of L^2(R) with W~|_{L^2(I)} = W_I and P^perp W~ P Hilbert-Schmidt gives -log F &lt;= -1/2 log det(1 - V^*V) &lt;= -1/2 log(1 - ||V||_2^2), V = P^perp W~ P (Prop. 1.3). The admissible extensions form a right torsor under {1_I (+) W'}: the whole column Z E_I is prescribed by the channel and the free block is E_{I^c} Z E_{I^c}, at first order / as an exact right translation (Lemma 4.1 -- NOT a block-diagonal Z_I (+) Z_e, and NOT the truncation E_I D_chi E_I). Reduction (Thm 4.3): inf over exterior Z_e of (1/2)||P^perp(Z_0+Z_e)P||^2 = (1/2) dist(P^perp Z_0 P, Ext)^2 = (1/2)||Pi P^perp Z_0 P||^2 + (1/2) dist((1-Pi)P^perp Z_0 P, Ext)^2 = g_Q(E_I[P,Z_0]E_I), the last step because closure(Ext) = N^perp always. Hence (UH) in its PROVED, g_Q-free form (Thm 7.1, eq. (18)): for the product family U_s = W~_s e^{-lambda s G} e^{s Z_e}, limsup_{s-&gt;0} s^{-2}(-log F(omega, omega^{beta_s})) &lt;= (1/2) dist(P^perp(D_chi + lambda G)P, Ext)^2 = (1/2)||Pi P^perp (D_chi + lambda G) P||^2. Ingredients: the exact one-parameter-group estimate ||P^perp e^{tZ}P||_2 &lt;= |t| ||P^perp Z P||_2 (Lemma 6.1) and an S_2-continuity argument for the three-factor product family (Thm 6.2); the limsup is taken at fixed Z_e and only then the infimum over Z_e (no uniformity in Z_e is claimed or needed). CAVEAT (referee R2): re-expressing the right-hand side as g_Q(delta(s))(1+o(1)) is NOT a consequence of continuity of g_Q (false in the continuum: spec Q accumulates at 0 and 1); it holds whenever S10 Lemma 6.1(2)-(3) applies, with its weight cap (Remark 7.2). Corollary 4.4: the optimised bound depends on the channel only through its first-order defect.</p>
+<h2>How to verify</h2>
+<p>rigor/exact_fidelity_upper_half.tex Secs. 1, 4, 6, 7 and Sec. 10 (referee repairs R1-R10); numerically E2 card e2-optimised-uhlmann (UB_c/(1/2 s^2|u|^2) = 1.0000000 at L=128..384).</p>
+<h2>Evidence</h2>
+<ul>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_fidelity_upper_half.tex">rigor/exact_fidelity_upper_half.tex</a> — document, at <code>thm:reduction</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_fidelity_upper_half.tex">rigor/exact_fidelity_upper_half.tex</a> — document, at <code>thm:UH</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_fidelity_upper_half.tex">rigor/exact_fidelity_upper_half.tex</a> — document, at <code>thm:UHall</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_fidelity_upper_half.tex">rigor/exact_fidelity_upper_half.tex</a> — document, at <code>prop:uhl</code></li>
+</ul>
+<h2>Related claims</h2>
+<ul>
+<li><a href="exterior-exhaust-invisible.html">Exterior directions exhaust the invisible space: closure(Ext) = N^perp (question (Q) settled, YES)</a> — <code>proved</code></li>
+<li><a href="exact-fidelity-optimality-open.html">Is the compression beaten in EXACT fidelity?</a> — <code>numerical</code></li>
+<li><a href="e2-optimised-uhlmann.html">Optimised exterior extension: UB_c = (1/2)s^2|u|^2 exactly and UB_rot/UB_c = 1-theta</a> — <code>numerical</code></li>
+<li><code>phase4-plan</code> — <code>done</code>, no page of its own</li>
+</ul>
+<h2>Review</h2>
+<p><strong>Review record:</strong> passed 2026-09-15 by REF-KB-7.</p>
+<p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
+<hr>
+<p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/results/uhlmann-upper-half-proved.md"><code>docs/results/uhlmann-upper-half-proved.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

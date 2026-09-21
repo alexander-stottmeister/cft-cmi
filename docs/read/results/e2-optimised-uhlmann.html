@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Optimised exterior extension: UB_c = (1/2)s^2|u|^2 exactly and UB_rot/UB_c = 1-theta &mdash; cft-cmi</title>
+<meta name="description" content="Optimised exterior extension: UB_c = (1/2)s^2|u|^2 exactly and UB_rot/UB_c = 1-theta. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../../index.html">Interactive site</a>
+    <a href="../index.html">Documentation</a>
+    <a href="../status.html">All claims</a>
+    <a href="../open.html">Open problems</a>
+    <a href="../notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>Optimised exterior extension: UB_c = (1/2)s^2|u|^2 exactly and UB_rot/UB_c = 1-theta</h1>
+<p><strong>Status:</strong> <code>numerical</code> — measured, with an error bar and a convergence order; not a theorem.</p>
+<p><strong>Area:</strong> <a href="../status.html#area-optimality">Optimality of recovery channels (O8, Phases 3 and 3b)</a> · <strong>Card type:</strong> result · <strong>Knowledge-base id:</strong> <code>e2-optimised-uhlmann</code></p>
+<h2>Statement</h2>
+<p>In the NS-circle model (a = 2, Lg = 1, uv = (0.30,0.42), alpha = 3) with the exterior generator OPTIMISED (least squares over all anti-Hermitian Z_e supported on I^c, solved in closed form by the Qc-eigenbasis diagonalisation): UB(X) = (1/2) dist(X, Ext)^2 = (1/2)(||Pi X||^2 + dist((1-Pi)X, Ext)^2). Numerically dist((1-Pi)M, Ext)^2 and dist((1-Pi)v, Ext)^2 are at roundoff (|d^2| &lt;= 1.3e-10 against ||(1-Pi)M||^2 = 2.45e-2, relative distance &lt;= 1.2e-5 and usually exactly 0 in double precision) for L = 128, 192, 256, 384. Hence UB_c/((1/2)s^2|u|^2) = 1.00000000, 0.99999999, 1.00000000, 0.99999998 at L = 128, 192, 256, 384 -- this REPLACES the 4.3 of the fixed Gaussian-taper extension (numerics/optimality_all/uhlmann_rotated.py), a factor 4.3 that was entirely an artefact of a bad exterior extension. And UB_rot/UB_c = 0.70885, 0.71125, 0.71058, 0.70766, equal to 1 - theta = 0.70890, 0.71120, 0.71051, 0.70767 to 4-5 digits. UB is exactly quadratic in s, so the ratios are s-independent to machine precision (checked at s = 0.001, 0.002, 0.005). eps_* = -1.0000 in units of s, as predicted by &lt;u,v_x&gt; = ||v_x||^2 = &lt;b,x&gt;.</p>
+<h2>How to verify</h2>
+<p>run numerics/optimality_all/e2_dist_ub.py; each block prints 'UB_c/(1/2 s^2|u|^2) = 1.0000000x' and 'UB_rot/UB_c' matching 1-theta</p>
+<h2>Evidence</h2>
+<ul>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/e2_dist_ub.py">numerics/optimality_all/e2_dist_ub.py</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exterior_extension_numerics.tex">rigor/exterior_extension_numerics.tex</a> — document, at <code>sec:ub</code></li>
+</ul>
+<h2>Related claims</h2>
+<ul>
+<li><a href="e2-ext-equals-nperp-circle.html">NS-circle model: Ext = N^perp exactly, with the dimension identity (L-|I|)^2</a> — <code>numerical</code></li>
+<li><a href="exact-fidelity-optimality-open.html">Is the compression beaten in EXACT fidelity?</a> — <code>numerical</code></li>
+<li><code>phase4-plan</code> — <code>done</code>, no page of its own</li>
+</ul>
+<h2>Review</h2>
+<p><strong>Review record:</strong> passed 2026-09-15 by REF-KB-7.</p>
+<p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
+<hr>
+<p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/results/e2-optimised-uhlmann.md"><code>docs/results/e2-optimised-uhlmann.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

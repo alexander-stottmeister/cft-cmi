@@ -46,7 +46,7 @@ window.addEventListener('error', function (e) {
     <a href="separation.html">Module 7</a>
     <a href="off-criticality.html">Module 8</a>
     <a href="relative-entropy.html">Module 9</a>
-    <a href="../status.md">All claims as a table</a>
+    <a href="../read/status.html">All claims as a table</a>
   </nav>
   <button class="theme" type="button" hidden></button>
 </div></header>
@@ -96,8 +96,10 @@ not resolve.</p>
     built this page says nothing about whether it ships, which is why the question is asked of git and
     never of a list written by hand.</p>
   <p class="provenance">The same claims, with the same statuses and one page each, are also generated
-    as Markdown: <a href="../status.md">docs/status.md</a> &middot;
-    <a href="../open.md">docs/open.md</a> &middot; <a href="../index.md">the documentation index</a>.</p>
+    as documentation pages: <a href="../read/status.html">every claim by area</a> &middot;
+    <a href="../read/open.html">what is open</a> &middot; <a href="../read/index.html">the documentation index</a>.
+    Each is rendered from a Markdown file of the same name under <code>docs/</code>, which is what GitHub
+    shows when you browse the repository.</p>
 </div>
 
 <figure class="no-js">
@@ -127,7 +129,8 @@ not resolve.</p>
   </svg>
   <figcaption>The eight areas. With JavaScript enabled every card appears as a dot around its area,
     coloured by status, and clicking one opens its statement and evidence. Without JavaScript the same
-    list, generated from the same knowledge base, is <a href="../status.md">docs/status.md</a>.</figcaption>
+    list, generated from the same knowledge base, is <a href="../read/status.html">every claim by
+    area</a>.</figcaption>
 </figure>
 
 <div class="js-only">
@@ -384,7 +387,8 @@ try {
     }
     if (c.page) {
       kids.push(h('p', { class: 'provenance' }, [
-        h('a', { href: '../results/' + c.page }, ['the generated page for this claim'])]));
+        h('a', { href: '../read/results/' + c.page.replace(/\.md$/, '.html') },
+          ['the generated page for this claim'])]));
     } else {
       kids.push(h('p', { class: 'provenance',
         text: 'This card has no generated page: pages are written only for claims, not for '

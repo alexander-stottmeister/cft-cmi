@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Structure of the numerical optimum &mdash; cft-cmi</title>
+<meta name="description" content="Structure of the numerical optimum. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../../index.html">Interactive site</a>
+    <a href="../index.html">Documentation</a>
+    <a href="../status.html">All claims</a>
+    <a href="../open.html">Open problems</a>
+    <a href="../notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>Structure of the numerical optimum</h1>
+<p><strong>Status:</strong> <code>numerical</code> — measured, with an error bar and a convergence order; not a theorem.</p>
+<p><strong>Area:</strong> <a href="../status.html#area-optimality">Optimality of recovery channels (O8, Phases 3 and 3b)</a> · <strong>Card type:</strong> result · <strong>Knowledge-base id:</strong> <code>optimal-channel-structure</code></p>
+<h2>Statement</h2>
+<p>The quasi-free optimum on lattices is a near-isometric squeeze (singular values 0.95-1.00) that does not reproduce the BC marginal (Petz's defining property is suboptimal); the all-channel optimum on tiny chains is Gaussian and gauge covariant. Non-isometric channels (Y &gt; 0) were not analysed in the continuum; the exact value of min_F g_Q is unknown.</p>
+<h2>How to verify</h2>
+<p>S8 Table 1; numerics/optimality_all/analyze_opt.py output.</p>
+<h2>Evidence</h2>
+<ul>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/optimality_second_order.tex">rigor/optimality_second_order.tex</a> — document, at <code>Sec5</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/analyze_opt.py">numerics/optimality_all/analyze_opt.py</a> — numerics</li>
+</ul>
+<h2>Related claims</h2>
+<p>_None recorded._</p>
+<h2>Review</h2>
+<p><strong>Review record:</strong> passed 2026-09-14 by phase referees (rigor/referee_*.tex, findings ledger).</p>
+<p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
+<hr>
+<p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/results/optimal-channel-structure.md"><code>docs/results/optimal-channel-structure.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

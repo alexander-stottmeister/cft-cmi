@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finite chains: exterior directions span exactly the invisible space (Ext = N^perp) &mdash; cft-cmi</title>
+<meta name="description" content="Finite chains: exterior directions span exactly the invisible space (Ext = N^perp). Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../../index.html">Interactive site</a>
+    <a href="../index.html">Documentation</a>
+    <a href="../status.html">All claims</a>
+    <a href="../open.html">Open problems</a>
+    <a href="../notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>Finite chains: exterior directions span exactly the invisible space (Ext = N^perp)</h1>
+<p><strong>Status:</strong> <code>numerical</code> — measured, with an error bar and a convergence order; not a theorem.</p>
+<p><strong>Area:</strong> <a href="../status.html#area-optimality">Optimality of recovery channels (O8, Phases 3 and 3b)</a> · <strong>Card type:</strong> result · <strong>Knowledge-base id:</strong> <code>finite-dim-exterior-density</code></p>
+<h2>Statement</h2>
+<p>On the half-filled hopping chain with P the Fermi projection and I a contiguous block (n = 8..16, |I| = 3..7), the real span N of the visible directions P^perp l P (l Hermitian on I) has dimension |I|^2, the span Ext of the exterior directions P^perp Z P (Z anti-Hermitian on I^c) is orthogonal to N and has dimension 2k(n-k) - |I|^2, and N + Ext is all of S_2(PH, P^perp H): Ext = N^perp exactly in every case. Algebraically, B = P^perp X P is orthogonal to N iff E_I(B + B^*)E_I = 0 and to Ext iff E_{I^c}(B - B^*)E_{I^c} = 0; with H = B + B^* (Hermitian, P-off-diagonal) and S = 1 - 2P one has B - B^* = S H, so (Q) is the two-projection statement: a P-off-diagonal Hermitian H with E_I H E_I = 0 and E_{I^c} S H E_{I^c} = 0 vanishes. This is the finite-dimensional shadow of question (Q) of the Phase 4 brief; the continuum statement (density, Hardy projection, interval) is track E1's target.</p>
+<h2>How to verify</h2>
+<p>run numerics/optimality_all/e0_finite_density.py (numpy only): every line ends with 'Ext = N^perp: True'.</p>
+<h2>Evidence</h2>
+<ul>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/e0_finite_density.py">numerics/optimality_all/e0_finite_density.py</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/phase4_brief.md">rigor/phase4_brief.md</a> — document</li>
+</ul>
+<h2>Related claims</h2>
+<ul>
+<li><code>phase4-plan</code> — <code>done</code>, no page of its own</li>
+<li><a href="exact-fidelity-optimality-open.html">Is the compression beaten in EXACT fidelity?</a> — <code>numerical</code></li>
+</ul>
+<h2>Review</h2>
+<p><strong>Review record:</strong> passed 2026-09-15 by REF-KB-7.</p>
+<p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
+<hr>
+<p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/results/finite-dim-exterior-density.md"><code>docs/results/finite-dim-exterior-density.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

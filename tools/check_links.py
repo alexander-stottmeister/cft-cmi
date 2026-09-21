@@ -11,11 +11,18 @@ from pathlib import Path
 from urllib.parse import urlsplit, unquote
 
 ROOT = Path(__file__).resolve().parent.parent
-ALLOWED_HOSTS = {"github.com", "creativecommons.org", "arxiv.org", "doi.org",
+# alexander-stottmeister.github.io is this project's own Pages site, served from
+# docs/ on the default branch.  It is live only while the repository is public.
+ALLOWED_HOSTS = {"github.com", "alexander-stottmeister.github.io",
+                 "creativecommons.org", "arxiv.org", "doi.org",
                  "projecteuclid.org", "orcid.org"}
 # A Markdown link is `](target)`, but an ESCAPED bracket in mathematics, as in
-# `\\[Phi''/Phi'\\](p_k)`, is not one: require the `]` to be unescaped.
-LINK = re.compile(r'(?:href|src)="([^"]+)"|(?<!\\)\]\(([^)\s]+)\)')
+# `\\[Phi''/Phi'\\](p_k)`, is not one: require the `]` to be unescaped.  That
+# pattern is looked for in Markdown only.  An HTML page links with href and src,
+# and the same mathematics reaches it as rendered text with the backslashes
+# already resolved, so scanning HTML for `](...)` reports links that do not exist.
+HTML_LINK = re.compile(r'(?:href|src)="([^"]+)"')
+MD_LINK = re.compile(r'(?:href|src)="([^"]+)"|(?<!\\)\]\(([^)\s]+)\)')
 
 
 def tracked() -> set:
@@ -31,8 +38,9 @@ def main() -> int:
     for rel in sorted(targets):
         path = ROOT / rel
         text = path.read_text(encoding="utf-8", errors="ignore")
-        for m in LINK.finditer(text):
-            raw = m.group(1) or m.group(2)
+        pattern = MD_LINK if rel.endswith((".md", ".markdown")) else HTML_LINK
+        for m in pattern.finditer(text):
+            raw = m.group(1) or (m.group(2) if pattern is MD_LINK else None)
             if not raw or raw.startswith(("#", "mailto:", "data:", "javascript:")):
                 continue
             if raw.startswith(("http://", "https://", "//")):

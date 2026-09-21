@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KKT sign criterion: when the isometric orbit carries the all-channel second-order optimum &mdash; cft-cmi</title>
+<meta name="description" content="KKT sign criterion: when the isometric orbit carries the all-channel second-order optimum. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../../index.html">Interactive site</a>
+    <a href="../index.html">Documentation</a>
+    <a href="../status.html">All claims</a>
+    <a href="../open.html">Open problems</a>
+    <a href="../notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>KKT sign criterion: when the isometric orbit carries the all-channel second-order optimum</h1>
+<p><strong>Status:</strong> <code>proved</code> — a complete structured proof. <strong>Conditional.</strong> The statement is not unconditional: it rests on H1, H2, H3, quoted below. Read the badge only together with them.</p>
+<p><strong>Area:</strong> <a href="../status.html#area-optimality">Optimality of recovery channels (O8, Phases 3 and 3b)</a> · <strong>Card type:</strong> theorem · <strong>Knowledge-base id:</strong> <code>kkt-noise-sign-criterion</code></p>
+<h2>Statement</h2>
+<p>Let delta_* be the b-orthogonal residual of ddelta on the closure of the LINEAR class L = {[Q,G] : G bounded anti-self-adjoint, supported in D} (no minimiser is posited), t_* := SLD(delta_*) (S_Q(t_*) = delta_*, t_*~_ik = w_ik delta_*~_ik), tau_* := E_D t_* E_D and M_* := (1/2) E_D (t_* Q + Q t_*) E_D = Herm(t_{*,DA} Q_AD) + Herm(t_{*,DD} Q_DD) = Herm((t_* Q)_DD). Since w is unbounded, t_* need NOT be Hilbert-Schmidt: M_* and tau_* are quadratic FORMS, defined intrinsically by &lt;psi,M_* psi&gt; := 4 b(delta_*, A(0,|psi&gt;&lt;psi|,0)) and &lt;psi,tau_* psi&gt; := -4 b(delta_*, A(0,0,|psi&gt;&lt;psi|)) on the domain D of psi for which those directions lie in the form domain; 'M_* &gt;= 0' is a form inequality and lambda_min may be -inf. Normalisation: g_Q(delta) = (1/4) Tr(t_delta delta), V(t_delta) = 2 g_Q(delta), d g_Q(delta)[eta] = (1/2) Tr(t_delta eta) (S10 (C4) is internally inconsistent with its own S_Q(t) = delta; the ratio and all sign conditions are unaffected). Derivative along an admissible non-isometric direction: (1/2)[Tr(N_1 M_*) - Tr(Y_1 tau_*)]. Conditions: (a) M_* &gt;= 0 and M_* - tau_* &gt;= 0; (c) Tr(N_1 M_*) &gt;= Tr[(N_1^{1/2} tau_* N_1^{1/2})_+] for all bounded N_1 &gt;= 0; (a) &lt;=&gt; (c), and (b) M_* &gt;= (tau_*)_+ is sufficient but strictly stronger (the operator order is not a lattice). AMENDED after the referee report: (a) alone is NECESSARY but NOT SUFFICIENT. The feasible cone also contains the one-sided boundary-moving isometry directions (unbounded generators), which are not covered by (a), so global optimality of the isometric point is (a) AND (e), where (e) E(zeta) := 2 b(delta_*, A(zeta,0,0)) &gt;= 0 for every admissible isometry generator zeta with A(zeta,0,0) in the form domain. E MUST be evaluated on the blocks of A (A_AD = -Q_AD zeta, A_DD = -(zeta* Q_DD + Q_DD zeta)): the commutator form -2 b(delta_*,[Q,zeta]) is valid only for BOUNDED anti-self-adjoint zeta (where E = 0) and is identically blind to the boundary form - F2 T5 finds it returns only the CG residual (-8e-6 ... -1e-2) even for zeta_inf, whose true value is 2 lambda (1-theta) g_Q(ddelta). E vanishes on the linear class and, when cyclicity Tr(t_*[Q,zeta]) = Tr([t_*,Q] zeta) is legitimate, E(zeta) = (1/2)Tr(E_D[Q,t_*]E_D zeta) = 0 by the stationarity Prop 4.3: E is exactly the cyclicity anomaly, i.e. a pure BOUNDARY functional, equal to (1/2)Tr((-2 sigma_zeta) M_*) on the boundary form of zeta. In the modular frame D = {y&gt;0} has two endpoints and the cone is generated modulo the linear class by zeta_0 = -E_D d/dy E_D (the shift semigroup g(y) -&gt; g(y-a), i.e. x -&gt; 1 - e^{-a}(1-x); moves the junction y=0) and zeta_inf = -lambda D_chi|_D (further compression; moves y=+inf). PROVED: E(zeta_inf) = 2 lambda (1-theta) g_Q(ddelta) &gt; 0. So, ON THE MODEL CONE, (e) reduces to the single inequality E(zeta_0) = 2 b(delta_*, A(zeta_0,0,0)) &gt;= 0, with the identity (1/2) Tr((-2 sigma_{zeta_0}) M_*) valid only if -2 sigma_{zeta_0} lies in the form domain of M_* - which fails here (delta_0 (x) delta_0 is unbounded), so E(zeta_0) = +inf and (e) is vacuous at zeta_0 rather than satisfied with a margin. If (a) and (e) hold then kappa_opt = 1 - theta exactly (numerically 0.616 +- 0.003), modulo H1 and H2; if (a) fails with a gain bounded away from zero then kappa_opt &lt; 1 - theta strictly, but a violating psi must have finite g_Q(d_psi) - a violation vanishing with the weight cap or the mesh is a regularisation artefact. HYPOTHESIS H3 (cone hypothesis, Def 4.12, read in the form domain F): for every admissible isometry generator zeta with A(zeta,0,0) in F there are alpha, beta &gt;= 0 and eta in the b-closure of the linear class with A(zeta,0,0) = alpha A(zeta_0,0,0) + beta A(zeta_inf,0,0) + eta. (No boundary-form reformulation: that would be strictly weaker, trivially true for zeta = i m(y), and would not imply (e).) The reduction to the two model directions is PROVED ONLY for generators of vector-field type; multiplicity-&gt;1 shift semigroups (Cooper-Wold) and unbounded skew-adjoint zeta = i m(y) outside the closure of the linear class escape both arguments, and excluding them is exactly the content of H3. Since A(zeta_0,0,0) is NOT in F, the identity forces alpha = 0, so under H3 condition (e) holds OUTRIGHT via E(zeta_inf) &gt; 0 and the junction inequality is never invoked; E(zeta_0) &gt;= 0 remains the operative test for REGULARISED junction directions (finite mesh), which is what F2 T5 measures. Numerically (a) holds in the limit and E(zeta_0) &gt; 0 on the model cone (F2 T4/T5, card kkt-noise-criterion-numerics) - with the caveat that the continuum piece is the CORNER term (~h^-0.60), not the tabulated total (~h^-0.97, dominated by a scheme-dependent upwind-viscosity term), and that both diverge, so A(zeta_0,0,0) is not in the form domain and (e) is vacuous rather than satisfied at zeta_0. Hence kappa_opt = 1 - theta = 0.616 +- 0.003 conditional on H1, H2 AND H3. Numerics (F2 T4, rigid frame of Prop 6.2): lambda_min(M_*)/||M_*|| = -4.1e-3, -1.9e-3, -8.2e-4, -3.7e-4 at h = 0.24, 0.12, 0.06, 0.03 (violation ~ h^1.15 and ~ 1/Ymax, rank-one gain ~ h^1.85), i.e. (a) holds for the exact problem. F2 T5 (endpoint): E(zeta_0)/g_Q(ddelta) = +34.1, +66.9, +131.3, +258.0 at h = 0.24, 0.12, 0.06, 0.03 for the admissible backward/dissipative scheme (centred = 0, the linear class; forward = inadmissible, negative), corner term (1/2) M_*(0,0)/h = +10.3 ... +37.2 growing like h^-0.6, so M_*(y,y) -&gt; +inf as y -&gt; 0+ and E(zeta_0) = +inf in the continuum: the junction direction is infinitely penalised at first order, consistent with M_* being a form; E(zeta_inf) reproduces 2(1-theta_h) g_Q to 1e-15, and the A-form and boundary-form expressions agree to 2e-10 ... 2e-8. Stationarity on the LINEAR class forces E_D[Q,t_*]E_D = 0, i.e. (t_* Q)_DD = M_* self-adjoint: S10's condition (S), which fails at the compression, holds automatically at the new point. Dictionary to S10 Thm 3.2: Sigma_2 -&gt; (tQ)_DD is the loss-of-isometry (N_1) condition M &gt;= 0; Sigma_1 = Sigma_2 - t_DD &gt;= 0 is the NOISE (Y_1) condition M &gt;= tau; Sigma_1 = Sigma_1* is the rotation condition.</p>
+<h2>Hypotheses</h2>
+<p>This result is conditional: at least part of the statement holds only where the hypotheses below hold. The sentences are quoted from the statement above; read the status badge only together with them.</p>
+<p>Hypothesis labels used: <code>H1</code>, <code>H2</code>, <code>H3</code>.</p>
+<blockquote>
+<p>If (a) and (e) hold then kappa_opt = 1 - theta exactly (numerically 0.616 +- 0.003), modulo H1 and H2; if (a) fails with a gain bounded away from zero then kappa_opt &lt; 1 - theta strictly, but a violating psi must have finite g_Q(d_psi) - a violation vanishing with the weight cap or the mesh is a regularisation artefact.</p>
+<p>HYPOTHESIS H3 (cone hypothesis, Def 4.12, read in the form domain F): for every admissible isometry generator zeta with A(zeta,0,0) in F there are alpha, beta &gt;= 0 and eta in the b-closure of the linear class with A(zeta,0,0) = alpha A(zeta_0,0,0) + beta A(zeta_inf,0,0) + eta.</p>
+<p>(No boundary-form reformulation: that would be strictly weaker, trivially true for zeta = i m(y), and would not imply (e).) The reduction to the two model directions is PROVED ONLY for generators of vector-field type; multiplicity-&gt;1 shift semigroups (Cooper-Wold) and unbounded skew-adjoint zeta = i m(y) outside the closure of the linear class escape both arguments, and excluding them is exactly the content of H3.</p>
+<p>Since A(zeta_0,0,0) is NOT in F, the identity forces alpha = 0, so under H3 condition (e) holds OUTRIGHT via E(zeta_inf) &gt; 0 and the junction inequality is never invoked;</p>
+<p>Hence kappa_opt = 1 - theta = 0.616 +- 0.003 conditional on H1, H2 AND H3.</p>
+</blockquote>
+<h2>How to verify</h2>
+<p>cd rigor &amp;&amp; pdflatex -interaction=nonstopmode -halt-on-error exact_optimum_tangent_problem.tex; check Lemma 1.1 (SLD normalisation, factors 1/4 and 1/2), Lemma 4.2 steps &lt;1&gt;3-&lt;1&gt;5 (block trace giving M_* = Herm((t_*Q)_DD)) and its amended last clause (the derivative vanishes only on the LINEAR class; along G = -lambda D_chi it is 2 lambda (1-theta) g_Q(ddelta) &gt; 0), Def 4.9 (M_*, tau_* as forms), Thm 4.4 steps &lt;1&gt;1-&lt;1&gt;4 (Douglas, rank-one, (a)&lt;=&gt;(c), (d) &lt;=&gt; (a) and (e)), Prop 4.3, Prop 4.10 (the endpoint functional, its two model directions, E(zeta_inf) &gt; 0), Def 4.12 + Rem 4.13 (H3 and the two families it excludes), Rem 4.11 (F2 T5: the decomposition of the discrete E(zeta_0), corner vs viscosity term), Prop 4.6. Numerically: F2 evaluates lambda_min(M_*), lambda_min(M_*-tau_*), sup Delta^2/g_Q(d) vs cap and mesh, E(zeta_0)/g_Q(ddelta), and ||AntiHerm((t_*Q)_DD)|| as the Moebius-rigidity arbiter (numerics/optimality_all/F2_RESULTS.md)</p>
+<h2>Evidence</h2>
+<ul>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_optimum_tangent_problem.tex">rigor/exact_optimum_tangent_problem.tex</a> — document, at <code>thm:kktmain</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_optimum_tangent_problem.tex">rigor/exact_optimum_tangent_problem.tex</a> — document, at <code>lem:deriv</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_optimum_tangent_problem.tex">rigor/exact_optimum_tangent_problem.tex</a> — document, at <code>prop:S</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_optimum_tangent_problem.tex">rigor/exact_optimum_tangent_problem.tex</a> — document, at <code>prop:bdryfun</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_optimum_tangent_problem.tex">rigor/exact_optimum_tangent_problem.tex</a> — document, at <code>def:forms</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_optimum_tangent_problem.tex">rigor/exact_optimum_tangent_problem.tex</a> — document, at <code>cor:better</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_optimum_tangent_problem.tex">rigor/exact_optimum_tangent_problem.tex</a> — document, at <code>prop:s10</code></li>
+</ul>
+<h2>Related claims</h2>
+<ul>
+<li><code>phase5-plan</code> — <code>done</code>, no page of its own</li>
+<li><a href="tangent-problem-exact-parametrisation.html">Exact (N,Y,V) chart of F and the tangent problem at the compression</a> — <code>proved</code></li>
+<li><a href="kkt-noise-criterion-numerics.html">KKT criterion numerics: every finite run FAILS (a); the violation extrapolates to 0^- as h -&gt; 0, Ymax -&gt; inf; E(zeta_0) &gt; 0 and E(zeta_inf) &gt; 0, so (e) holds for the whole cone under H3</a> — <code>numerical</code></li>
+<li><a href="theta-value.html">The first-order gain constant theta = 0.384 +- 0.003 (S10's 0.300 is a taper-suppressed lower bound)</a> — <code>numerical</code></li>
+</ul>
+<h2>Review</h2>
+<p><strong>Review record:</strong> passed 2026-09-15 by REF-P5-4.</p>
+<p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
+<hr>
+<p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/results/kkt-noise-sign-criterion.md"><code>docs/results/kkt-noise-sign-criterion.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

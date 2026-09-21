@@ -51,8 +51,8 @@ window.addEventListener('error', function (e) {
   <nav>
     <a href="#results">Results</a>
     <a href="#modules">Modules</a>
-    <a href="index.md">Documentation</a>
-    <a href="status.md">All claims</a>
+    <a href="read/index.html">Documentation</a>
+    <a href="read/status.html">All claims</a>
     <a href="#provenance">AI use</a>
   </nav>
   <button class="theme" type="button" hidden></button>
@@ -79,7 +79,7 @@ like one; <span class="badge certified">certified</span> is a rigorous bound;
     <h3>Theorem A &mdash; the exact quadratic law</h3>
     <div class="meta"><span class="badge refereed">refereed</span>
       <span>Module 2 &middot; <a href="explore/quadratic-law.html">The quadratic law</a></span>
-      <span><a href="results/thm-a-quadratic-law.md">claim page</a></span></div>
+      <span><a href="read/results/thm-a-quadratic-law.html">claim page</a></span></div>
     <p>For the zero-collar compression of the free chiral fermion,
       <span data-tex="\lim_{\zeta\to0}\Phi(\zeta)/\zeta^2 = c/(12\pi^2)">lim<sub>&zeta;&rarr;0</sub> &Phi;(&zeta;)/&zeta;&sup2; = c/(12&pi;&sup2;)</span>
       &mdash; a lower bound from the Legendre form of the SLD metric, a matching Uhlmann upper bound
@@ -90,7 +90,7 @@ like one; <span class="badge certified">certified</span> is a rigorous bound;
     <h3>Theorem B &mdash; universality in the central charge</h3>
     <div class="meta"><span class="badge conditional">conditional</span>
       <span>Module 3 &middot; <a href="explore/universality.html">Universality in <span data-tex="c">c</span></a></span>
-      <span><a href="results/thm-b-universality.md">claim page</a></span></div>
+      <span><a href="read/results/thm-b-universality.html">claim page</a></span></div>
     <p>The same coefficient <span data-tex="f_2=c/(12\pi^2)">f&#8322; = c/(12&pi;&sup2;)</span> for every
       diffeomorphism-covariant net, not only the free fermion: the second-order coefficient is linear
       in the central charge. <span class="hypo">Refereed, and stated under hypotheses H1, H2, H3;
@@ -101,8 +101,8 @@ like one; <span class="badge certified">certified</span> is a rigorous bound;
     <h3>The compression is not optimal &mdash; and by how much</h3>
     <div class="meta"><span class="badge conditional">conditional</span>
       <span>Module 4 &middot; <a href="explore/optimality.html">Is the compression optimal?</a> &nbsp;&middot;&nbsp; Module 5 &middot; <a href="explore/theta-reconciliation.html">Why two papers disagreed about <span data-tex="\theta">&theta;</span></a></span>
-      <span><a href="results/all-channel-optimum-value.md">claim page</a></span>
-      <span><a href="results/theta-value.md">&theta;</a></span></div>
+      <span><a href="read/results/all-channel-optimum-value.html">claim page</a></span>
+      <span><a href="read/results/theta-value.html">&theta;</a></span></div>
     <p>The best second-order gain any recovery channel can have over the compression is
       <span data-tex="1-\theta">1&minus;&theta;</span> =
       <span id="rec-theta" data-record="theta:one_minus_theta"><span class="value">0.616 <span class="err">&plusmn; 0.003</span></span>
@@ -117,7 +117,7 @@ like one; <span class="badge certified">certified</span> is a rigorous bound;
     <h3>Recovery networks and the corner calculus</h3>
     <div class="meta"><span class="badge conditional">conditional</span>
       <span>Module 6 &middot; <a href="explore/networks.html">Networks and the holonomy</a></span>
-      <span><a href="results/corner-calculus.md">claim page</a></span></div>
+      <span><a href="read/results/corner-calculus.html">claim page</a></span></div>
     <p>A sequence of one-sided recovery steps composes to a C&sup1; piecewise-M&ouml;bius map whose
       Schwarzian is a sum of point masses, and the recovered state depends on the map only through
       that Schwarzian. The unconditional rule places each mass at the preimage of its corner under
@@ -151,17 +151,20 @@ JavaScript switched off, and makes no request to any other site.</p>
 <h2>The documentation</h2>
 <p>The same folder carries a generated set of pages: what is claimed, with what status, and where
 the proof lives. They are produced from the project's knowledge base by
-<code>tools/build_docs.py</code>, so they cannot drift from it.</p>
+<code>tools/build_docs.py</code>, so they cannot drift from it. Each is written twice from the same
+text: as Markdown under <code>docs/</code>, which is what GitHub shows when you browse the repository,
+and as the page linked here, because GitHub Pages serves a Markdown file as a raw download rather than
+rendering it.</p>
 <div class="table-wrap"><table>
 <tbody>
-<tr><td><a href="index.md">index.md</a></td><td>the map: four results, ten modules, the sections below</td></tr>
-<tr><td><a href="status.md">status.md</a></td><td>every claim, grouped by area, with status and one-line statement</td></tr>
-<tr><td><code>results/</code></td><td>one page per consequential claim, <a href="status.md">indexed in status.md</a></td></tr>
-<tr><td><a href="notation.md">notation.md</a></td><td>the symbol table</td></tr>
-<tr><td><a href="definitions.md">definitions.md</a></td><td>the objects and what they mean</td></tr>
-<tr><td><a href="open.md">open.md</a></td><td>what is open, and the recorded next step for each</td></tr>
-<tr><td><a href="sources.md">sources.md</a></td><td>external results relied upon, and whether they can be obtained</td></tr>
-<tr><td><a href="history.md">history.md</a></td><td>phases 1 to 6, what each settled, and the errata</td></tr>
+<tr><td><a href="read/index.html">Documentation map</a></td><td>the map: four results, ten modules, the sections below</td></tr>
+<tr><td><a href="read/status.html">Every claim, by area</a></td><td>every claim, grouped by area, with status and one-line statement</td></tr>
+<tr><td><a href="read/results/index.html">Result pages</a></td><td>one page per consequential claim</td></tr>
+<tr><td><a href="read/notation.html">Symbols and conventions</a></td><td>the symbol table</td></tr>
+<tr><td><a href="read/definitions.html">The objects, and what they mean</a></td><td>the definitions the results are stated in</td></tr>
+<tr><td><a href="read/open.html">What is open</a></td><td>what is open, and the recorded next step for each</td></tr>
+<tr><td><a href="read/sources.html">External sources</a></td><td>external results relied upon, and whether you can obtain them</td></tr>
+<tr><td><a href="read/history.html">Phases 1 to 6</a></td><td>what each settled, and the errata</td></tr>
 </tbody>
 </table></div>
 <p>The two papers are attached as PDFs to the

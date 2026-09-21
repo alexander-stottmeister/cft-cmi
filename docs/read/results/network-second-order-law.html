@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Second-order network law: Phi_tot = sum zeta_j zeta_k G(y_j - y_k), G = c Ghat universal &mdash; cft-cmi</title>
+<meta name="description" content="Second-order network law: Phi_tot = sum zeta_j zeta_k G(y_j - y_k), G = c Ghat universal. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../../index.html">Interactive site</a>
+    <a href="../index.html">Documentation</a>
+    <a href="../status.html">All claims</a>
+    <a href="../open.html">Open problems</a>
+    <a href="../notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>Second-order network law: Phi_tot = sum zeta_j zeta_k G(y_j - y_k), G = c Ghat universal</h1>
+<p><strong>Status:</strong> <code>conjectural</code> — believed, with partial evidence; not proved.</p>
+<p><strong>Area:</strong> <a href="../status.html#area-lattice-thermal">Lattice, thermal, massive and gapped geometries (O7, O9, O10)</a> · <strong>Card type:</strong> conjecture · <strong>Knowledge-base id:</strong> <code>network-second-order-law</code></p>
+<h2>Statement</h2>
+<p>For corners at modular positions y_k with strengths zeta_k (frame of the whole chain), -log F(omega, omega o beta_Phi) = sum_{j,k} zeta_j zeta_k G(y_j - y_k) + o(|zeta|^2) with G(Delta) = c Ghat(Delta), Ghat(0) = 1/(12 pi^2) (Theorem A), Ghat even and positive-definite as the Fourier transform of the positive spectral density of the first-order corner defect in the modular frame (positive-definiteness does NOT imply Ghat &gt;= 0 pointwise; the sign for Delta &gt; 0 is open, card corner-correlation-kernel). The remainder must be shown UNIFORM in the corner separations for the applications in which zeta -&gt; 0 and Delta -&gt; inf together (vwz-protocol-ordering). Lower bound: data processing + Legendre form, linear in the defect. Upper bound: Uhlmann + C^{1,1} flow extension with finitely many second-derivative jumps; expected global bound Phi_tot &lt;= -(1/2) log(1 - 2 sum zeta zeta G). Separation constraint: admissible protocols ALL of whose corners are weak (zeta_j &lt;= eps for every j) cannot have two of them close at distinct points -- for the L-&gt;R Petz chain (e^{Delta_k} - 1) zeta_k^(I) = 2 r_k (1+v_k)/(1+r_k) &gt;= 2 r_k/(1+r_k) exactly, and zeta_j &lt;= eps for all j forces e^{Delta_k} &gt;= 2/eps, PROVED in rigor/network_corner_calculus.tex Thm 11.1 (track G1a; REF-P6-3: stands; sharp as eps -&gt; 0, exact minima 20.0499, 66.6817, 200.0050, 666.6682 at eps = 0.1, 0.03, 0.01, 0.003, rigor/ref_p6_3_separation.out; 1/eps for general admissible s_k &gt;= lambda_k; card corner-separation-constraint); with only the pair weak the separation can stay O(1). Hence, for all-weak L-&gt;R chains and given the uniform remainder, at strict second order Phi_tot = f2 sum_points (sum_steps zeta)^2 + O(eps^2 sup_{Delta &gt;= log(2/eps)} |Ghat(Delta)|): coherent addition at a common junction, additivity in zeta^2 across distinct junctions. Universality of Ghat by the H_T argument of Theorem B.</p>
+<h2>How to verify</h2>
+<p>Track G1b (rigor/network_second_order.tex); G3 measures Ghat(Delta) in two frames; G2 tests the sum rule on the lattice.</p>
+<h2>Evidence</h2>
+<ul>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/phase6_brief.md">rigor/phase6_brief.md</a> — document, at <code>W2</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/network_corner_calculus.tex">rigor/network_corner_calculus.tex</a> — document, at <code>label{thm:sep}</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/ref_p6_3_separation.py">rigor/ref_p6_3_separation.py</a> — numerics</li>
+</ul>
+<h2>Related claims</h2>
+<ul>
+<li><code>phase6-plan</code> — <code>active</code>, no page of its own</li>
+<li><a href="corner-calculus.html">Corner calculus: sequential one-sided recovery = Schwarzian point masses at the junctions</a> — <code>proved</code></li>
+<li><code>corner-correlation-kernel</code> — <code>open</code>, no page of its own</li>
+<li><a href="thm-a-quadratic-law.html">Theorem A: lim Phi/zeta^2 = c/(12 pi^2)</a> — <code>refereed</code></li>
+<li><a href="thm-b-universality.html">Theorem B: f2 = c/(12 pi^2) for every diffeomorphism-covariant net</a> — <code>refereed</code></li>
+</ul>
+<h2>Review</h2>
+<p><strong>Review record:</strong> passed 2026-09-16 by REF-P6-3b.</p>
+<p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
+<hr>
+<p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/results/network-second-order-law.md"><code>docs/results/network-second-order-law.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

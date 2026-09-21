@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Full primal SDP over F in the modular Galerkin frame: min_F g_Q = 8.41 and 7.13 times g_Q(delta_c) at h = 0.4, 0.3 -- the S11 representability obstruction, not a statement about non-isometric channels &mdash; cft-cmi</title>
+<meta name="description" content="Full primal SDP over F in the modular Galerkin frame: min_F g_Q = 8.41 and 7.13 times g_Q(delta_c) at h = 0.4, 0.3 -- the S11 representability obstruction, not a statement about non-isometric channels. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../../index.html">Interactive site</a>
+    <a href="../index.html">Documentation</a>
+    <a href="../status.html">All claims</a>
+    <a href="../open.html">Open problems</a>
+    <a href="../notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>Full primal SDP over F in the modular Galerkin frame: min_F g_Q = 8.41 and 7.13 times g_Q(delta_c) at h = 0.4, 0.3 -- the S11 representability obstruction, not a statement about non-isometric channels</h1>
+<p><strong>Status:</strong> <code>numerical</code> — measured, with an error bar and a convergence order; not a theorem.</p>
+<p><strong>Area:</strong> <a href="../status.html#area-optimality">Optimality of recovery channels (O8, Phases 3 and 3b)</a> · <strong>Card type:</strong> result · <strong>Knowledge-base id:</strong> <code>galerkin-full-f-uninformative</code></p>
+<h2>Statement</h2>
+<p>In the block-exact modular Galerkin frame of kkt_continuum.py (a = 1, L = 2, Lambda = 12, s = 0.1, kind = 'first'), the full primal SDP over F = {X : h_B -&gt; h_D, Z = Z* : X Q_BB X* &lt;= Z &lt;= 1 - X(1-Q_BB)X*} was solved at two rungs (f2_galerkin_a.out; 9425 s at h = 0.4, 24923 s at h = 0.3):
+h = 0.4, N = 69, (nA,nB,nC) = (30,9,30): g_Q(delta_c) = 8.1495e-06 = 0.8687 f2 zeta^2, theta = 0.28578, min_F g_Q = 6.8546e-05, min_F/g_Q(delta_c) = 8.411034, ||1 - X X*||_F = 5.872, tr(1 - X X*) = 35.16 of m = 39, ||Z - X Q_BB X*||_F = 3.556, sv(X) in [0.0061, 0.9999];
+h = 0.3, N = 91, (nA,nB,nC) = (40,11,40): g_Q(delta_c) = 8.4021e-06 = 0.8956 f2 zeta^2, theta = 0.29926, min_F g_Q = 5.9870e-05, min_F/g_Q(delta_c) = 7.125692, ||1 - X X*||_F = 6.780, tr(1 - X X*) = 46.71 of m = 51, sv(X) in [0.0002, 0.9999].
+Both rungs land a factor 7-8 ABOVE the compression defect, not below the isometric-orbit value, and the optimal X is a strong contraction, nothing like a co-isometry.
+WHAT IS BEING COMPARED (do not over-read the ratio): min_F g_Q is an exact finite-s minimum over the discretised F, whereas theta, 1 - theta and g_Q(delta_c) on the same rung are FIRST-ORDER (tangent) reference numbers produced by orbit_theta() (the CG of theta_galerkin.py, which it reproduces exactly: 1 - theta = 0.71422 at h = 0.4 and 0.70074 at h = 0.3 against the published 0.714 and 0.701). The two are not values of one and the same programme -- they are computed in one script and share Q and delta_c, but not the same optimisation -- so the ratio must not be read as "the orbit beaten or not beaten by that factor".
+WHAT THE RUNGS DO SHOW is the S11 representability obstruction (rigor/sdp_certificate_numerics.tex l.484-497): in a finite Galerkin cell frame the Moebius compression is not representable at all (its V maps cells to non-cells), so the discretised F does not contain the compression point, and min_F g_Q is dominated by that representation error rather than by the physics of non-isometric channels.
+H-TREND: the two rungs move in the right direction at fixed Lambda and collar, 8.411034 (h = 0.4) -&gt; 7.125692 (h = 0.3). Two points are a trend, not a verdict, and no extrapolated "factor still to be closed" is claimed. The earlier runs kc_h04.out and kc_h05.out (8.2635 and 10.0467) are NOT comparable rungs of the same ladder: they differ in LamC (6 and 4 vs 12), n_B (9 and 7 vs 9 and 11) and n_C (15 and 8 vs 30 and 40); S11 identifies n_B/n_C and the collar s, not h alone, as the knobs, and kc_h04.out's Delta/(2 g_Q) = -10.325 is S11's n_B &lt; n_C corner.
+CONCLUSION: this test cannot decide whether non-isometric channels beat the isometric orbit; the tangent (first-order) problem is the right place to ask, and it is answered in the card kkt-noise-criterion-numerics.</p>
+<h2>How to verify</h2>
+<p>cd numerics/optimality_all; $V/bin/python f2_galerkin_full.py 0.4,0.3 (prints, per rung, the orbit CG value and min_F g_Q) -&gt; f2_galerkin_a.out l.1-6; compare kc_h04.out, kc_h05.out for the non-comparable earlier runs; the representability obstruction is rigor/sdp_certificate_numerics.tex l.484-497</p>
+<h2>Evidence</h2>
+<ul>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/F2_RESULTS.md">numerics/optimality_all/F2_RESULTS.md</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/f2_galerkin_a.out">numerics/optimality_all/f2_galerkin_a.out</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/sdp_certificate_numerics.tex">rigor/sdp_certificate_numerics.tex</a> — document, at <code>l484-497</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/kc_h04.out">numerics/optimality_all/kc_h04.out</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/kc_h05.out">numerics/optimality_all/kc_h05.out</a> — numerics</li>
+</ul>
+<h2>Related claims</h2>
+<ul>
+<li><a href="kkt-noise-criterion-numerics.html">KKT criterion numerics: every finite run FAILS (a); the violation extrapolates to 0^- as h -&gt; 0, Ymax -&gt; inf; E(zeta_0) &gt; 0 and E(zeta_inf) &gt; 0, so (e) holds for the whole cone under H3</a> — <code>numerical</code></li>
+<li><a href="tangent-sdp-noise-directions.html">Tangent SDP over (G, N1, Y1) in the circle model: orbit-only optimum matches (1-theta) to 1.1e-7, full optimum not resolvable (measured Gram cond 2.4e22)</a> — <code>numerical</code></li>
+<li><code>phase5-plan</code> — <code>done</code>, no page of its own</li>
+</ul>
+<h2>Review</h2>
+<p><strong>Review record:</strong> passed 2026-09-15 by REF-P5-3.</p>
+<p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
+<hr>
+<p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/results/galerkin-full-f-uninformative.md"><code>docs/results/galerkin-full-f-uninformative.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

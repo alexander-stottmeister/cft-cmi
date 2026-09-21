@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>(H1)-(H3) hold for all diffeomorphism-covariant nets &mdash; cft-cmi</title>
+<meta name="description" content="(H1)-(H3) hold for all diffeomorphism-covariant nets. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../../index.html">Interactive site</a>
+    <a href="../index.html">Documentation</a>
+    <a href="../status.html">All claims</a>
+    <a href="../open.html">Open problems</a>
+    <a href="../notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>(H1)-(H3) hold for all diffeomorphism-covariant nets</h1>
+<p><strong>Status:</strong> <code>refereed</code> — a complete structured proof that an independent referee pass has accepted. <strong>Stated under hypotheses</strong> H1, H2, H3, quoted below.</p>
+<p><strong>Area:</strong> <a href="../status.html#area-universality">Theorem B: universality for diffeomorphism-covariant nets</a> · <strong>Card type:</strong> theorem · <strong>Knowledge-base id:</strong> <code>implementer-hypotheses</code></p>
+<h2>Statement</h2>
+<p>The first-order field g_tot has a single jump of its second derivative, so its Carpi-Weiner 3/2-norm is finite (||g_tot'||_{3/2} = infinity is irrelevant); essential self-adjointness by Carpi-Weiner Thm 4.4, Stone, Trotter split (g_tot - m) + m, scalar phase via Fewster-Hollands Prop. 5.1. The form bound needs beta = 1 (sharp); the Nelson route and D(L0)-invariance are closed in the negative.</p>
+<h2>Hypotheses</h2>
+<p>The statement is made under named hypotheses. The sentences are quoted from the statement above; read the status badge only together with them.</p>
+<p>Hypothesis labels used: <code>H1</code>, <code>H2</code>, <code>H3</code>.</p>
+<blockquote>
+<p>(H1)-(H3) hold for all diffeomorphism-covariant nets.</p>
+</blockquote>
+<h2>How to verify</h2>
+<p>rigor/implementation_C11.tex Sec. 8 with screenshots of Carpi-Weiner Thm 4.4 in rigor/shots/. (the screenshots are page excerpts of the cited publications and are not redistributed; see THIRD-PARTY.md)</p>
+<h2>Evidence</h2>
+<ul>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/implementation_C11.tex">rigor/implementation_C11.tex</a> — document</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/referee_implementation_C11.tex">rigor/referee_implementation_C11.tex</a> — document</li>
+<li><code>refs/CDIT_1808.02384.pdf</code> — source; held privately, not redistributed</li>
+</ul>
+<h2>Related claims</h2>
+<p>_None recorded._</p>
+<h2>Review</h2>
+<p><strong>Review record:</strong> passed 2026-09-21 by REF-MOVE-1b.</p>
+<p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
+<hr>
+<p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/results/implementer-hypotheses.md"><code>docs/results/implementer-hypotheses.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

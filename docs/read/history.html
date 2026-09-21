@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phases 1 to 6: what each settled &mdash; cft-cmi</title>
+<meta name="description" content="Phases 1 to 6: what each settled. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../index.html">Interactive site</a>
+    <a href="index.html">Documentation</a>
+    <a href="status.html">All claims</a>
+    <a href="open.html">Open problems</a>
+    <a href="notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>Phases 1 to 6: what each settled</h1>
+<p>The project ran in six phases, each opened with a brief and closed with a status file. The lead of every entry of those status files is reproduced below, in order; each phase links to its full file, which carries the numbers, the verdicts and the corrections made on the day.</p>
+<h2>Phase 1 status — 2026-09-08 (day 1)</h2>
+<p>Source: <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/PHASE1_STATUS.md"><code>rigor/PHASE1_STATUS.md</code></a></p>
+<h3>Milestone M1: "make Theorem A a theorem and certify the numbers"</h3>
+<ul>
+<li><strong>Theorem A proved.</strong> lim_{zeta-&gt;0} Phi/zeta^2 = c/(12 pi^2).</li>
+<li><strong>Tail bound proved</strong> (rigor/tail_bound.tex, PT): 0 &lt;= Phi - Phi_W &lt;= 0.173 zeta^2/kappa_c + 0.88 zeta^2/kappa_c^2 for kappa_c &gt;= max{10, 2 log(1/zeta) + 2 log(1+kappa_c) + 3}; Note 5 Prop 4.1 upgraded to a theorem with explicit remainder; c_2 = -zeta^2/30.</li>
+<li><strong>Lattice (O7a) done</strong> (numerics/lattice, PL): Gaussian rotated Petz map in ball arithmetic up to 72 sites; exponents 1.986, 1.912, 1.635, 1.151 at lambda = 0, 0.5, 1, 1.5 (VWZ: 2.0, 1.9, 1.7, 1.2); lattice/two-branch ratio = 1 - 0.15/L constant in eta_V; single-branch law off by 22-5000.</li>
+<li><strong>Large cross ratios certified</strong> (numerics/results_largezeta_certified.txt, PZ): Phi(1.07) = 4.410(20)e-3, Phi(2.13) = 1.0797(50)e-2, Phi(4.27) = 2.241(14)e-2, Phi(8.53) = 3.974(72)e-2, Phi(17.1) = 6.41(43)e-2; window exponent drifts 2.5 -&gt; 1.2; slopes 1.29 -&gt; 0.69 vs lattice.</li>
+<li><strong>Paper 1 draft</strong> (paper1/main.pdf, 26 pp, PW): all sections written; placeholder citations for internal documents; certified brackets and large-zeta table included; honest gap statements (s_2 = c/12 for the KM form; rate heuristic).</li>
+<li><strong>eps = 1e-14 runs</strong>: window contains all box modes at Lambda = 60 -&gt; residual is the box cutoff; recipe min(kappa_c, kappa_max) with box asymptotics 0.0641 zeta^2/kappa_max^2; Phi(1/15) consistent across windows to 2e-4.</li>
+</ul>
+<h3>Corrections applied today to the notes</h3>
+<p>N5: apparent exponents (PL), 'ten times' -&gt; pi^2 (PW), Prop 4.1 status (PT), Cor 4.2 status (PA/PR), large-zeta paragraph + table (PZ).</p>
+<p>N7: Theorem A statement, Sec. 8 items 2 (PA/PR/PT).</p>
+<h3>Open after day 1</h3>
+<ul>
+<li>Rate of the remainder (log^-2 claim): heuristic; would need a bound on ||sqrt(Q~) - sqrt(X11 (+) X22)||_2 quadratic in X12.</li>
+<li>Tight certified error bars (need kappa_c^-2 decay or interval-arithmetic audit of Dhat, Q_N; 3% arithmetic margin at present).</li>
+<li>O7(b) chiral lattice model; O11 collar-Gaussianity lemma (deferred; Phase 2 route changed).</li>
+<li>Phase 2 reordering: the Uhlmann-Bogoliubov construction gives, for any diffeomorphism covariant net with U(k~) implemented, the universal upper bound Phi &lt;= -log |&lt;Omega, U(k~_zeta) Omega&gt;| (Virasoro coherent-state overlap, c-linear at second order): O5 now yields the upper half of Theorem B directly; O3 is needed only for the lower half.</li>
+</ul>
+<h3>Agents used today</h3>
+<p>PA (proof), PN (HS numerics), PL (lattice), PR (referee), PT (tail bound), PZ (large-zeta), PW (paper draft).</p>
+<p>&lt;= 80-120 lines per tool call, compile/run after every append, plain LaTeX in findings entries.</p>
+<h2>Phase 2 status — 2026-09-08 (day 1 of Phase 2)</h2>
+<p>Source: <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/PHASE2_STATUS.md"><code>rigor/PHASE2_STATUS.md</code></a></p>
+<h3>Milestone M2 (Bures part) REACHED 2026-09-08: universality of f_2 = c/(12 pi^2) for every diffeomorphism covariant net on S^1</h3>
+<ul>
+<li><strong>Theorem B for general nets</strong> (rigor/universality_theorem_B.tex, QA, 22 pp; refereed by QR1: stands; 4 write-up repairs applied, Sec. 9; 24 pp): under Haag duality / locality, Bisognano-Wichmann, Reeh-Schlieder and the implementer hypotheses (H1)-(H3) [+ (H2')], -log F(omega, omega_s) = (s^2/8) g_B + o(s^2), g_B = 4 dist(T(g_tot)Omega, cl A(I)'_sa Omega)^2 = c * 2/(3 pi^2).</li>
+<li><strong>Implementer hypotheses for every diffeomorphism covariant net</strong> (rigor/implementation_C11.tex, QB, 26 pp; refereed by QR2: stands; repairs applied incl. the scalar-phase lemma via Fewster-Hollands Prop 5.1 and (H2')): g_tot is C^1 + piecewise smooth with one jump of g'' at the touching point =&gt; ||g_tot||_{3/2} finite =&gt; Carpi-Weiner Thm 4.4 (e.s.a.), Stone, covariance by Trotter + localisation and approximation + additivity.</li>
+<li><strong>Bosonic check</strong> (numerics/boson, QN): U(1) current net f_2 = 0.00844(2), s_2 = 0.083(2); c-linearity of the vacuum overlap proved analytically at second order (boson and fermion both give (s^2/(96 pi^2)) int k^3 |g_hat|^2).</li>
+<li><strong>Kubo-Mori</strong> (rigor/kubo_mori_second_variation.tex, QK): exact identity for unitary orbits with affiliated generator; lower bound with no hypothesis; full expansion under modular analyticity; Kosaki/Petz-Donald route refuted (suprema).</li>
+<li>Free fermion (H2),(H3): rigor/uhlmann_upper_bound.tex Sec. 10 (PA).</li>
+</ul>
+<h3>Corrections to the Phase 2 brief made during the day</h3>
+<ul>
+<li>The smooth extension does NOT legitimise the x-space Mellin evaluation of g_B (g(L) != 0 obstruction survives); the value rests on c-linearity.</li>
+<li>Kosaki/Petz-Donald variational expressions are suprema: useless for the Kubo-Mori upper bound.</li>
+<li>The Trotter split is g_tot = (g_tot - m) + m, not g_A + g_D.</li>
+<li>Standard-subspace lemma (one-particle Reeh-Schlieder/BW for T-vectors) is NOT needed for Theorem B; still a GAP for the variational form.</li>
+</ul>
+<h3>Open after Phase 2 day 1</h3>
+<ul>
+<li>DONE: QA's repairs applied; the theorem is recorded in Note 7 (Theorem B header, Sec. 8), Note 8 (main box) and paper 2 (abstract).</li>
+<li>Kubo-Mori: gauge lemma REFUTED 2026-09-09 (rigor/kubo_mori_gauge_lemma.tex): inf over admissible gauges = 11.09 c/6; proved bracket 0.034c &lt;= liminf &lt;= limsup &lt;= 0.924c; s_2 = c/12 for general nets stays conjectural (numerically confirmed for fermion and boson).</li>
+<li>DONE 2026-09-09: paper 2 draft (paper2/main.pdf, 24 pp, RW).</li>
+</ul>
+<h3>Agents used in Phase 2 (day 1)</h3>
+<p>QA, QB, QN, QK, QR1, QR2 (+ PA resumed).</p>
+<h2>Phase 3 status — started 2026-09-09</h2>
+<p>Source: <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/PHASE3_STATUS.md"><code>rigor/PHASE3_STATUS.md</code></a></p>
+<p>Tracks (rigor/phase3_brief.md):</p>
+<ul>
+<li>S8: second-order optimality (O8) [DONE, rigor/optimality_second_order.tex 14 pp]: quasi-free problem is an exact SDP; optimum = (1.00 +- 0.15) f_2 z^2 per chirality = two-chirality geometric-compression value (Petz: 4 f_2 z^2; lattice best/Petz = 0.27-0.28); optimal channel = near-isometric squeeze not reproducing the BC marginal; A-C lower-bound route gives exactly 0; only E_opt &gt;= 0 proved.</li>
+<li>S9: thermal/RG/gap (O9, O10) [DONE]: two-branch law holds at the thermal cross ratio; shielding rates 2pi (fidelity), pi (CMI); c_M &gt;= c_E along the flow, c_M/c_E -&gt; mR; gap: exact CMI = adjacent law with L_B -&gt; L_B+L_G, -logF ~ L_G^-2; off criticality -logF is LINEAR in the CMI (ratio 0.10-0.17)</li>
+<li>PP1: referee pass on paper 1 -&gt; rigor/referee_paper1.md [DONE: 23 edits applied + 3 orchestrator edits; 10 wording edits proposed]</li>
+<li>PP2: referee pass on paper 2 -&gt; rigor/referee_paper2.md [DONE: 26 edits applied; KM section now conjecture + bracket; 10 wording edits proposed]</li>
+</ul>
+<p>Deferred: O11 (sectors, state dependence); Kubo-Mori gauge lemma replacement (renormalised/collar route); D-hat quadrature and box-cutoff certification.</p>
+<h3>Phase 3 day 1 complete (2026-09-09). Open: proof of optimality of the geometric compression (dual certificate / quasi-free achievability); multi-interval networks (O10 second half); O11 sectors; KM gauge lemma replacement; D-hat quadrature and box-cutoff certification; paper polishing (13 + 10 proposed wording edits) and internal-citation replacement before submission.</h3>
+<h3>Phase 3b (2026-09-10): optimality of the geometric compression among ALL channels (user request)</h3>
+<ul>
+<li>Orchestrator: <code>rigor/optimality_all_channels.tex</code> — PROVED: (i) exact single-observable bound from Alberti–Uhlmann's variational formula; (ii) every channel's recovered symbol lies in S8's quasi-free feasible set F (Kadison–Schwarz + Tomita operator + BJL one-particle restriction, <code>BJL_twisted_duality_math-ph-0204029.pdf</code> (not redistributed)); (iii) all-channel second-order optimum = quasi-free SDP value (Sion).</li>
+<li>OPEN → S10 (analytic KKT/dual certificate, <code>rigor/sdp_dual_certificate.tex</code>), S11 (KKT numerics, <code>rigor/sdp_certificate_numerics.tex</code>): show the quasi-free programme's value is f_2 z^2 (compression).</li>
+<li>S10 DONE (<code>rigor/sdp_dual_certificate.tex</code>, 960 lines): exact necessary-and-sufficient KKT certificate at the compression (unique multipliers since V_c is unitary); Legendre reduction V(t)=||P^perp t P||^2; Möbius rigidity (DD block of the first-order compression defect vanishes) ⇒ the certificate condition (S) fails unless E_D u E_D = 0; numerically θ = 0.300 ± 0.005 ⇒ the isometric orbit W_s e^{-εG*} beats the compression: min_F g_Q ≤ 0.70 f_2 z^2.</li>
+<li>S11 (<code>rigor/sdp_certificate_numerics.tex</code>, 540+ lines): (a) strong duality + KKT verified on the (4,8,2) lattice (dual/primal = 1 to 1.5e-5 for caps ≤ 10; cap must be paired with its own variance); (b) certificate test at the compression inconclusive in any finite Galerkin model — the compression is infeasible there (X_c X_c^* = 1 impossible when dim V_B &lt; dim V_D), and coarse-model "improvements" explode ×10^5 under nested refinement; (c) EXACT windowed fidelity in S10's spectral model confirms S10's gain: ratio rotated/compression 0.59→0.67 as the window grows (L=192, s=0.05) and 0.61→0.67 (L=320, s=0.02), best 0.66 at eps/s=−1.1.</li>
+<li>CORRECTION (orchestrator, later on 2026-09-10): the exact-fidelity claim was overstated.</li>
+</ul>
+<h2>Phase 4 status — exact-fidelity optimality (started 2026-09-15)</h2>
+<p>Source: <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/PHASE4_STATUS.md"><code>rigor/PHASE4_STATUS.md</code></a></p>
+<p>Question (kb card exact-fidelity-optimality-open): is the zero-collar geometric compression beaten in EXACT fidelity, i.e. does the</p>
+<p>upper half -log F &lt;= g_Q(delta)(1+o(1)) hold for the rotated channel W_s e^{-eps G_*}?</p>
+<p>Reformulation (rigor/phase4_brief.md): the Uhlmann purification may use ANY unitary on the exterior of I = ABC (not only exterior</p>
+<p>flows).</p>
+<p>P^perp Z_e P are invisible (E_I[P, Z_e]E_I = 0), so the optimised Uhlmann bound equals the second-order functional iff the invisible</p>
+<p>part of the channel's direction lies in the closure of the exterior directions Ext.</p>
+<p>Results:</p>
+<ul>
+<li>Orchestrator (e0_finite_density.py): on finite hopping chains Ext = N^perp exactly (dim N = |I|^2).</li>
+<li>E2 (rigor/exterior_extension_numerics.tex, numerics/optimality_all/e2_*.py): in the spectral circle model Ext = N^perp exactly at every L; dist((1-Pi)M, Ext) = 0 to 55-70 digits; optimised UB_c/(1/2 s^2|u|^2) = 1.0000000 (the 4.3 of the fixed taper was an artefact); UB_rot/UB_c = 1 - theta to 5 digits; exact Fredholm determinant agrees at second order; ||Z_e||/s ~ 3 bounded in L.</li>
+<li>E1 (rigor/exact_fidelity_upper_half.tex, 17 pp): THEOREM closure(Ext) = N^perp (two proofs: compressed reflection Gamma' is a contraction without eigenvalues +-1 so the invisible remainder vanishes; twisted duality).</li>
+</ul>
+<p>Consequences applied: paper1/sec_outlook.tex optimality passages rewritten (bibitems RigorAll, RigorS10, RigorE1, RigorE2); Note 5</p>
+<p>remark after Cor. 5.1; plan page O8 status; kb card exact-fidelity-optimality-open -&gt; numerical (answered).</p>
+<p>Open after Phase 4: exact value of the all-channel optimum (non-isometric channels; bracket [D_z, 0.71 f2 z^2]); analytic proof</p>
+<p>of theta &gt; 0; the Kubo-Mori coefficient (Phase 2b); D-hat quadrature certification; O10 networks; O11 sectors.</p>
+<h2>Phase 5 status — exact value of the all-channel optimum (started 2026-09-15)</h2>
+<p>Source: <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/PHASE5_STATUS.md"><code>rigor/PHASE5_STATUS.md</code></a></p>
+<p>Question: is the isometric-orbit value (1 - theta) f2 z^2 the exact all-channel second-order optimum, or do</p>
+<p>non-isometric quasi-free channels (isometry loss N &gt;= 0, noise 0 &lt;= Y &lt;= N) lower it further? And what is theta?</p>
+<p>Brief: rigor/phase5_brief.md.</p>
+<h3>Tracks</h3>
+<ul>
+<li>F1 analytic (rigor/exact_optimum_tangent_problem.tex): exact parametrisation of F by (V co-isometry, N, Y); tangent problem; KKT sign criterion for the noise directions; theta closed form attempt.</li>
+<li>F2 numerics (numerics/optimality_all/f2_*.py, F2_RESULTS.md): tangent SDP with noise in the spectral circle model; KKT eigenvalue check; full-F primal SDP in the Galerkin frame vs orbit.</li>
+<li>F3 numerics (numerics/optimality_all/f3_*.py, F3_RESULTS.md): theta reconciliation between the circle model (0.300) and the Galerkin frame (&gt;= 0.336, rising).</li>
+</ul>
+<h3>Results</h3>
+<ul>
+<li>F1 (2026-09-15): exact chart of F: (X,Z) in F iff N = 1 - XX<em> &gt;= 0 and 0 &lt;= Y = Z - X Q_BB X</em> &lt;= N; X = (1-N)^{1/2} V with V a co-isometry iff 1 is not an eigenvalue of N (sharp).</li>
+<li>F3 interim (files, 2026-09-15 16:30): the two discretisations have the SAME limit.</li>
+<li>F3 FINAL (2026-09-15): theta = 0.384 +- 0.003 (1 - theta = 0.616 +- 0.003).</li>
+<li>F2 interim (files): conventions reproduced (theta 0.28958 at L=256; SLD identity 1e-10; F1's derivative formula 1e-9 by finite differences; stationarity check 1e-6).</li>
+<li>F2 FINAL T4 (2026-09-15, rigid parameter-free modular frame of F1 Prop 6.2, f3_t0.py machinery; ||d_c,DD|| = 0 exactly, no weight cap needed): all F1 identities hold to 1e-9; lambda_min(M_<em>)/g_Q(d_c) = -7.0e-2, -3.8e-2, -1.9e-2, -1.0e-2 and lambda_min(M_</em>)/||M_<em>|| = -4.1e-3, -1.9e-3, -8.2e-4, -3.7e-4 at h = 0.24, 0.12, 0.06, 0.03; lambda_min(M_</em> - tau_*) identical; rank-one gain/g_Q(d_c) = 3.9e-4, 1.2e-4, 3.5e-5, 9.7e-6.</li>
+<li>F2 FINAL T5 (2026-09-15, endpoint condition (e) of the repaired criterion, rigid frame, f2_t5_endpoint.out): E(zeta_0)/g_Q(d_c) = +34.1, +66.9, +131.3, +258.0 at h = 0.24, 0.12, 0.06, 0.03 for the admissible (backward/dissipative) scheme; centred scheme 0 (the linear class), forward (inadmissible) the negative; corner term (1/2) M_<em>(0,0)/h = +10.3, +16.1, +24.7, +37.2 ~ h^-0.6 (M_</em>(y,y) -&gt; +inf as y -&gt; 0+: the junction direction is infinitely penalised at first order); saturates in Ymax, Y-independent; cross-check E(zeta_inf) = 2(1 - theta_h) g_Q exact to 1e-15; A-block (absorption) form = boundary form to 2e-10..2e-8.</li>
+<li>Union-of-referees fix pass (2026-09-15 evening; two referees had reviewed the F2/F3 cards concurrently, PASS x5 vs FAIL x5; user decision relayed by session claude-team-84: authors fix all defects from the union, then ONE referee re-reviews, nobody flips verdicts): F3 repaired theta-value (candidate script f3_candidates.py: 26 candidates, 3 in [0.381,0.387], chance expectation 0.28, no selection; per-family rho 0.577..0.592; spread 5.1e-4 Galerkin / 2.0e-3 incl.</li>
+</ul>
+<h3>Referee passes (Opus only)</h3>
+<ul>
+<li>REF-P5-1 (document referee, rigor/referee_exact_optimum_tangent_problem.tex, 16 pp): STANDS for the chart of F, the first-order defect (recomputed), exact feasibility, Thm 3.9/Cor 3.10, Thm 4.4 (a)&lt;=&gt;(b)&lt;=&gt;(c) (no counterexample in 60 000 random triples), Prop 4.6/Rem 4.7, Lemma 6.1, Prop 6.2.</li>
+<li>F1 correction (21:04): E(zeta) := 2 b(delta_*, A(zeta,0,0)) only; new Prop 4.10(2'): A(zeta,0,0) = -[Q,zeta] holds only for bounded anti-self-adjoint zeta (deletes the boundary term otherwise); new Rem 4.11 with F2's T5 table and the reading 'the junction direction is infinitely penalised at first order'; Sec. 7 concludes kappa_opt = 1 - theta = 0.616 +- 0.003 conditional on H1, H2, with (a),(e) as numerical input.</li>
+<li>REF-P5-3 (21:29; rigor/referee2_exact_optimum_tangent_problem.tex, 7 pp): R1-R15 applied, no regressions; NEW FINDING S1: the reduction of the admissible cone of boundary-moving isometry generators to the two model directions is proved only for vector fields (multiplicity &gt; 1 shift semigroups and unbounded skew-adjoint multiplication operators escape) =&gt; condition (e) is reduced to E(zeta_0) &gt;= 0 only under a hypothesis H3 (cone hypothesis); repairs S1-S6 (H3 declared and every '(e) holds' hedged; the T5 total is the scheme-dependent upwind-viscosity quantity ~h^-0.97, the corner term ~h^-0.60 is the invariant piece; E in [-inf,+inf] with the form domain a subspace; Thm 3.11 &lt;1&gt;4 core hypothesis; Sec. 7 item 5; minor slips).</li>
+<li>REF-P5-4 (21:55; rigor/referee3_exact_optimum_tangent_problem.tex, 4 pp): S1-S6 all applied, H3 usage sound (bilinearity of b and b(delta_*, closure of L) = 0 by g_Q-continuity); document ACCEPTED with three residual defects on the H3 wording: D1 the 'equivalently ... boundary form' clause of Def 4.12 is not equivalent to eq.</li>
+<li>F1 D1-D3 fix (22:05, 27 pp): H3 (Def 4.12) is eq.</li>
+<li>Phase 5 closes with: theta = 0.384 +- 0.003 (refereed); the KKT criterion (a)+(e) proved for the tangent problem; the reduction of (e) to the model cone is hypothesis H3 (exclusion of non-vector-field generators); (a) numerically in the limit; (e) proved on the model cone; kappa_opt = 1 - theta = 0.616 +- 0.003 numerically under H1-H3; unconditional bracket E_rec in [dual form, 0.616 f2 z^2 (1+o(1))].</li>
+<li>KB card referees: REF-opus-cft-2026-09-15 (F1 cards: kkt-noise-sign-criterion passed; tangent-problem-exact-parametrisation and theta-modular-wiener-hopf FAILED on locators/superseded numerics — under repair); REF-P5-KB1 on the F2/F3 cards: running.</li>
+</ul>
+<h3>Propagation (2026-09-15)</h3>
+<p>Editor P5-EDIT propagated the refereed F3 result (card <code>theta-value</code>, passed REF-P5-KB1;</p>
+<p><code>numerics/optimality_all/F3_RESULTS.md</code>): <strong>theta = 0.384 +- 0.003</strong>, hence <strong>1 - theta = 0.616 +- 0.003</strong>;</p>
+<p>geometry independent, measured order h^0.77, two independent discretisations (modular Galerkin;</p>
+<p>parameter-free modular Wiener-Hopf, <code>rigor/exact_optimum_tangent_problem.tex</code> Prop 6.2) agreeing to 3e-4</p>
+<p>after extrapolation.</p>
+<p><strong>taper-suppressed lower bound</strong> and stays as the historical record (erratum: <code>rigor/errata_log.md</code>).</p>
+<p><code>kappa_opt = 1 - theta</code> is NOT claimed as settled: the KKT endpoint condition is still under evaluation</p>
+<p>(Phase 5, F1/F2).</p>
+<h3>Documents</h3>
+<table>
+<thead><tr>
+<th>file</th>
+<th>lines</th>
+<th>old -&gt; new</th>
+</tr></thead>
+<tbody>
+<tr><td><code>rigor/optimality_all_channels.tex</code></td><td>468-475 (new)</td><td>sentence added after the S10 paragraph: 0.300 +- 0.005 superseded by F3, taper-suppressed lower bound; S10 table kept</td></tr>
+<tr><td></td><td>482</td><td><code>theta &gt; 0 (numerical, 0.30)</code> -&gt; <code>(numerical, 0.384 +- 0.003; F3)</code></td></tr>
+<tr><td></td><td>485</td><td>bracket <code>[D_z, 0.71 f2 z^2]</code> -&gt; <code>[D_z, 0.616 f2 z^2]</code></td></tr>
+<tr><td></td><td>583-584</td><td><code>at least 0.30 and plausibly 0.34-0.40</code> -&gt; kept, plus <code>the Phase 5 reconciliation gives 0.384 +- 0.003 (F3)</code></td></tr>
+<tr><td></td><td>678-681</td><td>Verdict: <code>theta = 0.300 +- 0.005</code> -&gt; lower bound + reconciled <code>0.384 +- 0.003</code>; <code>&lt;= 0.71 f2 z^2</code> -&gt; <code>&lt;= 0.616 f2 z^2</code></td></tr>
+<tr><td></td><td>690, 701</td><td><code>D_z &lt;= 0.71 f2 z^2</code> -&gt; <code>D_z &lt;= 0.616 f2 z^2</code> (twice)</td></tr>
+<tr><td><code>rigor/exact_fidelity_upper_half.tex</code></td><td>33</td><td>abstract: <code>theta_fr &gt;= 0.30</code> -&gt; <code>theta_fr &gt;= 0.38 (Phase 5, F3: theta = 0.384 +- 0.003)</code></td></tr>
+<tr><td></td><td>823-852 (Rem. <code>rem:thetafr</code>)</td><td>title <code>to 0.30</code> -&gt; <code>to 0.38</code>; <code>theta = 0.300 +- 0.005</code> -&gt; <code>0.384 +- 0.003</code>; <code>E_rec &lt;= 0.71 f2 z^2</code> -&gt; <code>&lt;= 0.616 f2 z^2</code>; item (iii) rewritten to the reconciled two-frame statement (Galerkin + Wiener-Hopf, S10 a taper-suppressed lower bound); <code>kappa_opt &lt;= 0.71</code> -&gt; <code>&lt;= 0.616 +- 0.003</code>; the <code>0.34-0.40</code> sentence replaced by the Phase-5 clause on non-isometric channels</td></tr>
+<tr><td></td><td>949-958</td><td>Verdict gap: <code>theta = 0.300 +- 0.005 in two independent discretisations</code> -&gt; reconciled statement, E2's 0.708-0.711 labelled as the tapered circle-model value; <code>theta_fr &gt;= 0.30</code> -&gt; <code>&gt;= 0.38</code>; <code>kappa_opt &lt;= 0.71</code> -&gt; <code>&lt;= 0.616 +- 0.003</code></td></tr>
+<tr><td></td><td>1000-1005 (R1)</td><td><code>kappa_opt &lt;= 0.71 moved to Rem. 7.4</code> -&gt; <code>kappa_opt &lt;= 1 - theta_fr (then 0.71, now 0.616 +- 0.003; see the addendum)</code>; <code>both discretisations behind theta ~ 0.30</code> -&gt; <code>the discretisations behind the numerical theta</code></td></tr>
+<tr><td></td><td>1067</td><td><code>theta_fr &gt;= 0.30</code> -&gt; <code>theta_fr &gt;= 0.38 (theta = 0.384 +- 0.003, F3)</code></td></tr>
+<tr><td></td><td>1070-1087 (new)</td><td>dated addendum at the end of Sec. 10, <code>Addendum (2026-09-15): the value of theta</code> -- records the reconciliation, the taper mechanism, the log-L vs 1/L extrapolation error, and that nothing proved changes</td></tr>
+<tr><td><code>paper1/sec_outlook.tex</code></td><td>78-82</td><td><code>theta &gt;= 0.30 numerically \cite{RigorS10}</code> -&gt; <code>theta = 0.384 +- 0.003 numerically \cite{RigorS10,RigorF3}</code>; bracket upper end -&gt; <code>0.616 f2 z^2</code></td></tr>
+<tr><td></td><td>102</td><td><code>theta &gt;= 0.30 in two independent discretisations, the spectral circle model (RigorS10, RigorE2) and the modular Galerkin frame (RigorAll)</code> -&gt; <code>theta = 0.384 +- 0.003</code> from Galerkin (RigorAll) + modular Wiener-Hopf (RigorF3), agreeing to 3e-4, the circle model's value a taper-suppressed lower bound; <code>theta_fr &gt;= 0.30</code> -&gt; <code>&gt;= 0.38</code>; <code>0.71 f2 z^2</code> -&gt; <code>0.616 f2 z^2</code></td></tr>
+<tr><td><code>paper1/main.tex</code></td><td>122</td><td>new <code>\bibitem{RigorF3}</code> after <code>RigorE2</code> (F3, theta reconciliation, <code>numerics/optimality_all/F3_RESULTS.md</code>, 2026-09-15)</td></tr>
+<tr><td><code>fidelity_recovered_quasifree.tex</code></td><td>423</td><td>remark <code>Optimality beyond the rotated family</code>: <code>theta &gt;= 0.30</code> -&gt; <code>theta = 0.384 +- 0.003</code> (S10's value flagged as a taper-suppressed lower bound), <code>theta_fr &gt;= 0.30</code> -&gt; <code>&gt;= 0.38</code>, bound <code>&lt;= 0.616 f2 z^2</code> added</td></tr>
+<tr><td><code>numerics/optimality_all/F2_RESULTS.md</code></td><td>T2 cap table</td><td><code>lam_min(M_*)</code> and <code>rank-1 gain</code> rows labelled <code>half-SLD conv.</code> with a one-line note: they are 1/2 resp. 1/4 of <code>f2_capscan.py</code>'s output (script at L=128, cap 1e10: <code>-3.4771e-02</code>, <code>3.534e-11</code>, <code>f2_capscan_L128.out</code>)</td></tr>
+</tbody>
+</table>
+<p>Compiles: <code>optimality_all_channels.pdf</code> 14 pp; <code>exact_fidelity_upper_half.pdf</code> 21 pp;</p>
+<p><code>paper1/main.pdf</code> 28 pp (pdflatex twice, unchanged); <code>fidelity_recovered_quasifree.pdf</code> 15 pp.</p>
+<p>Untouched by instruction: <code>rigor/exact_optimum_tangent_problem.tex</code>, <code>rigor/referee_*.tex</code>,</p>
+<p><code>rigor/sdp_dual_certificate.tex</code>, all numerics scripts.</p>
+<h3>KB cards (KB_ACTOR=P5-EDIT; no existing referee note edited, each card carries a dated note)</h3>
+<table>
+<thead><tr>
+<th>card</th>
+<th>old -&gt; new</th>
+</tr></thead>
+<tbody>
+<tr><td><code>cft_cmi:compression-not-second-order-minimiser</code></td><td><code>theta = 0.300(5)</code> (S10) and <code>0.29 -&gt; 0.34</code> (Galerkin) -&gt; <code>theta = 0.384 +- 0.003</code>, S10 read as a taper-suppressed lower bound, Galerkin extrapolating to the same value; <code>min_F g_Q &lt;= 0.71 f2 z^2</code> -&gt; <code>&lt;= (0.616 +- 0.003) f2 z^2</code>; <code>related</code> += <code>theta-value</code></td></tr>
+<tr><td><code>cft_cmi:compression-not-optimal-exact-fidelity</code></td><td><code>theta_fr &gt;= 0.30</code> -&gt; <code>&gt;= 0.38</code>; <code>kappa_opt &lt;= 0.71</code> -&gt; <code>&lt;= 0.616 +- 0.003</code>; item (iii) rewritten; <code>next</code> added: Phase-5 endpoint condition pending, <code>kappa_opt = 1 - theta</code> not to be recorded as settled</td></tr>
+<tr><td><code>cft_cmi:exact-fidelity-optimality-open</code></td><td><code>theta_fr &gt;= 0.30 ... kappa_opt &lt;= 0.71</code> -&gt; <code>theta_fr &gt;= 0.38 ... kappa_opt &lt;= 0.616 +- 0.003</code>; <code>next</code>: bracket <code>[D_z, 0.71 f2 z^2]</code> -&gt; <code>[D_z, (0.616 +- 0.003) f2 z^2]</code> + endpoint condition pending</td></tr>
+<tr><td><code>cft_cmi:paper1-status</code></td><td>outlook description updated (<code>theta &gt;= 0.30</code> -&gt; <code>0.384 +- 0.003</code>, bracket <code>0.71</code> -&gt; <code>0.616</code>, <code>theta_fr &gt;= 0.38</code>, RigorF3 bibitem, 28 pp unchanged)</td></tr>
+<tr><td><code>cft_cmi:theta-value</code></td><td>REF-P5-KB1 minor: <code>19 further candidates are EXCLUDED</code> -&gt; <code>16</code></td></tr>
+<tr><td><code>cft_cmi:kkt-noise-criterion-numerics</code></td><td>REF-P5-KB1 minors: cap-scan row labelled half-SLD convention (1/2 of the script's <code>lam_min</code>, 1/4 of its gain) and anchored to <code>f2_capscan_L128.out</code> (<code>-3.4771e-02</code>, <code>3.534e-11</code> at L=128, cap 1e10; added to <code>evidence</code>); <code>kappa_max = 5.4-7.7, max w = 1.1e2-1.1e3</code> restricted to h = 0.24-0.06 (h = 0.03: 8.84, 3.4e3); <code>FD to 4e-9</code> -&gt; <code>FD to &lt;= 3e-8</code></td></tr>
+<tr><td><code>cft_cmi:tangent-sdp-noise-directions</code></td><td>REF-P5-KB1 minor: <code>homogeneity x4</code> stated for the ORBIT-ONLY optimum</td></tr>
+<tr><td><code>common:taper-dependence-of-first-order-constants</code></td><td>REF-P5-KB1 minor: `</td><td></td><td>u</td><td></td><td>^2 stable to four digits<code> restricted to the taper windows S10's gate accepted (untapered </code></td><td></td><td>u</td><td></td><td>^2 = 0.014889`)</td></tr>
+</tbody>
+</table>
+<p>Not changed, deliberately: <code>open-problems-plan-note8</code> and the <code>e2-*</code> cards -- their Statements quote no</p>
+<p><code>0.30</code>/<code>0.71</code> as a current value (the <code>e2-*</code> ratios 0.708-0.711 are within-model measurements of the</p>
+<p>circle model's own <code>1 - theta</code>, and the <code>0.30</code> hits are the taper parameter <code>uv = (0.30,0.42)</code>).</p>
+<h2>Phase 6 status — multi-interval networks (O10, second half) (opened 2026-09-16)</h2>
+<p>Source: <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/PHASE6_STATUS.md"><code>rigor/PHASE6_STATUS.md</code></a></p>
+<p>Question: recovery error, order dependence ("holonomy") and universality of sequential one-sided zero-collar recovery along</p>
+<p>chains A_1 ...</p>
+<p>Decision card: kb -p cft_cmi show phase6-plan.</p>
+<p>corner-correlation-kernel, vwz-protocol-ordering (all opened 2026-09-16 by the orchestrator, unrefereed).</p>
+<h3>Tracks</h3>
+<ul>
+<li>G1a analytic (rigor/network_corner_calculus.tex): corner calculus W1, amplification lemma, separation constraint W3, type-III sequential bound W6, Protocol 3 = over-compressed Theorem A, 1(B) = 1(A).</li>
+<li>G1b analytic (rigor/network_second_order.tex): second-order network law W2 with the universal kernel Ghat(Delta), positivity, decay, closed form attempt, universality W5.</li>
+<li>G2 numerics (numerics/networks/lattice_chain.py): sequential Gaussian Petz maps on the hopping chain, VWZ protocols, 1:2:4 test, amplification, CMI telescoping, equal-block chains.</li>
+<li>G3 numerics (numerics/networks/corner_kernel.py): Ghat(Delta) in two independent frames (T0 modular cells, box modes), exact two-corner Phi at finite zeta, clustering.</li>
+</ul>
+<h3>Results</h3>
+<ul>
+<li>G1a (2026-09-16, rigor/network_corner_calculus.tex, 42 pp after the REF-P6-3 repairs, Lamport; g1a_calculus.py 33/33, g1a_separation.py 15/15).</li>
+</ul>
+<h3>Referee passes (Opus only)</h3>
+<ul>
+<li>REF-P6-3 (launched 2026-09-16 evening; brief rigor/phase6_referee_brief.md): document referee of G1a's rigor/network_corner_calculus.tex + the eight pending cards.</li>
+<li>REF-P6-0/1/2 (2026-09-16, rigor/referee_phase6_plan.md, scripts rigor/ref_p6_*.py): adversarial review of the plan and target cards.</li>
+</ul>
+<h2>Errata</h2>
+<p>Results that were wrong at some point were corrected rather than erased. Every correction is recorded, with its date and the document it touched, in <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/errata_log.md"><code>rigor/errata_log.md</code></a>.</p>
+<hr>
+<p><a href="index.html">Documentation map</a> · <a href="status.html">All claims by area</a> · <a href="open.html">What is open</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/history.md"><code>docs/history.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

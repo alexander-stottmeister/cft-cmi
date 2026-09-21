@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VWZ four-interval protocols: Phi(1):Phi(2):Phi(3) -&gt; 1:2:4; middle-out is the worst order &mdash; cft-cmi</title>
+<meta name="description" content="VWZ four-interval protocols: Phi(1):Phi(2):Phi(3) -&gt; 1:2:4; middle-out is the worst order. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../../index.html">Interactive site</a>
+    <a href="../index.html">Documentation</a>
+    <a href="../status.html">All claims</a>
+    <a href="../open.html">Open problems</a>
+    <a href="../notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>VWZ four-interval protocols: Phi(1):Phi(2):Phi(3) -&gt; 1:2:4; middle-out is the worst order</h1>
+<p><strong>Status:</strong> <code>conjectural</code> — believed, with partial evidence; not proved.</p>
+<p><strong>Area:</strong> <a href="../status.html#area-lattice-thermal">Lattice, thermal, massive and gapped geometries (O7, O9, O10)</a> · <strong>Card type:</strong> conjecture · <strong>Knowledge-base id:</strong> <code>vwz-protocol-ordering</code></p>
+<h2>Statement</h2>
+<p>In Vardhan-Wei-Zou's symmetric setup (L_A = L_D = a, L_B = L_C = b, their eta (5.9) = a/(a+2b)), the corner calculus (card corner-calculus, open) gives exactly: single step (Protocol 1(A) = 1(B)) one corner of strength zeta_1 = a/b; L-&gt;R Protocol 2 corners zeta_2 = a(a+2b)/(2b(a+b)) at p_2 and zeta_3 = a/b at p_3 with e^{Delta_23} = 1/eta; Protocol 3 one double corner of strength 2a/b at p_3 (all checked by REF-P6-0). Hence, given the corner calculus, -log F^(1) : -log F^(3) = Phi_A(a/b) : Phi_A(2a/b) exactly for all eta (-&gt; 1 : 4 as eta -&gt; 0, Theorem A twice, no hypothesis on Ghat), and, CONDITIONAL on the second-order network law with a remainder uniform in the corner separation and on Ghat(Delta) -&gt; 0 as Delta -&gt; inf (both open, corner-correlation-kernel), -log F^(2) -&gt; 2 x -log F^(1); exactly at second order Phi^(2)/Phi^(1) = (zeta_2^2 + zeta_3^2)/zeta_1^2 + (2 zeta_2 zeta_3/zeta_1^2) Ghat(log 1/eta)/Ghat(0). Middle-out is the worst of the three orders at second order with no sign hypothesis: by Cauchy-Schwarz Phi^(2) &lt;= f2 (zeta_2 + zeta_3)^2 &lt; f2 (2 zeta_1)^2 = Phi^(3) because zeta_2 &lt; zeta_1. VWZ (5.10)-(5.11), Fig. 25 state: "-log F^(2) ~ -log F^(3) ∝ f' c eta^2 with f' &lt; f, confirming that the sequential recovery is less effective than the single-step case" -- their inequality and their prose point opposite ways; the calculus contradicts the inequality (f'_3 = 4f exactly) and, at small eta, the approximate equality of Protocols 2 and 3. Their single-step coefficient (2.13), f2 ~ 0.070 c, matches our ordinary-Petz prediction 8 f2 = 0.0675 c (zeta = 2z). Fig. 25 CANNOT be read as a measurement of Ghat (REF-P6-1, rigor/ref_p6_1_fig25.py): Delta_23 = log(1/eta) is bounded below by their axis (eta^2 &lt;= 0.4 gives Delta_23 &gt;= 0.46), the corner strengths there are O(1) (zeta_1 = 2 eta/(1-eta) &gt;= 0.22 for eta &gt;= 0.1) so the second-order law does not apply, and Phi^(2) = Phi^(3) at second order would need Ghat(Delta_23)/Ghat(0) = 1.1 ... 2.1 &gt; 1, which positive-definiteness forbids; no value or sign of Ghat can be extracted from their figure -- G3 measures Ghat directly. Corner measures occurring for four intervals: {p_2} (1(A) = 1(B)), {p_2, p_3} (L-&gt;R), {p_3, p_4} (R-&gt;L), {2 x p_3} (middle-out); union conditioning regions can move corners off the junctions (corner-calculus).</p>
+<h2>How to verify</h2>
+<p>G2: lattice_chain.py at 4 x 18 sites, exact 2^n validation at n &lt;= 10; Protocol 3 against paper 1's Phi_A table; G1a for the exact statements.</p>
+<h2>Evidence</h2>
+<ul>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/phase6_brief.md">rigor/phase6_brief.md</a> — document, at <code>W4</code></li>
+<li><code>refs/VWZ_2307.14434.pdf</code> — document, at <code>Sec5</code>; held privately, not redistributed</li>
+</ul>
+<h2>Related claims</h2>
+<ul>
+<li><a href="corner-calculus.html">Corner calculus: sequential one-sided recovery = Schwarzian point masses at the junctions</a> — <code>proved</code></li>
+<li><a href="network-second-order-law.html">Second-order network law: Phi_tot = sum zeta_j zeta_k G(y_j - y_k), G = c Ghat universal</a> — <code>conjectural</code></li>
+<li><a href="const-f2.html">f2 = c/(12 pi^2)</a> — <code>proved</code></li>
+</ul>
+<h2>Review</h2>
+<p><strong>Review record:</strong> passed 2026-09-16 by REF-P6-2.</p>
+<p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
+<hr>
+<p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/results/vwz-protocol-ordering.md"><code>docs/results/vwz-protocol-ordering.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

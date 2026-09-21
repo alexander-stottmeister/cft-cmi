@@ -1,0 +1,399 @@
+#!/usr/bin/env python3
+"""Render the generated Markdown documentation as HTML for GitHub Pages.
+
+`docs/*.md` stays the source: it is what GitHub renders when someone browses the
+repository, and what `build_docs.py` compares against the knowledge base.  GitHub
+Pages renders none of it.  `docs/.nojekyll` turns Jekyll off, so a `.md` file is
+served as a raw download, and every link from the interactive site into the
+documentation used to land a reader on a text file.  This module writes the
+mirror those links point at instead: `docs/read/`, one `.html` per `.md`, same
+directory structure, so a relative link between two documentation pages is the
+same string in both trees.
+
+The Markdown is not arbitrary.  `build_docs.py` wrote it, so the subset is closed
+and small: ATX headings, paragraphs, bullet lists, pipe tables, block quotes,
+horizontal rules, HTML comments and bare anchor tags as blocks; code spans, bold,
+italic, links and backslash escapes inline.  Nothing here guesses.  A construct
+outside that subset raises `Unsupported`, because rendering an unknown line as a
+paragraph is how a generated page starts quietly lying.
+
+Three link classes occur, and each has one correct answer on Pages, where only
+`docs/` is published:
+
+  * another documentation page      ->  the same relative path, `.md` -> `.html`
+  * a file elsewhere in the repo    ->  an absolute blob URL, since it is not deployed
+  * a directory                     ->  its `index.html` inside the mirror
+"""
+import html
+import posixpath
+import re
+
+# The same spelling as REPO in docs/lib/ui.js.  Both point a reader at the file
+# a number came from; neither is fetched at runtime.
+REPO_BLOB = "https://github.com/alexander-stottmeister/cft-cmi/blob/main/"
+
+PUNCT = set("!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~")
+
+
+class Unsupported(Exception):
+    """A Markdown construct this renderer was not told about."""
+
+
+def esc(text: str) -> str:
+    """Escape a text node.  Quotes are left alone; attributes use attr()."""
+    return html.escape(text, quote=False)
+
+
+def attr(text: str) -> str:
+    return html.escape(text, quote=True)
+
+
+# --------------------------------------------------------------------- inline
+
+def _closing(text: str, start: int, token: str) -> int:
+    """Index of the next unescaped `token` at or after `start`, or -1."""
+    i = start
+    while i < len(text):
+        if text[i] == "\\" and i + 1 < len(text):
+            i += 2
+            continue
+        if text[i] == "`":                      # a code span hides its contents
+            j = text.find("`", i + 1)
+            i = len(text) if j < 0 else j + 1
+            continue
+        if text.startswith(token, i):
+            return i
+        i += 1
+    return -1
+
+
+def _link_text_end(text: str, start: int) -> int:
+    """Index of the `]` closing the `[` at `start`, or -1.  Nesting is not a
+    case the generator produces, so one level is enough."""
+    i = start + 1
+    while i < len(text):
+        c = text[i]
+        if c == "\\" and i + 1 < len(text):
+            i += 2
+            continue
+        if c == "`":
+            j = text.find("`", i + 1)
+            i = len(text) if j < 0 else j + 1
+            continue
+        if c == "]":
+            return i
+        i += 1
+    return -1
+
+
+def inline(text: str, link) -> str:
+    """Render one run of inline Markdown.  `link` rewrites a link target."""
+    out = []
+    i = 0
+    n = len(text)
+    while i < n:
+        c = text[i]
+        if c == "\\" and i + 1 < n and text[i + 1] in PUNCT:
+            out.append(esc(text[i + 1]))
+            i += 2
+        elif c == "`":
+            j = text.find("`", i + 1)
+            if j < 0:                            # an unpaired tick is literal
+                out.append(esc(c))
+                i += 1
+            else:
+                out.append("<code>%s</code>" % esc(text[i + 1:j]))
+                i = j + 1
+        elif c == "[":
+            end = _link_text_end(text, i)
+            if end < 0 or end + 1 >= n or text[end + 1] != "(":
+                out.append(esc(c))
+                i += 1
+                continue
+            close = text.find(")", end + 2)
+            if close < 0:
+                out.append(esc(c))
+                i += 1
+                continue
+            label = text[i + 1:end]
+            target = text[end + 2:close]
+            out.append('<a href="%s">%s</a>' % (attr(link(target)), inline(label, link)))
+            i = close + 1
+        elif text.startswith("**", i):
+            j = _closing(text, i + 2, "**")
+            if j < 0:
+                out.append(esc("*"))
+                i += 1
+            else:
+                out.append("<strong>%s</strong>" % inline(text[i + 2:j], link))
+                i = j + 2
+        elif c == "*":
+            j = _closing(text, i + 1, "*")
+            if j < 0:
+                out.append(esc(c))
+                i += 1
+            else:
+                out.append("<em>%s</em>" % inline(text[i + 1:j], link))
+                i = j + 1
+        else:
+            out.append(esc(c))
+            i += 1
+    return "".join(out)
+
+
+# --------------------------------------------------------------------- blocks
+
+HEADING = re.compile(r"^(#{1,6}) +(.*)$")
+BULLET = re.compile(r"^[-*] +(.*)$")
+RULE = re.compile(r"^-{3,}\s*$")
+ANCHOR = re.compile(r'^<a id="[A-Za-z0-9_-]+"></a>\s*$')
+ALIGN = re.compile(r"^:?-{2,}:?$")
+
+
+def _starts_block(line: str) -> bool:
+    s = line.rstrip()
+    return bool(not s.strip() or HEADING.match(s) or RULE.match(s) or ANCHOR.match(s)
+                or BULLET.match(s) or s.startswith(("|", ">", "<!--")))
+
+
+def split_row(row: str) -> list:
+    """Split a table row on unescaped pipes."""
+    cells, cur, i = [], [], 0
+    while i < len(row):
+        c = row[i]
+        if c == "\\" and i + 1 < len(row):
+            cur.append(row[i:i + 2])
+            i += 2
+        elif c == "|":
+            cells.append("".join(cur))
+            cur = []
+            i += 1
+        else:
+            cur.append(c)
+            i += 1
+    cells.append("".join(cur))
+    return [c.strip() for c in cells[1:-1]]      # the leading and trailing bars
+
+
+def blocks(lines: list):
+    i, n = 0, len(lines)
+    while i < n:
+        line = lines[i].rstrip()
+        if not line.strip():
+            i += 1
+            continue
+        if line.lstrip().startswith("<!--"):     # generator notes, not for a reader
+            j = i
+            while j < n and "-->" not in lines[j]:
+                j += 1
+            i = j + 1
+            continue
+        if ANCHOR.match(line):
+            yield ("anchor", line.strip())
+            i += 1
+            continue
+        m = HEADING.match(line)
+        if m:
+            yield ("heading", (len(m.group(1)), m.group(2).strip()))
+            i += 1
+            continue
+        if RULE.match(line):
+            yield ("rule", None)
+            i += 1
+            continue
+        if line.startswith("|"):
+            j = i
+            while j < n and lines[j].rstrip().startswith("|"):
+                j += 1
+            yield ("table", [l.rstrip() for l in lines[i:j]])
+            i = j
+            continue
+        if line.startswith(">"):
+            j = i
+            while j < n and lines[j].rstrip().startswith(">"):
+                j += 1
+            yield ("quote", [re.sub(r"^> ?", "", l.rstrip()) for l in lines[i:j]])
+            i = j
+            continue
+        if BULLET.match(line):
+            j = i
+            while j < n and BULLET.match(lines[j].rstrip()):
+                j += 1
+            yield ("list", [BULLET.match(l.rstrip()).group(1) for l in lines[i:j]])
+            i = j
+            continue
+        if lines[i].startswith(("    ", "\t")):
+            raise Unsupported("indented code block at line %d: %r" % (i + 1, lines[i]))
+        j = i
+        while j < n and lines[j].strip() and not _starts_block(lines[j]):
+            j += 1
+        yield ("paragraph", [l.rstrip() for l in lines[i:j]])
+        i = j
+
+
+def render_table(rows: list, link) -> str:
+    if len(rows) < 2 or not all(ALIGN.match(c) for c in split_row(rows[1])):
+        raise Unsupported("a pipe table without an alignment row: %r" % rows[:2])
+    head = split_row(rows[0])
+    aligns = ["num" if c.endswith(":") and not c.startswith(":") else ""
+              for c in split_row(rows[1])]
+
+    def cls(k):
+        a = aligns[k] if k < len(aligns) else ""
+        return ' class="%s"' % a if a else ""
+
+    out = ["<table>", "<thead><tr>"]
+    out += ["<th%s>%s</th>" % (cls(k), inline(c, link)) for k, c in enumerate(head)]
+    out.append("</tr></thead>")
+    if len(rows) > 2:
+        out.append("<tbody>")
+        for row in rows[2:]:
+            cells = split_row(row)
+            out.append("<tr>" + "".join(
+                "<td%s>%s</td>" % (cls(k), inline(c, link)) for k, c in enumerate(cells)
+            ) + "</tr>")
+        out.append("</tbody>")
+    out.append("</table>")
+    return "\n".join(out)
+
+
+def render_body(text: str, link) -> tuple:
+    """Return (title, body html).  The title is the first level-1 heading."""
+    title, out = "", []
+    for kind, payload in blocks(text.splitlines()):
+        if kind == "anchor":
+            out.append(payload)
+        elif kind == "heading":
+            level, content = payload
+            if level == 1 and not title:
+                title = re.sub(r"[`*]", "", content)
+            out.append("<h%d>%s</h%d>" % (level, inline(content, link), level))
+        elif kind == "rule":
+            out.append("<hr>")
+        elif kind == "table":
+            out.append(render_table(payload, link))
+        elif kind == "quote":
+            _, inner = render_body("\n".join(payload), link)
+            out.append("<blockquote>\n%s\n</blockquote>" % inner)
+        elif kind == "list":
+            out.append("<ul>\n%s\n</ul>" % "\n".join(
+                "<li>%s</li>" % inline(item, link) for item in payload))
+        elif kind == "paragraph":
+            out.append("<p>%s</p>" % inline("\n".join(payload), link))
+        else:                                    # unreachable; blocks() is closed
+            raise Unsupported("block kind %r" % kind)
+    return title, "\n".join(out)
+
+
+# ----------------------------------------------------------------- link rules
+
+def make_link(md_rel: str):
+    """Rewrite a link target found in docs/<md_rel> for the mirror page."""
+    here = posixpath.dirname(md_rel)
+
+    def link(target: str) -> str:
+        if not target or target.startswith(("#", "http://", "https://", "mailto:")):
+            return target
+        path, sep, frag = target.partition("#")
+        frag = sep + frag
+        if not path:
+            return target
+        repo_rel = posixpath.normpath(posixpath.join("docs", here, path))
+        if repo_rel.startswith("../"):
+            raise Unsupported("link escapes the repository: %r in %s" % (target, md_rel))
+        if not (repo_rel == "docs" or repo_rel.startswith("docs/")):
+            return REPO_BLOB + repo_rel + frag   # not deployed to Pages
+        if path.endswith("/"):
+            return path + "index.html" + frag
+        if path.endswith(".md"):
+            return path[:-3] + ".html" + frag    # same shape in both trees
+        return "../" + path + frag               # the mirror sits one level deeper
+
+    return link
+
+
+# ---------------------------------------------------------------------- shell
+
+def shell(title: str, body: str, html_rel: str, md_rel: str = "") -> str:
+    depth = html_rel.count("/")
+    to_read = "../" * depth                      # root of the mirror
+    to_docs = "../" * (depth + 1)                # root of docs/
+    nav = [("Interactive site", to_docs + "index.html"),
+           ("Documentation", to_read + "index.html"),
+           ("All claims", to_read + "status.html"),
+           ("Open problems", to_read + "open.html"),
+           ("Notation", to_read + "notation.html")]
+    return """<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title} &mdash; cft-cmi</title>
+<meta name="description" content="{title}. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="{to_docs}lib/site.css">
+<script>try{{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}}catch(e){{}}</script>
+<style>
+  main.wrap {{ padding-top: .5rem; }}
+  main.wrap table {{ margin: .6rem 0 1.2rem; }}
+  main.wrap blockquote {{ margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }}
+  main.wrap hr {{ border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }}
+  main.wrap li {{ margin: .18rem 0; }}
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="{to_docs}index.html">cft-cmi</a></span>
+  <nav>
+{nav}
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+{body}
+</main>
+<footer class="site"><div class="wrap">
+  <p>{source}This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import {{ initTheme }} from '{to_docs}lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>
+""".format(title=attr(title or "Documentation"), body=body, to_docs=to_docs,
+           source=("" if not md_rel else
+                   'Rendered from <a href="%sdocs/%s"><code>docs/%s</code></a>, which is the '
+                   "source and is what GitHub shows when you browse the repository. "
+                   % (REPO_BLOB, attr(md_rel), esc(md_rel))),
+           nav="\n".join('    <a href="%s">%s</a>' % (attr(href), esc(label))
+                         for label, href in nav))
+
+
+def render_page(md_text: str, md_rel: str) -> str:
+    title, body = render_body(md_text, make_link(md_rel))
+    return shell(title, body, md_rel[:-3] + ".html", md_rel)
+
+
+def title_of(md_text: str) -> str:
+    """The first level-1 heading, without inline markup.  Empty if there is none."""
+    for line in md_text.splitlines():
+        m = HEADING.match(line.rstrip())
+        if m and len(m.group(1)) == 1:
+            return re.sub(r"[`*]", "", m.group(2).strip())
+    return ""
+
+
+def results_index(titles: dict) -> str:
+    """The mirror needs a page at read/results/, because two documentation pages
+    link to the directory and Pages does not list directories."""
+    rows = "\n".join(
+        '<li><a href="%s.html">%s</a></li>' % (attr(name), esc(titles[name]))
+        for name in sorted(titles))
+    body = ("<h1>Result pages</h1>\n"
+            "<p>One page per consequential claim, %d in all, generated from the "
+            "knowledge base. The same list with statuses and areas is on "
+            "<a href=\"../status.html\">All claims</a>.</p>\n"
+            "<ul>\n%s\n</ul>" % (len(titles), rows))
+    return shell("Result pages", body, "results/index.html")

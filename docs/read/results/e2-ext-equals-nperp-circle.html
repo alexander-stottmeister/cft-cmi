@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NS-circle model: Ext = N^perp exactly, with the dimension identity (L-|I|)^2 &mdash; cft-cmi</title>
+<meta name="description" content="NS-circle model: Ext = N^perp exactly, with the dimension identity (L-|I|)^2. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../../index.html">Interactive site</a>
+    <a href="../index.html">Documentation</a>
+    <a href="../status.html">All claims</a>
+    <a href="../open.html">Open problems</a>
+    <a href="../notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>NS-circle model: Ext = N^perp exactly, with the dimension identity (L-|I|)^2</h1>
+<p><strong>Status:</strong> <code>numerical</code> — measured, with an error bar and a convergence order; not a theorem.</p>
+<p><strong>Area:</strong> <a href="../status.html#area-optimality">Optimality of recovery channels (O8, Phases 3 and 3b)</a> · <strong>Card type:</strong> result · <strong>Knowledge-base id:</strong> <code>e2-ext-equals-nperp-circle</code></p>
+<h2>Statement</h2>
+<p>In S10's spectral NS-circle model (exact Hardy projection P of rank k = L/2, I = A u D an arc of m = |I| sites, m &gt; L/2) both spanning maps are DIAGONALISED exactly: with Q = E_I P E_I (eigenvalues q, basis U) one has E_I(P^perp l P + P l P^perp)E_I = (1-Q) l Q + Q l (1-Q), so ||P^perp l P||_2^2 = (1/2) sum_ij den_ij |l_ij|^2 with den_ij = q_i(1-q_j)+q_j(1-q_i); likewise for Z anti-Hermitian on I^c with Qc = E_{I^c} P E_{I^c}. Hence dim_R N = m^2 - 2 z^2 with z = m - L/2 (rank Q = rank(1-Q) = L/2 forces z exact zero and z exact unit eigenvalues, and den vanishes exactly on the (0,0) and (1,1) pairs), dim_R S_2(PH,P^perp H) = L^2/2, and dim_R N^perp = L^2/2 - m^2 + 2z^2 = (L/2 - z)^2 = (L-m)^2 = dim_R Ext. Together with L1 (Ext subset N^perp) this gives Ext = N^perp EXACTLY at every L. Brute-force verification with explicit real bases at L = 32, 48: ranks 316/196 and 711/441 match the formula exactly and all principal angles between Ext and N^perp are 0 (cos = 1.0000000000 to 10 digits); at L = 64 double precision loses 22 of 1319 dimensions of N to roundoff but all principal angles are still 0.</p>
+<h2>How to verify</h2>
+<p>run numerics/optimality_all/e2_subspaces.py; part (A) prints 'cos(angle) min=1.0000000000' and ranks equal to the predicted m^2-2z^2 and (L-m)^2</p>
+<h2>Evidence</h2>
+<ul>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/e2_subspaces.py">numerics/optimality_all/e2_subspaces.py</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/e2_common.py">numerics/optimality_all/e2_common.py</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exterior_extension_numerics.tex">rigor/exterior_extension_numerics.tex</a> — document, at <code>sec:dims</code></li>
+</ul>
+<h2>Related claims</h2>
+<ul>
+<li><a href="finite-dim-exterior-density.html">Finite chains: exterior directions span exactly the invisible space (Ext = N^perp)</a> — <code>numerical</code></li>
+<li><code>phase4-plan</code> — <code>done</code>, no page of its own</li>
+<li><a href="exact-fidelity-optimality-open.html">Is the compression beaten in EXACT fidelity?</a> — <code>numerical</code></li>
+</ul>
+<h2>Review</h2>
+<p><strong>Review record:</strong> passed 2026-09-15 by REF-KB-7.</p>
+<p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
+<hr>
+<p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/results/e2-ext-equals-nperp-circle.md"><code>docs/results/e2-ext-equals-nperp-circle.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

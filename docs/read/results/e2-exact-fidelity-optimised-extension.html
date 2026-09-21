@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exact -1/2 log det(1-V^\V) with the optimised extension confirms (UH) beyond first order &mdash; cft-cmi</title>
+<meta name="description" content="Exact -1/2 log det(1-V^\V) with the optimised extension confirms (UH) beyond first order. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../../index.html">Interactive site</a>
+    <a href="../index.html">Documentation</a>
+    <a href="../status.html">All claims</a>
+    <a href="../open.html">Open problems</a>
+    <a href="../notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>Exact -1/2 log det(1-V^*V) with the optimised extension confirms (UH) beyond first order</h1>
+<p><strong>Status:</strong> <code>numerical</code> — measured, with an error bar and a convergence order; not a theorem.</p>
+<p><strong>Area:</strong> <a href="../status.html#area-optimality">Optimality of recovery channels (O8, Phases 3 and 3b)</a> · <strong>Card type:</strong> result · <strong>Knowledge-base id:</strong> <code>e2-exact-fidelity-optimised-extension</code></p>
+<h2>Statement</h2>
+<p>With the Tikhonov-optimised exterior generator Z_e (mu = 1e-8; the mu = 1e-4 rows overshoot by 3e-3 and are not used) and W~ = exp(Z_pre + Z_e), Z_pre = -s D_chi resp. -s(D_chi + eps_* G_*), the EXACT Uhlmann exponent UH = -(1/2) log det(1 - V^*V), V = P^perp W~ P (singular values, log1p), satisfies at L = 128..384 and s = 0.001, 0.002, 0.005: UH_compr / ((1/2) s^2 |u|^2) between 1.00000 (s = 0.001) and 0.99981 (s = 0.005, L = 384), i.e. equal to the first-order UB to within 2e-4, the deficit a clean O(s^2); UH_rot / ((1/2) s^2 |u|^2) = 0.70885 (L=128), 0.71125 (192), 0.71057 (256), 0.70764 (384) at s = 0.001, against 1 - theta = 0.70890, 0.71120, 0.71051, 0.70767: agreement to about 5e-5, i.e. four significant digits; decreasing slightly with s (0.70714 at s = 0.005, L = 384). The two second-order-inequivalent constructions exp(Z_pre) exp(Z_e) and W_s exp(-s eps_* G_*) exp(Z_e) give values below the sum version (0.70596 and 0.70810 at L = 128, s = 0.001). Hence (UH) holds in this model beyond first order, with room to spare.</p>
+<h2>How to verify</h2>
+<p>run numerics/optimality_all/e2_exact.py; compare the columns 'UB', 'exact sum', 'prod' against the printed (1-theta)*(1/2 s^2|u|^2)</p>
+<h2>Evidence</h2>
+<ul>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/e2_exact.py">numerics/optimality_all/e2_exact.py</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exterior_extension_numerics.tex">rigor/exterior_extension_numerics.tex</a> — document, at <code>sec:exact</code></li>
+</ul>
+<h2>Related claims</h2>
+<ul>
+<li><a href="e2-optimised-uhlmann.html">Optimised exterior extension: UB_c = (1/2)s^2|u|^2 exactly and UB_rot/UB_c = 1-theta</a> — <code>numerical</code></li>
+<li><a href="exact-fidelity-optimality-open.html">Is the compression beaten in EXACT fidelity?</a> — <code>numerical</code></li>
+<li><code>phase4-plan</code> — <code>done</code>, no page of its own</li>
+</ul>
+<h2>Review</h2>
+<p><strong>Review record:</strong> passed 2026-09-15 by REF-KB-9.</p>
+<p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
+<hr>
+<p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/results/e2-exact-fidelity-optimised-extension.md"><code>docs/results/e2-exact-fidelity-optimised-extension.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

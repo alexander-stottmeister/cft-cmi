@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S10&#x27;s circle model: the ultraviolet taper suppresses theta by \~20%, and there is no taper-free limit &mdash; cft-cmi</title>
+<meta name="description" content="S10&#x27;s circle model: the ultraviolet taper suppresses theta by \~20%, and there is no taper-free limit. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../../index.html">Interactive site</a>
+    <a href="../index.html">Documentation</a>
+    <a href="../status.html">All claims</a>
+    <a href="../open.html">Open problems</a>
+    <a href="../notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>S10's circle model: the ultraviolet taper suppresses theta by ~20%, and there is no taper-free limit</h1>
+<p><strong>Status:</strong> <code>numerical</code> — measured, with an error bar and a convergence order; not a theorem.</p>
+<p><strong>Area:</strong> <a href="../status.html#area-optimality">Optimality of recovery channels (O8, Phases 3 and 3b)</a> · <strong>Card type:</strong> finding · <strong>Knowledge-base id:</strong> <code>circle-model-taper-suppresses-theta</code></p>
+<h2>Statement</h2>
+<p>Mechanism of the 0.300 vs 0.384 discrepancy. (1) In the NS-circle model of S10 Sec 7 the smoothstep taper on the spectral derivative (window uv in units of L; the Nyquist and the grid's second Fermi point both sit at |nu|/L = 0.5) damps exactly the ultraviolet modes near the moving endpoint where G_* lives. At L=256, a=2, Lg=1: theta = 0.27762, 0.28958, 0.36178, 0.72688, 0.54681 for uv = (0.20,0.32), (0.30,0.42), (0.35,0.47), (0.42,0.49), (0.46,0.499), and 0.17175 with no taper. The sweep is NOT a one-parameter scan: the first three windows share a transition width 0.12, and at that fixed width theta rises monotonically as the taper is relaxed at every L in the file (L=512: 0.28986, 0.29511, 0.32313; L=768: 0.29569, 0.29898, 0.31573); the last two have widths 0.07 and 0.039, and their theta = 0.72688, 0.54681 are artifacts of the sharp transition, not taper-strength data (REF-P0-TAPER). (2) There is NO taper-free limit: without the taper the periodic grid's second Fermi point (nu = +-L/2) doubles the Fermi sea and |u|^2 with it, 0.00739 -&gt; 0.014889 (ratio 2.016), reproducibly in L (0.014889, 0.014912, 0.014921 at L = 256, 512, 768) with theta stuck at 0.17175, 0.19652, 0.20822: the untapered model is STABLE, it simply solves a different problem. Moving the taper's upper edge onto the second Fermi point at fixed transition width does the same (uv = (0.38,0.50): |u|^2 = 0.024005, theta = 0.56798). The |u|^2 = 0.02731 and 0.62691 of the two narrow windows are a separate, transition-sharpness (Gibbs) artifact, NOT the second Fermi point: at the same upper edge with a wider transition the norm is healthy again (uv = (0.25,0.49): 0.007628, theta = 0.36040; uv = (0.09,0.49): 0.007404, theta = 0.30780) (REF-P0-TAPER controls). So the taper is necessary AND it biases theta downwards; S10's window (0.30,0.42) is the safe one and its theta lies below the taper-free value at every L measured; a wider-transition window that passes the same gate more comfortably, uv = (0.25,0.49) (transition width 0.24, |u|^2 3.3% off against the 4.7% for which S10 discards (0.35,0.47)), already gives theta = 0.36040, the taper-free same-mesh value (no superlative is claimed: (0.09,0.49) has a wider transition still and a better norm, 0.007404, but damps the mid-band and gives 0.30780). (3) Proof that the MESH is not responsible (that the taper is the cause is (1)): running the modular Galerkin functional (exact vacuum symbol in closed form, exact continuum defect kernel, no taper, no cap) on the CIRCLE MODEL'S OWN MESH -- cells whose edges are the xi-midpoints of theta_j = 2 pi j / L mapped by xi = log((x+a)/(Lg-x)), x = tan(theta_j/2) -- gives theta = 0.34058, 0.35830, 0.36904, 0.37534, 0.37893 at L = 128, 256, 512, 1024, 2048, i.e. the Galerkin values, at the same |D| and the same geometry where the tapered circle model gives 0.291, 0.290, 0.295, with |D| = 31, 63, 127, 255 on both sides; and the endpoint cap is not doing the work, since extending it to xi_max = 8.81, 20.81, 260.81 moves theta 0.35830 -&gt; 0.35922 -&gt; 0.35938 -&gt; 0.35938 and saturates (f3_mimic_deep.out). (4) Consequently S10's Richardson in 1/L is also misapplied: the tapered theta_circ rises linearly in log L (theta = 0.28958 -&gt; 0.30173 from L = 256 to 1024; d theta/d log L is flat at 0.0095-0.0096 over L = 512..1024, 0.0094 over 384..1024, and 0.0088 across the quoted endpoints), so continuing that trend to 0.384 would need xi_max ~ 14.8, L ~ 5e6 -- which is a reductio, since a law linear in log L is unbounded and cannot converge to 0.384 at all. S10's proofs P1-P5 and the qualitative conclusions DRAWN FROM theta &gt; 0 ((S) fails, the compression is not the second-order minimiser, E^(2) &lt;= (1-theta) f2 z^2) stand and are strengthened: 1 - theta = 0.616 +- 0.003 instead of 0.70. What does NOT stand is S10's own N2, 'ultraviolet-taper independent', and its verdict box's stability 'in L ... in the ultraviolet taper' (sdp_dual_certificate.tex l.861-863, l.911-913); and N3's non-perturbative 0.705 is a consistency check of the tapered model, not a measurement of 1 - theta.</p>
+<h2>How to verify</h2>
+<p>cd numerics/optimality_all; $V/bin/python f3_circ2.py taper (fast solver, validated against s10_diag.py at L=256: 0.28958) and f3_circ2.py Lsweep; f3_mimic.py main|big for the circle-mesh cross test. F3_RESULTS.md Sec. 5.</p>
+<h2>Evidence</h2>
+<ul>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/f3_circ_taper2.out">numerics/optimality_all/f3_circ_taper2.out</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/f3_circ_L.out">numerics/optimality_all/f3_circ_L.out</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/f3_mimic.out">numerics/optimality_all/f3_mimic.out</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/f3_mimic_big.out">numerics/optimality_all/f3_mimic_big.out</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/f3_mimic_deep.out">numerics/optimality_all/f3_mimic_deep.out</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/optimality_all/F3_RESULTS.md">numerics/optimality_all/F3_RESULTS.md</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/sdp_dual_certificate.tex">rigor/sdp_dual_certificate.tex</a> — document, at <code>sec:num</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/referee_taper_card.md">rigor/referee_taper_card.md</a> — document</li>
+</ul>
+<h2>Related claims</h2>
+<ul>
+<li><a href="theta-value.html">The first-order gain constant theta = 0.384 +- 0.003 (S10's 0.300 is a taper-suppressed lower bound)</a> — <code>numerical</code></li>
+<li><code>phase5-plan</code> — <code>done</code>, no page of its own</li>
+<li><code>theta-modular-wiener-hopf</code> — <code>open</code>, no page of its own</li>
+</ul>
+<h2>Review</h2>
+<p><strong>Review record:</strong> passed 2026-09-21 by REF-P0-TAPER-b.</p>
+<p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
+<hr>
+<p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/results/circle-model-taper-suppresses-theta.md"><code>docs/results/circle-model-taper-suppresses-theta.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>
