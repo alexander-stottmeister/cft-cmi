@@ -1,18 +1,15 @@
-# REF-README-1 — `readme-and-figures`: pass 1 **FAIL**, pass 2 (REF-README-1b) **FAIL** (2026-09-21)
+# REF-README-1 — `readme-and-figures`: pass 1 FAIL, pass 2 FAIL, **pass 3 (REF-README-1c) PASS** (2026-09-21)
 
-**Pass 2.** D1-D5, D9, D10 repaired and verified: badge now `numerical` with the θ > 0 reason; the `proved`
-sentence ends at "convex tangent programme" and attainment sits in the conditional paragraph, matching
-`exact_optimum_tangent_problem.tex` §Conditional(4); CHECKLIST link gone; §10/§13 corrected; Prop. 9.1 /
-Lem. 9.2 confirmed in the `.aux`, (H) stated with the two-interval start, and the 1:4 (unconditional) /
-1:2 (needs the network law) split matches card `vwz-protocol-ordering`; 1012 lines, 0 unreachable, figures
-byte-identical on re-run. **Three remain.** (D8b) (V)→upper and Araki→lower are the right ends, but Gap RK2
-says the Araki sources were **NOT OBTAINED** and (ii) is "carried as a hypothesis" — the README instead
-picks "taken from an obtainable source", the wrong one of its own four dispositions. (D6b) `0.969`–`0.990`
-matches no window of table [2] (η ≤ 0.02 → 0.9686-0.9953; η ≤ 0.05 → 0.9489-0.9967) and no η range is
-stated, though the column falls to 0.41 at large η. (D7b) README F4 still badges the S10 value
-`superseded`, which no card carries (`docs/status.md` lists 2, neither this); the SVG sentence is now
-broken English, "the model has no taper-free limit, and superseded by the reconciliation"; orphan comment
-at `make_figures.py:846`.
+**Pass 3.** The last three are closed. D8: the Kubo-Mori lower end now reads "rests on results of Araki
+whose sources were NOT OBTAINED, so it too is carried as a hypothesis (Gap RK2)" — the correct one of the
+four §11 dispositions, and the ends are attributed as `kubo_mori_gauge_lemma.tex` l.811/815/816 has them.
+D6: the window is named and every figure reproduces — nine geometries at η_V ≤ 0.02, ratio 0.9686-0.9953
+(λ=0.5), 0.9715-0.9907 (λ=1), 0.9795-0.9917 (λ=1.5), and over all 52 geometries 0.8151/0.6396/0.4111 →
+"0.82, 0.64, 0.41". D7: no `superseded` badge; the README says in words that the reconciliation supersedes
+the S10 value and admits no card carries that status; the SVG caption is grammatical; orphan comment gone.
+No regression in D1-D5, D9, D10: `make figures` byte-identical, AST finds 0 unreachable lines, no CHECKLIST
+link, `tools/check_links.py` reports 1103 links resolving with github.com the only external host.
+Pass-1 table below; every row not marked a defect was verified against the cited file and still holds.
 
 | README | claim | source | verdict |
 |---|---|---|---|

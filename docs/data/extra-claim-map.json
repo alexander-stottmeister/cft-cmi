@@ -3181,11 +3181,11 @@
    "statement": "tools/make_figures.py (stdlib only; matplotlib is not installed, so the SVG is written by hand) regenerates five theme-aware SVGs into docs/assets/: geometry.svg (F1, original schematic: A,B,C, the collar, k_s = id on A and h_s(x) = Lx/(L+sx) on D=BC, zeta = as/(a+L), CMI from adjacent_interval_cmi_longo_xu.tex); quadratic-law.svg (F2, log-log Phi vs zeta over the measured range 0.00833-17.067 with the f2 zeta^2 asymptote and a remainder panel; certified brackets from numerics/results_hp2.txt, best estimates from fidelity_table_largezeta.tex, f2 = 0.008444(1) from fidelity_tables.tex); universality.svg (F3, the proved line f2 = c/(12 pi^2) with three measurements all at c = 1: fermion 0.008444(1), boson 0.00844(2) from numerics/boson/README.md, lattice Phi/zeta^2 = 0.008454 at zeta = 0.03175, n = 72 from numerics/lattice/petz_lattice.out); theta-ladder.svg (F4, the Galerkin and T0 h-ladders on an h^0.77 axis extrapolating to theta = 0.384 +- 0.003, beside the superseded taper-suppressed circle value 0.300 +- 0.005, from numerics/optimality_all/F3_RESULTS.md); corner-calculus.svg (F5, three protocols and their Schwarzian masses, drawn from Thm 5.2 and Thm 5.3 of rigor/network_corner_calculus.tex with Examples ex:displaced and ex:swallow as the two (H) failures). Every parser asserts against its source file and the script fails loudly on drift; no number is typed in. README.md (377 lines) follows section 1 of rigor/public_site_plan.md: 12 numbered sections, per-result status badges in the project vocabulary, hypotheses named for all-channel-optimum-value (H1,H2,H3) and for the junction form (H), PDFs linked to the GitHub release rather than to gitignored paths, open problems verbatim from the KB, the paper1 provenance text verbatim, LICENSE and THIRD-PARTY.md, and a final section naming the two documents that do not build with their line numbers.",
    "verify": null,
    "next": null,
-   "review": "FAILED 2026-09-21 by REF-README-1b",
+   "review": "passed 2026-09-21 by REF-README-1c",
    "refereed": true,
    "awaiting_review": false,
-   "verdicts": 2,
-   "review_failed": true,
+   "verdicts": 3,
+   "review_failed": false,
    "page": null,
    "related": [],
    "evidence": [
@@ -4296,7 +4296,7 @@
    "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published; the line this record links to is the count itself."
   },
   {
-   "value": 2,
+   "value": 1,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
    "line": 4299,
