@@ -877,18 +877,32 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--check", action="store_true",
                     help="re-extract and exit non-zero if a committed JSON has drifted")
+    ap.add_argument("--allow-missing-kb", action="store_true",
+                    help="if the knowledge base is not beside the repository, check the "
+                         "three data files that come from result files and skip the claim "
+                         "map, which cannot be rebuilt without it.  Continuous integration "
+                         "needs this; a working clone does not, and without the flag a "
+                         "missing knowledge base is still an error.")
     args = ap.parse_args(argv)
-    builders = (
+    builders = [
         ("extra-separation.json", build_separation),
         ("extra-off-criticality.json", build_off_criticality),
         ("extra-relative-entropy.json", build_relative_entropy),
         ("extra-claim-map.json", build_claim_map),
-    )
+    ]
+    # The claim map is the only payload that reads the knowledge base, which is a
+    # separate private repository.  Dropping it is a deliberate, announced choice,
+    # never a silent one: the name of the unchecked file is printed either way.
+    skipped = None
+    if args.allow_missing_kb and not KB.is_dir():
+        skipped = builders.pop()[0]
     try:
         payloads = [(name, fn()) for name, fn in builders]
     except Drift as exc:
         print("EXTRACTION FAILED: %s" % exc, file=sys.stderr)
         return 2
+    if skipped:
+        print("  NOT CHECKED, no knowledge base at %s: docs/data/%s" % (KB, skipped))
     ok = True
     for name, payload in payloads:
         ok = dump(name, payload, args.check) and ok

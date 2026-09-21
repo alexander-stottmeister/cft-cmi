@@ -23,9 +23,13 @@ jobs:
         # internally consistent and that nothing links outside the repository.
         run: python3 tools/check_links.py
       - name: site data matches its source files
+        # --allow-missing-kb drops the claim map, the one payload built from the
+        # knowledge base, which is a separate private repository this runner does
+        # not have.  The other three come from result files in this repository and
+        # are checked here; the skipped file is named in the log.
         run: |
           python3 tools/build_site_data.py --check
-          python3 tools/build_site_data_extra.py --check
+          python3 tools/build_site_data_extra.py --check --allow-missing-kb
       - name: figures are reproducible
         run: |
           python3 tools/make_figures.py
@@ -36,9 +40,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: TeX Live
+        # --no-install-recommends keeps the download small, so every package has to
+        # be named.  texlive-pictures carries tikz, which paper1 loads directly and
+        # which tcolorbox pulls in for every rigor document; lmodern is the text font
+        # of both papers and of rigor_preamble.tex.
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends texlive-latex-recommended texlive-latex-extra texlive-science texlive-fonts-recommended
+          sudo apt-get install -y --no-install-recommends \
+            texlive-latex-recommended texlive-latex-extra texlive-science \
+            texlive-fonts-recommended texlive-pictures lmodern
       - name: the two papers build
         run: make papers
       - name: the rigor documents that are expected to build still do

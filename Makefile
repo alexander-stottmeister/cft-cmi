@@ -5,7 +5,7 @@
 #  Every target is re-runnable and writes
 # only inside the repository.  See rigor/public_site_plan.md section 4.
 PYTHON ?= python3
-.PHONY: all docs figures data papers check site clean-site help
+.PHONY: all docs figures data papers check rigor site clean-site help
 
 help:
 	@echo "make docs     regenerate docs/ from the knowledge base"
@@ -32,10 +32,15 @@ data:
 	$(PYTHON) tools/build_site_data.py
 	@test -f tools/build_site_data_extra.py && $(PYTHON) tools/build_site_data_extra.py || true
 
+# Two passes each, for cross-references.  pdflatex's own chatter is discarded,
+# but on failure the log is printed: a silent non-zero exit in CI is undebuggable.
 papers:
-	cd paper1 && pdflatex -halt-on-error -interaction=nonstopmode main.tex >/dev/null && pdflatex -halt-on-error -interaction=nonstopmode main.tex >/dev/null
-	cd paper2 && pdflatex -halt-on-error -interaction=nonstopmode main.tex >/dev/null && pdflatex -halt-on-error -interaction=nonstopmode main.tex >/dev/null
-	@echo "paper1 and paper2 built"
+	@set -e; for p in paper1 paper2; do \
+	  ( cd $$p && for pass in 1 2; do \
+	      pdflatex -halt-on-error -interaction=nonstopmode main.tex >/dev/null \
+	        || { echo "--- $$p/main.log, last 40 lines ---" >&2; tail -40 main.log >&2; exit 1; }; \
+	  done ); \
+	done; echo "paper1 and paper2 built"
 
 # The gate: documentation must match the knowledge base, and every number on the
 # site must still match the file it was extracted from.
