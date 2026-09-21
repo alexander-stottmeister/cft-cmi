@@ -177,12 +177,12 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 | `active` | Interactive site: modules 7 to 10 and the extra data extractor |  |
 | `active` | Numerics stack and its limits |  |
 | `active` | Plan page artifact and its source |  |
-| `active` | Plan: public presentation (README with figures, interactive Pages site, generated docs/) |  |
+| `active` | Plan: public presentation (README with figures, interactive Pages site, generated docs/) | review pending |
 | `active` | Public README and the five generated SVG figures |  |
-| `active` | Two git repositories over one work tree: public project, private third-party material |  |
+| `active` | Two git repositories over one work tree: public project, private third-party material | review pending |
 | `active` | Rigor pipeline: Lamport proofs, referee passes, findings ledger |  |
-| `done` | Continuous integration passes, for the first time since the workflow was added |  |
-| `done` | The generated documentation is rendered to HTML for Pages, with the Markdown still the source |  |
+| `done` | Continuous integration passes, for the first time since the workflow was added | review pending |
+| `done` | The generated documentation is rendered to HTML for Pages, with the Markdown still the source | review pending |
 
 ---
 
