@@ -182,7 +182,7 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 | `active` | Two git repositories over one work tree: public project, private third-party material |  |
 | `active` | Rigor pipeline: Lamport proofs, referee passes, findings ledger |  |
 | `done` | Continuous integration passes, for the first time since the workflow was added |  |
-| `done` | The generated documentation is rendered to HTML for Pages, with the Markdown still the source |  |
+| `done` | The generated documentation is rendered to HTML for Pages, with the Markdown still the source | review pending |
 
 ---
 
