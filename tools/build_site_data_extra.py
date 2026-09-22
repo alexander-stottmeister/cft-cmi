@@ -113,6 +113,7 @@ def nums(line):
 
 def dump(name: str, payload: dict, check: bool) -> bool:
     """Write (or verify) docs/data/<name>.  Returns True when in step."""
+    check_payload(name, payload)
     text = json.dumps(payload, indent=1, ensure_ascii=False, sort_keys=False) + "\n"
     path = DATA / name
     if check:
@@ -666,22 +667,55 @@ _PRIVATE_PATH = re.compile(
 # ones git does not track.  On 2026-09-23 REF-LIVE found a leak that was prose-shaped
 # instead -- a card Statement carrying the address of a privately held Claude artifact,
 # with an instruction to open it, rendered as text by module 10 and served to the world.
-# A host allow-list closes the class rather than the instance: any absolute URL in
-# published card prose must point somewhere we have decided to publish.
+# A host allow-list closes the class rather than the instance: anything in a payload that
+# looks like a link must point somewhere we have decided to publish.
+#
+# REF-LEAK then broke the first version of this guard six ways, so it no longer trusts a
+# field list or a single pattern.  check_payload() sweeps the SERIALISED json, which is
+# what ships, so it covers every field including the ones nobody thought of; and the host
+# is taken after the last '@', because https://github.com:1234@elsewhere/ is not github.
 ALLOWED_PROSE_HOSTS = {"github.com", "alexander-stottmeister.github.io",
                        "projecteuclid.org", "arxiv.org", "doi.org",
-                       "creativecommons.org", "orcid.org"}
-_URL = re.compile(r"https?://([^/\s)>\]\"']+)")
+                       "creativecommons.org", "orcid.org", "www.w3.org"}
+# a scheme, or a scheme-relative //host, or a bare host with a known public suffix
+_URLISH = re.compile(r"\b(?:[a-z][a-z0-9+.-]*:)?//([^/\s)>\]\"'\\]+)"
+                     r"|\b((?:[a-z0-9-]+\.)+(?:com|org|net|io|ai|dev|app|edu|de))\b",
+                     re.I)
+
+
+def _host_of(raw: str) -> str:
+    host = raw.rsplit("@", 1)[-1]          # strip any userinfo
+    return host.split(":")[0].strip().lower().rstrip(".")
+
+
+def check_payload(name: str, payload) -> None:
+    """Refuse to ship a payload that links off the allow-list, whatever field it is in."""
+    text = json.dumps(payload, ensure_ascii=False)
+    bad = {}
+    for m in _URLISH.finditer(text):
+        host = _host_of(m.group(1) or m.group(2) or "")
+        if host and host not in ALLOWED_PROSE_HOSTS:
+            bad.setdefault(host, 0)
+            bad[host] += 1
+    if bad:
+        raise Drift("docs/data/%s would publish %s. Card prose and every other field ship "
+                    "verbatim to the public site; move the address somewhere private, or add "
+                    "the host to ALLOWED_PROSE_HOSTS if it is meant to be published."
+                    % (name, ", ".join("%d link(s) on %s" % (n, h) for h, n in sorted(bad.items()))))
 
 
 def _no_foreign_url(text: str, cid: str, field: str) -> str:
-    """Refuse to publish card prose that links outside the allow-list."""
-    for host in _URL.findall(text or ""):
-        if host.lower().split(":")[0] not in ALLOWED_PROSE_HOSTS:
-            raise Drift("card %s, field %s, publishes a URL on %s, which is not in "
+    """Name the card and the field, so check_payload's message is actionable.
+
+    The payload sweep is the guard; this is the diagnosis, and it runs first so the
+    error says which card to fix rather than only which file would have shipped."""
+    for m in _URLISH.finditer(text or ""):
+        host = _host_of(m.group(1) or m.group(2) or "")
+        if host and host not in ALLOWED_PROSE_HOSTS:
+            raise Drift("card %s, field %s, publishes a link on %s, which is not in "
                         "ALLOWED_PROSE_HOSTS. Card prose ships verbatim to the public "
-                        "site; move the address to PRIVATE.md, or add the host here if "
-                        "it is meant to be published." % (cid, field, host))
+                        "site; move the address somewhere private, or add the host there "
+                        "if it is meant to be published." % (cid, field, host))
     return text
 
 
