@@ -1,9 +1,9 @@
 name: check
 
-# Every generated artefact must still match its source, and the two papers must
-# still build.  Pages deployment is deliberately absent: the repository is
-# private and the free tier serves Pages for public repositories only, so
-# publishing waits until the repository goes public (decision D1).
+# Every generated artefact must still match its source, the two papers must still
+# build, and docs/ is deployed to Pages.  Decision D1's three conditions were met
+# on 2026-09-22: the repository went public, Pages was enabled with this workflow
+# as its build type, and the `if: false` below was removed.
 on:
   push:
     branches: [main]
@@ -59,15 +59,13 @@ jobs:
       - name: the rigor documents that are expected to build still do
         run: python3 tools/check_rigor_builds.py
 
-  # Written and disabled.  Publishing needs THREE things, as decision D1 says
-  # (rigor/public_site_plan.md): the repository going public, because the free tier
-  # serves Pages for public repositories only; this `if: false` removed; and Pages
-  # enabled once on the repository.  configure-pages has an `enablement` input, but
-  # its own action.yml says it needs a token other than GITHUB_TOKEN, since creating
-  # the site requires Administration (write) and that is not a key of the workflow
-  # `permissions:` schema -- so it cannot do the third step, and is not set here.
+  # Live since 2026-09-22.  Pages was enabled out of band, by a REST call with a user
+  # token: configure-pages has an `enablement` input, but its own action.yml says it
+  # needs a token other than GITHUB_TOKEN, because creating the site requires
+  # Administration (write), which is not a key of the workflow `permissions:` schema.
+  # So this job deploys an existing site and cannot create one; if Pages is ever turned
+  # off, turning it back on is a REST call or a click, not a change here.
   pages:
-    if: false
     runs-on: ubuntu-latest
     permissions: { pages: write, id-token: write }
     environment: { name: github-pages, url: '${{ steps.deploy.outputs.page_url }}' }
