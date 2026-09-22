@@ -139,3 +139,7 @@ rigor/uhlmann_upper_bound.out
 rigor/universality_theorem_B.out
 strategy_open_problems.out
 universality_normalization.out
+
+# Held privately until the exposure it describes is closed (CHECKLIST item 3g):
+# it names the file and the route that still carry the withdrawn address.
+rigor/referee_leak.md

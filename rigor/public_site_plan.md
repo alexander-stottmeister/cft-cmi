@@ -1,5 +1,5 @@
 # Plan — public presentation of cft_cmi: README, interactive site, documentation
-Written 2026-09-21. Target: the public-ready repository `cft-cmi` (currently private).
+Written 2026-09-21. Target: the public-ready repository `cft-cmi` (private when this was written; public since 2026-09-22).
 Nothing here touches the private companion; every artefact below is built only from our own material.
 
 ## 0. Constraints that shape the plan
