@@ -6,8 +6,10 @@
 > the errata are kept rather than erased, and several results were wrong before they were right.
 > Read the status on every claim. `proved` means a structured proof that an independent referee
 > pass did not break; `numerical` means a measurement with an error bar and is not a theorem;
-> `conjectural` means neither. No result here has yet been refereed by a human other than me.
-> Section 11 says exactly what the agents did, in the same words as the papers.
+> `conjectural` means neither. **Human verification is ongoing and is not finished.** Nothing here
+> has yet been checked by a human other than me, so every status on this page records what the AI
+> review pipeline concluded and not what a human referee confirmed. Read the whole repository as
+> work under review. Section 11 says exactly what the agents did, in the same words as the papers.
 >
 > The work is **ongoing**. Nothing here has been submitted anywhere: the two papers are
 > drafts, not preprints, and there is no arXiv posting to cite. Results still move, and the
@@ -31,13 +33,9 @@ accumulate. Every number displayed there carries the repository file and line it
 and nothing is fetched at runtime. The same address serves the generated documentation as pages you
 can read in a browser, starting at
 [the documentation map](https://alexander-stottmeister.github.io/cft-cmi/read/index.html) and
-[every claim by area](https://alexander-stottmeister.github.io/cft-cmi/read/status.html). **That
-address does not serve anything yet.** The site is built and committed, but the repository is
-private and the Pages deploy job in [`.github/workflows/check.yml`](.github/workflows/check.yml) is
-deliberately disabled. Publishing needs three things: the repository going public, because the free
-tier serves Pages for public repositories only; the `if: false` on that job being removed; and Pages
-enabled once on the repository, which the workflow cannot do for itself. Until then the same content
-is in [`docs/`](docs/), and GitHub renders the Markdown when you browse it here.
+[every claim by area](https://alexander-stottmeister.github.io/cft-cmi/read/status.html). The same
+content is in [`docs/`](docs/) as Markdown, which GitHub renders when you browse the repository, so
+nothing on the site is reachable only through the site.
 
 ## 1. The four headline results
 
@@ -335,7 +333,7 @@ and the errata, [`docs/sources.md`](docs/sources.md) the external results relied
 is written twice from the same text: as the Markdown you are reading links to, which is what GitHub
 renders when you browse the repository, and as a page under [`docs/read/`](docs/read/), because
 GitHub Pages serves a Markdown file as a raw download instead of rendering it. The interactive site
-links to the second; neither is edited by hand. Once the repository is public these pages are served
+links to the second; neither is edited by hand. Those pages are served
 at <https://alexander-stottmeister.github.io/cft-cmi/read/>, for example
 [`read/status.html`](https://alexander-stottmeister.github.io/cft-cmi/read/status.html) for every
 claim by area and [`read/results/`](https://alexander-stottmeister.github.io/cft-cmi/read/results/)
