@@ -662,6 +662,29 @@ _PRIVATE_PATH = re.compile(
     r"refs/[A-Za-z0-9_.+-]+\.pdf|rigor/cited_R[1-4]\.tex|rigor/cited_results_all\.tex)\b")
 
 
+# The masking rule below is path-shaped: it looks at evidence tokens and hides the
+# ones git does not track.  On 2026-09-23 REF-LIVE found a leak that was prose-shaped
+# instead -- a card Statement carrying the address of a privately held Claude artifact,
+# with an instruction to open it, rendered as text by module 10 and served to the world.
+# A host allow-list closes the class rather than the instance: any absolute URL in
+# published card prose must point somewhere we have decided to publish.
+ALLOWED_PROSE_HOSTS = {"github.com", "alexander-stottmeister.github.io",
+                       "projecteuclid.org", "arxiv.org", "doi.org",
+                       "creativecommons.org", "orcid.org"}
+_URL = re.compile(r"https?://([^/\s)>\]\"']+)")
+
+
+def _no_foreign_url(text: str, cid: str, field: str) -> str:
+    """Refuse to publish card prose that links outside the allow-list."""
+    for host in _URL.findall(text or ""):
+        if host.lower().split(":")[0] not in ALLOWED_PROSE_HOSTS:
+            raise Drift("card %s, field %s, publishes a URL on %s, which is not in "
+                        "ALLOWED_PROSE_HOSTS. Card prose ships verbatim to the public "
+                        "site; move the address to PRIVATE.md, or add the host here if "
+                        "it is meant to be published." % (cid, field, host))
+    return text
+
+
 def _mark_private(text: str) -> str:
     seen = set()
 
@@ -751,9 +774,12 @@ def build_claim_map():
             "status": fm.get("status", "open"),
             "area": fm.get("area", "foundations"),
             "confidence": fm.get("confidence") or None,
-            "statement": _mark_private(sec.get("Statement", "").strip()),
-            "verify": _mark_private(sec.get("How to verify", "").strip()) or None,
-            "next": _mark_private(fm.get("next") or "") or None,
+            "statement": _no_foreign_url(
+                _mark_private(sec.get("Statement", "").strip()), fm["id"], "statement"),
+            "verify": _no_foreign_url(
+                _mark_private(sec.get("How to verify", "").strip()), fm["id"], "verify") or None,
+            "next": _no_foreign_url(
+                _mark_private(fm.get("next") or ""), fm["id"], "next") or None,
             "review": review or None,
             "refereed": refereed,
             "awaiting_review": awaiting,

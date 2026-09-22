@@ -226,12 +226,15 @@ the other results as static figures; the coverage table then states plainly whic
 D1 **Pages goes live only when the repository goes public.** The site is built, committed and previewed
    locally from now on; the Pages deployment step of P5 is written but left disabled, and enabling it is one
    line plus one click once `CHECKLIST.md` is clear. No paid plan is needed.
+   Done 2026-09-22: the three steps were taken in this order -- the repository was made
+   public, Pages was enabled by a REST call with a user token and build_type workflow, and the
+   `if: false` came off the deploy job. The site serves.
 D2 **PDFs as recommended: releases now, continuous integration once it is green.** Each release carries
    `paper1` and `paper2` as attached assets, so a citation points at a fixed version rather than at a moving
    file, and the README links to the latest release. When the two broken documents build again, the workflow
    also publishes the current PDFs under `docs/pdf/` as a Pages artefact, without committing them, which keeps
    the `*.pdf` ignore rule intact. The first release is `v0.1.0-draft`, marked pre-release because the papers
-   are drafts and the repository is private.
+   are drafts and the repository was private when the tag was cut.
 D3 **All ten modules.** Coverage stays as tabled: 33 refereed-or-proved claims plus 11 headline numericals.
 D4 **The site carries the AI-provenance text**, in the same words as the papers, on the landing page rather
    than on a subpage, and every module keeps its per-claim status badge.
