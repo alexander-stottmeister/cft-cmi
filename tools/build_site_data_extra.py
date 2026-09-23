@@ -683,32 +683,35 @@ ALLOWED_PROSE_HOSTS = {
     "orcid.org", "w3.org", "www.w3.org", "en.wikipedia.org", "packages.ubuntu.com",
 }
 
-# REF-GUARD broke this guard nine ways and REF-ROTATE found a tenth that the repair for
-# the ninth had created, plus five false positives already sitting in unshipped card text.
-# Both directions matter: a guard that refuses "what this card is about:" is not strict,
-# it is wrong, and it stops the author it exists for.  So:
-#   * invisible and compatibility separators are folded away before anything is matched,
-#     because a soft hyphen is invisible in the page and IDNA-normalises to a dot;
-#   * a special scheme tolerates any run of slashes, so https:/host/path is the plain
-#     address to a browser and must be to this guard;
-#   * a deny-listed scheme counts only with NO space after the colon, which is what
-#     separates file:///etc from the sentence "File: rigor/referee_leak.md";
-#   * a bare host needs a plausible web TLD, which is what separates claude.ai/x from
-#     lb.log, main.log, extra-claim-map.json, CHECKLIST.md and branch.main.remote;
-#   * and the lookbehind that used to stop filenames is gone, because it also stopped
-#     _host/path_ and ...host/path, both of which a reader can follow.
+# Eleven bypasses over four passes, and the lesson REF-CLOSE drew is the right one:
+# stop deciding what a URL is with a character class.  A URL with a scheme is PARSED,
+# so no suffix list stands between a reader and a host -- the previous version gated
+# even complete two-slash addresses on a fifty-entry TLD list and 54 of 54 real TLDs
+# outside it walked through.
+#
+# A BARE host has no scheme and cannot be parsed, so it stays a heuristic; but the list
+# it needs is now the enumerable one.  Distinguishing claude.ai/x from lb.log by asking
+# "is .ai a TLD" needs every TLD there is; asking "is .log a file extension in this
+# project" needs the handful this corpus uses, and being wrong there costs a false
+# positive the author sees immediately, not a leak the world sees.
 _INVISIBLE = dict.fromkeys(map(ord, "\u00ad\u200b\u200c\u200d\u2060\ufeff"))
+# A deny-listed scheme counts only with NO space after the colon: that is what separates
+# file:///etc from the sentence "File: rigor/referee_leak.md".
 _DENY_SCHEME = re.compile(r"\b(data|javascript|vbscript|file|ftp|ftps|ws|wss|blob|about|"
                           r"chrome|resource|view-source):(?=\S)", re.I)
-_AUTHORITY = re.compile(r"(?:\b[a-z][a-z0-9+.-]*:)?[/\\]{1,}"
-                        r"([^/?#\s)>\]\"'\\]*\.[^/?#\s)>\]\"'\\]*)", re.I)
-_BARE_HOST = re.compile(r"((?:[a-z0-9-]+\.)+[a-z]{2,})(?=[/:])", re.I)
-# Web TLDs only.  File extensions that are also ccTLDs -- md, py, sh, rs, cc, ts, pl --
-# are deliberately absent: this corpus is full of filenames and none of them is a link.
-_TLDS = {"com", "org", "net", "edu", "gov", "mil", "int", "io", "ai", "co", "dev", "app",
-         "page", "site", "cloud", "xyz", "info", "biz", "name", "eu", "uk", "de", "fr",
-         "ch", "at", "nl", "se", "dk", "es", "it", "jp", "cn", "ru", "au", "ca", "nz",
-         "br", "in", "za", "tv", "ly", "example"}
+# A special scheme tolerates any run of slashes, forward or back, so https:/host/path is
+# the plain address to a browser and must be to this guard.
+_SCHEME_URL = re.compile(r"\b([a-z][a-z0-9+.-]*):[/\\]{1,}([^/?#\s)>\]\"'\\]+)", re.I)
+# A bare host: at least two labels, followed by a path.  Anything may precede it except a
+# letter, a digit or a hyphen, so _host/path_ and ...host/path are seen; the lookbehind
+# that excluded a slash was the tenth bypass.
+_BARE_HOST = re.compile(r"(?<![a-z0-9-])((?:[a-z0-9-]+\.)+[a-z][a-z0-9-]*)(?=/)", re.I)
+# The file extensions this corpus actually uses.  Add to it when the build stops on a
+# filename; the failure is loud, local and costs nothing.
+_NOT_HOSTS = {"log", "md", "json", "tex", "out", "py", "txt", "png", "svg", "csv", "yml",
+              "yaml", "html", "htm", "css", "js", "pdf", "err", "sh", "cfg", "toml", "ini",
+              "bib", "sty", "cls", "aux", "bbl", "jsonl", "lock", "sha256", "zip", "gz",
+              "tar", "dat", "npy", "npz", "pkl", "bak", "tmp", "swp", "orig", "rej"}
 
 
 def _fold(text: str) -> str:
@@ -721,19 +724,21 @@ def _host_of(raw: str) -> str:
     return host.split(":")[0].strip().lower().rstrip(".")
 
 
-def _is_hostlike(host: str) -> bool:
-    return "." in host and host.rsplit(".", 1)[-1] in _TLDS
-
-
 def _foreign_hosts(text: str):
     """Every link in `text` that points off the allow-list."""
     folded = _fold(text)
+    seen = set()
     for m in _DENY_SCHEME.finditer(folded):
         yield "a %s: URL" % m.group(1).lower()
-    seen = set()
-    for m in list(_AUTHORITY.finditer(folded)) + list(_BARE_HOST.finditer(folded)):
+    for m in _SCHEME_URL.finditer(folded):        # parsed: no suffix list in the way
+        host = _host_of(m.group(2))
+        if host and host not in ALLOWED_PROSE_HOSTS and host not in seen:
+            seen.add(host)
+            yield host
+    for m in _BARE_HOST.finditer(folded):         # heuristic: not a known file extension
         host = _host_of(m.group(1))
-        if _is_hostlike(host) and host not in ALLOWED_PROSE_HOSTS and host not in seen:
+        if (host and host.rsplit(".", 1)[-1] not in _NOT_HOSTS
+                and host not in ALLOWED_PROSE_HOSTS and host not in seen):
             seen.add(host)
             yield host
 

@@ -460,3 +460,36 @@ in this chain, because a passed verdict clears `review_failed` in the claim map 
 **This report is safe to publish.** It carries no address, old or new, no UUID, no object,
 commit, tree or blob hash and no repository id, and every demonstration uses the placeholder
 label `notallowed`, which is the address of nothing.
+
+---
+
+## Postscript, 2026-09-23, added after the verdicts were recorded
+
+Nothing above is rewritten. The two verdicts were recorded, and the author then committed and
+pushed the rebuilt documentation together with this file, so the tip moved while the pass was
+still in flight. Every figure above was measured before that commit and is correct as of the tip
+it was measured against; the ones the commit moves are the ones the cards already hedge. I re-ran
+the safety-critical measurements against the new tip and against the redeployed site:
+
+- `./pgit check`: public **631**, private **235**, overlap **0**, uncommitted 0 and 0, shots
+  **178** on disk and **178** tracked. The public count rose by one, which is this file, and the
+  sentence before that figure in the card hedges it by name. The private set and the enumeration
+  are untouched, which is the whole reason this note is public-tracked.
+- The object store is **1082** blobs. The old identifier is in exactly **41** of them, unchanged,
+  and the new identifier in **0**. **0** commit messages and **0** tag messages carry either.
+  **651** paths have ever been present in any tree of any ref; none is private.
+- The redeployed site: all **188** files fetched anonymously again, **188 of 188 at 200**,
+  **0** differing from `docs/` on disk, **0** occurrences of either identifier and **0** of any
+  artifact host or route.
+- The commit changes nothing in either card's Statement or `next`. Its whole effect on the claim
+  map is the review bookkeeping: `review` becomes `passed 2026-09-23 by REF-CLOSE` on both cards,
+  `awaiting_review` false, `review_failed` false, `verdicts` 4→5 and 28→29, and the two module
+  counters `awaiting_review` and `review_failed` both 2→0.
+- Gates against the committed state: `make check` **exit 0** with
+  `build_docs --check: 131 pages up to date`, `cards awaiting a referee pass: 0`,
+  `cards whose last referee pass failed: 0` and all nine data files `ok`; `make rigor` **exit 0**,
+  `46 document(s), 0 failing, 0 known`; `kb -p cft_cmi lint` — `[cft_cmi] 0 issue(s), 0 awaiting
+  review`.
+
+The standing contradiction of §5 is therefore gone in both directions for the first time in this
+chain: `build_docs.py` and the claim map now agree that no card carries a failed referee pass.
