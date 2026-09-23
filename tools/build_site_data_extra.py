@@ -39,6 +39,7 @@ import json
 import math
 import re
 import subprocess
+import unicodedata
 import sys
 from pathlib import Path
 
@@ -677,26 +678,61 @@ _PRIVATE_PATH = re.compile(
 ALLOWED_PROSE_HOSTS = {"github.com", "alexander-stottmeister.github.io",
                        "projecteuclid.org", "arxiv.org", "doi.org",
                        "creativecommons.org", "orcid.org", "www.w3.org"}
-# a scheme, or a scheme-relative //host, or a bare host with a known public suffix
-_URLISH = re.compile(r"\b(?:[a-z][a-z0-9+.-]*:)?//([^/\s)>\]\"'\\]+)"
-                     r"|\b((?:[a-z0-9-]+\.)+(?:com|org|net|io|ai|dev|app|edu|de))\b",
-                     re.I)
+# REF-GUARD broke the previous version nine ways.  Four of them mattered and all four
+# are answered here rather than by adding patterns:
+#   * a label separator a browser accepts and ASCII does not -- soft hyphen, zero width,
+#     fullwidth and ideographic stops -- so the text is NFKC-normalised and the invisible
+#     code points are stripped BEFORE anything is matched;
+#   * `?` and `#` end an authority, so they must not be inside the host class, or
+#     https://elsewhere.example?@github.com reads as github.com, which is the regression
+#     the fix for the userinfo trick introduced;
+#   * a scheme other than http(s) is never publishable here, so it is rejected outright
+#     rather than parsed, which covers file:, data:, ftp: and anything later;
+#   * the bare-host branch needs a suffix list, and a short one is a hole, so it takes any
+#     label of two or more letters and accepts the cost of an occasional false positive:
+#     this guard may only be too strict, never too lax.
+_INVISIBLE = dict.fromkeys(map(ord, "\u00ad\u200b\u200c\u200d\u2060\ufeff"))
+# A deny-list, not "any scheme": prose is full of words followed by a colon, and
+# http(s) is handled by the authority branch below.
+_SCHEME = re.compile(r"\b(data|javascript|vbscript|file|ftp|ftps|ws|wss|blob|about|chrome|resource|view-source)\s*:", re.I)
+_AUTHORITY = re.compile(r"(?:[a-z][a-z0-9+.-]*:)?//([^/?#\s)>\]\"'\\]+)", re.I)
+# A bare host only counts when it is followed by a path and is not itself a path
+# segment, or every dotted filename in the corpus (lb.log, README.md, x.json) is a host.
+_BARE_HOST = re.compile(r"(?<![/\w.-])((?:[a-z0-9-]+\.)+[a-z]{2,})(?=/)", re.I)
+
+
+def _fold(text: str) -> str:
+    """What a browser would see: no invisible separators, compatibility-normalised."""
+    return unicodedata.normalize("NFKC", (text or "").translate(_INVISIBLE))
 
 
 def _host_of(raw: str) -> str:
-    host = raw.rsplit("@", 1)[-1]          # strip any userinfo
+    host = raw.rsplit("@", 1)[-1]                 # strip any userinfo
     return host.split(":")[0].strip().lower().rstrip(".")
 
 
+def _foreign_hosts(text: str):
+    """Every host in `text` that is not on the allow-list, plus any unpublishable scheme."""
+    folded = _fold(text)
+    for m in _SCHEME.finditer(folded):
+        yield "a %s: URL" % m.group(1).lower()
+    seen = set()
+    for m in list(_AUTHORITY.finditer(folded)) + list(_BARE_HOST.finditer(folded)):
+        host = _host_of(m.group(1))
+        if host and host not in ALLOWED_PROSE_HOSTS and host not in seen:
+            seen.add(host)
+            yield host
+
+
 def check_payload(name: str, payload) -> None:
-    """Refuse to ship a payload that links off the allow-list, whatever field it is in."""
-    text = json.dumps(payload, ensure_ascii=False)
+    """Refuse to ship a payload that links off the allow-list, whatever field it is in.
+
+    The sweep is over the SERIALISED json, which is what ships, so it covers every field
+    including the ones nobody thought of -- the leak of 2026-09-23 was in a field the
+    first version of this guard did not list."""
     bad = {}
-    for m in _URLISH.finditer(text):
-        host = _host_of(m.group(1) or m.group(2) or "")
-        if host and host not in ALLOWED_PROSE_HOSTS:
-            bad.setdefault(host, 0)
-            bad[host] += 1
+    for host in _foreign_hosts(json.dumps(payload, ensure_ascii=False)):
+        bad[host] = bad.get(host, 0) + 1
     if bad:
         raise Drift("docs/data/%s would publish %s. Card prose and every other field ship "
                     "verbatim to the public site; move the address somewhere private, or add "
@@ -709,9 +745,8 @@ def _no_foreign_url(text: str, cid: str, field: str) -> str:
 
     The payload sweep is the guard; this is the diagnosis, and it runs first so the
     error says which card to fix rather than only which file would have shipped."""
-    for m in _URLISH.finditer(text or ""):
-        host = _host_of(m.group(1) or m.group(2) or "")
-        if host and host not in ALLOWED_PROSE_HOSTS:
+    for host in _foreign_hosts(text):
+        if True:
             raise Drift("card %s, field %s, publishes a link on %s, which is not in "
                         "ALLOWED_PROSE_HOSTS. Card prose ships verbatim to the public "
                         "site; move the address somewhere private, or add the host there "
