@@ -8,16 +8,18 @@
 
 ## Statement
 
-In finite dimensions I(A:C|B) = D(rho_ABC || rho_A x rho_BC) - D(rho_AB || rho_A x rho_B), the defect of the data-processing inequality for Tr_C; equality (Markov state) is equivalent to exact Petz recovery and to the Hayden-Jozsa-Petz-Winter decomposition. In type III the same statement is Petz sufficiency of the subalgebra / the Connes cocycle \[D rho : D sigma\]\_t lying in the subalgebra; this is the reading that makes the recovery error a quantitative companion of the CMI.
+In finite dimensions I(A:C|B) = D(rho_ABC || rho_A x rho_BC) - D(rho_AB || rho_A x rho_B), the defect of the data-processing inequality for Tr_C (eq:cmi-dpi-defect); equality (Markov state) is equivalent to exact Petz recovery and to the Hayden-Jozsa-Petz-Winter decomposition (literature). In type III, for an inclusion N subset M and FAITHFUL NORMAL states rho, sigma on M with D_M(rho || sigma) \< infinity (Note 2, l. 304 and 311-315), vanishing of the data-processing defect delta_{N subset M}(rho, sigma) = D_M(rho||sigma) - D_N(rho|N || sigma|N) is equivalent, by Petz's sufficiency theorem, to exact recovery by a normal unital 2-positive map alpha: M -> N with rho|N o alpha = rho and sigma|N o alpha = sigma (eq:petz-vn-equivalence), and, for faithful states, to the Connes-cocycle criterion \[D rho : D sigma\]\_t in N for all real t (eq:connes-criterion, l. 317-321); without D_M(rho || sigma) \< infinity the defect is infinity - infinity and the equivalence is not established. This is the reading that makes the recovery error a quantitative companion of the CMI.
 
 ## How to verify
 
-Note 2 (cmi_as_quantum_markov_defect.tex); rigor/check_notes_1_2.tex.
+cmi_as_quantum_markov_defect.tex eq:cmi-dpi-defect (l. 229-236), Petz/HJPW equivalences (l. 270-296, literature), type-III hypotheses and eq:petz-vn-equivalence (l. 304-315), eq:connes-criterion (l. 317-321); rigor/check_notes_1_2.tex.
 
 ## Evidence
 
-- [cmi_as_quantum_markov_defect.tex](../../cmi_as_quantum_markov_defect.tex) — document
+- [cmi_as_quantum_markov_defect.tex](../../cmi_as_quantum_markov_defect.tex) — document, at `eq:cmi-dpi-defect`
 - `legacy-memory-log` — knowledge-base card, not published
+- [cmi_as_quantum_markov_defect.tex](../../cmi_as_quantum_markov_defect.tex) — document, at `eq:petz-vn-equivalence`
+- [cmi_as_quantum_markov_defect.tex](../../cmi_as_quantum_markov_defect.tex) — document, at `eq:connes-criterion`
 
 ## Related claims
 
@@ -25,7 +27,7 @@ _None recorded._
 
 ## Review
 
-**Review record:** passed 2026-09-14 by REF-KB-1.
+**Review record:** passed 2026-09-23 by REF-DEP-CFT-B3.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

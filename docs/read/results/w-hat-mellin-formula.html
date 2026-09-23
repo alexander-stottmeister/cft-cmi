@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Exact x-space Mellin transform W-hat(k) and the invariant formula for g_B &mdash; cft-cmi</title>
-<meta name="description" content="Exact x-space Mellin transform W-hat(k) and the invariant formula for g_B. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<title>Exact x-space Mellin transform W-hat(k) of the &lt;TT&gt; kernel and its KMS relation &mdash; cft-cmi</title>
+<meta name="description" content="Exact x-space Mellin transform W-hat(k) of the &lt;TT&gt; kernel and its KMS relation. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
 <link rel="stylesheet" href="../../lib/site.css">
 <script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
 <style>
@@ -28,23 +28,26 @@
   <button class="theme" type="button" hidden></button>
 </div></header>
 <main class="wrap">
-<h1>Exact x-space Mellin transform W-hat(k) and the invariant formula for g_B</h1>
+<h1>Exact x-space Mellin transform W-hat(k) of the &lt;TT&gt; kernel and its KMS relation</h1>
 <p><strong>Status:</strong> <code>proved</code> — a complete structured proof.</p>
 <p><strong>Area:</strong> <a href="../status.html#area-theorem-a">Theorem A: exact recovery error of the free fermion</a> · <strong>Card type:</strong> result · <strong>Knowledge-base id:</strong> <code>w-hat-mellin-formula</code></p>
 <h2>Statement</h2>
-<p>From &lt;TT&gt; and dilation covariance, the x-space (Mellin) transform of the &lt;TT&gt; kernel W is W-hat(k) = (c/24 pi) k (k^2+1)/(e^{2 pi k} - 1) exactly (Beta-function closed form, numerics to 1e-23); the KMS relation holds on the x-space transform and reproduces g_B = 2c/(3 pi^2), the third independent route to the one-particle Bures metric.</p>
+<p>From the stress-tensor two-point function &lt;TT&gt; (card stress-tensor-normalisation, eq:TT) and dilation covariance, the x-space (Mellin) transform of the &lt;TT&gt; kernel is W-hat(k) = (c/(8 pi^2)) int_0^infinity u^{1+ik} (1 - u - i0)^{-4} du = (c/(24 pi)) k (k^2 + 1)/(e^{2 pi k} - 1) for real k != 0, with W-hat(-k) = e^{2 pi k} W-hat(k) (the KMS relation at beta = 2 pi, obtained without a thermal representation) and W-hat &gt;= 0 (rigor/collar_and_invariant_formula.tex prop:What; Beta-function closed form, numerics to 1e-23 in rigor/p4_invariant.py). Numerical check, not a proof about g_B: inserted into Note 7's spectral prescription (analytic continuation of g-hat, eq:barnes) with Note 7's weights, W-hat reassembles the number 2c/(3 pi^2) to relative 1.9e-11 (sec:num); for c = r this coincides with the proved quasi-free integral of quadratic_limit.tex prop:gB (u = 2 pi k). It is not an independent route to the Bures metric: identifying g_B(phi) with this spectral integral is Gap 2 of lemma_second_variation.tex, which the document does not close (sec:collar (b)1, l. 383-392: eq:barnes is 'a prescription, not an identity').</p>
 <h2>How to verify</h2>
-<p>rigor/collar_and_invariant_formula.tex; rigor/p4_invariant.out.</p>
+<p>rigor/collar_and_invariant_formula.tex prop:What (l. 176-200), Input 1 eq:TT (l. 43-46), sec:num (l. 260-335, g_B reassembly rel. 1.93e-11), sec:collar (b)1 (l. 383-392); rigor/p4_invariant.out.</p>
 <h2>Evidence</h2>
 <ul>
-<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/collar_and_invariant_formula.tex">rigor/collar_and_invariant_formula.tex</a> — document</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/collar_and_invariant_formula.tex">rigor/collar_and_invariant_formula.tex</a> — document, at <code>prop:What</code></li>
 <li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/p4_invariant.py">rigor/p4_invariant.py</a> — numerics</li>
 <li><code>legacy-memory-log</code> — knowledge-base card, not published</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/collar_and_invariant_formula.tex">rigor/collar_and_invariant_formula.tex</a> — document, at <code>sec:num</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/collar_and_invariant_formula.tex">rigor/collar_and_invariant_formula.tex</a> — document, at <code>sec:collar</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/p4_invariant.out">rigor/p4_invariant.out</a> — numerics</li>
 </ul>
 <h2>Related claims</h2>
 <p><em>None recorded.</em></p>
 <h2>Review</h2>
-<p><strong>Review record:</strong> passed 2026-09-14 by REF-KB-2.</p>
+<p><strong>Review record:</strong> passed 2026-09-23 by REF-DEP-CFT-B5.</p>
 <p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
 <hr>
 <p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>

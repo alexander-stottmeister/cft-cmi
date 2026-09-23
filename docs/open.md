@@ -46,7 +46,7 @@ Frame-free form: ddelta = \[Q,d\] with d = E_I D_chi E_I, and on the isometric o
 
 **next:** Solve or bound the Wiener-Hopf problem of Prop 6.2 and compare with theta = 0.384 +- 0.003 (F3 is done); a closed form is open, and no candidate is to be fitted to the numerics
 
-## Conjectures (3)
+## Conjectures (10)
 
 Believed, with partial evidence, and not proved.
 
@@ -56,11 +56,53 @@ Believed, with partial evidence, and not proved.
 
 **next:** Renormalised/collar route for a gauge lemma modulo the commutant orbit; then the exact identity applies. Until then paper 2 states s2 = c/12 as a conjecture with the bracket.
 
+### [g_KM = c/6 for the compression direction of a general conformal net (conjecture; only the analytically continued value exists)](results/const-gkm-general-nets.md)
+
+`conjectural` · knowledge-base id `const-gkm-general-nets`
+
+**next:** Decide whether the Kubo-Mori form of the compression direction is gauge-independent and equal to c/6 for general nets: a gauge lemma modulo the commutant orbit (renormalised or collar route, cf. conj-s2) or a counterexample.
+
+### [Longo-Xu Remark 4.3: adjacent-interval CMI (c/6) log(1+z) for every rational conformal net (conjecture)](results/longo-xu-cmi-general-c.md)
+
+`conjectural` · knowledge-base id `longo-xu-cmi-general-c`
+
+**next:** Prove the adjacent-interval formula for a rational net beyond the free-fermion class (Longo-Xu Remark 4.3), e.g. for a finite-index extension of a Virasoro net, or find a counterexample.
+
 ### [Second-order network law: Phi_tot = sum zeta_j zeta_k G(y_j - y_k), G = c Ghat universal](results/network-second-order-law.md)
 
 `conjectural` · knowledge-base id `network-second-order-law`
 
 **next:** G1b proof; G3 numerics; then compare with the lattice (G2).
+
+### [Hypothesis H1 of the tangent problem: g_Q-differentiability along the scaled family](results/tangent-h1-gq-differentiability.md)
+
+`conjectural` · knowledge-base id `tangent-h1-gq-differentiability`
+
+**next:** Prove H1 for general data (rigor/exact_optimum_tangent_problem.tex:1628-1636): show g_Q(delta(s) - s delta^(1)) = o(s^2) along a minimising sequence of admissible first-order data (zeta, N_1, Y_1) beyond the isometric orbit and beyond finite-rank N_1, Y_1 in a modular window, the form Thm. thm:upper needs (:439-441), i.e. control the remainder in the weighted g_Q-norm (weights w_ik \~ e^{min(|kappa_i|,|kappa_k|)}), not only in Hilbert-Schmidt norm.
+
+### [Hypothesis H2 of the tangent problem: localisation of the minimisers of the second-order programme](results/tangent-h2-minimiser-localisation.md)
+
+`conjectural` · knowledge-base id `tangent-h2-minimiser-localisation`
+
+**next:** Either prove H2 (localisation of the minimisers of min_F g_Q in the scaled-family form with ||N_1|| + ||Y_1|| \<= C and a uniform o(s^2) remainder, overcoming Rem. rem:noloc: Q_AB has 0 in its essential spectrum), or bypass it by a finite-s dual certificate: one self-adjoint trace-class t (t_\* at finite s) with Delta_z(t) >= 0 whose multipliers satisfy the sign conditions of S10 Thm. 3.2 at the optimal point, which gives the lower bound min_F g_Q >= Delta_z(t)^2/(8V(t)) through the weak-duality bound eq:weakdual (Rem. rem:dual, rigor/exact_optimum_tangent_problem.tex:657-671; To be supplied :1628-1636).
+
+### [Hypothesis H3 of the tangent problem (cone hypothesis): every admissible isometry generator with a feasible first-order datum lies in the model cone modulo the linear class](results/tangent-h3-cone-hypothesis.md)
+
+`conjectural` · knowledge-base id `tangent-h3-cone-hypothesis`
+
+**next:** Evaluate E(zeta) = 2 b(delta_\*, A(zeta,0,0)) directly on shift semigroups of multiplicity > 1 (Cooper-Wold; boundary forms of infinite rank) and on unbounded skew-adjoint zeta = i m(y), or prove the cone reduction for all admissible generators (rigor/exact_optimum_tangent_problem.tex:1633-1635 and Rem. rem:H3 :1258-1260, 'the sharpest remaining analytic task').
+
+### [Two-chirality law for a general 2D CFT (rests on an unproved chiral factorisation)](results/two-chirality-law-general-cft.md)
+
+`conjectural` · knowledge-base id `two-chirality-law-general-cft`
+
+**next:** Prove the chiral factorisation of the rotated Petz map for 2D nets of the form A_chiral x A-bar_chiral (and decide the non-tensor-product case), and establish the zero-collar collapse (normal extension of the glued map) for a general chiral net, so that Phi_c is defined.
+
+### [Two-chirality minimum: for the massless Dirac fermion -log F^(lambda) is minimal at lambda = 0 for every z (unproved)](results/two-chirality-minimum-at-lambda-zero.md)
+
+`conjectural` · knowledge-base id `two-chirality-minimum-at-lambda-zero`
+
+**next:** Prove that zeta Phi'(zeta) is nondecreasing on (0, infinity) (e.g. from the determinant representation, Note 5 Thm 3.1), or bound g(lambda) - g(0) from below with certified values of Phi on a grid plus monotonicity (card phi-monotone-in-zeta); until then the minimum at lambda = 0 is conjectural.
 
 ### [VWZ four-interval protocols: Phi(1):Phi(2):Phi(3) -> 1:2:4; middle-out is the worst order](results/vwz-protocol-ordering.md)
 
@@ -94,7 +136,7 @@ These carry a status of their own; the step recorded is what would sharpen or ex
 
 `proved` · knowledge-base id `kkt-noise-sign-criterion`
 
-**next:** F2 evaluates the endpoint number E(zeta_0) of condition (e) in the rigid frame; (a) is numerically settled (F2 T4)
+**next:** Analytic proofs of (a) and of theta \< 1 (both numerical now), and H3, H1 for general data, H2 or the finite-s certificate (rigor/exact_optimum_tangent_problem.tex:1628-1636)
 
 ---
 

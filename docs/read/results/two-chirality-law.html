@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Two-chirality law for 2D CFTs &mdash; cft-cmi</title>
-<meta name="description" content="Two-chirality law for 2D CFTs. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<title>Two-chirality law for the massless Dirac fermion: -log F^(lambda) = Phi(z(1+e^{-pi lambda})) + Phi(z(1+e^{pi lambda})), even in lambda &mdash; cft-cmi</title>
+<meta name="description" content="Two-chirality law for the massless Dirac fermion: -log F^(lambda) = Phi(z(1+e^{-pi lambda})) + Phi(z(1+e^{pi lambda})), even in lambda. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
 <link rel="stylesheet" href="../../lib/site.css">
 <script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
 <style>
@@ -28,22 +28,28 @@
   <button class="theme" type="button" hidden></button>
 </div></header>
 <main class="wrap">
-<h1>Two-chirality law for 2D CFTs</h1>
+<h1>Two-chirality law for the massless Dirac fermion: -log F^(lambda) = Phi(z(1+e^{-pi lambda})) + Phi(z(1+e^{pi lambda})), even in lambda</h1>
 <p><strong>Status:</strong> <code>proved</code> — a complete structured proof.</p>
 <p><strong>Area:</strong> <a href="../status.html#area-theorem-a">Theorem A: exact recovery error of the free fermion</a> · <strong>Card type:</strong> result · <strong>Knowledge-base id:</strong> <code>two-chirality-law</code></p>
 <h2>Statement</h2>
-<p>For a 2D CFT the rotated Petz maps give -log F^(lambda) = Phi(z(1+e^{-pi lambda})) + Phi(z(1+e^{pi lambda})), even in lambda with minimum at lambda = 0 (the ordinary Petz map is best within the rotated family for two chiralities; matches Vardhan-Wei-Zou). For a single chirality the family is monotone and the compression endpoint is best.</p>
+<p>For the 1+1-dimensional massless Dirac fermion (c = 1: one complex chiral component per chirality), the rotated Petz map of F(O_B) subset F(O_BC) with modular parameter t (lambda = 2t in the convention of Vardhan-Wei-Zou) factorises into the two chiral halves, which act as the geometric maps gamma_{s_t^+-} with s_t^+ = lambda_0 (1 + e^{-2 pi t}) and s_t^- = lambda_0 (1 + e^{+2 pi t}), lambda_0 = c/b the compression parameter of Note 4 (c, b the lengths of C, B); hence -log F^(lambda) = Phi(z(1+e^{-pi lambda})) + Phi(z(1+e^{pi lambda})), with Phi the single-chirality zero-collar recovery error and z = eta_V/(1 - eta_V) (rigor/check_note5_theory.tex prop:chirality &lt;1&gt;1-&lt;1&gt;7). This is even in lambda (interchange of the two arguments; for real lattice states evenness also holds identically by the antiunitary argument, l. 1422-1428), and at lambda = 0 it equals 2 Phi(2z). For a single chirality the rotated family collapses onto one function (Note 5 cor:collapse): -log F(omega, omega-tilde_t) = Phi(z(1 + e^{-2 pi t})), which is nonincreasing in t because Phi is nondecreasing (card phi-monotone-in-zeta); the ordinary Petz map (t = 0) sits at Phi(2z), and Phi(z) &lt;= -log F(omega, omega-tilde_t) for every t: the geometric compression of ABC onto AB (s = lambda_0), the t -&gt; +infinity endpoint, which is a limit point and not a member of the family, is at least as good as every member. Strict monotonicity and continuity of Phi are not proved. NOT claimed here: (i) that the Dirac error is minimal at lambda = 0 for every z (card two-chirality-minimum-at-lambda-zero, conjectural: its only proof step, prop:chirality &lt;1&gt;8, used the false card phi-derivative-nondecreasing); (ii) the law for a general 2D CFT (card two-chirality-law-general-cft, conjectural: it needs a chiral factorisation that is not proved).</p>
 <h2>How to verify</h2>
-<p>Note 5 eq. (5.4) and Cor. 5.1 (reworded: optimal within the rotated family only).</p>
+<p>rigor/check_note5_theory.tex Prop. 8.2 (prop:chirality, l. 1369-1420), steps &lt;1&gt;1-&lt;1&gt;7 (step &lt;1&gt;8, the minimum, is not claimed); evenness also from the paragraph l. 1422-1428; single chirality: fidelity_recovered_quasifree.tex Cor. 5.1 (cor:collapse, l. 409-420) with check_note5_theory.tex Prop. 8.1 (prop:mono).</p>
 <h2>Evidence</h2>
 <ul>
-<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/fidelity_recovered_quasifree.tex">fidelity_recovered_quasifree.tex</a> — document, at <code>Sec5</code></li>
-<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/check_note5_theory.tex">rigor/check_note5_theory.tex</a> — document</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/fidelity_recovered_quasifree.tex">fidelity_recovered_quasifree.tex</a> — document, at <code>sec:rotated</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/check_note5_theory.tex">rigor/check_note5_theory.tex</a> — document, at <code>prop:chirality</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/fidelity_recovered_quasifree.tex">fidelity_recovered_quasifree.tex</a> — document, at <code>cor:collapse</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/check_note5_theory.tex">rigor/check_note5_theory.tex</a> — document, at <code>prop:mono</code></li>
 </ul>
 <h2>Related claims</h2>
-<p><em>None recorded.</em></p>
+<ul>
+<li><a href="two-chirality-minimum-at-lambda-zero.html">Two-chirality minimum: for the massless Dirac fermion -log F^(lambda) is minimal at lambda = 0 for every z (unproved)</a> — <code>conjectural</code></li>
+<li><a href="two-chirality-law-general-cft.html">Two-chirality law for a general 2D CFT (rests on an unproved chiral factorisation)</a> — <code>conjectural</code></li>
+<li><code>phi-derivative-nondecreasing</code> — <code>refuted</code>, no page of its own</li>
+</ul>
 <h2>Review</h2>
-<p><strong>Review record:</strong> passed 2026-09-14 by phase referees (rigor/referee_*.tex, findings ledger).</p>
+<p><strong>Review record:</strong> passed 2026-09-23 by REF-DEP-CFT-B6.</p>
 <p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
 <hr>
 <p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>

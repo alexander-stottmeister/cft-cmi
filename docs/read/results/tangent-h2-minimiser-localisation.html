@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hypothesis H2 of the tangent problem: localisation of the minimisers of the second-order programme &mdash; cft-cmi</title>
+<meta name="description" content="Hypothesis H2 of the tangent problem: localisation of the minimisers of the second-order programme. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../../index.html">Interactive site</a>
+    <a href="../index.html">Documentation</a>
+    <a href="../status.html">All claims</a>
+    <a href="../open.html">Open problems</a>
+    <a href="../notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>Hypothesis H2 of the tangent problem: localisation of the minimisers of the second-order programme</h1>
+<p><strong>Status:</strong> <code>conjectural</code> — believed, with partial evidence; not proved. <strong>Stated under hypotheses</strong> H2, quoted below.</p>
+<p><strong>Area:</strong> <a href="../status.html#area-optimality">Optimality of recovery channels (O8, Phases 3 and 3b)</a> · <strong>Card type:</strong> conjecture · <strong>Knowledge-base id:</strong> <code>tangent-h2-minimiser-localisation</code></p>
+<h2>Statement</h2>
+<p>There are C &lt; infinity and s_0 &gt; 0 such that for 0 &lt; s &lt; s_0 the programme min_F g_Q(Q - Q_rec) has a minimiser (X_s, Z_s) of the scaled-family form for a first-order datum (zeta^(s), N_1^(s), Y_1^(s)) with ||N_1^(s)|| + ||Y_1^(s)|| &lt;= C and g_Q(delta(s) - s delta^(1),(s)) = o(s^2) uniformly in s; the document calls it 'the lower bound in disguise' and does not prove it.</p>
+<h2>Hypotheses</h2>
+<p>The statement is made under named hypotheses. The sentences are quoted from the statement above; read the status badge only together with them.</p>
+<p>Hypothesis labels used: <code>H2</code>.</p>
+<blockquote>
+<p>Hypothesis H2 of the tangent problem: localisation of the minimisers of the second-order programme.</p>
+</blockquote>
+<h2>How to verify</h2>
+<p>rigor/exact_optimum_tangent_problem.tex Def. 3.16 (hyp:H2) and the 'lower bound in disguise' paragraph (:625-635); Prop. 3.14 (prop:coerc) and Remark 3.15 (rem:noloc, :595-623) for why coercivity does not localise the minimiser; Thm. 3.17 (thm:value, :637-655) for its use; Remark 3.18 (rem:dual, eq:weakdual, :657-671) for the unconditional route; Sec. 7, Conditional item 2 (:1607-1613).</p>
+<h2>Evidence</h2>
+<ul>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/exact_optimum_tangent_problem.tex">rigor/exact_optimum_tangent_problem.tex</a> — document, at <code>hyp:H2</code></li>
+</ul>
+<h2>Related claims</h2>
+<p><em>None recorded.</em></p>
+<h2>Review</h2>
+<p><strong>Review record:</strong> passed 2026-09-23 by REF-DEP-CFT-A4.</p>
+<p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
+<hr>
+<p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/results/tangent-h2-minimiser-localisation.md"><code>docs/results/tangent-h2-minimiser-localisation.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

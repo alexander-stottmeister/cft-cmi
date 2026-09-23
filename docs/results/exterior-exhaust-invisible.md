@@ -28,7 +28,7 @@ rigor/exact_fidelity_upper_half.tex Sec. 5 (Lemma 5.1 generic position, Thm 5.3 
 
 ## Review
 
-**Review record:** passed 2026-09-15 by REF-KB-8.
+**Review record:** passed 2026-09-23 by REF-DEP-CFT-A1.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

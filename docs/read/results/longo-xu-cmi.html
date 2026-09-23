@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Longo-Xu CMI of adjacent intervals &mdash; cft-cmi</title>
-<meta name="description" content="Longo-Xu CMI of adjacent intervals. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<title>Longo-Xu CMI of adjacent intervals for the free fermion net A_r, its finite-index subnets and extensions &mdash; cft-cmi</title>
+<meta name="description" content="Longo-Xu CMI of adjacent intervals for the free fermion net A_r, its finite-index subnets and extensions. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
 <link rel="stylesheet" href="../../lib/site.css">
 <script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
 <style>
@@ -28,22 +28,28 @@
   <button class="theme" type="button" hidden></button>
 </div></header>
 <main class="wrap">
-<h1>Longo-Xu CMI of adjacent intervals</h1>
+<h1>Longo-Xu CMI of adjacent intervals for the free fermion net A_r, its finite-index subnets and extensions</h1>
 <p><strong>Status:</strong> <code>proved</code> — a complete structured proof.</p>
 <p><strong>Area:</strong> <a href="../status.html#area-foundations">Foundations: CMI as a Markov defect (Notes 1-3)</a> · <strong>Card type:</strong> theorem · <strong>Knowledge-base id:</strong> <code>longo-xu-cmi</code></p>
 <h2>Statement</h2>
-<p>For adjacent intervals A=(-a,0), B=(0,b), C=(b,b+c) in the vacuum of a chiral net of central charge c (c = r for r complex fermions), I(A:C|B) = (c/6) log[(a+b)(b+c)/(b(a+b+c))]. Read as the quantum-Markov defect of the chain A-B-C; the Petz recovery error is the natural quantitative companion.</p>
+<p>Let the chiral net be the free fermion net A_r (central charge c = r), a finite-index subnet of it, or one of the finite-index extensions treated after Longo-Xu Thm 4.2, and assume strong additivity. For adjacent intervals A = (-a,0), B = (0,b), C = (b,b+c) (here c is the length of C) in the vacuum, the conditional mutual information (Longo-Xu generalized mutual information, equivalently the gap limit) is finite and I(A:C|B) = (r/6) log[(a+b)(b+c)/(b(a+b+c))] = (r/6) log(1+z) = -(r/6) log eta (adjacent_interval_cmi_longo_xu.tex eq:abc-formula; Note 2 eq:longoxu-limit; paper 1 thm:LX). Read as the quantum-Markov defect of the chain A-B-C; the Petz recovery error is the natural quantitative companion. Scope (Note 1 scope box, l. 327-330; paper 1 rem:LX-scope): the rigorous conclusion covers only this free-fermion class; the formula with r replaced by the central charge for every rational conformal net is Longo-Xu's Remark 4.3, a conjecture (card longo-xu-cmi-general-c), and a full 2D CFT needs a separate left-right analysis.</p>
 <h2>How to verify</h2>
-<p>Notes 1-2; the formula is the Longo-Xu result quoted with screenshots in rigor/cited_R1.tex (held in the private companion; its content is available on request, see THIRD-PARTY.md).</p>
+<p>adjacent_interval_cmi_longo_xu.tex eq:abc-formula (l. 254) and scope box (l. 327-330); cmi_as_quantum_markov_defect.tex eq:Ieps-free, eq:longoxu-limit (l. 372-386, 'For the free r-fermion net'); paper1/sec_setting.tex thm:LX (l. 77-87) and rem:LX-scope (l. 101-107); Longo-Xu Def. 3.17, Thm 3.18, Thm 4.1-4.2 (refs/LongoXu_1712.07283.pdf).</p>
 <h2>Evidence</h2>
 <ul>
-<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/adjacent_interval_cmi_longo_xu.tex">adjacent_interval_cmi_longo_xu.tex</a> — document</li>
-<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/cmi_as_quantum_markov_defect.tex">cmi_as_quantum_markov_defect.tex</a> — document</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/adjacent_interval_cmi_longo_xu.tex">adjacent_interval_cmi_longo_xu.tex</a> — document, at <code>eq:abc-formula</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/cmi_as_quantum_markov_defect.tex">cmi_as_quantum_markov_defect.tex</a> — document, at <code>eq:longoxu-limit</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/paper1/sec_setting.tex">paper1/sec_setting.tex</a> — document, at <code>thm:LX</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/paper1/sec_setting.tex">paper1/sec_setting.tex</a> — document, at <code>rem:LX-scope</code></li>
+<li><code>refs/LongoXu_1712.07283.pdf</code> — source; held privately, not redistributed</li>
 </ul>
 <h2>Related claims</h2>
-<p><em>None recorded.</em></p>
+<ul>
+<li><a href="longo-xu-cmi-general-c.html">Longo-Xu Remark 4.3: adjacent-interval CMI (c/6) log(1+z) for every rational conformal net (conjecture)</a> — <code>conjectural</code></li>
+<li><a href="cmi-markov-defect-interpretation.html">CMI as the data-processing defect of tracing out C (Note 2)</a> — <code>proved</code></li>
+</ul>
 <h2>Review</h2>
-<p><strong>Review record:</strong> passed 2026-09-21 by REF-MOVE-1j.</p>
+<p><strong>Review record:</strong> passed 2026-09-23 by REF-DEP-CFT-B3.</p>
 <p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
 <hr>
 <p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>

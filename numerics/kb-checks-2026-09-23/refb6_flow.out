@@ -1,0 +1,8 @@
+standard step : s=-1,x=0.9 flow = 1.756343  x/(1+sx) = 9.000000000000002 | s=0.5,x=0.9 flow = 0.62069 vs 0.62069 | s=-0.2,x=1 flow = 1.247167 vs 1.25
+step^2 : s=-1,x=0.9 flow = 1.629296  x/(1+sx) = 9.000000000000002 | s=0.5,x=0.9 flow = 0.62069 vs 0.62069 | s=-0.2,x=1 flow = 1.244586 vs 1.25
+beta=1 on [0,.5] : s=-1,x=0.9 flow = 1.904863  x/(1+sx) = 9.000000000000002 | s=0.5,x=0.9 flow = 0.62069 vs 0.62069 | s=-0.2,x=1 flow = 1.25 vs 1.25
+standard step: s = 0.25  eta ~ 0.3466
+standard step: s = 0.5  eta ~ 0.6128
+standard step: s = 1.0  eta ~ 0.9538
+standard step: s = -0.5  eta ~ 0.6127
+standard step: s = -1.0  eta ~ 0.9537

@@ -18,6 +18,9 @@ Regenerate the tables with `python3 make_tables.py` (from this directory), then 
 
 Independent checks by verification agents: `v4_*.py` (V4, fidelity numerics), `v5chk.py`, `v5en.py` (V5: <TT> normalization, Liouville energy functional).
 
+Checks behind the corrections of 2026-09-23 (two refutations, narrowed statements, errors found in printed proofs):
+[`kb-checks-2026-09-23/`](kb-checks-2026-09-23/README.md), eleven scripts with their outputs; its README says which result cites which.
+
 ### Track C (2026-09-08): eps = 1e-14 runs (results_hp14.txt)
 At eps = 1e-14 (kappa_c = 32.2) the window contains ALL box modes for Lambda = 60, kappa_max = 30 (n_sub = N = 91): nothing is
 discarded, the "sub" value is the full box-compression value, and the residual error is the BOX cutoff, not the window. The tail

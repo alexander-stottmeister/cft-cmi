@@ -27,14 +27,14 @@ cd numerics/optimality_all; $V/bin/python f2_tangent_sdp.py 64 (orbit-only check
 
 ## Related claims
 
-- [KKT criterion numerics: every finite run FAILS (a); the violation extrapolates to 0^- as h -> 0, Ymax -> inf; E(zeta_0) > 0 and E(zeta_inf) > 0, so (e) holds for the whole cone under H3](kkt-noise-criterion-numerics.md) — `numerical`
+- [KKT criterion numerics: every finite run FAILS (a); the violation extrapolates to 0^- as h -> 0, Ymax -> inf; under H3, (e) follows from the proved E(zeta_inf) >= 0 alone, and the finite-h junction values are positive](kkt-noise-criterion-numerics.md) — `numerical`
 - [KKT sign criterion: when the isometric orbit carries the all-channel second-order optimum](kkt-noise-sign-criterion.md) — `proved`
 - `phase5-plan` — `done`, no page of its own
 - [The compression is not the minimiser of the second-order functional](compression-not-second-order-minimiser.md) — `numerical`
 
 ## Review
 
-**Review record:** passed 2026-09-15 by REF-P5-3.
+**Review record:** passed 2026-09-23 by REF-DEP-CFT-A2.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

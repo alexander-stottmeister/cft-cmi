@@ -2,13 +2,21 @@
 
 # Structure of the numerical optimum
 
-**Status:** `numerical` — measured, with an error bar and a convergence order; not a theorem.
+**Status:** `numerical` — measured, with an error bar and a convergence order; not a theorem. **Conditional.** The statement is not unconditional: it rests on H1, H2, H3, quoted below. Read the badge only together with them.
 
 **Area:** [Optimality of recovery channels (O8, Phases 3 and 3b)](../status.md#area-optimality) · **Card type:** result · **Knowledge-base id:** `optimal-channel-structure`
 
 ## Statement
 
-The quasi-free optimum on lattices is a near-isometric squeeze (singular values 0.95-1.00) that does not reproduce the BC marginal (Petz's defining property is suboptimal); the all-channel optimum on tiny chains is Gaussian and gauge covariant. Non-isometric channels (Y > 0) were not analysed in the continuum; the exact value of min_F g_Q is unknown.
+The quasi-free optimum on lattices is a near-isometric squeeze (singular values 0.95-1.00) that does not reproduce the BC marginal (Petz's defining property is suboptimal); the all-channel optimum on tiny chains is Gaussian and gauge covariant. As of S8/S10, non-isometric channels (X X\* \< 1, genuine noise Y > 0) had not been analysed in the continuum (rigor/sdp_dual_certificate.tex verdict gaps :754-757 and (ii) :951-953). They were analysed afterwards in Phase 5: the exact (N, Y, V) chart and the tangent programme with N_1, Y_1 (tangent-problem-exact-parametrisation), the KKT criterion (kkt-noise-sign-criterion), its continuum-frame numerics (kkt-noise-criterion-numerics) and the circle-model SDP (tangent-sdp-noise-directions). The exact value of min_F g_Q is still not proved; numerically kappa_opt = 1 - theta = 0.616 +- 0.003, conditional on H1, H2, H3 (card all-channel-optimum-value).
+
+## Hypotheses
+
+This result is conditional: at least part of the statement holds only where the hypotheses below hold. The sentences are quoted from the statement above; read the status badge only together with them.
+
+Hypothesis labels used: `H1`, `H2`, `H3`.
+
+> The exact value of min_F g_Q is still not proved; numerically kappa_opt = 1 - theta = 0.616 +- 0.003, conditional on H1, H2, H3 (card all-channel-optimum-value).
 
 ## How to verify
 
@@ -16,16 +24,18 @@ S8 Table 1; numerics/optimality_all/analyze_opt.py output.
 
 ## Evidence
 
-- [rigor/optimality_second_order.tex](../../rigor/optimality_second_order.tex) — document, at `Sec5`
+- [rigor/optimality_second_order.tex](../../rigor/optimality_second_order.tex) — document, at `sec:numerics`
 - [numerics/optimality_all/analyze_opt.py](../../numerics/optimality_all/analyze_opt.py) — numerics
 
 ## Related claims
 
-_None recorded._
+- [The all-channel second-order optimum equals the isometric-orbit value: kappa_opt = 1 - theta = 0.616 +- 0.003 (numerical; conditional on H1, H2, H3)](all-channel-optimum-value.md) — `numerical`
+- [Exact (N,Y,V) chart of F and the tangent problem at the compression](tangent-problem-exact-parametrisation.md) — `proved`
+- [KKT criterion numerics: every finite run FAILS (a); the violation extrapolates to 0^- as h -> 0, Ymax -> inf; under H3, (e) follows from the proved E(zeta_inf) >= 0 alone, and the finite-h junction values are positive](kkt-noise-criterion-numerics.md) — `numerical`
 
 ## Review
 
-**Review record:** passed 2026-09-14 by phase referees (rigor/referee_\*.tex, findings ledger).
+**Review record:** passed 2026-09-23 by REF-DEP-CFT-A4.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

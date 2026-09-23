@@ -29,7 +29,7 @@ rigor/exact_fidelity_upper_half.tex Sec. 7 (Thm 7.3, Remark 7.4, Cor 7.5), Verdi
 
 ## Review
 
-**Review record:** passed 2026-09-15 by REF-P5-3.
+**Review record:** passed 2026-09-23 by REF-DEP-CFT-A1.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

@@ -8,7 +8,7 @@
 
 ## Statement
 
-With a gap G between A and B, I(A:C|B) = (1/3) log\[(a+g+b)(g+b+c)/((g+b)(a+g+b+c))\] exactly (adjacent formula with L_B -> L_B + L_G), so I \~ L_G^-2; -log F decays with the same power and -log F / I -> 0.09. Away from criticality -log F is LINEAR in the CMI (ratio 0.10-0.17): the quadratic law is a fixed-point-plus-adjacency statement.
+For the massless Dirac field (lattice Dirac chain), with a gap G between A and B, I(A:C|B) = (1/3) log\[(a+g+b)(g+b+c)/((g+b)(a+g+b+c))\] exactly (adjacent formula with L_B -> L_B + L_G), so I \~ L_G^-2; -log F decays with the same power and -log F / I -> 0.09. Away from criticality (massive Dirac chain) -log F is LINEAR in the CMI (ratio 0.10-0.17): the quadratic law is a fixed-point-plus-adjacency statement.
 
 ## How to verify
 
@@ -25,7 +25,7 @@ _None recorded._
 
 ## Review
 
-**Review record:** passed 2026-09-14 by phase referees (rigor/referee_\*.tex, findings ledger).
+**Review record:** passed 2026-09-23 by REF-DEP-CFT-B3.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

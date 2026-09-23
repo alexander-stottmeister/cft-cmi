@@ -1,0 +1,12 @@
+w=0.0085 d=0.0001: ratio to printed = 0.908873, to corrected = 0.901520, sqrt((e^2w-1)/2w) = 1.004265
+w=0.0085 d=1e-06: ratio to printed = 0.993384, to corrected = 0.985019, sqrt((e^2w-1)/2w) = 1.004265
+w=0.0085 d=1e-08: ratio to printed = 1.003161, to corrected = 0.994675, sqrt((e^2w-1)/2w) = 1.004265
+w=0.0085 d=1e-10: ratio to printed = 1.004155, to corrected = 0.995656, sqrt((e^2w-1)/2w) = 1.004265
+w=0.005 d=0.0001: ratio to printed = 0.884214, to corrected = 0.880053, sqrt((e^2w-1)/2w) = 1.002505
+w=0.005 d=1e-06: ratio to printed = 0.988497, to corrected = 0.983600, sqrt((e^2w-1)/2w) = 1.002505
+w=0.005 d=1e-08: ratio to printed = 1.001078, to corrected = 0.996089, sqrt((e^2w-1)/2w) = 1.002505
+w=0.005 d=1e-10: ratio to printed = 1.002362, to corrected = 0.997363, sqrt((e^2w-1)/2w) = 1.002505
+w=0.001 d=0.0001: ratio to printed = 0.785265, to corrected = 0.784563, sqrt((e^2w-1)/2w) = 1.000500
+w=0.001 d=1e-06: ratio to printed = 0.970238, to corrected = 0.969283, sqrt((e^2w-1)/2w) = 1.000500
+w=0.001 d=1e-08: ratio to printed = 0.997346, to corrected = 0.996350, sqrt((e^2w-1)/2w) = 1.000500
+w=0.001 d=1e-10: ratio to printed = 1.000183, to corrected = 0.999184, sqrt((e^2w-1)/2w) = 1.000500

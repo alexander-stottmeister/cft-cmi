@@ -16,7 +16,7 @@ rigor/optimality_second_order.tex Sec. 3.
 
 ## Evidence
 
-- [rigor/optimality_second_order.tex](../../rigor/optimality_second_order.tex) — document, at `Thm3.1`
+- [rigor/optimality_second_order.tex](../../rigor/optimality_second_order.tex) — document, at `thm:convex-set`
 - [numerics/optimality/run_exact.py](../../numerics/optimality/run_exact.py) — numerics
 
 ## Related claims
@@ -25,7 +25,7 @@ _None recorded._
 
 ## Review
 
-**Review record:** passed 2026-09-14 by phase referees (rigor/referee_\*.tex, findings ledger).
+**Review record:** passed 2026-09-23 by REF-DEP-CFT-A2.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

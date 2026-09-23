@@ -21,7 +21,7 @@ Bracket: rigor/kubo_mori_gauge_lemma.tex; numbers: fidelity_tables.tex and numer
 
 ## Related claims
 
-- [Exact relative-entropy identity on unitary orbits](km-exact-identity.md) — `proved`
+- [Exact relative-entropy identity on unitary orbits (bounded generators; affiliated generators with Omega in D(A))](km-exact-identity.md) — `proved`
 - `km-gauge-lemma-refuted` — `refuted`, no page of its own
 
 ## Review

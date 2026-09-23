@@ -2,23 +2,24 @@
 
 # Every claim, by area
 
-90 cards: 89 claim cards of the knowledge base, plus 1 finding that has reached a status displayed here. The tally below is counted from the cards, not typed:
+112 cards: 111 claim cards of the knowledge base, plus 1 finding that has reached a status displayed here. The tally below is counted from the cards, not typed:
 
 | status | claims | what it means |
 |---|---:|---|
 | `refereed` | 3 | a complete structured proof that an independent referee pass has accepted |
-| `proved` | 30 | a complete structured proof |
-| `numerical` | 22 | measured, with an error bar and a convergence order; not a theorem |
-| `conjectural` | 3 | believed, with partial evidence; not proved |
+| `proved` | 39 | a complete structured proof |
+| `numerical` | 25 | measured, with an error bar and a convergence order; not a theorem |
+| `conjectural` | 10 | believed, with partial evidence; not proved |
 | `verified` | 5 | a check that was carried out and agreed |
 | `open` | 5 | an unsettled question |
 | `active` | 14 | work in progress |
 | `done` | 5 | a finished piece of project work |
 | `superseded` | 2 | replaced by a later claim |
-| `refuted` | 1 | shown to be false, kept so the correction stays visible |
-| **total** | **90** | |
+| `refuted` | 3 | shown to be false, kept so the correction stays visible |
+| `heuristic` | 1 | — |
+| **total** | **112** | |
 
-58 of them are `refereed`, `proved`, `numerical`, `conjectural` and have a page of their own under [`results/`](results/); the remainder are listed here with their status only.
+77 of them are `refereed`, `proved`, `numerical`, `conjectural` and have a page of their own under [`results/`](results/); the remainder are listed here with their status only.
 
 A referee pass is not implied by a status. Of the cards listed here, **0 have never been refereed** and **0 carry a failed referee pass**, that is repairs asked for and not yet absorbed. Cards awaiting a pass after a recent change are marked too, but not counted here: that number moves with day-to-day editing of infrastructure cards that have no page. All three are marked in the tables below, as *never refereed*, *referee pass failed* and *review pending*. Nothing labelled `numerical` is a theorem.
 
@@ -30,9 +31,11 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 
 | status | claim | |
 |---|---|---|
+| `proved` | [Three faces of the Bures form (type III)](results/bures-three-faces.md) |  |
 | `proved` | [CMI as the data-processing defect of tracing out C (Note 2)](results/cmi-markov-defect-interpretation.md) |  |
-| `proved` | [Longo-Xu CMI of adjacent intervals](results/longo-xu-cmi.md) |  |
-| `proved` | [Type-III second-variation lemma (fidelity half)](results/second-variation-lemma.md) |  |
+| `proved` | [Longo-Xu CMI of adjacent intervals for the free fermion net A_r, its finite-index subnets and extensions](results/longo-xu-cmi.md) |  |
+| `proved` | [Type-III second-variation lemma (fidelity half), under the vector hypothesis (V)](results/second-variation-lemma.md) |  |
+| `conjectural` | [Longo-Xu Remark 4.3: adjacent-interval CMI (c/6) log(1+z) for every rational conformal net (conjecture)](results/longo-xu-cmi-general-c.md) |  |
 | `verified` | Cross-ratio conventions used across the notes |  |
 | `verified` | The Delta^(1/2) fidelity formula was wrong (Wigner-Yanase quantity) |  |
 
@@ -45,18 +48,26 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 | status | claim | |
 |---|---|---|
 | `refereed` | [Theorem A: lim Phi/zeta^2 = c/(12 pi^2)](results/thm-a-quadratic-law.md) |  |
+| `proved` | [The C^{1,1} extension of the zero-collar map is implementable on Fock space (uhlmann_upper_bound.tex Cor. 2.7, Prop. 3.1)](results/c11-extension-implementer.md) |  |
 | `proved` | [f2 = c/(12 pi^2)](results/const-f2.md) |  |
-| `proved` | [One-particle metrics g_B = 2c/(3 pi^2), g_KM = c/6](results/const-gb.md) |  |
+| `proved` | [Free-fermion one-particle metrics of the compression direction: g_B = 2r/(3 pi^2), g_KM = r/6 (c = r)](results/const-gb.md) |  |
 | `proved` | [Zero-collar Petz map of the free fermion is a geometric compression](results/petz-zero-collar-channel.md) |  |
+| `proved` | [Phi(zeta) and D(zeta) are nondecreasing in zeta (check_note5_theory.tex Prop. 8.1)](results/phi-monotone-in-zeta.md) |  |
 | `proved` | [Exact root fidelity of two quasi-free CAR states from their symbols (Note 5 Thm. 2.1)](results/quasi-free-fidelity-formula.md) |  |
-| `proved` | [Remainder of Theorem A: integer powers, c3 = -0.99](results/rate-of-remainder.md) |  |
-| `proved` | [Ultraviolet tail bound for the windowed fidelity](results/tail-bound.md) |  |
-| `proved` | [Two-chirality law for 2D CFTs](results/two-chirality-law.md) |  |
-| `proved` | [Exact x-space Mellin transform W-hat(k) and the invariant formula for g_B](results/w-hat-mellin-formula.md) |  |
+| `proved` | [Remainder of Theorem A: global upper bound Phi \<= -(1/2) log(1 - 2 f2 zeta^2); c3 \<= 0 as a limsup; no positive log^-2 term](results/rate-of-remainder.md) |  |
+| `proved` | [Ultraviolet tail bound for the windowed fidelity (shape proved; explicit constants 0.173, 0.88 rest on numerical inputs)](results/tail-bound.md) |  |
+| `proved` | [Two-chirality law for the massless Dirac fermion: -log F^(lambda) = Phi(z(1+e^{-pi lambda})) + Phi(z(1+e^{pi lambda})), even in lambda](results/two-chirality-law.md) |  |
+| `proved` | [Exact x-space Mellin transform W-hat(k) of the \<TT> kernel and its KMS relation](results/w-hat-mellin-formula.md) |  |
 | `numerical` | [Certified enclosures of the compressed recovery error](results/certified-numerics.md) |  |
 | `numerical` | [Continuum Phi at large zeta and the drifting exponent](results/large-zeta-values.md) |  |
+| `numerical` | [Weak link: Phi(zeta) \<= 0.0085 zeta^2 on (0, 1\] (rigorous on (0, 0.8868\], numerical on \[0.8868, 1\])](results/phi-below-0085-zeta2-numerical.md) |  |
+| `numerical` | [Weak link: numerical values of the tail constants A_1 \<= 2.0 and A_3 \<= 0.036](results/tail-constants-numerical.md) |  |
+| `conjectural` | [Two-chirality law for a general 2D CFT (rests on an unproved chiral factorisation)](results/two-chirality-law-general-cft.md) |  |
+| `conjectural` | [Two-chirality minimum: for the massless Dirac fermion -log F^(lambda) is minimal at lambda = 0 for every z (unproved)](results/two-chirality-minimum-at-lambda-zero.md) |  |
 | `verified` | Note 5 numerics independently verified |  |
 | `open` | Certify the defect-matrix quadrature and the box cutoff |  |
+| `refuted` | Phi' is NOT nondecreasing on (0, infinity): the step used in prop:chirality \<1>8 is false |  |
+| `heuristic` | Remainder of Theorem A in integer powers, c3 = -0.99(1), c4 = +0.9(1) (computed; scripts not in the repository) |  |
 
 <a id="area-universality"></a>
 
@@ -68,6 +79,7 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 |---|---|---|
 | `refereed` | [(H1)-(H3) hold for all diffeomorphism-covariant nets](results/implementer-hypotheses.md) |  |
 | `refereed` | [Theorem B: f2 = c/(12 pi^2) for every diffeomorphism-covariant net](results/thm-b-universality.md) |  |
+| `proved` | [g_B = 2c/(3 pi^2) for the compression direction of every diffeomorphism-covariant net (corollary of Theorem B)](results/const-gb-general-nets.md) |  |
 | `proved` | [Stress-tensor normalisation chain](results/stress-tensor-normalisation.md) |  |
 | `numerical` | [Bosonic check: U(1) current net agrees](results/boson-check.md) |  |
 
@@ -79,8 +91,9 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 
 | status | claim | |
 |---|---|---|
-| `proved` | [Exact relative-entropy identity on unitary orbits](results/km-exact-identity.md) |  |
+| `proved` | [Exact relative-entropy identity on unitary orbits (bounded generators; affiliated generators with Omega in D(A))](results/km-exact-identity.md) |  |
 | `conjectural` | [s2 = c/12 for general nets](results/conj-s2.md) |  |
+| `conjectural` | [g_KM = c/6 for the compression direction of a general conformal net (conjecture; only the analytically continued value exists)](results/const-gkm-general-nets.md) |  |
 | `refuted` | Kubo-Mori gauge lemma by restriction to A(K) is false |  |
 
 <a id="area-optimality"></a>
@@ -91,17 +104,22 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 
 | status | claim | |
 |---|---|---|
-| `proved` | [The A-C restriction lower bound is exactly zero](results/ac-lower-bound-zero.md) |  |
+| `proved` | [A-C restriction bound: (Tcond) implies E_AC = 0 exactly; applied on the hopping chain (4,8,2), (4,12,2), (4,16,2)](results/ac-lower-bound-zero.md) |  |
 | `proved` | [All-channel second-order optimum = quasi-free SDP value](results/all-channel-equals-quasi-free.md) |  |
 | `proved` | [Every recovery channel's recovered symbol is quasi-free feasible](results/all-channels-symbol-feasible.md) |  |
+| `proved` | [The first-order compression defect is a commutator with the vacuum symbol: ddelta = \[Q, E_I D_chi E_I\] (F1 Lemma 6.1)](results/compression-defect-commutator-form.md) |  |
 | `proved` | [Exterior directions exhaust the invisible space: closure(Ext) = N^perp (question (Q) settled, YES)](results/exterior-exhaust-invisible.md) |  |
 | `proved` | [Exact KKT certificate at the compression; Moebius rigidity](results/kkt-certificate.md) |  |
 | `proved` | [KKT sign criterion: when the isometric orbit carries the all-channel second-order optimum](results/kkt-noise-sign-criterion.md) |  |
-| `proved` | [The Petz map is not second-order optimal (compression 4x better)](results/petz-not-optimal.md) |  |
+| `proved` | [Moebius reduction: the fidelity and relative entropy of the geometric recovery depend on (a, L, s) only through zeta = a s/(a+L), including the half-line chart a = infinity (zeta = s) (Note 5 Lemma 1.1; check_note5_theory prop:closed)](results/mobius-reduction-cross-ratio.md) |  |
+| `proved` | [The Petz map is not second-order optimal (compression 4x better at leading order)](results/petz-not-optimal.md) |  |
 | `proved` | [Second-order problem over quasi-free channels is a convex SDP](results/quasi-free-sdp.md) |  |
-| `proved` | [Exact single-observable fidelity bound (Alberti-Uhlmann)](results/single-observable-bound.md) |  |
+| `proved` | [Second-order (SLD / quantum Fisher) expansion of the quasi-free root fidelity in finite dimensions (Note 5 Prop. 2.3)](results/quasi-free-second-order-fidelity-expansion.md) |  |
+| `proved` | [Exact single-observable fidelity bound (Alberti-Uhlmann) and its reduction to the recovered symbol](results/single-observable-bound.md) |  |
 | `proved` | [Exact (N,Y,V) chart of F and the tangent problem at the compression](results/tangent-problem-exact-parametrisation.md) |  |
+| `proved` | [The theta-problem in the modular frame of the half-line is a parameter-free quadratic Wiener-Hopf problem (F1 Prop. 6.2)](results/theta-wiener-hopf-frame.md) |  |
 | `proved` | [(UH) proved: optimised Uhlmann bound = g_Q of the defect, for every isometric quasi-free channel](results/uhlmann-upper-half-proved.md) |  |
+| `numerical` | [Hopping chain: T = Q_AB^+ Q_AC satisfies the A-C intertwining conditions (Tcond) for (L_A,L_B,L_C) = (4,8,2), (4,12,2), (4,16,2)](results/ac-intertwiner-exists-hopping-chain.md) |  |
 | `numerical` | [The all-channel second-order optimum equals the isometric-orbit value: kappa_opt = 1 - theta = 0.616 +- 0.003 (numerical; conditional on H1, H2, H3)](results/all-channel-optimum-value.md) |  |
 | `numerical` | [S10's circle model: the ultraviolet taper suppresses theta by \~20%, and there is no taper-free limit](results/circle-model-taper-suppresses-theta.md) |  |
 | `numerical` | [E_rec \<= (1-theta) f2 z^2 (1+o(1)): the zero-collar compression is NOT optimal in exact fidelity](results/compression-not-optimal-exact-fidelity.md) |  |
@@ -113,10 +131,13 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 | `numerical` | [Is the compression beaten in EXACT fidelity?](results/exact-fidelity-optimality-open.md) |  |
 | `numerical` | [Finite chains: exterior directions span exactly the invisible space (Ext = N^perp)](results/finite-dim-exterior-density.md) |  |
 | `numerical` | [Full primal SDP over F in the modular Galerkin frame: min_F g_Q = 8.41 and 7.13 times g_Q(delta_c) at h = 0.4, 0.3 -- the S11 representability obstruction, not a statement about non-isometric channels](results/galerkin-full-f-uninformative.md) |  |
-| `numerical` | [KKT criterion numerics: every finite run FAILS (a); the violation extrapolates to 0^- as h -> 0, Ymax -> inf; E(zeta_0) > 0 and E(zeta_inf) > 0, so (e) holds for the whole cone under H3](results/kkt-noise-criterion-numerics.md) |  |
+| `numerical` | [KKT criterion numerics: every finite run FAILS (a); the violation extrapolates to 0^- as h -> 0, Ymax -> inf; under H3, (e) follows from the proved E(zeta_inf) >= 0 alone, and the finite-h junction values are positive](results/kkt-noise-criterion-numerics.md) |  |
 | `numerical` | [Structure of the numerical optimum](results/optimal-channel-structure.md) |  |
 | `numerical` | [Tangent SDP over (G, N1, Y1) in the circle model: orbit-only optimum matches (1-theta) to 1.1e-7, full optimum not resolvable (measured Gram cond 2.4e22)](results/tangent-sdp-noise-directions.md) |  |
 | `numerical` | [The first-order gain constant theta = 0.384 +- 0.003 (S10's 0.300 is a taper-suppressed lower bound)](results/theta-value.md) |  |
+| `conjectural` | [Hypothesis H1 of the tangent problem: g_Q-differentiability along the scaled family](results/tangent-h1-gq-differentiability.md) |  |
+| `conjectural` | [Hypothesis H2 of the tangent problem: localisation of the minimisers of the second-order programme](results/tangent-h2-minimiser-localisation.md) |  |
+| `conjectural` | [Hypothesis H3 of the tangent problem (cone hypothesis): every admissible isometry generator with a feasible first-order datum lies in the model cone modulo the linear class](results/tangent-h3-cone-hypothesis.md) |  |
 | `verified` | Finite spectral models do not resolve exact fidelities |  |
 | `open` | theta as a geometry-free Wiener-Hopf constant in the modular frame of I |  |
 | `done` | Phase 4 plan: settle exact-fidelity optimality via the Uhlmann route with arbitrary exterior extensions |  |
@@ -134,7 +155,8 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 | `proved` | [Separation constraint: all-weak L->R Petz chains have e^{Delta_k} >= 2/eps (sharp)](results/corner-separation-constraint.md) |  |
 | `proved` | [Amplification: the corner strength in the chain frame is zeta_step (1 + z')](results/frame-strength-amplification.md) |  |
 | `proved` | [Corner data of all one-sided protocols for n = 4 and n = 5: the holonomy is the starting block](results/protocol-corner-data-n4-n5.md) |  |
-| `proved` | [Type-III sequential recovery bound: Bures angles add along a chain of von Neumann inclusions](results/sequential-recovery-bound-type-iii.md) |  |
+| `proved` | [Angle form of the sequential recovery bound, conditional on Hypothesis (U) (vacuous: (U) is refuted)](results/sequential-recovery-angle-form-under-u.md) |  |
+| `proved` | [Type-III sequential recovery bound: Bures distances add along a chain of von Neumann inclusions (chordal and second-order forms, no Hypothesis (U))](results/sequential-recovery-bound-type-iii.md) |  |
 | `proved` | [Vacuum rigidity: the pulled-back vacuum is the vacuum iff the map is Moebius; no protocol recovers exactly](results/vacuum-rigidity-exact-recovery.md) |  |
 | `numerical` | [Separated intervals: CMI with a gap and linearity off criticality](results/gap-law.md) |  |
 | `numerical` | [Markov c-function along the massive flow](results/rg-c-function.md) |  |
@@ -146,6 +168,7 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 | `open` | Multi-interval networks (O10, second half) |  |
 | `open` | Charged sectors, state dependence, collar Gaussianity (O11) |  |
 | `active` | Phase 6 plan: multi-interval networks as a corner calculus |  |
+| `refuted` | Hypothesis (U) is false: the natural-cone inner product is not the fidelity |  |
 
 <a id="area-papers"></a>
 

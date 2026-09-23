@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The C^{1,1} extension of the zero-collar map is implementable on Fock space (uhlmann_upper_bound.tex Cor. 2.7, Prop. 3.1) &mdash; cft-cmi</title>
+<meta name="description" content="The C^{1,1} extension of the zero-collar map is implementable on Fock space (uhlmann_upper_bound.tex Cor. 2.7, Prop. 3.1). Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../../index.html">Interactive site</a>
+    <a href="../index.html">Documentation</a>
+    <a href="../status.html">All claims</a>
+    <a href="../open.html">Open problems</a>
+    <a href="../notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>The C^{1,1} extension of the zero-collar map is implementable on Fock space (uhlmann_upper_bound.tex Cor. 2.7, Prop. 3.1)</h1>
+<p><strong>Status:</strong> <code>proved</code> — a complete structured proof.</p>
+<p><strong>Area:</strong> <a href="../status.html#area-theorem-a">Theorem A: exact recovery error of the free fermion</a> · <strong>Card type:</strong> theorem · <strong>Knowledge-base id:</strong> <code>c11-extension-implementer</code></p>
+<h2>Statement</h2>
+<p>Geometry of rigor/uhlmann_upper_bound.tex (eq:geom, l. 72-74): A = (-infinity, 0), D = (0, 1), I = AD = (-infinity, 1), I' = (1, infinity), zeta = s (a = infinity, L = 1). Let k~_s be the flow of the vector field -chi d/dx, with chi = 0 on x &lt;= 0 and chi(x) = x^2 beta(x-1) on x &gt; 0 (def:ext). (k~_s) for s real is a one-parameter group of C^{1,1} increasing bijections of R, equal to the identity outside (0, 2). For s &gt;= 0, moreover, k~_s(x) = x/(1+sx) = k_s(x) on [0, 1] (lem:ext (E1), (E2)); the document states (E1)-(E4) only for every s &gt;= 0 (l. 122). (E2) does not extend to s &lt; 0. At s = -1, x = 0.9, x/(1+sx) = 9 lies outside [0, 2], which k~_s maps onto itself. The flow value depends on beta, which the document fixes only by its properties (def:ext, l. 105-106): 1.756 for the standard smooth step, 1.629 for beta^2, 1.905 for beta = 1 on [0, 1/2] (refb6_flow.py). For every allowed beta, (E2) fails for all s &lt;= -1/2; for -1/2 &lt; s &lt; 0 it depends on beta (with beta = 1 on [0, 1/2] it holds for -1/3 &lt;= s &lt; 0; with the standard step it fails for every s &lt; 0). Let W~_s be the unitary push-forward of k~_s on half-densities. Then P_- W~_s P_+ is Hilbert-Schmidt for every s. prop:HS gives an explicit bound when ||id - k~_s||_inf &lt;= 1/2 (l. 286-287). Every other s follows from W~_s = (W~_{s/n})^n, since products of unitaries with Hilbert-Schmidt off-diagonal parts have Hilbert-Schmidt off-diagonal parts. The other block is P_+ W~_s P_- = (P_- W~_{-s} P_+)^*, Hilbert-Schmidt by the same argument. The document omits that step, although its 'every 0 &lt;= s &lt;= 1' (l. 293) and cor:implementer's 'every s in R' use prop:HS beyond its hypothesis: with the standard step, ||id - k~_s||_inf = 0.61 at s = 0.5 and 0.95 at s = 1 (refb6_flow.py). So there is a unitary Gamma(W~_s) of Fock space, unique up to a phase, with Gamma(W~_s) a(f) Gamma(W~_s)^* = a(W~_s f) for all f (cor:implementer). The same holds for W~_s(1_{L^2(I)} (+) W'), with W' a unitary of L^2(I') such that P_-(1 (+) W')P_+ and P_+(1 (+) W')P_- are both Hilbert-Schmidt. The Shale-Stinespring criterion needs both off-diagonal blocks; an example is W' = e^{ish'} with h' self-adjoint, as in def:admissible, l. 745-754. The document's one-sided condition is not enough (DOCUMENT ERROR note). For s &gt;= 0, Gamma(W~_s) X Gamma(W~_s)^* = beta_s(X) on the CAR generators of F(I), and Psi_s = Gamma(W~_s)^* Omega is a vector representative of the recovered state omega~_s = omega_{J_s} o beta_s on F(I) (prop:vector; (C4), l. 76-80). The Shale-Stinespring criterion (and Araki 1970) is cited, not obtained ('Screenshot: NOT OBTAINED', l. 360).</p>
+<h2>How to verify</h2>
+<p>rigor/uhlmann_upper_bound.tex Def. 2.1 (def:ext, l. 104), Lemma 2.2 (lem:ext), Prop. 2.5 (prop:HS, l. 284), cited box before Cor. 2.7 (Shale-Stinespring, l. 348-363), Cor. 2.7 (cor:implementer, l. 367-376), Prop. 3.1 (prop:vector, l. 392-414).</p>
+<h2>Evidence</h2>
+<ul>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/uhlmann_upper_bound.tex">rigor/uhlmann_upper_bound.tex</a> — document, at <code>cor:implementer</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/uhlmann_upper_bound.tex">rigor/uhlmann_upper_bound.tex</a> — document, at <code>def:ext</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/uhlmann_upper_bound.tex">rigor/uhlmann_upper_bound.tex</a> — document, at <code>lem:ext</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/uhlmann_upper_bound.tex">rigor/uhlmann_upper_bound.tex</a> — document, at <code>prop:HS</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/uhlmann_upper_bound.tex">rigor/uhlmann_upper_bound.tex</a> — document, at <code>prop:vector</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/kb-checks-2026-09-23/refb6_flow.py">numerics/kb-checks-2026-09-23/refb6_flow.py</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/kb-checks-2026-09-23/refb6_flow.out">numerics/kb-checks-2026-09-23/refb6_flow.out</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/kb-checks-2026-09-23/refb9_winding.py">numerics/kb-checks-2026-09-23/refb9_winding.py</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/kb-checks-2026-09-23/refb9_winding.out">numerics/kb-checks-2026-09-23/refb9_winding.out</a> — numerics</li>
+</ul>
+<h2>Related claims</h2>
+<ul>
+<li><a href="petz-zero-collar-channel.html">Zero-collar Petz map of the free fermion is a geometric compression</a> — <code>proved</code></li>
+<li><a href="thm-a-quadratic-law.html">Theorem A: lim Phi/zeta^2 = c/(12 pi^2)</a> — <code>refereed</code></li>
+<li><a href="rate-of-remainder.html">Remainder of Theorem A: global upper bound Phi &lt;= -(1/2) log(1 - 2 f2 zeta^2); c3 &lt;= 0 as a limsup; no positive log^-2 term</a> — <code>proved</code></li>
+</ul>
+<h2>Review</h2>
+<p><strong>Review record:</strong> passed 2026-09-24 by REF-PUB-1.</p>
+<p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
+<hr>
+<p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/results/c11-extension-implementer.md"><code>docs/results/c11-extension-implementer.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

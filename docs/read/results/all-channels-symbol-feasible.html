@@ -32,12 +32,12 @@
 <p><strong>Status:</strong> <code>proved</code> — a complete structured proof.</p>
 <p><strong>Area:</strong> <a href="../status.html#area-optimality">Optimality of recovery channels (O8, Phases 3 and 3b)</a> · <strong>Card type:</strong> theorem · <strong>Knowledge-base id:</strong> <code>all-channels-symbol-feasible</code></p>
 <h2>Statement</h2>
-<p>For every normal unital CP even beta: A(BC) -&gt; A(B), with xi_g = beta(a(g)) Omega, Kadison-Schwarz for a(g) and a*(g) gives Z &gt;= Gram(xi) and 1 - Z &gt;= Gram(S_B xi); projecting to the one-particle charge -1 sector preserves these (the projections commute with Delta_B, Baumgaertel-Jurke-Lledo Cor. 5.4); D(S_B) on one-particle vectors is exactly the localised ones (BJL Prop. 5.3, closed graph Lemma 4.10). Hence xi_g = a(X* g) Omega with X* g in h_B and (X, Z) in F.</p>
+<p>For every normal unital CP even beta: A(BC) -&gt; A(B), with xi_g = beta(a(g)) Omega, Kadison-Schwarz for a(g) and a*(g) gives Z &gt;= Gram(xi) and 1 - Z &gt;= Gram(S_B xi); projecting with Pi := P_- P_1 onto the one-particle charge -1 sector preserves these (the projections commute with Delta_B, Baumgaertel-Jurke-Lledo Cor. 5.4); D(S_B) on one-particle vectors is exactly the localised ones (BJL Prop. 5.3, closed graph Lemma 4.10). Hence the PROJECTED vector satisfies Pi xi_g = a(X* g) Omega with X* g in h_B (thm:range &lt;1&gt;1-&lt;1&gt;2), and (X, Z) in F with Q^beta = Q_rec(X, Z), Z = Q^beta_DD. The unprojected xi_g need not be a one-particle vector (only Pi xi_g is used), so xi_g = a(X* g) Omega itself is not claimed.</p>
 <h2>How to verify</h2>
 <p>rigor/optimality_all_channels.tex Sec. 3 with screenshots rigor/shots/BJL_p*.png; lattice test numerics/optimality_all/symbol_in_F_test.py. (the screenshots are page excerpts of the cited publications and are not redistributed; see THIRD-PARTY.md)</p>
 <h2>Evidence</h2>
 <ul>
-<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/optimality_all_channels.tex">rigor/optimality_all_channels.tex</a> — document, at <code>Thm3.5</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/optimality_all_channels.tex">rigor/optimality_all_channels.tex</a> — document, at <code>thm:range</code></li>
 <li><code>refs/BJL_twisted_duality_math-ph-0204029.pdf</code> — source, at <code>Prop5.3</code>; held privately, not redistributed</li>
 </ul>
 <h2>Related claims</h2>
@@ -45,7 +45,7 @@
 <li><a href="quasi-free-sdp.html">Second-order problem over quasi-free channels is a convex SDP</a> — <code>proved</code></li>
 </ul>
 <h2>Review</h2>
-<p><strong>Review record:</strong> passed 2026-09-21 by REF-MOVE-1b.</p>
+<p><strong>Review record:</strong> passed 2026-09-23 by REF-DEP-CFT-A3.</p>
 <p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
 <hr>
 <p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>

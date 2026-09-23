@@ -24,18 +24,18 @@ rigor/universality_theorem_B.tex (24 pp) and its referee report; inverted factor
 
 ## Evidence
 
-- [rigor/universality_theorem_B.tex](../../rigor/universality_theorem_B.tex) — document
-- [rigor/referee_universality_theorem_B.tex](../../rigor/referee_universality_theorem_B.tex) — document
-- [universality_normalization.tex](../../universality_normalization.tex) — document
+- [rigor/universality_theorem_B.tex](../../rigor/universality_theorem_B.tex) — document, at `thm:B`
+- [rigor/referee_universality_theorem_B.tex](../../rigor/referee_universality_theorem_B.tex) — document, at `r:edits`
+- [universality_normalization.tex](../../universality_normalization.tex) — document, at `sec:setting`
 
 ## Related claims
 
 - [(H1)-(H3) hold for all diffeomorphism-covariant nets](implementer-hypotheses.md) — `refereed`
-- [One-particle metrics g_B = 2c/(3 pi^2), g_KM = c/6](const-gb.md) — `proved`
+- [Free-fermion one-particle metrics of the compression direction: g_B = 2r/(3 pi^2), g_KM = r/6 (c = r)](const-gb.md) — `proved`
 
 ## Review
 
-**Review record:** passed 2026-09-14 by phase referees (rigor/referee_\*.tex, findings ledger).
+**Review record:** passed 2026-09-23 by REF-DEP-CFT-B2.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

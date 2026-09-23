@@ -8,7 +8,7 @@
 
 ## Statement
 
-Second-order coefficient of the recovery error per chirality: f2 = c/(12 pi^2) = 0.0084434 c; numerically 0.008444(1) for c = 1. For the ordinary Petz map (both chiralities of a 2D CFT) the coefficient is 8 f2 in z^2; for the compression 2 f2 z^2; in Vardhan-Wei-Zou variables 0.0169 c eta^2 against their 0.0676 c eta^2.
+Second-order coefficient of the recovery error per chirality: f2 = c/(12 pi^2) = 0.0084434 c; numerically 0.008444(1) for c = 1. For the ordinary Petz map with both chiralities (massless Dirac fermion, card two-chirality-law; for a general 2D CFT this rests on the unproved chiral factorisation of card two-chirality-law-general-cft) the coefficient is 8 f2 in z^2; for the compression 2 f2 z^2; in Vardhan-Wei-Zou variables at lambda = 0 this is 0.0169 c eta^2 (compression) against 0.0676 c eta^2 = 8 f2 eta^2 (ordinary Petz map), to be compared with VWZ's lattice fit 0.070 c eta^2.
 
 ## How to verify
 
@@ -16,7 +16,7 @@ rigor/quadratic_limit.tex Thm 4.2; tables in fidelity_tables.tex.
 
 ## Evidence
 
-- [rigor/quadratic_limit.tex](../../rigor/quadratic_limit.tex) — document
+- [rigor/quadratic_limit.tex](../../rigor/quadratic_limit.tex) — document, at `thm:lower`
 - [numerics/make_tables.py](../../numerics/make_tables.py) — numerics
 
 ## Related claims
@@ -25,7 +25,7 @@ _None recorded._
 
 ## Review
 
-**Review record:** passed 2026-09-14 by phase referees (rigor/referee_\*.tex, findings ledger).
+**Review record:** passed 2026-09-23 by REF-DEP-CFT-B3.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

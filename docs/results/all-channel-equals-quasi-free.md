@@ -23,11 +23,11 @@ rigor/optimality_all_channels.tex Sec. 4-5; numerics/optimality_all/all_channels
 ## Related claims
 
 - [Every recovery channel's recovered symbol is quasi-free feasible](all-channels-symbol-feasible.md) — `proved`
-- [Exact single-observable fidelity bound (Alberti-Uhlmann)](single-observable-bound.md) — `proved`
+- [Exact single-observable fidelity bound (Alberti-Uhlmann) and its reduction to the recovered symbol](single-observable-bound.md) — `proved`
 
 ## Review
 
-**Review record:** passed 2026-09-14 by phase referees (rigor/referee_\*.tex, findings ledger).
+**Review record:** passed 2026-09-23 by REF-DEP-CFT-A1.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

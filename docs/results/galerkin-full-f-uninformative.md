@@ -25,19 +25,19 @@ cd numerics/optimality_all; $V/bin/python f2_galerkin_full.py 0.4,0.3 (prints, p
 
 - [numerics/optimality_all/F2_RESULTS.md](../../numerics/optimality_all/F2_RESULTS.md) — numerics
 - [numerics/optimality_all/f2_galerkin_a.out](../../numerics/optimality_all/f2_galerkin_a.out) — numerics
-- [rigor/sdp_certificate_numerics.tex](../../rigor/sdp_certificate_numerics.tex) — document, at `l484-497`
+- [rigor/sdp_certificate_numerics.tex](../../rigor/sdp_certificate_numerics.tex) — document, at `sec:refine`
 - [numerics/optimality_all/kc_h04.out](../../numerics/optimality_all/kc_h04.out) — numerics
 - [numerics/optimality_all/kc_h05.out](../../numerics/optimality_all/kc_h05.out) — numerics
 
 ## Related claims
 
-- [KKT criterion numerics: every finite run FAILS (a); the violation extrapolates to 0^- as h -> 0, Ymax -> inf; E(zeta_0) > 0 and E(zeta_inf) > 0, so (e) holds for the whole cone under H3](kkt-noise-criterion-numerics.md) — `numerical`
+- [KKT criterion numerics: every finite run FAILS (a); the violation extrapolates to 0^- as h -> 0, Ymax -> inf; under H3, (e) follows from the proved E(zeta_inf) >= 0 alone, and the finite-h junction values are positive](kkt-noise-criterion-numerics.md) — `numerical`
 - [Tangent SDP over (G, N1, Y1) in the circle model: orbit-only optimum matches (1-theta) to 1.1e-7, full optimum not resolvable (measured Gram cond 2.4e22)](tangent-sdp-noise-directions.md) — `numerical`
 - `phase5-plan` — `done`, no page of its own
 
 ## Review
 
-**Review record:** passed 2026-09-15 by REF-P5-3.
+**Review record:** passed 2026-09-23 by REF-DEP-CFT-A1.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

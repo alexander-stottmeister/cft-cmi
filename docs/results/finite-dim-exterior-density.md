@@ -26,7 +26,7 @@ run numerics/optimality_all/e0_finite_density.py (numpy only): every line ends w
 
 ## Review
 
-**Review record:** passed 2026-09-15 by REF-KB-7.
+**Review record:** passed 2026-09-23 by REF-DEP-CFT-A1.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

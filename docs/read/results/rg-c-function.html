@@ -32,17 +32,19 @@
 <p><strong>Status:</strong> <code>numerical</code> — measured, with an error bar and a convergence order; not a theorem.</p>
 <p><strong>Area:</strong> <a href="../status.html#area-lattice-thermal">Lattice, thermal, massive and gapped geometries (O7, O9, O10)</a> · <strong>Card type:</strong> result · <strong>Knowledge-base id:</strong> <code>rg-c-function</code></p>
 <h2>Statement</h2>
-<p>For the massive Dirac chain c_M &gt;= c_E along the flow, both fall monotonically to zero, and c_M/c_E -&gt; mR.</p>
+<p>For the massive (staggered-mass) Dirac chain, c_M(R) := 3R^2 I_{R-2}(2)/4 and c_E(R) := 3R (S(R+2) - S(R-2))/4 satisfy c_M &gt;= c_E at every computed point, and along the flow (mu R from 0 to infinity, mu = m/2) both fall monotonically from c = 1 towards 0 (dc_E/dR &lt; 0 and dc_M/dR &lt; 0 at every point with m &gt; 0; numerics/lattice/petz_thermal_rg.out l. 393-549). The ratio c_M/c_E behaves like m R only in a scaling window (correlation length xi = 2/m &gt;&gt; 1 site and mu R &gt;&gt; 1; the free-field prediction from S(R) - S(infinity) ~ A e^{-2 mu R}); on the lattice at fixed m the ratio (c_M/c_E)/(mR) does not tend to 1: for m = 0.4 it is 1.196, 1.077, 1.020, 1.003, 0.992, 0.972 at R = 6, 10, 16, 20, 24, 40 and still falling, and at R = 40 it is 0.825 for m = 0.8 and 0.563 for m = 1.6 (plateaus f(0.8) ~ 0.83, f(1.6) ~ 0.56), while for small m (0.05, 0.1, 0.2) it is still above 1 and decreasing at R = 40 (1.36, 1.15, 1.05). This is consistent with c_M/c_E ~ m R in the continuum scaling limit (m -&gt; 0 at fixed mu R &gt;&gt; 1), which the data do not reach; rigor/thermal_rg_gap_summary.md:73 quotes only R &lt;= 16 at m = 0.4.</p>
 <h2>How to verify</h2>
-<p>numerics/lattice/petz_thermal_rg.out, RG section.</p>
+<p>numerics/lattice/petz_thermal_rg.out, RG section (l. 393-549; columns c_E, c_M, c_M/c_E, (c_M/c_E)/(mR), dc_E, dc_M per mass); petz_thermal_rg.py l. 429-470 (cfun_scan); rigor/thermal_rg_gap_summary.md l. 60-80.</p>
 <h2>Evidence</h2>
 <ul>
 <li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/lattice/petz_thermal_rg.py">numerics/lattice/petz_thermal_rg.py</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/lattice/petz_thermal_rg.out">numerics/lattice/petz_thermal_rg.out</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/thermal_rg_gap_summary.md">rigor/thermal_rg_gap_summary.md</a> — document</li>
 </ul>
 <h2>Related claims</h2>
 <p><em>None recorded.</em></p>
 <h2>Review</h2>
-<p><strong>Review record:</strong> passed 2026-09-14 by phase referees (rigor/referee_*.tex, findings ledger).</p>
+<p><strong>Review record:</strong> passed 2026-09-23 by REF-DEP-CFT-B4.</p>
 <p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
 <hr>
 <p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>

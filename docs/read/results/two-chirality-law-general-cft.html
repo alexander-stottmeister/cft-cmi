@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Two-chirality law for a general 2D CFT (rests on an unproved chiral factorisation) &mdash; cft-cmi</title>
+<meta name="description" content="Two-chirality law for a general 2D CFT (rests on an unproved chiral factorisation). Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../../index.html">Interactive site</a>
+    <a href="../index.html">Documentation</a>
+    <a href="../status.html">All claims</a>
+    <a href="../open.html">Open problems</a>
+    <a href="../notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>Two-chirality law for a general 2D CFT (rests on an unproved chiral factorisation)</h1>
+<p><strong>Status:</strong> <code>conjectural</code> — believed, with partial evidence; not proved.</p>
+<p><strong>Area:</strong> <a href="../status.html#area-theorem-a">Theorem A: exact recovery error of the free fermion</a> · <strong>Card type:</strong> conjecture · <strong>Knowledge-base id:</strong> <code>two-chirality-law-general-cft</code></p>
+<h2>Statement</h2>
+<p>Conjecture: for a two-dimensional CFT with chiral central charges c = c-bar, the rotated Petz maps of the adjacent-interval configuration give -log F^(lambda) = Phi_c(z(1+e^{-pi lambda})) + Phi_c-bar(z(1+e^{pi lambda})), z = eta_V/(1 - eta_V), with Phi_c the single-chirality zero-collar recovery error of the chiral half (Note 5 eq:collapse-vwz; paper 1 prop:twobranch). The argument uses, without proof, (i) that the net, the vacuum and the rotated Petz map factorise into the two chiral halves, the Bisognano-Wichmann boost acting as t on one light ray and as -t on the other (Note 5 states this in the VWZ paragraph, l. 432-434; paper 1 assumes a tensor-product net A_chiral x A-bar_chiral), and (ii) a per-chirality function Phi_c: the zero-collar collapse (Note 5 cor:collapse) and the normal extension of the glued map behind it are proved only for the free fermion, and for a general chiral net only the second-order coefficient f2 = c/(12 pi^2) is known (Theorem B). Proved special case: the 1+1 massless Dirac fermion (card two-chirality-law).</p>
+<h2>How to verify</h2>
+<p>fidelity_recovered_quasifree.tex sec:rotated, VWZ paragraph and eq:collapse-vwz (l. 426-440); paper1/sec_2d_lattice.tex prop:twobranch and its proof (factorisation over the light-ray coordinates assumed for A_chiral x A-bar_chiral); the proved Dirac case is check_note5_theory.tex prop:chirality &lt;1&gt;1-&lt;1&gt;7.</p>
+<h2>Evidence</h2>
+<ul>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/fidelity_recovered_quasifree.tex">fidelity_recovered_quasifree.tex</a> — document, at <code>eq:collapse-vwz</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/fidelity_recovered_quasifree.tex">fidelity_recovered_quasifree.tex</a> — document, at <code>sec:rotated</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/paper1/sec_2d_lattice.tex">paper1/sec_2d_lattice.tex</a> — document, at <code>prop:twobranch</code></li>
+</ul>
+<h2>Related claims</h2>
+<ul>
+<li><a href="two-chirality-law.html">Two-chirality law for the massless Dirac fermion: -log F^(lambda) = Phi(z(1+e^{-pi lambda})) + Phi(z(1+e^{pi lambda})), even in lambda</a> — <code>proved</code></li>
+<li><a href="thm-b-universality.html">Theorem B: f2 = c/(12 pi^2) for every diffeomorphism-covariant net</a> — <code>refereed</code></li>
+</ul>
+<h2>Review</h2>
+<p><strong>Review record:</strong> passed 2026-09-23 by REF-DEP-CFT-B5.</p>
+<p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
+<hr>
+<p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/results/two-chirality-law-general-cft.md"><code>docs/results/two-chirality-law-general-cft.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

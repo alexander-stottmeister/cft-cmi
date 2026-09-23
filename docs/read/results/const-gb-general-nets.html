@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>g_B = 2c/(3 pi^2) for the compression direction of every diffeomorphism-covariant net (corollary of Theorem B) &mdash; cft-cmi</title>
+<meta name="description" content="g_B = 2c/(3 pi^2) for the compression direction of every diffeomorphism-covariant net (corollary of Theorem B). Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../../index.html">Interactive site</a>
+    <a href="../index.html">Documentation</a>
+    <a href="../status.html">All claims</a>
+    <a href="../open.html">Open problems</a>
+    <a href="../notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>g_B = 2c/(3 pi^2) for the compression direction of every diffeomorphism-covariant net (corollary of Theorem B)</h1>
+<p><strong>Status:</strong> <code>proved</code> — a complete structured proof. <strong>Stated under hypotheses</strong> H1, H2, H3, quoted below.</p>
+<p><strong>Area:</strong> <a href="../status.html#area-universality">Theorem B: universality for diffeomorphism-covariant nets</a> · <strong>Card type:</strong> constant · <strong>Knowledge-base id:</strong> <code>const-gb-general-nets</code></p>
+<h2>Statement</h2>
+<p>For every diffeomorphism-covariant net on S^1 of central charge c satisfying the standing hypotheses of Theorem B (separable, CDIT axioms, Bisognano-Wichmann, Haag duality, Reeh-Schlieder), the Bures form of the zero-collar compression direction is g_B = 4 dist(T(g_tot) Omega, closure(A(I)'_sa Omega))^2 = 2c/(3 pi^2), so -log F = (s^2/8) g_B + o(s^2). This is the value statement of Theorem B (card thm-b-universality), whose hypotheses (H1)-(H3) hold for every such net (card implementer-hypotheses); the constant is fixed by c-linearity and the free-fermion value at c = 1 (card const-gb).</p>
+<h2>Hypotheses</h2>
+<p>The statement is made under named hypotheses. The sentences are quoted from the statement above; read the status badge only together with them.</p>
+<p>Hypothesis labels used: <code>H1</code>, <code>H2</code>, <code>H3</code>.</p>
+<blockquote>
+<p>This is the value statement of Theorem B (card thm-b-universality), whose hypotheses (H1)-(H3) hold for every such net (card implementer-hypotheses); the constant is fixed by c-linearity and the free-fermion value at c = 1 (card const-gb).</p>
+</blockquote>
+<h2>How to verify</h2>
+<p>rigor/universality_theorem_B.tex thm:B (value step thm:value); (H1)-(H3): rigor/implementation_C11.tex thm:main.</p>
+<h2>Evidence</h2>
+<ul>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/universality_theorem_B.tex">rigor/universality_theorem_B.tex</a> — document, at <code>thm:B</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/implementation_C11.tex">rigor/implementation_C11.tex</a> — document, at <code>thm:main</code></li>
+</ul>
+<h2>Related claims</h2>
+<ul>
+<li><a href="const-gb.html">Free-fermion one-particle metrics of the compression direction: g_B = 2r/(3 pi^2), g_KM = r/6 (c = r)</a> — <code>proved</code></li>
+<li><a href="const-gkm-general-nets.html">g_KM = c/6 for the compression direction of a general conformal net (conjecture; only the analytically continued value exists)</a> — <code>conjectural</code></li>
+</ul>
+<h2>Review</h2>
+<p><strong>Review record:</strong> passed 2026-09-23 by REF-DEP-CFT-B3.</p>
+<p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
+<hr>
+<p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/results/const-gb-general-nets.md"><code>docs/results/const-gb-general-nets.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Second-order (SLD / quantum Fisher) expansion of the quasi-free root fidelity in finite dimensions (Note 5 Prop. 2.3) &mdash; cft-cmi</title>
+<meta name="description" content="Second-order (SLD / quantum Fisher) expansion of the quasi-free root fidelity in finite dimensions (Note 5 Prop. 2.3). Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../../index.html">Interactive site</a>
+    <a href="../index.html">Documentation</a>
+    <a href="../status.html">All claims</a>
+    <a href="../open.html">Open problems</a>
+    <a href="../notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>Second-order (SLD / quantum Fisher) expansion of the quasi-free root fidelity in finite dimensions (Note 5 Prop. 2.3)</h1>
+<p><strong>Status:</strong> <code>proved</code> — a complete structured proof.</p>
+<p><strong>Area:</strong> <a href="../status.html#area-optimality">Optimality of recovery channels (O8, Phases 3 and 3b)</a> · <strong>Card type:</strong> result · <strong>Knowledge-base id:</strong> <code>quasi-free-second-order-fidelity-expansion</code></p>
+<h2>Statement</h2>
+<p>For gauge-invariant quasi-free states on a finite-dimensional one-particle space with symbols Q and Q + eps D (0 &lt; Q &lt; 1, D = D^*), -log F(omega_Q, omega_{Q+eps D}) = (eps^2/4) sum_{i,k} |D_ik|^2 / (q_i(1-q_k) + q_k(1-q_i)) + O(eps^3) in an eigenbasis of Q, with weight 1 + cosh((kappa_i+kappa_k)/2)/cosh((kappa_i-kappa_k)/2) in the modular variables q = (1+e^kappa)^{-1}, and the analogous Kubo-Mori expansion of the relative entropy.</p>
+<h2>How to verify</h2>
+<p><em>No verification recipe recorded on this card.</em></p>
+<h2>Evidence</h2>
+<ul>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/fidelity_recovered_quasifree.tex">fidelity_recovered_quasifree.tex</a> — document, at <code>prop:second-order</code></li>
+</ul>
+<h2>Related claims</h2>
+<p><em>None recorded.</em></p>
+<h2>Review</h2>
+<p><strong>Review record:</strong> passed 2026-09-23 by REF-DEP-CFT-A2.</p>
+<p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
+<hr>
+<p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/results/quasi-free-second-order-fidelity-expansion.md"><code>docs/results/quasi-free-second-order-fidelity-expansion.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

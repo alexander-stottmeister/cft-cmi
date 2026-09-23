@@ -1,0 +1,8 @@
+admissible grid points: 5251959 (z in (0,1] linear step 5e-4 plus log grid 1e-8..1; k in [10,200])
+max T/(z^2/k^2)                                   = 1.6960 at (z, k) = (0.3325, 10.0)
+max step l.521: 0.51 z(1+k)e^-k/(z^2/k^2)         = 0.0766 at (z, k) = (0.3325, 10.0)
+max exact-T chain / claim, f=0.0085               = 0.9792 at (z, k) = (0.3325, 10.0)
+max exact-T chain / claim, f=0.008516             = 0.9798 at (z, k) = (0.3325, 10.0)
+max crude T=1.75z^2/k^2 chain / claim, f=0.0085   = 1.0322 at (z, k) = (1.0, 10.0)
+claimed in l.521: 0.51 z(1+k)e^-k <= 0.003 z^2/k^2, i.e. ratio <= 0.003
+f bound from rate_of_remainder prop:rrr: sup_(0,1] -(1/2)log(1-2 f2 z^2)/z^2 = 0.008515536411612259 ; 2 sqrt(0.875*0.008516) = 0.17264414267504125

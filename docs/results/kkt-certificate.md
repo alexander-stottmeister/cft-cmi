@@ -8,16 +8,20 @@
 
 ## Statement
 
-In the continuum V_c: h_D -> h_B is unitary, both LMIs are active, and the multipliers are unique: Sigma_1 = t_DA Q_AB V_c - t_DD V_c\*(1-Q_BB)V_c; the compression maximises Tr(t Q_rec) over F iff Sigma_1 = Sigma_1\* >= 0 and Sigma_1 + t_DD >= 0 (necessary and sufficient, no constraint qualification). Legendre reduction V(t) = ||P^perp t P||^2; the DD block of the first-order compression defect vanishes (Moebius generator commutes with P and is local), so the certificate at t_c exists iff E_D u E_D = 0.
+For a fixed self-adjoint TRACE-CLASS t on h_I (Thm. thm:kkt is stated for trace-class t, rigor/sdp_dual_certificate.tex:176): in the continuum V_c: h_D -> h_B is unitary, both LMIs are active, and the multipliers are unique: Sigma_1 = t_DA Q_AB V_c - t_DD V_c\*(1-Q_BB)V_c, Sigma_2 = Sigma_1 + t_DD; the compression maximises Tr(t Q_rec) over F iff Sigma_1 = Sigma_1\* >= 0 and Sigma_1 + t_DD >= 0 (Thm. thm:kkt; necessary and sufficient, no constraint qualification). Legendre reduction (Lemma lem:offdiag): V(t) = ||P^perp t P||^2, and Tr(t delta_c) depends on t only through N = P^perp t P. Moebius rigidity (Lemma lem:rigid): the DD block of the first-order compression defect vanishes, E_D ddelta E_D = \[p, d\] = 0 (the Moebius generator commutes with P and is local), hence E_D u E_D is purely anti-self-adjoint (Cor. cor:maximal), u the Riesz vector of the compression direction. At leading order in s (t = s tau, tau fixed; Lemma lem:sigma0, Prop. prop:split) the certificate is equivalent to (S) E_D N E_D self-adjoint together with (P) -E_D tau_{++} E_D \<= E_D N E_D \<= -E_D tau_{--} E_D, and for the compression's test operator (S) is the self-adjointness of E_D u E_D, i.e. (S) holds iff E_D u E_D = 0 (Thm. thm:obstruction, Cor. cor:maximal). PROVED consequence, the 'only if' half at leading order in s: a certificate at t_c requires E_D u E_D = 0. NOT PROVED, the 'if' half (E_D u E_D = 0 => a certificate at t_c exists): it needs (P) to be satisfiable, which Cor. cor:Pfree shows only for bounded E_D N E_D (in general kappa must be unbounded, t is then not trace class, and the regularisation is not pursued: verdict gap :450-459 and Verdict gap (iv) :956-958), and cor:Pfree changes the P-diagonal blocks of t, so it certifies a modified t with the same N, not t_c itself. Cor. cor:test applies thm:kkt to the SLD t_c without showing that t_c is trace class. Whether E_D u E_D = 0 is not decided here: numerically ||E_D u E_D||\_2^2/||u||\_2^2 = 0.0143 != 0 (S10 N1, eq:thetalb; card compression-not-second-order-minimiser), so, numerically and not by proof, the certificate fails at the compression.
 
 ## How to verify
 
-rigor/sdp_dual_certificate.tex (S10, 960 lines).
+rigor/sdp_dual_certificate.tex (S10): Thm. 3.2 (thm:kkt; trace-class t :176, statement and proof :189-273: uniqueness, sufficiency, necessity), Lemma 4.1 (lem:offdiag, :306-326), Lemma 5.1 and Prop. 5.2 (lem:sigma0, prop:split, :377-433, leading order in s), Cor. 5.3 (cor:Pfree, :435-448) with its verdict gap (:450-459), Thm. 6.2 (thm:obstruction), Lemma 11.1 and Cor. 11.2 (lem:rigid, cor:maximal, :795-856), Verdict gap (iv) (:956-958).
 
 ## Evidence
 
-- [rigor/sdp_dual_certificate.tex](../../rigor/sdp_dual_certificate.tex) — document, at `Thm3.2`
-- [rigor/sdp_dual_certificate.tex](../../rigor/sdp_dual_certificate.tex) — document, at `Lemma11.1`
+- [rigor/sdp_dual_certificate.tex](../../rigor/sdp_dual_certificate.tex) — document, at `thm:kkt`
+- [rigor/sdp_dual_certificate.tex](../../rigor/sdp_dual_certificate.tex) — document, at `lem:rigid`
+- [rigor/sdp_dual_certificate.tex](../../rigor/sdp_dual_certificate.tex) — document, at `lem:offdiag`
+- [rigor/sdp_dual_certificate.tex](../../rigor/sdp_dual_certificate.tex) — document, at `prop:split`
+- [rigor/sdp_dual_certificate.tex](../../rigor/sdp_dual_certificate.tex) — document, at `cor:maximal`
+- [rigor/sdp_dual_certificate.tex](../../rigor/sdp_dual_certificate.tex) — document, at `cor:Pfree`
 
 ## Related claims
 
@@ -25,7 +29,7 @@ _None recorded._
 
 ## Review
 
-**Review record:** passed 2026-09-14 by phase referees (rigor/referee_\*.tex, findings ledger).
+**Review record:** passed 2026-09-23 by REF-DEP-CFT-A3.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

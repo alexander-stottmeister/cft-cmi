@@ -37,7 +37,7 @@ cd numerics/optimality_all; $V/bin/python f3_smoke.py reproduces theta_galerkin.
 
 ## Review
 
-**Review record:** passed 2026-09-15 by REF-P5-3.
+**Review record:** passed 2026-09-23 by REF-DEP-CFT-A2.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

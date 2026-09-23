@@ -8,17 +8,19 @@
 
 ## Statement
 
-Ball-arithmetic enclosure of the compressed vacuum symbol (5.6e-18 per entry), weighted Sylvester identity plus Schur positivity (the unweighted square-root bound is false), cross term removed: Phi_W \<= Phi^box \<= 1.20 Phi_W a priori, and 60-digit enclosures of the box value of width 0.71% (zeta = 1/120) to 1.01% (zeta = 8/15). Not certified: the 2-D quadrature of the defect matrix and the box cutoff beyond kappa_max.
+Ball-arithmetic enclosure of the compressed vacuum symbol (5.6e-18 per entry), weighted Sylvester identity plus Schur positivity (the unweighted square-root bound is false), cross term removed: Phi_W \<= Phi^box \<= 1.20 Phi_W a priori, and 60-digit enclosures of the box value of width 0.71% (zeta = 1/120) to 1.01% (zeta = 8/15). The left inequality Phi_W \<= Phi^box is monotonicity of the fidelity under restriction, taken from tail_bound.tex Thm 5.1 \<1>1 (card tail-bound, its lower half; certified_numerics.tex:360-361). Not certified: the 2-D quadrature of the defect matrix and the box cutoff beyond kappa_max. The corrected 60-digit table (section 'Corrections after the referee report', sec:rcr, Table tab:rcr) stands after \\end{document} in rigor/certified_numerics.tex and is therefore not in the compiled PDF, which still shows the superseded Table 1 (tab:cert).
 
 ## How to verify
 
-numerics/certified/hp.log and cert_qbox.py; rigor/certified_numerics.tex Sec. 9.
+numerics/certified/hp.log (output of numerics/certified/cert_tail_hp.py: widths 0.708% to 1.010%, control residual \<= 1.5e-26) and numerics/certified/cert_qbox.py (ball radius 5.62e-18); the source text of rigor/certified_numerics.tex from l. 563 (sec:rcr, Table tab:rcr, certification list (C1)-(C4)), which is NOT in the compiled PDF because \\end{document} stands at l. 561; thm:nocross (l. 312-362) for the a-priori bound, its left inequality from tail_bound.tex Thm 5.1 \<1>1.
 
 ## Evidence
 
-- [rigor/certified_numerics.tex](../../rigor/certified_numerics.tex) — document
-- [rigor/referee_certified_numerics.tex](../../rigor/referee_certified_numerics.tex) — document
+- [rigor/certified_numerics.tex](../../rigor/certified_numerics.tex) — document, at `sec:rcr`
+- [rigor/referee_certified_numerics.tex](../../rigor/referee_certified_numerics.tex) — document, at `sec:summary`
 - [numerics/certified/cert_qbox.py](../../numerics/certified/cert_qbox.py) — numerics
+- [numerics/certified/cert_tail_hp.py](../../numerics/certified/cert_tail_hp.py) — numerics
+- `numerics/certified/hp.log` — numerics; held privately, not redistributed
 
 ## Related claims
 
@@ -26,7 +28,7 @@ _None recorded._
 
 ## Review
 
-**Review record:** passed 2026-09-14 by phase referees (rigor/referee_\*.tex, findings ledger).
+**Review record:** passed 2026-09-23 by REF-DEP-CFT-B3.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

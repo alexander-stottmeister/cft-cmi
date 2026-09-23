@@ -8,7 +8,7 @@
 
 ## Statement
 
-For every normal unital CP even beta: A(BC) -> A(B), with xi_g = beta(a(g)) Omega, Kadison-Schwarz for a(g) and a\*(g) gives Z >= Gram(xi) and 1 - Z >= Gram(S_B xi); projecting to the one-particle charge -1 sector preserves these (the projections commute with Delta_B, Baumgaertel-Jurke-Lledo Cor. 5.4); D(S_B) on one-particle vectors is exactly the localised ones (BJL Prop. 5.3, closed graph Lemma 4.10). Hence xi_g = a(X\* g) Omega with X\* g in h_B and (X, Z) in F.
+For every normal unital CP even beta: A(BC) -> A(B), with xi_g = beta(a(g)) Omega, Kadison-Schwarz for a(g) and a\*(g) gives Z >= Gram(xi) and 1 - Z >= Gram(S_B xi); projecting with Pi := P_- P_1 onto the one-particle charge -1 sector preserves these (the projections commute with Delta_B, Baumgaertel-Jurke-Lledo Cor. 5.4); D(S_B) on one-particle vectors is exactly the localised ones (BJL Prop. 5.3, closed graph Lemma 4.10). Hence the PROJECTED vector satisfies Pi xi_g = a(X\* g) Omega with X\* g in h_B (thm:range \<1>1-\<1>2), and (X, Z) in F with Q^beta = Q_rec(X, Z), Z = Q^beta_DD. The unprojected xi_g need not be a one-particle vector (only Pi xi_g is used), so xi_g = a(X\* g) Omega itself is not claimed.
 
 ## How to verify
 
@@ -16,7 +16,7 @@ rigor/optimality_all_channels.tex Sec. 3 with screenshots rigor/shots/BJL_p\*.pn
 
 ## Evidence
 
-- [rigor/optimality_all_channels.tex](../../rigor/optimality_all_channels.tex) — document, at `Thm3.5`
+- [rigor/optimality_all_channels.tex](../../rigor/optimality_all_channels.tex) — document, at `thm:range`
 - `refs/BJL_twisted_duality_math-ph-0204029.pdf` — source, at `Prop5.3`; held privately, not redistributed
 
 ## Related claims
@@ -25,7 +25,7 @@ rigor/optimality_all_channels.tex Sec. 3 with screenshots rigor/shots/BJL_p\*.pn
 
 ## Review
 
-**Review record:** passed 2026-09-21 by REF-MOVE-1b.
+**Review record:** passed 2026-09-23 by REF-DEP-CFT-A3.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

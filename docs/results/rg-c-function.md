@@ -8,15 +8,17 @@
 
 ## Statement
 
-For the massive Dirac chain c_M >= c_E along the flow, both fall monotonically to zero, and c_M/c_E -> mR.
+For the massive (staggered-mass) Dirac chain, c_M(R) := 3R^2 I_{R-2}(2)/4 and c_E(R) := 3R (S(R+2) - S(R-2))/4 satisfy c_M >= c_E at every computed point, and along the flow (mu R from 0 to infinity, mu = m/2) both fall monotonically from c = 1 towards 0 (dc_E/dR \< 0 and dc_M/dR \< 0 at every point with m > 0; numerics/lattice/petz_thermal_rg.out l. 393-549). The ratio c_M/c_E behaves like m R only in a scaling window (correlation length xi = 2/m >> 1 site and mu R >> 1; the free-field prediction from S(R) - S(infinity) \~ A e^{-2 mu R}); on the lattice at fixed m the ratio (c_M/c_E)/(mR) does not tend to 1: for m = 0.4 it is 1.196, 1.077, 1.020, 1.003, 0.992, 0.972 at R = 6, 10, 16, 20, 24, 40 and still falling, and at R = 40 it is 0.825 for m = 0.8 and 0.563 for m = 1.6 (plateaus f(0.8) \~ 0.83, f(1.6) \~ 0.56), while for small m (0.05, 0.1, 0.2) it is still above 1 and decreasing at R = 40 (1.36, 1.15, 1.05). This is consistent with c_M/c_E \~ m R in the continuum scaling limit (m -> 0 at fixed mu R >> 1), which the data do not reach; rigor/thermal_rg_gap_summary.md:73 quotes only R \<= 16 at m = 0.4.
 
 ## How to verify
 
-numerics/lattice/petz_thermal_rg.out, RG section.
+numerics/lattice/petz_thermal_rg.out, RG section (l. 393-549; columns c_E, c_M, c_M/c_E, (c_M/c_E)/(mR), dc_E, dc_M per mass); petz_thermal_rg.py l. 429-470 (cfun_scan); rigor/thermal_rg_gap_summary.md l. 60-80.
 
 ## Evidence
 
 - [numerics/lattice/petz_thermal_rg.py](../../numerics/lattice/petz_thermal_rg.py) — numerics
+- [numerics/lattice/petz_thermal_rg.out](../../numerics/lattice/petz_thermal_rg.out) — numerics
+- [rigor/thermal_rg_gap_summary.md](../../rigor/thermal_rg_gap_summary.md) — document
 
 ## Related claims
 
@@ -24,7 +26,7 @@ _None recorded._
 
 ## Review
 
-**Review record:** passed 2026-09-14 by phase referees (rigor/referee_\*.tex, findings ledger).
+**Review record:** passed 2026-09-23 by REF-DEP-CFT-B4.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

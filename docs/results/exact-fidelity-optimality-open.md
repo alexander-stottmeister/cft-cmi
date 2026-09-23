@@ -18,21 +18,21 @@ rigor/exact_fidelity_upper_half.tex Thms 5.3, 7.1, 7.3 and Cor 7.5; rigor/refere
 
 - [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document, at `thm:main`
 - [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document, at `thm:UHall`
-- [rigor/referee_exact_fidelity_upper_half.tex](../../rigor/referee_exact_fidelity_upper_half.tex) — document
-- [rigor/exterior_extension_numerics.tex](../../rigor/exterior_extension_numerics.tex) — document
-- [rigor/optimality_all_channels.tex](../../rigor/optimality_all_channels.tex) — document
+- [rigor/referee_exact_fidelity_upper_half.tex](../../rigor/referee_exact_fidelity_upper_half.tex) — document, at `sec:verdict`
+- [rigor/exterior_extension_numerics.tex](../../rigor/exterior_extension_numerics.tex) — document, at `sec:ub`
+- [rigor/optimality_all_channels.tex](../../rigor/optimality_all_channels.tex) — document, at `eq:liminf`
 
 ## Related claims
 
 - [The compression is not the minimiser of the second-order functional](compression-not-second-order-minimiser.md) — `numerical`
-- [Exact single-observable fidelity bound (Alberti-Uhlmann)](single-observable-bound.md) — `proved`
+- [Exact single-observable fidelity bound (Alberti-Uhlmann) and its reduction to the recovered symbol](single-observable-bound.md) — `proved`
 - [Exterior directions exhaust the invisible space: closure(Ext) = N^perp (question (Q) settled, YES)](exterior-exhaust-invisible.md) — `proved`
 - [(UH) proved: optimised Uhlmann bound = g_Q of the defect, for every isometric quasi-free channel](uhlmann-upper-half-proved.md) — `proved`
 - [E_rec \<= (1-theta) f2 z^2 (1+o(1)): the zero-collar compression is NOT optimal in exact fidelity](compression-not-optimal-exact-fidelity.md) — `numerical`
 
 ## Review
 
-**Review record:** passed 2026-09-15 by REF-P5-3.
+**Review record:** passed 2026-09-23 by REF-DEP-CFT-A1.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

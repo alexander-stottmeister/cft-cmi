@@ -16,8 +16,8 @@ rigor/g1a_calculus.py section 3 (the swallowed corner and Phi = Moebius o k_2 to
 
 ## Evidence
 
-- [rigor/network_corner_calculus.tex](../../rigor/network_corner_calculus.tex) — document, at `label{lem:2pt}`
-- [rigor/network_corner_calculus.tex](../../rigor/network_corner_calculus.tex) — document, at `label{thm:rigidity}`
+- [rigor/network_corner_calculus.tex](../../rigor/network_corner_calculus.tex) — document, at `lem:2pt`
+- [rigor/network_corner_calculus.tex](../../rigor/network_corner_calculus.tex) — document, at `thm:rigidity`
 - [rigor/g1a_calculus.py](../../rigor/g1a_calculus.py) — numerics
 - [rigor/ref_p6_3_calculus.py](../../rigor/ref_p6_3_calculus.py) — numerics
 
@@ -29,7 +29,7 @@ rigor/g1a_calculus.py section 3 (the swallowed corner and Phi = Moebius o k_2 to
 
 ## Review
 
-**Review record:** passed 2026-09-16 by REF-P6-3.
+**Review record:** passed 2026-09-23 by REF-DEP-CFT-B2.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

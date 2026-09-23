@@ -16,21 +16,21 @@ Compile rigor/quadratic_limit.pdf (lower) and rigor/uhlmann_upper_bound.pdf (upp
 
 ## Evidence
 
-- [rigor/quadratic_limit.tex](../../rigor/quadratic_limit.tex) — document, at `Thm4.2`
-- [rigor/uhlmann_upper_bound.tex](../../rigor/uhlmann_upper_bound.tex) — document, at `Thm8.1`
-- [rigor/referee_quadratic_limit.tex](../../rigor/referee_quadratic_limit.tex) — document
-- [rigor/referee_uhlmann_upper_bound.tex](../../rigor/referee_uhlmann_upper_bound.tex) — document
+- [rigor/quadratic_limit.tex](../../rigor/quadratic_limit.tex) — document, at `thm:lower`
+- [rigor/uhlmann_upper_bound.tex](../../rigor/uhlmann_upper_bound.tex) — document, at `thm:main-upper`
+- [rigor/referee_quadratic_limit.tex](../../rigor/referee_quadratic_limit.tex) — document, at `sec:thm42`
+- [rigor/referee_uhlmann_upper_bound.tex](../../rigor/referee_uhlmann_upper_bound.tex) — document, at `sec:thm`
 - [numerics/p1_bogoliubov.py](../../numerics/p1_bogoliubov.py) — numerics
 
 ## Related claims
 
 - [f2 = c/(12 pi^2)](const-f2.md) — `proved`
-- [One-particle metrics g_B = 2c/(3 pi^2), g_KM = c/6](const-gb.md) — `proved`
-- [Remainder of Theorem A: integer powers, c3 = -0.99](rate-of-remainder.md) — `proved`
+- [Free-fermion one-particle metrics of the compression direction: g_B = 2r/(3 pi^2), g_KM = r/6 (c = r)](const-gb.md) — `proved`
+- [Remainder of Theorem A: global upper bound Phi \<= -(1/2) log(1 - 2 f2 zeta^2); c3 \<= 0 as a limsup; no positive log^-2 term](rate-of-remainder.md) — `proved`
 
 ## Review
 
-**Review record:** passed 2026-09-14 by phase referees (rigor/referee_\*.tex, findings ledger).
+**Review record:** passed 2026-09-23 by REF-DEP-CFT-B8.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

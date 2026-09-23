@@ -8,25 +8,28 @@
 
 ## Statement
 
-The normal zero-collar Petz map is Ad U with U = Gamma(W) for the one-particle map k_s = id on A, h_s(x) = Lx/(L+sx) on D=(0,L) (C^{1,1} kink at 0); exact trace-norm defect (1/2) log(1+zeta) with zeta = a s/(a+L); rotated (FHSW) maps s_t = lambda(1+e^{-2 pi t}). The zero-collar compression is the s = lambda = c/b member (range exactly A(B)).
+For the r-component free chiral fermion with I = ABC = (-a, L), A = (-a, 0), D = BC = (0, L), B = (0, b) and lambda = c/b (c the length of C): for every s >= lambda the glued map k_s = id on A, h_s(x) = Lx/(L + sx) on D (C^{1,1}, joined with one derivative at 0) maps I onto J_s = (-a, L/(1+s)) inside AB, and the induced CAR isomorphism beta_s(a(f)) = a(W_{k_s} f) extends uniquely to a normal \*-isomorphism beta-bar_s: F_r(I) -> F_r(J_s) (continuum_petz_free_fermion.tex thm:normal-extension; rigor/check_note4.tex thm:normal); Note 4 obtains the extension by quasi-equivalence (Powers-Stormer-Araki, from the trace-class defect), not from a unitary implementer. For s = s_t = lambda (1 + e^{-2 pi t}) its restriction to every positive-collar algebra is the FHSW rotated Petz map (eq:restriction-normal-beta); the ordinary Petz map is s = 2 lambda (t = 0), and the zero-collar geometric compression is s = lambda (t -> +infinity), whose range is F_r(J_lambda) = F_r(AB), the D-part landing exactly on D_lambda = B. Implementer: beta-bar_s = Ad Gamma(W\~\_s) on F_r(I), where W\~\_s is the one-particle unitary of the C^{1,1} extension k\~\_s of k_s to the whole line (card c11-extension-implementer: rigor/uhlmann_upper_bound.tex def:ext, cor:implementer, prop:vector); W_{k_s} itself maps H_I onto H_{J_s} and is not a unitary of the full one-particle space, so Gamma(W_{k_s}) is not defined. Trace norms (continuum_petz_free_fermion.tex thm:trace-norm), zeta = as/(a+L): the scalar endpoint kernel R_s (taken without the factor i/(2 pi)) has ||R_s||\_1 = (1/2) log(1 + zeta); the off-diagonal symbol block has ||Delta_s||\_1 = (r/(4 pi)) log(1 + zeta); the symbol defect is ||Q_I - Q\~\_s||\_1 = (r/(2 pi)) log(1 + zeta).
 
 ## How to verify
 
-Note 4 Sec. 2 and rigor/check_note4.tex.
+Note 4 (continuum_petz_free_fermion.tex): lambda (l. 270), h_s and D_lambda = B (l. 280-290), s_t (l. 326), k_s and J_s (l. 446-458), thm:trace-norm (l. 670-690; R_s without i/(2 pi), l. 551), thm:normal-extension (l. 730-747); rigor/check_note4.tex thm:normal (Thm 8.2); implementer: rigor/uhlmann_upper_bound.tex Cor. 2.7 and Prop. 3.1 \<1>2.
 
 ## Evidence
 
-- [continuum_petz_free_fermion.tex](../../continuum_petz_free_fermion.tex) — document
-- [rigor/check_note4.tex](../../rigor/check_note4.tex) — document
-- [rigor/collar_and_invariant_formula.tex](../../rigor/collar_and_invariant_formula.tex) — document
+- [continuum_petz_free_fermion.tex](../../continuum_petz_free_fermion.tex) — document, at `thm:normal-extension`
+- [rigor/check_note4.tex](../../rigor/check_note4.tex) — document, at `thm:normal`
+- [continuum_petz_free_fermion.tex](../../continuum_petz_free_fermion.tex) — document, at `thm:trace-norm`
+- [rigor/uhlmann_upper_bound.tex](../../rigor/uhlmann_upper_bound.tex) — document, at `cor:implementer`
+- [rigor/uhlmann_upper_bound.tex](../../rigor/uhlmann_upper_bound.tex) — document, at `prop:vector`
 
 ## Related claims
 
-_None recorded._
+- [The C^{1,1} extension of the zero-collar map is implementable on Fock space (uhlmann_upper_bound.tex Cor. 2.7, Prop. 3.1)](c11-extension-implementer.md) — `proved`
+- [Two-chirality law for the massless Dirac fermion: -log F^(lambda) = Phi(z(1+e^{-pi lambda})) + Phi(z(1+e^{pi lambda})), even in lambda](two-chirality-law.md) — `proved`
 
 ## Review
 
-**Review record:** passed 2026-09-14 by phase referees (rigor/referee_\*.tex, findings ledger).
+**Review record:** passed 2026-09-23 by REF-DEP-CFT-B4.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

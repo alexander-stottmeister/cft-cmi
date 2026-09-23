@@ -34,8 +34,8 @@ rigor/exact_optimum_tangent_problem.tex Thm 4.4 (conditions (a), (e)), Prop 4.10
 
 - [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document, at `thm:kktmain`
 - [rigor/exact_optimum_tangent_problem.tex](../../rigor/exact_optimum_tangent_problem.tex) — document, at `prop:thetaframe`
-- [rigor/referee_exact_optimum_tangent_problem.tex](../../rigor/referee_exact_optimum_tangent_problem.tex) — document
-- [rigor/referee2_exact_optimum_tangent_problem.tex](../../rigor/referee2_exact_optimum_tangent_problem.tex) — document
+- [rigor/referee_exact_optimum_tangent_problem.tex](../../rigor/referee_exact_optimum_tangent_problem.tex) — document, at `sec:table`
+- [rigor/referee2_exact_optimum_tangent_problem.tex](../../rigor/referee2_exact_optimum_tangent_problem.tex) — document, at `sec:req`
 - [numerics/optimality_all/F2_RESULTS.md](../../numerics/optimality_all/F2_RESULTS.md) — numerics
 - [numerics/optimality_all/f2_t4_hladder.out](../../numerics/optimality_all/f2_t4_hladder.out) — numerics
 - [numerics/optimality_all/f2_t5_endpoint.out](../../numerics/optimality_all/f2_t5_endpoint.out) — numerics
@@ -47,7 +47,7 @@ rigor/exact_optimum_tangent_problem.tex Thm 4.4 (conditions (a), (e)), Prop 4.10
 - `phase5-plan` — `done`, no page of its own
 - [Exact (N,Y,V) chart of F and the tangent problem at the compression](tangent-problem-exact-parametrisation.md) — `proved`
 - [KKT sign criterion: when the isometric orbit carries the all-channel second-order optimum](kkt-noise-sign-criterion.md) — `proved`
-- [KKT criterion numerics: every finite run FAILS (a); the violation extrapolates to 0^- as h -> 0, Ymax -> inf; E(zeta_0) > 0 and E(zeta_inf) > 0, so (e) holds for the whole cone under H3](kkt-noise-criterion-numerics.md) — `numerical`
+- [KKT criterion numerics: every finite run FAILS (a); the violation extrapolates to 0^- as h -> 0, Ymax -> inf; under H3, (e) follows from the proved E(zeta_inf) >= 0 alone, and the finite-h junction values are positive](kkt-noise-criterion-numerics.md) — `numerical`
 - [The first-order gain constant theta = 0.384 +- 0.003 (S10's 0.300 is a taper-suppressed lower bound)](theta-value.md) — `numerical`
 - [The compression is not the minimiser of the second-order functional](compression-not-second-order-minimiser.md) — `numerical`
 - [Is the compression beaten in EXACT fidelity?](exact-fidelity-optimality-open.md) — `numerical`
@@ -55,7 +55,7 @@ rigor/exact_optimum_tangent_problem.tex Thm 4.4 (conditions (a), (e)), Prop 4.10
 
 ## Review
 
-**Review record:** passed 2026-09-15 by REF-P5-4.
+**Review record:** passed 2026-09-23 by REF-DEP-CFT-A1.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

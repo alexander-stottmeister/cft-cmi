@@ -1,0 +1,7 @@
+ zeta     Phi_best     Phi/zeta     rigorous lower   (1/6)log(1+zeta/2)   zeta*Phi' (slope*Phi)
+  1.067  4.41039e-03  4.1334e-03  4.38124e-03      0.0713             5.6982e-03
+  2.133  1.07969e-02  5.0618e-03  1.06725e-02      0.1210             1.2665e-02
+  4.267  2.24140e-02  5.2529e-03  2.18720e-02      0.1904             2.1069e-02
+  8.533  3.97403e-02  4.6572e-03  3.82588e-02      0.2769             3.0123e-02
+ 17.067  6.41212e-02  3.7570e-03  5.73952e-02      0.3758             4.4244e-02
+convexity would need Phi(8.533) >= 2 Phi(4.267) >= 2 x rigorous lower = 4.3744e-02; all Phi_inf(p=1) estimates at 8.533 (the largest extrapolations): [0.0426087, 0.0421958, 0.0430574]

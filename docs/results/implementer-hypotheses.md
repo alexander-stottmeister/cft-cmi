@@ -24,8 +24,8 @@ rigor/implementation_C11.tex Sec. 8 with screenshots of Carpi-Weiner Thm 4.4 in 
 
 ## Evidence
 
-- [rigor/implementation_C11.tex](../../rigor/implementation_C11.tex) — document
-- [rigor/referee_implementation_C11.tex](../../rigor/referee_implementation_C11.tex) — document
+- [rigor/implementation_C11.tex](../../rigor/implementation_C11.tex) — document, at `thm:main`
+- [rigor/referee_implementation_C11.tex](../../rigor/referee_implementation_C11.tex) — document, at `sec:verdict`
 - `refs/CDIT_1808.02384.pdf` — source; held privately, not redistributed
 
 ## Related claims
@@ -34,7 +34,7 @@ _None recorded._
 
 ## Review
 
-**Review record:** passed 2026-09-21 by REF-MOVE-1b.
+**Review record:** passed 2026-09-23 by REF-DEP-CFT-B1.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 
