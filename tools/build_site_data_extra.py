@@ -675,30 +675,40 @@ _PRIVATE_PATH = re.compile(
 # field list or a single pattern.  check_payload() sweeps the SERIALISED json, which is
 # what ships, so it covers every field including the ones nobody thought of; and the host
 # is taken after the last '@', because https://github.com:1234@elsewhere/ is not github.
-ALLOWED_PROSE_HOSTS = {"github.com", "alexander-stottmeister.github.io",
-                       "projecteuclid.org", "arxiv.org", "doi.org",
-                       "creativecommons.org", "orcid.org", "www.w3.org"}
-# REF-GUARD broke the previous version nine ways.  Four of them mattered and all four
-# are answered here rather than by adding patterns:
-#   * a label separator a browser accepts and ASCII does not -- soft hyphen, zero width,
-#     fullwidth and ideographic stops -- so the text is NFKC-normalised and the invisible
-#     code points are stripped BEFORE anything is matched;
-#   * `?` and `#` end an authority, so they must not be inside the host class, or
-#     https://elsewhere.example?@github.com reads as github.com, which is the regression
-#     the fix for the userinfo trick introduced;
-#   * a scheme other than http(s) is never publishable here, so it is rejected outright
-#     rather than parsed, which covers file:, data:, ftp: and anything later;
-#   * the bare-host branch needs a suffix list, and a short one is a hole, so it takes any
-#     label of two or more letters and accepts the cost of an occasional false positive:
-#     this guard may only be too strict, never too lax.
+ALLOWED_PROSE_HOSTS = {
+    # where the project deliberately points a reader
+    "github.com", "api.github.com", "raw.githubusercontent.com", "codeload.github.com",
+    "gist.github.com", "alexander-stottmeister.github.io",
+    "projecteuclid.org", "arxiv.org", "doi.org", "dx.doi.org", "creativecommons.org",
+    "orcid.org", "w3.org", "www.w3.org", "en.wikipedia.org", "packages.ubuntu.com",
+}
+
+# REF-GUARD broke this guard nine ways and REF-ROTATE found a tenth that the repair for
+# the ninth had created, plus five false positives already sitting in unshipped card text.
+# Both directions matter: a guard that refuses "what this card is about:" is not strict,
+# it is wrong, and it stops the author it exists for.  So:
+#   * invisible and compatibility separators are folded away before anything is matched,
+#     because a soft hyphen is invisible in the page and IDNA-normalises to a dot;
+#   * a special scheme tolerates any run of slashes, so https:/host/path is the plain
+#     address to a browser and must be to this guard;
+#   * a deny-listed scheme counts only with NO space after the colon, which is what
+#     separates file:///etc from the sentence "File: rigor/referee_leak.md";
+#   * a bare host needs a plausible web TLD, which is what separates claude.ai/x from
+#     lb.log, main.log, extra-claim-map.json, CHECKLIST.md and branch.main.remote;
+#   * and the lookbehind that used to stop filenames is gone, because it also stopped
+#     _host/path_ and ...host/path, both of which a reader can follow.
 _INVISIBLE = dict.fromkeys(map(ord, "\u00ad\u200b\u200c\u200d\u2060\ufeff"))
-# A deny-list, not "any scheme": prose is full of words followed by a colon, and
-# http(s) is handled by the authority branch below.
-_SCHEME = re.compile(r"\b(data|javascript|vbscript|file|ftp|ftps|ws|wss|blob|about|chrome|resource|view-source)\s*:", re.I)
-_AUTHORITY = re.compile(r"(?:[a-z][a-z0-9+.-]*:)?//([^/?#\s)>\]\"'\\]+)", re.I)
-# A bare host only counts when it is followed by a path and is not itself a path
-# segment, or every dotted filename in the corpus (lb.log, README.md, x.json) is a host.
-_BARE_HOST = re.compile(r"(?<![/\w.-])((?:[a-z0-9-]+\.)+[a-z]{2,})(?=/)", re.I)
+_DENY_SCHEME = re.compile(r"\b(data|javascript|vbscript|file|ftp|ftps|ws|wss|blob|about|"
+                          r"chrome|resource|view-source):(?=\S)", re.I)
+_AUTHORITY = re.compile(r"(?:\b[a-z][a-z0-9+.-]*:)?[/\\]{1,}"
+                        r"([^/?#\s)>\]\"'\\]*\.[^/?#\s)>\]\"'\\]*)", re.I)
+_BARE_HOST = re.compile(r"((?:[a-z0-9-]+\.)+[a-z]{2,})(?=[/:])", re.I)
+# Web TLDs only.  File extensions that are also ccTLDs -- md, py, sh, rs, cc, ts, pl --
+# are deliberately absent: this corpus is full of filenames and none of them is a link.
+_TLDS = {"com", "org", "net", "edu", "gov", "mil", "int", "io", "ai", "co", "dev", "app",
+         "page", "site", "cloud", "xyz", "info", "biz", "name", "eu", "uk", "de", "fr",
+         "ch", "at", "nl", "se", "dk", "es", "it", "jp", "cn", "ru", "au", "ca", "nz",
+         "br", "in", "za", "tv", "ly", "example"}
 
 
 def _fold(text: str) -> str:
@@ -711,15 +721,19 @@ def _host_of(raw: str) -> str:
     return host.split(":")[0].strip().lower().rstrip(".")
 
 
+def _is_hostlike(host: str) -> bool:
+    return "." in host and host.rsplit(".", 1)[-1] in _TLDS
+
+
 def _foreign_hosts(text: str):
-    """Every host in `text` that is not on the allow-list, plus any unpublishable scheme."""
+    """Every link in `text` that points off the allow-list."""
     folded = _fold(text)
-    for m in _SCHEME.finditer(folded):
+    for m in _DENY_SCHEME.finditer(folded):
         yield "a %s: URL" % m.group(1).lower()
     seen = set()
     for m in list(_AUTHORITY.finditer(folded)) + list(_BARE_HOST.finditer(folded)):
         host = _host_of(m.group(1))
-        if host and host not in ALLOWED_PROSE_HOSTS and host not in seen:
+        if _is_hostlike(host) and host not in ALLOWED_PROSE_HOSTS and host not in seen:
             seen.add(host)
             yield host
 
