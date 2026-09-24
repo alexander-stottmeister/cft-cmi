@@ -6,7 +6,7 @@ written as Lamport-style structured proofs, plus a compendium of every cited ext
 ## Files
 * Each document is a standalone `\documentclass[11pt]{article}\input{rigor_preamble}` file in `cft_cmi/rigor/`, compiled with `pdflatex` (run it twice) from that directory.
 * Screenshots go in `cft_cmi/rigor/shots/` as PNG, made with `rigor/snap.py <pdf> <page> <out.png> [--clip x0 y0 x1 y1] [--find "text"]`
-  (fractions of the page; use `--find` to locate a theorem and choose a tight clip). Include with `\includegraphics[width=...]{shots/NAME.png}`.
+  (fractions of the page; use `--find` to locate a theorem and choose a tight clip). Include with `\shot[<width>]{NAME.png}`, where `<width>` is a bare length such as `0.8\textwidth` (not `width=...`), or `\shotc` for a centred one, never `\includegraphics{shots/...}`: see the two-repository section below.
 * Reference PDFs go in `cft_cmi/refs/` via `refs/getref.sh <arxiv-id> <Short>` or `refs/getref.sh <URL> <Short>`. Never claim to have checked a source you could not open; write "NOT OBTAINED" and say why.
 * Python for numerics: any interpreter with numpy, scipy, mpmath, python-flint and pymupdf; scripts take `PYTHON` if set, else `python3`. Session scratchpad venvs do NOT survive a restart, so never hardcode one (see the lesson `scratchpad-venv-fragility`). Existing scripts: `cft_cmi/numerics/`.
 
