@@ -8,11 +8,11 @@
 
 ## Statement
 
-For an isometric quasi-free channel with one-particle isometry W_I, every unitary W\~ of L^2(R) with W\~|\_{L^2(I)} = W_I and P^perp W\~ P Hilbert-Schmidt gives -log F \<= -1/2 log det(1 - V^\*V) \<= -1/2 log(1 - ||V||\_2^2), V = P^perp W\~ P (Prop. 1.3). The admissible extensions form a right torsor under {1_I (+) W'}: the whole column Z E_I is prescribed by the channel and the free block is E_{I^c} Z E_{I^c}, at first order / as an exact right translation (Lemma 4.1 -- NOT a block-diagonal Z_I (+) Z_e, and NOT the truncation E_I D_chi E_I). Reduction (Thm 4.3): inf over exterior Z_e of (1/2)||P^perp(Z_0+Z_e)P||^2 = (1/2) dist(P^perp Z_0 P, Ext)^2 = (1/2)||Pi P^perp Z_0 P||^2 + (1/2) dist((1-Pi)P^perp Z_0 P, Ext)^2 = g_Q(E_I\[P,Z_0\]E_I), the last step because closure(Ext) = N^perp always. Hence (UH) in its PROVED, g_Q-free form (Thm 7.1, eq. (18)): for the product family U_s = W\~\_s e^{-lambda s G} e^{s Z_e}, limsup_{s->0} s^{-2}(-log F(omega, omega^{beta_s})) \<= (1/2) dist(P^perp(D_chi + lambda G)P, Ext)^2 = (1/2)||Pi P^perp (D_chi + lambda G) P||^2. Ingredients: the exact one-parameter-group estimate ||P^perp e^{tZ}P||\_2 \<= |t| ||P^perp Z P||\_2 (Lemma 6.1) and an S_2-continuity argument for the three-factor product family (Thm 6.2); the limsup is taken at fixed Z_e and only then the infimum over Z_e (no uniformity in Z_e is claimed or needed). CAVEAT (referee R2): re-expressing the right-hand side as g_Q(delta(s))(1+o(1)) is NOT a consequence of continuity of g_Q (false in the continuum: spec Q accumulates at 0 and 1); it holds whenever S10 Lemma 6.1(2)-(3) applies, with its weight cap (Remark 7.2). Corollary 4.4: the optimised bound depends on the channel only through its first-order defect.
+For an isometric quasi-free channel with one-particle isometry W_I, every unitary W\~ of L^2(R) with W\~|\_{L^2(I)} = W_I and both off-diagonal blocks P^perp W\~ P and P W\~ P^perp Hilbert-Schmidt (Def. 1.1 as corrected 2026-09-24, Correction C1; until then the document required only P^perp W\~ P) gives -log F \<= -1/2 log det(1 - V^\*V) \<= -1/2 log(1 - ||V||\_2^2), V = P^perp W\~ P (Prop. 1.3), for index-zero W\~, i.e. ind(P W\~ P|\_{PH}) = 0: for W\~ of non-zero index with ||V|| \< 1 step \<1>3 is false, since Gamma(W\~) changes the charge and \<Omega, Gamma(W\~) Omega> = 0 (exact_fidelity_upper_half.tex l. 1201-1203, Correction C3). (UH) is unaffected: the product family U_s has index zero for small s, which is all Thm 6.2 / 7.1 use (l. 1192-1200). The admissible extensions form a right torsor under {1_I (+) W'}: the whole column Z E_I is prescribed by the channel and the free block is E_{I^c} Z E_{I^c}, at first order / as an exact right translation (Lemma 4.1 -- NOT a block-diagonal Z_I (+) Z_e, and NOT the truncation E_I D_chi E_I). Reduction (Thm 4.3): inf over exterior Z_e of (1/2)||P^perp(Z_0+Z_e)P||^2 = (1/2) dist(P^perp Z_0 P, Ext)^2 = (1/2)||Pi P^perp Z_0 P||^2 + (1/2) dist((1-Pi)P^perp Z_0 P, Ext)^2 = g_Q(E_I\[P,Z_0\]E_I), the last step because closure(Ext) = N^perp always. Hence (UH) in its PROVED, g_Q-free form (Thm 7.1, eq. (18)): for the product family U_s = W\~\_s e^{-lambda s G} e^{s Z_e}, limsup_{s->0} s^{-2}(-log F(omega, omega^{beta_s})) \<= (1/2) dist(P^perp(D_chi + lambda G)P, Ext)^2 = (1/2)||Pi P^perp (D_chi + lambda G) P||^2. Ingredients: the exact one-parameter-group estimate ||P^perp e^{tZ}P||\_2 \<= |t| ||P^perp Z P||\_2 (Lemma 6.1; like rate_of_remainder.tex Lemma 6.1 it needs the two blocks of e^{tZ} to have the same singular values, which the documents settle while ||P - e^{-tZ} P e^{tZ}||\_2 \< 1, e.g. for |t| ||\[P, Z\]||\_2 \< 1, enough for the limits s -> 0 used here, and which for larger |t| rests on the conjectural card group-index-zero-large-s) and an S_2-continuity argument for the three-factor product family (Thm 6.2); the limsup is taken at fixed Z_e and only then the infimum over Z_e (no uniformity in Z_e is claimed or needed). CAVEAT (referee R2): re-expressing the right-hand side as g_Q(delta(s))(1+o(1)) is NOT a consequence of continuity of g_Q (false in the continuum: spec Q accumulates at 0 and 1); it holds whenever S10 Lemma 6.1(2)-(3) applies, with its weight cap (Remark 7.2). Corollary 4.4: the optimised bound depends on the channel only through its first-order defect.
 
 ## How to verify
 
-rigor/exact_fidelity_upper_half.tex Secs. 1, 4, 6, 7 and Sec. 10 (referee repairs R1-R10); numerically E2 card e2-optimised-uhlmann (UB_c/(1/2 s^2|u|^2) = 1.0000000 at L=128..384).
+rigor/exact_fidelity_upper_half.tex Secs. 1, 4, 6, 7 and Sec. 10 (referee repairs R1-R10), and Sec. 11 (Corrections of 2026-09-24, l. 1091-1205: C1-C2 both blocks, C3 the known index gap and why (UH) stands); numerically E2 card e2-optimised-uhlmann (UB_c/(1/2 s^2|u|^2) = 1.0000000 at L=128..384).
 
 ## Evidence
 
@@ -20,6 +20,7 @@ rigor/exact_fidelity_upper_half.tex Secs. 1, 4, 6, 7 and Sec. 10 (referee repair
 - [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document, at `thm:UH`
 - [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document, at `thm:UHall`
 - [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document, at `prop:uhl`
+- [rigor/exact_fidelity_upper_half.tex](../../rigor/exact_fidelity_upper_half.tex) — document, at `corr0924:C3`
 
 ## Related claims
 
@@ -30,7 +31,7 @@ rigor/exact_fidelity_upper_half.tex Secs. 1, 4, 6, 7 and Sec. 10 (referee repair
 
 ## Review
 
-**Review record:** passed 2026-09-23 by REF-DEP-CFT-A2.
+**Review record:** passed 2026-09-24 by REF-CARD-ROR.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

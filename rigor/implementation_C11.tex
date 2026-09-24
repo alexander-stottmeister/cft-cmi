@@ -813,8 +813,8 @@ Everything else is proved above.  We now record the sub-classes for which indepe
 
 \paragraph{(a) Free Dirac/Majorana fermion ($c=\frac12,1$): independent proof.}
 $U_s=\Gamma(W_s)$ with $W_s$ the one-particle push-forward of $\ktil_s$ (half-density transformation), implementable
-by Shale--Stinespring because $P_-W_sP_+$ is Hilbert--Schmidt; this is proved with an explicit bound in
-\texttt{rigor/uhlmann\_upper\_bound.tex}, Prop.~``Explicit Hilbert--Schmidt bound'' and the citedbox
+by Shale--Stinespring because $P_-W_sP_+$ \emph{and} $P_+W_sP_-$ are Hilbert--Schmidt (the criterion needs both off-diagonal blocks; Correction~\ref{corr0924:C1}); this is proved, with an explicit bound where $\norm{\mathrm{id}-\ktil_s}_\infty\le\frac12$ and for the other $s$ via $W_s=(W_{s/n})^n$, in
+\texttt{rigor/uhlmann\_upper\_bound.tex}, Prop.~``Explicit Hilbert--Schmidt bound'', Cor.~``The implementer'' $\langle1\rangle1$ (with that document's Correction C2) and the citedbox
 ``Shale--Stinespring 1965''.  That argument needs \emph{much} less than $C^{1,1}$ (essentially
 $\ktil_s\in H^{3/2}$, the Weil--Petersson class), does not use the Virasoro energy bounds at all, and is
 consistent with Theorem~\ref{thm:main}: both implement the \emph{same} geometric automorphism of $\cA(I)$ (the
@@ -1021,4 +1021,38 @@ strongly continuous group, for $\eps>0$''), \texttt{collar\_and\_invariant\_form
 \texttt{cft\_cmi/continuum\_petz\_free\_fermion.tex} \S5, \texttt{open\_problems\_plan.tex} \S O5,
 \texttt{strategy\_open\_problems.tex} \S3.
 \end{thebibliography}
+
+\section*{Corrections of 2026-09-24}
+\addcontentsline{toc}{section}{Corrections of 2026-09-24}
+\sloppy
+This correction implements the knowledge-base card \texttt{c11-extension-implementer} (project
+\texttt{cft\_cmi}): its refereed Statement and its DOCUMENT ERROR note, recorded from referee
+REF-DEP-CFT-B9 and checked by REF-DEP-CFT-B10.  \texttt{rigor/uhlmann\_upper\_bound.tex} (``PA'') was
+corrected for the same error on the same day (its Corrections C1--C3).  The changed lines were
+replaced one for one, so line numbers cited elsewhere still point to the same text.
+\begin{enumerate}[leftmargin=1.8em,label=\textup{(C\arabic*)},ref=C\arabic*]
+\item\label{corr0924:C1} \emph{Both off-diagonal blocks} (\S\ref{sec:classes}(a), l.~816--817).
+ \emph{The document said:} $W_s$ is ``implementable by Shale--Stinespring because $P_-W_sP_+$ is
+ Hilbert--Schmidt; this is proved with an explicit bound'' in PA, Prop.~``Explicit
+ Hilbert--Schmidt bound''.
+ \emph{It now says:} $W_s$ is implementable because $P_-W_sP_+$ and $P_+W_sP_-$ are both
+ Hilbert--Schmidt; this is proved in PA, with the explicit bound of that proposition where
+ $\norm{\mathrm{id}-\ktil_s}_\infty\le\frac12$, and for the other $s$ via $W_s=(W_{s/n})^n$
+ (PA Cor.~``The implementer'' $\langle1\rangle1$ as corrected by PA's Correction C2).
+ \emph{Why:} for a complex (linear) Bogoliubov transformation the Shale--Stinespring criterion is
+ $[P_+,W_s]\in\mathfrak S_2$, i.e.\ both blocks; the first block alone does not suffice.  Counterexample
+ (REF-DEP-CFT-B9, checked by REF-DEP-CFT-B10): multiplication by a product of disjointly supported,
+ smoothly truncated Blaschke windings; for one winding the squared Hilbert--Schmidt norms of the two
+ blocks are $0.00710$ and $1.00710$ at cut-off ratio $5$, $0.00049$ and $1.00049$ at $20$, $0.00003$
+ and $1.00003$ at $80$ (\texttt{numerics/kb-checks-2026-09-23/refb9\_winding.py}, output
+ \texttt{refb9\_winding.out}), and a product with summable ratios has only one block
+ Hilbert--Schmidt.  The explicit bound of PA's proposition assumes
+ $\norm{\mathrm{id}-\ktil_s}_\infty\le\frac12$, which fails for larger $s$ ($0.61$ at $s=0.5$ and
+ $0.95$ at $s=1$ for the standard smooth step of PA, \texttt{refb6\_flow.py}).  Knowledge-base card
+ \texttt{c11-extension-implementer}, Statement: ``prop:HS gives an explicit bound when
+ $\norm{\mathrm{id}-\tilde k_s}_\infty\le1/2$ (l.~286--287).  Every other $s$ follows from
+ $\tilde W_s=(\tilde W_{s/n})^n$ \dots\ The other block is $P_+\tilde W_sP_-=(P_-\tilde W_{-s}P_+)^*$,
+ Hilbert--Schmidt by the same argument \dots\ The Shale--Stinespring criterion needs both
+ off-diagonal blocks''.
+\end{enumerate}
 \end{document}

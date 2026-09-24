@@ -24,9 +24,9 @@ a quadratic block bound for $\sqrt{\Qt}$ and ball-arithmetic enclosures}
 \section{Scope and summary}
 \label{sec:scope}
 % filled in last
-This note has two independent parts, both aimed at the width of the certified brackets for
-$\Phi(\zeta)=-\log\Fid(\omega,\widetilde\omega_s)$ of Note~5, Table~3, which
-\texttt{tail\_bound.tex} (agent PT) left at $82$--$154\,\%$.
+This note has two independent parts, both aimed at the width of the error brackets for
+$\Phi(\zeta)=-\log\Fid(\omega,\widetilde\omega_s)$ of Note~5, Table~4 (\texttt{tab:scan}; previously cited here as Table~3), which
+\texttt{tail\_bound.tex} (agent PT) left at $82$--$154\,\%$, with bars that are not certified: their upper half rests on the numerical inputs of the final bound of \texttt{tail\_bound.tex} (see Correction~C5).
 
 \paragraph{Part I (analysis, \S\ref{sec:sqrt}--\S\ref{sec:nocross}).}  The open item of
 \texttt{tail\_bound.tex}, ``a bound on $\|\sqrt{\widetilde Q}-\sqrt{X_{11}\oplus X_{22}}\|_2$
@@ -60,11 +60,11 @@ quadratic in the off-diagonal block $X_{12}$'', is settled as follows.
  mechanism is that the optimal Uhlmann purification of the pair $(\omega_Q,\omega_A)$,
  $A=\Pinch\widetilde Q$, can be chosen \emph{block diagonal}, so that the off-diagonal block enters
  $\log\det$ only at second order.  No closed-form constant $C_\star$ is claimed: the a priori route
- through hypothesis \eqref{eq:Hyp} has a measured constant $c_0\in[18,42]$ and is four to six times
- weaker than the computable form (\S\ref{sec:num}).
+ through hypothesis \eqref{eq:Hyp} has a measured constant $c_0\in[18,42]$ and is about four to nine times better than the $82$--$154\,\%$ of \texttt{tail\_bound.tex} but
+ much weaker than the computable form: $17.8$--$19.9\,\%$ against $0.708$--$1.010\,\%$ of $\Phi_W$ at $\kappa_c=25.3$ (\S\ref{sec:num}, \S\ref{sec:rcr}; see Correction~C2).
 \end{itemize}
 Numerically this replaces the factor-$80$ overshoot of \texttt{tail\_bound.tex} by a factor
-$50$--$160$; the resulting widths are stated in \S\ref{sec:rcr}, which supersedes
+$116$--$153$ at $\kappa_c=25.3$ (Table~\ref{tab:rcr}; the $50$--$160$ printed here before used the withdrawn double-precision widths); the resulting widths are stated in \S\ref{sec:rcr}, which supersedes
 Table~\ref{tab:cert} after the referee report.
 
 \paragraph{Part II (arithmetic, \S\ref{sec:ball}--\S\ref{sec:table}).}  The $3\,\%$ arithmetic margin
@@ -364,10 +364,10 @@ monotonicity of $\Fid$ under restriction (\texttt{tail\_bound.tex}, Theorem~5.1$
 All four terms are quadratic in the discarded data.  $\Phi_{22}$ and $\|\Xi_1\|_2^2$, $\|\Xi_0\|_2^2$
 are $O(\tau+\nu)=O(\zeta^2\kappa_c^{-2})$ by Corollary~\ref{cor:schur} and
 \texttt{tail\_bound.tex}, Theorem~4.1; $\|T\|_2^2$ is $O(\tau)$ as well.  With the measured values of
-\S\ref{sec:num} the right-hand side at $\zeta=1/15$, $\kappa_c=32.2$ is $\approx3\times10^{-7}$
-instead of the $2.77\times10^{-5}$ of \eqref{eq:final} of \texttt{tail\_bound.tex} --- a factor $90$,
-and $0.9\,\%$ of $\Phi$.  The price is hypothesis \eqref{eq:Hyp}, an operator inequality between
-computable matrices, which \S\ref{sec:num} verifies with $c_0,c_1\le1.02$.
+\S\ref{sec:num} ($c_1\le1.011$, but $c_0\in[18,42]$) the right-hand side is $17.8$--$19.9\,\%$ of $\Phi_W$ at $\kappa_c=25.3$ (\S\ref{sec:rcr}, (C2)),
+instead of the $82$--$154\,\%$ of \eqref{eq:final} of \texttt{tail\_bound.tex} --- a factor of about $4$--$9$ ($82/19.9=4.1$ to $154/17.8=8.7$);
+the $1\,\%$ level is reached only by the computable form \eqref{eq:computable} (Table~\ref{tab:rcr}).  The price is hypothesis \eqref{eq:Hyp}, an operator inequality between
+computable matrices, which \S\ref{sec:num} verifies with the measured constants $c_1\le1.011$ and $c_0\in[18,42]$; the figure $\approx3\times10^{-7}$ ($0.9\,\%$ of $\Phi$) at $\zeta=1/15$, $\kappa_c=32.2$ printed here before rested on $c_0,c_1\le1.02$, which \S\ref{sec:num} does not confirm (see Correction~C2).
 \end{remark}
 \section{Ball arithmetic for the box symbol $Q_N$}\label{sec:ball}\label{sec:qbox}
 
@@ -479,7 +479,7 @@ in which every object is an explicit function of $Q_N$ and $\widetilde Q_N$.  Hy
 and Lemma~\ref{lem:jensen} are what \emph{guarantee} that $\Phi_{\rm off}$ is quadratic; the numbers
 below evaluate it.  Script: \texttt{numerics/certified/cert\_tail\_np.py} (double precision for
 $\Xi_0,\Xi_1,T$, \texttt{mpmath} at $60$ digits for $\Phi_{22}$; $\Phi_W$ from
-\texttt{results\_A2.txt}/\texttt{results\_hp2.txt}).
+\texttt{results\_A2.txt}/\texttt{results\_hp2.txt}).  The double-precision $\Phi_{\rm off}$ entries below are unreliable (float64 noise, \S\ref{sec:rcr}, item (P)), so the widths and gains computed from them are withdrawn; at $\kappa_c=25.3$ the corrected $60$-digit values are in Table~\ref{tab:rcr} (see Correction~C2).
 
 \begin{center}\small
 \begin{tabular}{r rr rr rr}\toprule
@@ -498,7 +498,7 @@ $8/15$ &$3.49(-5)$&$3.03(-5)$&$4.38\%$&$8.38(-6)$&$6.80(-6)$&$1.00\%$\\
 ``width'' is $(\Phi_{22}+\Phi_{\rm off})/\Phi_W$; the corresponding widths from \eqref{eq:final} of
 \texttt{tail\_bound.tex} are $82$--$154\,\%$, so the gain is a factor $50$ at $\kappa_c=18.4$ and
 $84$--$159$ at $\kappa_c=25.3$.  Both terms scale like $\kappa_c^{-2}$ (ratio $18.4^{-2}/25.3^{-2}=1.9$,
-observed $2.8$--$5.5$), confirming the exponent upgrade.
+observed $2.8$--$5.5$, a range that includes the withdrawn double-precision $\Phi_{\rm off}$; the $60$-digit $\Phi_{22}$ alone gives $2.81$--$4.16$), confirming the exponent upgrade.
 
 \paragraph{Hypothesis \eqref{eq:Hyp}.}  The measured constants are $c_1\le1.011$ (hole side, as
 expected: $\sqrt{1-Q}\simeq\sqrt{1-A}$ throughout) but $c_0\in[18,42]$ (particle side).  The large
@@ -506,7 +506,7 @@ $c_0$ comes from the \emph{window edge}, where $Q$'s eigenvalue is $\approx\eps$
 corresponding eigenvalue of $A=\Pinch\widetilde Q$ is smaller by up to three orders of magnitude; it
 does \emph{not} come from the ultraviolet, where $A\gg Q$.  With $c_0\approx35$ the a priori bound
 $\Phi_{22}+\frac{c_0}2\|\Xi_0\|_2^2+\frac{c_1}2\|\Xi_1\|_2^2+\frac{\|T\|_2^2}{2(1-\|T\|)}$ is
-$20$--$30\,\%$ of $\Phi_W$: still a factor $4$--$6$ better than \eqref{eq:final}, but the sharp
+$20$--$30\,\%$ of $\Phi_W$ (with the measured $c_0$ of each $\zeta$ the referee's rerun gives $17.8$--$19.9\,\%$, i.e.\ $\Phi^{\rm box}\le1.20\,\Phi_W$, \S\ref{sec:rcr}, (C2)): still a factor $4$--$6$ better than \eqref{eq:final} (about $4$--$9$ for $17.8$--$19.9\,\%$), but the sharp
 statement is \eqref{eq:computable}.
 \section{Certified enclosures}\label{sec:table}
 
@@ -534,8 +534,8 @@ $8/15$  & $[151.4878,\ 153.0065]$ & $1.00\%$ & $[151.4878,\ 155.0875]$ & $154.45
 \bottomrule\end{tabular}\end{table}
 
 \begin{verdictok}
-The certified brackets for the box value are $0.6$--$1.2\,\%$ wide, and $1.7$--$2.4\,\%$ wide for
-$\Phi$ itself once PT's box-cutoff estimate is added; the previous certified widths were
+The brackets of Table~\ref{tab:cert} for the box value are $0.6$--$1.2\,\%$ wide (superseded: the certified widths are $0.708$--$1.010\,\%$, Table~\ref{tab:rcr}, \S\ref{sec:rcr}; see Correction~C2), and $1.54$--$2.38\,\%$ wide (Correction~C4; superseded as well, since the same double-precision $\Phi_{\rm off}$ enters; with the upper ends of Table~\ref{tab:rcr} the same box-cutoff term gives $1.59$--$2.38\,\%$) for
+$\Phi$ itself once PT's box-cutoff estimate is added (extrapolated, not certified: the box-cutoff term is an unproved asymptotic, \S\ref{sec:rcr}, (C4)); the previous widths, those of the uncertified bars of \texttt{tail\_bound.tex} (Correction~C5), were
 $82$--$154\,\%$.  Every ``best'' value of \texttt{tail\_bound.tex}, Table~1 lies inside the
 corresponding enclosure of the last column, which is an independent confirmation of the tail
 correction $\zeta^2/(15\kappa_c^2)$.  Two inputs are not yet proved: the quadrature error of
@@ -555,10 +555,10 @@ $\kappa_{\max}$; it is the dominant uncertainty.  See \S\ref{sec:rcr} for the co
  \sqrt{\Pinch\widetilde Q}$ (Lemma~\ref{lem:jensen}).
 \item $Q_N$ is now enclosed to $5.6\times10^{-18}$ per entry in ball arithmetic from $2N$ certified
  one-dimensional integrals; the trapezoid rule previously used is accurate to only
- $4.7\times10^{-11}$, an eight-percent (not three-percent) arithmetic margin.
+ $4.7\times10^{-11}$, which gives arithmetic margins of $3.3\,\%$, $21.7\,\%$ and $204\,\%$ at $\zeta=8/15$, $1/15$, $1/120$ (\S\ref{sec:qbox}): not a single percentage, and not PT's three percent (see Correction~C2).
 \item Certified brackets: \S\ref{sec:rcr}, Table~\ref{tab:rcr} (Table~\ref{tab:cert} is superseded).
 \end{enumerate}
-\end{document}
+% 2026-09-24: the end-of-document command that stood on this line was moved to the end of the file, so that the RCr section below is typeset (Correction C1).
 
 \section{Corrections after the referee report (RCr)}\label{sec:rcr}
 
@@ -655,10 +655,10 @@ $8/15$  & $8.3833203(-6)$ & $6.9171541(-6)$ & $[151.48958,\ 153.01963]$   & $1.0
 Three things change relative to Table~\ref{tab:cert}.  (i) The widths are now a smooth, monotone
 function of $\zeta$, $0.708\,\%\to1.010\,\%$, instead of the scattered $0.64$--$1.19\,\%$ of the
 double-precision run --- the scatter was the noise the referee identified.  (ii) $\Phi_{\rm off}$ is
-systematically \emph{smaller} than the double-precision value (e.g.\ $2.13\times10^{-9}$ against
-$2.60\times10^{-9}$ at $\zeta=1/120$) and tracks $\Phi_{22}$ closely, $\Phi_{\rm off}/\Phi_{22}\in
+\emph{not} systematically smaller than the double-precision value of the table in \S\ref{sec:num} ($\kappa_c=25.3$): it is smaller at $\zeta=1/120$, $1/60$, $1/15$, $2/15$ (e.g.\ $2.13\times10^{-9}$ against
+$2.60\times10^{-9}$ at $\zeta=1/120$) but larger at $\zeta=1/30$, $4/15$, $8/15$ ($3.22\times10^{-8}$, $1.85\times10^{-6}$, $6.92\times10^{-6}$ against $2.46\times10^{-8}$, $1.68\times10^{-6}$, $6.80\times10^{-6}$; see Correction~C3), and it tracks $\Phi_{22}$ closely, $\Phi_{\rm off}/\Phi_{22}\in
 [0.83,1.10]$, as the structure of \eqref{eq:computable} predicts (both are $O(\tau)$).  (iii) The
-enclosures are narrower, not wider: the corrected upper ends lie below the previous ones.
+enclosures are narrower at $\zeta=1/120$, $1/60$, $1/15$, $2/15$, where the corrected upper ends lie below the previous ones, but wider at $\zeta=1/30$, $4/15$, $8/15$, where they lie above them (upper ends $0.90327136$, $46.912355$, $153.01963$ against $0.902504$, $46.89415$, $153.0065$; widths $0.722$, $0.852$, $1.010\,\%$ against $0.64$, $0.81$, $1.00\,\%$; Tables~\ref{tab:rcr} and~\ref{tab:cert}; see Correction~C3).
 
 \begin{verdictok}
 Certified, at $\kappa_c=25.33$ and conditional only on the $\widehat D$ quadrature: the box value
@@ -671,3 +671,147 @@ form of Theorem~\ref{thm:nocross} with the measured $c_0,c_1$: $\Phi_W\le\Phi^{\
 to $\Phi$, which needs the box-cutoff coefficient $0.513/8$ at finite $\kappa_{\max}$ --- an
 asymptotic statement only.
 \end{verdictok}
+
+\section{Corrections of 2026-09-24}\label{corr0924:sec}
+
+These corrections were made on 2026-09-24 from the project's knowledge base; the card concerned
+is \texttt{certified-numerics}.  Each corrected line above was replaced by exactly one line, so the
+line numbers of the text above this section are unchanged.  The items are numbered C1, C2,
+\dots; ``Correction~C$n$'' refers to them, not to the certification levels (C1)--(C4) of
+\S\ref{sec:rcr}.
+
+\paragraph{C1. The RCr section is now part of the document.}  \emph{Said:} the command
+\texttt{\textbackslash end\{document\}} stood at line~561, before \S\ref{sec:rcr}, so the RCr
+section, with Table~\ref{tab:rcr} and the certification list (C1)--(C4), was never typeset.  The
+compiled document showed only the superseded Table~\ref{tab:cert}, and its references to
+\S\ref{sec:rcr} and Table~\ref{tab:rcr} (lines 67, 75, 78, 414, 517, 544, 559) were undefined.
+\emph{Now:} line~561 is a comment, and \texttt{\textbackslash end\{document\}} stands at the end of
+the file, after this section.  \emph{Why:} knowledge-base card \texttt{certified-numerics}, whose
+statement cites \S\ref{sec:rcr} and Table~\ref{tab:rcr} as the valid version (document error
+recorded on 2026-09-23).  \emph{Compiling the RCr section}, which had never been compiled: it
+compiles without errors and all its references resolve, so nothing inside it had to be changed.
+The only undefined references left in the document are \texttt{eq:taudef} (line~245) and
+\texttt{eq:final} (lines 368, 498, 509), labels of \texttt{tail\_bound.tex}; they were undefined
+before as well.  Every entry of Table~\ref{tab:rcr} agrees with
+\texttt{numerics/certified/hp.log}, and the control residual printed there is at most
+$1.5\times10^{-26}$.
+
+\paragraph{C2. Body statements that contradicted \S\ref{sec:rcr}.}  With \S\ref{sec:rcr} typeset,
+eight places in the body contradicted it; (f)--(h) were added after the referee REF-DOC-SMALL.  They now agree with it, and each of (a)--(e) points here.
+\begin{enumerate}[label=(\alph*),leftmargin=2.4em]
+\item \emph{Scope, lines 63--64.}  \emph{Said:} the a priori route ``is four to six times weaker
+ than the computable form''.  \emph{Now:} it is about four to nine times better than the
+ $82$--$154\,\%$ of \texttt{tail\_bound.tex} but much weaker than the computable form:
+ $17.8$--$19.9\,\%$ against $0.708$--$1.010\,\%$ of $\Phi_W$ at $\kappa_c=25.3$.  \emph{Why:} (C2)
+ and Table~\ref{tab:rcr}; $82/19.9=4.1$ and $154/17.8=8.7$.  The factor $4$--$6$ quoted in
+ \S\ref{sec:num} and in the referee report (\texttt{referee\_certified\_numerics.tex}, sections (c)
+ and ``What may be quoted'') is too narrow for $17.8$--$19.9\,\%$ against $82$--$154\,\%$
+ (referee REF-DOC-SMALL, 2026-09-24).
+\item \emph{Remark after Theorem~\ref{thm:nocross}, lines 367--370.}  \emph{Said:} with the
+ measured values of \S\ref{sec:num} the right-hand side of \eqref{eq:nocross} is
+ $\approx3\times10^{-7}$ at $\zeta=1/15$, $\kappa_c=32.2$, a factor $90$ below the final bound of
+ \texttt{tail\_bound.tex} and $0.9\,\%$ of $\Phi$, and \S\ref{sec:num} verifies \eqref{eq:Hyp}
+ with $c_0,c_1\le1.02$.  \emph{Now:} \S\ref{sec:num} measures $c_1\le1.011$ but $c_0\in[18,42]$;
+ with these constants the right-hand side is $17.8$--$19.9\,\%$ of $\Phi_W$ at $\kappa_c=25.3$, a
+ factor of about $4$--$9$ ($82/19.9=4.1$ to $154/17.8=8.7$) below the $82$--$154\,\%$ of that final bound, and the $1\,\%$ level is reached
+ only by \eqref{eq:computable}.  \emph{Why:} \S\ref{sec:num} (``$c_0\in[18,42]$ (particle
+ side)'', caused by the window edge) and (C2), $\Phi^{\rm box}\le1.20\,\Phi_W$ at
+ $\kappa_c=25.3$; the referee report, section (c), states that \eqref{eq:Hyp} cannot hold with
+ $c_0=O(1)$.  The card states the a priori bound as $\Phi_W\le\Phi^{\rm box}\le1.20\,\Phi_W$.
+\item \emph{Section~\ref{sec:num}, line 482.}  \emph{Said:} nothing about the reliability of the
+ double-precision $\Phi_{\rm off}$ columns, whose widths and gains (a factor $50$, and $84$--$159$)
+ the text then quotes.  \emph{Now:} these entries are marked unreliable, and the widths and gains
+ built on them are withdrawn; at $\kappa_c=25.3$ the corrected values are in Table~\ref{tab:rcr}.
+ \emph{Why:} \S\ref{sec:rcr}, item (P): the double-precision $\Phi_{\rm off}$ is float64 noise, and
+ the column is withdrawn.
+\item \emph{Verdict after Table~\ref{tab:cert}, lines 537--538.}  \emph{Said:} ``The certified
+ brackets for the box value are $0.6$--$1.2\,\%$ wide, and $1.7$--$2.4\,\%$ wide for $\Phi$ itself
+ once PT's box-cutoff estimate is added''.  \emph{Now:} these are the brackets of the superseded
+ Table~\ref{tab:cert}, the certified widths are the $0.708$--$1.010\,\%$ of Table~\ref{tab:rcr},
+ and the brackets for $\Phi$ itself are extrapolated, not certified.  \emph{Why:}
+ Table~\ref{tab:rcr} and (C4): ``Not certified: any statement about $\Phi$ itself rather than
+ $\Phi^{\rm box}$, because the box-cutoff term is an unproved asymptotic''.
+\item \emph{Summary of findings, item 3, line 558.}  \emph{Said:} the trapezoid error
+ $4.7\times10^{-11}$ is ``an eight-percent (not three-percent) arithmetic margin''.  \emph{Now:} it
+ gives margins of $3.3\,\%$, $21.7\,\%$ and $204\,\%$ at $\zeta=8/15$, $1/15$, $1/120$, not a
+ single percentage.  \emph{Why:} \S\ref{sec:qbox} (lines 411--414), which \S\ref{sec:rcr} records
+ as repaired so that it ``no longer claims a single `$8\,\%$' margin''.
+\item \emph{Section~\ref{sec:num}, line 509} (added after the referee REF-DOC-SMALL).
+ \emph{Said:} the a priori bound with $c_0\approx35$ ``is $20$--$30\,\%$ of $\Phi_W$: still a factor
+ $4$--$6$ better than'' the final bound of \texttt{tail\_bound.tex}.  \emph{Now:} the same, plus
+ the measured values: with the measured $c_0$ of each $\zeta$ the referee's rerun gives
+ $17.8$--$19.9\,\%$, i.e.\ $\Phi^{\rm box}\le1.20\,\Phi_W$, a factor of about $4$--$9$.
+ \emph{Why:} (C2) of \S\ref{sec:rcr} and the referee report, section (d) (``$17.8$--$19.9\,\%$ of
+ $\Phi_W$ across the seven $\zeta$ (the note says $20$--$30\,\%$)'').
+\item \emph{Scope, lines 66--67} (a repeat of (c), added after the referee REF-DOC-SMALL).
+ \emph{Said:} the scope ``replaces the factor-$80$ overshoot of \texttt{tail\_bound.tex} by a
+ factor $50$--$160$''.  \emph{Now:} a factor $116$--$153$ at $\kappa_c=25.3$.  \emph{Why:} the old
+ factor came from the withdrawn double-precision widths; the widths $82$--$154\,\%$ of
+ \texttt{tail\_bound.tex} (its Table~1, per $\zeta$: $82$, $83$, $85$, $87$, $93$, $126$,
+ $154\,\%$) divided by those of Table~\ref{tab:rcr} ($0.708$ \dots\ $1.010\,\%$) give $115.8$,
+ $116.4$, $117.7$, $117.6$, $119.8$, $147.9$, $152.5$, i.e.\ $116$--$153$ within the rounding of
+ the printed widths.
+\item \emph{Section~\ref{sec:num}, line 501.}  \emph{Said:} both terms scale like
+ $\kappa_c^{-2}$, ``observed $2.8$--$5.5$''.  \emph{Now:} the range is marked as including the
+ withdrawn double-precision $\Phi_{\rm off}$; the $60$-digit $\Phi_{22}$ alone gives
+ $2.81$--$4.16$.  \emph{Why:} the ratios of the $\Phi_{22}$ columns at $\kappa_c=18.4$ and $25.3$
+ in the table of \S\ref{sec:num} (lines 489--495) are $2.81$, $3.30$, $3.65$, $3.92$, $4.06$,
+ $4.14$, $4.16$; those of the $\Phi_{\rm off}$ columns ($2.41$ to $5.77$) rest on the entries
+ withdrawn in (c).
+\end{enumerate}
+
+\paragraph{C3. Remarks (ii) and (iii) after Table~\ref{tab:rcr}, lines 658--659 and 661.}
+\emph{Said:} (ii) ``$\Phi_{\rm off}$ is systematically \emph{smaller} than the double-precision
+value''; (iii) ``The enclosures are narrower, not wider: the corrected upper ends lie below the
+previous ones.''  \emph{Now:} (ii) the $60$-digit $\Phi_{\rm off}$ of Table~\ref{tab:rcr} is smaller
+than the double-precision value of the table in \S\ref{sec:num} ($\kappa_c=25.3$) at
+$\zeta=1/120$, $1/60$, $1/15$, $2/15$, and larger at $\zeta=1/30$, $4/15$, $8/15$:
+$3.2216\times10^{-8}$, $1.8524\times10^{-6}$, $6.9172\times10^{-6}$ against $2.46\times10^{-8}$,
+$1.68\times10^{-6}$, $6.80\times10^{-6}$ (rows at lines 648, 651, 652 against lines 491, 494, 495).
+(iii) The enclosures of Table~\ref{tab:rcr} are narrower than those of Table~\ref{tab:cert} at
+$\zeta=1/120$, $1/60$, $1/15$, $2/15$, and wider at $\zeta=1/30$, $4/15$, $8/15$, where the
+corrected upper ends lie above the previous ones: $0.90327136$, $46.912355$, $153.01963$ against
+$0.902504$, $46.89415$, $153.0065$, and widths $0.722$, $0.852$, $1.010\,\%$ against $0.64$,
+$0.81$, $1.00\,\%$ (rows at lines 648, 651, 652 against lines 529, 532, 533).  Checked and right
+as printed: remark (i), and the range $\Phi_{\rm off}/\Phi_{22}\in[0.83,1.10]$ in (ii) (the ratios
+are $0.825$ to $1.100$).  \emph{Why:} the tables of this document, row by row; the entries of
+Table~\ref{tab:rcr} agree with \texttt{numerics/certified/hp.log}, and the card takes
+Table~\ref{tab:rcr} as the valid version.  The two false remarks were found when \S\ref{sec:rcr}
+was first typeset (C1); they are not recorded on the card.
+
+\paragraph{C4. Width of the brackets for $\Phi$ with the box-cutoff term, line 537.}
+\emph{Said:} ``$1.7$--$2.4\,\%$ wide for $\Phi$ itself once PT's box-cutoff estimate is added''.
+\emph{Now:} $1.54$--$2.38\,\%$.  \emph{Why:} the column ``$\Phi$ incl.\ box cutoff'' of
+Table~\ref{tab:cert} (lines 527--533) gives (upper end $-$ lower end)/lower end $=1.673$, $2.079$,
+$1.544$, $1.692$, $1.701$, $1.956$, $2.376\,\%$ at $\zeta=1/120,\dots,8/15$; the smallest is the
+$\zeta=1/30$ row, as the referee report says (\texttt{referee\_certified\_numerics.tex}, section
+(f), item (v): ``$1.5$--$2.4\,\%$, not $1.7$--$2.4\,\%$'').  The same convention reproduces the
+printed box widths of Table~\ref{tab:cert} ($0.789\,\%$ at $\zeta=1/120$, printed $0.79\,\%$).
+These brackets remain extrapolated, not certified (C2(d)).  They are also superseded, since the
+same double-precision $\Phi_{\rm off}$ enters their upper ends (added after the referee
+REF-DOC-SMALL): adding the same box-cutoff term, $0.0641\,\zeta^2\kappa_{\max,\rm eff}^{-2}$ with
+$\kappa_{\max,\rm eff}=29.6$ as in the caption of Table~\ref{tab:cert}, to the upper ends of
+Table~\ref{tab:rcr} gives $1.592$, $1.605$, $1.629$, $1.676$, $1.772$, $1.970$, $2.384\,\%$, i.e.\
+$1.59$--$2.38\,\%$.
+\emph{Flagged, not changed} (pre-existing): in the column ``$\Phi$ incl.\ box cutoff'' of
+Table~\ref{tab:cert} the upper ends at $\zeta=2/15$ ($13.28118$) and $4/15$ ($47.42576$) do not
+match the caption's formula, which gives $13.29119$ and $47.41440$; the other five rows match it
+to the printed digits.  The extremes of the ranges above ($\zeta=1/120$, $1/30$, $8/15$) are
+unaffected.
+
+\paragraph{C5. The bars of \texttt{tail\_bound.tex} and the Note~5 table (lines 27--29 and 538).}
+\emph{Said:} this note is ``aimed at the width of the certified brackets for $\Phi(\zeta)$ \dots\
+of Note~5, Table~3, which \texttt{tail\_bound.tex} (agent PT) left at $82$--$154\,\%$'', and the
+verdict after Table~\ref{tab:cert} called those $82$--$154\,\%$ ``the previous certified widths''.
+\emph{Now:} error brackets, and the bars of \texttt{tail\_bound.tex} are said to be not certified;
+the table is Note~5, Table~4 (\texttt{tab:scan}).  \emph{Why:} \texttt{tail\_bound.tex} now says
+that its error bars are not certified, because their upper half rests on the numerical inputs of
+its final bound (its label \texttt{eq:final}): every bar is \texttt{eq:bar}, whose upper end is
+that bound at $\kappa_{\rm eff}$, as \texttt{numerics/pt\_bars.py} computes and reproduces; none of
+them uses the bound $\Phi-\Phi_W\le\Phi_{22}+\Phi_{\rm off}$ of this note (\texttt{tail\_bound.tex},
+its Corrections C3, C4 and C8).  In the auxiliary file of Note~5
+(\texttt{fidelity\_recovered\_quasifree.aux}) the table of $\Phi(\zeta)$ (tail-corrected), label
+\texttt{tab:scan}, is Table~4; \texttt{tail\_bound.tex} records the same renumbering (its
+Correction C3).
+
+\end{document}

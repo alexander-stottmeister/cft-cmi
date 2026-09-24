@@ -8,11 +8,11 @@
 
 ## Statement
 
-The single-chirality zero-collar recovery error of the free chiral fermion satisfies Phi(zeta) \<= 0.0085 zeta^2 for every zeta in (0, 1\]. (a) On (0, 0.8868\] this is rigorous: card rate-of-remainder (prop:rrr) gives Phi(zeta) \<= -(1/2) log(1 - 2 f2 zeta^2) with f2 = 1/(12 pi^2), and -(1/2) log(1 - 2 f2 zeta^2) \<= 0.0085 zeta^2 exactly for zeta \<= 0.88681. (b) On \[0.8868, 1\] it rests on a numerical value: Phi is nondecreasing (card phi-monotone-in-zeta) and Phi(1.0667) = 4.41(2)e-3 (card large-zeta-values: certified lower bound 4.381e-3, extrapolated estimates 4.41e-3 to 4.535e-3, the upper side not certified), so Phi(zeta) \<= Phi(1.0667) \<= 4.54e-3 \< 0.0085 x 0.8868^2 = 6.68e-3. Consistent with the seven tabulated values Phi/zeta^2 = 0.00838 ... 0.00543 at zeta = 1/120 ... 8/15 (Note 5 Table 4, tab:scan) and with lim Phi/zeta^2 = 0.008444 (Theorem A). Remark: prop:rrr alone gives Phi \<= 0.008516 zeta^2 on all of (0, 1\] (the ratio -(1/2) log(1 - 2 f2 zeta^2)/zeta^2 increases, to 0.0085155 at zeta = 1), which would serve tail-bound equally (2 sqrt(0.875 x 0.008516) = 0.1726 \<= 0.173), but tail_bound.tex does not cite it.
+The single-chirality zero-collar recovery error of the free chiral fermion satisfies Phi(zeta) \<= 0.0085 zeta^2 for every zeta in (0, 1\]. (a) On (0, 0.8868\] this is rigorous: card rrr-bound-small-zeta (prop:rrr in the range zeta \< (4 f2)^{-1/2} = pi sqrt(3) that rate_of_remainder.tex Correction C3 settles) gives Phi(zeta) \<= -(1/2) log(1 - 2 f2 zeta^2) with f2 = 1/(12 pi^2), and -(1/2) log(1 - 2 f2 zeta^2) \<= 0.0085 zeta^2 exactly for zeta \<= 0.88681. (b) On \[0.8868, 1\] it rests on a numerical value: Phi is nondecreasing (card phi-monotone-in-zeta) and Phi(1.0667) = 4.41(2)e-3 (card large-zeta-values: certified lower bound 4.381e-3, extrapolated estimates 4.41e-3 to 4.535e-3, the upper side not certified), so Phi(zeta) \<= Phi(1.0667) \<= 4.54e-3 \< 0.0085 x 0.8868^2 = 6.68e-3. Consistent with the seven tabulated values Phi/zeta^2 = 0.00838 ... 0.00543 at zeta = 1/120 ... 8/15 (Note 5 Table 4, tab:scan) and with lim Phi/zeta^2 = 0.008444 (Theorem A). Remark: prop:rrr alone gives Phi \<= 0.008516 zeta^2 on all of (0, 1\] (the ratio -(1/2) log(1 - 2 f2 zeta^2)/zeta^2 increases, to 0.0085155 at zeta = 1), which would serve tail-bound equally (2 sqrt(0.875 x 0.008516) = 0.1726 \<= 0.173). Since 2026-09-24 tail_bound.tex cites prop:rrr, in Correction C3 (l. 935-940, 964-967): it gives the basis of f = 0.0085 as this card records it (rigorous on (0, 0.8868\] by prop:rrr, numerical on \[0.8868, 1\] through prop:mono and Phi(1.0667) = 4.41e-3) and names prop:rrr's f = 0.008516 as a possible replacement of f; cor:rate itself still takes f = 0.0085 (l. 510). Until 2026-09-24 tail_bound.tex did not cite prop:rrr.
 
 ## How to verify
 
-rigor/rate_of_remainder.tex prop:rrr (l. 848-880; Phi \<= -(1/2) log(1 - 2 f2 zeta^2) for zeta \< (2 f2)^{-1/2}); crossover 0.88681 by bisection of -(1/2) log(1 - 2 zeta^2/(12 pi^2)) = 0.0085 zeta^2; rigor/check_note5_theory.tex prop:mono; numerics/results_largezeta_certified.txt sec. 4 (zeta = 1.067: lower 4.381243e-3, best 4.41039e-3 +- 2.0e-5, largest estimate 4.53458e-3). The tail_bound.tex use: Cor. 5.2 (cor:rate, l. 502-512), which cites 'Note 5, Table 3': the table (tab:scan) is Table 4 in the current Note 5.
+rigor/rate_of_remainder.tex prop:rrr (l. 848-880; printed for zeta \< (2 f2)^{-1/2}, settled for zeta \< pi sqrt(3) by its Correction C3 (ii), l. 1069-1075; card rrr-bound-small-zeta); crossover 0.88681 by bisection of -(1/2) log(1 - 2 zeta^2/(12 pi^2)) = 0.0085 zeta^2; rigor/check_note5_theory.tex prop:mono; numerics/results_largezeta_certified.txt sec. 4 (zeta = 1.067: lower 4.381243e-3, best 4.41039e-3 +- 2.0e-5, largest estimate 4.53458e-3). The tail_bound.tex use: Cor. 5.2 (cor:rate, l. 502-512), which cites Note 5, Table 4 (tab:scan) (corrected 2026-09-24, tail_bound.tex Correction C3; until 2026-09-24 it cited 'Note 5, Table 3').
 
 ## Evidence
 
@@ -25,12 +25,13 @@ rigor/rate_of_remainder.tex prop:rrr (l. 848-880; Phi \<= -(1/2) log(1 - 2 f2 ze
 
 ## Related claims
 
+- [Remainder bound in the settled range: Phi(zeta) \<= -1/2 log(1 - 2 f2 zeta^2) for 0 \<= zeta \< (4 f2)^{-1/2} = pi sqrt(3)](rrr-bound-small-zeta.md) — `proved`
 - [Ultraviolet tail bound for the windowed fidelity (shape proved; explicit constants 0.173, 0.88 rest on numerical inputs)](tail-bound.md) — `proved`
 - [Theorem A: lim Phi/zeta^2 = c/(12 pi^2)](thm-a-quadratic-law.md) — `refereed`
 
 ## Review
 
-**Review record:** passed 2026-09-23 by REF-DEP-CFT-B4.
+**Review record:** passed 2026-09-24 by REF-CARD-ROR.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

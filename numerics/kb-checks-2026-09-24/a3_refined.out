@@ -1,0 +1,26 @@
+(0) closed form against the original integrand: g_ge2(t,1e-8)/1e-16 vs g0(t)
+    t=0.3  -0.009930671357  -0.009930671363
+    t=2.0  -0.0495828133  -0.04958281349
+    t=10.0 -0.004718429104  -0.004718429147
+    g0(1e-6)/1e-6 = -0.033333318  (-1/30 = -0.033333333)
+(1) original functions and grid of rigor/pt_tailconst.py, h=1e-3
+    z=1e-4  zeta^-2 ||g2'''||_1 = 0.036422
+    z=1e-3  zeta^-2 ||g2'''||_1 = 0.036406
+    z=0.01  zeta^-2 ||g2'''||_1 = 0.0362456
+    z=0.05  zeta^-2 ||g2'''||_1 = 0.035518
+    z=0.2   zeta^-2 ||g2'''||_1 = 0.0326337
+    z=0.5   zeta^-2 ||g2'''||_1 = 0.0275138
+    z=1.0   zeta^-2 ||g2'''||_1 = 0.0214439
+    zeta->0 limit (g0) on the same grid: 0.0364238
+(2) zeta->0 limit ||g0'''||_1 on refined grids, h=1e-4
+    t=0.002..80, 20000 intervals: 0.03717885
+    t=0.002..80, 40000 intervals: 0.03717886
+    t=0.0005..120, 40000 intervals: 0.03720207
+    |g0'''| near t=0: 0.0154762 at t=0.0005, so (0,0.0005) adds about 7.74e-6
+(3) finite zeta, original g_ge2, refined grid t=0.002..80 with 1000 intervals, h=1e-4
+    zeta->0 limit (g0) on this grid: 0.03718199
+    z=0.01  zeta^-2 ||g2'''||_1 = 0.03698238
+    z=0.05  zeta^-2 ||g2'''||_1 = 0.03617042
+    z=0.2   zeta^-2 ||g2'''||_1 = 0.03330676
+    z=1.0   zeta^-2 ||g2'''||_1 = 0.02175077
+A_3 = zeta->0 limit = 0.03721 (t from 0), so A_3 <= 0.0374 and C_2 = 4 pi A_3 <= 0.47; not certified

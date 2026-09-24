@@ -46,7 +46,7 @@ Frame-free form: ddelta = \[Q,d\] with d = E_I D_chi E_I, and on the isometric o
 
 **next:** Solve or bound the Wiener-Hopf problem of Prop 6.2 and compare with theta = 0.384 +- 0.003 (F3 is done); a closed form is open, and no candidate is to be fitted to the numerics
 
-## Conjectures (10)
+## Conjectures (11)
 
 Believed, with partial evidence, and not proved.
 
@@ -61,6 +61,12 @@ Believed, with partial evidence, and not proved.
 `conjectural` · knowledge-base id `const-gkm-general-nets`
 
 **next:** Decide whether the Kubo-Mori form of the compression direction is gauge-independent and equal to c/6 for general nets: a gauge lemma modulo the commutant orbit (renormalised or collar route, cf. conj-s2) or a counterexample.
+
+### [Index zero for e^{sK} beyond ||G_s||\_2 \< 1: for a unitary group e^{sK} with \[P_-, K\] Hilbert-Schmidt the two off-diagonal blocks have the same singular values also where |s| ||\[P_-, K\]||\_2 >= 1 (open; no document contains an argument)](results/group-index-zero-large-s.md)
+
+`conjectural` · knowledge-base id `group-index-zero-large-s`
+
+**next:** Write the Fredholm-index continuity argument, e.g. in rigor/rate_of_remainder.tex as a new correction item for Lemma 6.1 \<1>1 and \<1>4 (l. 828-832, 842-846) and Prop. 6.2 \<1>3 (l. 871-874). A possible route, in no document: by Lemma 6.1 \<1>2, s -> U_s P_+ U_s^\* - P_+ = -G_{-s} is continuous in S_2, so the index of the pair of projections (P_+, U_s^\* P_+ U_s) = (P_+, P_+ - G_s), which equals ind(P_+ U_s P_+|\_{P_+ H}) (the pair (P_+, U_s P_+ U_s^\*) has index -ind X), is locally constant in s and hence 0, its value at s = 0. The same kind of argument is needed for the product family W\~\_s e^{ish'} of Cor. 2.9 (C3, l. 1078-1079) and would cover rigor/exact_fidelity_upper_half.tex Lemma 6.1 \<1>1. Have it refereed, then promote this card.
 
 ### [Longo-Xu Remark 4.3: adjacent-interval CMI (c/6) log(1+z) for every rational conformal net (conjecture)](results/longo-xu-cmi-general-c.md)
 

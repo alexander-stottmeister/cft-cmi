@@ -2,7 +2,7 @@
 \input{rigor_preamble}
 \providecommand{\one}{\mathbf 1}\providecommand{\CAR}{\mathrm{CAR}}\providecommand{\Ran}{\operatorname{Ran}}\providecommand{\dist}{\operatorname{dist}}\providecommand{\norm}[1]{\lVert #1\rVert}
 \title{The ultraviolet tail of the recovery fidelity:\\
-a rigorous bound, certified error bars, and the rate}
+a rigorous bound, error bars, and the rate}
 \author{Agent PT (Phase 1, problem O4)}
 \date{2026-09-08}
 \begin{document}
@@ -54,25 +54,25 @@ and the corresponding vacuum tails $\nu_\pm$, $\nu_+=\int_{\kappa_c}^\infty q_\k
   0\ \le\ \Phi(\zeta)-\Phi_W(\zeta)\ \le\ \Psi\bigl(\Phi_W,\ \Phi_\partial\bigr),\qquad
   \Phi_\partial\le\frac{5\tau+\nu}{2\,(1-5\tau-\nu)},
  \]
- with $\Psi$ the explicit triangle-inequality function \eqref{eq:Psi}; to leading order
+ with $\Psi$ the explicit triangle-inequality function \eqref{eq:Psi} (it also involves $\Phi$; valid under the hypotheses $5\tau+\nu<1$ and $Y<1$ of Theorem~\ref{thm:main}, with $Y=e^{\Phi_W}y$ in place of the printed $y$, corrected 2026-09-24, see Correction~C1); to leading order
  $\Phi-\Phi_W\le2\sqrt{\Phi_W\,\Phi_\partial}+\Phi_\partial$.  Only positivity of $\widetilde Q$,
  operator concavity of $h$, and the definition of $\tau_\pm$ enter.
 \item \emph{An occupation-tail estimate with a controlled remainder}
  (Theorem~\ref{thm:tau}, \S\ref{sec:delta}): for $0<\zeta\le1$ and $\kappa_c\ge8$,
  \[
   \Bigl|\tau_\pm-\nu_\pm-\frac{\zeta^2}{15\,\kappa_c^{2}}\Bigr|
-  \ \le\ \frac{C_2\,\zeta^{2}}{\kappa_c^{3}}\ +\ C_1\,\zeta\,\kappa_c\,e^{-\kappa_c},
+  \ \le\ \frac{C_2\,\zeta^{2}}{\kappa_c^{3}}\ +\ C_1\,\zeta\,(1+\kappa_c)\,e^{-\kappa_c}\qquad(\text{corrected 2026-09-24, see Correction~C7}),
  \]
- with $C_1\le0.051$ and $C_2\le0.46$ (both certified numerically in \S\ref{sec:num}; the analytic
+ with $C_1\le0.051$ and $C_2\le0.47$ (printed as $C_2\le0.46$ before 2026-09-24, see Correction~C10; both evaluated numerically in double precision in \S\ref{sec:num}, not certified; printed as ``certified numerically'' before 2026-09-24, see Correction~C4; the analytic
  argument gives the shape and finiteness of the constants, their numerical values are evaluated).
 \item \emph{Consequences} (\S\ref{sec:tail}, \S\ref{sec:rate}): $\Phi-\Phi_W\le C\,\zeta^2/\kappa_c$
- with an explicit $C$ --- one power of $\kappa_c$ short of the conjectured
+ with a finite $C$ on the region of Corollary~\ref{cor:rate} (the explicit $C=0.173$ there, with a further $0.88\,\zeta^2/\kappa_c^2$, rests on numerical inputs; printed as ``with an explicit $C$'' before 2026-09-24, see Correction~C4) --- one power of $\kappa_c$ short of the conjectured
  $\zeta^2/(15\kappa_c^2)$, the loss being the cross term of the Bures triangle inequality; and,
  \emph{conditionally on} the finite-dimensional cubic estimate of \texttt{quadratic\_limit.tex},
  Problem~7.2, the rate $\Phi=f_2\zeta^2\bigl[1+O(\log^{-1}(1/\zeta))\bigr]$ --- one logarithm short of
- Note~5, Cor.~4.2.
+ the $\log^{-2}$ rate claimed by an earlier version of Note~5, Cor.~4.3 (printed as ``Cor.~4.2'' before 2026-09-24; the current version says that this rate was wrong, see Correction~C9).
 \end{enumerate}
-Sections~\ref{sec:box}--\ref{sec:bars} turn (A)+(B) into certified error bars for the tabulated values,
+Sections~\ref{sec:box}--\ref{sec:bars} turn (A)+(B) into error bars for the tabulated values (not certified: their upper half rests on the numerical inputs of \eqref{eq:final}; printed as ``certified error bars'' before 2026-09-24, see Correction~C8),
 and \S\ref{sec:num} verifies every inequality on the free-fermion data.
 \section{The window state and the exact factorisation of the fidelity}\label{sec:window}
 
@@ -325,14 +325,14 @@ and
 \end{equation}
 where $A_3:=\sup_{0<\zeta\le1}\zeta^{-2}\|(g^{(2)})'''\|_{L^1(0,\infty)}$ and
 $A_1:=\sup_{\kappa_c>0}\bigl|\widehat{g^{(1)}}(\kappa_c/2\pi)\bigr|\,(1+\kappa_c)^{-1}e^{\kappa_c}$
-are finite; numerically $A_3\le0.036$ and $A_1\le2.0$, i.e.
+are finite; numerically $A_3\le0.0374$ (printed as $0.036$ before 2026-09-24, see Correction~C10) and $A_1\le2.0$, i.e.
 \[
- \boxed{\ C_2\le0.46,\qquad C_1\le0.051\ }
+ \boxed{\ C_2\le0.47,\qquad C_1\le0.051\ }\qquad(\text{$C_2\le0.46$ before 2026-09-24, see Correction~C10})
 \]
-(\S\ref{sec:num}).  Consequently, with $\nu_+=\log(1+e^{-\kappa_c})\le e^{-\kappa_c}$,
+(\S\ref{sec:num}).  Consequently, with $\nu_+=\log(1+e^{-\kappa_c})\le e^{-\kappa_c}$ (the constant $4.7=10\,C_2$ below was printed as $4.6$ before 2026-09-24, see Correction~C10),
 \begin{equation}\label{eq:taunu}
  5\tau+\nu\ =\ 12\,\nu_++10\,\Sigma(\kappa_c)
- \ \le\ \frac{2\zeta^2}{3\kappa_c^2}+\frac{4.6\,\zeta^2}{\kappa_c^3}
+ \ \le\ \frac{2\zeta^2}{3\kappa_c^2}+\frac{4.7\,\zeta^2}{\kappa_c^3}
  +\bigl(12+0.51\,\zeta(1+\kappa_c)\bigr)e^{-\kappa_c}.
 \end{equation}
 \end{theorem}
@@ -442,7 +442,7 @@ and $\frac{10\zeta^2}{15\kappa_c^2}=\frac{2\zeta^2}{3\kappa_c^2}$}
 \begin{verdictgap}
 The \emph{shape} of \eqref{eq:taubound} --- leading term $\zeta^2/(15\kappa_c^2)$, correction
 $O(\zeta^2\kappa_c^{-3})$, first-order contribution exponentially small --- is proved.  The two
-constants $A_1,A_3$ are proved finite but their numerical values ($A_3\le0.036$, $A_1\le2.0$) are
+constants $A_1,A_3$ are proved finite but their numerical values ($A_3\le0.0374$, printed as $0.036$ before 2026-09-24, see Correction~C10; $A_1\le2.0$) are
 obtained by numerical evaluation of an explicit one-dimensional integral (\S\ref{sec:num}), not by a
 closed-form estimate; a fully hand-checkable bound would require differentiating \eqref{eq:gsplit}
 three times and estimating each of the resulting terms, which we have not done.  This is the only
@@ -461,13 +461,13 @@ Let $\kappa_c>0$, $\zeta\in(0,1]$, and put
  \mathcal T:=5\tau+\nu=12\nu_++10\Sigma(\kappa_c),\qquad
  \Phi_\partial:=\frac{\mathcal T}{2(1-\mathcal T)}\quad(\text{assume }\mathcal T<1).
 \]
-Then $\Phi_W\le\Phi$ and, provided $y:=2e^{2\Phi_\partial}\sqrt{\Phi\,\Phi_\partial}<1$,
+Then $\Phi_W\le\Phi$ and, with $y:=2e^{2\Phi_\partial}\sqrt{\Phi\,\Phi_\partial}$ and $Y:=e^{\Phi_W}y\le e^{\Phi}y$, provided $Y<1$ (corrected 2026-09-24: the hypothesis and the bound were printed with $y$ in place of $Y$, see Correction~C1),
 \begin{equation}\label{eq:Psi}
- 0\ \le\ \Phi(\zeta)-\Phi_W(\zeta)\ \le\ \Phi_\partial+\frac{y}{1-y}
+ 0\ \le\ \Phi(\zeta)-\Phi_W(\zeta)\ \le\ \Phi_\partial+\frac{Y}{1-Y}
  \qquad\Bigl(\ =\ 2\sqrt{\Phi\,\Phi_\partial}+\Phi_\partial+O\bigl((\Phi+\Phi_\partial)^{3/2}\bigr)\Bigr).
 \end{equation}
-With Theorem~\ref{thm:tau}, $\mathcal T\le\frac{2\zeta^2}{3\kappa_c^2}+\frac{4.6\zeta^2}{\kappa_c^3}
-+\bigl(12+0.51\zeta(1+\kappa_c)\bigr)e^{-\kappa_c}$.
+With Theorem~\ref{thm:tau}, $\mathcal T\le\frac{2\zeta^2}{3\kappa_c^2}+\frac{4.7\zeta^2}{\kappa_c^3}
++\bigl(12+0.51\zeta(1+\kappa_c)\bigr)e^{-\kappa_c}$ (the $4.7$ was printed as $4.6$ before 2026-09-24, see Correction~C10).
 \end{theorem}
 \lstep{1}{1}{$\Phi_W\le\Phi$.}
 \lby{the restriction of $\rho=\omega_Q$ (resp.\ $\sigma=\omega_{\widetilde Q}$) to
@@ -491,12 +491,12 @@ $1-e^{-2z}\le2z\,$ with $z=-\log\Fid(\rho'',\sigma)\le\Phi_\partial$ after writi
 $1-\Fid^2=1-e^{-2z}\le2z\le2\Phi_\partial$; the factor $e^{\Phi_\partial}$ absorbs the crude step
 $\sqrt{2\Phi_W}\sqrt{2\Phi_\partial}\le2e^{\Phi_\partial}\sqrt{\Phi_W\Phi_\partial}$; then
 $\langle1\rangle1$}
-\lstep{1}{5}{$e^{-\Phi}\ge e^{-\Phi_W}\bigl(e^{-\Phi_\partial}-y'\bigr)$ with
+\lstep{1}{5}{$e^{-\Phi}\ge e^{-\Phi_W}e^{-\Phi_\partial}-y'=e^{-\Phi_W}\bigl(e^{-\Phi_\partial}-e^{\Phi_W}y'\bigr)$ (corrected 2026-09-24; the printed $e^{-\Phi_W}(e^{-\Phi_\partial}-y')$ does not follow, see Correction~C1) with
 $y':=2e^{\Phi_\partial}\sqrt{\Phi\Phi_\partial}$, hence
-$\Phi-\Phi_W\le-\log(e^{-\Phi_\partial}-y')=\Phi_\partial-\log(1-y'e^{\Phi_\partial})$
-and $y'e^{\Phi_\partial}=y$.}
+$\Phi-\Phi_W\le-\log(e^{-\Phi_\partial}-e^{\Phi_W}y')=\Phi_\partial-\log(1-e^{\Phi_W}y'e^{\Phi_\partial})$
+and $e^{\Phi_W}y'e^{\Phi_\partial}=e^{\Phi_W}y=Y$; the logarithm is defined because $Y<1$.}
 \lby{$\langle1\rangle3$, $\langle1\rangle4$ and $\Fid(\rho'',\sigma)\ge e^{-\Phi_\partial}$}
-\lqed{1}{6}\lby{$-\log(1-u)\le u/(1-u)$ with $u=y<1$, which gives \eqref{eq:Psi};
+\lqed{1}{6}\lby{$-\log(1-u)\le u/(1-u)$ with $u=Y<1$, which gives \eqref{eq:Psi};
 $\langle1\rangle1$ gives the left inequality}
 
 \begin{corollary}[explicit decay in $\kappa_c$]\label{cor:rate}
@@ -507,29 +507,29 @@ Suppose $\Phi(\zeta)\le f\zeta^2$ and $\kappa_c\ge\kappa_\dagger(\zeta):=2\log\f
  \Phi-\Phi_W\ \le\ \frac{2\sqrt{0.875\,f}\;\zeta^{2}}{\kappa_c}\,\bigl(1+O(\zeta^2)\bigr)
  \ +\ \frac{0.875\,\zeta^2}{\kappa_c^2}\bigl(1+O(\zeta^2)\bigr).
 \]
-For the free fermion one may take $f=0.0085$ (Note~5, Table~3, all tabulated $\Phi/\zeta^2\le0.00838$,
+For the free fermion one may take $f=0.0085$, a numerical input (Note~5, Table~4, printed as ``Table~3'' before 2026-09-24, see Correction~C3; all tabulated $\Phi/\zeta^2\le0.00838$,
 and $\lim_{\zeta\to0}\Phi/\zeta^2=1/(12\pi^2)=0.008444$ by \texttt{uhlmann\_upper\_bound.tex} +
-\texttt{quadratic\_limit.tex}), giving
+\texttt{quadratic\_limit.tex}).  With this $f$ and the numerical values $A_1\le2.0$, $A_3\le0.0374$ of Theorem~\ref{thm:tau} (double precision, not certified; $A_3\le0.036$ before 2026-09-24, see Correction~C10), a numerical evaluation of the corrected chain of Theorem~\ref{thm:main} over the admissible region, not an analytic argument, gives (corrected 2026-09-24, see Correction~C3)
 \begin{equation}\label{eq:final}
  \Phi(\zeta)-\Phi_W(\zeta)\ \le\ \frac{0.173\,\zeta^2}{\kappa_c}\;+\;\frac{0.88\,\zeta^2}{\kappa_c^2}.
 \end{equation}
 \end{corollary}
-\lstep{1}{1}{$\mathcal T\le\frac{\zeta^2}{\kappa_c^2}\bigl(\frac23+\frac{4.6}{\kappa_c}\bigr)+0.6\frac{\zeta^2}{\kappa_c^2}
-+0.51\zeta(1+\kappa_c)e^{-\kappa_c}\le\frac{1.75\zeta^2}{\kappa_c^2}$ for $\kappa_c\ge10$.}
+\lstep{1}{1}{$\mathcal T\le\frac{\zeta^2}{\kappa_c^2}\bigl(\frac23+\frac{4.7}{\kappa_c}\bigr)+\frac{12e^{-3}\zeta^2}{(1+\kappa_c)^2}
++0.51e^{-3/2}\zeta^2e^{-\kappa_c/2}=\frac{\zeta^2}{\kappa_c^2}\,s(\kappa_c)\le\frac{1.75\zeta^2}{\kappa_c^2}$ for $\kappa_c\ge10$ (step corrected 2026-09-24, see Corrections~C2 and~C10).}
 \lby{Theorem~\ref{thm:tau} \eqref{eq:taunu}; the hypothesis on $\kappa_\dagger$ gives
-$e^{-\kappa_c}\le e^{-3}\zeta^2(1+\kappa_c)^{-2}$, so $12e^{-\kappa_c}\le0.6\zeta^2\kappa_c^{-2}$ and
-$0.51\zeta(1+\kappa_c)e^{-\kappa_c}\le0.51e^{-3}\zeta^3(1+\kappa_c)^{-1}\le0.003\zeta^2\kappa_c^{-2}$;
-$\frac23+0.46+0.6+0.003\le1.75$}
+$e^{-\kappa_c}\le e^{-3}\zeta^2(1+\kappa_c)^{-2}$, so $12e^{-\kappa_c}\le12e^{-3}\zeta^2(1+\kappa_c)^{-2}\ (\le0.6\zeta^2\kappa_c^{-2})$ and, using its square root $e^{-\kappa_c/2}\le e^{-3/2}\zeta(1+\kappa_c)^{-1}$ once,
+$0.51\zeta(1+\kappa_c)e^{-\kappa_c}\le0.51e^{-3/2}\zeta^2e^{-\kappa_c/2}\le0.077\,\zeta^2\kappa_c^{-2}$ for $\kappa_c\ge10$ (the printed ``$\le0.51e^{-3}\zeta^3(1+\kappa_c)^{-1}\le0.003\zeta^2\kappa_c^{-2}$'' is false for moderate $\zeta$, see Correction~C2);
+$s(\kappa_c):=\frac23+\frac{4.7}{\kappa_c}+\frac{12e^{-3}\kappa_c^2}{(1+\kappa_c)^2}+0.51e^{-3/2}\kappa_c^2e^{-\kappa_c/2}$ decreases on $[10,\infty)$ (the third term grows with derivative $24e^{-3}\kappa_c(1+\kappa_c)^{-3}<4.7\kappa_c^{-2}$, i.e.\ more slowly than the second term falls, and $\kappa_c^2e^{-\kappa_c/2}$ decreases for $\kappa_c>4$), and $s(10)=\frac23+0.47+0.494+0.077=1.707\le1.75$ (the printed sum $\frac23+0.46+0.6+0.003$ rested on the false $0.003$)}
 \lstep{1}{2}{$\Phi_\partial\le\frac{\mathcal T}{2(1-\mathcal T)}\le\frac{0.875\zeta^2}{\kappa_c^2}(1+O(\zeta^2))$.}
-\lby{$\langle1\rangle1$ and $\mathcal T\le1.75\zeta^2/100\le0.0175$}
-\lqed{1}{3}\lby{Theorem~\ref{thm:main}, $\langle1\rangle2$, $\Phi\le f\zeta^2$, and
+\lby{$\langle1\rangle1$ and $\mathcal T\le1.75\zeta^2/100\le0.0175$; hence $\mathcal T<1$, $\Phi_\partial\le0.00891$ and, as $\Phi_W\le\Phi\le f\zeta^2\le f$, the number $Y=e^{\Phi_W}y$ of Theorem~\ref{thm:main} obeys $Y\le e^{f}\,2e^{0.018}\sqrt{0.00891f}\le0.193\,e^{f}f^{1/2}$, which is $<1$ for $f\le1$ and $\le0.018$ for $f=0.0085$, so the hypotheses of Theorem~\ref{thm:main} hold (check added 2026-09-24, see Correction~C3)}
+\lqed{1}{3}\lby{Theorem~\ref{thm:main} as corrected (Correction~C1), $\langle1\rangle2$, $\Phi_W\le\Phi\le f\zeta^2$ (the factor $e^{\Phi_W}\le e^{f\zeta^2}=1+O(\zeta^2)$ in $Y$ goes into the factors $1+O(\zeta^2)$), and
 $2\sqrt{\Phi\Phi_\partial}\le2\sqrt{f\zeta^2\cdot0.875\zeta^2\kappa_c^{-2}}
-=2\sqrt{0.875f}\,\zeta^2/\kappa_c$; with $f=0.0085$, $2\sqrt{0.875\cdot0.0085}=0.1725$}
+=2\sqrt{0.875f}\,\zeta^2/\kappa_c$; with $f=0.0085$, $2\sqrt{0.875\cdot0.0085}=0.1725$.  This proves the display, given the numerical values $A_1\le2.0$, $A_3\le0.0374$ that enter through \eqref{eq:taunu}.  \eqref{eq:final} is \emph{not} obtained from it by dropping the factors $1+O(\zeta^2)$: with $\mathcal T\le1.75\zeta^2/\kappa_c^2$ alone the chain exceeds the right side of \eqref{eq:final} (already the printed chain is $1.032$ times it at $(\zeta,\kappa_c)=(1,10)$).  \eqref{eq:final} rests instead on a numerical evaluation, in double precision, of the corrected chain with the $\mathcal T$ of \eqref{eq:taunu} over the admissible region (edge, corner and grid scans): its ratio to the right side of \eqref{eq:final} has supremum $0.98405$, at the corner $(\zeta,\kappa_c)=(11e^{-3.5},10)$ (corrected 2026-09-24, see Corrections~C3 and~C10; scripts in \texttt{numerics/kb-checks-2026-09-24/} and \texttt{numerics/kb-checks-2026-09-23/})}
 
 \begin{verdictgap}
-Proved: an unconditional tail bound $\Phi-\Phi_W\le C\zeta^2/\kappa_c$ with the explicit constant
-$C=0.173$ (plus a $0.88\zeta^2\kappa_c^{-2}$ term), valid once the window reaches
-$\kappa_c\ge2\log(1/\zeta)+2\log\kappa_c+3$.  \emph{Not} proved: the conjectured
+Proved: a tail bound $\Phi-\Phi_W\le C\zeta^2/\kappa_c+C'\zeta^2/\kappa_c^2$ with finite $C,C'$ whenever $\Phi\le f\zeta^2$; the explicit constants
+$C=0.173$, $C'=0.88$ of \eqref{eq:final} rest on numerical inputs ($A_1\le2.0$ and $A_3\le0.0374$, printed as $0.036$ before 2026-09-24 (Correction~C10), in double precision, not certified; $f=0.0085$; a numerical evaluation of the corrected chain), see Corrections~C3 and~C4.  Both are valid once the window reaches
+$\kappa_c\ge\max\{10,\ 2\log(1/\zeta)+2\log(1+\kappa_c)+3\}$, the region of Corollary~\ref{cor:rate} (printed here as $\kappa_c\ge2\log(1/\zeta)+2\log\kappa_c+3$ before 2026-09-24).  \emph{Not} proved: the conjectured
 $\Phi-\Phi_W\le C\zeta^2\kappa_c^{-2}$ of \texttt{open\_problems\_plan.tex}, \S2.1.  Two losses
 separate them.  (i) The Bures triangle inequality contributes the cross term
 $2\sqrt{\Phi\Phi_\partial}\sim\zeta^2/\kappa_c$, which is intrinsic to any metric argument: the true
@@ -558,11 +558,11 @@ $E=\one_{[-\kappa_c,\kappa_c]}(K)$ of the \emph{exact continuum} $K$.  The compu
 compression to $P_{\rm sub}\subset\mathfrak h_N$, and $P_{\rm sub}\ne E$: the box replaces the
 continuous modular spectrum by $N$ discrete modes with $|\kappa_j|\le\kappa_{\max}$ and distorts the
 occupations near the box edge by $\approx(\pi\Lambda k_j)^{-1}$ (Note~5, \S3.1).  We have \emph{no}
-bound on $\Phi_E-\Phi_{P_{\rm sub}}$.  Empirically it is small: Note~5, Table~1 varies
+bound on $\Phi_E-\Phi_{P_{\rm sub}}$.  Empirically it is small: Note~5, Table~2 (printed as ``Table~1'' before 2026-09-24, see Correction~C6) varies
 $(\Lambda,\kappa_{\max})$ over nine combinations at $\zeta=1/15$ with a spread of $\pm0.06\,\%$ in
 $\Phi_{\rm sub}$, and $\Lambda=120$ changes the $\kappa_c=18.4$ value by $-3\times10^{-5}$ relative
 (\texttt{numerics/README.md}).  Everything below that uses the upper half of the bar is therefore
-labelled ``certified modulo the box discretisation''.
+labelled ``modulo the box discretisation''; it also rests on the numerical inputs of \eqref{eq:final} and is not certified (printed as ``certified modulo the box discretisation'' before 2026-09-24, see Correction~C8).
 
 \paragraph{(c) When the window is the whole box.}
 At $\eps=10^{-14}$ ($\kappa_c=32.2$) and $\Lambda=60$, $\kappa_{\max}=30$ one has
@@ -586,7 +586,7 @@ $2\times10^{-4}$ relative.  The ``$+$tail'' column printed in
 small; the corrected recipe is $\kappa_{\rm eff}=\min(\kappa_c,\kappa_{\max}^{\rm eff})$ with the
 coefficient $1/15$ for a window-limited and $0.0641$ for a box-limited run.
 
-\section{Certified error bars}\label{sec:bars}
+\section{Error bars (not certified, see Correction~C8)}\label{sec:bars}
 
 \paragraph{Arithmetic.}  The evaluation of Note~5, Theorem~2.1 inside the window is done in
 $40$-digit arithmetic (\texttt{fidelity\_flint.py}), so the arithmetic error is negligible; the
@@ -607,7 +607,7 @@ An honest quadrature audit (interval arithmetic on $\widehat D$ and $Q_N$) would
 $\sim10^{-13}$ and this term to $0.4\,\%$; that audit has \emph{not} been carried out here, and this
 is the second-largest gap in the certification.
 
-\paragraph{The bar.}  Combining (a), (b), \eqref{eq:final} and \eqref{eq:arith}: with
+\paragraph{The bar.}  Combining (a), (b), \eqref{eq:final} (whose constants rest on numerical inputs, see Correction~C4, so the upper half below does too) and \eqref{eq:arith}: with
 $\kappa_{\rm eff}=\min(\kappa_c,\kappa_{\max}^{\rm eff})$,
 \begin{equation}\label{eq:bar}
  \Phi^{\rm c}_{\rm sub}-\eta_{\rm num}\ \le\ \Phi(\zeta)\ \le\
@@ -616,19 +616,19 @@ $\kappa_{\rm eff}=\min(\kappa_c,\kappa_{\max}^{\rm eff})$,
 \end{equation}
 Table~\ref{tab:bars} lists the resulting intervals together with the \emph{extrapolated} best value
 $\Phi^{\rm c}_{\rm sub}+\Sigma$, $\Sigma$ the proved leading tail of Theorem~\ref{thm:tau}
-(coefficient $1/15$ or $0.0641$ according to \S\ref{sec:box}c), whose own proved uncertainty is
-$C_2\zeta^2\kappa_{\rm eff}^{-3}\le0.46\,\zeta^2\kappa_{\rm eff}^{-3}$ ($=0.6\,\%$ of $\Sigma$ at
+(coefficient $1/15$ or $0.0641$ according to \S\ref{sec:box}c), whose own uncertainty (proved in form; $C_2$ is numerically evaluated, see Correction~C4) is
+$C_2\zeta^2\kappa_{\rm eff}^{-3}\le0.47\,\zeta^2\kappa_{\rm eff}^{-3}$ ($\approx24\,\%$ of $\Sigma$: $15\cdot0.47/\kappa_{\rm eff}=0.24$ for the coefficient $1/15$ and $0.47/(0.0641\,\kappa_{\rm eff})=0.25$ for $0.0641$; printed as $0.6\,\%$, with $C_2\le0.46$, before 2026-09-24, see Corrections~C5 and~C10; at
 $\kappa_{\rm eff}=29.6$) --- but which is an estimate of $\Phi-\Phi_W$ only to the extent that the
 cross term of Theorem~\ref{thm:main} is not saturated.
 
 \begin{table}[ht]\centering\small
-\caption{Certified bar \eqref{eq:bar} (units $10^{-5}$) from the raw sub-compressed values of
+\caption{The bar \eqref{eq:bar} (units $10^{-5}$; not certified, since its upper end rests on the numerical inputs of \eqref{eq:final}; printed as ``Certified bar'' before 2026-09-24, see Correction~C8) from the raw sub-compressed values of
 \texttt{results\_A2.txt} ($\kappa_c=18.4$), \texttt{results\_hp2.txt} ($25.3$) and
 \texttt{results\_hp14.txt} ($32.2$); $\Phi^{\rm c}_{\rm sub}$ is the largest of the three (all are
 lower bounds).  $\eta_{\rm num}$ is omitted from the printed interval (add $\pm3\,\%$).
 ``best'' $=\Phi^{\rm c}_{\rm sub}+\Sigma$ is extrapolated, not certified.}\label{tab:bars}
 \begin{tabular}{r r c r r}\toprule
-$\zeta$ & $10^5\Phi^{\rm c}_{\rm sub}$ & certified interval & $10^5\,$best & width/$\Phi$\\\midrule
+$\zeta$ & $10^5\Phi^{\rm c}_{\rm sub}$ & interval & $10^5\,$best & width/$\Phi$\\\midrule
 $1/120$ & 0.05765 & $[0.0576,\ 0.1052]$ & 0.05816 & $82\%$\\
 $1/60$  & 0.22871 & $[0.2287,\ 0.4190]$ & 0.23074 & $83\%$\\
 $1/30$  & 0.90005 & $[0.9000,\ 1.6609]$ & 0.90817 & $85\%$\\
@@ -639,20 +639,20 @@ $8/15$  & 151.488 & $[151.49,\ 385.09]$ & 154.450 & $154\%$\\
 \bottomrule\end{tabular}\end{table}
 
 \begin{verdictgap}
-The certified bar is a factor $1.8$--$2.5$ wide, i.e.\ far weaker than the heuristic $0.3$--$1\,\%$ of
+The bar \eqref{eq:bar} (not certified, see Correction~C8) is a factor $1.8$--$2.5$ wide, i.e.\ far weaker than the heuristic $0.3$--$1\,\%$ of
 Note~5 and than the $2\times10^{-4}$ mutual consistency of the three windows.  Two things must improve
 before the tabulated digits can be called certified: the cross term of Theorem~\ref{thm:main}
 (\S\ref{sec:tail}, verdict) and an interval-arithmetic audit of $\widehat D$ and $Q_N$.  What
 \emph{is} now proved and was not before: (i) the tabulated values are lower bounds with a quantified
 arithmetic margin; (ii) the correction added to them, $\zeta^2/(15\kappa_c^2)$ (resp.\
-$0.0641\zeta^2\kappa_{\max}^{-2}$), is the exact leading ultraviolet occupation tail, with a proved
-relative error $\le0.6\,\%$ at $\kappa_{\rm eff}\simeq30$ --- Note~5's heuristic ``12--56\,\% off''
+$0.0641\zeta^2\kappa_{\max}^{-2}$), is the exact leading ultraviolet occupation tail, with a proved (given the numerically evaluated $C_2$, see Correction~C4)
+relative error $\le25\,\%$ at $\kappa_{\rm eff}\simeq30$ ($15\cdot0.47/29.6=0.238$ for the coefficient $1/15$, $0.47/(0.0641\cdot29.6)=0.248$ for $0.0641$; printed as $0.6\,\%$ before 2026-09-24, see Corrections~C5 and~C10), while the measured one is $2.2$--$6.3\,\%$ at $\kappa_c=18.4$ and $0.7$--$1.8\,\%$ at $\kappa_c=32.2$ (\S\ref{sec:num}(4)) --- Note~5's heuristic ``12--56\,\% off''
 estimate of the correction was too pessimistic for the \emph{occupation}, and the true uncertainty of
 the corrected value lies in the step from the occupation to the fidelity, not in the occupation.
 \end{verdictgap}
 \section{The rate}\label{sec:rate}
 
-The rate $\Phi=f_2\zeta^2[1+O(\log^{-2}(1/\zeta))]$ of Note~5, Cor.~4.2, was to follow by combining
+The rate $\Phi=f_2\zeta^2[1+O(\log^{-2}(1/\zeta))]$ claimed by an earlier version of Note~5, Cor.~4.3 (printed as ``Cor.~4.2'' before 2026-09-24; the current version says that this rate was wrong, see Correction~C9), was to follow by combining
 (i) the tail bound, (ii) the cutoff error of the Bures--Fisher form
 (\texttt{quadratic\_limit.tex}, Prop.~7.1: $0\le g_B-g_B^{(\kappa_c)}\le\frac{2r}{3\kappa_c^2}(1+o(1))$,
 exactly $0.513\,r\kappa_c^{-2}$), and (iii) a finite-dimensional cubic estimate
@@ -697,7 +697,7 @@ Corollary~\ref{cor:rate} holds for small $\zeta$, and
 \]
 whence $|\Phi-f_2\zeta^2|\le\frac{0.173\zeta^2}{\theta\log(1/\zeta)}+O\bigl(\zeta^2\log^{-2}(1/\zeta)\bigr)
 +C\zeta^{3-c\theta}$ and $3-c\theta>2$.}
-\lby{Theorem~\ref{thm:main}, Corollary~\ref{cor:rate}, \eqref{eq:cubic} applied to $P\uparrow E$
+\lby{Theorem~\ref{thm:main}, Corollary~\ref{cor:rate} (only the finiteness of its constants is needed; the values $0.173$, $0.88$ rest on numerical inputs, see Correction~C4), \eqref{eq:cubic} applied to $P\uparrow E$
 (the supremum over $P\le E$ of $\Phi_P$ is $\Phi_W$, and $\sup_Pg_B^{(P)}=g_B^{(\kappa_c)}$ by
 definition), and \texttt{quadratic\_limit.tex}, Prop.~7.1}
 \lqed{1}{4}\lby{$\langle1\rangle1$, $\langle1\rangle2$: the intervals
@@ -709,7 +709,7 @@ The claimed $\log^{-2}$ rate is \emph{not} obtained; the best this route can giv
 only under a strengthening of Problem~7.2 to an exponent $c<1/2$.  The obstruction is the same cross
 term as in \S\ref{sec:tail}: it converts the requirement ``the window must reach past
 $\kappa_*(\zeta)\approx2\log(1/\zeta)$, where the vacuum occupation drops below the recovered one''
-(which is genuine, cf.\ Note~5, Cor.~4.2) into a \emph{linear} rather than quadratic penalty.  A
+(which is genuine, cf.\ Note~5, Cor.~4.3, printed as ``Cor.~4.2'' before 2026-09-24, see Correction~C9) into a \emph{linear} rather than quadratic penalty.  A
 version of Theorem~\ref{thm:block} in which the vacuum tail $\nu$ enters through the Hellinger
 combination $\sum_{|\kappa|>\kappa_c}(\sqrt{\widetilde q_\kappa}-\sqrt{q_\kappa})^2$ instead of
 $\sum(q_\kappa+\widetilde q_\kappa)$ would remove the constraint $\kappa_c>2\log(1/\zeta)$ altogether;
@@ -742,26 +742,26 @@ $-\log\Fid(\rho,\rho'')$ and $\Phi_W$ agree to $5\times10^{-9}$ relative (double
 
 \paragraph{(3) The constants of Theorem~\ref{thm:tau}.}  $\widehat{g^{(1)}}(\kappa_c/2\pi)$ divided by
 $(1+\kappa_c)e^{-\kappa_c}$ equals $1.9954,\,1.9994,\,2.0000,\,2.0000,\,1.9997$ at
-$\kappa_c=6,8,12,18.4,25.3$ (beyond that the double-precision floor is reached): $A_1=2$ exactly, so
+$\kappa_c=6,8,12,18.4,25.3$ (beyond that the double-precision floor is reached): numerically $A_1=2$ (inferred from these samples, none below $\kappa_c=6$; not certified, see Correction~C4), so
 $C_1=1/(2\pi^2)=0.05066$.  This reproduces the independent quadrature of
 \texttt{check\_note5\_theory.tex}, \S6.4, which finds
 $\widetilde Q^{(1)}(\kappa,\kappa)-q_\kappa=0.00337737\,\kappa e^{-\kappa}$ at $\zeta=1/15$:
 $0.00337737\times15=0.050661=1/(2\pi^2)$.  For $A_3$: $\zeta^{-2}\|(g^{(2)})'''\|_{L^1}
-=0.0355,\,0.0326,\,0.0275,\,0.0214$ at $\zeta=0.05,0.2,0.5,1$ (monotone decreasing in $\zeta$), so
-$A_3\le0.036$ and $C_2=4\pi A_3\le0.46$.
+=0.0355,\,0.0326,\,0.0275,\,0.0214$ at $\zeta=0.05,0.2,0.5,1$ on the grid of \texttt{rigor/pt\_tailconst.py}; they decrease in $\zeta$, so the supremum $A_3$ is the limit $\zeta\to0$, which was not sampled: $0.0364$ on the same grid and $0.0372$ on a refined grid (printed as ``(monotone decreasing in $\zeta$), so'' before 2026-09-24, see Correction~C10), so
+$A_3\le0.0374$ and $C_2=4\pi A_3\le0.47$ (printed as $A_3\le0.036$ and $C_2\le0.46$ before 2026-09-24).
 
 \paragraph{(4) The tail $\Sigma(\kappa_c)$.}  Exact evaluation of
 $\Sigma=\frac1{2\pi^2}\int_0^\infty g\cos(\lambda t)\dd t$ (period-by-period Gauss--Legendre):
 
 \begin{center}\small\begin{tabular}{r rrr rrr}\toprule
 & \multicolumn{3}{c}{$\Sigma(\kappa_c)/\bigl[\zeta^2/(15\kappa_c^2)\bigr]$}
-& \multicolumn{3}{c}{$\bigl[\Sigma-\zeta^2/(15\kappa_c^2)\bigr]\kappa_c^3/\zeta^2$ (bound: $\le0.46$)}\\
+& \multicolumn{3}{c}{$\bigl[\Sigma-\zeta^2/(15\kappa_c^2)\bigr]\kappa_c^3/\zeta^2$ (bound: $\le0.47$, Correction~C10)}\\
 $\zeta$ & $\kappa_c{=}18.4$ & $25.3$ & $32.2$ & $18.4$ & $25.3$ & $32.2$\\\midrule
 $1/15$ & 1.0631 & 1.0306 & 1.0184 & 0.0774 & 0.0515 & 0.0394\\
 $0.2$  & 1.0608 & 1.0298 & 1.0179 & 0.0745 & 0.0503 & 0.0385\\
 $1.0$  & 1.0224 & 1.0114 & 1.0069 & 0.0274 & 0.0192 & 0.0149\\\bottomrule
 \end{tabular}\end{center}
-The proved remainder bound $0.46\,\zeta^2\kappa_c^{-3}$ holds with a factor $6$--$30$ to spare, and
+The remainder bound $0.47\,\zeta^2\kappa_c^{-3}$ (proved in form; the constant is the numerically evaluated $C_2$, see Corrections~C4 and~C10) holds with a factor $6$--$31$ to spare, and
 the measured remainder decays faster than $\kappa_c^{-3}$ (consistent with the next term being
 $O(\kappa_c^{-4})$).
 
@@ -795,23 +795,23 @@ diagonal part of $\Phi-\Phi_W$ carries \emph{no} cross term) does not improve th
 \paragraph{(6) The assembled bound.}  At $\zeta=1/15$, $\kappa_c=32.2$: \eqref{eq:final} gives
 $\Phi-\Phi_W\le2.77\times10^{-5}$, while the measured difference between the $\kappa_c=32.2$ and the
 $\kappa_c=18.4$ values is $5.5\times10^{-7}$ and the predicted total remainder is
-$\Sigma=3.3\times10^{-7}$: the certified bound is a factor $\approx80$ above the truth, entirely
+$\Sigma=3.3\times10^{-7}$: the bound \eqref{eq:final} (whose constants rest on numerical inputs, see Correction~C4; printed as ``the certified bound'' before 2026-09-24) is a factor $\approx80$ above the truth, entirely
 because of the cross term ($2\sqrt{\Phi\Phi_\partial}$ with the proved $\Phi_\partial$; using the
 \emph{measured} $\|N\|_2^2$ instead would give $9\times10^{-6}$, still a factor $27$).
 \section{Summary of findings}\label{sec:findings}
 
 \begin{enumerate}[leftmargin=1.6em]
-\item \textbf{Proved (unconditional).}  $\Phi-\Phi_W\le0.173\,\zeta^2\kappa_c^{-1}+0.88\,\zeta^2\kappa_c^{-2}$
+\item \textbf{Proved in shape; the constants rest on numerical inputs} (printed as ``Proved (unconditional)'' before 2026-09-24, see Correction~C4).  $\Phi-\Phi_W\le0.173\,\zeta^2\kappa_c^{-1}+0.88\,\zeta^2\kappa_c^{-2}$
 for $\kappa_c\ge\max\{10,\ 2\log\frac1\zeta+2\log(1+\kappa_c)+3\}$ (Theorem~\ref{thm:main},
-Corollary~\ref{cor:rate}).  The route is: an exact factorisation making $\Phi_W$ the Bures distance to
+Corollary~\ref{cor:rate}); proved is the form $C\zeta^2\kappa_c^{-1}+C'\zeta^2\kappa_c^{-2}$ with finite $C,C'$, while $0.173$ and $0.88$ rest on $A_1\le2.0$, $A_3\le0.0374$ (double precision, not certified), $f=0.0085$ and a numerical evaluation of the corrected chain (Corrections~C1, C3, C4 and~C10).  The route is: an exact factorisation making $\Phi_W$ the Bures distance to
 an explicit third state (Lemma~\ref{lem:factor}); a canonical-purification lower bound for the
 fidelity (Lemma~\ref{lem:purif}); and a block estimate (Theorem~\ref{thm:block}) which bounds the
 \emph{entire} discarded block --- diagonal, off-diagonal and infrared--ultraviolet --- by the
 ultraviolet occupation $\tau$, using nothing but $\widetilde Q\ge0$, operator concavity of
 $\sqrt{t(1-t)}$ and a Schur complement.
-\item \textbf{Proved.}  The occupation tail: $\tau_+=\tau_-$ exactly, and
+\item \textbf{Proved, with numerically evaluated constants} (the values $0.47$ and $0.051$ below rest on $A_3\le0.0374$ and $A_1\le2.0$ in double precision, not certified; see Corrections~C4 and~C10).  The occupation tail: $\tau_+=\tau_-$ exactly, and
 $\bigl|\int_{\kappa_c}^\infty(\widetilde Q(\kappa,\kappa)-q_\kappa)\dd\kappa-\frac{\zeta^2}{15\kappa_c^2}\bigr|
-\le0.46\,\zeta^2\kappa_c^{-3}+0.051\,\zeta(1+\kappa_c)e^{-\kappa_c}$ (Theorem~\ref{thm:tau}).  This
+\le0.47\,\zeta^2\kappa_c^{-3}+0.051\,\zeta(1+\kappa_c)e^{-\kappa_c}$ (Theorem~\ref{thm:tau}; $0.46$ before 2026-09-24, Correction~C10).  This
 upgrades Note~5, Proposition~4.1 (a sketch with an uncontrolled remainder and a sign fixed a
 posteriori) to a theorem in the only form in which it is used, and re-derives $c_2=-\zeta^2/30$ from
 the closed form.
@@ -821,14 +821,14 @@ inequality contributes an irreducible cross term $2\sqrt{\Phi\,\Phi_\partial}=\T
 Problem~7.2 in its stated form ($Ce^{\kappa_c}\zeta^3$) the two requirements
 $\kappa_c>2\log\frac1\zeta$ (from the tail bound) and $\kappa_c<\log\frac1\zeta$ (from the cubic
 estimate) are incompatible; a strengthening to $Ce^{c\kappa_c}\zeta^3$ with $c<\frac12$ yields
-$\Phi=f_2\zeta^2[1+O(\log^{-1}(1/\zeta))]$ --- still one logarithm short of Note~5, Cor.~4.2
+$\Phi=f_2\zeta^2[1+O(\log^{-1}(1/\zeta))]$ --- still one logarithm short of the $\log^{-2}$ rate claimed by an earlier version of Note~5, Cor.~4.3 (printed as ``Cor.~4.2'' before 2026-09-24; the current version says that this rate was wrong, see Correction~C9)
 (Proposition~\ref{prop:rate}).
-\item \textbf{Certified numerics.}  Table~\ref{tab:bars}: the tabulated $\Phi_{\rm sub}$ are rigorous
+\item \textbf{Numerics} (printed as ``Certified numerics'' before 2026-09-24, see Correction~C8).  Table~\ref{tab:bars}: the tabulated $\Phi_{\rm sub}$ are rigorous
 lower bounds (up to an arithmetic margin of $\approx3\,\%$, dominated again by a cross term and
-removable by an interval-arithmetic audit of $\widehat D$ and $Q_N$); the certified upper bound is a
-factor $1.8$--$2.5$ above, and is in addition conditional on the box discretisation
+removable by an interval-arithmetic audit of $\widehat D$ and $Q_N$); the upper bound, which is not certified (see Correction~C8), is a
+factor $1.8$--$2.5$ above, and is in addition conditional on the numerical inputs of \eqref{eq:final} (see Correction~C4) and on the box discretisation
 (\S\ref{sec:box}b).  The \emph{correction} $\zeta^2/(15\kappa_c^2)$ that Note~5 adds is now proved
-correct to $0.6\,\%$ at $\kappa_c\simeq30$; what is not proved is that the correction to $\Phi$ equals
+correct to $24\,\%$ at $\kappa_c\simeq30$, given the numerically evaluated $C_2$ (measured: $0.7$--$1.8\,\%$ at $\kappa_c=32.2$; printed as $0.6\,\%$ before 2026-09-24, see Corrections~C4, C5 and~C10); what is not proved is that the correction to $\Phi$ equals
 the correction to the occupation.
 \item \textbf{Correction to the numerics.}  For runs in which the spectral window contains all box
 modes ($\eps=10^{-14}$, $\Lambda=60$, $\kappa_{\max}=30$) the tail must be computed with
@@ -845,4 +845,269 @@ required inequality is the elementary Hellinger one; the square root's failure t
 edge of the spectrum is the whole difficulty, and the Schur-complement constraint
 $X_{12}^*X_{11}^{-1}X_{12}\le X_{22}$ used in Theorem~\ref{thm:block}$\langle1\rangle6$ is probably the
 right tool for it.
+
+\section{Corrections of 2026-09-24}
+
+These corrections implement knowledge-base card \texttt{tail-bound}: its refereed statement and the
+DOCUMENT ERROR notes on this document, together with the referee reports REF-DEP-CFT-B2, B5, B6, B9,
+B10 and B11 recorded there; items C5--C10 were added later the same day at the request of the
+knowledge-base orchestrator, C10 after the referee report REF-DOC-TAIL.  Every changed passage points to one of the items below, except the
+title (line~5) and the header row of Table~\ref{tab:bars} (line~631), which are recorded in C8.  No line
+above this section was added or removed, so line numbers cited elsewhere still hold, and the line
+numbers below refer to this file.  The check scripts are in \nolinkurl{numerics/kb-checks-2026-09-23/}
+and, for C10, in \nolinkurl{numerics/kb-checks-2026-09-24/} of this repository.  Each has its stored
+printout (\texttt{.out}) and is described in its folder's \texttt{README.md}.  Run them from the
+repository root with \texttt{python3}; they need only the standard library, except
+\texttt{a3\_refined.py}, which needs mpmath.  The scripts of 2026-09-23 use the old constant
+$C_2\le0.46$; C10 gives the values for $C_2\le0.47$.
+
+\paragraph{C1. Theorem~\ref{thm:main}: step $\langle1\rangle5$ and \eqref{eq:Psi} (lines 57, 464,
+466, 494, 496, 497, 499).}
+\emph{Before:} step $\langle1\rangle5$ read $e^{-\Phi}\ge e^{-\Phi_W}(e^{-\Phi_\partial}-y')$, and
+\eqref{eq:Psi} read $\Phi-\Phi_W\le\Phi_\partial+y/(1-y)$ under the hypothesis $y<1$, where
+$y=2e^{2\Phi_\partial}\sqrt{\Phi\Phi_\partial}$.
+\emph{Now:} $\langle1\rangle3$, $\langle1\rangle4$ and $\Fid(\rho'',\sigma)\ge e^{-\Phi_\partial}$
+give only
+\[
+ e^{-\Phi}\ \ge\ e^{-\Phi_W}e^{-\Phi_\partial}-y'\ =\ e^{-\Phi_W}\bigl(e^{-\Phi_\partial}-e^{\Phi_W}y'\bigr),
+\]
+hence $\Phi-\Phi_W\le\Phi_\partial-\log(1-Y)\le\Phi_\partial+Y/(1-Y)$ with $Y:=e^{\Phi_W}y\le e^{\Phi}y$,
+provided $Y<1$ (and $\mathcal T<1$ as before).  The printed step subtracted $e^{-\Phi_W}y'$ instead
+of $y'$.  Since $e^{-\Phi_W}\le1$, that is too little.  The leading-order form in \eqref{eq:Psi}
+does not change, because $Y-2\sqrt{\Phi\Phi_\partial}=O((\Phi+\Phi_\partial)^2)$.  The overview item
+(A) now states the hypotheses.  Here $Y$ is a number; it is not the operator $Y=Q''$ to which
+Lemma~\ref{lem:purif} is applied in $\langle1\rangle2$, nor the $Y$ of \S\ref{sec:delta}.
+\emph{Why:} the printed bound does not follow from the ingredients of the proof.  They allow
+equality in the angle triangle inequality at $\langle1\rangle3$, with
+$\cos A(\rho,\rho'')=e^{-\Phi_W}$ and $\cos A(\rho'',\sigma)=e^{-\Phi_\partial}$.  For
+$\Phi_W=0.0085$ and $\Phi_\partial=10^{-8}$ this configuration gives
+$\Phi-\Phi_W=1.0032\,\bigl(\Phi_\partial+y/(1-y)\bigr)$, and as $\Phi_\partial\to0$ the ratio tends
+to $\sqrt{(e^{2\Phi_W}-1)/(2\Phi_W)}=1.0043$.  The corrected bound holds there, with ratio $0.9947$
+(\texttt{refb6\_psi\_check3.py}).  Source: card \texttt{tail-bound}, the DOCUMENT ERROR note on
+$\langle1\rangle5$ (from REF-DEP-CFT-B6, confirmed by REF-DEP-CFT-B9).
+
+\paragraph{C2. Corollary~\ref{cor:rate}, step $\langle1\rangle1$ (lines 517, 518, 520--522).}
+\emph{Before:} $0.51\zeta(1+\kappa_c)e^{-\kappa_c}\le0.51e^{-3}\zeta^3(1+\kappa_c)^{-1}
+\le0.003\,\zeta^2\kappa_c^{-2}$, and $\frac23+0.46+0.6+0.003\le1.75$.
+\emph{Why this was wrong:} the first inequality holds, but the second is false for moderate $\zeta$.
+On the admissible region the ratio $0.51\zeta(1+\kappa_c)e^{-\kappa_c}/(\zeta^2\kappa_c^{-2})$
+reaches $0.0767$ at the corner $(\zeta,\kappa_c)=(11e^{-3.5},10)$, where $\kappa_c=\kappa_\dagger(\zeta)$
+($0.0766$ at the grid point $(0.3325,10)$, \texttt{tailcheck\_ext.py}).  With $0.077$ in place of
+$0.003$ and the crude $0.6$, the sum would be $1.804>1.75$.
+\emph{Now:} the hypothesis $\kappa_c\ge\kappa_\dagger(\zeta)$ gives
+$e^{-\kappa_c}\le e^{-3}\zeta^2(1+\kappa_c)^{-2}$ and its square root
+$e^{-\kappa_c/2}\le e^{-3/2}\zeta(1+\kappa_c)^{-1}$.  Hence
+$12e^{-\kappa_c}\le12e^{-3}\zeta^2(1+\kappa_c)^{-2}$ and
+$0.51\zeta(1+\kappa_c)e^{-\kappa_c}\le0.51e^{-3/2}\zeta^2e^{-\kappa_c/2}$, so
+$\mathcal T\le\zeta^2\kappa_c^{-2}s(\kappa_c)$ with
+\[
+ s(\kappa_c)=\frac23+\frac{4.7}{\kappa_c}+\frac{12e^{-3}\kappa_c^2}{(1+\kappa_c)^2}
+ +0.51e^{-3/2}\kappa_c^2e^{-\kappa_c/2}
+\]
+(with $4.7=10\,C_2$ from C10; $4.6$ before).  $s$ decreases on $[10,\infty)$: the third term grows
+with derivative $24e^{-3}\kappa_c(1+\kappa_c)^{-3}<4.7\kappa_c^{-2}$, and $\kappa_c^2e^{-\kappa_c/2}$
+decreases for $\kappa_c>4$.  Since $s(10)=0.667+0.47+0.494+0.077=1.707\le1.75$, the statement
+$\mathcal T\le1.75\zeta^2/\kappa_c^2$ of the corollary is unchanged.  The value $1.707$ is attained
+at the corner, where the condition on $\kappa_\dagger$ holds with equality.  Numerically
+$\mathcal T\kappa_c^2/\zeta^2=1.7071$ at the corner and at most $1.7060$ on the grid
+(\texttt{refb10\_tail\_sup\_c2.py}); with the old $4.6$ these were $1.6971$ and $1.6960$
+(\texttt{refb10\_tail\_sup.py}, \texttt{tailcheck\_ext.py}).  Source: card \texttt{tail-bound},
+DOCUMENT ERROR note (i) of AUTH-CFT-B, with the arithmetic of REF-DEP-CFT-B5.
+
+\paragraph{C3. Corollary~\ref{cor:rate}: what \eqref{eq:final} rests on (lines 510, 512, 524, 525,
+527).}
+\emph{Before:} \eqref{eq:final} was obtained from the display of the corollary by dropping its
+factors $1+O(\zeta^2)$ and rounding $0.1725$ to $0.173$ and $0.875$ to $0.88$.  The value $f=0.0085$
+was attributed to Note~5, Table~3, and the hypothesis $y<1$ of Theorem~\ref{thm:main} was not checked.
+\emph{Why this was wrong:} the factors cannot simply be dropped.  If $\Phi_\partial$ is bounded only
+through $\mathcal T\le1.75\zeta^2/\kappa_c^2$, the chain of Theorem~\ref{thm:main} exceeds the right
+side of \eqref{eq:final}.  Already the printed chain is $1.032$ times it at $(\zeta,\kappa_c)=(1,10)$
+(\texttt{tailcheck.py}, \texttt{tailcheck\_ext.py}), and the corrected chain of C1 is larger still.
+The table is Table~4 (\texttt{tab:scan}) of the current Note~5.
+\emph{Now:} the display with the factors $1+O(\zeta^2)$ is proved as before, given the numerical $A_1$, $A_3$ of \eqref{eq:taunu}; the factor
+$e^{\Phi_W}\le e^{f\zeta^2}$ in $Y$ goes into those factors.  Step $\langle1\rangle2$ checks the
+hypotheses of Theorem~\ref{thm:main}: $\mathcal T\le0.0175$, and $Y\le0.193\,e^{f}f^{1/2}$, which is
+$<1$ for $f\le1$ and at most $0.018$ for $f=0.0085$.
+
+\eqref{eq:final} is now stated as resting on numerical inputs and a numerical evaluation.  The inputs
+are $A_1\le2.0$ and $A_3\le0.0374$ (C10; $0.036$ before) of Theorem~\ref{thm:tau}, evaluated in
+double precision and not certified (\S\ref{sec:num}(3)), and $f=0.0085$, a numerical input that the
+corollary reads off the tabulated values of Note~5, Table~4, and the limit $1/(12\pi^2)$.  Those
+values do not bound $\Phi$ between the grid points or near $\zeta=1$.  The basis recorded on
+knowledge-base card \texttt{phi-below-0085-zeta2-numerical} is different: $\Phi\le0.0085\,\zeta^2$
+is rigorous on $(0,0.8868]$ by \texttt{rate\_of\_remainder.tex}, Proposition \texttt{prop:rrr}, and
+numerical on $[0.8868,1]$, through the monotonicity of $\Phi$ (\texttt{check\_note5\_theory.tex},
+\texttt{prop:mono}) and the computed value $\Phi(1.0667)=4.41\times10^{-3}$.  For the evaluation, take $(\zeta,\kappa_c)$ in the
+admissible region $0<\zeta\le1$, $\kappa_c\ge10$, $\kappa_c\ge\kappa_\dagger(\zeta)$.  Let
+$\bar{\mathcal T}$ be the right side of \eqref{eq:taunu}, and put
+$\bar\Phi_\partial=\bar{\mathcal T}/(2(1-\bar{\mathcal T}))$,
+$\bar y=2e^{2\bar\Phi_\partial}\sqrt{f\zeta^2\bar\Phi_\partial}$ and $\bar Y=e^{f\zeta^2}\bar y$.
+The corrected bound of Theorem~\ref{thm:main} increases with $\mathcal T$, $\Phi$ and $\Phi_W$, so
+$\Phi-\Phi_W\le B:=\bar\Phi_\partial+\bar Y/(1-\bar Y)$.
+
+The ratio of $B$ to the right side of \eqref{eq:final} was evaluated in double precision with
+$C_2\le0.47$ (C10) by \texttt{numerics/kb-checks-2026-09-24/refb10\_tail\_sup\_c2.py}.  It scans the
+edge $\kappa_c=10$, the edge $\kappa_c=\kappa_\dagger(\zeta)$ up to $\kappa_c=30$ and a patch at the
+corner.  It also scans the grid of \texttt{tailcheck\_ext.py}: $5.25\times10^6$ admissible points
+with $10^{-8}\le\zeta\le1$ and $10\le\kappa_c\le200$, whose maximum is $0.98365$ at $(0.3325,10)$.
+Over all scanned points the ratio is largest at the corner
+$(\zeta,\kappa_c)=(11e^{-3.5},10)=(0.33217,10)$, where $\kappa_c=\kappa_\dagger(\zeta)=10$, with value
+$0.98405$.  The printed chain, with $y$ in place of $Y$, gives $0.98343$ there.  With the old
+$C_2\le0.46$ the scripts of 2026-09-23 gave the following.  For the corrected chain, $0.98019$ at
+the corner (\texttt{refb10\_tail\_sup.py}) and $0.97979$ on the grid
+(\texttt{refb6\_tailcheck\_corrected.py}).  For the printed chain, $0.97957$ at the corner
+(\texttt{refb10\_tail\_sup.py}) and $0.97917$ on the grid (\texttt{tailcheck.py},
+\texttt{tailcheck\_ext.py}).  The card records the corner as the supremum over the whole admissible
+region.  A referee scan up to $\kappa_c=1400$ (REF-DEP-CFT-B11), made with $C_2\le0.46$, found the
+ratio decreasing along $\kappa_c=\kappa_\dagger(\zeta)$, to $0.848$ at $\kappa_c=1400$.
+
+With $f=0.008516$ the supremum is $0.98467$ ($0.98080$ with $C_2\le0.46$).  This $f$ comes from the bound
+$\Phi\le-\frac12\log(1-2f_2\zeta^2)\le0.008516\,\zeta^2$ on $(0,1]$ of \texttt{rate\_of\_remainder.tex},
+Proposition \texttt{prop:rrr}, which could replace the numerical input $f$, with
+$2\sqrt{0.875\cdot0.008516}=0.1726\le0.173$.  All of this is a numerical verification of
+\eqref{eq:final} given the inputs, not an analytic proof.  Source: card \texttt{tail-bound}, the
+DOCUMENT ERROR note of AUTH-CFT-B (its item (ii) and its remark on the table number), its Statement
+(b), and the referee reports REF-DEP-CFT-B2, B10 and B11.
+
+\paragraph{C4. The status of the explicit constants (lines 66, 69, 530--532, 610, 619, 648, 700,
+745, 764, 798, 804, 806, 812, 829, 831).}
+\emph{Before:} line~66 called $C_1\le0.051$ and $C_2\le0.46$ ``certified numerically''.  The verdict
+after Corollary~\ref{cor:rate} read ``Proved: an unconditional tail bound \ldots\ with the explicit
+constant $C=0.173$'', valid for $\kappa_c\ge2\log(1/\zeta)+2\log\kappa_c+3$.  The summary called
+\eqref{eq:final} ``Proved (unconditional)'' and called Theorem~\ref{thm:tau} with the constants $0.46$
+and $0.051$ ``Proved''.  Line~764 read ``the proved remainder bound $0.46\,\zeta^2\kappa_c^{-3}$'',
+and line~798 called \eqref{eq:final} ``the certified bound''.
+\emph{Now:} what is proved is the shape: $A_1$ and $A_3$ are finite, and
+$\Phi-\Phi_W\le C\zeta^2/\kappa_c+C'\zeta^2/\kappa_c^2$ with finite $C,C'$ whenever $\Phi\le f\zeta^2$.
+The values $A_1\le2.0$ and $A_3\le0.0374$, hence $C_1\le0.051$ and $C_2\le0.47$ ($A_3\le0.036$ and
+$C_2\le0.46$ before C10), are double-precision and finite-difference evaluations, not certified; the verdict after Theorem~\ref{thm:tau} already says
+that they are numerical.  $f=0.0085$ is a numerical input.  So the constants $0.173$ and $0.88$ of
+\eqref{eq:final} rest on these inputs and on the evaluation of C3.  The verdict after
+Corollary~\ref{cor:rate} now gives the region of the corollary,
+$\kappa_c\ge\max\{10,\,2\log(1/\zeta)+2\log(1+\kappa_c)+3\}$; the printed $2\log\kappa_c$, without
+$\kappa_c\ge10$, described a larger region than the corollary covers.  The later uses of
+\eqref{eq:final} now say that they inherit these inputs: the bar \eqref{eq:bar} (line~610),
+\S\ref{sec:num}(6) (line~798) and the summary (line~829).  Lines~619, 648 and~831 now say that the
+remainder of Theorem~\ref{thm:tau} is proved in form with the numerically evaluated $C_2$; the
+percentages quoted there are corrected in C5.  Overview item (C) (line~69) said ``with an explicit
+$C$''; it now says that $C$ is finite and that the explicit value rests on numerical inputs.  The
+proof of Proposition~\ref{prop:rate} (line~700) now says that it needs only the finiteness of the
+constants of Corollary~\ref{cor:rate}.  Line~745 said ``$A_1=2$ exactly''; it now says that
+$A_1=2$ is numerical, inferred from samples at $\kappa_c\ge6$, and not certified.
+Source: card \texttt{tail-bound}, its Statement (b) and its title (``explicit constants 0.173, 0.88
+rest on numerical inputs''), its dependency finding and the referee report REF-DEP-CFT-B2, and card
+\texttt{tail-constants-numerical}.
+
+\paragraph{C5. The size of the $C_2$ remainder relative to $\Sigma$ (lines 620, 649, 831).}
+\emph{Before:} line~620 said that the uncertainty
+$C_2\zeta^2\kappa_{\rm eff}^{-3}\le0.46\,\zeta^2\kappa_{\rm eff}^{-3}$ of the tail $\Sigma$ is
+``$0.6\,\%$ of $\Sigma$ at $\kappa_{\rm eff}=29.6$''.  Lines~649 and~831 repeated this as a proved
+relative error of at most $0.6\,\%$ at $\kappa_c\simeq30$.
+\emph{Why this was wrong:} with $\Sigma\approx\zeta^2/(15\kappa_c^2)$ the ratio is
+$C_2\,\zeta^2\kappa_c^{-3}\big/\bigl(\zeta^2/(15\kappa_c^2)\bigr)=15\,C_2/\kappa_c$.  With the
+corrected $C_2\le0.47$ of C10 that is $0.238$ at $\kappa_c=29.6$, $0.235$ at $30$ and $0.219$ at
+$32.2$; with the box coefficient $0.0641$ it is $0.47/(0.0641\cdot29.6)=0.248$.  With the old
+$C_2\le0.46$ the figures were $0.233$ and $0.242$, so neither constant gives $0.6\,\%$.  The $C_1$ term adds less than $10^{-6}$ of $\Sigma$ there, even
+at $\zeta=1/120$.  No computation in this document, in \texttt{numerics/pt\_checks.py},
+\texttt{numerics/pt\_bars.py} or \texttt{rigor/pt\_tailconst.py}, in Note~5 or in
+\texttt{certified\_numerics.tex} gives $0.6\,\%$ for this quantity.  The nearest figures describe
+other quantities.  One is the measured deviation $\Sigma/(\zeta^2/(15\kappa_c^2))-1$ in the table of
+\S\ref{sec:num}(4): $0.7$--$1.8\,\%$ at $\kappa_c=32.2$ and $2.2$--$6.3\,\%$ at $\kappa_c=18.4$, for
+$\zeta=1/15,0.2,1$.  The other is the $C_2$ term as a fraction of $\Phi$, $0.2$--$0.3\,\%$ at
+$\kappa_{\rm eff}=29.6$ for the tabulated $\zeta$.
+\emph{Now:} the three lines give the bound, about $24\,\%$ ($25\,\%$ with the box coefficient
+$0.0641$); lines 649 and 831 also quote the measured deviations.  The verdict after
+Table~\ref{tab:bars} still says that Note~5's ``12--56\,\% off'' estimate was too pessimistic for the
+occupation.  That now rests on the measured deviation, at most $6.3\,\%$ at $\kappa_c=18.4$ (the
+cutoff of Note~5's estimate), and not on the bound, which is $15\cdot0.47/18.4=38\,\%$ there.  Source: found while making C1--C4; the check is the arithmetic above.
+
+\paragraph{C6. A Note~5 table number (line 561).}
+\emph{Before:} ``Note~5, Table~1 varies $(\Lambda,\kappa_{\max})$ over nine combinations at
+$\zeta=1/15$''.  \emph{Now:} Table~2.  In the current Note~5 (\texttt{fidelity\_recovered\_quasifree.aux})
+Table~1 is the large-$\zeta$ table \texttt{tab:largezeta}, and the nine-row convergence table
+\texttt{tab:convergence} is Table~2.  This is the same renumbering as the Table~3$\to$4 of C3.
+
+\paragraph{C7. The first-order remainder in overview item (B) (line 64).}
+\emph{Before:} $|\tau_\pm-\nu_\pm-\zeta^2/(15\kappa_c^2)|\le C_2\zeta^2\kappa_c^{-3}
++C_1\zeta\kappa_ce^{-\kappa_c}$.  \emph{Now:} the last term is $C_1\zeta(1+\kappa_c)e^{-\kappa_c}$,
+as Theorem~\ref{thm:tau} states and proves in \eqref{eq:taubound}; there $\tau_\pm-\nu_\pm=\Sigma$ by
+\eqref{eq:phsym}, and $C_1=A_1/(4\pi^2)$ with $A_1$ defined through the factor
+$(1+\kappa_c)^{-1}e^{\kappa_c}$.  With the same $C_1\le0.051$, the printed form was stronger than the
+theorem on this term by the factor $(1+\kappa_c)/\kappa_c$, which is at most $1.125$ for
+$\kappa_c\ge8$.  Knowledge-base card \texttt{tail-bound} states the $(1+\kappa_c)$ form.
+
+\paragraph{C8. ``Certified'' error bars (lines 5, 75, 565, 589, 625, 631, 642, 826, 828).}
+\emph{Before:} the title, the overview, \S\ref{sec:box}(b), the heading of \S\ref{sec:bars}, the
+caption and header of Table~\ref{tab:bars}, the verdict after it and the summary called the bars of
+this document ``certified''.  The phrases were ``certified error bars'', ``certified modulo the box
+discretisation'', ``Certified bar'', ``certified interval'', ``The certified bar'', ``Certified
+numerics'' and ``the certified upper bound''.
+\emph{Why this was wrong:} every bar in this document is \eqref{eq:bar}.  Its upper end is
+$\Phi^{\rm c}_{\rm sub}+0.173\,\zeta^2/\kappa_{\rm eff}+0.88\,\zeta^2/\kappa_{\rm eff}^2$, that is
+\eqref{eq:final} at $\kappa_{\rm eff}$.  This is how \texttt{numerics/pt\_bars.py} computes it, and
+the script reproduces the intervals of Table~\ref{tab:bars}, for example $[3.4866,\,6.5309]$ at
+$\zeta=1/15$.  The constants of \eqref{eq:final} rest on the uncertified numerical inputs of C3 and
+C4.  This comes on top of the box caveat of \S\ref{sec:box}(b) and the unaudited arithmetic margin
+of \S\ref{sec:bars}.  None of the bars uses the bound $\Phi-\Phi_W\le\Phi_{22}+\Phi_{\rm off}$ of
+\texttt{certified\_numerics.tex}, whose enclosures come from a different computation.  The lower
+end, $\Phi^{\rm c}_{\rm sub}$, is a rigorous lower bound up to the arithmetic margin, as
+\S\ref{sec:box}(a) says; that statement is unchanged.
+\emph{Now:} these labels no longer say ``certified'', and the upper half is said to rest on the
+numerical inputs of \eqref{eq:final}.  Three places are unchanged: ``not certified'' for the
+extrapolated best value (line~629), and lines~608 and~644, which say what is still missing before
+the digits can be called certified.  Source: knowledge-base card \texttt{tail-bound}, its Statement
+(b) (explicit constants via numerical inputs) and its How to verify (the certified scripts
+\texttt{numerics/certified/cert\_tail*.py} evaluate a different bound).
+
+\paragraph{C9. A Note~5 corollary number (lines 73, 655, 712, 824).}
+\emph{Before:} ``Note~5, Cor.~4.2'' in all four places.  \emph{Now:} Cor.~4.3.  All four cite the
+corollary \texttt{cor:structure} of Note~5, ``Structure of the small-$\zeta$ expansion''.  Lines 73,
+655 and 824 cite its $\log^{-2}(1/\zeta)$ rate, and line 712 its threshold $\kappa_*(\zeta)$.  The
+same corollary is called Corollary~4.2 in \texttt{check\_note5\_theory.tex} (section
+\texttt{sec:cor42}) and in \texttt{quadratic\_limit.tex} (line~26).  In the current Note~5 an
+unlabelled remark (``Status of the proof'', after Proposition~4.1) takes the number 4.2, and
+\texttt{fidelity\_recovered\_quasifree.aux} gives \texttt{cor:structure} the number 4.3.  This is the
+same kind of renumbering as in C3 and C6.
+The current version of that corollary also has a corrected statement (2026-09-09,
+\texttt{rate\_of\_remainder.tex}): the expansion proceeds in integer powers, and ``the $\log^{-2}$
+rate stated in an earlier version was wrong''.  Lines 73, 655 and 824 therefore now say that the
+$\log^{-2}$ rate is the claim of an earlier version of that corollary.  Their comparison ``one
+logarithm short of'' refers to that claim, not to the current statement.  Line 712 cites the
+corollary for the threshold $\kappa_*(\zeta)$, which the current version still mentions, and is
+changed only in the number.  Source: knowledge-base card \texttt{tail-bound} (``the $\zeta^2\log^{-2}$ remainder claimed
+there was refuted'', card \texttt{rate-of-remainder}), and the check of the label above.
+
+\paragraph{C10. The value of $A_3$, and hence of $C_2$ (lines 66, 328, 330, 332, 335, 445, 469, 470,
+512, 517, 518, 522, 527, 531, 620, 649, 750, 751, 758, 764, 806, 812, 814, 831).}
+\emph{Before:} \S\ref{sec:num}(3) read ``$\zeta^{-2}\|(g^{(2)})'''\|_{L^1}=0.0355,\,0.0326,\,0.0275,
+\,0.0214$ at $\zeta=0.05,0.2,0.5,1$ (monotone decreasing in $\zeta$), so $A_3\le0.036$ and
+$C_2=4\pi A_3\le0.46$''.  The document used $C_2\le0.46$, that is $4.6=10\,C_2$ in \eqref{eq:taunu},
+throughout.
+\emph{Why this was wrong:} $A_3$ is a supremum over $0<\zeta\le1$ (line~326).  If the values
+decrease in $\zeta$, the supremum is the limit $\zeta\to0$, which was not sampled.  The functions of
+\texttt{rigor/pt\_tailconst.py}, on its own grid ($t=0.05$ to $40$), give $0.03625$, $0.036406$ and
+$0.036422$ at $\zeta=0.01$, $10^{-3}$, $10^{-4}$.  As $\zeta\to0$, $\zeta^{-2}g^{(2)}$ tends to the
+closed form
+\[
+ g_0(t)=-\frac{1+\frac12\cosh t-\frac32\,t^{-1}\sinh t}{2\sinh^3(t/2)}=-\frac t{30}+O(t^3),
+\]
+because $\int_0^1\sinh^2\frac{ts}2\sinh^2\frac{t(1-s)}2\,\dd s=\frac14\bigl(1+\frac12\cosh t
+-\frac32\,t^{-1}\sinh t\bigr)$.  Its $\|g_0'''\|_{L^1}$ is $0.03642$ on the script's grid.  On a
+refined grid ($t=0.002$ to $80$, with $2\times10^4$ and $4\times10^4$ intervals, $h=10^{-4}$) it is
+$0.03718$, and $0.03721$ when the part near $t=0$ is included.  At finite $\zeta$ the refined values
+stay below this limit: $0.03698$, $0.03617$, $0.03331$ and $0.02175$ at $\zeta=0.01,0.05,0.2,1$.  So
+$A_3=0.0372>0.036$ and $C_2=4\pi A_3=0.468>0.46$.  These are numerical values, not certified.
+\emph{Now:} $A_3\le0.0374$ and $C_2\le0.47$, so $4.7=10\,C_2$ appears in \eqref{eq:taunu}, in the
+bound on $\mathcal T$ of Theorem~\ref{thm:main} and in $s(\kappa_c)$.  The numbers that depend on
+$C_2$ were re-derived.  $s(10)=0.667+0.47+0.494+0.077=1.707\le1.75$ (C2), so $\mathcal
+T\le1.75\,\zeta^2/\kappa_c^2$, $\mathcal T\le0.0175$ and $Y\le0.018$ are unchanged.  The corrected
+chain against \eqref{eq:final} has supremum $0.98405$ at the corner ($0.98467$ with $f=0.008516$), so
+\eqref{eq:final} still holds given the inputs (C3).  The $C_2$ term is about $24\,\%$ of $\Sigma$
+at $\kappa_{\rm eff}\simeq30$, or $25\,\%$ with the box coefficient (C5).  The factor to spare at
+line~764 becomes $6$--$31$.  Scripts: \texttt{numerics/kb-checks-2026-09-24/a3\_refined.py}, which
+needs mpmath, and \texttt{refb10\_tail\_sup\_c2.py}, a copy of \texttt{refb10\_tail\_sup.py} with
+$4.7$ and a scan of the whole grid.  Each has its \texttt{.out}, and the folder has a
+\texttt{README.md}.  Source: referee report REF-DOC-TAIL (2026-09-24), checked independently by the
+fix author with \texttt{a3\_refined.py}.  Knowledge-base card \texttt{tail-constants-numerical} still
+records $A_3\le0.036$.
 \end{document}

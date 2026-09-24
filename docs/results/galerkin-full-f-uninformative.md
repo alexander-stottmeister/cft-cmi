@@ -15,7 +15,7 @@ Both rungs land a factor 7-8 ABOVE the compression defect, not below the isometr
 WHAT IS BEING COMPARED (do not over-read the ratio): min_F g_Q is an exact finite-s minimum over the discretised F, whereas theta, 1 - theta and g_Q(delta_c) on the same rung are FIRST-ORDER (tangent) reference numbers produced by orbit_theta() (the CG of theta_galerkin.py, which it reproduces exactly: 1 - theta = 0.71422 at h = 0.4 and 0.70074 at h = 0.3 against the published 0.714 and 0.701). The two are not values of one and the same programme -- they are computed in one script and share Q and delta_c, but not the same optimisation -- so the ratio must not be read as "the orbit beaten or not beaten by that factor".
 WHAT THE RUNGS DO SHOW is the S11 representability obstruction (rigor/sdp_certificate_numerics.tex l.484-497): in a finite Galerkin cell frame the Moebius compression is not representable at all (its V maps cells to non-cells), so the discretised F does not contain the compression point, and min_F g_Q is dominated by that representation error rather than by the physics of non-isometric channels.
 H-TREND: the two rungs move in the right direction at fixed Lambda and collar, 8.411034 (h = 0.4) -> 7.125692 (h = 0.3). Two points are a trend, not a verdict, and no extrapolated "factor still to be closed" is claimed. The earlier runs kc_h04.out and kc_h05.out (8.2635 and 10.0467) are NOT comparable rungs of the same ladder: they differ in LamC (6 and 4 vs 12), n_B (9 and 7 vs 9 and 11) and n_C (15 and 8 vs 30 and 40); S11 identifies n_B/n_C and the collar s, not h alone, as the knobs, and kc_h04.out's Delta/(2 g_Q) = -10.325 is S11's n_B \< n_C corner.
-CONCLUSION: this test cannot decide whether non-isometric channels beat the isometric orbit; the tangent (first-order) problem is the right place to ask, and it is answered in the card kkt-noise-criterion-numerics.
+CONCLUSION: this test cannot decide whether non-isometric channels beat the isometric orbit; the tangent (first-order) problem is the right place to ask, and the card kkt-noise-criterion-numerics answers it only as far as the numerics can: condition (a) as an extrapolation, condition (e) under H3 (F2_RESULTS.md:250, corrected 2026-09-24, F2 Correction C8).
 
 ## How to verify
 
@@ -37,7 +37,7 @@ cd numerics/optimality_all; $V/bin/python f2_galerkin_full.py 0.4,0.3 (prints, p
 
 ## Review
 
-**Review record:** passed 2026-09-23 by REF-DEP-CFT-A1.
+**Review record:** passed 2026-09-24 by REF-CARD-CFT.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

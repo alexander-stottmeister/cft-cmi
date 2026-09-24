@@ -12,7 +12,7 @@
 
 ## How to verify
 
-rigor/kubo_mori_second_variation.tex: setting l. 102 (A bounded, in M), thm:exact (l. 215), lem:kms (l. 264), thm:lower (l. 310), thm:upper (l. 592), thm:main (l. 616), lem:AtoU (l. 524), prop:unbounded (l. 774-800, Omega in D(A) used in \<1>2 and \<1>3), Gap QK2 (l. 822), summary table (l. 851-853). The overview table l. 66-67 is out of date (see the DOCUMENT ERROR note).
+rigor/kubo_mori_second_variation.tex: setting l. 102 (A bounded, in M), thm:exact (l. 215), lem:kms (l. 264), thm:lower (l. 310), thm:upper (l. 592), thm:main (l. 616), lem:AtoU (l. 524), prop:unbounded (l. 774-800, Omega in D(A) used in \<1>2 and \<1>3), Gap QK2 (l. 822), summary table (l. 851-853). The overview table l. 66-67 carries the split since 2026-09-24 (Correction C1, Sec. 11, l. 901-925): l. 66, A = A\* affiliated with M and Omega in D(A), proved by prop:unbounded, with the upper bound and the expansion under (U_eps) and (A_eps) => (U_eps) only for bounded A; l. 67, A affiliated only with a larger algebra, open (Gap QK2). Until then both cases stood in one row marked open (DOCUMENT ERROR note).
 
 ## Evidence
 
@@ -27,7 +27,7 @@ _None recorded._
 
 ## Review
 
-**Review record:** passed 2026-09-23 by REF-DEP-CFT-B3.
+**Review record:** passed 2026-09-24 by REF-CARD-CFT.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

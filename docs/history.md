@@ -11,10 +11,10 @@ Source: [`rigor/PHASE1_STATUS.md`](../rigor/PHASE1_STATUS.md)
 ### Milestone M1: "make Theorem A a theorem and certify the numbers"
 
 - **Theorem A proved.** lim_{zeta->0} Phi/zeta^2 = c/(12 pi^2).
-- **Tail bound proved** (rigor/tail_bound.tex, PT): 0 <= Phi - Phi_W <= 0.173 zeta^2/kappa_c + 0.88 zeta^2/kappa_c^2 for kappa_c >= max{10, 2 log(1/zeta) + 2 log(1+kappa_c) + 3}; Note 5 Prop 4.1 upgraded to a theorem with explicit remainder; c_2 = -zeta^2/30.
+- **Tail bound proved** (rigor/tail_bound.tex, PT): 0 <= Phi - Phi_W <= 0.173 zeta^2/kappa_c + 0.88 zeta^2/kappa_c^2 [corrected 2026-09-24: the shape of this bound is proved; the explicit constants 0.173 and 0.88 (tail_bound.tex Cor. 5.2, eq:final) rest on numerical inputs, A_1 <= 2.0 and A_3 <= 0.0374 in double precision, not certified, and f = 0.0085 (tail_bound.tex Correction C10); card tail-bound] for kappa_c >= max{10, 2 log(1/zeta) + 2 log(1+kappa_c) + 3}; Note 5 Prop 4.1 upgraded to a theorem with explicit remainder; c_2 = -zeta^2/30.
 - **Lattice (O7a) done** (numerics/lattice, PL): Gaussian rotated Petz map in ball arithmetic up to 72 sites; exponents 1.986, 1.912, 1.635, 1.151 at lambda = 0, 0.5, 1, 1.5 (VWZ: 2.0, 1.9, 1.7, 1.2); lattice/two-branch ratio = 1 - 0.15/L constant in eta_V; single-branch law off by 22-5000.
 - **Large cross ratios certified** (numerics/results_largezeta_certified.txt, PZ): Phi(1.07) = 4.410(20)e-3, Phi(2.13) = 1.0797(50)e-2, Phi(4.27) = 2.241(14)e-2, Phi(8.53) = 3.974(72)e-2, Phi(17.1) = 6.41(43)e-2; window exponent drifts 2.5 -> 1.2; slopes 1.29 -> 0.69 vs lattice.
-- **Paper 1 draft** (paper1/main.pdf, 26 pp, PW): all sections written; placeholder citations for internal documents; certified brackets and large-zeta table included; honest gap statements (s_2 = c/12 for the KM form; rate heuristic).
+- **Paper 1 draft** (paper1/main.pdf, 26 pp, PW): all sections written; placeholder citations for internal documents; certified brackets [corrected 2026-09-24: these are the brackets of tail_bound.tex, which are not certified, see the tail-bound entry above; card tail-bound] and large-zeta table included; honest gap statements (s_2 = c/12 for the KM form; rate heuristic).
 - **eps = 1e-14 runs**: window contains all box modes at Lambda = 60 -> residual is the box cutoff; recipe min(kappa_c, kappa_max) with box asymptotics 0.0641 zeta^2/kappa_max^2; Phi(1/15) consistent across windows to 2e-4.
 
 ### Corrections applied today to the notes
@@ -47,7 +47,7 @@ Source: [`rigor/PHASE2_STATUS.md`](../rigor/PHASE2_STATUS.md)
 - **Theorem B for general nets** (rigor/universality_theorem_B.tex, QA, 22 pp; refereed by QR1: stands; 4 write-up repairs applied, Sec. 9; 24 pp): under Haag duality / locality, Bisognano-Wichmann, Reeh-Schlieder and the implementer hypotheses (H1)-(H3) [+ (H2')], -log F(omega, omega_s) = (s^2/8) g_B + o(s^2), g_B = 4 dist(T(g_tot)Omega, cl A(I)'_sa Omega)^2 = c * 2/(3 pi^2).
 - **Implementer hypotheses for every diffeomorphism covariant net** (rigor/implementation_C11.tex, QB, 26 pp; refereed by QR2: stands; repairs applied incl. the scalar-phase lemma via Fewster-Hollands Prop 5.1 and (H2')): g_tot is C^1 + piecewise smooth with one jump of g'' at the touching point => ||g_tot||_{3/2} finite => Carpi-Weiner Thm 4.4 (e.s.a.), Stone, covariance by Trotter + localisation and approximation + additivity.
 - **Bosonic check** (numerics/boson, QN): U(1) current net f_2 = 0.00844(2), s_2 = 0.083(2); c-linearity of the vacuum overlap proved analytically at second order (boson and fermion both give (s^2/(96 pi^2)) int k^3 |g_hat|^2).
-- **Kubo-Mori** (rigor/kubo_mori_second_variation.tex, QK): exact identity for unitary orbits with affiliated generator; lower bound with no hypothesis; full expansion under modular analyticity; Kosaki/Petz-Donald route refuted (suprema).
+- **Kubo-Mori** (rigor/kubo_mori_second_variation.tex, QK): exact identity for unitary orbits with affiliated generator [corrected 2026-09-24: for a generator affiliated with M this is proved only with Omega in D(A) (prop:unbounded), which the lower bound then also needs, and the expansion then holds under (U_eps), since modular analyticity => (U_eps) is proved only for bounded A; a generator affiliated only with a larger algebra is open (Gap QK2); card km-exact-identity]; lower bound with no hypothesis; full expansion under modular analyticity; Kosaki/Petz-Donald route refuted (suprema).
 - Free fermion (H2),(H3): rigor/uhlmann_upper_bound.tex Sec. 10 (PA).
 
 ### Corrections to the Phase 2 brief made during the day
@@ -74,7 +74,7 @@ Source: [`rigor/PHASE3_STATUS.md`](../rigor/PHASE3_STATUS.md)
 
 Tracks (rigor/phase3_brief.md):
 
-- S8: second-order optimality (O8) [DONE, rigor/optimality_second_order.tex 14 pp]: quasi-free problem is an exact SDP; optimum = (1.00 +- 0.15) f_2 z^2 per chirality = two-chirality geometric-compression value (Petz: 4 f_2 z^2; lattice best/Petz = 0.27-0.28); optimal channel = near-isometric squeeze not reproducing the BC marginal; A-C lower-bound route gives exactly 0; only E_opt >= 0 proved.
+- S8: second-order optimality (O8) [DONE, rigor/optimality_second_order.tex 14 pp [corrected 2026-09-24: now 16 pp, with the corrections section]]: quasi-free problem is an exact SDP; optimum = (1.00 +- 0.15) f_2 z^2 per chirality = two-chirality geometric-compression value (Petz: 4 f_2 z^2; lattice best/Petz = 0.27-0.28); optimal channel = near-isometric squeeze not reproducing the BC marginal; A-C lower-bound route gives exactly 0 [corrected 2026-09-24: not a general zero; E_AC = 0 is proved as an implication from (Tcond) (Prop. 4.2, prop:AC-zero) and applied only on the three hopping chains (4,8,2), (4,12,2), (4,16,2), where (Tcond) holds numerically; nothing is claimed for other geometries or the continuum; card ac-lower-bound-zero]; only E_opt >= 0 proved.
 - S9: thermal/RG/gap (O9, O10) [DONE]: two-branch law holds at the thermal cross ratio; shielding rates 2pi (fidelity), pi (CMI); c_M >= c_E along the flow, c_M/c_E -> mR; gap: exact CMI = adjacent law with L_B -> L_B+L_G, -logF ~ L_G^-2; off criticality -logF is LINEAR in the CMI (ratio 0.10-0.17)
 - PP1: referee pass on paper 1 -> rigor/referee_paper1.md [DONE: 23 edits applied + 3 orchestrator edits; 10 wording edits proposed]
 - PP2: referee pass on paper 2 -> rigor/referee_paper2.md [DONE: 26 edits applied; KM section now conjecture + bracket; 10 wording edits proposed]
@@ -144,18 +144,18 @@ Brief: rigor/phase5_brief.md.
 - F3 interim (files, 2026-09-15 16:30): the two discretisations have the SAME limit.
 - F3 FINAL (2026-09-15): theta = 0.384 +- 0.003 (1 - theta = 0.616 +- 0.003).
 - F2 interim (files): conventions reproduced (theta 0.28958 at L=256; SLD identity 1e-10; F1's derivative formula 1e-9 by finite differences; stationarity check 1e-6).
-- F2 FINAL T4 (2026-09-15, rigid parameter-free modular frame of F1 Prop 6.2, f3_t0.py machinery; ||d_c,DD|| = 0 exactly, no weight cap needed): all F1 identities hold to 1e-9; lambda_min(M_*)/g_Q(d_c) = -7.0e-2, -3.8e-2, -1.9e-2, -1.0e-2 and lambda_min(M_*)/||M_*|| = -4.1e-3, -1.9e-3, -8.2e-4, -3.7e-4 at h = 0.24, 0.12, 0.06, 0.03; lambda_min(M_* - tau_*) identical; rank-one gain/g_Q(d_c) = 3.9e-4, 1.2e-4, 3.5e-5, 9.7e-6.
-- F2 FINAL T5 (2026-09-15, endpoint condition (e) of the repaired criterion, rigid frame, f2_t5_endpoint.out): E(zeta_0)/g_Q(d_c) = +34.1, +66.9, +131.3, +258.0 at h = 0.24, 0.12, 0.06, 0.03 for the admissible (backward/dissipative) scheme; centred scheme 0 (the linear class), forward (inadmissible) the negative; corner term (1/2) M_*(0,0)/h = +10.3, +16.1, +24.7, +37.2 ~ h^-0.6 (M_*(y,y) -> +inf as y -> 0+: the junction direction is infinitely penalised at first order); saturates in Ymax, Y-independent; cross-check E(zeta_inf) = 2(1 - theta_h) g_Q exact to 1e-15; A-block (absorption) form = boundary form to 2e-10..2e-8.
+- F2 FINAL T4 (2026-09-15, rigid parameter-free modular frame of F1 Prop 6.2, f3_t0.py machinery; ||d_c,DD|| = 0 exactly, no weight cap needed): the F1 identities hold to <= 3.5e-7 (SLD identity 1e-10, FD derivative formula <= 3e-8, AntiHerm((t_*Q)_DD)/||M_*|| = 2.8e-9 ... 3.5e-7; correction C13 below); lambda_min(M_*)/g_Q(d_c) = -7.0e-2, -3.8e-2, -1.9e-2, -1.0e-2 and lambda_min(M_*)/||M_*|| = -4.1e-3, -1.9e-3, -8.2e-4, -3.7e-4 at h = 0.24, 0.12, 0.06, 0.03; lambda_min(M_* - tau_*) identical; rank-one gain/g_Q(d_c) = 3.9e-4, 1.2e-4, 3.5e-5, 9.7e-6.
+- F2 FINAL T5 (2026-09-15, endpoint condition (e) of the repaired criterion, rigid frame, f2_t5_endpoint.out): E(zeta_0)/g_Q(d_c) = +34.1, +66.9, +131.3, +258.0 at h = 0.24, 0.12, 0.06, 0.03 for the admissible (backward/dissipative) scheme; centred scheme 0 (the linear class), forward (inadmissible) the negative; corner term (1/2) M_*(0,0)/h = +10.3, +16.1, +24.7, +37.2 ~ h^-0.6 (M_*(y,y) -> +inf as y -> 0+: the junction direction is infinitely penalised at first order); saturates in Ymax, Y-independent; cross-check E(zeta_inf) = 2(1 - theta_h) g_Q exact to 1e-15; A-block (absorption) form = boundary form to 2e-10..7.5e-8 (correction C12 below).
 - Union-of-referees fix pass (2026-09-15 evening; two referees had reviewed the F2/F3 cards concurrently, PASS x5 vs FAIL x5; user decision relayed by session claude-team-84: authors fix all defects from the union, then ONE referee re-reviews, nobody flips verdicts): F3 repaired theta-value (candidate script f3_candidates.py: 26 candidates, 3 in [0.381,0.387], chance expectation 0.28, no selection; per-family rho 0.577..0.592; spread 5.1e-4 Galerkin / 2.0e-3 incl.
 
 ### Referee passes (Opus only)
 
 - REF-P5-1 (document referee, rigor/referee_exact_optimum_tangent_problem.tex, 16 pp): STANDS for the chart of F, the first-order defect (recomputed), exact feasibility, Thm 3.9/Cor 3.10, Thm 4.4 (a)<=>(b)<=>(c) (no counterexample in 60 000 random triples), Prop 4.6/Rem 4.7, Lemma 6.1, Prop 6.2.
 - F1 correction (21:04): E(zeta) := 2 b(delta_*, A(zeta,0,0)) only; new Prop 4.10(2'): A(zeta,0,0) = -[Q,zeta] holds only for bounded anti-self-adjoint zeta (deletes the boundary term otherwise); new Rem 4.11 with F2's T5 table and the reading 'the junction direction is infinitely penalised at first order'; Sec. 7 concludes kappa_opt = 1 - theta = 0.616 +- 0.003 conditional on H1, H2, with (a),(e) as numerical input.
-- REF-P5-3 (21:29; rigor/referee2_exact_optimum_tangent_problem.tex, 7 pp): R1-R15 applied, no regressions; NEW FINDING S1: the reduction of the admissible cone of boundary-moving isometry generators to the two model directions is proved only for vector fields (multiplicity > 1 shift semigroups and unbounded skew-adjoint multiplication operators escape) => condition (e) is reduced to E(zeta_0) >= 0 only under a hypothesis H3 (cone hypothesis); repairs S1-S6 (H3 declared and every '(e) holds' hedged; the T5 total is the scheme-dependent upwind-viscosity quantity ~h^-0.97, the corner term ~h^-0.60 is the invariant piece; E in [-inf,+inf] with the form domain a subspace; Thm 3.11 <1>4 core hypothesis; Sec. 7 item 5; minor slips).
+- REF-P5-3 (21:29; rigor/referee2_exact_optimum_tangent_problem.tex, 7 pp): R1-R15 applied, no regressions; NEW FINDING S1: the reduction of the admissible cone of boundary-moving isometry generators to the two model directions is proved only for vector fields (multiplicity > 1 shift semigroups and unbounded skew-adjoint multiplication operators escape) => condition (e) is reduced to E(zeta_0) >= 0 only under a hypothesis H3 (cone hypothesis) [superseded 2026-09-24: see C11]; repairs S1-S6 (H3 declared and every '(e) holds' hedged; the T5 total is the scheme-dependent upwind-viscosity quantity ~h^-0.97, the corner term ~h^-0.60 is the invariant piece; E in [-inf,+inf] with the form domain a subspace; Thm 3.11 <1>4 core hypothesis; Sec. 7 item 5; minor slips).
 - REF-P5-4 (21:55; rigor/referee3_exact_optimum_tangent_problem.tex, 4 pp): S1-S6 all applied, H3 usage sound (bilinearity of b and b(delta_*, closure of L) = 0 by g_Q-continuity); document ACCEPTED with three residual defects on the H3 wording: D1 the 'equivalently ... boundary form' clause of Def 4.12 is not equivalent to eq.
 - F1 D1-D3 fix (22:05, 27 pp): H3 (Def 4.12) is eq.
-- Phase 5 closes with: theta = 0.384 +- 0.003 (refereed); the KKT criterion (a)+(e) proved for the tangent problem; the reduction of (e) to the model cone is hypothesis H3 (exclusion of non-vector-field generators); (a) numerically in the limit; (e) proved on the model cone; kappa_opt = 1 - theta = 0.616 +- 0.003 numerically under H1-H3; unconditional bracket E_rec in [dual form, 0.616 f2 z^2 (1+o(1))].
+- Phase 5 closes with: theta = 0.384 +- 0.003 (refereed); the KKT criterion (a)+(e) proved for the tangent problem; the reduction of (e) to the model cone is hypothesis H3 (exclusion of non-vector-field generators); (a) numerically in the limit; (e) numerically on the model cone (not proved: there (e) is equivalent to E(zeta_0) >= 0, given the proved E(zeta_inf) >= 0, and it is vacuous at zeta_0 by F2 T5; correction C3 below); kappa_opt = 1 - theta = 0.616 +- 0.003 numerically under H1-H3; unconditional bracket E_rec in [dual form, 0.616 f2 z^2 (1+o(1))].
 - KB card referees: REF-opus-cft-2026-09-15 (F1 cards: kkt-noise-sign-criterion passed; tangent-problem-exact-parametrisation and theta-modular-wiener-hopf FAILED on locators/superseded numerics — under repair); REF-P5-KB1 on the F2/F3 cards: running.
 
 ### Propagation (2026-09-15)
@@ -223,6 +223,34 @@ Not changed, deliberately: `open-problems-plan-note8` and the `e2-*` cards -- th
 
 circle model's own `1 - theta`, and the `0.30` hits are the taper parameter `uv = (0.30,0.42)`).
 
+
+### Corrections of 2026-09-24
+
+Each changed line was replaced by exactly one line, so the line numbers are those of the version of 2026-09-23.
+
+"Tex Cn" refers to the corrections section of rigor/exact_optimum_tangent_problem.tex (Sec. 8).
+
+- C1 (lines 87, 113, 124; knowledge-base card kkt-noise-sign-criterion).
+- C2 (line 126; knowledge-base card tangent-problem-exact-parametrisation).
+- C3 (lines 129-130; knowledge-base cards kkt-noise-sign-criterion and all-channel-optimum-value).
+- C4 (line 122; knowledge-base card kkt-noise-sign-criterion).
+Superseded log entries (C5-C11).
+
+"[superseded 2026-09-24: see Cn]", and the current statement is given here.
+
+- C5 (line 19, F1 entry of 2026-09-15; card tangent-problem-exact-parametrisation).
+- C6 (lines 20-21, same entry; card kkt-noise-sign-criterion).
+- C7 (lines 55-56, F2 FINAL T4 entry; card kkt-noise-criterion-numerics).
+- C8 (line 64, F2 FINAL T5 entry; cards kkt-noise-criterion-numerics and kkt-noise-sign-criterion).
+- C9 (lines 83 and 87, F1 entry of 17:30; card kkt-noise-sign-criterion).
+- C10 (lines 85 and 87, same entry; card kkt-noise-sign-criterion).
+- C11 (line 97, REF-P5-3 entry; card kkt-noise-sign-criterion).
+- C12 (line 62, F2 FINAL T5 entry; card kkt-noise-criterion-numerics).
+- C13 (line 51, F2 FINAL T4 entry; card kkt-noise-criterion-numerics).
+- C14 (line 24, F1 entry of 2026-09-15; card tangent-problem-exact-parametrisation).
+- C15 (line 54, F2 FINAL T4 entry; card kkt-noise-criterion-numerics).
+- C16 (line 85, F1 entry of 17:30; card kkt-noise-sign-criterion).
+- C17 (line 9).
 
 ## Phase 6 status — multi-interval networks (O10, second half) (opened 2026-09-16)
 

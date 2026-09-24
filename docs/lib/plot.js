@@ -189,7 +189,7 @@ export class Plot {
     return this.path(pts, { stroke: o.stroke || 'var(--series-1)', 'stroke-width': o.width || 2,
       'stroke-dasharray': o.dash, opacity: o.opacity });
   }
-  /** a filled band between two same-x series: the certified bracket */
+  /** a filled band between two same-x series: the error bracket (only its lower end is a proved bound) */
   band(lo, hi, o = {}) {
     const d = lo.map((p, i) => `${i ? 'L' : 'M'}${this.sx(p[0]).toFixed(2)},${this.sy(p[1]).toFixed(2)}`).join('')
       + hi.slice().reverse().map(p => `L${this.sx(p[0]).toFixed(2)},${this.sy(p[1]).toFixed(2)}`).join('') + 'Z';

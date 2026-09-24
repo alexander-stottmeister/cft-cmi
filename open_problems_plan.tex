@@ -206,7 +206,7 @@ Notation as in Notes~5 and~7: \(\Phi(\zeta)=-\log\Fid(\omega,\widetilde\omega)\)
 \]
 uniformly in \(\zeta\), where \(\Phi_{\kappa_c}\) is the spectral-window compression of Note~5, \S6.  The exact first-order kernel (V3, \texttt{check\_note5\_theory.tex}) gives the second-order tail \(\frac2{15}\zeta^2\kappa^{-3}\) explicitly; what is needed is a bound on the \emph{full} tail, not only on its second-order part.  Two ingredients suffice: (i) monotonicity of \(\Phi_{\kappa_c}\) in the window (data processing) and (ii) a bound of the discarded modes' contribution by the trace norm of the defect restricted to \(|\kappa|>\kappa_c\), using the exact trace-class control of Note~4 (\(\|R_s\|_1=\frac12\log(1+\zeta)\)) together with the Powers--St\o rmer-type inequality \(-\log\Fid\le\frac12\|\rho-\sigma\|_1\)-type bounds \emph{on the window complement}, where occupations are within \(e^{-\kappa_c}\) of \(0\) or \(1\).  With the tail bound in hand, the finite-window curves \(\Phi_{\kappa_c}\) are real-analytic with uniformly controlled cubic terms (P2, Problem~7.2, becomes a finite-dimensional estimate), and \(\lim\Phi/\zeta^2\) follows by letting \(\kappa_c\to\infty\) with \(\zeta\), which also produces the \(\log^{-2}\) rate through \(\kappa_*(\zeta)\approx2\log(1/\zeta)\) (with the constant corrected as in V7's remark).
 
-\textbf{Definition of done.} A Lamport proof of the tail bound and of the sharp limit, refereed; the certified error bar of the tabulated \(\Phi\) values replaces the heuristic \(0.3\)--\(1\%\).  \emph{Status (2026-09-08): the sharp limit is proved by a different route, Uhlmann's inequality with a Bogoliubov extension of the compression map (\texttt{rigor/uhlmann\_upper\_bound.tex}, refereed), which needs no tail bound and no interchange.  The tail bound itself is proved in \texttt{rigor/tail\_bound.tex}: \(0\le\Phi-\Phi_W\le0.173\zeta^2/\kappa_c+0.88\zeta^2/\kappa_c^2\), with Prop.~4.1 of Note~5 upgraded to a theorem with explicit remainder; certified brackets follow; after the refinements of \texttt{rigor/certified\_numerics.tex} (weighted Sylvester identity, cross term removed) the certified a priori bracket is \(\Phi_W\le\Phi^{\rm box}\le1.20\,\Phi_W\), and the 60-digit evaluation (referee-approved arithmetic) gives enclosures of the box value of width \(0.71\)--\(1.01\%\); the \(\widehat D\) quadrature and the box cutoff are the remaining uncertified pieces.  The \(\log^{-2}\) rate claimed in Note~5 is refuted: with the flow extension the Uhlmann bound is global, \(\Phi\le-\frac12\log(1-2f_2\zeta^2)\), even in \(s\), and the expansion proceeds in integer powers with \(c_3=-0.99(1)\), \(c_4=+0.9(1)\) (\texttt{rigor/rate\_of\_remainder.tex}, refereed).  The unweighted quadratic square-root bound is false; the weighted Sylvester identity replaces it (\texttt{rigor/certified\_numerics.tex}).}
+\textbf{Definition of done.} A Lamport proof of the tail bound and of the sharp limit, refereed; the certified error bar of the tabulated \(\Phi\) values replaces the heuristic \(0.3\)--\(1\%\).  \emph{Status (2026-09-08): the sharp limit is proved by a different route, Uhlmann's inequality with a Bogoliubov extension of the compression map (\texttt{rigor/uhlmann\_upper\_bound.tex}, refereed), which needs no tail bound and no interchange.  The tail bound itself is proved in shape in \texttt{rigor/tail\_bound.tex}: \(0\le\Phi-\Phi_W\le C\zeta^2/\kappa_c+C'\zeta^2/\kappa_c^2\) with finite \(C,C'\) whenever \(\Phi\le f\zeta^2\), with Prop.~4.1 of Note~5 upgraded to a theorem whose remainder is proved in form; the explicit \(0.173\zeta^2/\kappa_c+0.88\zeta^2/\kappa_c^2\) rests on numerical inputs (\(A_1\le2.0\), \(A_3\le0.0374\) (\(0.036\) before \texttt{rigor/tail\_bound.tex} Correction C10) in double precision, not certified, and \(f=0.0085\)), so the error bars of \texttt{tail\_bound.tex} built on it are not certified (Correction~C2 at the end); after the refinements of \texttt{rigor/certified\_numerics.tex} (weighted Sylvester identity, cross term removed) the a priori bracket \(\Phi_W\le\Phi^{\rm box}\le1.20\,\Phi_W\) holds modulo the \(\widehat D\) quadrature and the box cutoff, with the measured constants \(c_0\in[18,42]\) and \(c_1\le1.011\) (\texttt{certified\_numerics.tex} \S9 (RCr), items (C1), (C2), and its Correction C2), and the 60-digit evaluation (referee-approved arithmetic) gives enclosures of the box value of width \(0.71\)--\(1.01\%\); the \(\widehat D\) quadrature and the box cutoff are the remaining uncertified pieces.  The \(\log^{-2}\) rate claimed in Note~5 is refuted: with the flow extension the Uhlmann bound is global, \(\Phi\le-\frac12\log(1-2f_2\zeta^2)\), even in \(s\), and the expansion is expected, heuristically and numerically but not proved, to proceed in integer powers with the computed \(c_3=-0.99(1)\), \(c_4=+0.9(1)\) (\texttt{rigor/rate\_of\_remainder.tex}; proved is only \(\limsup(\Phi-f_2\zeta^2)/\zeta^3\le0\), Correction~C4 at the end).  The unweighted quadratic square-root bound is false; the weighted Sylvester identity replaces it (\texttt{rigor/certified\_numerics.tex}).}
 
 \textbf{Assessment.} Program impact: high (closes Theorem~A).  General impact: medium (a clean example of a Bures-metric limit theorem for quasi-free states).  Difficulty: medium.  Time: 3--4 weeks including the numerics update.
 
@@ -217,7 +217,7 @@ uniformly in \(\zeta\), where \(\Phi_{\kappa_c}\) is the spectral-window compres
 
 \textbf{Why it matters.} Universality of \(s_2=c/12\) for general nets; and \(s_2/f_2=\pi^2\) is the cleanest signature to test on a lattice (ratio of relative entropy to \(-\log\Fid\)).  The universality of \(f_2\) does \emph{not} depend on it.
 
-\textbf{Route (revised 2026-09-08 after \texttt{rigor/kubo\_mori\_second\_variation.tex}).} The variational route proposed earlier is refuted: Kosaki's and Petz--Donald's expressions are suprema, so every trial function yields a lower bound, never an upper one.  For unitary orbits with \(A\) affiliated with \(\cM\) there is instead an exact identity, \(D(\omega\Vert\omega_s)=\|h(\Delta)^{1/2}(e^{isA}-1)\Omega\|^2\) with \(h(\lambda)=\lambda-1-\log\lambda\), from \(\Delta_{u\Omega,\Omega}=u\Delta u^*\) for \(u\in U(\cM)\), together with the sum rule \(\int(\lambda-1)\,d\nu_s=0\) and \(g_{\mathrm{KM}}=2\int h\,d\mu\).  It gives \(\liminf s^{-2}D\ge\frac12g_{\mathrm{KM}}\) with no hypothesis (lower semicontinuity of a closed form), and \(D=\frac{s^2}2g_{\mathrm{KM}}+o(s^2)\) whenever \(\|\Delta^{-\eps/2}(e^{isA}-1)\Omega\|=O(s)\) for some \(\eps>0\), e.g.\ for \(A\) analytic for the modular group in a strip of any width.  What remains for Theorem~B is that \(A=T(g_{\rm tot})\) is not affiliated with \(\cA(I)\).  The natural route via restriction from a larger interval algebra \(\cA(K)\) (where the recovery unitary is affiliated) gives an exact unconditional upper bound, but the corresponding gauge lemma is \emph{false}: the infimum over admissible gauges is \((11+5\sqrt5)c/12\approx11.09\cdot c/6\) (\texttt{rigor/kubo\_mori\_gauge\_lemma.tex}); the proved bracket is \(0.034c\le\liminf s^{-2}D\le\limsup s^{-2}D\le0.924c\), the upper half under a uniform-integrability hypothesis.  The value \(c/6\) of Note~7 is the analytic continuation of a divergent integral (the field does not vanish at the moving endpoint); a proof of \(s_2=c/12\) for general nets must renormalise this, e.g.\ through the collar family, or find a route with the sharp cancellation of the free-fermion kernel identity.
+\textbf{Route (revised 2026-09-08 after \texttt{rigor/kubo\_mori\_second\_variation.tex}).} The variational route proposed earlier is refuted: Kosaki's and Petz--Donald's expressions are suprema, so every trial function yields a lower bound, never an upper one.  For unitary orbits with \(A=A^*\) bounded in \(\cM\), or affiliated with \(\cM\) with \(\Omega\in D(A)\) (Correction~C3 at the end), there is instead an exact identity, \(D(\omega\Vert\omega_s)=\|h(\Delta)^{1/2}(e^{isA}-1)\Omega\|^2\) with \(h(\lambda)=\lambda-1-\log\lambda\), from \(\Delta_{u\Omega,\Omega}=u\Delta u^*\) for \(u\in U(\cM)\), together with the sum rule \(\int(\lambda-1)\,d\nu_s=0\) and \(g_{\mathrm{KM}}=2\int h\,d\mu\).  It gives \(\liminf s^{-2}D\ge\frac12g_{\mathrm{KM}}\) with no hypothesis (lower semicontinuity of a closed form), and \(D=\frac{s^2}2g_{\mathrm{KM}}+o(s^2)\) whenever \(\|\Delta^{-\eps/2}(e^{isA}-1)\Omega\|=O(s)\) for some \(\eps>0\), e.g.\ for bounded \(A\) analytic for the modular group in a strip of any width (this implication is proved only for bounded \(A\)).  What remains for Theorem~B is that \(A=T(g_{\rm tot})\) is not affiliated with \(\cA(I)\): a generator affiliated only with a larger algebra is not covered, and that case is open (Gap~QK2 of \texttt{rigor/kubo\_mori\_second\_variation.tex}).  The natural route via restriction from a larger interval algebra \(\cA(K)\) (where the recovery unitary is affiliated) gives an exact unconditional upper bound, but the corresponding gauge lemma is \emph{false}: the infimum over admissible gauges is \((11+5\sqrt5)c/12\approx11.09\cdot c/6\) (\texttt{rigor/kubo\_mori\_gauge\_lemma.tex}); the proved bracket is \(0.034c\le\liminf s^{-2}D\le\limsup s^{-2}D\le0.924c\), the upper half under a uniform-integrability hypothesis.  The value \(c/6\) of Note~7 is the analytic continuation of a divergent integral (the field does not vanish at the moving endpoint); a proof of \(s_2=c/12\) for general nets must renormalise this, e.g.\ through the collar family, or find a route with the sharp cancellation of the free-fermion kernel identity.
 
 \textbf{Definition of done.} Lamport proof with explicit hypothesis, verified numerically on random finite-dimensional examples and on the free-fermion curve.
 
@@ -285,7 +285,7 @@ uniformly in \(\zeta\), where \(\Phi_{\kappa_c}\) is the spectral-window compres
 
 \textbf{Definition of done.} Either a matching lower bound (Petz optimal at second order) or an explicit better channel.
 
-\textbf{Assessment.} Program impact: high (the ``Petz is optimal'' question of Note~3).  General impact: high.  Difficulty: high.  Time: 2--3 months; start after Phase~1.  \emph{Status (2026-09-09, \texttt{rigor/optimality\_second\_order.tex}, \texttt{numerics/optimality}): the second-order problem over quasi-free channels is an exact semidefinite programme in the one-particle data \((X,Z)\) (complete positivity \(\iff Y\ge0,\ XX^*+Y\le1\), verified against a Stinespring dilation); its optimum is \(E_{\rm opt}=(1.00\pm0.15)f_2z^2\) per chirality against \(4f_2z^2\) for the Petz map, i.e.\ exactly the two-chirality geometric-compression value, never below it (lattice: best/Petz \(=0.27\)--\(0.28\)).  The optimal channel is a near-isometric squeeze that does \emph{not} reproduce the \(BC\) marginal, so the defining Petz property is strictly suboptimal.  The lower-bound route through the \(A\)--\(C\) restriction gives exactly zero (the vacuum \(A\)--\(C\) state is itself \(B\)-mediated), and gauge twirling reduces only to gauge-covariant, not to quasi-free, channels: only \(E_{\rm opt}\ge0\) is proved.  Verdict: Petz is not second-order optimal; the geometric compression is consistent with being optimal but unproved (routes: a dual certificate at the saturated constraint \(XX^*=1\); whether every achievable recovered symbol is quasi-free-achievable).}
+\textbf{Assessment.} Program impact: high (the ``Petz is optimal'' question of Note~3).  General impact: high.  Difficulty: high.  Time: 2--3 months; start after Phase~1.  \emph{Status (2026-09-09, \texttt{rigor/optimality\_second\_order.tex}, \texttt{numerics/optimality}): the second-order problem over quasi-free channels is an exact semidefinite programme in the one-particle data \((X,Z)\) (complete positivity \(\iff Y\ge0,\ XX^*+Y\le1\), verified against a Stinespring dilation); its optimum is \(E_{\rm opt}=(1.00\pm0.15)f_2z^2\) per chirality against \(4f_2z^2\) for the Petz map, i.e.\ exactly the two-chirality geometric-compression value, never below it (lattice: best/Petz \(=0.27\)--\(0.28\)).  The optimal channel is a near-isometric squeeze that does \emph{not} reproduce the \(BC\) marginal, so the defining Petz property is strictly suboptimal.  The lower-bound route through the \(A\)--\(C\) restriction gives exactly zero wherever the intertwiner condition (Tcond) holds (the implication of \texttt{rigor/optimality\_second\_order.tex}, Prop.~prop:AC-zero; then the vacuum \(A\)--\(C\) state is itself \(B\)-mediated), and (Tcond) is verified only numerically, on the three half-filled hopping chains \((L_A,L_B,L_C)=(4,8,2),(4,12,2),(4,16,2)\); at \((6,12,3)\) and \((8,16,4)\) the Moore--Penrose \(T\) violates (Tcond), the direct minimisation gives \(E_{AC}=2.27\times10^{-5}\) at \((6,12,3)\), and nothing is claimed for the continuum or for other geometries (Correction~C1 at the end), and gauge twirling reduces only to gauge-covariant, not to quasi-free, channels: only \(E_{\rm opt}\ge0\) is proved.  Verdict: Petz is not second-order optimal; the geometric compression is consistent with being optimal but unproved (routes: a dual certificate at the saturated constraint \(XX^*=1\); whether every achievable recovered symbol is quasi-free-achievable).}
 
 \subsection{O9: thermal states and the Markov c-function}\label{sec:O9}
 \textbf{Statement.} (a) For KMS states of the free fermion at inverse temperature \(\beta\), compute \(\Phi_\beta(\zeta;\,\beta/L)\) and the crossover from the vacuum law to the exponential shielding \(\Phi\sim e^{-2\pi b/\beta}\) expected when the middle interval exceeds the thermal length.  (b) For the massive Dirac fermion, compute the Markov c-function \(c_{\mathrm M}(R)\) of Note~3 along the RG flow and compare with the entropic \(c_{\mathrm E}=3RS'\).
@@ -379,4 +379,87 @@ O11 & Sectors, collar Gaussianity & low--med & low & low & 2--3 & --- \\
 \paragraph{One-line summary.}
 Close Theorem~A with the ultraviolet tail bound, then make Theorem~B a theorem by working with the collar family instead of the singular zero-collar tangent, test universality on the boson and on the lattice while the analysis runs, and only then turn to optimality; every step through the write-first Lamport/referee workflow that carried the audit.
 
+\section*{Corrections of 2026-09-24}
+\addcontentsline{toc}{section}{Corrections of 2026-09-24}
+{\sloppy
+These corrections implement knowledge-base cards of project \texttt{cft\_cmi}, whose refereed
+Statements are the specification: \texttt{ac-lower-bound-zero}, \texttt{tail-bound},
+\texttt{km-exact-identity}, and (C4) \texttt{rate-of-remainder} with \texttt{remainder-c3-c4-values};
+the box bracket in C2 follows card \texttt{certified-numerics}.  The corresponding primary documents were corrected on the same day
+(\texttt{rigor/optimality\_second\_order.tex}, Corrections C1 and C2; \texttt{rigor/tail\_bound.tex},
+Corrections C1--C4, C8 and C10).  Each changed line was replaced by exactly one line, so line numbers
+cited elsewhere still point to the same text.
+\paragraph{C1. The \(A\)--\(C\) lower bound (O8, Status, line~288).}
+\emph{Before:} ``The lower-bound route through the \(A\)--\(C\) restriction gives exactly zero (the
+vacuum \(A\)--\(C\) state is itself \(B\)-mediated)''.
+\emph{Now:} it gives exactly zero where the intertwiner condition (Tcond) holds (the implication of
+Prop.~\texttt{prop:AC-zero}), and (Tcond) is verified only numerically, on the half-filled hopping
+chains \((L_A,L_B,L_C)=(4,8,2)\), \((4,12,2)\), \((4,16,2)\).  At \((6,12,3)\) and \((8,16,4)\) the
+Moore--Penrose \(T\) violates it, the direct minimisation gives \(E_{AC}=2.27\times10^{-5}\) at
+\((6,12,3)\), and nothing is claimed for the continuum or for other geometries (wording refined in a
+third round, at the request of the referee of these corrections).
+\emph{Why:} \texttt{rigor/optimality\_second\_order.tex}, Prop.~\texttt{prop:AC-zero}, proves only the
+implication (Tcond) \(\Rightarrow E_{AC}=0\).  On the three chains \(T=Q_{AB}^+Q_{AC}\) satisfies
+(Tcond) with margins \(0.1216,0.1510,0.1630\) (\texttt{numerics/kb-checks-2026-09-23/tcond\_check.py});
+at \((6,12,3)\) and \((8,16,4)\) the margins are \(-0.133\) and \(-0.464\)
+(\texttt{tcond\_check\_extra.py}, output \texttt{tcond\_check\_extra.out}); the direct minimisation
+\texttt{numerics/optimality/lower\_bound.py} gives \(E_{AC}=2.27\times10^{-5}\) at \((6,12,3)\)
+(\texttt{lb.log}).  Card \texttt{ac-lower-bound-zero}, Statement: ``the hypothesis is established
+only numerically, on the half-filled hopping chain for \((L_A,L_B,L_C)=(4,8,2),(4,12,2),(4,16,2)\)
+\dots\ Nothing is claimed for the continuum or for other geometries: lb.log's third row \((6,12,3)\)
+gives \(E_{AC}=2.27\mathrm{e}{-5}\) \dots\ and at \((6,12,3)\) and \((8,16,4)\) the Moore--Penrose \(T\)
+violates (Tcond)''.
+\paragraph{C2. The tail bound and its error bars (O4, Status, line~209).}
+\emph{Before:} ``The tail bound itself is proved in \texttt{rigor/tail\_bound.tex}:
+\(0\le\Phi-\Phi_W\le0.173\zeta^2/\kappa_c+0.88\zeta^2/\kappa_c^2\), with Prop.~4.1 of Note~5
+upgraded to a theorem with explicit remainder; certified brackets follow''.
+\emph{Now:} the shape is proved, \(\Phi-\Phi_W\le C\zeta^2/\kappa_c+C'\zeta^2/\kappa_c^2\) with finite
+\(C,C'\) whenever \(\Phi\le f\zeta^2\); the explicit constants \(0.173\) and \(0.88\) rest on the
+numerical inputs \(A_1\le2.0\) and \(A_3\le0.0374\) (\(0.036\) before \texttt{rigor/tail\_bound.tex}
+Correction C10), evaluated in double precision and not certified, and \(f=0.0085\); so the error bars
+of \texttt{tail\_bound.tex}, whose upper ends are that bound, are not certified.  The sentence on
+\texttt{rigor/certified\_numerics.tex} that follows concerns a different computation; it called the
+a priori bracket \(\Phi_W\le\Phi^{\rm box}\le1.20\,\Phi_W\) ``certified'' and now says that the bracket
+holds modulo the \(\widehat D\) quadrature and the box cutoff, with the measured constants
+\(c_0\in[18,42]\) and \(c_1\le1.011\) of its hypothesis (\texttt{certified\_numerics.tex} \S9 (RCr),
+items (C1) and (C2) of its certification list, and its Correction C2).  These two changes were made in
+a third round.
+\emph{Why:} card \texttt{tail-bound}, title ``shape proved; explicit constants 0.173, 0.88 rest on
+numerical inputs'' and Statement (b): ``\(A_1\le2.0\) and \(A_3\le0.036\), i.e.\ \(C_1\le0.051\) and
+\(C_2\le0.46\) (card tail-constants-numerical: uncertified double-precision and finite-difference
+evaluations), and \(f=0.0085\)'' (the card's values before \texttt{rigor/tail\_bound.tex} Correction
+C10 of 2026-09-24; they are now \(A_3\le0.0374\) and \(C_2\le0.47\), the others unchanged);
+\texttt{rigor/tail\_bound.tex}, Corrections C3 and C4 (status of
+the constants) and C8 (its bars are \(\Phi^{\rm c}_{\rm sub}+0.173\,\zeta^2/\kappa_{\rm eff}
++0.88\,\zeta^2/\kappa_{\rm eff}^2\), so they inherit these inputs and are no longer called
+certified there).
+\paragraph{C3. The Kubo--Mori identity for affiliated generators (O2, Route, line~220).}
+\emph{Before:} the exact identity was stated ``for unitary orbits with \(A\) affiliated with
+\(\cM\)'', and the second-order expansion was said to hold ``e.g.\ for \(A\) analytic for the
+modular group in a strip of any width''.
+\emph{Now:} the identity, the sum rule and the lower bound are stated for \(A=A^*\) bounded in
+\(\cM\), or affiliated with \(\cM\) with \(\Omega\in D(A)\); modular analyticity implies the
+condition \(\|\Delta^{-\eps/2}(e^{isA}-1)\Omega\|=O(s)\) only for bounded \(A\); and a generator
+affiliated only with a larger algebra, such as \(T(g_{\rm tot})\), is not covered: that case is open
+(Gap~QK2).
+\emph{Why:} card \texttt{km-exact-identity}, Statement: ``(b) Affiliated generators (prop:unbounded,
+l.~774--778): for \(A=A^*\) affiliated with \(M\) and \(\Omega\in D(A)\), the exact identity, the sum
+rule, lem:kms and the lower bound hold verbatim, and the second-order expansion holds under
+\((U_\eps)\); for unbounded \(A\) the modular-analyticity route \((A_\eps)\Rightarrow(U_\eps)\) is not
+available (lem:AtoU is for bounded \(A\)).  (c) Not applicable to the recovery curve of Note~7, whose
+generator \(T(g_{\rm tot})\) is affiliated with the global algebra but not with the interval
+algebra \dots\ (Gap QK2)''.
+\paragraph{C4. The integer-power expansion (O4, Status, line~209; added in a third round).}
+\emph{Before:} ``the expansion proceeds in integer powers with \(c_3=-0.99(1)\), \(c_4=+0.9(1)\)
+(\texttt{rigor/rate\_of\_remainder.tex}, refereed)''.
+\emph{Now:} the expansion is expected, heuristically and numerically but not proved, to proceed in
+integer powers with the computed \(c_3=-0.99(1)\), \(c_4=+0.9(1)\); what is proved is
+\(\limsup_{\zeta\to0}(\Phi-f_2\zeta^2)/\zeta^3\le0\), from the global bound
+\(\Phi\le-\frac12\log(1-2f_2\zeta^2)\) quoted in the same sentence.
+\emph{Why:} card \texttt{rate-of-remainder}, Statement: ``NOT claimed here: that Phi has an
+expansion in integer powers, and the values c3 = -0.99(1), c4 = +0.9(1) (card
+remainder-c3-c4-values, heuristic)''.  Card \texttt{remainder-c3-c4-values} (status heuristic): the
+scripts that produce the values are not in the repository, the existence of the expansion is not
+proved, and the lower side is conditional on a cubic constant that is only measured.
+\par}
 \end{document}

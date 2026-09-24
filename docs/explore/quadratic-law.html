@@ -72,7 +72,7 @@ the cross ratio grows.</p>
     <span class="badge numerical">numerical</span>
     <span class="claim-title">What the curve below actually is</span></div>
   <p>Two different things are drawn, and they are not interchangeable. A
-    <strong>certified bracket</strong> is a rigorous enclosure: its lower end is the recovery error
+    <strong>bracket</strong> is an error bracket, not a rigorous enclosure: its upper end (for small &zeta; the window value plus the tail estimate <span data-tex="\zeta^2/(15\kappa_c^2)">&zeta;&sup2;/(15&kappa;<sub>c</sub>&sup2;)</span>, for large &zeta; the extrapolation &Phi;<sub>&infin;</sub>) is not a proved bound; its lower end is the recovery error
     restricted to the spectral window <span data-tex="\varepsilon<w<1-\varepsilon">&epsilon; &lt; w &lt; 1&minus;&epsilon;</span>,
     which is a proved lower bound for the full value. A <strong>best estimate</strong> is an
     extrapolation with an error bar &mdash; a measurement, not a theorem. The plot draws brackets as
@@ -104,7 +104,7 @@ the cross ratio grows.</p>
       <select id="ishow">
         <option value="all" selected>everything</option>
         <option value="best">best estimates only</option>
-        <option value="cert">certified brackets only</option>
+        <option value="cert">error brackets only</option>
       </select>
       <span class="hint">brackets and best estimates are drawn differently and never merged</span>
     </div>
@@ -208,7 +208,7 @@ if (D) {
     }
     P.curve(asym, { stroke: 'var(--muted)', dash: '6 4', width: 1.5 });
     if (show !== 'best') {
-      // certified brackets: the windowed lower bound up to the extrapolate
+      // error brackets: the windowed lower bound (proved) up to the tail-corrected value (small zeta) or the extrapolate (large zeta), neither of which is a proved bound
       P.band(smallSub.map(r => [r.x, r.value]), small.map(r => [r.x, r.value]),
              { fill: 'var(--series-3)', opacity: 0.22 });
       P.band(lzLo.map(r => [r.x, r.value]), lzHi.map(r => [r.x, r.value]),
@@ -230,7 +230,7 @@ if (D) {
     P.vline(cur.zeta, { stroke: 'var(--series-4)', dash: '3 3' });
     P.legend([
       { stroke: 'var(--series-1)', label: 'best estimate (numerical)' },
-      { stroke: 'var(--series-3)', width: 3, label: 'certified bracket' },
+      { stroke: 'var(--series-3)', width: 3, label: 'error bracket' },
       { stroke: 'var(--series-2)', label: 'lattice, c = 1 hopping chain' },
       { stroke: 'var(--muted)', dash: '6 4', label: 'f₂ ζ², the ζ→0 law' }
     ], { x: P.inner.x0 + 12, y: P.inner.y1 + 14 });

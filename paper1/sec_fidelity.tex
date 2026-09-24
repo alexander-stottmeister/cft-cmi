@@ -217,10 +217,10 @@ decays like $e^{-\kappa}$ up to powers.
 \end{proposition}
 
 \begin{remark}[Status]\label{rem:tail-status}
-The argument in \cite{Note5} is a sketch; a complete proof with explicit remainder,
-$|\Sigma(\kappa_c)-\zeta^2/(15\kappa_c^2)|\le0.46\,\zeta^2\kappa_c^{-3}+0.051\,\zeta(1+\kappa_c)e^{-\kappa_c}$,
-together with the unconditional full-tail bound $0\le\Phi-\Phi_W\le0.173\,\zeta^2/\kappa_c+0.88\,\zeta^2/\kappa_c^2$
-for $\kappa_c\ge\max\{10,2\log(1/\zeta)+2\log(1+\kappa_c)+3\}$, is given in \cite{RigorTB}.
+The argument in \cite{Note5} is a sketch; a complete proof of the remainder bound
+$|\Sigma(\kappa_c)-\zeta^2/(15\kappa_c^2)|\le C_2\,\zeta^2\kappa_c^{-3}+C_1\,\zeta(1+\kappa_c)e^{-\kappa_c}$ with finite constants $C_1,C_2$ (the values $C_2\le0.47$ and $C_1\le0.051$ come from the double-precision evaluations $A_3\le0.0374$ and $A_1\le2.0$ of two explicit integrals, which are not certified),
+together with the shape of the full-tail bound, $0\le\Phi-\Phi_W\le C\zeta^2/\kappa_c+C'\zeta^2/\kappa_c^2$ with finite $C,C'$ whenever $\Phi\le f\zeta^2$ (\cite[Thm.~5.1]{RigorTB}, proved with $Y=e^{\Phi_W}y$ in place of $y$ and provided $\mathcal T<1$ and $Y<1$, in the notation there),
+for $\kappa_c\ge\max\{10,2\log(1/\zeta)+2\log(1+\kappa_c)+3\}$, is given in \cite{RigorTB}.  The explicit form $0\le\Phi-\Phi_W\le0.173\,\zeta^2/\kappa_c+0.88\,\zeta^2/\kappa_c^2$ \cite[Cor.~5.2, eq.~(13)]{RigorTB} is not proved unconditionally: its constants rest on the numerical inputs $A_1\le2.0$ and $A_3\le0.0374$ (double precision, not certified) and $f=0.0085$, and on a double-precision evaluation of the corrected chain of \cite[Thm.~5.1]{RigorTB} over that region.
 \Cref{prop:tail} is \emph{not used} in any of the theorems of
 \cref{sec:quadratic}; it enters only the tail correction of the numerics
 (\cref{sec:numerics}), where its accuracy is quantified honestly.

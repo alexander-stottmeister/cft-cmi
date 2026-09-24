@@ -8,11 +8,11 @@
 
 ## Statement
 
-For the zero-collar compression of the free chiral fermion (f2 = g_B/8 = 1/(12 pi^2) per component): (1) group bound (lem:groupbound): for U_s = e^{sK} with \[P_-, K\] Hilbert-Schmidt, ||V_s||\_2^2 \<= s^2 ||P_- K P_+||\_2^2 exactly, V_s = P_- U_s P_+; (2) global bound (thm:global with prop:rrr, unconditional): for K = D + i h' with h' in the admissible commutant class, Gamma(U_s)^\* Omega represents the recovered state and Phi(zeta) \<= -(1/2) log(1 - 2 f2^K zeta^2) with inf over h' of f2^K = g_B/8 = f2, hence Phi(zeta) \<= -(1/2) log(1 - 2 f2 zeta^2) = f2 zeta^2 (1 + f2 zeta^2 + O(zeta^4)) for zeta \< (2 f2)^{-1/2}, with no cubic term; (3) consequences (cor:c3sign): limsup_{zeta -> 0} (Phi - f2 zeta^2)/zeta^3 \<= 0, so c3 \<= 0 IF Phi = f2 zeta^2 (1 + c3 zeta + o(zeta)); and there is no remainder + b zeta^2/log^2(1/zeta) with b > 0, since Phi - f2 zeta^2 \<= f2^2 zeta^4/(1 - 2 f2 zeta^2); this refutes the zeta^2 log^-2 remainder of Note 5 Cor. 4.2 (a double count). NOT claimed here: that Phi has an expansion in integer powers, and the values c3 = -0.99(1), c4 = +0.9(1) (card remainder-c3-c4-values, heuristic); every lower bound with a rate is conditional on a cutoff-uniform constant (summary table, l. 786-800).
+For the zero-collar compression of the free chiral fermion (f2 = g_B/8 = 1/(12 pi^2) per component): (1) group bound (lem:groupbound): for U_s = e^{sK} with \[P_-, K\] Hilbert-Schmidt, ||V_s||\_2^2 \<= s^2 ||P_- K P_+||\_2^2 exactly, V_s = P_- U_s P_+; (2) global bound (thm:global with prop:rrr, unconditional): for K = D + i h' with h' in the admissible commutant class, Gamma(U_s)^\* Omega represents the recovered state and Phi(zeta) \<= -(1/2) log(1 - 2 f2^K zeta^2) with inf over h' of f2^K = g_B/8 = f2, hence Phi(zeta) \<= -(1/2) log(1 - 2 f2 zeta^2) = f2 zeta^2 (1 + f2 zeta^2 + O(zeta^4)) for zeta \< (2 f2)^{-1/2}, with no cubic term; (3) consequences (cor:c3sign): limsup_{zeta -> 0} (Phi - f2 zeta^2)/zeta^3 \<= 0, so c3 \<= 0 IF Phi = f2 zeta^2 (1 + c3 zeta + o(zeta)); and there is no remainder + b zeta^2/log^2(1/zeta) with b > 0, since Phi - f2 zeta^2 \<= f2^2 zeta^4/(1 - 2 f2 zeta^2); this refutes the zeta^2 log^-2 remainder of Note 5 Cor. 4.2 (a double count). Index gap (rate_of_remainder.tex Correction C3 of 2026-09-24, l. 1026-1079): (1) and (2) use that the two off-diagonal blocks P_- U_s P_+ and P_+ U_s P_- of the unitary have the same singular values, which the printed proofs assert for every unitary (Thm 2.3 \<1>4 and Lemma 6.1 \<1>4 by the CS decomposition, l. 168-171 and 842-846; Thm 2.3 \<1>1 and Lemma 6.1 \<1>1 in the squared-norm form ||G_s||\_2^2 = 2 ||V_s||\_2^2, l. 156 and 828-832; C3, l. 1044-1050), but which holds only when P_+ U_s P_+ has index zero on P_+ H. The documents settle this while ||G_s||\_2 \< 1, G_s = P_+ - U_s^\* P_+ U_s, which Lemma 6.1 \<1>2 gives for |s| ||\[P_-, K\]||\_2 \< 1: so (1) is settled for |s| ||\[P_-, K\]||\_2 \< 1, the bound of (2) with f2^K for zeta \< (4 f2^K)^{-1/2}, and the bound with f2 for zeta \< (4 f2)^{-1/2} = pi sqrt(3) = 5.44 (the h' with 4 f2^K zeta^2 \< 1 still have inf f2^K = f2, because inf f2^K = f2 \< 1/(4 zeta^2), and prop:rrr \<1>4 takes the infimum over them; for zeta >= pi sqrt(3) no h' qualifies, since f2^K >= f2). Beyond that, i.e. for |s| ||\[P_-, K\]||\_2 >= 1 in (1), for (4 f2^K)^{-1/2} \<= zeta \< (2 f2^K)^{-1/2} in (2) and for pi sqrt(3) \<= zeta \< (2 f2)^{-1/2} = pi sqrt(6) = 7.70 in the bound with f2, they rest on the cards pushforward-blocks-equal-singular-values (heuristic) for the push-forwards W\~\_s = e^{sD} (h' = 0; thm:global with f2^chi) and group-index-zero-large-s (conjectural) for every other e^{sK}; (3) uses only small zeta and is unaffected. NOT claimed here: that Phi has an expansion in integer powers, and the values c3 = -0.99(1), c4 = +0.9(1) (card remainder-c3-c4-values, heuristic); every lower bound with a rate is conditional on a cutoff-uniform constant (summary table, l. 786-800).
 
 ## How to verify
 
-rigor/rate_of_remainder.tex lem:groupbound (l. 818), thm:global (l. 180-200), prop:rrr (l. 848-880; it removes the hypothesis f2\* = f2 of the earlier version), cor:c3sign (l. 247-262), summary table (l. 786-800: upper bound proved, values numerical, lower bounds conditional); referee report rigor/referee_rate_of_remainder.tex prop:repair. No numerics are needed for this card.
+rigor/rate_of_remainder.tex lem:groupbound (l. 818), thm:global (l. 180-200), prop:rrr (l. 848-880; it removes the hypothesis f2\* = f2 of the earlier version), cor:c3sign (l. 247-262), summary table (l. 786-800: upper bound proved, values numerical, lower bounds conditional); referee report rigor/referee_rate_of_remainder.tex prop:repair; the index gap and the settled ranges: Sec. 7 'Corrections of 2026-09-24', item C3 (l. 1026-1079; status of the uses, l. 1062-1079), which changed no proof text, so the summary table's 'proved' predates it. No numerics are needed for this card.
 
 ## Evidence
 
@@ -21,6 +21,7 @@ rigor/rate_of_remainder.tex lem:groupbound (l. 818), thm:global (l. 180-200), pr
 - [rigor/rate_of_remainder.tex](../../rigor/rate_of_remainder.tex) — document, at `thm:global`
 - [rigor/rate_of_remainder.tex](../../rigor/rate_of_remainder.tex) — document, at `lem:groupbound`
 - [rigor/rate_of_remainder.tex](../../rigor/rate_of_remainder.tex) — document, at `cor:c3sign`
+- [rigor/rate_of_remainder.tex](../../rigor/rate_of_remainder.tex) — document, at `corr0924:C3`
 
 ## Related claims
 
@@ -30,7 +31,7 @@ rigor/rate_of_remainder.tex lem:groupbound (l. 818), thm:global (l. 180-200), pr
 
 ## Review
 
-**Review record:** passed 2026-09-23 by REF-DEP-CFT-B8.
+**Review record:** passed 2026-09-24 by REF-CARD-ROR.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

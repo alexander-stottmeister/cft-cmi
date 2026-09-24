@@ -908,7 +908,7 @@ For the $r$-component free chiral fermion net $\cF_r$ in the Fock representation
 \end{proposition}
 \lstep{1}{1}{(1).}
 \lby{\texttt{uhlmann\_upper\_bound.tex}: Prop.~``Explicit Hilbert--Schmidt bound''
- ($\norm{\Pi_-\Wt_s\Pi_+}_2\le C_0s$, from Lemma ``Kernel of the projection defect''), Cor.~``The
+ ($\norm{\Pi_-\Wt_s\Pi_+}_2\le C_0s$, from Lemma ``Kernel of the projection defect''; that proof covers only $\norm{\mathrm{id}-\kt_s}_\infty\le\frac12$, and the bound holds, as $\norm{\Pi_-\Wt_s\Pi_+}_2\le C_0|s|$, for every $s$ by Lemma ``Exact integral representation of the defect kernel'', eq.~(21), with its steps $\langle1\rangle1$ and $\langle1\rangle5$ (that document's Correction C3); Correction~\ref{corr0924:C1}), Cor.~``The
  implementer'' (Shale--Stinespring: the Bogoliubov automorphism of $\Wt_s$ is unitarily implemented),
  Prop.~``Vector representative'' ($\Psi_s=\Gamma(\Wt_s)^*\Om$ represents $\widetilde\omega_s$ on
  $\cM=\cF(I)$), and Lemma ``Commutant elements from $I'$'' plus Remark ``The graded structure''
@@ -926,15 +926,15 @@ For the $r$-component free chiral fermion net $\cF_r$ in the Fock representation
  first-order vacuum expansion)}
 
 \begin{verdictgap}
-\textbf{(H2) for the free fermion is not literally in the audit.}  The document
-\texttt{uhlmann\_upper\_bound.tex} never asserts norm differentiability of $s\mapsto\Gamma(\Wt_s)^*\Om$;
-it bypasses it by the vacuum-overlap determinant.  What it does prove ---
-$\norm{\Pi_-\Wt_s\Pi_+}_2\le C_0s$, $\norm{G_s-sG^{(1)}}_2\le s\epsilon(s)$ with $\epsilon(s)\to0$, and the
+\textbf{The norm expansion of (H2) for the free fermion is in the audit for one component (corrected 2026-09-24; Correction~\ref{corr0924:C2}).}  The document
+\texttt{uhlmann\_upper\_bound.tex} does assert norm differentiability on the vacuum, in its Lemma~10.1 (\texttt{lem:H2}): for $|s|$ small, and after its Correction C6 also for $s<0$, $\Gamma_s\Om=\Om+is\,T(\gtot)\Om+o(s)$ in norm, $\Gamma_s$ the implementer of $\Wt_s$ with $\ip\Om{\Gamma_s\Om}>0$; as $\Gamma_s^*=\Gamma_{-s}$, this gives $\norm{\Gamma_s^*\Om-\Om+is\,T(\gtot)\Om}=o(s)$;
+its Theorem~A route bypasses this by the vacuum-overlap determinant.  What it proves ---
+$\norm{\Pi_-\Wt_s\Pi_+}_2\le C_0|s|$ (for every $s$, by Lemma ``Exact integral representation of the defect kernel'' with its steps $\langle1\rangle1$ and $\langle1\rangle5$; Correction~\ref{corr0924:C1}), $\norm{G_s-sG^{(1)}}_2\le s\epsilon(s)$ with $\epsilon(s)\to0$, and the
 exponential (Thouless) form of $\Gamma(\Wt_s)^*\Om$ --- is exactly the input from which
 $\norm{\Psi_s-\Om+is\,T(\gtot)\Om}=o(s)$ follows, since in the Thouless form the $n$-pair component is
-$O(\norm{Z_s}_2^n)=O(s^n)$ and the one-pair component is $s\,\Pi_-D\Pi_++o(s)$; but that derivation is not
-written down.  Consequently Proposition~\ref{prop:fermion}(3) is quoted from the audit's own route, and
-(H2) for $\cF_r$ is flagged as a small, clearly repairable gap for track QB.
+$O(\norm{Z_s}_2^n)=O(s^n)$ and the one-pair component is $s\,\Pi_-D\Pi_++o(s)$; that derivation is
+written out there, as the proof of Lemma~10.1 (for one component).  Proposition~\ref{prop:fermion}(3) is still quoted from the audit's own route, and
+(H2) for $\cF_r$ with $r\ge2$ needs in addition the $r$-fold direct sum of that lemma (all one-particle objects act diagonally, as in Theorem~8.1 $\langle1\rangle1$ there, which does this for the fidelity only); that small step is not written out and stays flagged for track QB.
 \end{verdictgap}
 
 \subsection{Tensor products and additivity in $c$}
@@ -983,7 +983,7 @@ Theorem~B is conditional exactly on these and on nothing else.  The state of pla
 the audit:
 \begin{enumerate}[leftmargin=1.7em]
 \item \emph{Free fermion, $r$ copies, tensor products, integer $c$:} (H1), (H3) are proved
- (Proposition~\ref{prop:fermion}); (H2) is a small written-out gap.  Fock representations of
+ (Proposition~\ref{prop:fermion}); the norm expansion \eqref{eq:H2} of (H2) is proved for one fermion component (\texttt{uhlmann\_upper\_bound.tex} Lemma~10.1; not the clause (H2$'$); Correction~\ref{corr0924:C2}), and for the other cases of this item it remains a small written-out gap.  Fock representations of
  $\mathrm{Diff}(S^1)$ extend to $\mathcal D^\sigma(S^1)$, $\sigma>2$ (Carpi--Del Vecchio--Iovieno--Tanimoto,
  arXiv:1808.02384), and $\kt_s\in C^{1,1}=W^{2,\infty}\subset H^{5/2-\eps}$, so the extension applies.
 \item \emph{General $c$:} the CDIT theorem covers $\mathcal D^\sigma$ for $\sigma>3$ only, and $\kt_s\notin
@@ -1124,5 +1124,56 @@ unused by Theorem~\ref{thm:B}; the normalisation chain $s=\zeta$, $c=r$, $f_2=\g
 in addition the missing link $\norm{T(f)\Om}^2=\norm{\Pi_-\mathfrak L_f\Pi_+}_{\Stwo}^2$, i.e.\ that the
 fermion of \texttt{uhlmann\_upper\_bound.tex} sits at $c=1$ in the normalisation \eqref{eq:TT}); and the
 verdict on the modular-frame/Mellin route.
+
+\section{Corrections of 2026-09-24}\label{corr0924:sec}
+\sloppy
+These corrections bring the quotations of \texttt{rigor/uhlmann\_upper\_bound.tex} (``PA'') in line
+with PA as corrected on 2026-09-24 (its Corrections C1--C10; Lemma~10.1 is corrected by C6 and C9) and with the knowledge-base card
+\texttt{c11-extension-implementer} (project \texttt{cft\_cmi}).  Each changed line was replaced by
+exactly one line, so line numbers cited elsewhere still point to the same text.
+\begin{enumerate}[leftmargin=1.8em,label=\textbf{C\arabic*},ref=C\arabic*]
+\item\label{corr0924:C1} \textbf{The Hilbert--Schmidt bound holds for every $s$, by a different
+ lemma} (Proposition~\ref{prop:fermion} $\langle1\rangle1$, l.~911; verdict box after it, l.~932).
+ \emph{The document said:} $\norm{\Pi_-\Wt_s\Pi_+}_2\le C_0s$, from PA's Proposition ``Explicit
+ Hilbert--Schmidt bound'' and Lemma ``Kernel of the projection defect'', with no range of $s$.
+ \emph{It now says:} that proof covers only $\norm{\mathrm{id}-\kt_s}_\infty\le\frac12$, and the
+ bound $\norm{\Pi_-\Wt_s\Pi_+}_2\le C_0|s|$ holds for every $s$ by PA's Lemma ``Exact integral
+ representation of the defect kernel'' (\texttt{lem:integralrep}, eq.~(21) of PA) with its steps
+ $\langle1\rangle1$ and $\langle1\rangle5$ (PA Correction C3, remark).  No range restriction is added.
+ \emph{Why:} PA's proposition assumes $\eta=\norm{\mathrm{id}-\kt_s}_\infty\le\frac12$ (PA
+ l.~287), and $\eta$ exceeds $\frac12$ inside $[0,1]$: $\eta\approx0.6128$ at $s=0.5$ and
+ $\eta\approx0.9538$ at $s=1$ for PA's standard smooth step
+ (\texttt{numerics/kb-checks-2026-09-23/refb6\_flow.py}, output \texttt{refb6\_flow.out}).  Card
+ \texttt{c11-extension-implementer}, Statement: ``prop:HS gives an explicit bound when
+ $\norm{\mathrm{id}-\tilde k_s}_\infty\le1/2$ (l.~286--287) \dots\ its `every $0\le s\le1$'
+ (l.~293) \dots\ use prop:HS beyond its hypothesis''.  The bound itself holds for all $s$, as the
+ referee of PA found on 2026-09-24: PA's eq.~(21) writes
+ $G_s=\int_0^s\Wt_\sigma^*G^{(1)}\Wt_\sigma\dd\sigma$ as a Bochner integral in $\Stwo$ for every
+ real $s$, so $\norm{G_s}_2\le|s|\,\norm{G^{(1)}}_2$ by unitary invariance; $\norm{G^{(1)}}_2<\infty$ by step
+ $\langle1\rangle1$ of that lemma, and $\norm{G^{(1)}}_2=\lim_{s\downarrow0}\norm{G_s}_2/s\le C_0$ by
+ its step $\langle1\rangle5$ and PA's proposition in its range, which gives $C_0|s|$; finally $\Wt_s^*\Pi_-\Wt_s\Pi_+=G_s\Pi_+$, so $\norm{\Pi_-\Wt_s\Pi_+}_2\le\norm{G_s}_2$.
+\item\label{corr0924:C2} \textbf{(H2) for the free fermion is in PA, for one component} (verdict
+ box after Proposition~\ref{prop:fermion}, l.~929--931 and l.~935--937; \S QB item 1, l.~986).
+ \emph{The document said:} PA ``never asserts norm differentiability of
+ $s\mapsto\Gamma(\Wt_s)^*\Om$''; the derivation from the Thouless form ``is not written down'';
+ (H2) for $\cF_r$ is ``a small, clearly repairable gap for track QB''; and (l.~986) ``(H2) is a
+ small written-out gap''.
+ \emph{It now says:} PA's Lemma~10.1 (\texttt{lem:H2}, ``(H2): norm differentiability on the
+ vacuum'') asserts, for $|s|$ small, $\Gamma_s\Om=\Om+is\,T(\gtot)\Om+o(s)$ in norm, with $\Gamma_s$
+ the implementer of $\Wt_s$ normalised by $\ip\Om{\Gamma_s\Om}>0$ and PA's
+ $T(\gtot):=-i\!:\!\dd\Gamma(D)\!:$; PA's Correction C6 extends its proof to $s<0$.  As $\Gamma_s^*$
+ implements $\Wt_s^*=\Wt_{-s}$ and $\ip\Om{\Gamma_s^*\Om}>0$, $\Gamma_s^*=\Gamma_{-s}$, hence
+ $\norm{\Gamma_s^*\Om-\Om+is\,T(\gtot)\Om}=o(s)$: this is the norm expansion \eqref{eq:H2} of (H2) for one component, and its proof is
+ the Thouless-form derivation sketched in the box.  This covers the norm expansion of (H2) only,
+ not the clause (H2$'$), i.e.\ the identification of PA's $T(\gtot)\Om$ with a limit
+ $\lim_nT(f_n)\Om$ in the stress-tensor subspace.  Not covered by the lemma are the clause (H2$'$) just
+ mentioned, for $\cF_r$ with $r\ge2$ the $r$-fold direct sum (PA Theorem~8.1 $\langle1\rangle1$ does it
+ for the fidelity only), and the other cases of \S QB item 1.  Proposition~\ref{prop:fermion}(3)
+ is still quoted from PA's own route, as before.
+ \emph{Why:} PA l.~1399--1406 (statement of Lemma~10.1, with the clause for $s<0$) and PA
+ Correction C6, which supplies the inputs at $s<0$ from those at $-s>0$ by $\Wt_{-s}=\Wt_s^*$.  PA's
+ section on (H2) and (H3) was written at the request of this document's agent (PA l.~1392), after
+ the box was written.
+\end{enumerate}
 
 \end{document}

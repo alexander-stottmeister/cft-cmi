@@ -6,7 +6,7 @@ Brief: rigor/phase5_brief.md. Decision card: kb -p cft_cmi show phase5-plan.
 
 ## Tracks
 - F1 analytic (rigor/exact_optimum_tangent_problem.tex): exact parametrisation of F by (V co-isometry, N, Y);
-  tangent problem; KKT sign criterion for the noise directions; theta closed form attempt.       [done; refereed three times (REF-P5-1, REF-P5-3, REF-P5-4); repairs R1-R15, S1-S6 and D1-D3 applied; 27 pp]
+  tangent problem; KKT sign criterion for the noise directions; theta closed form attempt.       [done; refereed three times (REF-P5-1, REF-P5-3, REF-P5-4); repairs R1-R15, S1-S6 and D1-D3 applied; 31 pp after the corrections of 2026-09-24 (27 pp before), correction C17 below]
 - F2 numerics (numerics/optimality_all/f2_*.py, F2_RESULTS.md): tangent SDP with noise in the spectral circle
   model; KKT eigenvalue check; full-F primal SDP in the Galerkin frame vs orbit.  [done 2026-09-15; cards awaiting review]
 - F3 numerics (numerics/optimality_all/f3_*.py, F3_RESULTS.md): theta reconciliation between the circle model
@@ -16,12 +16,12 @@ Brief: rigor/phase5_brief.md. Decision card: kb -p cft_cmi show phase5-plan.
 - F1 (2026-09-15): exact chart of F: (X,Z) in F iff N = 1 - XX* >= 0 and 0 <= Y = Z - X Q_BB X* <= N; X = (1-N)^{1/2} V
   with V a co-isometry iff 1 is not an eigenvalue of N (sharp). First-order defect delta^(1) = [Q,d] + A(zeta,N_1,Y_1),
   A_AD = -Q_AD zeta + (1/2) Q_AD N_1, A_DD = -(zeta* Q_DD + Q_DD zeta) + (1/2){N_1,Q_DD} - Y_1. Boundary-moving
-  (non-surjective) isometry families are not a new stratum (Thm 3.11). KKT (Thm 4.4): with t_* the SLD of the orbit
+  (non-surjective) isometry families are not a new stratum (Thm 3.11) [superseded 2026-09-24: see C5]. KKT (Thm 4.4): with t_* the SLD of the orbit
   optimum, tau_* = E_D t_* E_D, M_* = Herm((t_* Q)_DD), the orbit optimum is the global tangent optimum iff
-  M_* >= 0 and M_* >= tau_*; failure gives an explicit better channel. Consistent with S10's multipliers
+  M_* >= 0 and M_* >= tau_* [superseded 2026-09-24: see C6]; failure gives an explicit better channel. Consistent with S10's multipliers
   (Sigma_1 = Sigma_2 - t_DD >= 0 is the noise condition). theta = geometry-free Wiener-Hopf constant in the modular
   frame (Q = (1+e^{-2 pi p})^{-1}, w(y) = -4 sinh^2(y/2) 1_{y>0}, kernel K); closed form open. Hypotheses: H1
-  (differentiability along the scaled family) for the upper bound, H2 (minimisers within O(s) of the compression)
+  (differentiability along the scaled family) for the upper bound, H2 (minimisers within O(s) of the compression) [superseded 2026-09-24: see C14]
   for the lower bound; unconditional substitute = finite-s weak-duality certificate.
 - F3 interim (files, 2026-09-15 16:30): the two discretisations have the SAME limit. S10's 0.300 is a taper-suppressed lower
   bound (circle model at L=256: taper (0.30,0.42) 0.2896, (0.35,0.47) 0.3618, no taper 0.1718 because of the second Fermi
@@ -48,20 +48,20 @@ Brief: rigor/phase5_brief.md. Decision card: kb -p cft_cmi show phase5-plan.
   no gain found at L=128, 256 (several sub-solves failed). Galerkin full-F SDP: 8.4 g_Q(d_c) at h=0.4 — the finite frame cannot
   realise the compression (S11), uninformative.
 - F2 FINAL T4 (2026-09-15, rigid parameter-free modular frame of F1 Prop 6.2, f3_t0.py machinery; ||d_c,DD|| = 0 exactly, no
-  weight cap needed): all F1 identities hold to 1e-9; lambda_min(M_*)/g_Q(d_c) = -7.0e-2, -3.8e-2, -1.9e-2, -1.0e-2 and
+  weight cap needed): the F1 identities hold to <= 3.5e-7 (SLD identity 1e-10, FD derivative formula <= 3e-8, AntiHerm((t_*Q)_DD)/||M_*|| = 2.8e-9 ... 3.5e-7; correction C13 below); lambda_min(M_*)/g_Q(d_c) = -7.0e-2, -3.8e-2, -1.9e-2, -1.0e-2 and
   lambda_min(M_*)/||M_*|| = -4.1e-3, -1.9e-3, -8.2e-4, -3.7e-4 at h = 0.24, 0.12, 0.06, 0.03; lambda_min(M_* - tau_*) identical;
   rank-one gain/g_Q(d_c) = 3.9e-4, 1.2e-4, 3.5e-5, 9.7e-6. Violation ~ h^1.15 -> 0, gain ~ h^1.85 -> 0, and at fixed h the
-  violation is exactly ~ 1/Ymax (outer y-truncation; the violating vector sits at y ~ 0.5 Ymax), A-side cutoff irrelevant.
-  VERDICT (numerical): M_* >= 0 and M_* - tau_* >= 0 hold for the exact problem; the isometric orbit is the global optimum of the
-  tangent problem, optimal N_1 = Y_1 = 0, kappa_opt = 1 - theta = 0.616 +- 0.003. Non-isometric quasi-free recoveries do not
+  violation is ~1/Ymax (outer y-truncation; the violating vector sits at y ~ (0.37-0.6) Ymax; correction C15 below), A-side cutoff irrelevant.
+  VERDICT (numerical) [superseded 2026-09-24: see C7]: M_* >= 0 and M_* - tau_* >= 0 hold for the exact problem; the isometric orbit is the global optimum of the
+  tangent problem, optimal N_1 = Y_1 = 0 [superseded 2026-09-24: see C7], kappa_opt = 1 - theta = 0.616 +- 0.003. Non-isometric quasi-free recoveries do not
   lower the second-order error. Cards: kkt-noise-criterion-numerics, tangent-sdp-noise-directions, galerkin-full-f-uninformative.
 - F2 FINAL T5 (2026-09-15, endpoint condition (e) of the repaired criterion, rigid frame, f2_t5_endpoint.out): E(zeta_0)/g_Q(d_c) =
   +34.1, +66.9, +131.3, +258.0 at h = 0.24, 0.12, 0.06, 0.03 for the admissible (backward/dissipative) scheme; centred scheme 0 (the
   linear class), forward (inadmissible) the negative; corner term (1/2) M_*(0,0)/h = +10.3, +16.1, +24.7, +37.2 ~ h^-0.6 (M_*(y,y) ->
   +inf as y -> 0+: the junction direction is infinitely penalised at first order); saturates in Ymax, Y-independent; cross-check
-  E(zeta_inf) = 2(1 - theta_h) g_Q exact to 1e-15; A-block (absorption) form = boundary form to 2e-10..2e-8. Correction to F1: the
+  E(zeta_inf) = 2(1 - theta_h) g_Q exact to 1e-15; A-block (absorption) form = boundary form to 2e-10..7.5e-8 (correction C12 below). Correction to F1: the
   commutator form -2 b(delta_*,[Q,zeta]) is blind to the boundary form (valid only for bounded zeta); E must be defined via A(zeta,0,0).
-  VERDICT (numerical): (e) holds with a large margin; with T4, the isometric orbit is the global tangent optimum.
+  VERDICT (numerical) [superseded 2026-09-24: see C8]: (e) holds with a large margin; with T4, the isometric orbit is the global tangent optimum.
 - Union-of-referees fix pass (2026-09-15 evening; two referees had reviewed the F2/F3 cards concurrently, PASS x5 vs FAIL x5; user
   decision relayed by session claude-team-84: authors fix all defects from the union, then ONE referee re-reviews, nobody flips
   verdicts): F3 repaired theta-value (candidate script f3_candidates.py: 26 candidates, 3 in [0.381,0.387], chance expectation 0.28,
@@ -80,11 +80,11 @@ Brief: rigor/phase5_brief.md. Decision card: kb -p cft_cmi show phase5-plan.
   additional one-sided endpoint condition (e); Rem 6.4 and the closed-form box superseded by F3. Repairs R1-R15 (R6 semigroup,
   R7 inclusion, R10 endpoint conditions, R11 M_*, tau_* as forms with domain, R14 finite g_Q(eta) for strictness, R15 delta_* as
   projection residual, R12 theta = 0.384 +- 0.003). Factor-2 slip in S10 (C4) adjudicated (errata_log.md). F1 applied all repairs (17:30): Thm 3.11(3) -> inclusion + Rem 4.8;
-  Def 4.9 (M_*, tau_* as forms on a domain); Thm 4.4 gains condition (e): E(zeta) := 2 b(delta_*, A(zeta,0,0)) = -2 b(delta_*,[Q,zeta])
+  Def 4.9 (M_*, tau_* as forms on a domain); Thm 4.4 gains condition (e): E(zeta) := 2 b(delta_*, A(zeta,0,0)) = -2 b(delta_*,[Q,zeta]) [superseded 2026-09-24: see C9]
   >= 0 for every admissible isometry generator zeta; Prop 4.10: E vanishes on the linear class, E is the cyclicity anomaly (a pure
-  boundary functional E = (1/2) Tr((-2 sigma_zeta) M_*)), modulo the linear class the cone is generated by zeta_0 = -E_D d/dy E_D
+  boundary functional E = (1/2) Tr((-2 sigma_zeta) M_*) [superseded 2026-09-24: only when -2 sigma_zeta lies in the form domain of M_*, see C16]), modulo the linear class the cone [superseded 2026-09-24: see C10] is generated by zeta_0 = -E_D d/dy E_D
   (shift semigroup at the junction y = 0) and zeta_inf = -lambda D_chi|_D (moving endpoint), and E(zeta_inf) = 2 lambda (1-theta)
-  g_Q(deltadot) > 0 is PROVED; so (e) reduces to the single number E(zeta_0) = 2 b(delta_*, [Q, E_D d/dy E_D]) >= 0, which F2 is
+  g_Q(deltadot) >= 0 is PROVED (> 0 iff theta < 1, which is not proved; correction C1 below); so (e) reduces to the single number E(zeta_0) = 2 b(delta_*, [Q, E_D d/dy E_D]) >= 0 [superseded 2026-09-24: see C9 and C10], which F2 is
   computing (T5). Sec. 6 rewritten to theta = 0.384 +- 0.003. Cards repaired: tangent-problem-exact-parametrisation,
   theta-modular-wiener-hopf, kkt-noise-sign-criterion (all re-pending).
 - F1 correction (21:04): E(zeta) := 2 b(delta_*, A(zeta,0,0)) only; new Prop 4.10(2'): A(zeta,0,0) = -[Q,zeta] holds only for bounded
@@ -94,7 +94,7 @@ Brief: rigor/phase5_brief.md. Decision card: kb -p cft_cmi show phase5-plan.
 - REF-P5-3 (21:29; rigor/referee2_exact_optimum_tangent_problem.tex, 7 pp): R1-R15 applied, no regressions; NEW FINDING S1: the
   reduction of the admissible cone of boundary-moving isometry generators to the two model directions is proved only for vector
   fields (multiplicity > 1 shift semigroups and unbounded skew-adjoint multiplication operators escape) => condition (e) is reduced to
-  E(zeta_0) >= 0 only under a hypothesis H3 (cone hypothesis); repairs S1-S6 (H3 declared and every '(e) holds' hedged; the T5 total is
+  E(zeta_0) >= 0 only under a hypothesis H3 (cone hypothesis) [superseded 2026-09-24: see C11]; repairs S1-S6 (H3 declared and every '(e) holds' hedged; the T5 total is
   the scheme-dependent upwind-viscosity quantity ~h^-0.97, the corner term ~h^-0.60 is the invariant piece; E in [-inf,+inf] with the
   form domain a subspace; Thm 3.11 <1>4 core hypothesis; Sec. 7 item 5; minor slips). Cards: 9 pass (theta-value,
   tangent-sdp-noise-directions, galerkin-full-f-uninformative, the 5 propagated cards, common lesson, referee-race lesson), 5 fail:
@@ -110,7 +110,7 @@ Brief: rigor/phase5_brief.md. Decision card: kb -p cft_cmi show phase5-plan.
   'equivalently ... boundary form' clause of Def 4.12 is not equivalent to eq. (33) and is trivially met by the excluded family
   zeta = i m(y); D2 Thm 3.11(3) is stated with 'G an isometry generator' while <1>4 no longer proves it; D3 the ambient space of (33)
   is unspecified and, with A(zeta_0,0,0) outside the form domain, forces alpha = 0 so that under H3 condition (e) collapses to the
-  proved E(zeta_inf) > 0 — i.e. the content of H3 is the exclusion of non-vector-field generators (F1 fixing D1-D3). Cards: seven
+  proved E(zeta_inf) >= 0 (not > 0, which needs theta < 1, not proved; correction C1 below) — i.e. the content of H3 is the exclusion of non-vector-field generators (F1 fixing D1-D3). Cards: seven
   pass (tangent-problem-exact-parametrisation, theta-modular-wiener-hopf, kkt-noise-sign-criterion, kkt-noise-criterion-numerics,
   phase5-plan, claude-team-knowledge:kb-set-section-keys, dmax_mbz:no-reduction-as-progress); all-channel-optimum-value FAILED for a
   title omitting H3 and for quoting the scheme-dependent total as a margin (fixed 21:52: title 'H1, H2, H3'; corner row quoted; (e)
@@ -119,15 +119,15 @@ Brief: rigor/phase5_brief.md. Decision card: kb -p cft_cmi show phase5-plan.
   dmax_mbz' on kb-set-section-keys; 'review state kept' in the dmax note).
 - F1 D1-D3 fix (22:05, 27 pp): H3 (Def 4.12) is eq. (33) alone, read in the form domain F: every admissible isometry generator with
   A(zeta,0,0) in F has A(zeta,0,0) = alpha A(zeta_0,0,0) + beta A(zeta_inf,0,0) + eta, alpha, beta >= 0, eta in the closure of L; new
-  Rem 4.14: since A(zeta_0,0,0) is not in F, alpha = 0 is forced, so H3 says 'every admissible generator carrying a feasible first-order
+  Rem 4.14: given that A(zeta_0,0,0) is not in F (numerical, not proved: F2's divergent corner term; correction C4 below), alpha = 0 is forced, so H3 says 'every admissible generator carrying a feasible first-order
   datum is, modulo the closure of L, a non-negative multiple of zeta_inf', and (e) holds outright under H3 via the proved
-  E(zeta_inf) = 2 lambda (1 - theta) g_Q > 0; the content of H3 is the EXCLUSION of the two non-vector-field families (multiplicity > 1
+  E(zeta_inf) = 2 lambda (1 - theta) g_Q >= 0 (> 0 iff theta < 1, not proved; correction C1 below); the content of H3 is the EXCLUSION of the two non-vector-field families (multiplicity > 1
   shift semigroups; unbounded skew-adjoint multiplication operators); the scalar test (31) is operative only for regularised junction
-  directions (what F2 T5 measures). Thm 3.11(3) restated (G = zeta* - sigma, not claimed to generate a semigroup). Card
+  directions (what F2 T5 measures). Thm 3.11(3) restated (G = sigma - zeta*, not claimed to generate a semigroup; sign corrected, correction C2 below). Card
   kkt-noise-sign-criterion rewritten accordingly (re-verdict by REF-P5-4 pending), then a second kb sync.
 - Phase 5 closes with: theta = 0.384 +- 0.003 (refereed); the KKT criterion (a)+(e) proved for the tangent problem; the reduction of
-  (e) to the model cone is hypothesis H3 (exclusion of non-vector-field generators); (a) numerically in the limit; (e) proved on the
-  model cone; kappa_opt = 1 - theta = 0.616 +- 0.003 numerically under H1-H3; unconditional bracket E_rec in [dual form,
+  (e) to the model cone is hypothesis H3 (exclusion of non-vector-field generators); (a) numerically in the limit; (e) numerically on the
+  model cone (not proved: there (e) is equivalent to E(zeta_0) >= 0, given the proved E(zeta_inf) >= 0, and it is vacuous at zeta_0 by F2 T5; correction C3 below); kappa_opt = 1 - theta = 0.616 +- 0.003 numerically under H1-H3; unconditional bracket E_rec in [dual form,
   0.616 f2 z^2 (1+o(1))]. KB commit 12a64a6 (22:00) + follow-up sync.
 - KB card referees: REF-opus-cft-2026-09-15 (F1 cards: kkt-noise-sign-criterion passed; tangent-problem-exact-parametrisation and
   theta-modular-wiener-hopf FAILED on locators/superseded numerics — under repair); REF-P5-KB1 on the F2/F3 cards: running.
@@ -186,3 +186,87 @@ Untouched by instruction: `rigor/exact_optimum_tangent_problem.tex`, `rigor/refe
 Not changed, deliberately: `open-problems-plan-note8` and the `e2-*` cards -- their Statements quote no
 `0.30`/`0.71` as a current value (the `e2-*` ratios 0.708-0.711 are within-model measurements of the
 circle model's own `1 - theta`, and the `0.30` hits are the taper parameter `uv = (0.30,0.42)`).
+
+## Corrections of 2026-09-24
+
+Each changed line was replaced by exactly one line, so the line numbers are those of the version of 2026-09-23.
+"Tex Cn" refers to the corrections section of rigor/exact_optimum_tangent_problem.tex (Sec. 8).
+
+- C1 (lines 87, 113, 124; knowledge-base card kkt-noise-sign-criterion). Said: "E(zeta_inf) = 2 lambda (1-theta)
+  g_Q(deltadot) > 0 is PROVED" (87), "the proved E(zeta_inf) > 0" (113), "via the proved E(zeta_inf) = 2 lambda (1 - theta)
+  g_Q > 0" (124). Says now: E(zeta_inf) >= 0 is proved; > 0 iff theta < 1, which is not proved. Why: step <1>4 of the tex's
+  Prop 4.10(4) gives only the identity E(zeta_inf) = 2 lambda g_Q(delta_*) = 2 lambda (1-theta) g_Q(deltadot) >= 0, and the
+  tex records theta < 1 as not proved (Rem 6.3(i); verdict box after Rem 6.4); numerically 1 - theta = 0.616 +- 0.003. The
+  arguments that use this term (the model-cone reduction, (e) under H3) need only >= 0. Tex C2.
+- C2 (line 126; knowledge-base card tangent-problem-exact-parametrisation). Said: "G = zeta* - sigma". Says now:
+  G = sigma - zeta*. Why: the tex's eq. (13) continues G = -(1/2)(zeta* - zeta**) = sigma - zeta*, and the tex uses
+  zeta* = -G + sigma (line 506, Thm 3.11 step <1>2); with the other sign the absorption identity of Thm 3.11(2) and the
+  inclusion (3) are false. Tex C1.
+- C3 (lines 129-130; knowledge-base cards kkt-noise-sign-criterion and all-channel-optimum-value). Said: "(e) proved on the
+  model cone". Says now: (e) holds numerically on the model cone, not proved. Why: on the model cone (e) is equivalent to
+  E(zeta_0) >= 0 (tex Prop 4.10(5)), which is not proved; kkt-noise-sign-criterion lists "E(zeta_0) > 0 on the model cone"
+  as numerical, all-channel-optimum-value lists an analytic proof of (e) as open; F2 T5 finds A(zeta_0,0,0) outside the form
+  domain, so (e) is vacuous at zeta_0 rather than satisfied with a margin. Tex C3.
+- C4 (line 122; knowledge-base card kkt-noise-sign-criterion). Said: "since A(zeta_0,0,0) is not in F, alpha = 0 is forced".
+  Says now: that A(zeta_0,0,0) is not in F is marked as numerical, not proved. Why: the card states that "A(zeta_0,0,0) is
+  not in F ... rests on F2's divergent corner term (rem:T5 (ii)), i.e. it is numerical". Repeat of tex C4.
+
+Superseded log entries (C5-C11). These dated entries are not rewritten; each carries the inline marker
+"[superseded 2026-09-24: see Cn]", and the current statement is given here.
+
+- C5 (line 19, F1 entry of 2026-09-15; card tangent-problem-exact-parametrisation). Entry: "Boundary-moving (non-surjective)
+  isometry families are not a new stratum (Thm 3.11)". Current: Thm 3.11(3) gives only an INCLUSION of cones; the
+  boundary-moving isometry generators form a genuine one-sided cone, which is why the criterion needs condition (e)
+  (tex Thm 3.11(3), Rem 4.8; the right-hand side must not be enlarged to all anti-symmetric G).
+- C6 (lines 20-21, same entry; card kkt-noise-sign-criterion). Entry: "the orbit optimum is the global tangent optimum iff
+  M_* >= 0 and M_* >= tau_*". Current: (a) M_* >= 0 and M_* - tau_* >= 0 is necessary but not sufficient; the orbit point
+  is a global minimiser of the tangent programme iff (a) AND the endpoint condition (e) hold (tex Thm 4.4(d)).
+- C7 (lines 55-56, F2 FINAL T4 entry; card kkt-noise-criterion-numerics). Entry: "VERDICT (numerical): M_* >= 0 and
+  M_* - tau_* >= 0 hold for the exact problem; the isometric orbit is the global optimum of the tangent problem, optimal
+  N_1 = Y_1 = 0". Current: every finite run FAILS (a) (CRITERION False); the violation extrapolates to 0^-
+  (lambda_min/||M_*|| ~ h^1.15 and ~ 1/Ymax, rank-one gain ~ h^1.85/Ymax^2), so (a) holds only as an extrapolation.
+  The numerics are consistent with the isometric orbit carrying the tangent optimum and kappa_opt = 1 - theta, but they
+  do NOT establish that the optimal N_1, Y_1 vanish: Thm 4.4(d) delivers a global minimiser, not uniqueness.
+- C8 (line 64, F2 FINAL T5 entry; cards kkt-noise-criterion-numerics and kkt-noise-sign-criterion). Entry: "VERDICT
+  (numerical): (e) holds with a large margin". Current: the corner row (1/2) M_*(0,0)/h = +10.3, +16.1, +24.7, +37.2
+  (~ h^-0.60) represents the continuum E(zeta_0) and diverges, so A(zeta_0,0,0) is (numerically) not in F and (e) is
+  VACUOUS at zeta_0 rather than satisfied with a margin; E(zeta_inf) >= 0 is proved (> 0 numerically, theta_h < 1); (e)
+  holds numerically on the model cone, and beyond it only under H3.
+- C9 (lines 83 and 87, F1 entry of 17:30; card kkt-noise-sign-criterion). Entry: "E(zeta) := 2 b(delta_*, A(zeta,0,0)) =
+  -2 b(delta_*,[Q,zeta])" and "E(zeta_0) = 2 b(delta_*, [Q, E_D d/dy E_D])". Current: E is evaluated on the blocks of
+  A(zeta,0,0) only; the commutator form is valid only for bounded anti-self-adjoint zeta and deletes exactly the boundary
+  term (tex Prop 4.10(2')), as the 21:04 entry of this log (line 90) already records.
+- C10 (lines 85 and 87, same entry; card kkt-noise-sign-criterion). Entry: "modulo the linear class the cone is generated
+  by zeta_0 ... and zeta_inf" and "so (e) reduces to the single number E(zeta_0)". Current: modulo the closure of L,
+  zeta_0 and zeta_inf generate the VECTOR-FIELD subcone only (tex Prop 4.10(3)); on the model cone (e) is equivalent to
+  E(zeta_0) >= 0 (Prop 4.10(5)); the whole admissible cone is Hypothesis H3 (as the REF-P5-3 entry, lines 94-97, records).
+- C11 (line 97, REF-P5-3 entry; card kkt-noise-sign-criterion). Entry: "condition (e) is reduced to E(zeta_0) >= 0 only
+  under a hypothesis H3". Current: on the model cone (e) is equivalent to E(zeta_0) >= 0 without H3; H3 is what extends
+  (e) beyond the model cone, and under H3 read in F, given A(zeta_0,0,0) not in F (numerical), (e) holds outright and the
+  junction inequality is not invoked (tex Rem 4.13, Rem 4.13(1); tex C3).
+- C12 (line 62, F2 FINAL T5 entry; card kkt-noise-criterion-numerics). Said: "A-block (absorption) form = boundary form to
+  2e-10..2e-8". Says now: "2e-10..7.5e-8". Why: numerics/optimality_all/f2_t5_endpoint.out prints the relative deviations
+  2.0e-10, 5.4e-9, 1.8e-8, 7.5e-8 at h = 0.24, 0.12, 0.06, 0.03 (lines 7, 17, 27, 37) for the admissible scheme; the card
+  records "holds to <= 7.5e-8". A transcription of the output, corrected in place (not a superseded statement). Repeat of
+  tex C7.
+- C13 (line 51, F2 FINAL T4 entry; card kkt-noise-criterion-numerics). Said: "all F1 identities hold to 1e-9". Says now:
+  "the F1 identities hold to <= 3.5e-7 (SLD identity 1e-10, FD derivative formula <= 3e-8, AntiHerm((t_*Q)_DD)/||M_*|| =
+  2.8e-9 ... 3.5e-7)". Why: numerics/optimality_all/f2_t4_h024.out l.4-5, f2_t4_hladder.out l.4-5 and l.12-13, and
+  f2_t4_h003.out l.4-5 print AntiHerm/||M_*|| = 2.762e-9, 8.500e-8, 1.520e-7, 3.499e-7 and FD rel = 3.94e-10, 1.08e-8,
+  7.56e-9, 2.63e-8 at h = 0.24, 0.12, 0.06, 0.03; the SLD identity prints 1.0000000000 (f2_t4_h024.out l.1,
+  f2_t4_hladder.out l.1 and l.9, f2_t4_h003.out l.1). A copied number, corrected in place.
+- C14 (line 24, F1 entry of 2026-09-15; card tangent-problem-exact-parametrisation). Entry: "H2 (minimisers within O(s) of
+  the compression)". Current: H2 (tex Def 3.16) says that for small s a minimiser EXISTS and is of the scaled-family form
+  for a first-order datum with ||N_1|| + ||Y_1|| <= C and a remainder g_Q(delta(s) - s delta^(1)) = o(s^2) uniformly -
+  i.e. H2 is the lower bound in disguise; it is not proved: the coercivity g_Q >= (1/4)||.||_2^2 (Prop 3.14) gives O(s)
+  defect blocks but does not localise (X,Z), because Q_AB has 0 in its essential spectrum (Rem 3.15).
+- C15 (line 54, F2 FINAL T4 entry; card kkt-noise-criterion-numerics). Said: "the violation is exactly ~ 1/Ymax" and "the
+  violating vector sits at y ~ 0.5 Ymax". Says now: "~1/Ymax" and "y ~ (0.37-0.6) Ymax". Why: the card records
+  lam_min/||M_*|| * Ymax = -0.0181 ... -0.0191 (a slow drift, not exactly 1/Ymax) and the violating mode at
+  y ~ (0.37-0.6) Ymax (0.37 Ymax at Ymax = 30, f2_t4_ymax12.out). Copied values, corrected in place.
+- C16 (line 85, F1 entry of 17:30; card kkt-noise-sign-criterion). Entry: "a pure boundary functional E = (1/2) Tr((-2
+  sigma_zeta) M_*)". Current: E(zeta) = (1/2) Tr((-2 sigma_zeta) M_*) holds whenever -2 sigma_zeta lies in the form domain
+  of M_* (tex eq. (28), Prop 4.10(2)); at zeta_0 it does not (-2 sigma_{zeta_0} = delta_0 (x) delta_0, Prop 4.10(5)). The
+  card: "equal to (1/2)Tr((-2 sigma_zeta) M_*) whenever -2 sigma_zeta lies in the form domain of M_*".
+- C17 (line 9). Said: "27 pp". Says now: "31 pp after the corrections of 2026-09-24 (27 pp before)". Why: the tex compiles
+  to 31 pages after its corrections section (tex C1-C10). A copied number, corrected in place.

@@ -35,16 +35,16 @@ The interactive site lives in this same folder and opens at `index.html`; it is 
 | status | claims | meaning |
 |---|---:|---|
 | `refereed` | 3 | a complete structured proof that an independent referee pass has accepted |
-| `proved` | 39 | a complete structured proof |
+| `proved` | 40 | a complete structured proof |
 | `numerical` | 25 | measured, with an error bar and a convergence order; not a theorem |
-| `conjectural` | 10 | believed, with partial evidence; not proved |
+| `conjectural` | 11 | believed, with partial evidence; not proved |
 | `verified` | 5 | a check that was carried out and agreed |
 | `open` | 5 | an unsettled question |
 | `active` | 14 | work in progress |
 | `done` | 5 | a finished piece of project work |
 | `superseded` | 2 | replaced by a later claim |
 | `refuted` | 3 | shown to be false, kept so the correction stays visible |
-| `heuristic` | 1 | — |
+| `heuristic` | 2 | — |
 
 ## Every claim with a page, by area
 
@@ -68,13 +68,15 @@ One page per claim whose status is `refereed`, `proved`, `numerical`, `conjectur
 - `proved` [Phi(zeta) and D(zeta) are nondecreasing in zeta (check_note5_theory.tex Prop. 8.1)](results/phi-monotone-in-zeta.md)
 - `proved` [Exact root fidelity of two quasi-free CAR states from their symbols (Note 5 Thm. 2.1)](results/quasi-free-fidelity-formula.md)
 - `proved` [Remainder of Theorem A: global upper bound Phi \<= -(1/2) log(1 - 2 f2 zeta^2); c3 \<= 0 as a limsup; no positive log^-2 term](results/rate-of-remainder.md)
+- `proved` [Remainder bound in the settled range: Phi(zeta) \<= -1/2 log(1 - 2 f2 zeta^2) for 0 \<= zeta \< (4 f2)^{-1/2} = pi sqrt(3)](results/rrr-bound-small-zeta.md)
 - `proved` [Ultraviolet tail bound for the windowed fidelity (shape proved; explicit constants 0.173, 0.88 rest on numerical inputs)](results/tail-bound.md)
 - `proved` [Two-chirality law for the massless Dirac fermion: -log F^(lambda) = Phi(z(1+e^{-pi lambda})) + Phi(z(1+e^{pi lambda})), even in lambda](results/two-chirality-law.md)
 - `proved` [Exact x-space Mellin transform W-hat(k) of the \<TT> kernel and its KMS relation](results/w-hat-mellin-formula.md)
 - `numerical` [Certified enclosures of the compressed recovery error](results/certified-numerics.md)
 - `numerical` [Continuum Phi at large zeta and the drifting exponent](results/large-zeta-values.md)
 - `numerical` [Weak link: Phi(zeta) \<= 0.0085 zeta^2 on (0, 1\] (rigorous on (0, 0.8868\], numerical on \[0.8868, 1\])](results/phi-below-0085-zeta2-numerical.md)
-- `numerical` [Weak link: numerical values of the tail constants A_1 \<= 2.0 and A_3 \<= 0.036](results/tail-constants-numerical.md)
+- `numerical` [Weak link: numerical values of the tail constants A_1 \<= 2.0 and A_3 \<= 0.0374](results/tail-constants-numerical.md)
+- `conjectural` [Index zero for e^{sK} beyond ||G_s||\_2 \< 1: for a unitary group e^{sK} with \[P_-, K\] Hilbert-Schmidt the two off-diagonal blocks have the same singular values also where |s| ||\[P_-, K\]||\_2 >= 1 (open; no document contains an argument)](results/group-index-zero-large-s.md)
 - `conjectural` [Two-chirality law for a general 2D CFT (rests on an unproved chiral factorisation)](results/two-chirality-law-general-cft.md)
 - `conjectural` [Two-chirality minimum: for the massless Dirac fermion -log F^(lambda) is minimal at lambda = 0 for every z (unproved)](results/two-chirality-minimum-at-lambda-zero.md)
 

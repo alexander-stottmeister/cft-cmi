@@ -63,8 +63,8 @@ $\limsup_s s^{-2}D\le\frac12\gKM$ under $(\mathrm U_\eps)$ / $(\mathrm A_\eps)$ 
  \textbf{proved} (Thm~\ref{thm:upper})\\
 $\limsup_s s^{-2}D\le\frac12\gKM$ under $\gKM<\infty$ alone &
  \textbf{open} (Section~\ref{sec:open}, Gap~QK1)\\
-Unbounded $A$ affiliated with $\cM$ or with $\cB(\Hil)$ &
- \textbf{open} (Section~\ref{sec:open}, Gap~QK2); this is the case of Note~7\\
+Unbounded $A=A^*$ affiliated with $\cM$, $\Om\in D(A)$: exact formula, sum rule, Lemma~\ref{lem:kms}, lower bound; upper bound and expansion under $(\mathrm U_\eps)$ & \textbf{proved} (Prop.~\ref{prop:unbounded}); $(\mathrm A_\eps)\Rightarrow(\mathrm U_\eps)$ (Lemma~\ref{lem:AtoU}) is only for bounded $A$ (see Correction~C1)\\
+Unbounded $A$ affiliated only with a larger algebra, e.g.\ $\cB(\Hil)$, so $e^{isA}\notin\cM$ & \textbf{open} (Section~\ref{sec:open}, Gap~QK2); this is the case of Note~7\\
 Kosaki's variational expression as the source of the upper bound &
  \textbf{not used}; see Section~\ref{sec:kosaki} for why it degrades to $\tfrac14\gB$\\\bottomrule
 \end{tabular}
@@ -897,5 +897,31 @@ sum rule that holds for free, and (iii) the two variational routes named in
 \bibitem{ki} \texttt{rigor/kernel\_identity.tex} (closed form of $D^{(1)}$, refereed in
  \texttt{rigor/referee\_kernel\_identity.tex}).
 \end{thebibliography}
+
+\section{Corrections of 2026-09-24}\label{corr0924:sec}
+
+These corrections were made on 2026-09-24 from the project's knowledge base.  Each corrected line
+above was replaced by exactly one line, so the line numbers of the text above this section are
+unchanged.
+
+\begin{enumerate}[leftmargin=2.4em,itemsep=4pt]
+\item[\textbf{C1.}] \textbf{Overview table of Section~\ref{sec:overview}, lines 66--67}
+ (knowledge-base card \texttt{km-exact-identity}).
+ \emph{Said:} one row, ``Unbounded \(A\) affiliated with \(\cM\) or with \(\cB(\Hil)\)'', with
+ status \textbf{open} (Gap~QK2).
+ \emph{Says now:} two rows, one per line.  (i) \(A=A^*\) unbounded and affiliated with \(\cM\),
+ \(\Om\in D(A)\): the exact formula and the sum rule of Theorem~\ref{thm:exact},
+ Lemma~\ref{lem:kms} and the lower bound of Theorem~\ref{thm:lower} hold, and the upper bound and
+ the expansion of Theorems~\ref{thm:upper} and~\ref{thm:main} hold under \((\mathrm U_\eps)\):
+ \textbf{proved} by Prop.~\ref{prop:unbounded}.  The route through modular analyticity is not
+ available there, because Lemma~\ref{lem:AtoU}, \((\mathrm A_\eps)\Rightarrow(\mathrm U_\eps)\),
+ needs \(M_\eps=\sup_{\lvert\operatorname{Im}z\rvert\le\eps/2}\norm{\sigma_z(A)}<\infty\), i.e.\
+ bounded \(A\).  (ii) \(A\) affiliated only with a larger algebra, so that
+ \(e^{isA}\notin\cM\): \textbf{open} (Gap~QK2); this is the case of Note~7.
+ \emph{Why:} Prop.~\ref{prop:unbounded} assumes exactly \(A\) affiliated with \(\cM\) and
+ \(\Om\in D(A)\) and proves the listed statements; the summary table of
+ Section~\ref{sec:summary} already states the exact identity for this case; and Gap~QK2 concerns
+ generators \emph{not} affiliated with \(\cM\).  The old row contradicted all three.
+\end{enumerate}
 
 \end{document}

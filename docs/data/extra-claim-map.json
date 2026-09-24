@@ -15,7 +15,7 @@
    "title": "Theorem A: exact recovery error of the free fermion",
    "status": "active",
    "order": 2,
-   "n": 21
+   "n": 24
   },
   {
    "id": "universality",
@@ -435,6 +435,21 @@
    "cross": false
   },
   {
+   "a": "group-index-zero-large-s",
+   "b": "rate-of-remainder",
+   "cross": false
+  },
+  {
+   "a": "group-index-zero-large-s",
+   "b": "pushforward-blocks-equal-singular-values",
+   "cross": false
+  },
+  {
+   "a": "group-index-zero-large-s",
+   "b": "uhlmann-upper-half-proved",
+   "cross": true
+  },
+  {
    "a": "hypothesis-u-natural-cone-fidelity",
    "b": "sequential-recovery-bound-type-iii",
    "cross": false
@@ -746,6 +761,11 @@
   },
   {
    "a": "phi-below-0085-zeta2-numerical",
+   "b": "rrr-bound-small-zeta",
+   "cross": false
+  },
+  {
+   "a": "phi-below-0085-zeta2-numerical",
    "b": "tail-bound",
    "cross": false
   },
@@ -815,6 +835,11 @@
    "cross": true
   },
   {
+   "a": "pushforward-blocks-equal-singular-values",
+   "b": "rate-of-remainder",
+   "cross": false
+  },
+  {
    "a": "rate-of-remainder",
    "b": "remainder-c3-c4-values",
    "cross": false
@@ -837,6 +862,16 @@
   {
    "a": "numerics-stack",
    "b": "repo-split-public-private",
+   "cross": false
+  },
+  {
+   "a": "rate-of-remainder",
+   "b": "rrr-bound-small-zeta",
+   "cross": false
+  },
+  {
+   "a": "group-index-zero-large-s",
+   "b": "rrr-bound-small-zeta",
    "cross": false
   },
   {
@@ -1029,13 +1064,13 @@
    "status": "numerical",
    "area": "optimality",
    "confidence": null,
-   "statement": "On the half-filled hopping chain (Q_ij = sin(pi(i-j)/2)/(pi(i-j))) with (L_A,L_B,L_C) = (4,8,2), (4,12,2), (4,16,2), the Moore-Penrose choice T := Q_AB^+ Q_AC satisfies Q_AB T = Q_AC to residual 3.6e-17, 1.8e-17, 1.8e-17 (round-off; the tex quotes 1.4e-17, 7.0e-17, 2.3e-17), ||T|| = 0.5524, 0.3779, 0.2894 < 1 (so T*T <= 1), and T* Q_BB T <= Q_CC <= 1 - T*(1 - Q_BB) T with both margins (smallest eigenvalues) 0.1216, 0.1510, 0.1630 (tex: 0.552, 0.378, 0.289 and 0.122, 0.151, 0.163), as computed by numerics/kb-checks-2026-09-23/tcond_check.py (numpy pinv; REF-DEP-CFT-A1's reproduction). Numerical; no continuum or general-geometry statement: at (6,12,3) and (8,16,4) the same T violates (Tcond) (margins -0.133 and -0.464, ||T|| = 0.80 and 1.29; tcond_check_extra.out). The repository's numerics/optimality/lower_bound.py does not compute this T: it optimises (T, Z_c) by Powell from T = 0, and lb.log prints ||T|| = 0.5503, 0.3776, 0.2851 of that optimised T and no residual.",
-   "verify": "From the cft_cmi root: python3 numerics/kb-checks-2026-09-23/tcond_check.py (needs numpy) and compare its printout with tcond_check.out in the same folder. Compare with the verdict box after Prop. prop:AC-zero, rigor/optimality_second_order.tex:437-443.",
+   "statement": "On the half-filled hopping chain (Q_ij = sin(pi(i-j)/2)/(pi(i-j))) with (L_A,L_B,L_C) = (4,8,2), (4,12,2), (4,16,2), the Moore-Penrose choice T := Q_AB^+ Q_AC satisfies Q_AB T = Q_AC to residual 3.6e-17, 1.8e-17, 1.8e-17 (round-off; the tex now quotes 3.6e-17, 1.8e-17, 1.8e-17 and credits tcond_check.py, rigor/optimality_second_order.tex:439, :441, corrected 2026-09-24, Correction C1; until then it quoted 1.4e-17, 7.0e-17, 2.3e-17, which no script reproduces), ||T|| = 0.5524, 0.3779, 0.2894 < 1 (so T*T <= 1), and T* Q_BB T <= Q_CC <= 1 - T*(1 - Q_BB) T with both margins (smallest eigenvalues) 0.1216, 0.1510, 0.1630 (tex: 0.552, 0.378, 0.289 and 0.122, 0.151, 0.163), as computed by numerics/kb-checks-2026-09-23/tcond_check.py (numpy pinv; REF-DEP-CFT-A1's reproduction). Numerical; no continuum or general-geometry statement: at (6,12,3) and (8,16,4) the same T violates (Tcond) (margins -0.133 and -0.464, ||T|| = 0.80 and 1.29; tcond_check_extra.out). The repository's numerics/optimality/lower_bound.py does not compute this T: it optimises (T, Z_c) by Powell from T = 0, and lb.log prints ||T|| = 0.5503, 0.3776, 0.2851 of that optimised T and no residual; the tex, which until 2026-09-24 credited lower_bound.py with the Moore-Penrose check, now attributes to it only that direct minimisation (:445, Correction C1).",
+   "verify": "From the cft_cmi root: python3 numerics/kb-checks-2026-09-23/tcond_check.py (needs numpy) and compare its printout with tcond_check.out in the same folder. Compare with the verdict box after Prop. prop:AC-zero, rigor/optimality_second_order.tex:437-443, and with its Correction C1 (Sec. 7, l. 797-819).",
    "next": null,
-   "review": "passed 2026-09-24 by REF-PUB-1",
+   "review": "passed 2026-09-24 by REF-CARD-CFT",
    "refereed": true,
    "awaiting_review": false,
-   "verdicts": 3,
+   "verdicts": 4,
    "review_failed": false,
    "page": "ac-intertwiner-exists-hopping-chain.md",
    "related": [],
@@ -1076,13 +1111,13 @@
    "status": "proved",
    "area": "optimality",
    "confidence": "high",
-   "statement": "Proved, as an implication (Prop. prop:AC-zero, rigor/optimality_second_order.tex:408-434): if some T: h_C -> h_B satisfies (eq:Tcond) Q_AB T = Q_AC, T*T <= 1, T* Q_BB T <= Q_CC <= 1 - T*(1 - Q_BB) T, then X* := (0 T) and Z := (1/2) 1_B (+) Q_CC give (X, Z) in F whose recovered symbol on h_A (+) h_C is the vacuum one, so a gauge-invariant quasi-free channel beta in C reproduces omega exactly on A(A) v A(C): E_AC = 0 and the restriction bound (eq:AC-bound) of Lemma lem:restriction gives nothing. Application: the hypothesis is established only numerically, on the half-filled hopping chain for (L_A,L_B,L_C) = (4,8,2), (4,12,2), (4,16,2), where T = Q_AB^+ Q_AC satisfies (Tcond) (card ac-intertwiner-exists-hopping-chain); on these three chains E_AC = 0 exactly, consistent with the direct convex minimisation of numerics/optimality/lower_bound.py (lb.log: E_AC = 1.53e-9, 9.83e-10, 6.99e-9, solver floor, against -log F(omega_AC, omega_A (x) omega_C) = 3.17e-3, 1.66e-3, 1.03e-3). Nothing is claimed for the continuum or for other geometries: lb.log's third row (6,12,3) gives E_AC = 2.27e-5 (E_AC/z^2 = 0.0045), and at (6,12,3) and (8,16,4) the Moore-Penrose T violates (Tcond) (margins -0.133, -0.464; numerics/kb-checks-2026-09-23/tcond_check_extra.out). The tex's conclusion that the O8 route ('bound the Bures distance of the vacuum A-C state to the B-mediated ones') yields no bound at all (:450-457) extrapolates from these three chains by a heuristic mechanism and is not part of this card.",
-   "verify": "rigor/optimality_second_order.tex Prop. 4.2 (prop:AC-zero) with proof steps <1>1-<1>4 (:419-434: X* = (0 T), Z = 1/2 1 (+) Q_CC; Lemma lem:rec-symbol; Prop. prop:cp), verdict box :436-457. Hypothesis on the three chains, from the cft_cmi root: python3 numerics/kb-checks-2026-09-23/tcond_check.py (needs numpy); expected output as in tcond_check.out: residual 3.6e-17, 1.8e-17, 1.8e-17, ||T|| = 0.5524, 0.3779, 0.2894, both margins 0.1216, 0.1510, 0.1630. Direct minimisation: numerics/optimality/lb.log (E_AC and the norm of the Powell-optimised T, 0.5503, 0.3776, 0.2851; lb.log contains no residual). Other geometries: tcond_check_extra.py / .out in the same folder.",
+   "statement": "Proved, as an implication (Prop. prop:AC-zero, rigor/optimality_second_order.tex:408-434): if some T: h_C -> h_B satisfies (eq:Tcond) Q_AB T = Q_AC, T*T <= 1, T* Q_BB T <= Q_CC <= 1 - T*(1 - Q_BB) T, then X* := (0 T) and Z := (1/2) 1_B (+) Q_CC give (X, Z) in F whose recovered symbol on h_A (+) h_C is the vacuum one, so a gauge-invariant quasi-free channel beta in C reproduces omega exactly on A(A) v A(C): E_AC = 0 and the restriction bound (eq:AC-bound) of Lemma lem:restriction gives nothing. Application: the hypothesis is established only numerically, on the half-filled hopping chain for (L_A,L_B,L_C) = (4,8,2), (4,12,2), (4,16,2), where T = Q_AB^+ Q_AC satisfies (Tcond) (card ac-intertwiner-exists-hopping-chain); on these three chains E_AC = 0 exactly, consistent with the direct convex minimisation of numerics/optimality/lower_bound.py (lb.log: E_AC = 1.53e-9, 9.83e-10, 6.99e-9, solver floor, against -log F(omega_AC, omega_A (x) omega_C) = 3.17e-3, 1.66e-3, 1.03e-3). Nothing is claimed for the continuum or for other geometries: lb.log's third row (6,12,3) gives E_AC = 2.27e-5 (E_AC/z^2 = 0.0045), and at (6,12,3) and (8,16,4) the Moore-Penrose T violates (Tcond) (margins -0.133, -0.464; numerics/kb-checks-2026-09-23/tcond_check_extra.out). Until 2026-09-24 the tex concluded that the O8 route ('bound the Bures distance of the vacuum A-C state to the B-mediated ones') yields no bound at all (:450-457), an extrapolation from these three chains by a heuristic mechanism. It now draws that conclusion only for the three chains and calls 'no bound at all' (continuum, other geometries) an extrapolation that is not shown, and the mechanism heuristic (:452-453; likewise the Q4 verdict :741-745 and the list of results proved, :769; Correction C2); its summary (:28-31) no longer claims a nonzero lower bound of order z^2: on these chains the restriction bound is exactly zero, and only E_opt >= 0 is proved (Correction C3). The extrapolation is not part of this card.",
+   "verify": "rigor/optimality_second_order.tex Prop. 4.2 (prop:AC-zero) with proof steps <1>1-<1>4 (:419-434: X* = (0 T), Z = 1/2 1 (+) Q_CC; Lemma lem:rec-symbol; Prop. prop:cp), verdict box :436-457; the section Corrections of 2026-09-24 (Sec. 7), items C2 and C3 (l. 820-864). Hypothesis on the three chains, from the cft_cmi root: python3 numerics/kb-checks-2026-09-23/tcond_check.py (needs numpy); expected output as in tcond_check.out: residual 3.6e-17, 1.8e-17, 1.8e-17, ||T|| = 0.5524, 0.3779, 0.2894, both margins 0.1216, 0.1510, 0.1630. Direct minimisation: numerics/optimality/lb.log (E_AC and the norm of the Powell-optimised T, 0.5503, 0.3776, 0.2851; lb.log contains no residual). Other geometries: tcond_check_extra.py / .out in the same folder.",
    "next": null,
-   "review": "passed 2026-09-24 by REF-PUB-1",
+   "review": "passed 2026-09-24 by REF-CARD-CFT",
    "refereed": true,
    "awaiting_review": false,
-   "verdicts": 4,
+   "verdicts": 5,
    "review_failed": false,
    "page": "ac-lower-bound-zero.md",
    "related": [],
@@ -1101,7 +1136,7 @@
     {
      "kind": "num",
      "path": "numerics/optimality/lb.log",
-     "access": "uncommitted"
+     "access": "private"
     },
     {
      "kind": "num",
@@ -1164,13 +1199,13 @@
    "status": "numerical",
    "area": "optimality",
    "confidence": "medium",
-   "statement": "Phase 5 answer to 'the exact value of the all-channel optimum (non-isometric channels)'. Analytic (rigor/exact_optimum_tangent_problem.tex, refereed, repairs applied): every feasible quasi-free channel is exactly (co-isometry V, isometry loss N = 1 - XX* >= 0, noise 0 <= Y = Z - X Q_BB X* <= N); the leading-order problem is a convex tangent programme, and the isometric-orbit optimum (value (1 - theta) g_Q(deltadot)) is its global optimum iff (a) M_* = Herm((t_* Q)_DD) >= 0 and M_* - tau_* >= 0 (tau_* = (t_*)_DD, as forms) and (e) the one-sided endpoint functional E(zeta) = 2 b(delta_*, A(zeta,0,0)) >= 0 for every admissible (dissipative) isometry generator zeta. For the two model boundary directions, E(zeta_inf) = 2 lambda (1 - theta) g_Q > 0 is proved and E(zeta_0) > 0 is numerical; the reduction of the WHOLE cone of admissible generators to these two directions is proved only for vector fields (Prop 4.10) and is otherwise a declared hypothesis H3 (referee2_exact_optimum_tangent_problem.tex S1: multiplicity > 1 shift semigroups and unbounded skew-adjoint multiplication operators escape the argument). Numerical (F2, rigid parameter-free modular frame with exact Moebius rigidity): (a) holds in the limit (violation lambda_min/||M_*|| = -4.1e-3 ... -3.7e-4 at h = 0.24 ... 0.03, scaling as h^1.15 and 1/Ymax, achievable gain ~ h^1.85 -> 0); (e) on the model cone: E(zeta_inf) > 0 is proved; at zeta_0 the corner term (1/2) M_*(0,0)/h = +10.3, +16.1, +24.7, +37.2 at h = 0.24 ... 0.03 (~h^-0.60, the scheme-invariant continuum quantity; the discrete total +34 ... +258 is upwind-viscosity dominated and is not the margin) diverges, so A(zeta_0,0,0) is not in the form domain, E(zeta_0) = +infinity and (e) is VACUOUS at zeta_0 rather than satisfied with a margin (F1 Rem 4.11(ii), Prop 4.10(5)); no sign change in h, Y, Ymax. Hence, numerically and under H3, non-isometric quasi-free channels (isometry loss, noise, non-surjective isometries) do NOT lower the second-order recovery error: kappa_opt = 1 - theta with theta = 0.384 +- 0.003 (F3, two discretisations reconciled; S10's 0.300 was a taper-suppressed lower bound), i.e. E^(2) = (0.616 +- 0.003) f_2 z^2 per chirality. Conditional on H1 (differentiability along the scaled family), H2 (minimisers within the scaled-family form) and H3 (cone hypothesis) of the F1 document; the unconditional statements remain E_rec <= 0.616 f_2 z^2 (1+o(1)) (E1 upper half for isometric channels + theta) and E_rec >= dual form (optimality_all_channels.tex eq. (10)). Exact fidelity for NON-isometric channels was not needed: the optimum is attained on the isometric orbit, where E1 applies. Open: analytic proof of (a) and (e); H1, H2, H3; closed form of theta (Wiener-Hopf problem, prop:thetaframe); analytic proof that theta > 0 (E_D u E_D not self-adjoint).",
-   "verify": "rigor/exact_optimum_tangent_problem.tex Thm 4.4 (conditions (a), (e)), Prop 4.10, Sec. 5 and Sec. 7; rigor/referee_exact_optimum_tangent_problem.tex Secs. 11-12; numerics/optimality_all/F2_RESULTS.md Secs. T4, T5 with reproduce commands (f2_t4_wh.py, f2_t5_endpoint.py); numerics/optimality_all/F3_RESULTS.md Secs. 3-7 (theta).",
+   "statement": "Phase 5 answer to 'the exact value of the all-channel optimum (non-isometric channels)'. Analytic (rigor/exact_optimum_tangent_problem.tex, refereed, repairs applied): every feasible quasi-free channel is exactly (co-isometry V, isometry loss N = 1 - XX* >= 0, noise 0 <= Y = Z - X Q_BB X* <= N); the leading-order problem is a convex tangent programme, and the isometric-orbit optimum (value (1 - theta) g_Q(deltadot)) is its global optimum iff (a) M_* = Herm((t_* Q)_DD) >= 0 and M_* - tau_* >= 0 (tau_* = (t_*)_DD, as forms) and (e) the one-sided endpoint functional E(zeta) = 2 b(delta_*, A(zeta,0,0)) >= 0 for every admissible (dissipative) isometry generator zeta. For the two model boundary directions, E(zeta_inf) = 2 lambda (1 - theta) g_Q(ddelta) >= 0 is proved, and E(zeta_inf) > 0 is equivalent to theta < 1, which is numerical (1 - theta = 0.616 +- 0.003); E(zeta_0) > 0 is numerical; the reduction of the WHOLE cone of admissible generators to these two directions is proved only for vector fields (Prop 4.10) and is otherwise a declared hypothesis H3 (referee2_exact_optimum_tangent_problem.tex S1: multiplicity > 1 shift semigroups and unbounded skew-adjoint multiplication operators escape the argument). Numerical (F2, rigid parameter-free modular frame with exact Moebius rigidity): (a) holds in the limit (violation lambda_min/||M_*|| = -4.1e-3 ... -3.7e-4 at h = 0.24 ... 0.03, scaling as h^1.15 and 1/Ymax, achievable gain ~ h^1.85 -> 0); (e) on the model cone is equivalent to E(zeta_0) >= 0 (given the proved E(zeta_inf) >= 0; F1 Prop 4.10(4)-(5)), which holds numerically and vacuously: at zeta_0 the corner term (1/2) M_*(0,0)/h = +10.3, +16.1, +24.7, +37.2 at h = 0.24 ... 0.03 (~h^-0.60, the scheme-invariant continuum quantity; the discrete total +34 ... +258 is upwind-viscosity dominated and is not the margin) diverges, so A(zeta_0,0,0) is not in the form domain, E(zeta_0) = +infinity and (e) is VACUOUS at zeta_0 rather than satisfied with a margin (F1 Rem 4.11(ii), Prop 4.10(5)); no sign change in h, Y, Ymax. Hence, numerically and under H3, non-isometric quasi-free channels (isometry loss, noise, non-surjective isometries) do NOT lower the second-order recovery error: kappa_opt = 1 - theta with theta = 0.384 +- 0.003 (F3, two discretisations reconciled; S10's 0.300 was a taper-suppressed lower bound), i.e. E^(2) = (0.616 +- 0.003) f_2 z^2 per chirality. Conditional on H1 (differentiability along the scaled family), H2 (minimisers within the scaled-family form) and H3 (cone hypothesis) of the F1 document; the unconditional statements remain E_rec <= 0.616 f_2 z^2 (1+o(1)) (E1 upper half for isometric channels + theta) and E_rec >= dual form (optimality_all_channels.tex eq. (10)). Exact fidelity for NON-isometric channels was not needed: the optimum is attained on the isometric orbit, where E1 applies. Open: analytic proof of (a) and (e); H1, H2, H3; closed form of theta (Wiener-Hopf problem, prop:thetaframe); analytic proof that theta > 0 (E_D u E_D not self-adjoint).",
+   "verify": "rigor/exact_optimum_tangent_problem.tex Thm 4.4 (conditions (a), (e)), Prop 4.10 (items (4)-(5) and the verdict box after Rem 4.7, :950-961, as corrected 2026-09-24, Corrections C2, C3), Sec. 5 and Sec. 7; rigor/referee_exact_optimum_tangent_problem.tex Secs. 11-12; numerics/optimality_all/F2_RESULTS.md Secs. T4, T5 with reproduce commands (f2_t4_wh.py, f2_t5_endpoint.py); numerics/optimality_all/F3_RESULTS.md Secs. 3-7 (theta).",
    "next": null,
-   "review": "passed 2026-09-23 by REF-DEP-CFT-A1",
+   "review": "passed 2026-09-24 by REF-CARD-CFT",
    "refereed": true,
    "awaiting_review": false,
-   "verdicts": 4,
+   "verdicts": 5,
    "review_failed": false,
    "page": "all-channel-optimum-value.md",
    "related": [
@@ -1336,13 +1371,13 @@
    "status": "proved",
    "area": "theorem-a",
    "confidence": null,
-   "statement": "Geometry of rigor/uhlmann_upper_bound.tex (eq:geom, l. 72-74): A = (-infinity, 0), D = (0, 1), I = AD = (-infinity, 1), I' = (1, infinity), zeta = s (a = infinity, L = 1). Let k~_s be the flow of the vector field -chi d/dx, with chi = 0 on x <= 0 and chi(x) = x^2 beta(x-1) on x > 0 (def:ext). (k~_s) for s real is a one-parameter group of C^{1,1} increasing bijections of R, equal to the identity outside (0, 2). For s >= 0, moreover, k~_s(x) = x/(1+sx) = k_s(x) on [0, 1] (lem:ext (E1), (E2)); the document states (E1)-(E4) only for every s >= 0 (l. 122). (E2) does not extend to s < 0. At s = -1, x = 0.9, x/(1+sx) = 9 lies outside [0, 2], which k~_s maps onto itself. The flow value depends on beta, which the document fixes only by its properties (def:ext, l. 105-106): 1.756 for the standard smooth step, 1.629 for beta^2, 1.905 for beta = 1 on [0, 1/2] (refb6_flow.py). For every allowed beta, (E2) fails for all s <= -1/2; for -1/2 < s < 0 it depends on beta (with beta = 1 on [0, 1/2] it holds for -1/3 <= s < 0; with the standard step it fails for every s < 0). Let W~_s be the unitary push-forward of k~_s on half-densities. Then P_- W~_s P_+ is Hilbert-Schmidt for every s. prop:HS gives an explicit bound when ||id - k~_s||_inf <= 1/2 (l. 286-287). Every other s follows from W~_s = (W~_{s/n})^n, since products of unitaries with Hilbert-Schmidt off-diagonal parts have Hilbert-Schmidt off-diagonal parts. The other block is P_+ W~_s P_- = (P_- W~_{-s} P_+)^*, Hilbert-Schmidt by the same argument. The document omits that step, although its 'every 0 <= s <= 1' (l. 293) and cor:implementer's 'every s in R' use prop:HS beyond its hypothesis: with the standard step, ||id - k~_s||_inf = 0.61 at s = 0.5 and 0.95 at s = 1 (refb6_flow.py). So there is a unitary Gamma(W~_s) of Fock space, unique up to a phase, with Gamma(W~_s) a(f) Gamma(W~_s)^* = a(W~_s f) for all f (cor:implementer). The same holds for W~_s(1_{L^2(I)} (+) W'), with W' a unitary of L^2(I') such that P_-(1 (+) W')P_+ and P_+(1 (+) W')P_- are both Hilbert-Schmidt. The Shale-Stinespring criterion needs both off-diagonal blocks; an example is W' = e^{ish'} with h' self-adjoint, as in def:admissible, l. 745-754. The document's one-sided condition is not enough (DOCUMENT ERROR note). For s >= 0, Gamma(W~_s) X Gamma(W~_s)^* = beta_s(X) on the CAR generators of F(I), and Psi_s = Gamma(W~_s)^* Omega is a vector representative of the recovered state omega~_s = omega_{J_s} o beta_s on F(I) (prop:vector; (C4), l. 76-80). The Shale-Stinespring criterion (and Araki 1970) is cited, not obtained ('Screenshot: NOT OBTAINED', l. 360).",
-   "verify": "rigor/uhlmann_upper_bound.tex Def. 2.1 (def:ext, l. 104), Lemma 2.2 (lem:ext), Prop. 2.5 (prop:HS, l. 284), cited box before Cor. 2.7 (Shale-Stinespring, l. 348-363), Cor. 2.7 (cor:implementer, l. 367-376), Prop. 3.1 (prop:vector, l. 392-414).",
+   "statement": "Geometry of rigor/uhlmann_upper_bound.tex (eq:geom, l. 72-74): A = (-infinity, 0), D = (0, 1), I = AD = (-infinity, 1), I' = (1, infinity), zeta = s (a = infinity, L = 1). Let k~_s be the flow of the vector field -chi d/dx, with chi = 0 on x <= 0 and chi(x) = x^2 beta(x-1) on x > 0 (def:ext). (k~_s) for s real is a one-parameter group of C^{1,1} increasing bijections of R, equal to the identity outside (0, 2). For s >= 0, moreover, k~_s(x) = x/(1+sx) = k_s(x) on [0, 1] (lem:ext (E1), (E2)); the document states (E1)-(E4) only for every s >= 0 (l. 122). (E2) does not extend to s < 0. At s = -1, x = 0.9, x/(1+sx) = 9 lies outside [0, 2], which k~_s maps onto itself. The flow value depends on beta, which the document fixes only by its properties (def:ext, l. 105-106): 1.756 for the standard smooth step, 1.629 for beta^2, 1.905 for beta = 1 on [0, 1/2] (refb6_flow.py). For every allowed beta, (E2) fails for all s <= -1/2; for -1/2 < s < 0 it depends on beta (with beta = 1 on [0, 1/2] it holds for -1/3 <= s < 0; with the standard step it fails for every s < 0). Let W~_s be the unitary push-forward of k~_s on half-densities. Then P_- W~_s P_+ is Hilbert-Schmidt for every s. prop:HS gives an explicit bound when ||id - k~_s||_inf <= 1/2 (l. 286-287). Every other s follows from W~_s = (W~_{s/n})^n, since products of unitaries with Hilbert-Schmidt off-diagonal parts have Hilbert-Schmidt off-diagonal parts. The other block is P_+ W~_s P_- = (P_- W~_{-s} P_+)^*, Hilbert-Schmidt by the same argument. Until 2026-09-24 the document omitted that step, although its 'every 0 <= s <= 1' (l. 293) and cor:implementer's 'every s in R' used prop:HS beyond its hypothesis: with the standard step, ||id - k~_s||_inf = 0.61 at s = 0.5 and 0.95 at s = 1 (refb6_flow.py). It now takes the step, for both blocks (cor:implementer <1>1, l. 373; the box, l. 359 and l. 362; Correction C2), and restricts prop:HS's explicit bound to 0 <= s <= 1 with s ||chi||_inf <= 1/2 (l. 293, l. 327, l. 333, and the same range in prop:expansion, l. 760; Correction C3). So there is a unitary Gamma(W~_s) of Fock space, unique up to a phase, with Gamma(W~_s) a(f) Gamma(W~_s)^* = a(W~_s f) for all f (cor:implementer). The same holds for W~_s(1_{L^2(I)} (+) W'), with W' a unitary of L^2(I') such that P_-(1 (+) W')P_+ and P_+(1 (+) W')P_- are both Hilbert-Schmidt. The Shale-Stinespring criterion needs both off-diagonal blocks; an example is W' = e^{ish'} with h' self-adjoint, as in def:admissible, l. 745-754. Until 2026-09-24 the document assumed only the first condition, which is not enough (DOCUMENT ERROR note); it now requires both blocks in the box headline (l. 351), in cor:implementer (l. 371, with <1>2 at l. 374) and in the later uses lem:commutant (l. 417), def:admissible (l. 753) and the Ruijsenaars/Berezin box (l. 593) (Corrections C1, C4). For s >= 0, Gamma(W~_s) X Gamma(W~_s)^* = beta_s(X) on the CAR generators of F(I), and Psi_s = Gamma(W~_s)^* Omega is a vector representative of the recovered state omega~_s = omega_{J_s} o beta_s on F(I) (prop:vector; (C4), l. 76-80). The Shale-Stinespring criterion (and Araki 1970) is cited, not obtained ('Screenshot: NOT OBTAINED', l. 360).",
+   "verify": "rigor/uhlmann_upper_bound.tex Def. 2.1 (def:ext, l. 104), Lemma 2.2 (lem:ext), Prop. 2.5 (prop:HS, l. 284), cited box before Cor. 2.7 (Shale-Stinespring, l. 348-363), Cor. 2.7 (cor:implementer, l. 367-376), Prop. 3.1 (prop:vector, l. 392-414); for the lines changed on 2026-09-24, the section Corrections of 2026-09-24 (Sec. 12, l. 1522-1717), items C1-C4 (l. 1532-1635).",
    "next": null,
-   "review": "passed 2026-09-24 by REF-PUB-1",
+   "review": "passed 2026-09-24 by REF-CARD-CFT",
    "refereed": true,
    "awaiting_review": false,
-   "verdicts": 6,
+   "verdicts": 7,
    "review_failed": false,
    "page": "c11-extension-implementer.md",
    "related": [
@@ -1411,13 +1446,13 @@
    "status": "numerical",
    "area": "theorem-a",
    "confidence": "high",
-   "statement": "Ball-arithmetic enclosure of the compressed vacuum symbol (5.6e-18 per entry), weighted Sylvester identity plus Schur positivity (the unweighted square-root bound is false), cross term removed: Phi_W <= Phi^box <= 1.20 Phi_W a priori, and 60-digit enclosures of the box value of width 0.71% (zeta = 1/120) to 1.01% (zeta = 8/15). The left inequality Phi_W <= Phi^box is monotonicity of the fidelity under restriction, taken from tail_bound.tex Thm 5.1 <1>1 (card tail-bound, its lower half; certified_numerics.tex:360-361). Not certified: the 2-D quadrature of the defect matrix and the box cutoff beyond kappa_max. The corrected 60-digit table (section 'Corrections after the referee report', sec:rcr, Table tab:rcr) stands after \\end{document} in rigor/certified_numerics.tex and is therefore not in the compiled PDF, which still shows the superseded Table 1 (tab:cert).",
-   "verify": "numerics/certified/hp.log (output of numerics/certified/cert_tail_hp.py: widths 0.708% to 1.010%, control residual <= 1.5e-26) and numerics/certified/cert_qbox.py (ball radius 5.62e-18); the source text of rigor/certified_numerics.tex from l. 563 (sec:rcr, Table tab:rcr, certification list (C1)-(C4)), which is NOT in the compiled PDF because \\end{document} stands at l. 561; thm:nocross (l. 312-362) for the a-priori bound, its left inequality from tail_bound.tex Thm 5.1 <1>1.",
+   "statement": "Ball-arithmetic enclosure of the compressed vacuum symbol (5.6e-18 per entry), weighted Sylvester identity plus Schur positivity (the unweighted square-root bound is false), cross term removed: Phi_W <= Phi^box <= 1.20 Phi_W a priori, and 60-digit enclosures of the box value of width 0.71% (zeta = 1/120) to 1.01% (zeta = 8/15). The left inequality Phi_W <= Phi^box is monotonicity of the fidelity under restriction, taken from tail_bound.tex Thm 5.1 <1>1 (card tail-bound, its lower half; certified_numerics.tex:360-361). Not certified: the 2-D quadrature of the defect matrix and the box cutoff beyond kappa_max. The corrected 60-digit table (section 'Corrections after the referee report', sec:rcr, Table tab:rcr) is typeset since 2026-09-24, as Sec. 9 and Table 2 of the compiled rigor/certified_numerics.tex (\\end{document} moved from l. 561 to the end of the file, Correction C1); until then it stood after \\end{document} and was not in the compiled PDF. The PDF still prints the superseded Table 1 (tab:cert); the body now marks its box-value brackets as superseded by Table 2 and its brackets for Phi with the box-cutoff term (1.54-2.38%) as extrapolated, not certified (l. 537-538; Corrections C2(d), C4), and the other body statements that contradicted sec:rcr now agree with it (Correction C2).",
+   "verify": "numerics/certified/hp.log (output of numerics/certified/cert_tail_hp.py: widths 0.708% to 1.010%, control residual <= 1.5e-26) and numerics/certified/cert_qbox.py (ball radius 5.62e-18); rigor/certified_numerics.tex from l. 563 (sec:rcr = Sec. 9 of the compiled PDF, Table tab:rcr = Table 2, certification list (C1)-(C4)); since 2026-09-24 l. 561 is a comment and \\end{document} stands at the end of the file (Correction C1 of the section 'Corrections of 2026-09-24', Sec. 10, l. 675-815; until then sec:rcr was not in the compiled PDF); thm:nocross (l. 312-362) for the a-priori bound, its left inequality from tail_bound.tex Thm 5.1 <1>1.",
    "next": null,
-   "review": "passed 2026-09-23 by REF-DEP-CFT-B3",
+   "review": "passed 2026-09-24 by REF-CARD-CFT",
    "refereed": true,
    "awaiting_review": false,
-   "verdicts": 2,
+   "verdicts": 3,
    "review_failed": false,
    "page": "certified-numerics.md",
    "related": [],
@@ -1447,7 +1482,7 @@
     {
      "kind": "num",
      "path": "numerics/certified/hp.log",
-     "access": "uncommitted"
+     "access": "private"
     }
    ]
   },
@@ -2471,13 +2506,13 @@
    "status": "numerical",
    "area": "optimality",
    "confidence": "high",
-   "statement": "In the block-exact modular Galerkin frame of kkt_continuum.py (a = 1, L = 2, Lambda = 12, s = 0.1, kind = 'first'), the full primal SDP over F = {X : h_B -> h_D, Z = Z* : X Q_BB X* <= Z <= 1 - X(1-Q_BB)X*} was solved at two rungs (f2_galerkin_a.out; 9425 s at h = 0.4, 24923 s at h = 0.3):\nh = 0.4, N = 69, (nA,nB,nC) = (30,9,30): g_Q(delta_c) = 8.1495e-06 = 0.8687 f2 zeta^2, theta = 0.28578, min_F g_Q = 6.8546e-05, min_F/g_Q(delta_c) = 8.411034, ||1 - X X*||_F = 5.872, tr(1 - X X*) = 35.16 of m = 39, ||Z - X Q_BB X*||_F = 3.556, sv(X) in [0.0061, 0.9999];\nh = 0.3, N = 91, (nA,nB,nC) = (40,11,40): g_Q(delta_c) = 8.4021e-06 = 0.8956 f2 zeta^2, theta = 0.29926, min_F g_Q = 5.9870e-05, min_F/g_Q(delta_c) = 7.125692, ||1 - X X*||_F = 6.780, tr(1 - X X*) = 46.71 of m = 51, sv(X) in [0.0002, 0.9999].\nBoth rungs land a factor 7-8 ABOVE the compression defect, not below the isometric-orbit value, and the optimal X is a strong contraction, nothing like a co-isometry.\nWHAT IS BEING COMPARED (do not over-read the ratio): min_F g_Q is an exact finite-s minimum over the discretised F, whereas theta, 1 - theta and g_Q(delta_c) on the same rung are FIRST-ORDER (tangent) reference numbers produced by orbit_theta() (the CG of theta_galerkin.py, which it reproduces exactly: 1 - theta = 0.71422 at h = 0.4 and 0.70074 at h = 0.3 against the published 0.714 and 0.701). The two are not values of one and the same programme -- they are computed in one script and share Q and delta_c, but not the same optimisation -- so the ratio must not be read as \"the orbit beaten or not beaten by that factor\".\nWHAT THE RUNGS DO SHOW is the S11 representability obstruction (rigor/sdp_certificate_numerics.tex l.484-497): in a finite Galerkin cell frame the Moebius compression is not representable at all (its V maps cells to non-cells), so the discretised F does not contain the compression point, and min_F g_Q is dominated by that representation error rather than by the physics of non-isometric channels.\nH-TREND: the two rungs move in the right direction at fixed Lambda and collar, 8.411034 (h = 0.4) -> 7.125692 (h = 0.3). Two points are a trend, not a verdict, and no extrapolated \"factor still to be closed\" is claimed. The earlier runs kc_h04.out and kc_h05.out (8.2635 and 10.0467) are NOT comparable rungs of the same ladder: they differ in LamC (6 and 4 vs 12), n_B (9 and 7 vs 9 and 11) and n_C (15 and 8 vs 30 and 40); S11 identifies n_B/n_C and the collar s, not h alone, as the knobs, and kc_h04.out's Delta/(2 g_Q) = -10.325 is S11's n_B < n_C corner.\nCONCLUSION: this test cannot decide whether non-isometric channels beat the isometric orbit; the tangent (first-order) problem is the right place to ask, and it is answered in the card kkt-noise-criterion-numerics.",
+   "statement": "In the block-exact modular Galerkin frame of kkt_continuum.py (a = 1, L = 2, Lambda = 12, s = 0.1, kind = 'first'), the full primal SDP over F = {X : h_B -> h_D, Z = Z* : X Q_BB X* <= Z <= 1 - X(1-Q_BB)X*} was solved at two rungs (f2_galerkin_a.out; 9425 s at h = 0.4, 24923 s at h = 0.3):\nh = 0.4, N = 69, (nA,nB,nC) = (30,9,30): g_Q(delta_c) = 8.1495e-06 = 0.8687 f2 zeta^2, theta = 0.28578, min_F g_Q = 6.8546e-05, min_F/g_Q(delta_c) = 8.411034, ||1 - X X*||_F = 5.872, tr(1 - X X*) = 35.16 of m = 39, ||Z - X Q_BB X*||_F = 3.556, sv(X) in [0.0061, 0.9999];\nh = 0.3, N = 91, (nA,nB,nC) = (40,11,40): g_Q(delta_c) = 8.4021e-06 = 0.8956 f2 zeta^2, theta = 0.29926, min_F g_Q = 5.9870e-05, min_F/g_Q(delta_c) = 7.125692, ||1 - X X*||_F = 6.780, tr(1 - X X*) = 46.71 of m = 51, sv(X) in [0.0002, 0.9999].\nBoth rungs land a factor 7-8 ABOVE the compression defect, not below the isometric-orbit value, and the optimal X is a strong contraction, nothing like a co-isometry.\nWHAT IS BEING COMPARED (do not over-read the ratio): min_F g_Q is an exact finite-s minimum over the discretised F, whereas theta, 1 - theta and g_Q(delta_c) on the same rung are FIRST-ORDER (tangent) reference numbers produced by orbit_theta() (the CG of theta_galerkin.py, which it reproduces exactly: 1 - theta = 0.71422 at h = 0.4 and 0.70074 at h = 0.3 against the published 0.714 and 0.701). The two are not values of one and the same programme -- they are computed in one script and share Q and delta_c, but not the same optimisation -- so the ratio must not be read as \"the orbit beaten or not beaten by that factor\".\nWHAT THE RUNGS DO SHOW is the S11 representability obstruction (rigor/sdp_certificate_numerics.tex l.484-497): in a finite Galerkin cell frame the Moebius compression is not representable at all (its V maps cells to non-cells), so the discretised F does not contain the compression point, and min_F g_Q is dominated by that representation error rather than by the physics of non-isometric channels.\nH-TREND: the two rungs move in the right direction at fixed Lambda and collar, 8.411034 (h = 0.4) -> 7.125692 (h = 0.3). Two points are a trend, not a verdict, and no extrapolated \"factor still to be closed\" is claimed. The earlier runs kc_h04.out and kc_h05.out (8.2635 and 10.0467) are NOT comparable rungs of the same ladder: they differ in LamC (6 and 4 vs 12), n_B (9 and 7 vs 9 and 11) and n_C (15 and 8 vs 30 and 40); S11 identifies n_B/n_C and the collar s, not h alone, as the knobs, and kc_h04.out's Delta/(2 g_Q) = -10.325 is S11's n_B < n_C corner.\nCONCLUSION: this test cannot decide whether non-isometric channels beat the isometric orbit; the tangent (first-order) problem is the right place to ask, and the card kkt-noise-criterion-numerics answers it only as far as the numerics can: condition (a) as an extrapolation, condition (e) under H3 (F2_RESULTS.md:250, corrected 2026-09-24, F2 Correction C8).",
    "verify": "cd numerics/optimality_all; $V/bin/python f2_galerkin_full.py 0.4,0.3 (prints, per rung, the orbit CG value and min_F g_Q) -> f2_galerkin_a.out l.1-6; compare kc_h04.out, kc_h05.out for the non-comparable earlier runs; the representability obstruction is rigor/sdp_certificate_numerics.tex l.484-497",
    "next": null,
-   "review": "passed 2026-09-23 by REF-DEP-CFT-A1",
+   "review": "passed 2026-09-24 by REF-CARD-CFT",
    "refereed": true,
    "awaiting_review": false,
-   "verdicts": 4,
+   "verdicts": 5,
    "review_failed": false,
    "page": "galerkin-full-f-uninformative.md",
    "related": [
@@ -2587,6 +2622,37 @@
     {
      "kind": "doc",
      "path": "docs/history.md",
+     "access": "public"
+    }
+   ]
+  },
+  {
+   "id": "group-index-zero-large-s",
+   "origin": "claims",
+   "title": "Index zero for e^{sK} beyond ||G_s||_2 < 1: for a unitary group e^{sK} with [P_-, K] Hilbert-Schmidt the two off-diagonal blocks have the same singular values also where |s| ||[P_-, K]||_2 >= 1 (open; no document contains an argument)",
+   "type": "conjecture",
+   "status": "conjectural",
+   "area": "theorem-a",
+   "confidence": null,
+   "statement": "For every one-parameter unitary group U_s = e^{sK} on H = L^2(R) with K^* = -K and [P_-, K] Hilbert-Schmidt (the setting of rate_of_remainder.tex Lemma 6.1, lem:groupbound; in particular K = D + i h' with h' in PA's class A', Prop. 6.2), the operator P_+ U_s P_+ on P_+ H has Fredholm index 0, so that P_- U_s P_+ and P_+ U_s P_- have the same singular values, also for the real s with ||G_s||_2 >= 1, G_s = P_+ - U_s^* P_+ U_s, where the documents' argument (both blocks of norm < 1, so P_+ U_s P_+ is invertible) does not apply; by Lemma 6.1 <1>2 such s have |s| ||[P_-, K]||_2 >= 1, i.e. |s| >= (4 f2^K)^{-1/2} for K = D + i h' (f2^K = (1/2) ||P_- K P_+||_2^2).",
+   "verify": "rigor/rate_of_remainder.tex Sec. 7 (Corrections of 2026-09-24), C3, l. 1026-1079: the mechanism, l. 1034-1043 (the singular values of the two blocks agree except at 1, whose multiplicities are dim ker X^* and dim ker X; the truncated winding of numerics/kb-checks-2026-09-23/refb9_winding.py has squared block norms 0.0071 and 1.0071 at R/b = 5, index 1); the affected steps, l. 1044-1057 (Lemma 6.1 <1>1, l. 828-832, and <1>4, l. 842-846; Prop. 6.2 <1>3, l. 871-874; Cor. 2.9 <1>3); 'Status of the uses' (ii), l. 1069-1079: settled while ||G_s||_2 < 1, which Lemma 6.1 <1>2 gives for |s| ||[P_-, K]||_2 < 1, with ||[P_-, K]||_2^2 = 2 ||P_- K P_+||_2^2 = 4 f2^K; 'The rest needs a standard Fredholm-index continuity argument that no document contains, and is open': Lemma 6.1 for |s| ||[P_-, K]||_2 >= 1 and Prop. 6.2 for (4 f2^K)^{-1/2} <= zeta < (2 f2^K)^{-1/2}. The same claim, with P and P^perp for P_+ and P_-, underlies rigor/exact_fidelity_upper_half.tex Lemma 6.1 (lem:group) <1>1, l. 662-667, whose Correction C3 (l. 1156-1205) settles the uses there at small s.",
+   "next": "Write the Fredholm-index continuity argument, e.g. in rigor/rate_of_remainder.tex as a new correction item for Lemma 6.1 <1>1 and <1>4 (l. 828-832, 842-846) and Prop. 6.2 <1>3 (l. 871-874). A possible route, in no document: by Lemma 6.1 <1>2, s -> U_s P_+ U_s^* - P_+ = -G_{-s} is continuous in S_2, so the index of the pair of projections (P_+, U_s^* P_+ U_s) = (P_+, P_+ - G_s), which equals ind(P_+ U_s P_+|_{P_+ H}) (the pair (P_+, U_s P_+ U_s^*) has index -ind X), is locally constant in s and hence 0, its value at s = 0. The same kind of argument is needed for the product family W~_s e^{ish'} of Cor. 2.9 (C3, l. 1078-1079) and would cover rigor/exact_fidelity_upper_half.tex Lemma 6.1 <1>1. Have it refereed, then promote this card.",
+   "review": "passed 2026-09-24 by REF-CARD-ROR",
+   "refereed": true,
+   "awaiting_review": false,
+   "verdicts": 2,
+   "review_failed": false,
+   "page": "group-index-zero-large-s.md",
+   "related": [
+    "rate-of-remainder",
+    "pushforward-blocks-equal-singular-values",
+    "uhlmann-upper-half-proved"
+   ],
+   "evidence": [
+    {
+     "kind": "doc",
+     "path": "rigor/rate_of_remainder.tex",
+     "anchor": "corr0924:C3",
      "access": "public"
     }
    ]
@@ -2898,10 +2964,10 @@
    "statement": "Numerical evaluation of the F1 Thm 4.4 criterion for the tangent problem (orbit = global optimum iff (a) M_* >= 0 and M_* - tau_* >= 0, and (e) the endpoint functional E(zeta) >= 0 for every admissible zeta with A(zeta,0,0) in the form domain F (thm:kktmain(e), exact_optimum_tangent_problem.tex:796-798), which on F1's model cone reads E(zeta_0) >= 0 and E(zeta_inf) >= 0; t_* is the SLD normalised by g_Q(delta_*) = (1/4) Tr(t_* delta_*), tau_* = E_D t_* E_D, M_* = Herm((t_* Q)_DD)). READ THE SIGN CLAIM AS AN EXTRAPOLATION: at every finite discretisation the run prints \"CRITERION (M>=0 and M-tau>=0): False\" (f2_t4_h024.out l.4, f2_t4_hladder.out l.4 and l.12, f2_t4_h003.out l.4, every Ymax row of f2_t4_ymax12.out); what the numerics establish is that the violation scales to zero in the double limit, with clean power laws, while the endpoint functional is positive at every finite discretisation (the regularised junction test, rem:H3space(2), tex :1223-1227); under hyp:H3, (e) holds outright from the proved E(zeta_inf) >= 0 (rem:H3space).\n(1) PRIMARY FRAME, parameter-free modular Wiener-Hopf (F1 Prop 6.2 as built by F3 in f3_t0.py; I = (-inf,1), y = -log(1-x), A = {y<0}, D = {y>0}, Q exact in the cell basis, ddot in closed form, Moebius rigidity EXACT: ||ddot_DD|| = 0 identically). Structural checks all pass: SLD identity (1/4)Tr(t_* delta_*)/g_Q(delta_*) = 1.0000000000; ||AntiHerm((t_* Q)_DD)||/||M_*|| = 2.8e-9, 8.5e-8, 1.5e-7, 3.5e-7 at h = 0.24, 0.12, 0.06, 0.03; F1's derivative formula d g_Q = (1/2)[Tr(N1 M_*) - Tr(Y1 tau_*)] verified by central finite differences to <= 3e-8 (measured relative errors 3.94e-10, 1.08e-08, 7.56e-09, 2.63e-08 at h = 0.24, 0.12, 0.06, 0.03: f2_t4_h024.out l.5, f2_t4_hladder.out l.5 and l.13, f2_t4_h003.out l.5); theta reproduces F3's ladder (0.31367, 0.34236, 0.35934, 0.36945 at h = 0.24, 0.12, 0.06, 0.03, Y = Ymax = 10).\n(a) SCALING OF THE VIOLATION. h-ladder at Y = Ymax = 10: lam_min(M_*)/||M_*|| = -4.076e-3, -1.859e-3, -8.228e-4, -3.667e-4 at h = 0.24, 0.12, 0.06, 0.03 (ratios 2.19, 2.26, 2.24 per halving, i.e. ~ h^1.15), and lam_min(M_* - tau_*) equals lam_min(M_*) to 5 digits (different eigenvectors with the same localisation and modulus profile and opposite <p,tau_*p>: at h = 0.24, <p,M_*p> = -5.4316e-4 and +2.7654e-3, <p,tau_*p> = -3.3086e-3 and +3.3086e-3, f2_t4_h024.out l.6-7). Outer-cutoff scan at h = 0.12, Y = 6: lam_min(M_*)/||M_*|| = -3.014e-3, -2.286e-3, -1.865e-3, -1.339e-3, -9.459e-4, -6.360e-4 for Ymax = 6, 8, 10, 14, 20, 30, i.e. lam_min/||M_*|| * Ymax = -0.0181, -0.0183, -0.0186, -0.0187, -0.0189, -0.0191 (~ 1/Ymax), and the rank-one gain Delta^2/g_Q(eta) in units of g_Q(ddot) = 3.325e-4, 1.874e-4, 1.230e-4, 6.236e-5, 3.080e-5, 1.380e-5 with gain * Ymax^2 = 0.0120 ... 0.0124 (~ 1/Ymax^2); on the h-ladder the same gain is 3.85e-4, 1.23e-4, 3.51e-5, 9.69e-6 (~ h^1.85). So lam_min(M_*)/||M_*|| ~ -c(h)/Ymax with c(0.24) = 0.041, c(0.12) = 0.0187 (c ~ h^1.1), and the gain ~ c'(h)/Ymax^2 with c'(0.24) = 0.039, c'(0.12) = 0.0123: both -> 0 in the double limit h -> 0, Ymax -> infinity, i.e. lam_min -> 0^- (a marginal, not a strict, sign). The violating eigenvector p supports this reading: in the Ymax scans at fixed h it is a delocalised mode at y ~ (0.37-0.6) Ymax (0.37 Ymax at Ymax = 30), tracking the artificial outer end of the y window (the moving endpoint x = 1); the A-side cutoff is irrelevant (Y = 6, 10, 14 give lam_min/||M_*|| = -1.8645e-3, -1.8586e-3, -1.8584e-3 at h = 0.12, Ymax = 10: the Y-scan block of f2_t5_endpoint.out, l.102, l.112, l.122; the h = 0.24 triple -4.0904e-3, -4.0756e-3, -4.0751e-3 is reported in F2_RESULTS.md:306, and of it only the Y = 10 value -4.0756e-3 is in an output file, f2_t4_h024.out l.2). At fixed Ymax = 10 the mode moves inward as h falls (y ~ 5.5, 5.1, 4.3, 1.9) while its eigenvalue keeps shrinking; the two vanishing scalings, not the location, carry the conclusion.\n(e) ENDPOINT CONDITION (T5, f2_t5_endpoint.out). E(zeta) = 2 b(delta_*, A(zeta,0,0)) = (1/2)Tr(t_* A(zeta,0,0)) with A from F1 eq:Ablocks. Convention check, exact to machine precision at all four h: E(zeta_inf)/g_Q(ddot) = (1/2)Tr(t_* ddot)/g_Q(ddot) = 1.37265519, 1.31527744, 1.28132522, 1.26109117 (f2_t5_endpoint.out l.3, 13, 23, 33) against 2(1-theta_h) = same to 2e-16..1e-15; the identity E(zeta_inf) = 2 lambda (1-theta) g_Q(ddot) is proved (F1 Prop 4.10 <1>4), its positivity needs theta < 1, which is numerical (theta_h = 0.314-0.369 here). For zeta_0 = -E_D d/dy E_D discretised on the uniform D-mesh, only the backward (upwind) difference is the admissible shift semigroup (sigma = Herm(zeta_0) <= 0); it gives a TOTAL E(zeta_0)/g_Q(ddot) = +34.122, +66.873, +131.298, +257.998 at h = 0.24, 0.12, 0.06, 0.03, but that total is the scheme-DEPENDENT quantity: the discrete boundary form decomposes as E(zeta_0) = (1/2)[M_*(0,0) + h Tr((-Laplacian) M_*) + M_*(Ymax,Ymax)] and the total (~ h^-0.97) is dominated by the O(h) upwind-viscosity middle term, an artefact of the difference scheme. The scheme-invariant piece, the one that represents the continuum E(zeta_0) (tex :1169, :1588), is the CORNER row (1/2)(M_*)_00/h = +10.304, +16.096, +24.672, +37.210 (~ h^-0.60); it diverges, and it is the value quoted below for the regularised (finite-h) junction directions. The centred difference is exactly anti-Hermitian (sigma = 0, lies in L-bar) and gives E = 0 to 2e-5; the forward difference has sigma >= 0 (decompression, inadmissible) and gives the negative of the backward value. Both quantities saturate in Ymax (E_bwd = +66.90, +67.07, +67.23, +67.36, +67.45 and corner = +16.46, +16.15, +16.03, +15.95, +15.89 for Ymax = 6, 10, 14, 20, 30 at h = 0.12 and Y = 6, the T5b scan) and are independent of Y (+67.07, +66.87, +66.87 for Y = 6, 10, 14). The corner term does NOT saturate in h (it grows like h^-0.6), i.e. M_*(y,y) diverges as y -> 0+ and E(zeta_0) = +infinity in the sense of the second case of eq:Efun (A(zeta_0,0,0) not in F): a convention, not a margin (tex :1033-1037). Cross-check (ii): the first-cell diagonal of M_*/h is +0.160, +0.261, +0.409, +0.623 (same sign as E(zeta_0)) and the last-cell diagonal is +3.2e-3, +3.9e-3, +4.4e-3, +4.8e-3 (the last at h = 0.03, f2_t5_endpoint.out l.40; same sign as E(zeta_inf) > 0). VERDICT ON (e), QUALIFIED: the document's reading applies. The corner row diverges, so A(zeta_0,0,0) is not in F and E(zeta_0) = +infinity: (e) is VACUOUS at zeta_0 rather than satisfied with a margin (exact_optimum_tangent_problem.tex:1171-1176, :1591-1593). In the model-cone form E(zeta_0) > 0, the corner row is +10.3, +16.1, +24.7, +37.2 g_Q(ddot) at h = 0.24, 0.12, 0.06, 0.03, with no sign change at any h, Y, Ymax, and E(zeta_inf) = 2(1-theta_h) g_Q(ddot) (the proved identity) > 0 because theta_h < 1 numerically. At finite h the absorption identity E(zeta_0) = (1/2)Tr((-2 sigma) M_*) holds to <= 7.5e-8 (f2_t5_endpoint.out l.7, 17, 27, 37), but M_* >= 0 fails in every run and -2 sigma has full rank, so the positive sign is a numerical fact, not a forced one; in the continuum the identity is not available (prop:bdryfun(5), tex :1094-1096). Under hyp:H3 (tex :1191-1198), read in F, alpha = 0 is forced because A(zeta_0,0,0) is not in F: every admissible generator carrying a feasible first-order datum is, modulo L-bar, a non-negative multiple of zeta_inf, and (e) holds outright from E(zeta_inf) >= 0 alone (rem:H3space, :1209-1218). H3 is a hypothesis, not something these numerics test. So: numerically (a) in the limit; E(zeta_0) > 0 and E(zeta_inf) > 0; (e) for the whole cone under H3.\nCAVEAT ON THE PRIMARY FRAME. It needs no weight cap at the h computed, but the weights are not bounded uniformly in h: kappa_max = 5.38, 6.51, 7.66, 8.84 and max w = 1.09e2, 3.36e2, 1.07e3, 3.44e3 at h = 0.24, 0.12, 0.06, 0.03 (ratios ~3.1-3.2 per halving, i.e. max w ~ h^-1.65). So h -> 0 is exactly the limit in which this frame's weights diverge as well; the extrapolation above is over a window in which max w grows by a factor 32, and a much finer h would eventually re-enter the regime where the T2 artefact mechanism (below) operates.\n(2) SECONDARY FRAME, ARTEFACT-SUSPECT, S10 spectral circle model: the criterion FAILS at every L = 64, 96, 128, 192, 256, with lam_min(M_*)/||M_*|| = -0.206, -0.0075, -0.0352, -0.0579, -0.0498 and lam_min(M_* - tau_*) equal to it to 3 digits (at L = 96, 128, 192 only 3 digits agree, f2_kkt_f1_L.out l.43-45). That verdict must NOT be used, for three reasons, all in F1's normalisation as printed by f2_capscan.py (file f2_capscan_L128.out; the half-SLD convention of kkt_continuum.gQ_sld would halve lam_min and quarter the gain): (i) it is not cap-stable -- at L = 128, taper uv = 0.30, lam_min(M_*) = -3.211e-3, -3.134e-3, -7.887e-3, -3.477e-2, -1.050e-1 and lam_min/||M_*|| = -0.0122, -0.0067, -0.0105, -0.0352, -0.0753 for cap = 1e4, 1e6, 1e8, 1e10, 1e12, while theta is cap-stable to 4 digits (0.29117, 0.29119, 0.29116, 0.29118, 0.29119); (ii) the achievable gain collapses as the cap grows: rank-one gain/g_Q(dc) = 1.463e-4, 1.948e-6, 1.722e-10, 3.534e-11, 3.718e-12 on the same ladder (the violating directions have diverging curvature, g_Q(noise)/g_Q(dc) = 1.3e3 ... 5.5e13); the second taper uv = 0.20 repeats the pattern (lam_min/||M_*|| = -0.0125, -0.0070, -0.0088, -0.0258, -0.0287; gain = 5.808e-4 ... 6.444e-13) with theta shifted by 10% (0.2615); (iii) the mechanism: the circle model violates Moebius rigidity at O(1/L) (|dc_DD|/|dc| = 0.346, 0.214, 0.153, 0.101, 0.075 and |dc_AA|/|dc| = 0.048, 0.032, 0.024, 0.016, 0.012 at L = 64..256, both ~ 1/L, whereas the exact defect is purely A-D off-diagonal), and g_Q weights those spurious blocks by w up to the cap -- taken separately the blocks of delta_c carry g_Q of order 1e5 x g_Q(delta_c), so t_* and hence M_*, tau_* are contaminated exactly where the weights are largest.\nWHAT MAY AND MAY NOT BE CONCLUDED. The numerics are consistent with the isometric orbit carrying the tangent optimum and kappa_opt = 1 - theta, and they exclude any O(1) gain from non-isometric or boundary-moving directions (every measured rank-one gain is <= 1.05e-3 g_Q(ddot): the largest, 1.049e-3 at h = 0.24, Ymax = 6, is reported only in F2_RESULTS.md:302-303; in the runs with output files it is <= 3.85e-4, f2_t4_h024.out l.6; all fall like h^1.85/Ymax^2). They do NOT establish that the optimal N_1, Y_1 vanish: Thm 4.4(d) delivers a global minimiser, not uniqueness, and the marginal case lam_min -> 0^- found here is precisely where uniqueness is not delivered.",
    "verify": "cd numerics/optimality_all; $V/bin/python f2_t4_wh.py 0.24 10 10 > f2_t4_h024.out (smoke: theta=0.31367, |dc_DD|=0, SLD id=1.0000000000, lam_min(M_*)=-5.432e-4, CRITERION False); f2_t4_wh.py 0.12,0.06 10 10 > f2_t4_hladder.out; f2_t4_wh.py 0.03 10 10 > f2_t4_h003.out; the Ymax/Y scan one-liners quoted in F2_RESULTS.md (\"Exact commands to reproduce\") -> f2_t4_ymax12.out; endpoint test: f2_t5_endpoint.py 0.24 10 10 and the driver quoted in F2_RESULTS.md T5 -> f2_t5_endpoint.out; circle model: f2_kkt_f1.py 64,96,128,192,256 1e10 -> f2_kkt_f1_L.out and f2_capscan.py 128 1e4,1e6,1e8,1e10,1e12 0.30,0.20 -> f2_capscan_L128.out",
    "next": null,
-   "review": "passed 2026-09-23 by REF-DEP-CFT-A7",
+   "review": "passed 2026-09-24 by REF-CARD-CFT",
    "refereed": true,
    "awaiting_review": false,
-   "verdicts": 9,
+   "verdicts": 10,
    "review_failed": false,
    "page": "kkt-noise-criterion-numerics.md",
    "related": [
@@ -2962,13 +3028,13 @@
    "status": "proved",
    "area": "optimality",
    "confidence": null,
-   "statement": "PROVED (rigor/exact_optimum_tangent_problem.tex, Sec. 4). Let delta_* be the b-orthogonal residual of ddelta on the closure of the LINEAR class L = {[Q,G] : G bounded anti-self-adjoint, supported in D} (no minimiser is posited), t_* := SLD(delta_*) (S_Q(t_*) = delta_*, t_*~_ik = w_ik delta_*~_ik), tau_* := E_D t_* E_D and M_* := (1/2) E_D (t_* Q + Q t_*) E_D = Herm(t_{*,DA} Q_AD) + Herm(t_{*,DD} Q_DD) = Herm((t_* Q)_DD). Since w is unbounded, t_* need NOT be Hilbert-Schmidt: M_* and tau_* are quadratic FORMS, defined intrinsically by <psi,M_* psi> := 4 b(delta_*, A(0,|psi><psi|,0)) and <psi,tau_* psi> := -4 b(delta_*, A(0,0,|psi><psi|)) on the domain D of psi for which those directions lie in the form domain F (Def. def:forms); 'M_* >= 0' is a form inequality and lambda_min may be -inf. Normalisation (Lemma lem:norm): g_Q(delta) = (1/4) Tr(t_delta delta), V(t_delta) = 2 g_Q(delta), d g_Q(delta)[eta] = (1/2) Tr(t_delta eta) (S10 (C4) is internally inconsistent with its own S_Q(t) = delta; the ratio and all sign conditions are unaffected). (i) Lemma lem:deriv: the one-sided derivative along an admissible non-isometric direction A(0,N_1,Y_1) is (1/2)[Tr(N_1 M_*) - Tr(Y_1 tau_*)]; it vanishes along the linear class; along the admissible unbounded generator G = -lambda D_chi|_D it equals 2 lambda (1-theta) g_Q(ddelta) (>= 0; > 0 iff theta < 1). (ii) Thm. thm:kktmain: (a) M_* >= 0 and M_* - tau_* >= 0 <=> (c) Tr(N_1 M_*) >= Tr[(N_1^{1/2} tau_* N_1^{1/2})_+] for all bounded N_1 >= 0; (b) M_* >= (tau_*)_+ is sufficient but strictly stronger (the operator order is not a lattice); AMENDED after the referee report: (d) (zeta_*,0,0) is a GLOBAL minimiser of the tangent programme <=> (a) AND (e), where (e) E(zeta) := 2 b(delta_*, A(zeta,0,0)) >= 0 for every admissible isometry generator zeta with A(zeta,0,0) in F; (a) alone is NECESSARY but NOT SUFFICIENT, because the feasible cone also contains the one-sided boundary-moving isometry directions (unbounded generators). If (a) and (e) hold then T = (1-theta) g_Q(ddelta), i.e. kappa_opt = 1 - theta exactly, and under H1 and H2 (Thm. thm:value) E^(2) = (1-theta) f_2 z^2 (1+o(1)). If (a) fails, a violating psi gives a strictly better feasible datum (Cor. cor:better, eq:gain2); kappa_opt < 1 - theta needs one admissible psi with Delta < 0 AND finite g_Q(d_psi), so a violation that vanishes with the weight cap or the mesh is a regularisation artefact. (iii) Prop. prop:bdryfun: E MUST be evaluated on the blocks of A (A_AD = -Q_AD zeta, A_DD = -(zeta* Q_DD + Q_DD zeta)); the commutator form -2 b(delta_*,[Q,zeta]) of Lemma lem:commQ is valid only for BOUNDED anti-self-adjoint zeta (where E = 0) and deletes exactly the boundary term (2'). E is additive, positively homogeneous and vanishes on the closure of L; when the cyclicity Tr(t_*[Q,zeta]) = Tr([t_*,Q] zeta) is legitimate (zeta bounded, t_* trace class), E(zeta) = (1/2)Tr(E_D[Q,t_*]E_D zeta) = 0 by the stationarity Prop. prop:S: E is exactly the cyclicity anomaly, a pure BOUNDARY functional, equal to (1/2)Tr((-2 sigma_zeta) M_*) whenever -2 sigma_zeta lies in the form domain of M_*. In the modular frame D = {y>0} has two endpoints (y = 0, the junction with A; y = +inf, the moving endpoint x = 1), and modulo the closure of L the VECTOR-FIELD subcone of admissible generators is generated by zeta_0 = -E_D d/dy E_D (the shift semigroup g(y) -> g(y-a), i.e. x -> 1 - e^{-a}(1-x); moves the junction y = 0) and zeta_inf = -lambda D_chi|_D (further compression; moves y = +inf); for the whole admissible cone this is hypothesis H3. E(zeta_inf) = 2 lambda (1-theta) g_Q(ddelta) is proved, hence E(zeta_inf) >= 0; E(zeta_inf) > 0 is equivalent to theta < 1, which is NOT proved (rem:whytheta (i), :1461-1464; verdict gap :1504-1507). So, ON THE MODEL CONE {alpha zeta_0 + beta zeta_inf + closure of L : alpha, beta >= 0}, (e) is equivalent to the single inequality E(zeta_0) = 2 b(delta_*, A(zeta_0,0,0)) >= 0; the identity E(zeta_0) = (1/2) Tr((-2 sigma_{zeta_0}) M_*) would need -2 sigma_{zeta_0} = delta_0 (x) delta_0 in the form domain of M_*, which fails (delta_0 is not in h_D). HYPOTHESIS H3 (cone hypothesis, Def. hyp:H3, read in F): for every admissible isometry generator zeta with A(zeta,0,0) in F there are alpha, beta >= 0 and eta in the b-closure of the linear class with A(zeta,0,0) = alpha A(zeta_0,0,0) + beta A(zeta_inf,0,0) + eta. (No boundary-form reformulation: that would be strictly weaker, trivially true for zeta = i m(y), and would not imply (e).) The reduction to the two model directions is PROVED ONLY for generators of vector-field type; shift semigroups of multiplicity > 1 (Cooper-Wold) and unbounded skew-adjoint zeta = i m(y) with [Q, i m] outside the closure of L escape both arguments, and excluding them is exactly the content of H3. Under H3, if A(zeta_0,0,0) is not in F then alpha = 0 is forced and (e) holds OUTRIGHT, E(zeta) = beta E(zeta_inf) >= 0 (rem:H3space), the junction inequality never being invoked; that A(zeta_0,0,0) is not in F (E(zeta_0) = +inf, so (e) is vacuous at zeta_0 rather than satisfied with a margin) rests on F2's divergent corner term (rem:T5 (ii)), i.e. it is numerical. E(zeta_0) >= 0 remains the operative test for REGULARISED junction directions (finite mesh), which is what F2 T5 measures. (iv) Prop. prop:S: stationarity on the LINEAR class <=> E_D[Q,t_*]E_D = 0, i.e. (t_* Q)_DD = M_* self-adjoint: S10's condition (S) holds automatically at the new point. (v) Prop. prop:s10 (trace-class t; S10 Thm 3.2 and Prop 5.2), dictionary to S10 Thm 3.2: Sigma_2 -> (tQ)_DD is the loss-of-isometry (N_1) condition M >= 0; Sigma_1 = Sigma_2 - t_DD >= 0 is the NOISE (Y_1) condition M >= tau; Sigma_1 = Sigma_1* is the rotation condition. NUMERICAL, NOT PROVED HERE (recorded on kkt-noise-criterion-numerics, all-channel-optimum-value, theta-value and compression-not-second-order-minimiser): (a) holds in the limit, although every finite run fails it (F2 T4, rigid frame of Prop 6.2: lambda_min(M_*)/||M_*|| = -4.1e-3, -1.9e-3, -8.2e-4, -3.7e-4 at h = 0.24, 0.12, 0.06, 0.03; violation ~ h^1.15 and ~ 1/Ymax, rank-one gain ~ h^1.85); E(zeta_0) > 0 on the model cone (F2 T5: E(zeta_0)/g_Q(ddelta) = +34.1, +66.9, +131.3, +258.0 at h = 0.24, 0.12, 0.06, 0.03 for the admissible backward/dissipative scheme, a scheme-dependent total ~ h^-0.97 dominated by an upwind-viscosity term; centred = 0, the linear class; forward = inadmissible, negative; the continuum piece is the corner term (1/2) M_*(0,0)/h = +10.3, +16.1, +24.7, +37.2, ~ h^-0.60, so M_*(y,y) -> +inf as y -> 0+ and E(zeta_0) = +inf: the junction direction is infinitely penalised at first order); E(zeta_inf) reproduces 2(1-theta_h) g_Q(ddelta) to 1e-15, and the A-form and boundary-form expressions agree to 2e-10 ... 2e-8; the commutator form returns, even for zeta_inf, -9.1e-6, +1.9e-4, -9.9e-3, +7.4e-2 at h = 0.24, 0.12, 0.06, 0.03 and -63, -1.6e6 on other rungs of the scan (O(1), no information on the true 2 lambda (1-theta) g_Q(ddelta) = 1.26-1.37 g_Q(ddelta); prop:bdryfun (2')); theta = 0.384 +- 0.003, hence kappa_opt = 1 - theta = 0.616 +- 0.003 conditional on H1, H2 AND H3 and on the mesh-verified (a) and (e); and (S) FAILS at the compression, i.e. E_D u E_D != 0 (||E_D u E_D||_2^2/||u||_2^2 = 0.0143, S10 cor:maximal eq:thetalb).",
-   "verify": "cd rigor && pdflatex -interaction=nonstopmode -halt-on-error exact_optimum_tangent_problem.tex; check Lemma 1.1 (SLD normalisation, factors 1/4 and 1/2), Lemma 4.2 steps <1>3-<1>5 (block trace giving M_* = Herm((t_*Q)_DD)) and its amended last clause (the derivative vanishes only on the LINEAR class; along G = -lambda D_chi it is 2 lambda (1-theta) g_Q(ddelta), >= 0, > 0 iff theta < 1), Def 4.9 (M_*, tau_* as forms), Thm 4.4 steps <1>1-<1>5 (Douglas, rank-one, (a)<=>(c), (d) <=> (a) and (e), the conditional value), Cor 4.5, Prop 4.3, Prop 4.10 (the endpoint functional, the vector-field subcone and its two model directions, E(zeta_inf) = 2 lambda (1-theta) g_Q(ddelta) in <1>4; (2') uses Lemma 6.1), Rem 6.3(i) and the verdict gap after Rem 6.4 (theta < 1 not proved), Def 4.12 + Rem 4.13-4.14 (H3; alpha = 0 needs A(zeta_0,0,0) not in F; the two families H3 excludes), Rem 4.11 (F2 T5: corner vs viscosity term; A(zeta_0,0,0) not in F is numerical), Prop 4.6. Numerically (NOT part of this card's proof): numerics/optimality_all/F2_RESULTS.md T4/T5 and the .out files cited by kkt-noise-criterion-numerics; theta from F3 (theta-value).",
+   "statement": "PROVED (rigor/exact_optimum_tangent_problem.tex, Sec. 4). Let delta_* be the b-orthogonal residual of ddelta on the closure of the LINEAR class L = {[Q,G] : G bounded anti-self-adjoint, supported in D} (no minimiser is posited), t_* := SLD(delta_*) (S_Q(t_*) = delta_*, t_*~_ik = w_ik delta_*~_ik), tau_* := E_D t_* E_D and M_* := (1/2) E_D (t_* Q + Q t_*) E_D = Herm(t_{*,DA} Q_AD) + Herm(t_{*,DD} Q_DD) = Herm((t_* Q)_DD). Since w is unbounded, t_* need NOT be Hilbert-Schmidt: M_* and tau_* are quadratic FORMS, defined intrinsically by <psi,M_* psi> := 4 b(delta_*, A(0,|psi><psi|,0)) and <psi,tau_* psi> := -4 b(delta_*, A(0,0,|psi><psi|)) on the domain D of psi for which those directions lie in the form domain F (Def. def:forms); 'M_* >= 0' is a form inequality and lambda_min may be -inf. Normalisation (Lemma lem:norm): g_Q(delta) = (1/4) Tr(t_delta delta), V(t_delta) = 2 g_Q(delta), d g_Q(delta)[eta] = (1/2) Tr(t_delta eta) (S10 (C4) is internally inconsistent with its own S_Q(t) = delta; the ratio and all sign conditions are unaffected). (i) Lemma lem:deriv: the one-sided derivative along an admissible non-isometric direction A(0,N_1,Y_1) is (1/2)[Tr(N_1 M_*) - Tr(Y_1 tau_*)]; it vanishes along the linear class; along the admissible unbounded generator G = -lambda D_chi|_D it equals 2 lambda (1-theta) g_Q(ddelta) (>= 0; > 0 iff theta < 1). (ii) Thm. thm:kktmain: (a) M_* >= 0 and M_* - tau_* >= 0 <=> (c) Tr(N_1 M_*) >= Tr[(N_1^{1/2} tau_* N_1^{1/2})_+] for all bounded N_1 >= 0; (b) M_* >= (tau_*)_+ is sufficient but strictly stronger (the operator order is not a lattice); AMENDED after the referee report: (d) (zeta_*,0,0) is a GLOBAL minimiser of the tangent programme <=> (a) AND (e), where (e) E(zeta) := 2 b(delta_*, A(zeta,0,0)) >= 0 for every admissible isometry generator zeta with A(zeta,0,0) in F; (a) alone is NECESSARY but NOT SUFFICIENT, because the feasible cone also contains the one-sided boundary-moving isometry directions (unbounded generators). If (a) and (e) hold then T = (1-theta) g_Q(ddelta), i.e. kappa_opt = 1 - theta exactly, and under H1 and H2 (Thm. thm:value) E^(2) = (1-theta) f_2 z^2 (1+o(1)). If (a) fails, a violating psi gives a strictly better feasible datum (Cor. cor:better, eq:gain2); kappa_opt < 1 - theta needs one admissible psi with Delta < 0 AND finite g_Q(d_psi), so a violation that vanishes with the weight cap or the mesh is a regularisation artefact. (iii) Prop. prop:bdryfun: E MUST be evaluated on the blocks of A (A_AD = -Q_AD zeta, A_DD = -(zeta* Q_DD + Q_DD zeta)); the commutator form -2 b(delta_*,[Q,zeta]) of Lemma lem:commQ is valid only for BOUNDED anti-self-adjoint zeta (where E = 0) and deletes exactly the boundary term (2'). E is additive, positively homogeneous and vanishes on the closure of L; when the cyclicity Tr(t_*[Q,zeta]) = Tr([t_*,Q] zeta) is legitimate (zeta bounded, t_* trace class), E(zeta) = (1/2)Tr(E_D[Q,t_*]E_D zeta) = 0 by the stationarity Prop. prop:S: E is exactly the cyclicity anomaly, a pure BOUNDARY functional, equal to (1/2)Tr((-2 sigma_zeta) M_*) whenever -2 sigma_zeta lies in the form domain of M_*. In the modular frame D = {y>0} has two endpoints (y = 0, the junction with A; y = +inf, the moving endpoint x = 1), and modulo the closure of L the VECTOR-FIELD subcone of admissible generators is generated by zeta_0 = -E_D d/dy E_D (the shift semigroup g(y) -> g(y-a), i.e. x -> 1 - e^{-a}(1-x); moves the junction y = 0) and zeta_inf = -lambda D_chi|_D (further compression; moves y = +inf); for the whole admissible cone this is hypothesis H3. E(zeta_inf) = 2 lambda (1-theta) g_Q(ddelta) is proved, hence E(zeta_inf) >= 0; E(zeta_inf) > 0 is equivalent to theta < 1, which is NOT proved (rem:whytheta (i), :1461-1464; verdict gap :1504-1507). So, ON THE MODEL CONE {alpha zeta_0 + beta zeta_inf + closure of L : alpha, beta >= 0}, (e) is equivalent to the single inequality E(zeta_0) = 2 b(delta_*, A(zeta_0,0,0)) >= 0; the identity E(zeta_0) = (1/2) Tr((-2 sigma_{zeta_0}) M_*) would need -2 sigma_{zeta_0} = delta_0 (x) delta_0 in the form domain of M_*, which fails (delta_0 is not in h_D). HYPOTHESIS H3 (cone hypothesis, Def. hyp:H3, read in F): for every admissible isometry generator zeta with A(zeta,0,0) in F there are alpha, beta >= 0 and eta in the b-closure of the linear class with A(zeta,0,0) = alpha A(zeta_0,0,0) + beta A(zeta_inf,0,0) + eta. (No boundary-form reformulation: that would be strictly weaker, trivially true for zeta = i m(y), and would not imply (e).) The reduction to the two model directions is PROVED ONLY for generators of vector-field type; shift semigroups of multiplicity > 1 (Cooper-Wold) and unbounded skew-adjoint zeta = i m(y) with [Q, i m] outside the closure of L escape both arguments, and excluding them is exactly the content of H3. Under H3, if A(zeta_0,0,0) is not in F then alpha = 0 is forced and (e) holds OUTRIGHT, E(zeta) = beta E(zeta_inf) >= 0 (rem:H3space), the junction inequality never being invoked; that A(zeta_0,0,0) is not in F (E(zeta_0) = +inf, so (e) is vacuous at zeta_0 rather than satisfied with a margin) rests on F2's divergent corner term (rem:T5 (ii)), i.e. it is numerical. E(zeta_0) >= 0 remains the operative test for REGULARISED junction directions (finite mesh), which is what F2 T5 measures. (iv) Prop. prop:S: stationarity on the LINEAR class <=> E_D[Q,t_*]E_D = 0, i.e. (t_* Q)_DD = M_* self-adjoint: S10's condition (S) holds automatically at the new point. (v) Prop. prop:s10 (trace-class t; S10 Thm 3.2 and Prop 5.2), dictionary to S10 Thm 3.2: Sigma_2 -> (tQ)_DD is the loss-of-isometry (N_1) condition M >= 0; Sigma_1 = Sigma_2 - t_DD >= 0 is the NOISE (Y_1) condition M >= tau; Sigma_1 = Sigma_1* is the rotation condition. NUMERICAL, NOT PROVED HERE (recorded on kkt-noise-criterion-numerics, all-channel-optimum-value, theta-value and compression-not-second-order-minimiser): (a) holds in the limit, although every finite run fails it (F2 T4, rigid frame of Prop 6.2: lambda_min(M_*)/||M_*|| = -4.1e-3, -1.9e-3, -8.2e-4, -3.7e-4 at h = 0.24, 0.12, 0.06, 0.03; violation ~ h^1.15 and ~ 1/Ymax, rank-one gain ~ h^1.85); E(zeta_0) > 0 on the model cone (F2 T5: E(zeta_0)/g_Q(ddelta) = +34.1, +66.9, +131.3, +258.0 at h = 0.24, 0.12, 0.06, 0.03 for the admissible backward/dissipative scheme, a scheme-dependent total ~ h^-0.97 dominated by an upwind-viscosity term; centred = 0, the linear class; forward = inadmissible, negative; the continuum piece is the corner term (1/2) M_*(0,0)/h = +10.3, +16.1, +24.7, +37.2, ~ h^-0.60, so M_*(y,y) -> +inf as y -> 0+ and E(zeta_0) = +inf: the junction direction is infinitely penalised at first order); E(zeta_inf) reproduces 2(1-theta_h) g_Q(ddelta) to 1e-15, and the A-form and boundary-form expressions agree to 2e-10 ... 7.5e-8 (f2_t5_endpoint.out:7, :37; the tex's :1056 and :1181 read the same since 2026-09-24, Correction C7); the commutator form returns, even for zeta_inf, -9.1e-6, +1.9e-4, -9.9e-3, +7.4e-2 at h = 0.24, 0.12, 0.06, 0.03 and -63, -1.6e6 on other rungs of the scan (O(1), no information on the true 2 lambda (1-theta) g_Q(ddelta) = 1.26-1.37 g_Q(ddelta); prop:bdryfun (2')); theta = 0.384 +- 0.003, hence kappa_opt = 1 - theta = 0.616 +- 0.003 conditional on H1, H2 AND H3 and on (a) and (e), where (a) is extrapolated from meshes, on each of which it fails, and (e) is verified on meshes (tex :1624, corrected 2026-09-24, Correction C9); and (S) FAILS at the compression, i.e. E_D u E_D != 0 (||E_D u E_D||_2^2/||u||_2^2 = 0.0143, S10 cor:maximal eq:thetalb).",
+   "verify": "cd rigor && pdflatex -interaction=nonstopmode -halt-on-error exact_optimum_tangent_problem.tex; check Lemma 1.1 (SLD normalisation, factors 1/4 and 1/2), Lemma 4.2 steps <1>3-<1>5 (block trace giving M_* = Herm((t_*Q)_DD)) and its amended last clause (the derivative vanishes on the LINEAR class, and its vanishing is not automatic along all anti-symmetric G: along G = -lambda D_chi it is 2 lambda (1-theta) g_Q(ddelta), >= 0, > 0 iff theta < 1, which is not proved; :716-721, corrected 2026-09-24, Correction C2), Def 4.9 (M_*, tau_* as forms), Thm 4.4 steps <1>1-<1>5 (Douglas, rank-one, (a)<=>(c), (d) <=> (a) and (e), the conditional value), Cor 4.5, Prop 4.3, Prop 4.10 (the endpoint functional, the vector-field subcone and its two model directions, E(zeta_inf) = 2 lambda (1-theta) g_Q(ddelta) in <1>4; (2') uses Lemma 6.1), Rem 6.3(i) and the verdict gap after Rem 6.4 (theta < 1 not proved), Def 4.12 + Rem 4.13-4.14 (H3; alpha = 0 needs A(zeta_0,0,0) not in F; the two families H3 excludes), Rem 4.11 (F2 T5: corner vs viscosity term; A(zeta_0,0,0) not in F is numerical), Prop 4.6. Numerically (NOT part of this card's proof): numerics/optimality_all/F2_RESULTS.md T4/T5 and the .out files cited by kkt-noise-criterion-numerics; theta from F3 (theta-value).",
    "next": "Analytic proofs of (a) and of theta < 1 (both numerical now), and H3, H1 for general data, H2 or the finite-s certificate (rigor/exact_optimum_tangent_problem.tex:1628-1636)",
-   "review": "passed 2026-09-23 by REF-DEP-CFT-A3",
+   "review": "passed 2026-09-24 by REF-CARD-CFT",
    "refereed": true,
    "awaiting_review": false,
-   "verdicts": 6,
+   "verdicts": 7,
    "review_failed": false,
    "page": "kkt-noise-sign-criterion.md",
    "related": [
@@ -3045,12 +3111,12 @@
    "area": "kubo-mori",
    "confidence": "high",
    "statement": "(a) Bounded generators (thm:exact, rigor/kubo_mori_second_variation.tex:215): for A = A* in M (bounded), u_s = e^{isA}, omega_s = omega o Ad u_s: D(omega || omega_s) = || h(Delta)^{1/2} (u_s - 1) Omega ||^2 in [0, infinity], h(lambda) = lambda - 1 - log lambda, with the sum rule int (lambda - 1) d nu_s = 0 along the orbit; liminf s^{-2} D >= g_KM/2 with no further hypothesis (thm:lower), g_KM = -2 <A Omega, log Delta A Omega> (lem:kms); D = (s^2/2) g_KM + o(s^2) under (U_eps) (thm:main), which holds in particular when A is modularly analytic in a strip, (A_eps) => (U_eps) (lem:AtoU). (b) Affiliated generators (prop:unbounded, l. 774-778): for A = A* affiliated with M and Omega in D(A), the exact identity, the sum rule, lem:kms and the lower bound hold verbatim, and the second-order expansion holds under (U_eps); for unbounded A the modular-analyticity route (A_eps) => (U_eps) is not available (lem:AtoU is for bounded A). (c) Not applicable to the recovery curve of Note 7, whose generator T(g_tot) is affiliated with the global algebra but not with the interval algebra, so e^{isA} is not in M (Gap QK2, l. 822).",
-   "verify": "rigor/kubo_mori_second_variation.tex: setting l. 102 (A bounded, in M), thm:exact (l. 215), lem:kms (l. 264), thm:lower (l. 310), thm:upper (l. 592), thm:main (l. 616), lem:AtoU (l. 524), prop:unbounded (l. 774-800, Omega in D(A) used in <1>2 and <1>3), Gap QK2 (l. 822), summary table (l. 851-853). The overview table l. 66-67 is out of date (see the DOCUMENT ERROR note).",
+   "verify": "rigor/kubo_mori_second_variation.tex: setting l. 102 (A bounded, in M), thm:exact (l. 215), lem:kms (l. 264), thm:lower (l. 310), thm:upper (l. 592), thm:main (l. 616), lem:AtoU (l. 524), prop:unbounded (l. 774-800, Omega in D(A) used in <1>2 and <1>3), Gap QK2 (l. 822), summary table (l. 851-853). The overview table l. 66-67 carries the split since 2026-09-24 (Correction C1, Sec. 11, l. 901-925): l. 66, A = A* affiliated with M and Omega in D(A), proved by prop:unbounded, with the upper bound and the expansion under (U_eps) and (A_eps) => (U_eps) only for bounded A; l. 67, A affiliated only with a larger algebra, open (Gap QK2). Until then both cases stood in one row marked open (DOCUMENT ERROR note).",
    "next": null,
-   "review": "passed 2026-09-23 by REF-DEP-CFT-B3",
+   "review": "passed 2026-09-24 by REF-CARD-CFT",
    "refereed": true,
    "awaiting_review": false,
-   "verdicts": 2,
+   "verdicts": 3,
    "review_failed": false,
    "page": "km-exact-identity.md",
    "related": [],
@@ -3471,13 +3537,13 @@
    "status": "active",
    "area": "papers",
    "confidence": "high",
-   "statement": "O1 sharp quadratic law (done: Theorem A), O2 Kubo-Mori half (conjectural), O3 tangent functional (closed via Theorem B), O4 UV tail and certified numerics (done up to D-hat quadrature), O5 implementers for general nets (done), O6 bosonic check (done), O7 lattice two-branch law (part a done, chiral model open), O8 optimality (all-channel = quasi-free SDP proved; compression not second-order minimiser; exact-fidelity optimality open), O9 thermal/RG (done), O10 gap done / networks open, O11 sectors open. Phases 1-3b executed 8-10 Sep 2026; status files rigor/PHASE{1,2,3}_STATUS.md.",
+   "statement": "O1 sharp quadratic law (done: Theorem A), O2 Kubo-Mori half (conjectural), O3 tangent functional (closed via Theorem B), O4 UV tail and certified numerics (tail bound proved in shape; its explicit constants 0.173, 0.88 rest on uncertified numerical inputs, so the error bars of tail_bound.tex are not certified; certified_numerics.tex's box-value enclosures are certified except for the D-hat quadrature and the box cutoff; open_problems_plan.tex:209, corrected 2026-09-24, Correction C2), O5 implementers for general nets (done), O6 bosonic check (done), O7 lattice two-branch law (part a done, chiral model open), O8 optimality (all-channel = quasi-free SDP proved; compression not second-order minimiser; exact-fidelity optimality open), O9 thermal/RG (done), O10 gap done / networks open, O11 sectors open. Phases 1-3b executed 8-10 Sep 2026; status files rigor/PHASE{1,2,3}_STATUS.md.",
    "verify": "open_problems_plan.pdf and the plan page artifact.",
    "next": null,
-   "review": "passed 2026-09-14 by REF-KB-2",
+   "review": "passed 2026-09-24 by REF-CARD-CFT",
    "refereed": true,
    "awaiting_review": false,
-   "verdicts": 2,
+   "verdicts": 3,
    "review_failed": false,
    "page": null,
    "related": [],
@@ -3543,13 +3609,13 @@
    "status": "active",
    "area": "papers",
    "confidence": "high",
-   "statement": "28 pp, refereed (23 edits applied + 3 orchestrator edits). Contains Theorem A, the rate, the tail bound, certified numerics, lattice outlook. Outlook rewritten 2026-09-15: the all-channel problem equals the quasi-free SDP (RigorAll); the compression is not the second-order minimiser, theta = 0.384 +- 0.003 from two independent discretisations agreeing to 3e-4 -- the modular Galerkin frame (RigorAll Sec. 5.2) and a parameter-free modular Wiener-Hopf frame (new bibitem RigorF3, numerics/optimality_all/F3_RESULTS.md) -- while the spectral circle model's smaller theta >= 0.30 (RigorS10, reproduced by RigorE2, which uses the same model) is a taper-suppressed lower bound; the upper half is proved via exterior extensions (RigorE1), so E_rec <= (1 - theta_fr) f2 z^2 (1+o(1)) with theta_fr >= 0.38; the optimum is bracketed in [dual value, 0.616 f2 z^2]. Numbers propagated 2026-09-15 (Phase 5 propagation); page count unchanged at 28.",
+   "statement": "29 pp (paper1/main.log, 2026-09-24; 28 pp until the author block and 'Provenance and AI use' section of 2026-09-20), refereed (23 edits applied + 3 orchestrator edits). Contains Theorem A, the rate, the tail bound (since the in-place fixes of 2026-09-24 the paper says that only its shape is proved, that its explicit constants 0.173, 0.88 rest on uncertified numerical inputs and that the error bars of tail_bound.tex are not certified: sec_fidelity.tex rem:tail-status, l. 219-223; main.tex:112; sec_numerics.tex:51), certified numerics (rigor/certified_numerics.tex), lattice outlook. Outlook rewritten 2026-09-15: the all-channel problem equals the quasi-free SDP (RigorAll); the compression is not the second-order minimiser, theta = 0.384 +- 0.003 from two independent discretisations agreeing to 3e-4 -- the modular Galerkin frame (RigorAll Sec. 5.2) and a parameter-free modular Wiener-Hopf frame (new bibitem RigorF3, numerics/optimality_all/F3_RESULTS.md) -- while the spectral circle model's smaller theta >= 0.30 (RigorS10, reproduced by RigorE2, which uses the same model) is a taper-suppressed lower bound; the upper half is proved via exterior extensions (RigorE1), so E_rec <= (1 - theta_fr) f2 z^2 (1+o(1)) with theta_fr >= 0.38; the optimum is bracketed in [dual value, 0.616 f2 z^2]. Numbers propagated 2026-09-15 (Phase 5 propagation); page count then unchanged at 28.",
    "verify": "paper1/main.pdf compiles; rigor/referee_paper1.md.",
    "next": "Apply the 13 proposed wording edits of rigor/referee_paper1.md; replace internal bibitems marked '[internal document]' (Note1..7, RigorQL/UB/KI/SV/CN5/CN5N, RigorS8/All/S10/E1/E2) by citable references before submission; re-referee the rewritten optimality passages.",
-   "review": "passed 2026-09-21 by REF-AUTHOR-1c",
+   "review": "passed 2026-09-24 by REF-CARD-CFT",
    "refereed": true,
    "awaiting_review": false,
-   "verdicts": 8,
+   "verdicts": 9,
    "review_failed": false,
    "page": null,
    "related": [],
@@ -3574,13 +3640,13 @@
    "status": "active",
    "area": "papers",
    "confidence": "high",
-   "statement": "24 pp, refereed (26 edits applied). Theorem B with the implementer hypotheses, bosonic check, Kubo-Mori section as conjecture plus bracket.",
+   "statement": "25 pp (paper2/main.log, 2026-09-24; 24 pp until the author block and 'Provenance and AI use' section of 2026-09-20), refereed (26 edits applied). Theorem B with the implementer hypotheses, bosonic check, Kubo-Mori section as conjecture plus bracket.",
    "verify": "paper2/main.pdf; rigor/referee_paper2.md.",
    "next": "Apply the 10 proposed wording edits; keep s2 = c/12 as a conjecture with the bracket; replace internal citations.",
-   "review": "passed 2026-09-21 by REF-BUILD-1b",
+   "review": "passed 2026-09-24 by REF-CARD-CFT",
    "refereed": true,
    "awaiting_review": false,
-   "verdicts": 5,
+   "verdicts": 6,
    "review_failed": false,
    "page": null,
    "related": [],
@@ -3605,13 +3671,13 @@
    "status": "proved",
    "area": "optimality",
    "confidence": "high",
-   "statement": "Per chirality (Prop. prop:convex(4), rigor/optimality_second_order.tex): the zero-collar geometric compression (s = lambda) is an admissible recovery channel with -log F = Phi(z) = f2 z^2 (1+o(1)), f2 = c/(12 pi^2) (Theorem A, card const-f2), and Phi obeys the proved one-sided bound Phi(zeta) <= -(1/2) log(1 - 2 f2 zeta^2) = f2 zeta^2 (1 + f2 zeta^2 + O(zeta^4)) (free fermion, for 2 f2 zeta^2 < 1; rigor/rate_of_remainder.tex thm:global with sec:rrr-f2; card rate-of-remainder), whereas the ordinary Petz map (s = 2 lambda, zeta = 2z) gives Phi(2z) = 4 f2 z^2 (1+o(1)): at leading order the Petz map is worse by the factor 4. Phi is nondecreasing (check_note5_theory.tex prop:mono), so within the geometric family the infimum is attained at the compression, and the range constraint beta(A(BC)) subset A(B) (s >= lambda, i.e. zeta >= z) is active there (Remark rem:active). NOT proved: a two-sided O(z^3) remainder. S8 writes f2 z^2 + O(z^3) and 4 f2 z^2 + O(z^3), but the cited step gives only the leading order, and every lower bound with a rate, e.g. Phi >= f2 zeta^2 (1 - 0.99 zeta + O(zeta^2)), is conditional on a cutoff-uniform remainder (Problem 7.2 of quadratic_limit.tex; rate_of_remainder.tex:772-775 and the status table :795-798). The 2D clause of prop:convex(4) (spatial compression 2 f2 z^2 against Petz 8 f2 z^2, both chiralities) is stated in the proposition (:95-97) but no proof step addresses it; it needs the factorisation into two chiral halves, proved only for the massless Dirac fermion (check_note5_theory.tex prop:chirality; card two-chirality-law), and is not claimed here. Numerical, not proved: on lattices the best quasi-free channel found has E_rec/(-log F_Petz) = 0.270, 0.280, 0.284 at (4,8,2), (8,16,4), (4,12,2) (Table tab:opt and eq. (14), :636; card optimal-channel-structure).",
-   "verify": "rigor/optimality_second_order.tex Prop. 1.3(4) (prop:convex) step <1>5 with <2>1-<2>4 (:132-152) and Remark 1.4 (rem:active); fidelity_recovered_quasifree.tex Cor. 5.1 (cor:collapse); rigor/check_note5_theory.tex Prop. 8.1 (prop:mono); rigor/rate_of_remainder.tex Thm. thm:global with Sec. sec:rrr-f2 and the summary table :795-798 (the upper bound proved, the lower bounds with a rate conditional); lattice ratios: Table 1 (tab:opt) and eq. (14) of optimality_second_order.tex (:636), key numbers 0.2695, 0.2801, 0.2837 in numerics/optimality/README.md.",
+   "statement": "Per chirality (Prop. prop:convex(4), rigor/optimality_second_order.tex): the zero-collar geometric compression (s = lambda) is an admissible recovery channel with -log F = Phi(z) = f2 z^2 (1+o(1)), f2 = c/(12 pi^2) (Theorem A, card const-f2), and Phi obeys the proved one-sided bound Phi(zeta) <= -(1/2) log(1 - 2 f2 zeta^2) = f2 zeta^2 (1 + f2 zeta^2 + O(zeta^4)) (free fermion, for 2 f2 zeta^2 < 1; rigor/rate_of_remainder.tex thm:global with sec:rrr-f2; card rate-of-remainder), whereas the ordinary Petz map (s = 2 lambda, zeta = 2z) gives Phi(2z) = 4 f2 z^2 (1+o(1)): at leading order the Petz map is worse by the factor 4. The one-sided bound Phi(zeta) <= -(1/2) log(1 - 2 f2 zeta^2) is settled from the documents for zeta < (4 f2)^{-1/2} = pi sqrt(3) = 5.44; on the rest of 2 f2 zeta^2 < 1, pi sqrt(3) <= zeta < pi sqrt(6) = 7.70, it rests on the conjectural card group-index-zero-large-s (index zero of e^{sK} beyond ||G_s||_2 < 1; rate_of_remainder.tex Correction C3 of 2026-09-24, through card rate-of-remainder); the leading-order comparison does not use that range. Phi is nondecreasing (check_note5_theory.tex prop:mono), so within the geometric family the infimum is attained at the compression, and the range constraint beta(A(BC)) subset A(B) (s >= lambda, i.e. zeta >= z) is active there (Remark rem:active). NOT proved: a two-sided O(z^3) remainder. S8 writes f2 z^2 + O(z^3) and 4 f2 z^2 + O(z^3), but the cited step gives only the leading order, and every lower bound with a rate, e.g. Phi >= f2 zeta^2 (1 - 0.99 zeta + O(zeta^2)), is conditional on a cutoff-uniform remainder (Problem 7.2 of quadratic_limit.tex; rate_of_remainder.tex:772-775 and the status table :795-798). The 2D clause of prop:convex(4) (spatial compression 2 f2 z^2 against Petz 8 f2 z^2, both chiralities) is stated in the proposition (:95-97) but no proof step addresses it; it needs the factorisation into two chiral halves, proved only for the massless Dirac fermion (check_note5_theory.tex prop:chirality; card two-chirality-law), and is not claimed here. Numerical, not proved: on lattices the best quasi-free channel found has E_rec/(-log F_Petz) = 0.270, 0.280, 0.284 at (4,8,2), (8,16,4), (4,12,2) (Table tab:opt and eq. (14), :636; card optimal-channel-structure).",
+   "verify": "rigor/optimality_second_order.tex Prop. 1.3(4) (prop:convex) step <1>5 with <2>1-<2>4 (:132-152) and Remark 1.4 (rem:active); fidelity_recovered_quasifree.tex Cor. 5.1 (cor:collapse); rigor/check_note5_theory.tex Prop. 8.1 (prop:mono); rigor/rate_of_remainder.tex Thm. thm:global with Sec. sec:rrr-f2 and the summary table :795-798 (the upper bound proved, the lower bounds with a rate conditional) and its Correction C3 (l. 1062-1079: the upper bound's settled range); lattice ratios: Table 1 (tab:opt) and eq. (14) of optimality_second_order.tex (:636), key numbers 0.2695, 0.2801, 0.2837 in numerics/optimality/README.md.",
    "next": null,
-   "review": "passed 2026-09-23 by REF-DEP-CFT-A3",
+   "review": "passed 2026-09-24 by REF-CARD-ROR",
    "refereed": true,
    "awaiting_review": false,
-   "verdicts": 2,
+   "verdicts": 3,
    "review_failed": false,
    "page": "petz-not-optimal.md",
    "related": [],
@@ -3644,6 +3710,12 @@
      "kind": "doc",
      "path": "rigor/optimality_second_order.tex",
      "anchor": "tab:opt",
+     "access": "public"
+    },
+    {
+     "kind": "doc",
+     "path": "rigor/rate_of_remainder.tex",
+     "anchor": "corr0924:C3",
      "access": "public"
     }
    ]
@@ -3843,16 +3915,17 @@
    "status": "numerical",
    "area": "theorem-a",
    "confidence": null,
-   "statement": "The single-chirality zero-collar recovery error of the free chiral fermion satisfies Phi(zeta) <= 0.0085 zeta^2 for every zeta in (0, 1]. (a) On (0, 0.8868] this is rigorous: card rate-of-remainder (prop:rrr) gives Phi(zeta) <= -(1/2) log(1 - 2 f2 zeta^2) with f2 = 1/(12 pi^2), and -(1/2) log(1 - 2 f2 zeta^2) <= 0.0085 zeta^2 exactly for zeta <= 0.88681. (b) On [0.8868, 1] it rests on a numerical value: Phi is nondecreasing (card phi-monotone-in-zeta) and Phi(1.0667) = 4.41(2)e-3 (card large-zeta-values: certified lower bound 4.381e-3, extrapolated estimates 4.41e-3 to 4.535e-3, the upper side not certified), so Phi(zeta) <= Phi(1.0667) <= 4.54e-3 < 0.0085 x 0.8868^2 = 6.68e-3. Consistent with the seven tabulated values Phi/zeta^2 = 0.00838 ... 0.00543 at zeta = 1/120 ... 8/15 (Note 5 Table 4, tab:scan) and with lim Phi/zeta^2 = 0.008444 (Theorem A). Remark: prop:rrr alone gives Phi <= 0.008516 zeta^2 on all of (0, 1] (the ratio -(1/2) log(1 - 2 f2 zeta^2)/zeta^2 increases, to 0.0085155 at zeta = 1), which would serve tail-bound equally (2 sqrt(0.875 x 0.008516) = 0.1726 <= 0.173), but tail_bound.tex does not cite it.",
-   "verify": "rigor/rate_of_remainder.tex prop:rrr (l. 848-880; Phi <= -(1/2) log(1 - 2 f2 zeta^2) for zeta < (2 f2)^{-1/2}); crossover 0.88681 by bisection of -(1/2) log(1 - 2 zeta^2/(12 pi^2)) = 0.0085 zeta^2; rigor/check_note5_theory.tex prop:mono; numerics/results_largezeta_certified.txt sec. 4 (zeta = 1.067: lower 4.381243e-3, best 4.41039e-3 +- 2.0e-5, largest estimate 4.53458e-3). The tail_bound.tex use: Cor. 5.2 (cor:rate, l. 502-512), which cites 'Note 5, Table 3': the table (tab:scan) is Table 4 in the current Note 5.",
+   "statement": "The single-chirality zero-collar recovery error of the free chiral fermion satisfies Phi(zeta) <= 0.0085 zeta^2 for every zeta in (0, 1]. (a) On (0, 0.8868] this is rigorous: card rrr-bound-small-zeta (prop:rrr in the range zeta < (4 f2)^{-1/2} = pi sqrt(3) that rate_of_remainder.tex Correction C3 settles) gives Phi(zeta) <= -(1/2) log(1 - 2 f2 zeta^2) with f2 = 1/(12 pi^2), and -(1/2) log(1 - 2 f2 zeta^2) <= 0.0085 zeta^2 exactly for zeta <= 0.88681. (b) On [0.8868, 1] it rests on a numerical value: Phi is nondecreasing (card phi-monotone-in-zeta) and Phi(1.0667) = 4.41(2)e-3 (card large-zeta-values: certified lower bound 4.381e-3, extrapolated estimates 4.41e-3 to 4.535e-3, the upper side not certified), so Phi(zeta) <= Phi(1.0667) <= 4.54e-3 < 0.0085 x 0.8868^2 = 6.68e-3. Consistent with the seven tabulated values Phi/zeta^2 = 0.00838 ... 0.00543 at zeta = 1/120 ... 8/15 (Note 5 Table 4, tab:scan) and with lim Phi/zeta^2 = 0.008444 (Theorem A). Remark: prop:rrr alone gives Phi <= 0.008516 zeta^2 on all of (0, 1] (the ratio -(1/2) log(1 - 2 f2 zeta^2)/zeta^2 increases, to 0.0085155 at zeta = 1), which would serve tail-bound equally (2 sqrt(0.875 x 0.008516) = 0.1726 <= 0.173). Since 2026-09-24 tail_bound.tex cites prop:rrr, in Correction C3 (l. 935-940, 964-967): it gives the basis of f = 0.0085 as this card records it (rigorous on (0, 0.8868] by prop:rrr, numerical on [0.8868, 1] through prop:mono and Phi(1.0667) = 4.41e-3) and names prop:rrr's f = 0.008516 as a possible replacement of f; cor:rate itself still takes f = 0.0085 (l. 510). Until 2026-09-24 tail_bound.tex did not cite prop:rrr.",
+   "verify": "rigor/rate_of_remainder.tex prop:rrr (l. 848-880; printed for zeta < (2 f2)^{-1/2}, settled for zeta < pi sqrt(3) by its Correction C3 (ii), l. 1069-1075; card rrr-bound-small-zeta); crossover 0.88681 by bisection of -(1/2) log(1 - 2 zeta^2/(12 pi^2)) = 0.0085 zeta^2; rigor/check_note5_theory.tex prop:mono; numerics/results_largezeta_certified.txt sec. 4 (zeta = 1.067: lower 4.381243e-3, best 4.41039e-3 +- 2.0e-5, largest estimate 4.53458e-3). The tail_bound.tex use: Cor. 5.2 (cor:rate, l. 502-512), which cites Note 5, Table 4 (tab:scan) (corrected 2026-09-24, tail_bound.tex Correction C3; until 2026-09-24 it cited 'Note 5, Table 3').",
    "next": null,
-   "review": "passed 2026-09-23 by REF-DEP-CFT-B4",
+   "review": "passed 2026-09-24 by REF-CARD-ROR",
    "refereed": true,
    "awaiting_review": false,
-   "verdicts": 2,
+   "verdicts": 6,
    "review_failed": false,
    "page": "phi-below-0085-zeta2-numerical.md",
    "related": [
+    "rrr-bound-small-zeta",
     "tail-bound",
     "thm-a-quadratic-law"
    ],
@@ -4098,6 +4171,36 @@
    ]
   },
   {
+   "id": "pushforward-blocks-equal-singular-values",
+   "origin": "claims",
+   "title": "The two off-diagonal blocks P_- W~_s P_+ and P_+ W~_s P_- of the push-forward W~_s have the same singular values for every real s (complex-conjugation argument of rate_of_remainder.tex C3 (i), not yet written as a proof)",
+   "type": "result",
+   "status": "heuristic",
+   "area": "theorem-a",
+   "confidence": null,
+   "statement": "For every admissible field chi (rate_of_remainder.tex Def. 2.1) and every real s, the off-diagonal blocks P_- W~_s P_+ and P_+ W~_s P_- of the push-forward W~_s = W_{k~_s} have the same singular values, with multiplicities (the index-zero condition ind(P_+ W~_s P_+|_{P_+ H}) = 0 of rate_of_remainder.tex Correction C3), because W~_s commutes with complex conjugation C (W_phi is a real operator, PA eq. (3), eq:pushforward) and C P_+ C = P_- (conjugate the kernels of PA eq. (1), eq:hardy; PA Correction C1), so that P_+ W~_s P_- = C (P_- W~_s P_+) C with C antiunitary.",
+   "verify": "rigor/rate_of_remainder.tex Sec. 7 (Corrections of 2026-09-24), C3: 'Status of the uses' (i), l. 1063-1068, gives the argument as the ruling of the referee of the corrections (REF-DOC-W2B) and says 'This one-line argument is not yet written in any document'; the mechanism, l. 1034-1043 (for a unitary the two blocks' singular values agree except at 1, whose multiplicities are dim ker X^* and dim ker X). Inputs: rigor/uhlmann_upper_bound.tex eq. (3) (eq:pushforward, l. 62-65, a real operator), eq. (1) (eq:hardy, l. 42-46: the complex conjugate of the kernel of P_+ is that of P_-; in either Fourier convention conjugation maps f^(k) to conj f^(-k)) and PA Correction C1, l. 1551-1553 ('complex conjugation exchanges the two'); k~_s is an increasing C^{1,1} bijection of R for every real s (PA Correction C2, l. 1571-1573, Lemma lem:ext). Uses: Thm 2.3 (thm:exactquad) <1>1 (l. 155-157) and <1>4 (l. 166-171), Thm 2.5 (thm:global) <1>1 (l. 190-195), where PA Thm 4.1's second hypothesis ||P_+ W~_zeta P_-|| < 1 follows from ||V_zeta|| < 1 (C3, l. 1053-1056).",
+   "next": "Write the argument as a proof in rigor/rate_of_remainder.tex, e.g. as a new correction item that replaces the reason 'in the CS decomposition of the unitary W~_s ... the two off-diagonal blocks have the same singular values' at Thm 2.3 <1>4 (l. 168-171), and the identity Tr(G^2) = 2 ||P_- W P_+||_2^2 at <1>1 (l. 156), by W~_s = C W~_s C and C P_+ C = P_- (PA eq:pushforward, eq:hardy), and that supplies ||P_+ W~_zeta P_-|| = ||V_zeta|| < 1 for PA Thm 4.1 in Thm 2.5 <1>1 (l. 190-195); the same for the push-forwards in rigor/exact_fidelity_upper_half.tex (its C3, suggested repair, l. 1190-1193). Have it refereed; then this card can become proved.",
+   "review": "passed 2026-09-24 by REF-CARD-ROR",
+   "refereed": true,
+   "awaiting_review": false,
+   "verdicts": 1,
+   "review_failed": false,
+   "page": null,
+   "related": [
+    "rate-of-remainder",
+    "group-index-zero-large-s"
+   ],
+   "evidence": [
+    {
+     "kind": "doc",
+     "path": "rigor/rate_of_remainder.tex",
+     "anchor": "corr0924:C3",
+     "access": "public"
+    }
+   ]
+  },
+  {
    "id": "quasi-free-fidelity-formula",
    "origin": "claims",
    "title": "Exact root fidelity of two quasi-free CAR states from their symbols (Note 5 Thm. 2.1)",
@@ -4201,13 +4304,13 @@
    "status": "proved",
    "area": "theorem-a",
    "confidence": "high",
-   "statement": "For the zero-collar compression of the free chiral fermion (f2 = g_B/8 = 1/(12 pi^2) per component): (1) group bound (lem:groupbound): for U_s = e^{sK} with [P_-, K] Hilbert-Schmidt, ||V_s||_2^2 <= s^2 ||P_- K P_+||_2^2 exactly, V_s = P_- U_s P_+; (2) global bound (thm:global with prop:rrr, unconditional): for K = D + i h' with h' in the admissible commutant class, Gamma(U_s)^* Omega represents the recovered state and Phi(zeta) <= -(1/2) log(1 - 2 f2^K zeta^2) with inf over h' of f2^K = g_B/8 = f2, hence Phi(zeta) <= -(1/2) log(1 - 2 f2 zeta^2) = f2 zeta^2 (1 + f2 zeta^2 + O(zeta^4)) for zeta < (2 f2)^{-1/2}, with no cubic term; (3) consequences (cor:c3sign): limsup_{zeta -> 0} (Phi - f2 zeta^2)/zeta^3 <= 0, so c3 <= 0 IF Phi = f2 zeta^2 (1 + c3 zeta + o(zeta)); and there is no remainder + b zeta^2/log^2(1/zeta) with b > 0, since Phi - f2 zeta^2 <= f2^2 zeta^4/(1 - 2 f2 zeta^2); this refutes the zeta^2 log^-2 remainder of Note 5 Cor. 4.2 (a double count). NOT claimed here: that Phi has an expansion in integer powers, and the values c3 = -0.99(1), c4 = +0.9(1) (card remainder-c3-c4-values, heuristic); every lower bound with a rate is conditional on a cutoff-uniform constant (summary table, l. 786-800).",
-   "verify": "rigor/rate_of_remainder.tex lem:groupbound (l. 818), thm:global (l. 180-200), prop:rrr (l. 848-880; it removes the hypothesis f2* = f2 of the earlier version), cor:c3sign (l. 247-262), summary table (l. 786-800: upper bound proved, values numerical, lower bounds conditional); referee report rigor/referee_rate_of_remainder.tex prop:repair. No numerics are needed for this card.",
+   "statement": "For the zero-collar compression of the free chiral fermion (f2 = g_B/8 = 1/(12 pi^2) per component): (1) group bound (lem:groupbound): for U_s = e^{sK} with [P_-, K] Hilbert-Schmidt, ||V_s||_2^2 <= s^2 ||P_- K P_+||_2^2 exactly, V_s = P_- U_s P_+; (2) global bound (thm:global with prop:rrr, unconditional): for K = D + i h' with h' in the admissible commutant class, Gamma(U_s)^* Omega represents the recovered state and Phi(zeta) <= -(1/2) log(1 - 2 f2^K zeta^2) with inf over h' of f2^K = g_B/8 = f2, hence Phi(zeta) <= -(1/2) log(1 - 2 f2 zeta^2) = f2 zeta^2 (1 + f2 zeta^2 + O(zeta^4)) for zeta < (2 f2)^{-1/2}, with no cubic term; (3) consequences (cor:c3sign): limsup_{zeta -> 0} (Phi - f2 zeta^2)/zeta^3 <= 0, so c3 <= 0 IF Phi = f2 zeta^2 (1 + c3 zeta + o(zeta)); and there is no remainder + b zeta^2/log^2(1/zeta) with b > 0, since Phi - f2 zeta^2 <= f2^2 zeta^4/(1 - 2 f2 zeta^2); this refutes the zeta^2 log^-2 remainder of Note 5 Cor. 4.2 (a double count). Index gap (rate_of_remainder.tex Correction C3 of 2026-09-24, l. 1026-1079): (1) and (2) use that the two off-diagonal blocks P_- U_s P_+ and P_+ U_s P_- of the unitary have the same singular values, which the printed proofs assert for every unitary (Thm 2.3 <1>4 and Lemma 6.1 <1>4 by the CS decomposition, l. 168-171 and 842-846; Thm 2.3 <1>1 and Lemma 6.1 <1>1 in the squared-norm form ||G_s||_2^2 = 2 ||V_s||_2^2, l. 156 and 828-832; C3, l. 1044-1050), but which holds only when P_+ U_s P_+ has index zero on P_+ H. The documents settle this while ||G_s||_2 < 1, G_s = P_+ - U_s^* P_+ U_s, which Lemma 6.1 <1>2 gives for |s| ||[P_-, K]||_2 < 1: so (1) is settled for |s| ||[P_-, K]||_2 < 1, the bound of (2) with f2^K for zeta < (4 f2^K)^{-1/2}, and the bound with f2 for zeta < (4 f2)^{-1/2} = pi sqrt(3) = 5.44 (the h' with 4 f2^K zeta^2 < 1 still have inf f2^K = f2, because inf f2^K = f2 < 1/(4 zeta^2), and prop:rrr <1>4 takes the infimum over them; for zeta >= pi sqrt(3) no h' qualifies, since f2^K >= f2). Beyond that, i.e. for |s| ||[P_-, K]||_2 >= 1 in (1), for (4 f2^K)^{-1/2} <= zeta < (2 f2^K)^{-1/2} in (2) and for pi sqrt(3) <= zeta < (2 f2)^{-1/2} = pi sqrt(6) = 7.70 in the bound with f2, they rest on the cards pushforward-blocks-equal-singular-values (heuristic) for the push-forwards W~_s = e^{sD} (h' = 0; thm:global with f2^chi) and group-index-zero-large-s (conjectural) for every other e^{sK}; (3) uses only small zeta and is unaffected. NOT claimed here: that Phi has an expansion in integer powers, and the values c3 = -0.99(1), c4 = +0.9(1) (card remainder-c3-c4-values, heuristic); every lower bound with a rate is conditional on a cutoff-uniform constant (summary table, l. 786-800).",
+   "verify": "rigor/rate_of_remainder.tex lem:groupbound (l. 818), thm:global (l. 180-200), prop:rrr (l. 848-880; it removes the hypothesis f2* = f2 of the earlier version), cor:c3sign (l. 247-262), summary table (l. 786-800: upper bound proved, values numerical, lower bounds conditional); referee report rigor/referee_rate_of_remainder.tex prop:repair; the index gap and the settled ranges: Sec. 7 'Corrections of 2026-09-24', item C3 (l. 1026-1079; status of the uses, l. 1062-1079), which changed no proof text, so the summary table's 'proved' predates it. No numerics are needed for this card.",
    "next": null,
-   "review": "passed 2026-09-23 by REF-DEP-CFT-B8",
+   "review": "passed 2026-09-24 by REF-CARD-ROR",
    "refereed": true,
    "awaiting_review": false,
-   "verdicts": 4,
+   "verdicts": 6,
    "review_failed": false,
    "page": "rate-of-remainder.md",
    "related": [
@@ -4244,6 +4347,12 @@
      "kind": "doc",
      "path": "rigor/rate_of_remainder.tex",
      "anchor": "cor:c3sign",
+     "access": "public"
+    },
+    {
+     "kind": "doc",
+     "path": "rigor/rate_of_remainder.tex",
+     "anchor": "corr0924:C3",
      "access": "public"
     }
    ]
@@ -4333,13 +4442,13 @@
    "status": "active",
    "area": "infrastructure",
    "confidence": "high",
-   "statement": "Since 2026-09-20 the cft_cmi directory is covered by two git repositories sharing one work tree, so no file moved and no tool was reconfigured. .git holds the publishable project: papers, notes, rigor documents, numerics scripts and the 97 tracked .out files, 83 under numerics/ and 14 under rigor/, 96 of them run captures and one (rigor/_probe.out) a stray LaTeX bookmark file, of which 23 are named by a card's evidence token (./pgit (held privately) check prints the file count of each repository, and both move with every commit, so neither of those two counts is fixed here), remote https://github.com/alexander-stottmeister/cft-cmi; .git-private holds what must not be published (235 files on 2026-09-23, and it moves on every private commit -- a new page excerpt, a new source PDF, or a note held here rather than published, as one was while the plan-page exposure was open: the 178 page excerpts in rigor/shots (held privately), the 47 source PDFs in refs, the five cited-result compendia rigor/cited_R1..R4.tex and cited_results_all.tex, plan_page/petz_program_plan.html (held privately), CHECKLIST.md (held privately), PRIVATE.md (held privately), pgit and pgit-exclude (held privately), which is exactly what git --git-dir=.git-private ls-files lists outside the first two directories), remote https://github.com/alexander-stottmeister/cft-cmi-private, driven by the wrapper ./pgit (status, sync, check, push). The companion remote has been private since 2026-09-20 and must stay so; the project remote was private from its recreation on 2026-09-21 until 2026-09-22, when it was made public and the site went live. The two tracked sets are disjoint (overlap 0) and the files tracked by neither are regenerable build products and caches (436 files, 201.6 MB on 2026-09-23; the knowledge base writes one review packet per review into rigor/ and they are tracked by neither, so this count rises by one per review). Three things make it work: (1) rigor_preamble.tex defines \\\\shot[width]{file} and \\\\shotc, an exact drop-in for \\\\includegraphics that embeds the excerpt when rigor/shots is present and prints a framed locator note when absent -- 255 call sites in 19 documents were converted, local builds are unchanged (network_corner_calculus 42 pp with images) and a clone of the REMOTE builds with one placeholder per call site (quadratic_limit 26 pp / 0 images against 27 pp / 8 locally, verified by REF-INFRA-2); (2) the 24 python scripts that hardcoded /Users/alex now resolve paths against a computed _ROOT (37 literals), and the four shell scripts that hardcoded a session scratchpad interpreter now honour $PYTHON; (3) because a work-tree .gitignore outranks info/exclude, the private repo cannot see NEW files under its own paths, so ./pgit sync force-stages them and ./pgit check fails on either an overlap or untracked excerpts; since a bare clone carries no info/exclude, the whitelist is tracked as pgit-exclude and ./pgit reinstalls it on every run. The public history never contained an excerpt or a source PDF (verified against a clone of the remote). It DID contain the five cited-result compendia, and a history rewrite was needed and carried out on 2026-09-21: they were removed from every commit and force-pushed, and no ref of the remote reaches them any more (verified from a fresh mirror clone: 0 objects bear their names, the tag's tree is clean, none of the paths it ever added is an excerpt or a PDF). THEY REMAINED RECOVERABLE FROM THE REMOTE UNTIL 2026-09-21, AND ARE NOT NOW. The rewrite bought unreachability, not deletion: GitHub retains unreachable objects and serves them by SHA, and three independent REST routes each returned the files, the largest of them byte-identical to the private copy at its full 299,915 bytes. The seeds were not confidential either. The repository's Actions, events and activity endpoints and the owner's timeline published 44 discarded commits between them, the activity feed labelled the force-push and named the discarded head outright, each run published a root tree id that reached the files in two calls with no commit hash at all, and one seed walked the whole discarded history. Seven public-tracked files in this repository gave the route in words. A mirror clone cannot see any of it, because a clone carries only reachable objects, so the earlier 'verified from mirror clones' was a true statement about the wrong thing. CLEARED on 2026-09-21 by the second of the two recorded routes: the user deleted the remote and recreated it empty under the same name, plan_page/petz_program_plan.html was removed from every local commit and the tag retagged, and the rewritten history was pushed to the fresh remote. Verified afterwards, and this is the check that matters rather than the clone: all five recovery routes fail -- the four REST routes with 'No commit found' or 'Not Found', and git fetch of a discarded SHA with 'upload-pack: not our ref' -- for all nine discarded objects the tracked notes name by a full 40-character token, each probed by the endpoints that can reach it: the two discarded commits, the compendium blob, and the five further private blob names and the one reconstructed subtree that the eighth pass added to the test (the notes carry fifteen such tokens; the other six name objects of this history or the private companion's head, and resolve rather than fail); every hash the four feeds publish resolves in the local history; and every path ever added is checked, none of them an excerpt, a source PDF, a compendium or the plan page (623 paths on 2026-09-22, one more with every commit, so this is a check to re-run and not a number to carry); and no path in the whole history is one the current ignore rules would hide. The release was recreated with the same two assets, rebuilt from sources that git diff shows are unchanged since the tag (629,891 B and 607,822 B, byte-identical to the local builds). A controlled rebuild of paper 1 reproduces the length exactly and differs in 66 bytes: the /CreationDate and /ModDate and the two trailer /ID digests pdflatex derives from them. The original assets' lengths were never recorded, so 'unchanged length' is an inference from that rebuild and not a comparison. The seven files that gave the route are kept rather than moved: their recipes are now inert, and they are the record of how this was found. What bounded the exposure while it lasted was access control alone -- until 2026-09-22 the repository was private, and throughout the exposure it was unforked and the owner was its only collaborator -- and what ends it is that the objects no longer exist: the repository serving this name was created at 2026-09-21T19:55:13Z with a new id and holds this history and nothing else. Since the flip it is public, forking is allowed and there are no forks, and one further collaborator has held write access since 2026-09-22; none of that restores an object the recreation destroyed, and every route was re-run against the public remote and against an unauthenticated client after the flip. The other recorded route, a GitHub Support purge of the unreachable objects, was therefore not needed and is not open work. plan_page/petz_program_plan.html went with the compendia: it is in no commit of the history and not in the tree of the retagged v0.1.0-draft, and it is tracked privately. One residual that is not an exposure: GitHub keeps a deleted repository restorable by its owner for a window, so 'deleted' is soft from the owner's side and hard from every reader's. Licensing: MIT for code, CC BY 4.0 for documents and data, no third-party material redistributed (THIRD-PARTY.md). KNOWLEDGE BASE: unaffected, and it is a third repository (claude-team-kb, ../kb) with its own sync. Every evidence pointer resolves on a machine carrying all three clones, and none fails. NINE targets live in the private repo and are cited by TEN cards (counting doc:, num:, ref: tokens in areas/, claims/ and evidence/, excluding the generated INDEX, SUMMARY and CHANGELOG): six source papers (AlbertiUhlmann02_math-ph-0202038, BJL_twisted_duality_math-ph-0204029, CDIT_1808.02384, Sion1958_minimax, Uhlmann76, VWZ_2307.14434) doc:CHECKLIST.md, doc:PRIVATE.md, and doc:plan_page/petz_program_plan.html, which plan-page and open-problems-plan-note8 cite and which became private-only on 2026-09-21. A machine with only the public clone loses those pointers, and refs/restore.sh is not a substitute: of the six papers it recovers exactly ONE under the cited filename (VWZ); Uhlmann76 is tabled as paywalled, CDIT is tabled as CDIW21 so restoring writes a different filename, and the remaining three (AlbertiUhlmann02, BJL_twisted_duality, Sion1958_minimax) appear in REFERENCES.md only as bullet entries, not as rows of the table restore.sh parses. The review packets the KB writes into rigor/ are tracked by neither repository. A new machine needs three clones as siblings: kb, cft_cmi, and cft-cmi-private into cft_cmi/.git-private, with the fetch refspec, upstream and ./pgit check that PRIVATE.md spells out (recipe verified end to end by REF-INFRA-2b: shots and refs restored, status clean, document builds with images).",
+   "statement": "Since 2026-09-20 the cft_cmi directory is covered by two git repositories sharing one work tree, so no file moved and no tool was reconfigured. .git holds the publishable project: papers, notes, rigor documents, numerics scripts and the 108 tracked .out files on 2026-09-24, 94 under numerics/ and 14 under rigor/, 107 of them run captures and one (rigor/_probe.out) a stray LaTeX bookmark file, of which 37 are named by a card's evidence token (./pgit (held privately) check prints the file count of each repository, and both move with every commit, so neither of those two counts is fixed here), remote https://github.com/alexander-stottmeister/cft-cmi; .git-private holds what must not be published (237 files on 2026-09-24, and it moves on every private commit -- a new page excerpt, a new source PDF, or a note held here rather than published, as one was while the plan-page exposure was open: the 178 page excerpts in rigor/shots (held privately), the 47 source PDFs in refs, the five cited-result compendia rigor/cited_R1..R4.tex and cited_results_all.tex, plan_page/petz_program_plan.html (held privately), CHECKLIST.md (held privately), PRIVATE.md (held privately), pgit and pgit-exclude (held privately), and since 2026-09-24 a backup of the two run logs that cards cite, numerics/optimality/lb.log and numerics/certified/hp.log, which are not confidential but which the public *.log rule hides; that is exactly what git --git-dir=.git-private ls-files lists outside the first two directories), remote https://github.com/alexander-stottmeister/cft-cmi-private, driven by the wrapper ./pgit (status, sync, check, push). The companion remote has been private since 2026-09-20 and must stay so; the project remote was private from its recreation on 2026-09-21 until 2026-09-22, when it was made public and the site went live. The two tracked sets are disjoint (overlap 0) and the files tracked by neither are regenerable build products and caches (436 files, 201.6 MB on 2026-09-23; the knowledge base writes one review packet per review into rigor/ and they are tracked by neither, so this count rises by one per review). Three things make it work: (1) rigor_preamble.tex defines \\\\shot[width]{file} and \\\\shotc, an exact drop-in for \\\\includegraphics that embeds the excerpt when rigor/shots is present and prints a framed locator note when absent -- 255 call sites in 19 documents were converted, local builds are unchanged (network_corner_calculus 42 pp with images) and a clone of the REMOTE builds with one placeholder per call site (quadratic_limit 26 pp / 0 images against 27 pp / 8 locally, verified by REF-INFRA-2); (2) the 24 python scripts that hardcoded /Users/alex now resolve paths against a computed _ROOT (37 literals), and the four shell scripts that hardcoded a session scratchpad interpreter now honour $PYTHON; (3) because a work-tree .gitignore outranks info/exclude, the private repo cannot see NEW files under its own paths, so ./pgit sync force-stages them and ./pgit check fails on either an overlap or untracked excerpts; since a bare clone carries no info/exclude, the whitelist is tracked as pgit-exclude and ./pgit reinstalls it on every run. The public history never contained an excerpt or a source PDF (verified against a clone of the remote). It DID contain the five cited-result compendia, and a history rewrite was needed and carried out on 2026-09-21: they were removed from every commit and force-pushed, and no ref of the remote reaches them any more (verified from a fresh mirror clone: 0 objects bear their names, the tag's tree is clean, none of the paths it ever added is an excerpt or a PDF). THEY REMAINED RECOVERABLE FROM THE REMOTE UNTIL 2026-09-21, AND ARE NOT NOW. The rewrite bought unreachability, not deletion: GitHub retains unreachable objects and serves them by SHA, and three independent REST routes each returned the files, the largest of them byte-identical to the private copy at its full 299,915 bytes. The seeds were not confidential either. The repository's Actions, events and activity endpoints and the owner's timeline published 44 discarded commits between them, the activity feed labelled the force-push and named the discarded head outright, each run published a root tree id that reached the files in two calls with no commit hash at all, and one seed walked the whole discarded history. Seven public-tracked files in this repository gave the route in words. A mirror clone cannot see any of it, because a clone carries only reachable objects, so the earlier 'verified from mirror clones' was a true statement about the wrong thing. CLEARED on 2026-09-21 by the second of the two recorded routes: the user deleted the remote and recreated it empty under the same name, plan_page/petz_program_plan.html was removed from every local commit and the tag retagged, and the rewritten history was pushed to the fresh remote. Verified afterwards, and this is the check that matters rather than the clone: all five recovery routes fail -- the four REST routes with 'No commit found' or 'Not Found', and git fetch of a discarded SHA with 'upload-pack: not our ref' -- for all nine discarded objects the tracked notes name by a full 40-character token, each probed by the endpoints that can reach it: the two discarded commits, the compendium blob, and the five further private blob names and the one reconstructed subtree that the eighth pass added to the test (the notes carry fifteen such tokens; the other six name objects of this history or the private companion's head, and resolve rather than fail); every hash the four feeds publish resolves in the local history; and every path ever added is checked, none of them an excerpt, a source PDF, a compendium or the plan page (623 paths on 2026-09-22, one more with every commit, so this is a check to re-run and not a number to carry); and no path in the whole history is one the current ignore rules would hide. The release was recreated with the same two assets, rebuilt from sources that git diff shows are unchanged since the tag (629,891 B and 607,822 B, byte-identical to the local builds). A controlled rebuild of paper 1 reproduces the length exactly and differs in 66 bytes: the /CreationDate and /ModDate and the two trailer /ID digests pdflatex derives from them. The original assets' lengths were never recorded, so 'unchanged length' is an inference from that rebuild and not a comparison. The seven files that gave the route are kept rather than moved: their recipes are now inert, and they are the record of how this was found. What bounded the exposure while it lasted was access control alone -- until 2026-09-22 the repository was private, and throughout the exposure it was unforked and the owner was its only collaborator -- and what ends it is that the objects no longer exist: the repository serving this name was created at 2026-09-21T19:55:13Z with a new id and holds this history and nothing else. Since the flip it is public, forking is allowed and there are no forks, and one further collaborator has held write access since 2026-09-22; none of that restores an object the recreation destroyed, and every route was re-run against the public remote and against an unauthenticated client after the flip. The other recorded route, a GitHub Support purge of the unreachable objects, was therefore not needed and is not open work. plan_page/petz_program_plan.html went with the compendia: it is in no commit of the history and not in the tree of the retagged v0.1.0-draft, and it is tracked privately. One residual that is not an exposure: GitHub keeps a deleted repository restorable by its owner for a window, so 'deleted' is soft from the owner's side and hard from every reader's. Licensing: MIT for code, CC BY 4.0 for documents and data, no third-party material redistributed (THIRD-PARTY.md). KNOWLEDGE BASE: unaffected, and it is a third repository (claude-team-kb, ../kb) with its own sync. Every evidence pointer resolves on a machine carrying all three clones, and none fails. On 2026-09-24 TWELVE targets live in the private repo and are cited by FIFTEEN cards (counting doc:, num:, ref: tokens in areas/, claims/ and evidence/, excluding the generated INDEX, SUMMARY and CHANGELOG): seven source papers (AlbertiUhlmann02_math-ph-0202038, BJL_twisted_duality_math-ph-0204029, CDIT_1808.02384, LongoXu_1712.07283, Sion1958_minimax, Uhlmann76, VWZ_2307.14434), doc:CHECKLIST.md, doc:PRIVATE.md, doc:plan_page/petz_program_plan.html, which plan-page and open-problems-plan-note8 cite and which became private-only on 2026-09-21, and the two run logs num:numerics/optimality/lb.log (cited by ac-lower-bound-zero) and num:numerics/certified/hp.log (cited by certified-numerics). A machine with only the public clone loses those pointers, and refs/restore.sh is not a substitute: of the seven papers it recovers TWO under the cited filename (VWZ and LongoXu, since getref.sh writes <short>_<id>.pdf); Uhlmann76 is tabled as paywalled, CDIT is tabled as CDIW21 so restoring writes a different filename, and the remaining three (AlbertiUhlmann02, BJL_twisted_duality, Sion1958_minimax) appear in REFERENCES.md only as bullet entries, not as rows of the table restore.sh parses. The review packets the KB writes into rigor/ are tracked by neither repository. A new machine needs three clones as siblings: kb, cft_cmi, and cft-cmi-private into cft_cmi/.git-private, with the fetch refspec, upstream and ./pgit check that PRIVATE.md spells out (recipe verified end to end by REF-INFRA-2b: shots and refs restored, status clean, document builds with images).",
    "verify": "./pgit (held privately) check (expects overlap 0 and equal shots counts); git log in both repos; rigor/README_AGENTS.md section 'Two repositories over one work tree'.",
    "next": "No item gates publication any more. The compendia exposure was cleared on 2026-09-21 by deleting the remote and recreating it from a local history that also no longer contains plan_page/petz_program_plan.html (held privately), and every recovery route was re-run against the new remote and fails. Publication is done: decision D1's three steps were run on 2026-09-22, in that order, and the site serves. One item survives, and one was closed on 2026-09-23. The closed one is in this repository and is recorded in CHECKLIST.md (held privately) item 3g rather than here, because a published field is where it was leaked in the first place; what remains of it is inert. The one that survives: the knowledge-base repository carries discarded cft-cmi hashes in five of its own files under the strict rule, ten if every hash the recreation invalidated is counted; the count is measured, not remembered, and it needs re-measuring before that repository is ever made public. CHECKLIST.md items 3 to 3e record the clearance; the three Pages steps are in decision D1 and in the workflow comment, and were dropped from the README on 2026-09-22 because a published README does not need them.",
-   "review": "passed 2026-09-23 by REF-CLOSE",
+   "review": "passed 2026-09-24 by REF-PUB-2",
    "refereed": true,
    "awaiting_review": false,
-   "verdicts": 29,
+   "verdicts": 31,
    "review_failed": false,
    "page": null,
    "related": [
@@ -4442,6 +4551,49 @@
     {
      "kind": "num",
      "path": "rigor/assemble_findings.py",
+     "access": "public"
+    }
+   ]
+  },
+  {
+   "id": "rrr-bound-small-zeta",
+   "origin": "claims",
+   "title": "Remainder bound in the settled range: Phi(zeta) <= -1/2 log(1 - 2 f2 zeta^2) for 0 <= zeta < (4 f2)^{-1/2} = pi sqrt(3)",
+   "type": "result",
+   "status": "proved",
+   "area": "theorem-a",
+   "confidence": "high",
+   "statement": "For the zero-collar compression of the free chiral fermion (one chiral component; Phi as in rate_of_remainder.tex l. 66-67), Phi(zeta) <= -1/2 log(1 - 2 f2 zeta^2) for 0 <= zeta < (4 f2)^{-1/2} = pi sqrt(3) = 5.4414, f2 = 1/(12 pi^2) (rigor/rate_of_remainder.tex prop:rrr, restricted to the range that its Correction C3 settles). In this range the h' of prop:rrr <1>4 with 4 f2^K zeta^2 < 1 still have infimum f2^K = f2, because inf f2^K = f2 < 1/(4 zeta^2). For each of them U_zeta = e^{zeta K} has ||G_zeta||_2 <= zeta ||[P_-, K]||_2 = (4 f2^K zeta^2)^{1/2} < 1 (lem:groupbound <1>2, <1>3). So both off-diagonal blocks of U_zeta have norm < 1, being blocks of [P_+, U_zeta] = -U_zeta G_zeta, and P_+ U_zeta P_+ is invertible on P_+ H (PA Thm 4.1 <1>1), hence of index zero. Therefore the two blocks have the same singular values (C3, l. 1034-1040), which gives lem:groupbound's ||V_zeta||_2^2 <= 2 f2^K zeta^2 and PA Thm 4.1's hypothesis ||P_+ U_zeta P_-|| < 1 (C3 (ii), l. 1069-1075). The printed range up to (2 f2)^{-1/2} = pi sqrt(6) is the card rate-of-remainder, which rests beyond pi sqrt(3) on group-index-zero-large-s. Split off rate-of-remainder on 2026-09-24 so that cards using the bound only at small zeta do not inherit the index gap.",
+   "verify": "rigor/rate_of_remainder.tex prop:rrr (and its <1>3, <1>4), lem:groupbound <1>2, Correction C3 'Status of the uses' (ii) (l. 1069-1075; mechanism l. 1034-1040); PA = rigor/uhlmann_upper_bound.tex Thm 4.1 <1>1. Range: (4 f2)^{-1/2} = pi sqrt(3) for f2 = 1/(12 pi^2).",
+   "next": null,
+   "review": "passed 2026-09-24 by REF-CARD-ROR",
+   "refereed": true,
+   "awaiting_review": false,
+   "verdicts": 2,
+   "review_failed": false,
+   "page": "rrr-bound-small-zeta.md",
+   "related": [
+    "rate-of-remainder",
+    "group-index-zero-large-s",
+    "phi-below-0085-zeta2-numerical"
+   ],
+   "evidence": [
+    {
+     "kind": "doc",
+     "path": "rigor/rate_of_remainder.tex",
+     "anchor": "prop:rrr",
+     "access": "public"
+    },
+    {
+     "kind": "doc",
+     "path": "rigor/rate_of_remainder.tex",
+     "anchor": "lem:groupbound",
+     "access": "public"
+    },
+    {
+     "kind": "doc",
+     "path": "rigor/rate_of_remainder.tex",
+     "anchor": "corr0924:C3",
      "access": "public"
     }
    ]
@@ -4767,13 +4919,13 @@
    "status": "proved",
    "area": "theorem-a",
    "confidence": "high",
-   "statement": "For the free chiral fermion, with Phi_W the window (sub-compressed) recovery error at modular cutoff kappa_c (rigor/tail_bound.tex). (a) PROVED, the shape, as the proof of thm:main actually gives it: 0 <= Phi - Phi_W <= Phi_d + Y/(1-Y), with Phi_d := T/(2(1-T)), y = 2 e^{2 Phi_d} sqrt(Phi Phi_d) and Y := e^{Phi_W} y <= e^{Phi} y, provided T < 1 and Y < 1 (the hypotheses of thm:main, tail_bound.tex:458-470, with Y in place of y). Both hold on the admissible region of cor:rate with the inputs of (b), where T <= 1.75 zeta^2/kappa_c^2 <= 0.0175 and Y <= 0.02. The printed form with y in place of Y does not follow from the proof's ingredients (DOCUMENT ERROR note on step <1>5) (Thm 5.1, thm:main, eq:Psi: Bures-angle triangle inequality through the product state rho'' and the purification lower bound lem:purif), with T = 5 tau + nu <= 2 zeta^2/(3 kappa_c^2) + 10 C_2 zeta^2/kappa_c^3 + (12 + 10 C_1 zeta (1 + kappa_c)) e^{-kappa_c}, where C_2 = 4 pi A_3, C_1 = A_1/(4 pi^2) and A_1, A_3 are finite suprema of explicit one-dimensional integrals of the closed-form occupation (Thm 4.2, thm:tau), and |Sigma - zeta^2/(15 kappa_c^2)| <= C_2 zeta^2 kappa_c^-3 + C_1 zeta (1 + kappa_c) e^{-kappa_c}; hence, whenever Phi <= f zeta^2, Phi - Phi_W <= C zeta^2/kappa_c + C' zeta^2/kappa_c^2 on kappa_c >= max{10, 2 log(1/zeta) + 2 log(1 + kappa_c) + 3} with finite C, C'. (b) EXPLICIT CONSTANTS, via numerical inputs: A_1 <= 2.0 and A_3 <= 0.036, i.e. C_1 <= 0.051 and C_2 <= 0.46 (card tail-constants-numerical: uncertified double-precision and finite-difference evaluations), and f = 0.0085 (card phi-below-0085-zeta2-numerical) give 0 <= Phi - Phi_W <= 0.173 zeta^2/kappa_c + 0.88 zeta^2/kappa_c^2 (Cor. 5.2, cor:rate, eq:final). eq:final holds given these inputs, but its printed proof needs repair (DOCUMENT ERROR note of 2026-09-23): with eq:taunu's T the corrected chain of display (a) (Y in place of y) stays <= 0.9802 of the claimed bound on the admissible region, with supremum 0.98019 at the corner (zeta, kappa_c) = (11 e^{-3.5}, 10) = (0.33217, 10), where kappa_c = kappa_dagger = 10 (refb10_tail_sup.py). The grid of refb6_tailcheck_corrected.py reaches only zeta = 0.3325 there and gives 0.97979. The printed chain gives 0.97957 at the corner and 0.97917 on the grid (tailcheck.py, tailcheck_ext.py). The input f = 0.0085 could be replaced by the proved f <= 0.008516 of rate-of-remainder prop:rrr (2 sqrt(0.875 x 0.008516) = 0.1726 <= 0.173; corrected chain <= 0.9809 of the bound, 0.98080 at the corner), but tail_bound.tex does not cite prop:rrr. Supersedes the heuristic tail of Note 5 Prop. 4.1; the zeta^2 log^-2 remainder claimed there was refuted (card rate-of-remainder).",
-   "verify": "rigor/tail_bound.tex Thm 5.1 (thm:main, l. 458-500) for (a); Thm 4.2 (thm:tau, l. 314-340) for T and Sigma; Cor. 5.2 (cor:rate, l. 502-529) for eq:final. A_1 <= 2.0 and A_3 <= 0.036 are evaluated by numerics/pt_checks.py and rigor/pt_tailconst.py (double precision, not certified; card tail-constants-numerical) -- NOT by numerics/certified/cert_tail*.py, which evaluate a different bound (Phi - Phi_W <= Phi_22 + Phi_off, certified_numerics.tex Thm 4.2). eq:final given the inputs: from the cft_cmi root run python3 numerics/kb-checks-2026-09-23/tailcheck.py (REF-DEP-CFT-B2) and tailcheck_ext.py (5.25e6 admissible points, zeta down to 1e-8, kappa_c up to 200, also f = 0.008516) and compare with the .out files; the scripts named below are in the same folder. Grid maxima (zeta step 5e-4, first point 0.3325 at kappa_c = 10): PRINTED chain 0.97917 (f = 0.0085) and 0.97979 (f = 0.008516); CORRECTED chain of display (a) 0.97979 and 0.98041 (refb6_tailcheck_corrected.py). The supremum over the admissible region is at the corner (11 e^{-3.5}, 10) = (0.33217, 10): corrected 0.98019 (f = 0.0085) and 0.98080 (f = 0.008516), printed 0.97957 and 0.98019, T kappa_c^2/zeta^2 = 1.697 (refb10_tail_sup.py); max T kappa_c^2/zeta^2 = 1.697 at the corner (1.696 on the grid) <= 1.75.",
+   "statement": "For the free chiral fermion, with Phi_W the window (sub-compressed) recovery error at modular cutoff kappa_c (rigor/tail_bound.tex). (a) PROVED, the shape, as thm:main now states and proves it (corrected 2026-09-24, tail_bound.tex Correction C1): 0 <= Phi - Phi_W <= Phi_d + Y/(1-Y), with Phi_d := T/(2(1-T)), y = 2 e^{2 Phi_d} sqrt(Phi Phi_d) and Y := e^{Phi_W} y <= e^{Phi} y, provided T < 1 and Y < 1 (the hypotheses of thm:main, tail_bound.tex:458-470). Both hold on the admissible region of cor:rate with the inputs of (b), where T <= 1.75 zeta^2/kappa_c^2 <= 0.0175 and Y <= 0.02; the document checks both in cor:rate <1>2 (l. 524, added 2026-09-24, Correction C3). Until 2026-09-24 the document printed this bound, and its hypothesis, with y in place of Y; that form does not follow from the proof's ingredients (DOCUMENT ERROR note on step <1>5). The Y-form is what it now states and proves (Thm 5.1, thm:main, eq:Psi: Bures-angle triangle inequality through the product state rho'' and the purification lower bound lem:purif), with T = 5 tau + nu <= 2 zeta^2/(3 kappa_c^2) + 10 C_2 zeta^2/kappa_c^3 + (12 + 10 C_1 zeta (1 + kappa_c)) e^{-kappa_c}, where C_2 = 4 pi A_3, C_1 = A_1/(4 pi^2) and A_1, A_3 are finite suprema of explicit one-dimensional integrals of the closed-form occupation (Thm 4.2, thm:tau), and |Sigma - zeta^2/(15 kappa_c^2)| <= C_2 zeta^2 kappa_c^-3 + C_1 zeta (1 + kappa_c) e^{-kappa_c}; hence, whenever Phi <= f zeta^2, Phi - Phi_W <= C zeta^2/kappa_c + C' zeta^2/kappa_c^2 on kappa_c >= max{10, 2 log(1/zeta) + 2 log(1 + kappa_c) + 3} with finite C, C'. (b) EXPLICIT CONSTANTS, via numerical inputs: A_1 <= 2.0 and A_3 <= 0.0374, i.e. C_1 <= 0.051 and C_2 <= 0.47 (card tail-constants-numerical: uncertified double-precision and finite-difference evaluations; A_3 <= 0.036 and C_2 <= 0.46 until 2026-09-24, corrected in tail_bound.tex Correction C10, since the supremum A_3 is the zeta -> 0 limit, about 0.0372), and f = 0.0085 (card phi-below-0085-zeta2-numerical) give 0 <= Phi - Phi_W <= 0.173 zeta^2/kappa_c + 0.88 zeta^2/kappa_c^2 (Cor. 5.2, cor:rate, eq:final). eq:final holds given these inputs, and the document now says so: cor:rate states that eq:final rests on these numerical inputs and on a double-precision evaluation of the corrected chain over the admissible region, not on an analytic argument (l. 510-512, 527), and its step <1>1 is repaired, with s(10) = 1.707 <= 1.75 (corrected 2026-09-24, Corrections C2, C3 and C10; until 2026-09-24 the printed proof used a false step at l. 521 and obtained eq:final by dropping the factors 1 + O(zeta^2), DOCUMENT ERROR note of 2026-09-23). With eq:taunu's T (C_2 <= 0.47) the corrected chain of display (a) (Y in place of y) stays <= 0.9841 of the claimed bound on the admissible region, with supremum 0.98405 at the corner (zeta, kappa_c) = (11 e^{-3.5}, 10) = (0.33217, 10), where kappa_c = kappa_dagger = 10 (refb10_tail_sup_c2.py; 0.98019 with C_2 <= 0.46 before 2026-09-24, refb10_tail_sup.py). The grid of tailcheck_ext.py and refb6_tailcheck_corrected.py (zeta step 5e-4) reaches only zeta = 0.3325 there and gives 0.98365 (refb10_tail_sup_c2.py, grid scan; 0.97979 with C_2 <= 0.46, refb6_tailcheck_corrected.py). The pre-correction chain (y in place of Y, as printed until 2026-09-24) gives 0.98343 at the corner (refb10_tail_sup_c2.py); with C_2 <= 0.46 it gave 0.97957 at the corner (refb10_tail_sup.py) and 0.97917 on the grid (tailcheck.py, tailcheck_ext.py). The input f = 0.0085 could be replaced by the proved f <= 0.008516 of rate-of-remainder prop:rrr (2 sqrt(0.875 x 0.008516) = 0.1726 <= 0.173; corrected chain <= 0.9847 of the bound, 0.98467 at the corner, refb10_tail_sup_c2.py; 0.98080 with C_2 <= 0.46). tail_bound.tex now cites prop:rrr, in Correction C3 (l. 935-940, 964-967): as the rigorous basis of f = 0.0085 on (0, 0.8868], the rest of (0, 1] being numerical as on card phi-below-0085-zeta2-numerical, and as a possible replacement of f; cor:rate itself still takes f = 0.0085 (l. 510). Until 2026-09-24 tail_bound.tex did not cite prop:rrr. Supersedes the heuristic tail of Note 5 Prop. 4.1; the zeta^2 log^-2 remainder claimed there was refuted (card rate-of-remainder).",
+   "verify": "rigor/tail_bound.tex Thm 5.1 (thm:main, l. 458-500) for (a); Thm 4.2 (thm:tau, l. 314-340) for T and Sigma; Cor. 5.2 (cor:rate, l. 502-529) for eq:final; the corrections of 2026-09-24 are in its section 'Corrections of 2026-09-24' (l. 849-1112): C1 thm:main, C2 and C3 cor:rate, C4 the status of the constants, C10 A_3 and C_2. A_1 <= 2.0 is evaluated by numerics/pt_checks.py, and A_3 <= 0.0374 by numerics/kb-checks-2026-09-24/a3_refined.py, which evaluates the supremum, the zeta -> 0 limit, that the finite-zeta samples of rigor/pt_tailconst.py miss (A_3 <= 0.036 until 2026-09-24, Correction C10); both in double precision, not certified (card tail-constants-numerical) -- NOT by numerics/certified/cert_tail*.py, which evaluate a different bound (Phi - Phi_W <= Phi_22 + Phi_off, certified_numerics.tex Thm 3.2, thm:nocross). eq:final given the inputs, with C_2 <= 0.47: from the cft_cmi root run python3 numerics/kb-checks-2026-09-24/refb10_tail_sup_c2.py (standard library, about 20 s) and compare with refb10_tail_sup_c2.out. It is refb10_tail_sup.py with 10 C_2 = 4.7 in place of 4.6 in T, plus a scan of the corrected chain over the admissible grid of tailcheck_ext.py (5.25e6 admissible points, zeta down to 1e-8, kappa_c up to 200, f = 0.0085 and 0.008516). The earlier scripts are in numerics/kb-checks-2026-09-23/ (tailcheck.py is REF-DEP-CFT-B2's): tailcheck.py, tailcheck_ext.py, refb6_tailcheck_corrected.py and refb10_tail_sup.py hard-code 4.6 (C_2 <= 0.46), so their ratios are the values before 2026-09-24; refb6_psi_check3.py (the saturating example of Correction C1) does not involve C_2. Grid maxima with C_2 <= 0.47 (zeta step 5e-4, first point 0.3325 at kappa_c = 10): corrected chain of display (a) 0.98365 (f = 0.0085) and 0.98427 (f = 0.008516), both at (0.3325, 10), where the pre-correction chain (y in place of Y) gives 0.98303 and 0.98365 (refb10_tail_sup_c2.py). With C_2 <= 0.46 (before 2026-09-24): pre-correction chain 0.97917 and 0.97979 (tailcheck.py, tailcheck_ext.py), corrected chain 0.97979 and 0.98041 (refb6_tailcheck_corrected.py). The supremum over the admissible region is at the corner (11 e^{-3.5}, 10) = (0.33217, 10): corrected 0.98405 (f = 0.0085) and 0.98467 (f = 0.008516), pre-correction 0.98343 and 0.98405, T kappa_c^2/zeta^2 = 1.7071 (refb10_tail_sup_c2.py); max T kappa_c^2/zeta^2 = 1.707 at the corner (1.706 on the grid) <= 1.75, in agreement with s(10) = 2/3 + 0.47 + 0.494 + 0.077 = 1.707 of cor:rate <1>1 (l. 522). With C_2 <= 0.46 (before 2026-09-24): corrected 0.98019 and 0.98080, pre-correction 0.97957 and 0.98019, T kappa_c^2/zeta^2 = 1.697 at the corner (1.696 on the grid) (refb10_tail_sup.py).",
    "next": null,
-   "review": "passed 2026-09-24 by REF-PUB-1",
+   "review": "passed 2026-09-24 by REF-CARD-TAIL",
    "refereed": true,
    "awaiting_review": false,
-   "verdicts": 7,
+   "verdicts": 8,
    "review_failed": false,
    "page": "tail-bound.md",
    "related": [],
@@ -4855,24 +5007,34 @@
      "kind": "num",
      "path": "numerics/kb-checks-2026-09-23/refb10_tail_sup.out",
      "access": "public"
+    },
+    {
+     "kind": "num",
+     "path": "numerics/kb-checks-2026-09-24/refb10_tail_sup_c2.py",
+     "access": "public"
+    },
+    {
+     "kind": "num",
+     "path": "numerics/kb-checks-2026-09-24/refb10_tail_sup_c2.out",
+     "access": "public"
     }
    ]
   },
   {
    "id": "tail-constants-numerical",
    "origin": "claims",
-   "title": "Weak link: numerical values of the tail constants A_1 <= 2.0 and A_3 <= 0.036",
+   "title": "Weak link: numerical values of the tail constants A_1 <= 2.0 and A_3 <= 0.0374",
    "type": "result",
    "status": "numerical",
    "area": "theorem-a",
    "confidence": null,
-   "statement": "The constants of the occupation-tail estimate of rigor/tail_bound.tex (Thm 4.2) satisfy A_1 = sup over kappa_c > 0 of |g1-hat(kappa_c/2 pi)| (1+kappa_c)^-1 e^{kappa_c} <= 2.0 and A_3 = sup over 0 < zeta <= 1 of zeta^-2 ||(g2)'''||_{L^1(0,inf)} <= 0.036, hence C_1 <= 0.051 and C_2 = 4 pi A_3 <= 0.46.",
-   "verify": "rigor/tail_bound.tex Thm 4.2 (thm:tau, l. 316-330) and Sec. 9 (3) (l. 740-751): A_1 from double-precision evaluations at kappa_c = 6..25.3, A_3 from four zeta values (0.05, 0.2, 0.5, 1) assumed monotone; the document's own verdict (l. 442-449) says these values are numerical, not a closed-form estimate.",
+   "statement": "The constants of the occupation-tail estimate of rigor/tail_bound.tex (Thm 4.2) satisfy A_1 = sup over kappa_c > 0 of |g1-hat(kappa_c/2 pi)| (1+kappa_c)^-1 e^{kappa_c} <= 2.0 and A_3 = sup over 0 < zeta <= 1 of zeta^-2 ||(g2)'''||_{L^1(0,inf)} <= 0.0374, hence C_1 <= 0.051 and C_2 = 4 pi A_3 <= 0.47. The supremum A_3 is the limit zeta -> 0, numerically about 0.0372 (tail_bound.tex l. 750-751, corrected 2026-09-24, Correction C10). Until 2026-09-24 the document, and this card, stated A_3 <= 0.036 and C_2 <= 0.46, read off finite-zeta samples that miss that limit.",
+   "verify": "rigor/tail_bound.tex Thm 4.2 (thm:tau, l. 316-330) and Sec. 9 (3) (l. 740-751): A_1 from double-precision evaluations at kappa_c = 6..25.3 (numerics/pt_checks.py). A_3: the document now says (l. 750-751, corrected 2026-09-24, Correction C10) that zeta^-2 ||(g2)'''||_1 = 0.0355, 0.0326, 0.0275, 0.0214 at zeta = 0.05, 0.2, 0.5, 1 on the grid of rigor/pt_tailconst.py decrease in zeta, so the supremum A_3 is the limit zeta -> 0, which that script does not sample: 0.0364 on the same grid and 0.0372 on a refined grid, hence A_3 <= 0.0374 and C_2 = 4 pi A_3 <= 0.47. Until 2026-09-24 it read the four values as 'monotone decreasing in zeta, so A_3 <= 0.036 and C_2 <= 0.46'. Correction C10 (l. 1080-1112) gives the limit in closed form, g0(t) = -(1 + cosh(t)/2 - (3/2) sinh(t)/t)/(2 sinh^3(t/2)) = -t/30 + O(t^3), with ||g0'''||_1 = 0.03642 on the script's grid, 0.03718 on t = 0.002..80 and about 0.03721 including t near 0; on the refined grid the finite-zeta values stay below it (0.03698, 0.03617, 0.03331, 0.02175 at zeta = 0.01, 0.05, 0.2, 1). Check: from the cft_cmi root run python3 numerics/kb-checks-2026-09-24/a3_refined.py (needs mpmath, about 4 min) and compare with a3_refined.out; it also runs the original functions of rigor/pt_tailconst.py at zeta = 1e-4, 1e-3, 0.01 (0.036422, 0.036406, 0.0362456). The document's own verdict (l. 442-449) says these values are numerical, not a closed-form estimate, and l. 66 says they are not certified (Correction C4; 'certified numerically' until 2026-09-24).",
    "next": null,
-   "review": "passed 2026-09-23 by REF-DEP-CFT-B2",
+   "review": "passed 2026-09-24 by REF-CARD-TAIL",
    "refereed": true,
    "awaiting_review": false,
-   "verdicts": 1,
+   "verdicts": 2,
    "review_failed": false,
    "page": "tail-constants-numerical.md",
    "related": [],
@@ -4891,6 +5053,16 @@
     {
      "kind": "num",
      "path": "rigor/pt_tailconst.py",
+     "access": "public"
+    },
+    {
+     "kind": "num",
+     "path": "numerics/kb-checks-2026-09-24/a3_refined.py",
+     "access": "public"
+    },
+    {
+     "kind": "num",
+     "path": "numerics/kb-checks-2026-09-24/a3_refined.out",
      "access": "public"
     }
    ]
@@ -4984,13 +5156,13 @@
    "status": "proved",
    "area": "optimality",
    "confidence": null,
-   "statement": "Feasible set: (X,Z) in F iff N := 1 - X X* >= 0 and Y := Z - X Q_BB X* satisfies 0 <= Y <= N. Polar: X = (1-N)^{1/2} V with V : h_B -> h_D the polar partial isometry; V V* = 1 - 1_{{1}}(N), so the POLAR V is a co-isometry iff 1 is not an eigenvalue of N (sharp: for X = the forward shift no co-isometric factor exists); existence of SOME co-isometric factor is the weaker dim ker(1-N) <= dim ker X. Then V* = W U with W the compression unitary h_D -> h_B and U an isometry of h_D (onto iff V unitary). Scaling N = s N_1 (N_1 a bounded positive operator), Y = s Y_1, U_s = 1 + s zeta + o(s) with (U_s) a C_0-semigroup of isometries gives, exactly feasible at every small s, the first-order defect (as sesquilinear forms on C_c^inf) delta^(1) = ddelta + A(zeta,N_1,Y_1) with A_AA = 0, A_AD = -Q_AD zeta + (1/2) Q_AD N_1, A_DD = -(zeta* Q_DD + Q_DD zeta) + (1/2){N_1,Q_DD} - Y_1 (noise enters DD with a MINUS sign); ddelta = [Q,d] with d = E_I D_chi E_I (Lemma 6.1), and ddelta has zero AA block (locality of D_chi, chi = chi' = 0 on A) and zero DD block (Moebius rigidity, S10 Lemma 11.1). Boundary-moving (non-surjective) isometry directions: the absorption identity A(zeta,N_1,Y_1) = A(G, N_1 - 2 sigma, Y_1) holds with G = anti-symmetric part and sigma <= 0 the BOUNDARY FORM <sigma g,g> := Re<zeta* g,g> on dom(zeta*) (sigma <= 0 by Lumer-Phillips for the adjoint contraction semigroup; for BOUNDED zeta, sigma = 0 and zeta is anti-self-adjoint, so bounded isometry families give nothing beyond S10's class). This yields only an INCLUSION of cones (Thm 3.11(3) as amended): its right-hand side consists of the A(G, N_1', Y_1) with G = sigma - zeta* (zeta contained in G + sigma, zeta* = -G + sigma; exact_optimum_tangent_problem.tex:506, :539) the anti-symmetric part of an ADMISSIBLE zeta, N_1' >= 0 a form and 0 <= Y_1 <= N_1', i.e. G is described by how it arises; that G itself generates an isometry semigroup is not claimed (it would need C_c^inf(D) to be a core for zeta, true for zeta_0 and zeta_inf, not assumed in general), and the right-hand side must not be enlarged to all anti-symmetric G. The inclusion cannot be reversed - +lambda D_chi|_D is anti-symmetric but generates an OUTWARD flow, and admitting it would give delta^(1) = (1-lambda) ddelta and tangent value T = 0. Also the singular boundary N_1 are NOT in the g_Q-closure of the bounded ones (||Q_AD N_1^(n)||_2 -> inf), so they need their own one-sided condition, not a limit. The tangent value T = inf g_Q(delta^(1)) is an upper bound for limsup z^{-2} min_F g_Q under hypothesis H1 (g_Q-differentiability along the scaled family); the matching lower bound needs hypothesis H2 (Def 3.16: a minimiser EXISTS, is of the scaled-family form, with ||N_1||+||Y_1|| <= C and a uniform o(s^2) remainder - i.e. H2 is the lower bound in disguise), which is NOT proved: g_Q >= (1/4)||.||_2^2 gives O(s) defect blocks but does not localise (X,Z) because Q_AB has 0 in its essential spectrum.",
+   "statement": "Feasible set: (X,Z) in F iff N := 1 - X X* >= 0 and Y := Z - X Q_BB X* satisfies 0 <= Y <= N. Polar: X = (1-N)^{1/2} V with V : h_B -> h_D the polar partial isometry; V V* = 1 - 1_{{1}}(N), so the POLAR V is a co-isometry iff 1 is not an eigenvalue of N (sharp: for X = the forward shift no co-isometric factor exists); existence of SOME co-isometric factor is the weaker dim ker(1-N) <= dim ker X. Then V* = W U with W the compression unitary h_D -> h_B and U an isometry of h_D (onto iff V unitary). Scaling N = s N_1 (N_1 a bounded positive operator), Y = s Y_1, U_s = 1 + s zeta + o(s) with (U_s) a C_0-semigroup of isometries gives, exactly feasible at every small s, the first-order defect (as sesquilinear forms on C_c^inf) delta^(1) = ddelta + A(zeta,N_1,Y_1) with A_AA = 0, A_AD = -Q_AD zeta + (1/2) Q_AD N_1, A_DD = -(zeta* Q_DD + Q_DD zeta) + (1/2){N_1,Q_DD} - Y_1 (noise enters DD with a MINUS sign); ddelta = [Q,d] with d = E_I D_chi E_I (Lemma 6.1), and ddelta has zero AA block (locality of D_chi, chi = chi' = 0 on A) and zero DD block (Moebius rigidity, S10 Lemma 11.1). Boundary-moving (non-surjective) isometry directions: the absorption identity A(zeta,N_1,Y_1) = A(G, N_1 - 2 sigma, Y_1) holds with G = anti-symmetric part and sigma <= 0 the BOUNDARY FORM <sigma g,g> := Re<zeta* g,g> on dom(zeta*) (sigma <= 0 by Lumer-Phillips for the adjoint contraction semigroup; for BOUNDED zeta, sigma = 0 and zeta is anti-self-adjoint, so bounded isometry families give nothing beyond S10's class). This yields only an INCLUSION of cones (Thm 3.11(3) as amended): its right-hand side consists of the A(G, N_1', Y_1) with G = sigma - zeta* (zeta contained in G + sigma, zeta* = -G + sigma; exact_optimum_tangent_problem.tex:504, :506, :520, :539, :552; until 2026-09-24 the document wrote G := zeta* - sigma at :504, :520 and :552, corrected 2026-09-24, Correction C1) the anti-symmetric part of an ADMISSIBLE zeta, N_1' >= 0 a form and 0 <= Y_1 <= N_1', i.e. G is described by how it arises; that G itself generates an isometry semigroup is not claimed (it would need C_c^inf(D) to be a core for zeta, true for zeta_0 and zeta_inf, not assumed in general), and the right-hand side must not be enlarged to all anti-symmetric G. The inclusion cannot be reversed - +lambda D_chi|_D is anti-symmetric but generates an OUTWARD flow, and admitting it would give delta^(1) = (1-lambda) ddelta and tangent value T = 0. Also the singular boundary N_1 are NOT in the g_Q-closure of the bounded ones (||Q_AD N_1^(n)||_2 -> inf), so they need their own one-sided condition, not a limit. The tangent value T = inf g_Q(delta^(1)) is an upper bound for limsup z^{-2} min_F g_Q under hypothesis H1 (g_Q-differentiability along the scaled family); the matching lower bound needs hypothesis H2 (Def 3.16: a minimiser EXISTS, is of the scaled-family form, with ||N_1||+||Y_1|| <= C and a uniform o(s^2) remainder - i.e. H2 is the lower bound in disguise), which is NOT proved: g_Q >= (1/4)||.||_2^2 gives O(s) defect blocks but does not localise (X,Z) because Q_AB has 0 in its essential spectrum.",
    "verify": "cd rigor && pdflatex -interaction=nonstopmode -halt-on-error exact_optimum_tangent_problem.tex; check Lemma 2.1 (both directions), Lemma 2.2(1) and (4) with the shift counterexample in Remark 2.3, Prop 3.4 steps <1>1-<1>5 (the o(s) bookkeeping uses E_D ddelta E_D = 0, S10 Lemma 11.1), Lemma 6.1 (ddelta = [Q,d]), Thm 3.11 steps <1>1-<1>4 (Lumer-Phillips for sigma <= 0; the absorption algebra; the INCLUSION, not equality) together with Remark 4.8 (why the cone must not be enlarged: T = 0 and H1 fails for the contraction family), and Thm 3.9 step <1>2 (triangle inequality in g_Q^{1/2} + H1)",
    "next": null,
-   "review": "passed 2026-09-23 by REF-DEP-CFT-A5",
+   "review": "passed 2026-09-24 by REF-CARD-CFT",
    "refereed": true,
    "awaiting_review": false,
-   "verdicts": 6,
+   "verdicts": 8,
    "review_failed": false,
    "page": "tangent-problem-exact-parametrisation.md",
    "related": [
@@ -5559,13 +5731,13 @@
    "status": "proved",
    "area": "optimality",
    "confidence": "high",
-   "statement": "For an isometric quasi-free channel with one-particle isometry W_I, every unitary W~ of L^2(R) with W~|_{L^2(I)} = W_I and P^perp W~ P Hilbert-Schmidt gives -log F <= -1/2 log det(1 - V^*V) <= -1/2 log(1 - ||V||_2^2), V = P^perp W~ P (Prop. 1.3). The admissible extensions form a right torsor under {1_I (+) W'}: the whole column Z E_I is prescribed by the channel and the free block is E_{I^c} Z E_{I^c}, at first order / as an exact right translation (Lemma 4.1 -- NOT a block-diagonal Z_I (+) Z_e, and NOT the truncation E_I D_chi E_I). Reduction (Thm 4.3): inf over exterior Z_e of (1/2)||P^perp(Z_0+Z_e)P||^2 = (1/2) dist(P^perp Z_0 P, Ext)^2 = (1/2)||Pi P^perp Z_0 P||^2 + (1/2) dist((1-Pi)P^perp Z_0 P, Ext)^2 = g_Q(E_I[P,Z_0]E_I), the last step because closure(Ext) = N^perp always. Hence (UH) in its PROVED, g_Q-free form (Thm 7.1, eq. (18)): for the product family U_s = W~_s e^{-lambda s G} e^{s Z_e}, limsup_{s->0} s^{-2}(-log F(omega, omega^{beta_s})) <= (1/2) dist(P^perp(D_chi + lambda G)P, Ext)^2 = (1/2)||Pi P^perp (D_chi + lambda G) P||^2. Ingredients: the exact one-parameter-group estimate ||P^perp e^{tZ}P||_2 <= |t| ||P^perp Z P||_2 (Lemma 6.1) and an S_2-continuity argument for the three-factor product family (Thm 6.2); the limsup is taken at fixed Z_e and only then the infimum over Z_e (no uniformity in Z_e is claimed or needed). CAVEAT (referee R2): re-expressing the right-hand side as g_Q(delta(s))(1+o(1)) is NOT a consequence of continuity of g_Q (false in the continuum: spec Q accumulates at 0 and 1); it holds whenever S10 Lemma 6.1(2)-(3) applies, with its weight cap (Remark 7.2). Corollary 4.4: the optimised bound depends on the channel only through its first-order defect.",
-   "verify": "rigor/exact_fidelity_upper_half.tex Secs. 1, 4, 6, 7 and Sec. 10 (referee repairs R1-R10); numerically E2 card e2-optimised-uhlmann (UB_c/(1/2 s^2|u|^2) = 1.0000000 at L=128..384).",
+   "statement": "For an isometric quasi-free channel with one-particle isometry W_I, every unitary W~ of L^2(R) with W~|_{L^2(I)} = W_I and both off-diagonal blocks P^perp W~ P and P W~ P^perp Hilbert-Schmidt (Def. 1.1 as corrected 2026-09-24, Correction C1; until then the document required only P^perp W~ P) gives -log F <= -1/2 log det(1 - V^*V) <= -1/2 log(1 - ||V||_2^2), V = P^perp W~ P (Prop. 1.3), for index-zero W~, i.e. ind(P W~ P|_{PH}) = 0: for W~ of non-zero index with ||V|| < 1 step <1>3 is false, since Gamma(W~) changes the charge and <Omega, Gamma(W~) Omega> = 0 (exact_fidelity_upper_half.tex l. 1201-1203, Correction C3). (UH) is unaffected: the product family U_s has index zero for small s, which is all Thm 6.2 / 7.1 use (l. 1192-1200). The admissible extensions form a right torsor under {1_I (+) W'}: the whole column Z E_I is prescribed by the channel and the free block is E_{I^c} Z E_{I^c}, at first order / as an exact right translation (Lemma 4.1 -- NOT a block-diagonal Z_I (+) Z_e, and NOT the truncation E_I D_chi E_I). Reduction (Thm 4.3): inf over exterior Z_e of (1/2)||P^perp(Z_0+Z_e)P||^2 = (1/2) dist(P^perp Z_0 P, Ext)^2 = (1/2)||Pi P^perp Z_0 P||^2 + (1/2) dist((1-Pi)P^perp Z_0 P, Ext)^2 = g_Q(E_I[P,Z_0]E_I), the last step because closure(Ext) = N^perp always. Hence (UH) in its PROVED, g_Q-free form (Thm 7.1, eq. (18)): for the product family U_s = W~_s e^{-lambda s G} e^{s Z_e}, limsup_{s->0} s^{-2}(-log F(omega, omega^{beta_s})) <= (1/2) dist(P^perp(D_chi + lambda G)P, Ext)^2 = (1/2)||Pi P^perp (D_chi + lambda G) P||^2. Ingredients: the exact one-parameter-group estimate ||P^perp e^{tZ}P||_2 <= |t| ||P^perp Z P||_2 (Lemma 6.1; like rate_of_remainder.tex Lemma 6.1 it needs the two blocks of e^{tZ} to have the same singular values, which the documents settle while ||P - e^{-tZ} P e^{tZ}||_2 < 1, e.g. for |t| ||[P, Z]||_2 < 1, enough for the limits s -> 0 used here, and which for larger |t| rests on the conjectural card group-index-zero-large-s) and an S_2-continuity argument for the three-factor product family (Thm 6.2); the limsup is taken at fixed Z_e and only then the infimum over Z_e (no uniformity in Z_e is claimed or needed). CAVEAT (referee R2): re-expressing the right-hand side as g_Q(delta(s))(1+o(1)) is NOT a consequence of continuity of g_Q (false in the continuum: spec Q accumulates at 0 and 1); it holds whenever S10 Lemma 6.1(2)-(3) applies, with its weight cap (Remark 7.2). Corollary 4.4: the optimised bound depends on the channel only through its first-order defect.",
+   "verify": "rigor/exact_fidelity_upper_half.tex Secs. 1, 4, 6, 7 and Sec. 10 (referee repairs R1-R10), and Sec. 11 (Corrections of 2026-09-24, l. 1091-1205: C1-C2 both blocks, C3 the known index gap and why (UH) stands); numerically E2 card e2-optimised-uhlmann (UB_c/(1/2 s^2|u|^2) = 1.0000000 at L=128..384).",
    "next": null,
-   "review": "passed 2026-09-23 by REF-DEP-CFT-A2",
+   "review": "passed 2026-09-24 by REF-CARD-ROR",
    "refereed": true,
    "awaiting_review": false,
-   "verdicts": 2,
+   "verdicts": 5,
    "review_failed": false,
    "page": "uhlmann-upper-half-proved.md",
    "related": [
@@ -5597,6 +5769,12 @@
      "kind": "doc",
      "path": "rigor/exact_fidelity_upper_half.tex",
      "anchor": "prop:uhl",
+     "access": "public"
+    },
+    {
+     "kind": "doc",
+     "path": "rigor/exact_fidelity_upper_half.tex",
+     "anchor": "corr0924:C3",
      "access": "public"
     }
    ]
@@ -5808,10 +5986,10 @@
  ],
  "records": [
   {
-   "value": 112,
+   "value": 115,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 5811,
+   "line": 5989,
    "status": "numerical",
    "id": "count.cards",
    "label": "cards in the knowledge base, all of them shown",
@@ -5821,7 +5999,7 @@
    "value": 8,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 5821,
+   "line": 5999,
    "status": "numerical",
    "id": "count.areas",
    "label": "areas",
@@ -5831,7 +6009,7 @@
    "value": 0,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 5831,
+   "line": 6009,
    "status": "numerical",
    "id": "count.never_refereed",
    "label": "cards with no referee verdict anywhere in their record: shown, and marked never refereed",
@@ -5841,7 +6019,7 @@
    "value": 0,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 5841,
+   "line": 6019,
    "status": "numerical",
    "id": "count.awaiting_review",
    "label": "cards whose review line says pending: awaiting a pass, which is not the same as never refereed when the history already records one",
@@ -5851,37 +6029,37 @@
    "value": 0,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 5851,
+   "line": 6029,
    "status": "numerical",
    "id": "count.review_failed",
    "label": "cards whose latest recorded verdict is a failure",
    "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published; the line this record links to is the count itself."
   },
   {
-   "value": 15,
+   "value": 17,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 5861,
+   "line": 6039,
    "status": "numerical",
    "id": "count.private_pointers",
    "label": "evidence pointers into the private companion: rendered as held privately, never as a link",
    "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published; the line this record links to is the count itself."
   },
   {
-   "value": 10,
+   "value": 12,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 5871,
+   "line": 6049,
    "status": "numerical",
    "id": "count.private_targets",
    "label": "distinct files in the private companion that those pointers name",
    "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published; the line this record links to is the count itself."
   },
   {
-   "value": 368,
+   "value": 380,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 5881,
+   "line": 6059,
    "status": "numerical",
    "id": "count.public_pointers",
    "label": "evidence pointers to files git tracks, rendered as links",
@@ -5891,7 +6069,7 @@
    "value": 8,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 5891,
+   "line": 6069,
    "status": "numerical",
    "id": "count.kb_pointers",
    "label": "evidence pointers into the knowledge base itself, which is not published",
@@ -5901,37 +6079,37 @@
    "value": 0,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 5901,
+   "line": 6079,
    "status": "numerical",
    "id": "count.missing_pointers",
    "label": "evidence pointers whose target is neither tracked nor on disk",
    "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published; the line this record links to is the count itself."
   },
   {
-   "value": 2,
+   "value": 0,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 5911,
+   "line": 6089,
    "status": "numerical",
    "id": "count.uncommitted_pointers",
    "label": "evidence pointers to files that exist but neither repository tracks yet",
    "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published; the line this record links to is the count itself."
   },
   {
-   "value": 189,
+   "value": 196,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 5921,
+   "line": 6099,
    "status": "numerical",
    "id": "count.edges",
    "label": "related-to edges between cards",
    "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published; the line this record links to is the count itself."
   },
   {
-   "value": 77,
+   "value": 79,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 5931,
+   "line": 6109,
    "status": "numerical",
    "id": "count.with_page",
    "label": "cards that also have a generated page under docs/results/",
@@ -5941,7 +6119,7 @@
    "value": 1,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 5941,
+   "line": 6119,
    "status": "numerical",
    "id": "count.promoted",
    "label": "cards that started as findings in the knowledge base's evidence folder and reached a displayed status",
@@ -5951,7 +6129,7 @@
    "value": 232,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 5951,
+   "line": 6129,
    "status": "numerical",
    "id": "count.findings_left",
    "label": "findings that stay in the knowledge base because they reached no displayed status: they are audit records, not claims",
@@ -5961,17 +6139,17 @@
    "value": 14,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 5961,
+   "line": 6139,
    "status": "numerical",
    "id": "count.status.active",
    "label": "cards with status active",
    "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published."
   },
   {
-   "value": 10,
+   "value": 11,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 5971,
+   "line": 6149,
    "status": "numerical",
    "id": "count.status.conjectural",
    "label": "cards with status conjectural",
@@ -5981,17 +6159,17 @@
    "value": 5,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 5981,
+   "line": 6159,
    "status": "numerical",
    "id": "count.status.done",
    "label": "cards with status done",
    "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published."
   },
   {
-   "value": 1,
+   "value": 2,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 5991,
+   "line": 6169,
    "status": "numerical",
    "id": "count.status.heuristic",
    "label": "cards with status heuristic",
@@ -6001,7 +6179,7 @@
    "value": 25,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 6001,
+   "line": 6179,
    "status": "numerical",
    "id": "count.status.numerical",
    "label": "cards with status numerical",
@@ -6011,17 +6189,17 @@
    "value": 5,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 6011,
+   "line": 6189,
    "status": "numerical",
    "id": "count.status.open",
    "label": "cards with status open",
    "note": "counted by tools/build_site_data_extra.py from the knowledge base at kb/projects/cft_cmi, which is not published."
   },
   {
-   "value": 39,
+   "value": 40,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 6021,
+   "line": 6199,
    "status": "numerical",
    "id": "count.status.proved",
    "label": "cards with status proved",
@@ -6031,7 +6209,7 @@
    "value": 3,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 6031,
+   "line": 6209,
    "status": "numerical",
    "id": "count.status.refereed",
    "label": "cards with status refereed",
@@ -6041,7 +6219,7 @@
    "value": 3,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 6041,
+   "line": 6219,
    "status": "numerical",
    "id": "count.status.refuted",
    "label": "cards with status refuted",
@@ -6051,7 +6229,7 @@
    "value": 2,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 6051,
+   "line": 6229,
    "status": "numerical",
    "id": "count.status.superseded",
    "label": "cards with status superseded",
@@ -6061,7 +6239,7 @@
    "value": 5,
    "error": null,
    "source": "docs/data/extra-claim-map.json",
-   "line": 6061,
+   "line": 6239,
    "status": "numerical",
    "id": "count.status.verified",
    "label": "cards with status verified",

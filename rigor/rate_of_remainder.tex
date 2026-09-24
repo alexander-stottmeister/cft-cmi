@@ -373,7 +373,7 @@ with $\epsilon(s)\le\frac s{2\pi}\norm{\kappa^{(2)}}$ gives
 $\bigl|\norm{V^{\mathrm{tot}}_s}_2-s\gamma\bigr|\le(\Lambda_2+C_4)s^2$,
 $\gamma=\norm{\Pm(D+ih')\Pp}_2$, $\Lambda_2=\frac1{2\pi}\norm{\kappa^{(2)}}$,
 $C_4=C_0\mu+C_0\nu e^\mu+\nu\mu e^\mu$, hence for
-$\zeta\le\zeta_0:=\min\{1,\frac1{2\gamma(1+\theta)}\}$, $\theta:=(\Lambda_2+C_4)/\gamma$,
+$\zeta\le\zeta_0:=\min\{1,\frac1{2\gamma(1+\theta)}\}$ (the bound $\norm{G_s}_2\le C_0s$ on which PA's quadratic expansion, cited here as Prop.~4.5, rests holds for every such $s$ by PA Lemma~5.2, eq.~(21), with its steps $\langle1\rangle1$ and $\langle1\rangle5$ (PA Correction C3, remark), not only in the range $\norm{\mathrm{id}-\kt_s}_\infty\le\frac12$ of PA Prop.~2.5's own proof; Correction~\ref{corr0924:C1}), $\theta:=(\Lambda_2+C_4)/\gamma$,
 \begin{equation}\label{eq:linrate}
  \Phi(\zeta)\ \le\ \tfrac12\gamma^2\zeta^2\bigl(1+C\zeta\bigr),\qquad
  C:=2\theta+\theta^2+\tfrac43\gamma^2(1+\theta)^4 .
@@ -865,8 +865,8 @@ Hence $\Phi(\zeta)\le-\frac12\log(1-2f_2\zeta^2)$ for $\zeta<(2f_2)^{-1/2}$, wit
 \lstep{1}{2}{$\Pm h'_\sigma\Pp\in\Stwo$, $\Gamma(c_s)\in\cF(I')$ (twisted), and
  $\Gamma(U_s)^*\Om$ represents $\widetilde\omega_s$ on $\cM$.}
 \lby{RRr Prop.~3.1 $\langle1\rangle3$--$\langle1\rangle4$: insert $\one=\Pp+\Pm$ twice in
- $\Pm\Wt_\sigma^*h'\Wt_\sigma\Pp$, each term carrying a factor in $\Stwo$ (PA Prop.~2.5, Def.~5.3);
- then PA Prop.~3.1 and Lemma~3.2 with $\widehat W'$ replaced by $c_s$, the commutant factor dropping
+ $\Pm\Wt_\sigma^*h'\Wt_\sigma\Pp$, each term carrying a factor in $\Stwo$ (PA Def.~5.3 for $\Pm h'\Pp$; for $\Pm\Wt_\sigma\Pp$ and $\Pm\Wt_\sigma^*\Pp=(\Pp\Wt_\sigma\Pm)^*$, PA Cor.~2.7 $\langle1\rangle1$, which after PA's Correction C2 gives both blocks of $\Wt_\sigma$ for every $\sigma$, whereas PA Prop.~2.5 bounds them only where $\sigma\norm\chi_\infty\le\frac12$; Correction~\ref{corr0924:C2});
+ then PA Prop.~3.1 and Lemma~3.2 with $\widehat W'$ replaced by $c_s$ (that lemma now assumes both off-diagonal blocks Hilbert--Schmidt, PA Correction C4; for $c_s$ both follow from self-adjointness: $h'_\sigma=h_\sigma'^*$ gives $\Pp h'_\sigma\Pm=(\Pm h'_\sigma\Pp)^*\in\Stwo$, and Duhamel's formula for $\partial_sc_s=(ih'_s)c_s$ as in PA Correction C4(b); Correction~\ref{corr0924:C2}), the commutant factor dropping
  out of $\ip{\Gamma(U_s)^*\Om}{m\Gamma(U_s)^*\Om}$}
 \lstep{1}{3}{\eqref{eq:rrrbound}.}
 \lby{Lemma~\ref{lem:groupbound} applied to $U_s=e^{sK}$ ($[\Pm,K]\in\Stwo$ by $\langle1\rangle2$ and
@@ -965,4 +965,117 @@ $c_3$, Proposition~\ref{prop:optlam} or Proposition~\ref{prop:Cbdd} in their one
  conclusion ``no cubic term'' is anyway immediate from the closed form
  $-\frac12\log(1-2f_2^\chi s^2)$.
 \end{itemize}
+
+\section{Corrections of 2026-09-24}\label{corr0924:sec}
+\sloppy
+These corrections implement the knowledge-base card \texttt{c11-extension-implementer} (project
+\texttt{cft\_cmi}): its refereed Statement, the DOCUMENT ERROR note recorded from referee
+REF-DEP-CFT-B9, and the referee notes of REF-DEP-CFT-B6, B9 and B10 on that card.  PA
+(\texttt{rigor/uhlmann\_upper\_bound.tex}) was corrected on the same day (its Corrections C1--C4).
+Each changed line was replaced by exactly one line, so line numbers cited elsewhere still point to
+the same text.
+\begin{enumerate}[label=(C\arabic*),ref=C\arabic*,leftmargin=3em]
+\item\label{corr0924:C1} \emph{The bound behind the explicit linear rate}
+ (Corollary~\ref{cor:quartic}, l.~376).
+ \emph{The document said:} \eqref{eq:linrate} holds for $\zeta\le\zeta_0:=\min\{1,
+ \frac1{2\gamma(1+\theta)}\}$, by PA's quadratic expansion (PA Prop.~``Quadratic expansion, with
+ error bound'', cited here as Prop.~4.5), without saying where the bound $\norm{G_s}_2\le C_0s$, on
+ which that expansion rests, comes from for these $s$.
+ \emph{It now says:} the same range, and that this bound holds for every such $s$ by PA Lemma~5.2
+ (\texttt{lem:integralrep}), eq.~(21), with its steps $\langle1\rangle1$ and $\langle1\rangle5$.  The statement,
+ $\zeta_0$, $\theta$ and $C$ are unchanged.
+ \emph{Why:} PA Prop.~2.5's own proof needs $\eta=\norm{\mathrm{id}-\kt_s}_\infty\le\frac12$
+ (PA l.~287), and $\eta$ exceeds $\frac12$ inside $[0,1]$: for the standard smooth step of PA,
+ $\eta\approx0.6128$ at $s=0.5$ and $\eta\approx0.9538$ at $s=1$
+ (\texttt{numerics/kb-checks-2026-09-23/refb6\_flow.py}, output \texttt{refb6\_flow.out}).  So PA
+ Prop.~2.5 alone does not cover $\zeta\le\zeta_0$; card \texttt{c11-extension-implementer},
+ Statement: ``prop:HS gives an explicit bound when $\norm{\mathrm{id}-\tilde k_s}_\infty\le1/2$
+ (l.~286--287) \dots\ its `every $0\le s\le1$' (l.~293) and cor:implementer's `every $s$ in
+ $\mathbb R$' use prop:HS beyond its hypothesis''.  The bound itself holds for every real $s$, as
+ the referee of PA found on 2026-09-24 (PA Correction C3, remark): eq.~(21) of PA writes
+ $G_s=\int_0^s\Wt_\sigma^*G^{(1)}\Wt_\sigma\dd\sigma$ as a Bochner integral in $\Stwo$ for all $s$,
+ so $\norm{G_s}_2\le\abs s\,\norm{G^{(1)}}_2$ by unitary invariance; $\norm{G^{(1)}}_2<\infty$ by step
+ $\langle1\rangle1$ of that lemma, and $\norm{G^{(1)}}_2=\lim_{s\downarrow0}\norm{G_s}_2/s\le C_0$ by
+ its step $\langle1\rangle5$ and PA Prop.~2.5 in its range.  Hence $\norm{G_s}_2\le C_0\abs s$ for
+ every $s$, and no restriction on $\zeta$ beyond $\zeta\le\zeta_0$ is needed.
+\item\label{corr0924:C2} \emph{Both blocks, for every $\sigma$ and for the cocycle}
+ (Proposition~\ref{prop:rrr} $\langle1\rangle2$, l.~868--869).
+ \emph{The document said:} each term of $\Pm\Wt_\sigma^*h'\Wt_\sigma\Pp$ carries a factor in
+ $\Stwo$ ``(PA Prop.~2.5, Def.~5.3)''; ``then PA Prop.~3.1 and Lemma~3.2 with $\widehat W'$ replaced
+ by $c_s$''.
+ \emph{It now says:} the factors $\Pm\Wt_\sigma\Pp$ and $\Pm\Wt_\sigma^*\Pp=(\Pp\Wt_\sigma\Pm)^*$
+ are Hilbert--Schmidt for every $\sigma$ by PA Cor.~2.7 $\langle1\rangle1$ as corrected by PA's
+ Correction C2; PA Prop.~2.5 bounds them only where $\sigma\norm\chi_\infty\le\frac12$.  Both
+ off-diagonal blocks of $c_s$ are Hilbert--Schmidt, as PA Lemma~3.2 now requires (PA
+ Correction C4(a)): $h'_\sigma$ is self-adjoint, so $\Pp h'_\sigma\Pm=(\Pm h'_\sigma\Pp)^*\in\Stwo$,
+ and Duhamel's formula for $\partial_sc_s=(ih'_s)c_s$, $c_0=\one$, gives
+ $\Pp c_s\Pm=\int_0^si(\Pp h'_\sigma\Pp\cdot\Pp c_\sigma\Pm+\Pp h'_\sigma\Pm\cdot\Pm c_\sigma\Pm)
+ \dd\sigma$, hence $\norm{\Pp c_s\Pm}_2\le e^{s\mu}\int_0^s\norm{\Pp h'_\sigma\Pm}_2\dd\sigma$ with
+ $\mu=\norm{h'}$, and likewise for $\Pm c_s\Pp$.  This is the argument of PA Correction C4(b) for
+ $e^{ish'}$.
+ \emph{Why:} PA Prop.~2.5's explicit bound assumes $\norm{\mathrm{id}-\kt_\sigma}_\infty\le\frac12$
+ (Correction~\ref{corr0924:C1}); the Hilbert--Schmidt property for every $\sigma$ comes from
+ $\Wt_\sigma=(\Wt_{\sigma/n})^n$.  And Shale--Stinespring needs both off-diagonal blocks, so a
+ lemma that uses the implementer of $c_s$ needs both.  Card \texttt{c11-extension-implementer},
+ Statement: ``Then $P_-\tilde W_sP_+$ is Hilbert--Schmidt for every $s$.  prop:HS gives an explicit
+ bound when $\norm{\mathrm{id}-\tilde k_s}_\infty\le1/2$ \dots\ Every other $s$ follows from
+ $\tilde W_s=(\tilde W_{s/n})^n$ \dots\ The other block is $P_+\tilde W_sP_-=(P_-\tilde
+ W_{-s}P_+)^*$, Hilbert--Schmidt by the same argument'', and ``The Shale--Stinespring criterion
+ needs both off-diagonal blocks; an example is $W'=e^{ish'}$ with $h'$ self-adjoint''; referee
+ REF-DEP-CFT-B10: ``Duhamel gives both blocks of $e^{ish'}$ HS''.
+\item\label{corr0924:C3} \emph{Known gap (found 2026-09-24, not corrected)}
+ (Theorem~\ref{thm:exactquad} $\langle1\rangle1$ and $\langle1\rangle4$, l.~156 and l.~168--171;
+ Lemma~\ref{lem:groupbound}, l.~822, 826, 828--832, 842--846).  No proof text was changed for this
+ item, and it is not recorded on a knowledge-base card; the same gap is recorded in
+ \texttt{rigor/exact\_fidelity\_upper\_half.tex}, Correction C3.
+ \emph{What the document says:} in the cosine--sine decomposition of the unitary $\Wt_s$ the two
+ off-diagonal blocks $\Pm\Wt_s\Pp$ and $\Pp\Wt_s\Pm$ have the same singular values, whence
+ $\det(\one-V_{-s}^*V_{-s})=\det(\one-V_s^*V_s)$.
+ \emph{The mechanism:} write a unitary $U$ with respect to $H=\Pp H\oplus\Pm H$ as
+ $U=\begin{pmatrix}X&B\\ C&Y\end{pmatrix}$, so that $X=\Pp U\Pp|_{\Pp H}$, $B=\Pp U\Pm$ and
+ $C=\Pm U\Pp$.  Unitarity gives $C^*C=\one-X^*X$ and $BB^*=\one-XX^*$.  Since $X^*X$ and $XX^*$ have
+ the same spectrum, with multiplicities, away from $0$, $B$ and $C$ have the same singular values
+ except for the singular value $1$, whose multiplicity is $\dim\ker X^*$ for $B$ and $\dim\ker X$
+ for $C$.  When these kernels are finite-dimensional, the singular values agree if and only if
+ $\operatorname{ind}X=\dim\ker X-\dim\ker X^*=0$.  The single smoothly truncated winding of
+ \texttt{numerics/kb-checks-2026-09-23/refb9\_winding.py} shows the difference: both of its blocks
+ are Hilbert--Schmidt, with squared norms $0.0071$ against $1.0071$ at $R/b=5$, and they differ by
+ the index $1$.
+ \emph{Affected step:} $\langle1\rangle4$ of Theorem~\ref{thm:exactquad} (the evenness of
+ $\det(\one-V_s^*V_s)$ in $s$).  The identity $\Tr(G^2)=2\norm{\Pm W\Pp}_2^2$ quoted in
+ $\langle1\rangle1$ (l.~156) is the same statement in squared-norm form, since
+ $\Tr(G^2)=\norm{\Pm W\Pp}_2^2+\norm{\Pp W\Pm}_2^2$ when both blocks are Hilbert--Schmidt.  The same
+ claim is made for every unitary in Lemma~\ref{lem:groupbound}: its identity
+ $\norm{G_s}_2^2=2\norm{V_s}_2^2$ (l.~822; proof l.~828--832, which does not use the group law) and
+ its step $\langle1\rangle4$ (l.~842--846).  Through Theorem~\ref{thm:exactquad} $\langle1\rangle1$
+ the bound \eqref{eq:exactquad} itself rests on the equality, and with it Theorem~\ref{thm:global}
+ and Corollary~\ref{cor:quartic}; Proposition~\ref{prop:rrr} $\langle1\rangle3$ rests on it through
+ Lemma~\ref{lem:groupbound}.  Theorem~\ref{thm:global} $\langle1\rangle1$,
+ Corollary~\ref{cor:quartic} $\langle1\rangle3$ and Proposition~\ref{prop:rrr} $\langle1\rangle3$
+ apply PA Thm.~4.1, which also assumes $\norm{\Pp U\Pm}<1$, with only $\norm V<1$ checked; the
+ missing bound follows from $\norm V<1$ by the same equality.  The
+ statements hold for unitaries of index zero, $\operatorname{ind}(\Pp\Wt_s\Pp|_{\Pp H})=0$.
+ \emph{Suggested repair, not carried out here:} restrict to elements of index zero, for example
+ push-forwards by diffeomorphisms such as $\Wt_s$.  This needs its own check, e.g.\ that
+ $\operatorname{ind}(\Pp\Wt_s\Pp|_{\Pp H})=0$ along the flow $s\mapsto\Wt_s$; that check is not
+ carried out here.
+ \emph{Status of the uses (ruling of the referee of these corrections, not yet written as proofs).}
+ (i) For the push-forwards $\Wt_s$ (Theorem~\ref{thm:exactquad} $\langle1\rangle1$ and
+ $\langle1\rangle4$, Theorem~\ref{thm:global} $\langle1\rangle1$) index zero holds for every $s$:
+ $W_\phi$ is a real operator (PA eq.~\texttt{eq:pushforward}), i.e.\ it commutes with complex
+ conjugation $\mathcal C$, and $\mathcal C\Pp\mathcal C=\Pm$ (PA eq.~\texttt{eq:hardy}; PA
+ Correction C1), so $\Pp\Wt_s\Pm=\mathcal C(\Pm\Wt_s\Pp)\mathcal C$ and the two blocks have the same
+ singular values.  This one-line argument is not yet written in any document.
+ (ii) For $e^{sK}$, $K=D+ih'$ (Lemma~\ref{lem:groupbound}, Proposition~\ref{prop:rrr}) and the
+ product family of Corollary~\ref{cor:quartic}, the documents settle index zero only while
+ $\norm{G_s}_2<1$, $G_s=\Pp-U_s^*\Pp U_s$.  For $e^{sK}$ this holds for $\zeta<(4f_2^K)^{-1/2}$ by
+ Lemma~\ref{lem:groupbound} $\langle1\rangle2$, since $\norm{G_s}_2\le|s|\,\norm{[\Pm,K]}_2$ and
+ $\norm{[\Pm,K]}_2^2=2\norm{\Pm K\Pp}_2^2=4f_2^K$.  Then both blocks have norm $<1$ (they are
+ blocks of $[\Pp,U_s]=-U_sG_s$), so $X$ is invertible (PA Thm.~4.1 $\langle1\rangle1$) and
+ $\operatorname{ind}X=0$.  The rest needs a standard Fredholm-index continuity argument that no
+ document contains, and is open: in Lemma~\ref{lem:groupbound}, which is stated for all $s$, every
+ $s$ with $|s|\,\norm{[\Pm,K]}_2\ge1$; in Proposition~\ref{prop:rrr} the range
+ $(4f_2^K)^{-1/2}\le\zeta<(2f_2^K)^{-1/2}$; and in Corollary~\ref{cor:quartic} any
+ $\zeta\le\zeta_0$ with $\norm{G_\zeta}_2\ge1$.
+\end{enumerate}
 \end{document}

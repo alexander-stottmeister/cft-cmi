@@ -25,10 +25,10 @@ optimum beats the Petz map by a factor \(\approx4\) and its coefficient agrees
 with \emph{twice} the single-chirality geometric-compression value
 \(f_2z^2\), i.e.\ with the two-chirality spatial compression: to the accuracy
 reached, \textbf{the Petz map is not second-order optimal, and the geometric
-compression is} (or is within a few percent of the optimum).  A lower bound
-valid for \emph{all} channels is obtained by restricting to \(\cA(A)\vee\cA(C)\)
-and to a single-mode measurement; it is nonzero at order \(z^2\) but is two
-orders of magnitude below the optimum.  Gauge twirling reduces the problem to
+compression is} (or is within a few percent of the optimum).  The lower bound
+obtained by restricting to \(\cA(A)\vee\cA(C)\) (Lemma~\ref{lem:restriction}), and with it any single-mode measurement there, is exactly zero on the hopping chains \((L_A,L_B,L_C)=(4,8,2)\), \((4,12,2)\), \((4,16,2)\): there a quasi-free channel reproduces the vacuum on \(\cA(A)\vee\cA(C)\) exactly (Prop.~\ref{prop:AC-zero}, whose hypothesis \eqref{eq:Tcond} is checked numerically).
+Nothing is claimed for other geometries or the continuum, and no nonzero lower bound valid for \emph{all} channels is established:
+only \(\Erec\ge0\) is proved (see Correction~C3).  Gauge twirling reduces the problem to
 gauge-covariant channels but \emph{not} to quasi-free ones; this is stated
 honestly as the remaining gap.
 \end{tcolorbox}
@@ -433,24 +433,24 @@ Then there is a gauge-invariant quasi-free \(\beta\in\mathcal C\) with
 Prop.~\ref{prop:cp} \((X,Z)\) comes from an admissible channel}
 \end{proof}
 
-\begin{verdictbreak}[\;The \(A\!-\!C\) route of the O8 plan does not work]
+\begin{verdictbreak}[\;The \(A\!-\!C\) route of the O8 plan gives no bound on the three chains checked]
 Hypothesis \eqref{eq:Tcond} was checked on the hopping chain with
 \(T:=Q_{AB}^{+}Q_{AC}\) (Moore--Penrose;
-\texttt{numerics/optimality/lower\_bound.py}).  For
+\texttt{numerics/kb-checks-2026-09-23/\allowbreak tcond\_check.py}, output \texttt{tcond\_check.out}; see Correction~C1).  For
 \((L_A,L_B,L_C)=(4,8,2),(4,12,2),(4,16,2)\) the residual
-\(\|Q_{AB}T-Q_{AC}\|\) is \(1.4\times10^{-17},7.0\times10^{-17},2.3\times10^{-17}\),
+\(\|Q_{AB}T-Q_{AC}\|\) is \(3.6\times10^{-17},1.8\times10^{-17},1.8\times10^{-17}\) (round-off),
 \(\|T\|=0.552,0.378,0.289<1\), and the two operator inequalities in
 \eqref{eq:Tcond} hold with margins \(0.122,0.151,0.163\).  Hence \(E_{AC}=0\)
 \emph{exactly} for these geometries, while \(\Erec\approx0.017\,z^2\).  Direct
-convex minimisation of the exact \(A\!-\!C\) fidelity over the feasible set gives
+convex minimisation of the exact \(A\!-\!C\) fidelity over the feasible set (Powell over \((T,Z_c)\) from \(T=0\), \texttt{numerics/optimality/\allowbreak lower\_bound.py}, output \texttt{lb.log}; this is a different \(T\), not the Moore--Penrose one) gives
 \(E_{AC}=1.5\times10^{-9}\) and \(9.8\times10^{-10}\) (solver floor) at
 \((4,8,2)\) and \((4,12,2)\), against
 \(-\log\Fid(\omega_{AC},\omega_A\otimes\omega_C)=3.2\times10^{-3}\) and
-\(1.7\times10^{-3}\): the \(B\)-mediated \(A\!-\!C\) states \emph{contain} the
+\(1.7\times10^{-3}\): on these chains the \(B\)-mediated \(A\!-\!C\) states \emph{contain} the
 vacuum \(A\!-\!C\) state.  The route proposed in \texttt{open\_problems\_plan.tex},
 Sec.~O8 (``bound the Bures distance between the vacuum \(A\!-\!C\) two-point
-function and the set of \(B\)-mediated ones'') therefore yields no bound at all.
-The mechanism is transparent: the \(A\!-\!C\) correlations are \(O(z)\) and
+function and the set of \(B\)-mediated ones'') therefore yields no bound on these three chains.  That it yields no bound at all (continuum, other geometries) is an extrapolation and is not shown here: at \((6,12,3)\) and \((8,16,4)\) the same Moore--Penrose \(T\) violates \eqref{eq:Tcond} (see Correction~C2).
+A heuristic mechanism, not proved and not checked beyond these chains, suggests why: the \(A\!-\!C\) correlations are \(O(z)\) and
 \emph{weak}, the \(A\!-\!B\) correlations are \(O(1)\) and \emph{strong}, so
 degrading \(B\) into a surrogate \(C\) is easy; what a recovery cannot do is
 degrade \(B\) and \emph{simultaneously} keep the \(B\!-\!C\) correlations, and no
@@ -738,11 +738,11 @@ rows of Table~\ref{tab:opt} (\(1.006\), \(1.124\)) plus the finite-lattice drift
 seen in the Petz column (\(0.90\)--\(1.02\)).
 \end{tcolorbox}
 
-\begin{verdictbreak}[\;Q4: lower bound. Only \(\Erec\ge0\) is proved; the planned route is dead.]
+\begin{verdictbreak}[\;Q4: lower bound. Only \(\Erec\ge0\) is proved; the planned route gives zero on the three chains checked.]
 The \(A\!-\!C\) restriction proposed in \texttt{open\_problems\_plan.tex}~O8 and
-in the Phase-3 brief gives \emph{exactly zero}: the vacuum \(A\!-\!C\) state is
-itself \(B\)-mediated (Prop.~\ref{prop:AC-zero}, with the hypothesis verified on
-the chain to \(10^{-17}\)).  Gauge twirling (Lemma~\ref{lem:twirl}) is a valid
+in the Phase-3 brief gives \emph{exactly zero} on the hopping chains \((L_A,L_B,L_C)=(4,8,2),(4,12,2),(4,16,2)\): there the vacuum \(A\!-\!C\) state is
+itself \(B\)-mediated (Prop.~\ref{prop:AC-zero}, with the hypothesis \eqref{eq:Tcond} verified numerically on
+these three chains, residual at round-off level \(\le4\times10^{-17}\); at \((6,12,3)\) and \((8,16,4)\) the Moore--Penrose \(T\) violates it, and other geometries and the continuum are open; see Corrections~C1--C2).  Gauge twirling (Lemma~\ref{lem:twirl}) is a valid
 reduction to gauge-covariant channels but does not reach quasi-free ones, and
 the Reeh--Schlieder property makes the naive ``the recovered \(A\!-\!C\)
 correlations must factor through \(\hh_B\)'' argument vacuous for non-Gaussian
@@ -766,7 +766,7 @@ Lemma~\ref{lem:onemode} closes O8 completely.
  numerically verified); the recovered-symbol rule (Lemma~\ref{lem:rec-symbol});
  the exact convexity of the quasi-free second-order problem in \((X,Z)\)
  (Thm.~\ref{thm:convex-set}) and its semidefinite representability; the
- vanishing of the \(A\!-\!C\) lower bound (Prop.~\ref{prop:AC-zero});
+ vanishing of the \(A\!-\!C\) lower bound under hypothesis \eqref{eq:Tcond} (Prop.~\ref{prop:AC-zero}; \eqref{eq:Tcond} itself is only checked numerically, on three chains, Correction~C2);
  the single-mode bound (Lemma~\ref{lem:onemode}) and gauge twirling
  (Lemma~\ref{lem:twirl}).
 \item \textbf{Numerical (lattice, quasi-free, certificates).} Every entry of the
@@ -785,6 +785,83 @@ Lemma~\ref{lem:onemode} closes O8 completely.
  quasi-free channels; \texttt{open\_problems\_plan.tex}~O8 should replace the
  \(A\!-\!C\) route by the KKT/dual-certificate route and by the symbol-range
  question above.
+\end{enumerate}
+
+\section{Corrections of 2026-09-24}\label{corr0924:sec}
+
+These corrections were made on 2026-09-24 from the project's knowledge base.
+Each corrected line above was replaced by exactly one line, so the line numbers
+of the text above this section are unchanged.
+
+\begin{enumerate}[leftmargin=2.4em,itemsep=4pt]
+\item[\textbf{C1.}] \textbf{Source and residuals of the check of \eqref{eq:Tcond}}
+ (verdict box after Prop.~\ref{prop:AC-zero}; knowledge-base card
+ \texttt{ac-intertwiner-exists-hopping-chain}).
+ \emph{Said:} the Moore--Penrose check \(T:=Q_{AB}^{+}Q_{AC}\) of \eqref{eq:Tcond}
+ was done by \texttt{numerics/optimality/lower\_bound.py}, with residuals
+ \(\|Q_{AB}T-Q_{AC}\|=1.4\times10^{-17},7.0\times10^{-17},2.3\times10^{-17}\).
+ \emph{Says now:} the check is
+ \texttt{numerics/kb-checks-2026-09-23/\allowbreak tcond\_check.py} (numpy
+ \texttt{pinv}; output \texttt{tcond\_check.out}). For
+ \((L_A,L_B,L_C)=(4,8,2)\), \((4,12,2)\), \((4,16,2)\) it prints the residual (operator
+ norm) \(3.55\times10^{-17},1.78\times10^{-17},1.75\times10^{-17}\), i.e.\
+ round-off; \(\|T\|=0.5524,0.3779,0.2894\); and, for each of the two operator
+ inequalities of \eqref{eq:Tcond}, the smallest eigenvalue of the difference,
+ \(0.1216,0.1510,0.1630\). The printed \(\|T\|\) and margins were right to three
+ digits and are kept. The printed residuals are reproduced by no script and are
+ replaced.
+ \emph{Why:} \texttt{lower\_bound.py} computes no Moore--Penrose \(T\). It
+ minimises \(-\log\Fid\) over \((T,Z_c)\) by Powell's method with a log barrier,
+ starting from \(T=0\) (\texttt{ACProblem.solve}), and its output \texttt{lb.log}
+ prints \(z\), \(E_{AC}\), \(E_{AC}/z^2\), \(-\log\Fid(\omega_{AC},\omega_A\otimes\omega_C)\) and the norm of that optimised \(T\)
+ (\(0.5503,0.3776,0.2851\)), with no residual and no margins. The direct
+ minimisation quoted in the same box is what \texttt{lower\_bound.py} does; it is
+ now attributed to it.
+\item[\textbf{C2.}] \textbf{Scope of the \(A\!-\!C\) verdict} (title and last
+ sentences of the verdict box after Prop.~\ref{prop:AC-zero}; verdict Q4 in
+ Sec.~\ref{sec:verdicts}; item ``Established'' of the final list;
+ knowledge-base card \texttt{ac-lower-bound-zero}).
+ \emph{Said:} ``The \(A\!-\!C\) route of the O8 plan does not work''; ``the
+ \(B\)-mediated \(A\!-\!C\) states \emph{contain} the vacuum \(A\!-\!C\) state'', without
+ restriction to the chains (line 449; now ``on these chains''); it
+ ``therefore yields no bound at all''; ``The mechanism is transparent''; ``the
+ planned route is dead''; the \(A\!-\!C\) restriction ``gives exactly zero'', with
+ ``the hypothesis verified on the chain to \(10^{-17}\)''; and ``the vanishing of
+ the \(A\!-\!C\) lower bound'' among the results proved here.
+ \emph{Says now:} Prop.~\ref{prop:AC-zero} proves the implication
+ \eqref{eq:Tcond}\(\;\Rightarrow\;E_{AC}=0\). Hypothesis \eqref{eq:Tcond} is verified
+ only numerically, on the three chains of C1, so \(E_{AC}=0\) exactly there and
+ the route gives no bound on these three chains. Nothing is claimed for the
+ continuum or for other geometries. That the route yields no bound at all is
+ marked as an extrapolation, and the mechanism as heuristic.
+ \emph{Why:} \texttt{numerics/kb-checks-2026-09-23/\allowbreak
+ tcond\_check\_extra.py} (output \texttt{tcond\_check\_extra.out}) applies the same
+ Moore--Penrose \(T\) at \((6,12,3)\) and \((8,16,4)\), where it violates
+ \eqref{eq:Tcond}: margins \(-0.1330\) and \(-0.4641\), \(\|T\|=0.8016\) and
+ \(1.2850\). The third row of \texttt{lb.log}, \((6,12,3)\), gives
+ \(E_{AC}=2.27\times10^{-5}\) (\(E_{AC}/z^2=0.0045\)). It is the optimum of the
+ Powell search over quasi-free \((T,Z_c)\), hence only an upper value for
+ \(E_{AC}\), and it decides neither \(E_{AC}>0\) nor \(E_{AC}=0\) there. The
+ conclusion ``no bound at all'' thus extrapolates from three chains by a heuristic
+ mechanism and is not established.
+\item[\textbf{C3.}] \textbf{The lower bound in the summary} (summary box, lines 28--31;
+ knowledge-base card \texttt{ac-lower-bound-zero}).
+ \emph{Said:} ``A lower bound valid for \emph{all} channels is obtained by restricting to
+ \(\cA(A)\vee\cA(C)\) and to a single-mode measurement; it is nonzero at order \(z^2\) but is
+ two orders of magnitude below the optimum.''
+ \emph{Says now:} the lower bound from the restriction to \(\cA(A)\vee\cA(C)\), and with it any
+ single-mode measurement there, is exactly zero on the hopping chains \((4,8,2)\),
+ \((4,12,2)\), \((4,16,2)\); nothing is claimed for other geometries or the continuum; no nonzero
+ lower bound valid for all channels is established, and only \(\Erec\ge0\) is proved.
+ \emph{Why:} on these chains Prop.~\ref{prop:AC-zero}, with \eqref{eq:Tcond} checked numerically
+ (C1), gives a quasi-free channel \(\beta\) with
+ \(\omega^\beta|_{\cA(A)\vee\cA(C)}=\omega|_{\cA(A)\vee\cA(C)}\) exactly, so \(E_{AC}=0\) and a
+ single-mode measurement on \(\cA(A)\vee\cA(C)\) sees \(p=p'\) in Lemma~\ref{lem:onemode}.  The
+ body says the same: the lower bound over all channels ``remains \(\Erec\ge0\)'' (verdict box
+ after Lemma~\ref{lem:twirl}), verdict Q4 (``Only \(\Erec\ge0\) is proved''), and the list at the
+ end (``Not established: \dots\ any nonzero lower bound on \(\Erec\)'').  The document contains no
+ computation of a nonzero bound of order \(z^2\).  The card states that on these three chains
+ \(E_{AC}=0\) exactly and claims nothing for the continuum or other geometries.
 \end{enumerate}
 
 \end{document}

@@ -424,7 +424,7 @@ The constant traces back to \(\Wh(k)\simeq\frac{c}{24\pi}|k|^3\), the flat-space
 
 \section{What remains for full rigour}\label{sec:remains}
 \begin{enumerate}
-\item \emph{Lemma~\ref{lem:second-variation}} (type-III second variation) for Theorem~B.  Status: the fidelity (Bures) half is proved for every von Neumann algebra with cyclic separating vector (\texttt{rigor/lemma\_second\_variation.tex}), and Theorem~B itself is established for every diffeomorphism covariant net on \(S^1\) (\texttt{rigor/universality\_theorem\_B.tex}, \texttt{rigor/implementation\_C11.tex}, refereed): the implementer \(U_s=e^{isT(g_{\rm tot})}\) exists by the Carpi--Weiner energy bound because \(g_{\rm tot}\) is \(C^{1,1}\) with a single jump of the second derivative, and \(c\)-linearity of \(g_B\) follows because the stress-tensor subspace reduces \(\Delta\) and \(J\).  The Kubo--Mori half is proved for unitary orbits with generator affiliated with the algebra (\texttt{rigor/kubo\_mori\_second\_variation.tex}); for \(T(g_{\rm tot})\), which is not affiliated with \(\cA(I)\), a gauge lemma is still missing.  For the free fermion both are bypassed.
+\item \emph{Lemma~\ref{lem:second-variation}} (type-III second variation) for Theorem~B.  Status: the fidelity (Bures) half is proved for every von Neumann algebra with cyclic separating vector (\texttt{rigor/lemma\_second\_variation.tex}), and Theorem~B itself is established for every diffeomorphism covariant net on \(S^1\) (\texttt{rigor/universality\_theorem\_B.tex}, \texttt{rigor/implementation\_C11.tex}, refereed): the implementer \(U_s=e^{isT(g_{\rm tot})}\) exists by the Carpi--Weiner energy bound because \(g_{\rm tot}\) is \(C^{1,1}\) with a single jump of the second derivative, and \(c\)-linearity of \(g_B\) follows because the stress-tensor subspace reduces \(\Delta\) and \(J\).  The Kubo--Mori half is proved for unitary orbits whose generator \(A\) is bounded in the algebra, or affiliated with it with \(\Omega\in D(A)\) (\texttt{rigor/kubo\_mori\_second\_variation.tex}: exact identity and lower bound, and the second-order expansion under its condition \((U_\varepsilon)\), which modular analyticity implies only for bounded \(A\); see Correction~C1 at the end); for \(T(g_{\rm tot})\), which is affiliated only with a larger algebra and not with \(\cA(I)\), this is open (Gap~QK2 there) and a gauge lemma is still missing.  For the free fermion both are bypassed.
 \item \emph{Existence of \(\lim_{\zeta\to0}\Phi/\zeta^2\)} and its identification with \(g_B/8\) (Note~5, Corollary~4.2; status: done, \(\lim\Phi/\zeta^2=g_B/8\) proved by \texttt{rigor/quadratic\_limit.tex} Thm~4.2 together with \texttt{rigor/uhlmann\_upper\_bound.tex}; the remainder is \(O(\zeta^3)\) with a negative cubic coefficient \(c_3=-0.99(1)\), and the \(\log^{-2}\) rate claimed earlier is refuted by the global bound \(\Phi\le-\frac12\log(1-2f_2\zeta^2)\) of \texttt{rigor/rate\_of\_remainder.tex}): the compression formulas give \(\Phi\) as a monotone limit and the tail analysis gives the \(\zeta^2\log^{-2}\) remainder; a two-sided bound would complete Theorem~A as a statement about \(\Phi\) itself rather than about the QFI.
 \item \emph{Analytic proof of Lemma~\ref{lem:kernel}(ii)}: done in \texttt{rigor/kernel\_identity.tex} (series expansion and Gauss summation; closed forms \(D^{(1)}(\kappa,\kappa')=(q_\kappa-q_{\kappa'})(\kappa+\kappa')/[(\kappa-\kappa')((\kappa-\kappa')^2+4\pi^2)]\), \(D^{(1)}(\kappa,\kappa)=-\kappa/(8\pi^2\cosh^2(\kappa/2))\)).
 \item \emph{Collar limit} in the general case: the collar tangent functionals and metrics converge to the zero-collar ones as \(\eps\to0\); for the free fermion this is contained in Note~5.  Status: monotone convergence \(g_B^{(\eps)}\uparrow g_B\) along increasing algebras is proved (\texttt{rigor/lemma\_second\_variation.tex}, proposition ``Data processing and monotone convergence''); the identification of the zero-collar tangent functional with the spectral integral is reduced to a uniform-convergence statement and remains open; the \(x\)-space analysis of \texttt{rigor/collar\_and\_invariant\_formula.tex} locates the obstruction at \(g(L)\neq0\).
@@ -443,4 +443,33 @@ The constant traces back to \(\Wh(k)\simeq\frac{c}{24\pi}|k|^3\), the flat-space
 \bibitem{Notes} Notes 4--6 of this series: \texttt{continuum\_petz\_free\_fermion}, \texttt{fidelity\_recovered\_quasifree}, \texttt{strategy\_open\_problems} (\texttt{cft\_cmi/}).
 \end{thebibliography}
 
+\section*{Corrections of 2026-09-24}
+\addcontentsline{toc}{section}{Corrections of 2026-09-24}
+{\sloppy
+This correction implements the knowledge-base card \texttt{km-exact-identity} (project
+\texttt{cft\_cmi}), whose refereed Statement is the specification.  The changed line was replaced by
+exactly one line, so line numbers cited elsewhere still point to the same text.
+\paragraph{C1. The Kubo--Mori half for affiliated generators (Section~\ref{sec:remains}, item~1,
+line~427).}
+\emph{Before:} ``The Kubo--Mori half is proved for unitary orbits with generator affiliated with the
+algebra (\texttt{rigor/kubo\_mori\_second\_variation.tex})''.
+\emph{Now:} it is proved for unitary orbits whose generator \(A\) is bounded in the algebra, or
+affiliated with it with \(\Omega\in D(A)\): the exact identity
+\(D(\omega\Vert\omega_s)=\|h(\Delta)^{1/2}(e^{isA}-1)\Omega\|^2\), the sum rule and the lower bound
+\(\liminf s^{-2}D\ge\frac12g_{\mathrm{KM}}\) hold, and the second-order expansion holds under the
+condition \((U_\varepsilon)\) of that document.  Modular analyticity of \(A\) implies
+\((U_\varepsilon)\) only for bounded \(A\).  A generator affiliated only with a larger algebra, such as
+\(T(g_{\rm tot})\), is not covered; that case is open (Gap~QK2 of
+\texttt{rigor/kubo\_mori\_second\_variation.tex}).
+\emph{Why:} card \texttt{km-exact-identity}, Statement: ``(b) Affiliated generators (prop:unbounded,
+l.~774--778): for \(A=A^*\) affiliated with \(M\) and \(\Omega\in D(A)\), the exact identity, the sum
+rule, lem:kms and the lower bound hold verbatim, and the second-order expansion holds under
+\((U_\varepsilon)\); for unbounded \(A\) the modular-analyticity route \((A_\varepsilon)\Rightarrow
+(U_\varepsilon)\) is not available (lem:AtoU is for bounded \(A\)).  (c) Not applicable to the
+recovery curve of Note~7, whose generator \(T(g_{\rm tot})\) is affiliated with the global algebra but
+not with the interval algebra, so \(e^{isA}\) is not in \(M\) (Gap QK2, l.~822)''.  The statement
+at line~277 that the Kubo--Mori half of Lemma~\ref{lem:second-variation} remains open beyond finite
+dimensions is unchanged: that lemma allows generators affiliated with a larger algebra, which is
+exactly the open case.
+\par}
 \end{document}

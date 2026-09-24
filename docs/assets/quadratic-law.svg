@@ -19,7 +19,7 @@
   .dot { stroke-dasharray: 2 3; }
 text{fill:#1f2328;}.sub,.tick,.note{fill:#57606a;}.axis{stroke:#1f2328;}.grid,.frame{stroke:#d0d7de;}.soft{fill:#eaeef2;}.mk-ink{fill:#1f2328;}.s1{stroke:#0550ae;} .f1{fill:#0550ae;} .t1{fill:#0550ae;} .mk-c1{fill:#0550ae;}.s2{stroke:#9a4b00;} .f2{fill:#9a4b00;} .t2{fill:#9a4b00;} .mk-c2{fill:#9a4b00;}.s3{stroke:#1a7f37;} .f3{fill:#1a7f37;} .t3{fill:#1a7f37;} .mk-c3{fill:#1a7f37;}.s4{stroke:#6639ba;} .f4{fill:#6639ba;} .t4{fill:#6639ba;} .mk-c4{fill:#6639ba;}.s5{stroke:#a40e26;} .f5{fill:#a40e26;} .t5{fill:#a40e26;} .mk-c5{fill:#a40e26;}@media (prefers-color-scheme: dark){text{fill:#e6edf3;}.sub,.tick,.note{fill:#9198a1;}.axis{stroke:#e6edf3;}.grid,.frame{stroke:#3d444d;}.soft{fill:#21262d;}.mk-ink{fill:#e6edf3;}.s1{stroke:#79c0ff;} .f1{fill:#79c0ff;} .t1{fill:#79c0ff;} .mk-c1{fill:#79c0ff;}.s2{stroke:#f0a35e;} .f2{fill:#f0a35e;} .t2{fill:#f0a35e;} .mk-c2{fill:#f0a35e;}.s3{stroke:#56d364;} .f3{fill:#56d364;} .t3{fill:#56d364;} .mk-c3{fill:#56d364;}.s4{stroke:#d2a8ff;} .f4{fill:#d2a8ff;} .t4{fill:#d2a8ff;} .mk-c4{fill:#d2a8ff;}.s5{stroke:#ff8a8a;} .f5{fill:#ff8a8a;} .t5{fill:#ff8a8a;} .mk-c5{fill:#ff8a8a;}}</style>
 <text x="24.00" y="30.00" class="ttl" text-anchor="start">Theorem A: Φ(ζ) = −log F and its ζ² asymptote</text>
-<text x="24.00" y="50.00" class="sub" text-anchor="start">Free chiral fermion, c = 1. Sources: numerics/results_hp2.txt (small ζ, certified window + tail); fidelity_table_largezeta.tex (large ζ);</text>
+<text x="24.00" y="50.00" class="sub" text-anchor="start">Free chiral fermion, c = 1. Sources: numerics/results_hp2.txt (small ζ, window value + estimated tail); fidelity_table_largezeta.tex (large ζ);</text>
 <text x="24.00" y="66.00" class="sub" text-anchor="start">fidelity_tables.tex (f₂ = 0.008444(1), the κ_c → ∞ extrapolation). [numerical: measured, not proved]</text>
 <line x1="113.95" y1="86.00" x2="113.95" y2="344.00" class="grid"/>
 <line x1="280.82" y1="86.00" x2="280.82" y2="344.00" class="grid"/>
@@ -111,7 +111,7 @@ text{fill:#1f2328;}.sub,.tick,.note{fill:#57606a;}.axis{stroke:#1f2328;}.grid,.f
 <circle cx="653.29" cy="99.90" r="4.20" class="hole s2"/>
 <line x1="643.29" y1="102.07" x2="663.29" y2="102.07" class="s3"/>
 <rect x="100.80" y="100.80" width="6.40" height="6.40" rx="0" class="f1"/>
-<text x="120.00" y="108.00" class="note" text-anchor="start">certified bracket [window value, + tail]</text>
+<text x="120.00" y="108.00" class="note" text-anchor="start">error bracket [window value, + tail estimate]</text>
 <line x1="96.00" y1="123.00" x2="112.00" y2="123.00" class="s3"/>
 <text x="120.00" y="127.00" class="note" text-anchor="start">certified lower bound, largest κ_c</text>
 <circle cx="104.00" cy="142.00" r="4.20" class="hole s2"/>
@@ -163,7 +163,7 @@ text{fill:#1f2328;}.sub,.tick,.note{fill:#57606a;}.axis{stroke:#1f2328;}.grid,.f
 <circle cx="603.06" cy="504.23" r="3.80" class="hole s2"/>
 <circle cx="653.29" cy="507.67" r="3.80" class="hole s2"/>
 <text x="382.00" y="540.00" class="lab" text-anchor="middle">ζ   (corner strength ζ = as/(a+L), dimensionless)</text>
-<text x="24.00" y="560.00" class="note" text-anchor="start">Measured range ζ = 0.00833 to 17.067. At small ζ the window value is a rigorous lower bound, plus the tail ζ²/(15κ_c²): the bracket is certified.</text>
+<text x="24.00" y="560.00" class="note" text-anchor="start">Measured range ζ = 0.00833 to 17.067. At small ζ the error bracket is [window value, + tail estimate ζ²/(15κ_c²)]; only its lower end is proved.</text>
 <text x="24.00" y="577.00" class="note" text-anchor="start">At large ζ that tail is not valid, so the bracket is [Φ at the largest κ_c, Φ∞]; Φ∞ is an extrapolation, not a bound.</text>
 <text x="24.00" y="594.00" class="note" text-anchor="start">The widest bracket is at ζ = 17.067: [0.05739, 0.06412], and the best estimate quoted there is 0.0641 ± 0.0043.</text>
 <text x="24.00" y="611.00" class="note" text-anchor="start">The local log-slope d log Φ / d log ζ falls from 1.29 at ζ = 1.067 to 0.69 at ζ = 17.067: the ζ² law is a ζ → 0 statement, not a global one.</text>

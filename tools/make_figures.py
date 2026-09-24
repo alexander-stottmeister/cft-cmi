@@ -554,7 +554,7 @@ def fig_quadratic_law() -> Path:
             % (zmin, zmax))
     g.text(24, 30, "Theorem A: Φ(ζ) = −log F and its ζ² asymptote", "ttl")
     g.text(24, 50, "Free chiral fermion, c = 1. Sources: "
-                   "numerics/results_hp2.txt (small ζ, certified window + "
+                   "numerics/results_hp2.txt (small ζ, window value + estimated "
                    "tail); fidelity_table_largezeta.tex (large ζ);", "sub")
     g.text(24, 66, f"fidelity_tables.tex (f₂ = {f2:.6f}"
                    f"({int(con['f2err']*1e6)}), the κ_c → ∞ extrapolation). "
@@ -576,7 +576,7 @@ def fig_quadratic_law() -> Path:
     g.text(ax.X(1.30), ax.Y(2.1e-5), "Φ = f₂ζ²", "note t4")
     g.text(ax.X(1.30), ax.Y(2.1e-5) + 14, "(Theorem A, proved)", "note t4")
 
-    # small zeta: certified brackets [window value, window value + tail]
+    # small zeta: error brackets [window value, window value + tail estimate]
     for r in small:
         ax.vbar(r["zeta"], r["sub"], r["tail"], "s1", cap=3)
         sqmark(g, ax.X(r["zeta"]), ax.Y(r["tail"]), 3.2, "f1")
@@ -591,7 +591,7 @@ def fig_quadratic_law() -> Path:
     # legend, in the empty upper-left corner of the panel
     lx, ly = ax.x + 18, ax.y + 22
     for i, (draw, txt) in enumerate((
-        ("sq", "certified bracket [window value, + tail]"),
+        ("sq", "error bracket [window value, + tail estimate]"),
         ("tick", "certified lower bound, largest κ_c"),
         ("circ", "best estimate Φ∞ with its quoted error"),
         ("dash", "proved ζ² asymptote, f₂ = c/(12π²)"),
@@ -635,8 +635,8 @@ def fig_quadratic_law() -> Path:
 
     for i, line in enumerate((
         f"Measured range ζ = {zmin} to {zmax}. At small ζ the "
-        f"window value is a rigorous lower bound, plus the tail "
-        f"ζ²/(15κ_c²): the bracket is certified.",
+        f"error bracket is [window value, + tail estimate "
+        f"ζ²/(15κ_c²)]; only its lower end is proved.",
         "At large ζ that tail is not valid, so the bracket is "
         "[Φ at the largest κ_c, Φ∞]; Φ∞ is an "
         "extrapolation, not a bound.",
@@ -720,7 +720,7 @@ def fig_universality() -> Path:
 
     for i, line in enumerate((
         f"fermion, continuum: f₂ = {ferm['f2']}({int(ferm['f2err']*1e6)}) — "
-        f"fidelity_tables.tex, table tab:second-order (certified window, "
+        f"fidelity_tables.tex, table tab:second-order (window value + tail estimate, "
         f"κ_c → ∞ extrapolation)  [numerical]",
         f"U(1) current net, the bosonic check at c = 1: f₂ = {bos['f2']}"
         f"({int(bos['f2err']*1e5)}) — numerics/boson/README.md §4  "

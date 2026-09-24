@@ -1,0 +1,14 @@
+z_min(10) = 0.3321712176455035
+f=0.0085 corrected=False: grid point (0.3325,10) ratio = 0.9830341;  continuum sup ~ 0.9834326 at z=0.3321712, k=10.0000
+f=0.0085 corrected=True: grid point (0.3325,10) ratio = 0.9836516;  continuum sup ~ 0.9840491 at z=0.3321712, k=10.0000
+f=0.008516 corrected=False: grid point (0.3325,10) ratio = 0.9836520;  continuum sup ~ 0.9840507 at z=0.3321712, k=10.0000
+f=0.008516 corrected=True: grid point (0.3325,10) ratio = 0.9842713;  continuum sup ~ 0.9846689 at z=0.3321712, k=10.0000
+local 2D scan corrected f=0.0085: max 0.9840491 at (0.3321712176455035, 10.0)
+local 2D scan corrected f=0.008516: max 0.9846689 at (0.3321712176455035, 10.0)
+corner admissible: True  kdagger(zc)= 10.0
+printed chain at (0.3322,10), f=0.0085: 0.9833976493116124  f=0.008516: 0.9840157187109378
+T k^2/z^2 at corner: 1.7070981154377523  at (0.3325,10): 1.7060463092775777
+corner (11e^-3.5,10), f=0.0085: corrected 0.984049, printed 0.983433
+corner (11e^-3.5,10), f=0.008516: corrected 0.984669, printed 0.984051
+grid scan corrected f=0.0085: max 0.983652 at (0.3325, 10.0);  max T k^2/z^2 on the grid 1.7060 at (0.3325, 10.0)
+grid scan corrected f=0.008516: max 0.984271 at (0.3325, 10.0)

@@ -182,10 +182,10 @@ increasing $C^{1,1}$ diffeomorphism $\varphi_s$ of $\mathbb R$, free on
 $I'=(-\infty,-a]\cup[L,\infty)$ --- a single arc through infinity in the circle
 chart --- subject to matching $u_s=x-\varphi_s(x)$ and $u_s'$ at $L$ and vanishing
 to first order at $-a$.  An explicit Hilbert--Schmidt bound on
-$V_\zeta=P_-\widetilde W_{\varphi_s}P_+$ gives implementability.
+$V_\zeta=P_-\widetilde W_{\varphi_s}P_+$, and the same argument for the other block $P_+\widetilde W_{\varphi_s}P_-=(P_-\widetilde W_{\varphi_s}^*P_+)^*$, give $[P_+,\widetilde W_{\varphi_s}]$ Hilbert--Schmidt and hence implementability \cite[Cor.~2.7]{RigorUB}; the Shale--Stinespring criterion needs both off-diagonal blocks, and $V_\zeta$ alone does not suffice.
 \item \emph{Uhlmann inequality.}  By \cref{lem:vector} and
 \cite[Thm.~2(3)]{AU02}, $\Fid\ge|\langle\Omega,\Gamma(U)\Omega\rangle|$ for
-$U=\widetilde W_{\varphi_s}\widehat W'$ with any $\widehat W'$ localized in $I'$,
+$U=\widetilde W_{\varphi_s}\widehat W'$ with any unitary $\widehat W'=\one_{L^2(I)}\oplus W'$ localized in $I'$ whose two off-diagonal blocks $P_-\widehat W'P_+$ and $P_+\widehat W'P_-$ are both Hilbert--Schmidt, so that an implementer $\Gamma(\widehat W')$ exists (the first block alone does not suffice) \cite[Lem.~3.2]{RigorUB},
 because $\Gamma(\widehat W')^*\in U(\cF_r(I)')$.  Hence
 $\Phi(\zeta)\le-\frac12\log\det(\one-V_\zeta^*V_\zeta)$ by \cref{thm:det}.
 \item \emph{Quadratic expansion.}  $-\frac12\log\det(\one-V^*V)

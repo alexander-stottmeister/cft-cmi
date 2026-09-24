@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Remainder bound in the settled range: Phi(zeta) &lt;= -1/2 log(1 - 2 f2 zeta^2) for 0 &lt;= zeta &lt; (4 f2)^{-1/2} = pi sqrt(3) &mdash; cft-cmi</title>
+<meta name="description" content="Remainder bound in the settled range: Phi(zeta) &lt;= -1/2 log(1 - 2 f2 zeta^2) for 0 &lt;= zeta &lt; (4 f2)^{-1/2} = pi sqrt(3). Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../../index.html">Interactive site</a>
+    <a href="../index.html">Documentation</a>
+    <a href="../status.html">All claims</a>
+    <a href="../open.html">Open problems</a>
+    <a href="../notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>Remainder bound in the settled range: Phi(zeta) &lt;= -1/2 log(1 - 2 f2 zeta^2) for 0 &lt;= zeta &lt; (4 f2)^{-1/2} = pi sqrt(3)</h1>
+<p><strong>Status:</strong> <code>proved</code> — a complete structured proof.</p>
+<p><strong>Area:</strong> <a href="../status.html#area-theorem-a">Theorem A: exact recovery error of the free fermion</a> · <strong>Card type:</strong> result · <strong>Knowledge-base id:</strong> <code>rrr-bound-small-zeta</code></p>
+<h2>Statement</h2>
+<p>For the zero-collar compression of the free chiral fermion (one chiral component; Phi as in rate_of_remainder.tex l. 66-67), Phi(zeta) &lt;= -1/2 log(1 - 2 f2 zeta^2) for 0 &lt;= zeta &lt; (4 f2)^{-1/2} = pi sqrt(3) = 5.4414, f2 = 1/(12 pi^2) (rigor/rate_of_remainder.tex prop:rrr, restricted to the range that its Correction C3 settles). In this range the h' of prop:rrr &lt;1&gt;4 with 4 f2^K zeta^2 &lt; 1 still have infimum f2^K = f2, because inf f2^K = f2 &lt; 1/(4 zeta^2). For each of them U_zeta = e^{zeta K} has ||G_zeta||_2 &lt;= zeta ||[P_-, K]||_2 = (4 f2^K zeta^2)^{1/2} &lt; 1 (lem:groupbound &lt;1&gt;2, &lt;1&gt;3). So both off-diagonal blocks of U_zeta have norm &lt; 1, being blocks of [P_+, U_zeta] = -U_zeta G_zeta, and P_+ U_zeta P_+ is invertible on P_+ H (PA Thm 4.1 &lt;1&gt;1), hence of index zero. Therefore the two blocks have the same singular values (C3, l. 1034-1040), which gives lem:groupbound's ||V_zeta||_2^2 &lt;= 2 f2^K zeta^2 and PA Thm 4.1's hypothesis ||P_+ U_zeta P_-|| &lt; 1 (C3 (ii), l. 1069-1075). The printed range up to (2 f2)^{-1/2} = pi sqrt(6) is the card rate-of-remainder, which rests beyond pi sqrt(3) on group-index-zero-large-s. Split off rate-of-remainder on 2026-09-24 so that cards using the bound only at small zeta do not inherit the index gap.</p>
+<h2>How to verify</h2>
+<p>rigor/rate_of_remainder.tex prop:rrr (and its &lt;1&gt;3, &lt;1&gt;4), lem:groupbound &lt;1&gt;2, Correction C3 'Status of the uses' (ii) (l. 1069-1075; mechanism l. 1034-1040); PA = rigor/uhlmann_upper_bound.tex Thm 4.1 &lt;1&gt;1. Range: (4 f2)^{-1/2} = pi sqrt(3) for f2 = 1/(12 pi^2).</p>
+<h2>Evidence</h2>
+<ul>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/rate_of_remainder.tex">rigor/rate_of_remainder.tex</a> — document, at <code>prop:rrr</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/rate_of_remainder.tex">rigor/rate_of_remainder.tex</a> — document, at <code>lem:groupbound</code></li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/rate_of_remainder.tex">rigor/rate_of_remainder.tex</a> — document, at <code>corr0924:C3</code></li>
+</ul>
+<h2>Related claims</h2>
+<ul>
+<li><a href="rate-of-remainder.html">Remainder of Theorem A: global upper bound Phi &lt;= -(1/2) log(1 - 2 f2 zeta^2); c3 &lt;= 0 as a limsup; no positive log^-2 term</a> — <code>proved</code></li>
+<li><a href="group-index-zero-large-s.html">Index zero for e^{sK} beyond ||G_s||_2 &lt; 1: for a unitary group e^{sK} with [P_-, K] Hilbert-Schmidt the two off-diagonal blocks have the same singular values also where |s| ||[P_-, K]||_2 &gt;= 1 (open; no document contains an argument)</a> — <code>conjectural</code></li>
+<li><a href="phi-below-0085-zeta2-numerical.html">Weak link: Phi(zeta) &lt;= 0.0085 zeta^2 on (0, 1] (rigorous on (0, 0.8868], numerical on [0.8868, 1])</a> — <code>numerical</code></li>
+</ul>
+<h2>Review</h2>
+<p><strong>Review record:</strong> passed 2026-09-24 by REF-CARD-ROR.</p>
+<p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
+<hr>
+<p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/results/rrr-bound-small-zeta.md"><code>docs/results/rrr-bound-small-zeta.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

@@ -21,8 +21,8 @@ circle model resolves exactly.  Scripts (all in `numerics/optimality_all/`, pref
 | `f2_galerkin_full.py` | T3, full primal SDP over F in the modular Galerkin frame |
 | `f2_capscan.py` | T2 weight-cap / UV-taper stability scan |
 | `f2_gram_verify.py` | demonstration that the Gram rank cutoff fakes a 5% gain |
-| **`f2_t4_wh.py`** | **T4 (decisive): condition (a) in F3's parameter-free modular Wiener-Hopf frame** |
-| **`f2_t5_endpoint.py`** | **T5 (decisive): the endpoint condition (e) in the same frame** |
+| **`f2_t4_wh.py`** | **T4 (the test of (a)): condition (a) in F3's parameter-free modular Wiener-Hopf frame** |
+| **`f2_t5_endpoint.py`** | **T5 (the test of (e)): the endpoint condition (e) in the same frame** |
 | `f2_gram_cond.py` (one-liner, see T1) | measured Gram condition numbers -> `f2_gram_cond.out` |
 
 Environment: `V=/private/tmp/.../scratchpad/venv`; `$V/bin/python f2_*.py ...`.
@@ -84,7 +84,7 @@ dominant source of uncertainty in everything below, because `g_Q` weights those 
 
 Objects (F1 normalisation, `t_* = U (w o delta~_*) U^H`):
 `tau_* = E_D t_* E_D`, `M_* = Herm((t_* Q)_DD) = Herm(t_DD Q_DD) + Herm(t_DA Q_AD)`.
-Criterion: orbit = global optimum of the tangent problem **iff** `M_* >= 0` and `M_* - tau_* >= 0`.
+Criterion: orbit = global optimum of the tangent problem **iff** `M_* >= 0` and `M_* - tau_* >= 0` (condition (a)) **and** the endpoint condition (e) of T5 (F1 Thm 4.4 as amended: (a) alone is necessary, not sufficient; see Correction C6).
 
 | L | nD | theta | `lam_min(M_*)` | `/g_Q(dc)` | `/||M_*||` | `lam_min(M_*-tau_*)` | `/g_Q(dc)` | verdict |
 |---|---|---|---|---|---|---|---|---|
@@ -97,7 +97,7 @@ Criterion: orbit = global optimum of the tangent problem **iff** `M_* >= 0` and 
 `lam_max(M_*) = 1.511, 1.021, 0.988, 1.090, 1.177` and `lam_max(tau_*) = -lam_min(tau_*)`
 = 1.510, 1.019, 0.985, 1.086, 1.173 at the same L: `M_*` and `tau_*` have nearly equal
 spectra, and `M_* - tau_*` is nearly zero on the violating directions (the two criteria
-fail on the *same* eigenvector, with `<p,M_* p> ~ -<p,tau_* p>`).
+fail on *different* eigenvectors with the same localisation and opposite `<p,tau_* p>`: the `M_*` minimiser has `<p,M_* p> ~ +<p,tau_* p>`, e.g. -0.3108 and -0.3097 at L=64, and the `M_* - tau_*` minimiser has `<p,tau_* p> = +0.3097` and `<p,M_* p> ~ 0`, `f2_kkt_f1_L.out` l.5-6; see Correction C1).
 
 **The verdict is stable in L (it always fails) but the SIZE of the violation is not**: it is
 a pure ultraviolet effect.  Weight-cap and UV-taper scan at L=128, **all numbers in F1's
@@ -117,7 +117,7 @@ normalisation** (`t_* = U (w o delta~_*) U^H`; the half-SLD convention of
 
 i.e. as the ultraviolet is resolved (cap up), the violation of the criterion grows but the
 *curvature* of the violating direction grows much faster, so the achievable gain collapses.
-theta itself is cap-stable to 5 digits at both tapers (0.29116-0.29119 and 0.26146-0.26150),
+theta itself is cap-stable to 4 digits at both tapers (0.29116-0.29119 and 0.26146-0.26150; see Correction C4),
 while the taper shifts theta by 10%: the criterion verdict (FAIL) is taper-independent, its
 size is not.
 
@@ -247,9 +247,9 @@ comparable rungs of the same ladder — they differ in `LamC` (6, 4 vs 12), `n_B
 and `n_C` (15, 8 vs 30,40) — and S11 identifies `n_B/n_C` and the collar `s`, not `h` alone,
 as the knobs (`kc_h04.out`'s `Delta/(2 g_Q) = -10.325` is S11's `n_B < n_C` corner).  No
 extrapolated "factor still to be closed" is claimed here.  T3 therefore cannot decide Q1; the
-tangent problem (T1/T2/T4/T5) is the right place, and answers it.
+tangent problem (T1/T2/T4/T5) is the right place; T4/T5 answer it only as far as the numerics can: condition (a) as an extrapolation, condition (e) under H3 (see the Verdict on Q1 and Correction C5).
 
-## T4 (DECISIVE). The criterion in the parameter-free modular Wiener-Hopf frame
+## T4 (the test of (a)). The criterion in the parameter-free modular Wiener-Hopf frame
 
 Frame: F1 Prop 6.2 as discretised by F3 in `f3_t0.py` — `I = (-inf,1)`, `y = -log(1-x)`,
 `A = {y<0}`, `D = {y>0}`, `Q` exact in the piecewise-constant cell basis
@@ -268,7 +268,7 @@ Reproduce: `$V/bin/python f2_t4_wh.py 0.24 10 10` (smoke), `f2_t4_wh.py 0.12,0.0
 `theta` reproduces F3's ladder exactly (0.31367, 0.34236, 0.35934 at h = 0.24, 0.12, 0.06,
 Y = Ymax = 10); SLD identity `(1/4)Tr(t_* delta_*)/g_Q(delta_*) = 1.0000000000`;
 `||AntiHerm((t_*Q)_DD)||/||M_*|| = 2.8e-09, 8.5e-08, 1.5e-07` (F1 Prop 4.3); F1's derivative
-formula by finite differences, relative error 4e-09.
+formula by finite differences, relative error 3.94e-10, 1.08e-08, 7.56e-09 at h = 0.24, 0.12, 0.06 and 2.63e-08 at h = 0.03, i.e. `<= 3e-8` (FD lines of `f2_t4_h024.out`, `f2_t4_hladder.out`, `f2_t4_h003.out`; see Correction C4).
 
 ### (a) h-ladder at fixed window `Y = Ymax = 10`
 
@@ -282,8 +282,8 @@ formula by finite differences, relative error 4e-09.
 The violation **shrinks like `h^1.15`** (ratios 2.19, 2.26, 2.24 per halving) and the rank-one
 gain like `h^1.85` (ratios 3.13, 3.50, 3.62): both extrapolate to **0** as `h -> 0`.
 (`theta` = 0.31367, 0.34236, 0.35934, 0.36945 reproduces F3's ladder at all four `h`.)
-`lam_min(M_*)` and `lam_min(M_*-tau_*)` coincide to 5 digits at every point (the same
-eigenvector, with `<p,M_*p> ~ -<p,tau_*p>`), exactly as in T2.
+`lam_min(M_*)` and `lam_min(M_*-tau_*)` coincide to 5 digits at every point, but on different
+eigenvectors with the same localisation and modulus profile and opposite `<p,tau_*p>` (at h = 0.24: `<p,M_*p> = -5.4316e-04`, `<p,tau_*p> = -3.3086e-03` for the `M_*` minimiser, `+2.7654e-03`, `+3.3086e-03` for the `M_*-tau_*` minimiser; `f2_t4_h024.out` l.6-7), as in T2 (see Correction C1).
 
 ### (b) It is the `y`-truncation: `Ymax` scans (the A-side cutoff `Y` is irrelevant)
 
@@ -306,7 +306,7 @@ A-side cutoff: `Y = 6, 10, 14` at `h=0.24, Ymax=10` give
 `lam_min(M_*)/||M_*|| = -4.0904e-03, -4.0756e-03, -4.0751e-03` — **independent of `Y` to 0.4%**.
 
 So the violating direction is not a feature of the problem: at fixed `h` it is a delocalised
-mode sitting at `y ~ (0.4-0.6) Ymax`, i.e. it **tracks the artificial outer end of the `y`
+mode sitting at `y ~ (0.37-0.6) Ymax` (0.37 at `Ymax = 30`, where it sits inward of its `Ymax = 20` location; see Correction C4), i.e. it **tracks the artificial outer end of the `y`
 window** (the moving endpoint `x = 1`, which `f3_t0.py` already flags as the delicate limit).
 (At fixed `Ymax = 10` the mode moves inward as `h` falls -- `y ~ 5.5, 5.1, 4.3, 1.9` for
 `h = 0.24, 0.12, 0.06, 0.03` -- while its eigenvalue keeps shrinking.)  The two scalings are
@@ -324,20 +324,20 @@ In the frame where Moebius rigidity is exact and the weights need no cap, the F1
 criterion `M_* >= 0`, `M_* - tau_* >= 0` is violated **only** by an amount that goes to zero
 in the continuum/untruncated limit, in two independent directions of parameter space, with
 clean power laws and with the violating eigenvector pinned to the truncation window.  The
-numerics therefore say: **`M_* >= 0` and `M_* - tau_* >= 0` hold for the exact problem** (condition (a);
-condition (e) is settled separately in T5 below, and holds),
-i.e. the isometric orbit IS the global optimum of the tangent problem, the optimal `N_1`,
-`Y_1` are ZERO, and `kappa_opt = 1 - theta` exactly.  Non-isometric quasi-free recoveries do
-NOT lower the second-order recovery error.  The T2 (circle-model) "failure" of the criterion
+numerics therefore say, **as an extrapolation** (every finite run prints `CRITERION (M>=0 and M-tau>=0): False`): the violation of condition (a) goes to `0^-` in the double limit `h -> 0`, `Ymax -> inf`, so (a) can hold only in the limit, marginally, not strictly (see Correction C5);
+condition (e) is treated separately in T5 below (vacuous at `zeta_0`; under hypothesis H3 it follows from `E(zeta_inf) >= 0` alone).
+The numerics are thus consistent with the isometric orbit carrying the global optimum of the tangent problem, with `kappa_opt = 1 - theta`; they do NOT show that the optimal `N_1`,
+`Y_1` are zero (F1 Thm 4.4(d) gives a global minimiser, not uniqueness, and `lam_min -> 0^-` is exactly the marginal case).  Non-isometric quasi-free recoveries do
+NOT lower the second-order recovery error by any O(1) amount: every measured rank-one gain is `<= 1.05e-3 g_Q(ddot)` and falls like `h^1.85/Ymax^2`.  The T2 (circle-model) "failure" of the criterion
 and the T1 subspace gains are artefacts of a frame that breaks rigidity at O(1/L) and then
 amplifies the broken blocks by weights up to the cap.
 
-## T5 (DECISIVE for (e)). The endpoint condition of the repaired criterion — it HOLDS
+## T5 (the test of (e)). The endpoint condition of the repaired criterion — vacuous at `zeta_0`; under H3 it holds (see Correction C6)
 
 F1 Thm 4.4 condition (e) / Prop 4.10: the boundary-moving isometry generators are not
 reducible to noise, and (e) reduces on the model cone to the single scalar
-`E(zeta_0) >= 0` at the junction `y = 0` (the moving-endpoint direction `zeta_inf` is
-proved positive).  Frame: the same rigid parameter-free Wiener-Hopf frame as T4
+`E(zeta_0) >= 0` at the junction `y = 0` (for the moving-endpoint direction `zeta_inf`, `E(zeta_inf) = 2 lambda (1-theta) g_Q(ddot) >= 0` is
+proved, while `E(zeta_inf) > 0` is equivalent to `theta < 1`, which is numerical, not proved; see Correction C3).  Frame: the same rigid parameter-free Wiener-Hopf frame as T4
 (`f2_t5_endpoint.py`, importing `f2_t4_wh.build`; run saved as `f2_t5_endpoint.out`).
 
 **Normalisation used: F1's.**  `t_* = U (w o delta~_*) U^H`, `g_Q(delta_*) = (1/4)Tr(t_* delta_*)`
@@ -358,14 +358,14 @@ matrix `X` supported on `D`, cyclicity of the trace of finite matrices gives
     Tr(t_*[Q,X]) = 2 Tr( X . AntiHerm((t_* Q)_DD) )          (verified to 4e-10 .. 1e-7)
 
 and discrete stationarity of `G_*` over the full anti-Hermitian algebra on `D` forces
-`AntiHerm((t_*Q)_DD) = 0`.  So `(1/2)Tr(t_*[Q,S])` returns the CG residual — `+6.6e-09,
+`AntiHerm((t_*Q)_DD) = 0`.  So `(1/2)Tr(t_*[Q,S])` returns only the stationarity (CG) residual contracted with `S` and carries no information about `E` (see Correction C7); for `zeta_0` it is small here — `+6.9e-09,
 +3.6e-07, +2.3e-06, -1.9e-05` at `h = 0.24, 0.12, 0.06, 0.03`, the **same number for the
 forward, backward and centred `S`** (indeed `AntiHerm(S_fwd) = AntiHerm(S_bwd) = S_ctr`
 identically on a uniform mesh).  Proof that this is blindness and not a small true value:
 the same expression applied to `zeta_inf` (with the discretised `D_w|_D`), whose value is
-*known* to be `2(1-theta) g_Q(ddot) ~ 1.3 g_Q(ddot)`, returns `-8.3e-06 ... -9.9e-03`.
+*known* to be `2(1-theta) g_Q(ddot) = 1.26 ... 1.37 g_Q(ddot)`, returns `-9.1e-06, +1.9e-04, -9.9e-03, +7.4e-02` at `h = 0.24, 0.12, 0.06, 0.03` and `-0.116, -63, -1.57e+06` at `Ymax = 14, 20, 30` (`h = 0.12`, `Y = 6`): not merely small noise but `O(1)`, and worse as `h` decreases or `Ymax` grows (see Correction C7).
 The correct object is `A(zeta,0,0)` from eq:Ablocks, equivalently `(1/2)Tr((-2 sigma) M_*)`;
-the two agree to `2e-10 ... 2e-8` in all runs below.
+the two agree to `2e-10 ... 7.5e-8` in all runs below (see Correction C4).
 
 ### The three difference schemes are three different directions (not three discretisations)
 
@@ -395,34 +395,34 @@ far end (the truncated shift is only a partial isometry: it loses the last cell)
 
     E(zeta_0)^{discrete} = (1/2)[ M_*(0,0) + h Tr((-Laplacian) M_*) + M_*(Ymax,Ymax) ] ,
 
-and the piece that converges to the continuum `E(zeta_0)` of eq:econd is the **corner term**
+and the piece that represents the continuum `E(zeta_0)` of eq:econd (it does not converge to it: it diverges as `h -> 0`, see below and Correction C6) is the **corner term**
 `(1/2) M_*(0,0) = (1/2)(M_*)_00/h`.  All three pieces are positive at every `h`, `Y`, `Ymax`.
 
 ### T5 results (`f2_t5_endpoint.out`)
 
 **h-ladder at `Y = Ymax = 10`** (`E` in units of `g_Q(ddot)`; `bwd` = the admissible shift).
 The `bwd` column is the TOTAL discrete value (scheme-dependent, `~h^-0.97`, dominated by the
-`O(h)` upwind viscosity); the **corner** column is the scheme-invariant continuum boundary
-form and is the margin to quote:
+`O(h)` upwind viscosity); the **corner** column is the scheme-invariant piece that represents the continuum boundary
+form; it diverges as `h -> 0`, so it is not a margin: (e) is vacuous at `zeta_0` (see Correction C6):
 
 | h | N | theta | `E(zeta_0)` bwd | `E` ctr | `E` fwd (inadm.) | corner `(1/2)(M_*)_00/h` | `E(zeta_inf)` = `(1/2)Tr(t_* ddot)` | `2(1-theta)` | naive `(1/2)Tr(t_*[Q,S])` |
 |---|---|---|---|---|---|---|---|---|---|
 | 0.24 | 84 | 0.31367 | **+34.122** | +6.9e-09 | -34.122 | **+10.304** | 1.37265519 | 1.37265519 | +6.9e-09 |
 | 0.12 | 166 | 0.34236 | **+66.873** | +3.6e-07 | -66.873 | **+16.096** | 1.31527744 | 1.31527744 | +3.6e-07 |
 | 0.06 | 334 | 0.35934 | **+131.298** | +2.3e-06 | -131.298 | **+24.672** | 1.28132522 | 1.28132522 | +2.3e-06 |
-| 0.03 | 666 | 0.36945 | **+257.998** | -1.9e-05 | -257.998 | **+37.210** | 1.26109076 | 1.26109076 | -1.9e-05 |
+| 0.03 | 666 | 0.36945 | **+257.998** | -1.9e-05 | -257.998 | **+37.210** | 1.26109117 | 1.26109117 | -1.9e-05 |
 
-`eq:Ablocks` and the absorption form `(1/2)Tr((-2 sigma)M_*)` agree to `2e-10 ... 2e-8`
+`eq:Ablocks` and the absorption form `(1/2)Tr((-2 sigma)M_*)` agree to `2e-10 ... 7.5e-8` (`7.5e-8` at h = 0.03; see Correction C4)
 at every rung.  Cross-check (i) is exact to machine precision at all four `h`
 (`rel.dev 2e-16 ... 1e-15`), which validates the `b(.,.)`, the SLD normalisation and the
 factor `1/2`.  Cross-check (iii): `||AntiHerm((t_*Q)_DD)||/||M_*|| = 2.8e-09, 8.5e-08,
 1.5e-07, 3.5e-07`.  Cross-check (iv) (referee R14), the rank-one gain from T4:
 `3.85e-04, 1.23e-04, 3.51e-05, 9.69e-06` of `g_Q(ddot)` on the same ladder (`~ h^1.85 -> 0`).
 
-**Saturation.**  The *total* `E(zeta_0)` grows like `1/h` (ratios 1.960, 1.963, 1.966) — that
+**Saturation.**  The *total* `E(zeta_0)` grows like `1/h` (ratios 1.960, 1.963, 1.965) — that
 is the `O(h)` upwind viscosity term `h Tr((-Lap) M_*)`, which is a discretisation artefact
 (a legitimate PSD `N_1` direction, hence positive, but scheme-dependent).  The **corner**
-term, which is the continuum `E(zeta_0)`, grows like `h^{-0.6}` (ratios 1.562, 1.533, 1.508):
+term, which represents the continuum `E(zeta_0)`, grows like `h^{-0.6}` (ratios 1.562, 1.533, 1.508):
 it does **not** saturate in `h`; it diverges, consistent with a divergence of the kernel
 diagonal `M_*(y,y)` as `y -> 0+` (the near-corner diagonals `(M_*)_jj/h_j` at `h=0.06` are
 `+0.409, +0.333, +0.286, +0.252` for `y = 0.03 ... 0.21`).  In the continuum therefore
@@ -443,24 +443,24 @@ the junction end of `D` inward destroys the recovery at first order with infinit
 **Cross-check (ii), the cell form.**  The first-cell diagonal of `M_*` normalised by the cell
 width is `+0.160, +0.261, +0.409, +0.623` at `h = 0.24 ... 0.03` (positive: same sign as
 `E(zeta_0)`), and the last-cell diagonal is `+3.2e-03, +3.9e-03, +4.4e-03` at
-`h = 0.24, 0.12, 0.06` (positive: same sign as the proved `E(zeta_inf) > 0`).
+`h = 0.24, 0.12, 0.06` (positive: same sign as `E(zeta_inf) = 2 lambda (1-theta) g_Q(ddot)`, which is proved `>= 0` and is `> 0` here because `theta < 1` numerically; see Correction C3).
 
 ### Verdict on (e)
 
-**Numerically `E(zeta_0) > 0` and `E(zeta_inf) > 0`, i.e. (e) is verified for the two model
-boundary directions of F1 Prop 4.10(3), with a continuum margin of `+10.3, +16.1, +24.7,
+**Numerically, at every finite discretisation, `E(zeta_0) > 0` and `E(zeta_inf) > 0` on the two model
+boundary directions of F1 Prop 4.10(3): the regularised junction value is `+10.3, +16.1, +24.7,
 +37.2` times `g_Q(ddot)` at `h = 0.24 ... 0.03` — the CORNER row `(1/2)(M_*)_00/h`, which is
 the scheme-invariant piece; the tabulated total (`+34 ... +258`, `~h^-0.97`) is dominated by
-the `O(h)` upwind-viscosity term of the difference scheme and is not the continuum margin.
+the `O(h)` upwind-viscosity term of the difference scheme.  The corner row diverges (`~h^-0.60`), so `A(zeta_0,0,0)` is not in F and `E(zeta_0) = +infinity` in the sense of eq:Efun, a convention: (e) is vacuous at `zeta_0`, not satisfied with a margin (see Correction C6).
 No sign change at any `h = 0.24 ... 0.03`, `Ymax = 6 ... 30`, `Y = 6 ... 14`.**  Condition (e)
-for the WHOLE admissible cone follows from these two numbers only under F1's model-cone
-reduction (hypothesis H3, Sec. 4; Prop 4.10(3) and (5)) that modulo `L-bar` the cone is
-generated by `zeta_0` and `zeta_inf` — a hypothesis these numerics do not test.  The sign is structurally forced in this
-frame: `-2 sigma_{zeta_0} >= 0` is a legitimate `N_1` direction, so
-`E(zeta_0) = (1/2)Tr((-2 sigma) M_*) >= 0` follows from `M_* >= 0`, i.e. from condition (a).
+for the WHOLE admissible cone holds under hypothesis H3 (F1 hyp:H3, read in F: every admissible `A(zeta,0,0)` in F is, modulo the b-closure of the linear class, a non-negative combination of `A(zeta_0,0,0)` and `A(zeta_inf,0,0)`):
+since `A(zeta_0,0,0)` is not in F (numerically, by the divergent corner row), H3 forces its coefficient to vanish and (e) follows from the proved `E(zeta_inf) >= 0` alone (F1 rem:H3space).
+H3 is a hypothesis these numerics do not test.  The sign of `E(zeta_0)` is NOT structurally forced in this
+frame: at finite `h` the absorption identity holds and `-2 sigma_{zeta_0} >= 0` is a legitimate `N_1` direction, but
+`E(zeta_0) = (1/2)Tr((-2 sigma) M_*) >= 0` would follow from `M_* >= 0`, i.e. from condition (a), which fails in every run, and `-2 sigma` has full rank; in the continuum the identity is not available (F1 prop:bdryfun(5)).  The positive sign is a numerical fact.
 Together with T4: **numerically (a) in the limit (`lam_min -> 0^-`); `E(zeta_0) > 0` and
-`E(zeta_inf) > 0`; (e) for the whole cone under H3** — under which the numerics say the
-isometric orbit carries the tangent optimum and `kappa_opt = 1 - theta`.
+`E(zeta_inf) > 0`; (e) for the whole cone under H3** — under which the numerics are consistent with the
+isometric orbit carrying the tangent optimum and `kappa_opt = 1 - theta` (a global minimiser, not uniqueness; see Correction C5).
 Reproduce: `$V/bin/python f2_t5_endpoint.py 0.24 10 10` (smoke) and the driver in
 `f2_t5_endpoint.out`'s header (h-ladder + `Ymax`/`Y` scans).
 
@@ -493,7 +493,7 @@ $V/bin/python f2_gram_verify.py 64 1e6 1e-14,1e-10,1e-6
 $V/bin/python f2_gain.py 64 1e10,1e4 200
 # T3 Galerkin full F                                           -> f2_galerkin_a.out
 $V/bin/python f2_galerkin_full.py 0.4,0.3
-# T4 (decisive): modular Wiener-Hopf frame
+# T4 (the test of (a)): modular Wiener-Hopf frame
 $V/bin/python f2_t4_wh.py 0.24 10 10                           # smoke, theta=0.31367
 $V/bin/python f2_t4_wh.py 0.12,0.06 10 10                      -> f2_t4_hladder.out
 $V/bin/python f2_t4_wh.py 0.03 10 10                           -> f2_t4_h003.out (N=666)
@@ -501,7 +501,7 @@ $V/bin/python -c "import f2_t4_wh as T
 for Ym in (6.,8.,10.,14.,20.,30.): T.run(0.12, Y=6.0, Ymax=Ym, fd=False)"   -> f2_t4_ymax12.out
 $V/bin/python -c "import f2_t4_wh as T
 for (Y,Ym) in [(10,6),(10,8),(10,14),(10,20),(6,10),(14,10),(6,20)]: T.run(0.24, Y=float(Y), Ymax=float(Ym), fd=False)"
-# T5 (decisive for (e)): endpoint condition                     -> f2_t5_endpoint.out
+# T5 (the test of (e)): endpoint condition                      -> f2_t5_endpoint.out
 $V/bin/python f2_t5_endpoint.py 0.24 10 10                     # smoke
 $V/bin/python -c "import f2_t5_endpoint as T5
 r=[T5.run(h) for h in (0.24,0.12,0.06,0.03)]
@@ -511,3 +511,143 @@ r3=[T5.run(0.12, Y=Yv, Ymax=10.0) for Yv in (6.,10.,14.)]"
 
 Caveat on timings: all runs above were made while the machine carried a load average of
 ~500 (other tracks), so wall-clock times in the `.out` files are not indicative.
+
+## Corrections of 2026-09-24
+
+These corrections were made on 2026-09-24 from the project's knowledge base, cards
+`kkt-noise-criterion-numerics` (for which this file is the main evidence) and
+`kkt-noise-sign-criterion`. Each corrected line above was replaced by exactly one line, so the
+line numbers of the text above this section are unchanged. Every corrected number was checked
+against the `.out` file it summarises.
+
+**C1. Same eigenvector (lines 100 and 285-286).**
+*Said:* the two criteria `M_* >= 0` and `M_* - tau_* >= 0` "fail on the *same* eigenvector, with
+`<p,M_* p> ~ -<p,tau_* p>`" (T2, circle model), and in T4 "the same eigenvector, with
+`<p,M_*p> ~ -<p,tau_*p>`), exactly as in T2".
+*Says now:* the two minimisers are different eigenvectors with the same localisation (and, in T4,
+the same modulus profile) and opposite `<p,tau_* p>`.
+*Why:* `f2_t4_wh.py` and `f2_kkt_f1.py` diagonalise `M_*` and `M_* - tau_*` separately and print
+both vectors. T4, h = 0.24 (`f2_t4_h024.out` l.6-7): the `M_*` minimiser has
+`<p,M_*p> = -5.4316e-04`, `<p,tau_*p> = -3.3086e-03`; the `M_* - tau_*` minimiser has
+`+2.7654e-03`, `+3.3086e-03`; both live at `y = 5.16, 5.4, 5.88, 5.64` with the same `|p|`. The
+other rungs (`f2_t4_hladder.out` l.6-7, 14-15; `f2_t4_h003.out` l.6-7) are alike. Neither vector
+satisfies `<p,M_*p> ~ -<p,tau_*p>`. T2, L = 64 (`f2_kkt_f1_L.out` l.5-6): the `M_*` minimiser has
+`<p,M_*p> = -0.3108 ~ +<p,tau_*p> = -0.3097`, so line 99 ("`M_* - tau_*` is nearly zero
+on the violating directions") holds for the `M_*` minimiser, `<p,(M_* - tau_*)p> = -1.1e-03`; the `M_* - tau_*` minimiser has `<p,tau_*p> = +0.3097` and
+`<p,M_*p> = -1.1e-03`. The old wording contradicted line 99. Knowledge-base card
+`kkt-noise-criterion-numerics`, document error recorded on 2026-09-23 (after referee
+REF-DEP-CFT-A4).
+
+**C2. T5 table, row h = 0.03 (line 413).**
+*Said:* `E(zeta_inf)/g_Q(ddot) = 2(1-theta) = 1.26109076`. *Says now:* `1.26109117` in both columns.
+*Why:* `f2_t5_endpoint.out` l.33 prints `E(zeta_inf)/g_Q(ddot) = ... = 1.26109117   exact
+2(1-theta) = 1.26109117`; its summary row l.47 prints `1.261091` for both, which agrees. The old
+value was a transcription error of relative size 3e-7. Card `kkt-noise-criterion-numerics`,
+document error recorded on 2026-09-23.
+
+**C3. Sign of `E(zeta_inf)` (lines 339-340 and 446).**
+*Said:* "the moving-endpoint direction `zeta_inf` is proved positive", and "the proved
+`E(zeta_inf) > 0`". *Says now:* `E(zeta_inf) = 2 lambda (1-theta) g_Q(ddot) >= 0` is proved;
+`E(zeta_inf) > 0` is equivalent to `theta < 1`, which holds numerically here
+(`theta_h = 0.31367 ... 0.36945`; the knowledge base gives `1 - theta = 0.616 +- 0.003`) but is
+not proved. *Why:* card `kkt-noise-sign-criterion`, Statement (iii): "E(zeta_inf) = 2 lambda
+(1-theta) g_Q(ddelta) is proved, hence E(zeta_inf) >= 0; E(zeta_inf) > 0 is equivalent to
+theta < 1, which is NOT proved". The check `E(zeta_inf) = 2(1-theta_h) g_Q(ddot)` itself is exact
+to `2e-16 ... 1e-15` (`f2_t5_endpoint.out` l.3, 13, 23, 33).
+
+**C4. Numbers that the card's referees corrected and this file repeated.**
+- Line 120. *Said:* `theta` is cap-stable "to 5 digits". *Now:* "to 4 digits". *Why:*
+  `f2_capscan_L128.out` l.2-6 and l.7-11 give 0.29116-0.29119 and 0.26146-0.26150 (REF-DEP-CFT-A6).
+- Line 271. *Said:* FD check of F1's derivative formula, "relative error 4e-09". *Now:* 3.94e-10,
+  1.08e-08, 7.56e-09 at h = 0.24, 0.12, 0.06 and 2.63e-08 at h = 0.03, i.e. `<= 3e-8`. *Why:* the FD
+  lines `f2_t4_h024.out` l.5, `f2_t4_hladder.out` l.5 and l.13, `f2_t4_h003.out` l.5
+  (REF-P5-KB1, REF-P5-3, REF-DEP-CFT-A2).
+- Line 309. *Said:* the violating mode sits at `y ~ (0.4-0.6) Ymax`. *Now:* `(0.37-0.6) Ymax`.
+  *Why:* `f2_t4_ymax12.out`: at `Ymax = 30` it lives at `y = 11.1-11.5` (0.37 `Ymax`), inward of its
+  `Ymax = 20` location `y = 11.8-12.3`; the table in line 299 already shows `11.2` at `Ymax = 30`
+  (REF-opus-kbgate2, REF-DEP-CFT-A6).
+- Lines 368 and 415. *Said:* `eq:Ablocks` and the absorption form agree to `2e-10 ... 2e-8`.
+  *Now:* `2e-10 ... 7.5e-8`. *Why:* the relative deviations printed in `f2_t5_endpoint.out` are
+  2.0e-10, 5.4e-09, 1.8e-08, 7.5e-08 on the h-ladder (l.7, 17, 27, 37) and up to 6.5e-08 in the
+  `Ymax` scan (l.95); the card states `<= 7.5e-8` (REF-DEP-CFT-A5).
+
+**C5. What the numerics say about Q1 (lines 327-331 and 462-463).**
+*Said:* "`M_* >= 0` and `M_* - tau_* >= 0` hold for the exact problem", condition (e) "holds", "the
+isometric orbit IS the global optimum of the tangent problem, the optimal `N_1`, `Y_1` are ZERO,
+and `kappa_opt = 1 - theta` exactly", "Non-isometric quasi-free recoveries do NOT lower the
+second-order recovery error"; and "under which the numerics say the isometric orbit carries the
+tangent optimum". *Says now:* (a) is an extrapolation: every finite run prints
+`CRITERION (M>=0 and M-tau>=0): False` (`f2_t4_h024.out` l.4, `f2_t4_hladder.out` l.4 and l.12,
+`f2_t4_h003.out` l.4, every block of `f2_t4_ymax12.out`), and the violation goes to `0^-` in the
+double limit, a marginal, not a strict, sign. The numerics are consistent with the isometric orbit
+carrying the tangent optimum and `kappa_opt = 1 - theta`, but do not show that the optimal `N_1`,
+`Y_1` vanish: F1 Thm 4.4(d) gives a global minimiser, not uniqueness, and the marginal case is
+exactly where uniqueness is not delivered. They exclude any O(1) gain: every measured rank-one
+gain is `<= 1.05e-3 g_Q(ddot)` (the largest, 1.049e-3 at h = 0.24, `Ymax = 6`, is line 303 of this
+file and is in no saved output; in the runs with output files it is `<= 3.85e-4`,
+`f2_t4_h024.out` l.6) and falls like `h^1.85/Ymax^2`. *Why:* card `kkt-noise-criterion-numerics`,
+Statement ("READ THE SIGN CLAIM AS AN EXTRAPOLATION", "WHAT MAY AND MAY NOT BE CONCLUDED"), after
+the referee failure of 2026-09-15 (REF-opus-kbgate2, points (1) and (2)).
+
+**C6. The reading of condition (e) (lines 87, 335, 398, 405-406, 425, 450-460).**
+*Said:* the criterion is "orbit = global optimum **iff** `M_* >= 0` and `M_* - tau_* >= 0`" (line
+87); T5 "HOLDS" (line 335); the corner term "converges to" and "is" the continuum `E(zeta_0)` and
+"is the margin to quote" (lines 398, 405-406, 425); "(e) is verified for the two model boundary
+directions ..., with a continuum margin of +10.3, +16.1, +24.7, +37.2"; (e) for the whole cone
+"follows from these two numbers" under a model-cone reduction "that modulo `L-bar` the cone is
+generated by `zeta_0` and `zeta_inf`"; and "The sign is structurally forced in this frame ...
+follows from `M_* >= 0`, i.e. from condition (a)" (lines 450-460).
+*Says now:* F1 Thm 4.4 as amended needs (a) **and** (e); (a) alone is necessary, not sufficient.
+The corner row represents the continuum `E(zeta_0)` and diverges (`~h^-0.60`), so
+`A(zeta_0,0,0)` is not in F and `E(zeta_0) = +infinity` in the sense of eq:Efun, a convention:
+(e) is vacuous at `zeta_0`, not satisfied with a margin; the positive finite-h values are the
+regularised junction values. H3 is stated as in F1 (hyp:H3, read in F): every admissible
+`A(zeta,0,0)` in F is, modulo the b-closure of the linear class, a non-negative combination of
+`A(zeta_0,0,0)` and `A(zeta_inf,0,0)`. Under H3 the `zeta_0` coefficient vanishes and (e) follows
+from the proved `E(zeta_inf) >= 0` alone (F1 rem:H3space). The sign of `E(zeta_0)` is a numerical
+fact, not a forced one: at finite h the absorption identity holds, but `M_* >= 0` fails in every
+run and `-2 sigma` has full rank (`eig(sigma) in [-8.322, -1.112e-02]` at h = 0.24,
+`f2_t5_endpoint.out` l.7); in the continuum the identity is not available (F1 prop:bdryfun(5)).
+*Why:* card `kkt-noise-criterion-numerics`, Statement (lead; "(e) ENDPOINT CONDITION"; "VERDICT ON
+(e), QUALIFIED"), after the referee failures REF-DEP-CFT-A4 (point 4) and REF-DEP-CFT-A5
+(points (i)-(iv) and the H3 remark); card `kkt-noise-sign-criterion`, Statement (ii)-(iii).
+
+**C7. What the commutator form returns (lines 361 and 366).**
+*Said:* "`(1/2)Tr(t_*[Q,S])` returns the CG residual — `+6.6e-09`, ..." and, for `zeta_inf`, "returns
+`-8.3e-06 ... -9.9e-03`". *Says now:* the commutator form returns only the stationarity (CG)
+residual contracted with the direction and carries no information about `E`. For the `zeta_0`
+matrices `S` it is small here: `+6.9e-09, +3.6e-07, +2.3e-06, -1.9e-05` on the h-ladder, the same
+for all three schemes. For `zeta_inf`, whose true value is `2(1-theta_h) g_Q(ddot) = 1.26 ... 1.37
+g_Q(ddot)`, it returns `-9.1e-06, +1.9e-04, -9.9e-03, +7.4e-02` at h = 0.24, 0.12, 0.06, 0.03 and
+`-0.116, -63, -1.57e+06` at `Ymax = 14, 20, 30` (h = 0.12, `Y = 6`): not merely small noise but
+`O(1)`, and worse as h decreases or `Ymax` grows. *Why:* the `(trace formula)` lines of
+`f2_t5_endpoint.out` (l.5, 15, 25, 35 on the h-ladder; l.73, 83, 93 in the `Ymax` scan) print
+these numbers; `+6.6e-09` and `-8.3e-06` occur in no output (the first is `+6.8792e-09`, l.5,
+as the T5 table already shows). Card `kkt-noise-sign-criterion`, Statement (NUMERICAL part: "the
+commutator form returns, even for zeta_inf, -9.1e-6, +1.9e-4, -9.9e-3, +7.4e-2 ... and -63, -1.6e6
+on other rungs of the scan (O(1), no information on the true 2 lambda (1-theta) g_Q(ddelta)"); its
+referee notes list the old reading, "returns only the CG residual (-8e-6 ... -1e-2) even for
+zeta_inf", as stale. F1 (`rigor/exact_optimum_tangent_problem.tex`), Prop 4.10(2') and Sec. 5 item 5,
+says the same ("not merely solver noise but O(1) and worse on the finer scans").
+The docstring of `f2_t5_endpoint.py` (l.16-17, "zero to the CG residual, for every
+discretisation of S") carries the old reading; it is a script and is not changed here.
+
+**C8. Labels and details (after the referee REF-DOC-SMALL; lines 24, 25, 250, 252, 335, 422, 496,
+504, and C1, C6, C7 above).**
+*Said:* T4 and T5 were labelled "decisive" / "DECISIVE" (lines 24, 25, 252, 335, 496, 504), and
+line 250 said that the tangent problem "answers" Q1. *Says now:* "the test of (a)" and "the test
+of (e)"; line 250 says that T4/T5 answer Q1 only as far as the numerics can: (a) as an
+extrapolation, (e) under H3. *Why:* the Verdict on Q1 (C5) and the reading of (e) (C6); a test
+whose outcome is an extrapolation, or holds under a hypothesis the numerics do not test, does not
+decide the question. Also: line 422, ratios of the total `E(zeta_0)` "1.960, 1.963, 1.966" ->
+"1.965" for the last (`+257.9981/+131.2980 = 1.96498`, `f2_t5_endpoint.out` l.44-47); line 366,
+the scan values are at `h = 0.12`, `Y = 6`; line 460 reads "would follow from `M_* >= 0`"
+instead of "would follow only from" (C6); C1 now says that line 99 holds for the `M_*`
+minimiser.
+
+**Checked without change.** The corner value at `Ymax = 20` in the cutoff table, `+15.955`, is
+right: `f2_t5_endpoint.out` l.87 and l.137 print `1.595497e+01`. (The value 15.96 was a rounding
+in the knowledge-base card, not in this file.) All other entries of the T5 tables agree with
+`f2_t5_endpoint.out`. The h = 0.24 numbers in lines 301-306 (the `Ymax` scan at `Y = 10` and the
+A-side triple) are in no saved output file, except the `Ymax = Y = 10` values in
+`f2_t4_h024.out`. They are left as they are.

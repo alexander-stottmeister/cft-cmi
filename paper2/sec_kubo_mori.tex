@@ -71,7 +71,7 @@ $(\mathrm U_{\varepsilon})$ supplies exactly the uniform integrability required 
 
 \subsection{Why this does not yet give $s_{2}=c/12$}
 
-\Cref{thm:kmexact,thm:kmlower,thm:kmupper} all assume $A=A^{*}\in\cM$, or at least affiliated with $\cM$.
+\Cref{thm:kmexact,thm:kmlower,thm:kmupper} all assume $A=A^{*}\in\cM$, or at least $A=A^{*}$ affiliated with $\cM$ with $\Omega\in D(A)$ \cite[Prop.~8.1]{RigorKM}; for such unbounded $A$, \Cref{thm:kmupper} holds under $(\mathrm U_{\varepsilon})$ itself, since the modular-analyticity criterion is proved only for bounded $A$.  A generator affiliated only with a larger algebra, so that $e^{isA}\notin\cM$, is not covered: that case is open (Gap~QK2 of \cite{RigorKM}).
 For the recovery curve the generator is $A=T(g_{\rm tot})$, and \emph{it is affiliated with neither $\cM$
 nor $\cM'$}: $\supp g_{\rm tot}$ straddles the boundary point $L$ of $I$.  This is exactly the situation in
 which the Bures analysis needed the gauge freedom of \Cref{lem:gauge} --- and the point is that the
@@ -99,7 +99,7 @@ monotonicity of relative entropy under restriction gives
 \begin{equation}\label{eq:kmmono}
  D_{\cM}(\omega_{s}\Vert\omega)\ \le\ D_{\cA(K_{\delta})}(\omega_{\Psi_{s}}\Vert\omega),
 \end{equation}
-whose right-hand side is \Cref{thm:kmexact} for a genuinely affiliated generator and a \emph{geometric}
+whose right-hand side is \Cref{thm:kmexact} for a genuinely affiliated generator (in the form of \cite[Prop.~8.1]{RigorKM}, which needs $\Omega\in D(T(g_{\rm tot}+h))$) and a \emph{geometric}
 modular operator (the Bisognano--Wichmann dilation of $K_{\delta}$).  Hence
 $\limsup_{s}s^{-2}D_{\cM}\le\frac12\gKM^{(K_{\delta})}(T(g_{\rm tot}+h)\Omega)$ for every $\delta$ and every
 extension $h$ --- the extension changes $U_{s}$ but not $\omega_{s}|_{\cM}$ by \Cref{lem:ext}.  What is
@@ -123,8 +123,8 @@ integral (final paragraph), so it does not by itself fix the constant for a gene
 \begin{quote}
 \textbf{Status.}  $s_{2}=c/12$ is stated as a \emph{conjecture}, not as a conditional theorem: the route
 just described is \emph{closed}, the Kubo--Mori gauge lemma being false (final paragraph).  Unconditional
-at present are the exact identity \eqref{eq:kmexact}, the lower bound \eqref{eq:kmlower} for affiliated
-generators, the bracket $0.034\,c\le\liminf_{s\to0}s^{-2}D\le\limsup_{s\to0}s^{-2}D\le0.924\,c$ of the
+at present are the exact identity \eqref{eq:kmexact}, the lower bound \eqref{eq:kmlower} (both also for generators affiliated with $\cM$ with $\Omega\in D(A)$; generators affiliated only with a larger algebra are open, Gap~QK2 of \cite{RigorKM}),
+the bracket $0.034\,c\le\liminf_{s\to0}s^{-2}D\le\limsup_{s\to0}s^{-2}D\le0.924\,c$ of the
 final paragraph, and the numerical confirmation at $c=1$ of \Cref{sec:boson}.
 \end{quote}
 

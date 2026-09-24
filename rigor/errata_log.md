@@ -265,3 +265,54 @@ not the second Fermi point, since the same upper edge with a wider transition gi
 question. No superlative is claimed for any window: (0.25,0.49) passes the gate more comfortably than
 the window S10 discards, but (0.09,0.49) has a wider transition and a better norm still, and gives
 0.30780 because it damps the mid-band.
+
+## Errata applied 2026-09-24 — corrections against the refereed knowledge base
+Every rigor note listed here carries a section "Corrections of 2026-09-24" (items C1, C2, ...) that
+states what the document said, what it says now and why. Corrections are line-stable: each changed
+line was replaced by exactly one line, so line citations stay valid. Every correction was refereed
+(REF-DOC-*). The originals are kept outside the repository.
+- **rigor/tail_bound.tex** (C1-C10): thm:main <1>5 and eq:Psi corrected (Y = e^{Phi_W} y, provided
+  Y < 1); cor:rate's false intermediate step replaced, eq:final restated as a numerical verification
+  given its inputs; the explicit constants no longer called proved or certified; the "0.6%" C_2 share
+  corrected to about 24-25%; Note 5 citations renumbered (Table 2, Table 4, Cor. 4.3); error bars
+  not certified; A_3 <= 0.036 was not the supremum (the zeta -> 0 limit was never sampled): now
+  A_3 <= 0.0374, C_2 <= 0.47, corner ratio 0.98405 (numerics/kb-checks-2026-09-24/) [tail-bound,
+  tail-constants-numerical; REF-DOC-TAIL]
+- **rigor/uhlmann_upper_bound.tex** (C1-C10): implementability needs both off-diagonal blocks
+  ([P_+,U] Hilbert-Schmidt; cor:implementer, the Shale-Stinespring box, lem:commutant,
+  def:admissible); both blocks of W~_s for every s via W~_s = (W~_{s/n})^n; prop:HS's explicit bound
+  stated in its proved range (lem:integralrep gives C_0|s| for every s); a sign at l.358; lem:H2 for
+  s < 0; the identity at l.813; a misquoted bound in lem:H2 <1>3<2>1 [c11-extension-implementer;
+  REF-DOC-UHL]
+- **rigor/exact_optimum_tangent_problem.tex** (C1-C10): sign of G (G := sigma - zeta*);
+  E(zeta_inf) >= 0 is proved, > 0 only numerically (theta < 1); the (e) verdicts, the numerical
+  proviso on A(zeta_0,0,0) not in F, margins, agreement range 2e-10..7.5e-8, (a) as an extrapolation;
+  abstract wording of Thm 3.11(3) [tangent-problem-exact-parametrisation, kkt-noise-sign-criterion,
+  all-channel-optimum-value; REF-DOC-EOT]; rigor/PHASE5_STATUS.md and PHASE5_F1_SUMMARY.md aligned
+  (superseded entries marked, not rewritten)
+- **rigor/optimality_second_order.tex** (C1-C3): the Moore-Penrose check of (Tcond) is
+  numerics/kb-checks-2026-09-23/tcond_check.py, not lower_bound.py; "no bound" only on the three
+  chains; the summary's unsupported nonzero z^2 bound withdrawn [ac-intertwiner-exists-hopping-chain,
+  ac-lower-bound-zero; REF-DOC-SMALL]
+- **rigor/certified_numerics.tex** (C1-C5): \end{document} moved, so the RCr section is typeset;
+  body aligned with RCr (factor 4-9, widths, withdrawn double-precision Phi_off); RCr (ii)/(iii)
+  corrected row by row [certified-numerics; REF-DOC-SMALL]
+- **rigor/kubo_mori_second_variation.tex**: overview table split (affiliated with M and
+  Omega in D(A): proved; larger algebra: open, Gap QK2) [km-exact-identity; REF-DOC-SMALL]
+- **numerics/optimality_all/F2_RESULTS.md** (C1-C8): numbers against the .out files, the
+  eigenvector claim, the (e) and (a) readings, E(zeta_inf) >= 0 [kkt-noise-criterion-numerics;
+  REF-DOC-SMALL]
+- **Repeats elsewhere** (second wave, REF-DOC-W2A/W2B): rigor/exact_fidelity_upper_half.tex,
+  implementation_C11.tex, rate_of_remainder.tex, universality_theorem_B.tex,
+  fidelity_recovered_quasifree.tex, open_problems_plan.tex, universality_normalization.tex (each with
+  its own corrections section); the papers paper1/ (main, sec_fidelity, sec_petz, sec_quadratic,
+  sec_numerics) and paper2/ (sec_implementation, sec_kubo_mori, sec_intro), fixed in place without a
+  corrections section; README.md, rigor/INDEX.md; rigor/findings_entries.tex and findings.tex and
+  rigor/PHASE1-3_STATUS.md carry inline "[corrected 2026-09-24: ...]" markers; the quadratic-law
+  figure and page call the bracket an error bracket, not a certified one (tools/make_figures.py,
+  docs/explore/quadratic-law.html, docs/lib/plot.js).
+- **Known gap found, not corrected** (exact_fidelity_upper_half.tex and rate_of_remainder.tex, item
+  C3): the two off-diagonal blocks of a unitary have equal singular values only at index zero.
+  thm:UH, thm:UHall and thm:main are unaffected (index zero for small s, shown there); the
+  push-forwards W~_s have index zero for every s by a one-line reality argument not yet written;
+  for e^{sK} the documents settle it only for zeta < (4 f_2^K)^{-1/2}.

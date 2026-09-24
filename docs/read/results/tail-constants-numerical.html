@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Weak link: numerical values of the tail constants A_1 &lt;= 2.0 and A_3 &lt;= 0.036 &mdash; cft-cmi</title>
-<meta name="description" content="Weak link: numerical values of the tail constants A_1 &lt;= 2.0 and A_3 &lt;= 0.036. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<title>Weak link: numerical values of the tail constants A_1 &lt;= 2.0 and A_3 &lt;= 0.0374 &mdash; cft-cmi</title>
+<meta name="description" content="Weak link: numerical values of the tail constants A_1 &lt;= 2.0 and A_3 &lt;= 0.0374. Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
 <link rel="stylesheet" href="../../lib/site.css">
 <script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
 <style>
@@ -28,23 +28,25 @@
   <button class="theme" type="button" hidden></button>
 </div></header>
 <main class="wrap">
-<h1>Weak link: numerical values of the tail constants A_1 &lt;= 2.0 and A_3 &lt;= 0.036</h1>
+<h1>Weak link: numerical values of the tail constants A_1 &lt;= 2.0 and A_3 &lt;= 0.0374</h1>
 <p><strong>Status:</strong> <code>numerical</code> — measured, with an error bar and a convergence order; not a theorem.</p>
 <p><strong>Area:</strong> <a href="../status.html#area-theorem-a">Theorem A: exact recovery error of the free fermion</a> · <strong>Card type:</strong> result · <strong>Knowledge-base id:</strong> <code>tail-constants-numerical</code></p>
 <h2>Statement</h2>
-<p>The constants of the occupation-tail estimate of rigor/tail_bound.tex (Thm 4.2) satisfy A_1 = sup over kappa_c &gt; 0 of |g1-hat(kappa_c/2 pi)| (1+kappa_c)^-1 e^{kappa_c} &lt;= 2.0 and A_3 = sup over 0 &lt; zeta &lt;= 1 of zeta^-2 ||(g2)'''||_{L^1(0,inf)} &lt;= 0.036, hence C_1 &lt;= 0.051 and C_2 = 4 pi A_3 &lt;= 0.46.</p>
+<p>The constants of the occupation-tail estimate of rigor/tail_bound.tex (Thm 4.2) satisfy A_1 = sup over kappa_c &gt; 0 of |g1-hat(kappa_c/2 pi)| (1+kappa_c)^-1 e^{kappa_c} &lt;= 2.0 and A_3 = sup over 0 &lt; zeta &lt;= 1 of zeta^-2 ||(g2)'''||_{L^1(0,inf)} &lt;= 0.0374, hence C_1 &lt;= 0.051 and C_2 = 4 pi A_3 &lt;= 0.47. The supremum A_3 is the limit zeta -&gt; 0, numerically about 0.0372 (tail_bound.tex l. 750-751, corrected 2026-09-24, Correction C10). Until 2026-09-24 the document, and this card, stated A_3 &lt;= 0.036 and C_2 &lt;= 0.46, read off finite-zeta samples that miss that limit.</p>
 <h2>How to verify</h2>
-<p>rigor/tail_bound.tex Thm 4.2 (thm:tau, l. 316-330) and Sec. 9 (3) (l. 740-751): A_1 from double-precision evaluations at kappa_c = 6..25.3, A_3 from four zeta values (0.05, 0.2, 0.5, 1) assumed monotone; the document's own verdict (l. 442-449) says these values are numerical, not a closed-form estimate.</p>
+<p>rigor/tail_bound.tex Thm 4.2 (thm:tau, l. 316-330) and Sec. 9 (3) (l. 740-751): A_1 from double-precision evaluations at kappa_c = 6..25.3 (numerics/pt_checks.py). A_3: the document now says (l. 750-751, corrected 2026-09-24, Correction C10) that zeta^-2 ||(g2)'''||_1 = 0.0355, 0.0326, 0.0275, 0.0214 at zeta = 0.05, 0.2, 0.5, 1 on the grid of rigor/pt_tailconst.py decrease in zeta, so the supremum A_3 is the limit zeta -&gt; 0, which that script does not sample: 0.0364 on the same grid and 0.0372 on a refined grid, hence A_3 &lt;= 0.0374 and C_2 = 4 pi A_3 &lt;= 0.47. Until 2026-09-24 it read the four values as 'monotone decreasing in zeta, so A_3 &lt;= 0.036 and C_2 &lt;= 0.46'. Correction C10 (l. 1080-1112) gives the limit in closed form, g0(t) = -(1 + cosh(t)/2 - (3/2) sinh(t)/t)/(2 sinh^3(t/2)) = -t/30 + O(t^3), with ||g0'''||_1 = 0.03642 on the script's grid, 0.03718 on t = 0.002..80 and about 0.03721 including t near 0; on the refined grid the finite-zeta values stay below it (0.03698, 0.03617, 0.03331, 0.02175 at zeta = 0.01, 0.05, 0.2, 1). Check: from the cft_cmi root run python3 numerics/kb-checks-2026-09-24/a3_refined.py (needs mpmath, about 4 min) and compare with a3_refined.out; it also runs the original functions of rigor/pt_tailconst.py at zeta = 1e-4, 1e-3, 0.01 (0.036422, 0.036406, 0.0362456). The document's own verdict (l. 442-449) says these values are numerical, not a closed-form estimate, and l. 66 says they are not certified (Correction C4; 'certified numerically' until 2026-09-24).</p>
 <h2>Evidence</h2>
 <ul>
 <li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/tail_bound.tex">rigor/tail_bound.tex</a> — document, at <code>thm:tau</code></li>
 <li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/pt_checks.py">numerics/pt_checks.py</a> — numerics</li>
 <li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/pt_tailconst.py">rigor/pt_tailconst.py</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/kb-checks-2026-09-24/a3_refined.py">numerics/kb-checks-2026-09-24/a3_refined.py</a> — numerics</li>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/numerics/kb-checks-2026-09-24/a3_refined.out">numerics/kb-checks-2026-09-24/a3_refined.out</a> — numerics</li>
 </ul>
 <h2>Related claims</h2>
 <p><em>None recorded.</em></p>
 <h2>Review</h2>
-<p><strong>Review record:</strong> passed 2026-09-23 by REF-DEP-CFT-B2.</p>
+<p><strong>Review record:</strong> passed 2026-09-24 by REF-CARD-TAIL.</p>
 <p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
 <hr>
 <p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Index zero for e^{sK} beyond ||G_s||_2 &lt; 1: for a unitary group e^{sK} with [P_-, K] Hilbert-Schmidt the two off-diagonal blocks have the same singular values also where |s| ||[P_-, K]||_2 &gt;= 1 (open; no document contains an argument) &mdash; cft-cmi</title>
+<meta name="description" content="Index zero for e^{sK} beyond ||G_s||_2 &lt; 1: for a unitary group e^{sK} with [P_-, K] Hilbert-Schmidt the two off-diagonal blocks have the same singular values also where |s| ||[P_-, K]||_2 &gt;= 1 (open; no document contains an argument). Generated documentation of the cft-cmi project, rendered for GitHub Pages.">
+<link rel="stylesheet" href="../../lib/site.css">
+<script>try{var s=localStorage.getItem('cftcmi-theme');if(s)document.documentElement.setAttribute('data-theme',s);}catch(e){}</script>
+<style>
+  main.wrap { padding-top: .5rem; }
+  main.wrap table { margin: .6rem 0 1.2rem; }
+  main.wrap blockquote { margin: 0 0 1rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+  main.wrap hr { border: 0; border-top: 1px solid var(--line-soft); margin: 2rem 0; }
+  main.wrap li { margin: .18rem 0; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <span class="brand"><a href="../../index.html">cft-cmi</a></span>
+  <nav>
+    <a href="../../index.html">Interactive site</a>
+    <a href="../index.html">Documentation</a>
+    <a href="../status.html">All claims</a>
+    <a href="../open.html">Open problems</a>
+    <a href="../notation.html">Notation</a>
+  </nav>
+  <button class="theme" type="button" hidden></button>
+</div></header>
+<main class="wrap">
+<h1>Index zero for e^{sK} beyond ||G_s||_2 &lt; 1: for a unitary group e^{sK} with [P_-, K] Hilbert-Schmidt the two off-diagonal blocks have the same singular values also where |s| ||[P_-, K]||_2 &gt;= 1 (open; no document contains an argument)</h1>
+<p><strong>Status:</strong> <code>conjectural</code> — believed, with partial evidence; not proved.</p>
+<p><strong>Area:</strong> <a href="../status.html#area-theorem-a">Theorem A: exact recovery error of the free fermion</a> · <strong>Card type:</strong> conjecture · <strong>Knowledge-base id:</strong> <code>group-index-zero-large-s</code></p>
+<h2>Statement</h2>
+<p>For every one-parameter unitary group U_s = e^{sK} on H = L^2(R) with K^* = -K and [P_-, K] Hilbert-Schmidt (the setting of rate_of_remainder.tex Lemma 6.1, lem:groupbound; in particular K = D + i h' with h' in PA's class A', Prop. 6.2), the operator P_+ U_s P_+ on P_+ H has Fredholm index 0, so that P_- U_s P_+ and P_+ U_s P_- have the same singular values, also for the real s with ||G_s||_2 &gt;= 1, G_s = P_+ - U_s^* P_+ U_s, where the documents' argument (both blocks of norm &lt; 1, so P_+ U_s P_+ is invertible) does not apply; by Lemma 6.1 &lt;1&gt;2 such s have |s| ||[P_-, K]||_2 &gt;= 1, i.e. |s| &gt;= (4 f2^K)^{-1/2} for K = D + i h' (f2^K = (1/2) ||P_- K P_+||_2^2).</p>
+<h2>How to verify</h2>
+<p>rigor/rate_of_remainder.tex Sec. 7 (Corrections of 2026-09-24), C3, l. 1026-1079: the mechanism, l. 1034-1043 (the singular values of the two blocks agree except at 1, whose multiplicities are dim ker X^* and dim ker X; the truncated winding of numerics/kb-checks-2026-09-23/refb9_winding.py has squared block norms 0.0071 and 1.0071 at R/b = 5, index 1); the affected steps, l. 1044-1057 (Lemma 6.1 &lt;1&gt;1, l. 828-832, and &lt;1&gt;4, l. 842-846; Prop. 6.2 &lt;1&gt;3, l. 871-874; Cor. 2.9 &lt;1&gt;3); 'Status of the uses' (ii), l. 1069-1079: settled while ||G_s||_2 &lt; 1, which Lemma 6.1 &lt;1&gt;2 gives for |s| ||[P_-, K]||_2 &lt; 1, with ||[P_-, K]||_2^2 = 2 ||P_- K P_+||_2^2 = 4 f2^K; 'The rest needs a standard Fredholm-index continuity argument that no document contains, and is open': Lemma 6.1 for |s| ||[P_-, K]||_2 &gt;= 1 and Prop. 6.2 for (4 f2^K)^{-1/2} &lt;= zeta &lt; (2 f2^K)^{-1/2}. The same claim, with P and P^perp for P_+ and P_-, underlies rigor/exact_fidelity_upper_half.tex Lemma 6.1 (lem:group) &lt;1&gt;1, l. 662-667, whose Correction C3 (l. 1156-1205) settles the uses there at small s.</p>
+<h2>Evidence</h2>
+<ul>
+<li><a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/rigor/rate_of_remainder.tex">rigor/rate_of_remainder.tex</a> — document, at <code>corr0924:C3</code></li>
+</ul>
+<h2>Related claims</h2>
+<ul>
+<li><a href="rate-of-remainder.html">Remainder of Theorem A: global upper bound Phi &lt;= -(1/2) log(1 - 2 f2 zeta^2); c3 &lt;= 0 as a limsup; no positive log^-2 term</a> — <code>proved</code></li>
+<li><code>pushforward-blocks-equal-singular-values</code> — <code>heuristic</code>, no page of its own</li>
+<li><a href="uhlmann-upper-half-proved.html">(UH) proved: optimised Uhlmann bound = g_Q of the defect, for every isometric quasi-free channel</a> — <code>proved</code></li>
+</ul>
+<h2>Review</h2>
+<p><strong>Review record:</strong> passed 2026-09-24 by REF-CARD-ROR.</p>
+<p>The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.</p>
+<hr>
+<p><a href="../index.html">Documentation map</a> · <a href="../status.html">All claims by area</a> · <a href="../open.html">What is open</a> · <a href="../notation.html">Symbols</a> · <a href="../definitions.html">Definitions</a></p>
+</main>
+<footer class="site"><div class="wrap">
+  <p>Rendered from <a href="https://github.com/alexander-stottmeister/cft-cmi/blob/main/docs/results/group-index-zero-large-s.md"><code>docs/results/group-index-zero-large-s.md</code></a>, which is the source and is what GitHub shows when you browse the repository. This mirror exists because GitHub Pages serves Markdown as a raw file rather than
+    rendering it, and <code>docs/</code> is the only directory it publishes. Written by
+    <code>tools/build_docs.py</code>; edit nothing here by hand.</p>
+</div></footer>
+<script type="module">
+  import { initTheme } from '../../lib/ui.js';
+  initTheme(document.querySelector('button.theme'));
+</script>
+</body>
+</html>

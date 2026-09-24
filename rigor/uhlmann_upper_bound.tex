@@ -290,7 +290,7 @@ $\Lambda:=\operatorname{ess\,sup}|\phi''|$, $c:=\inf\phi'$.  If $\eta\le\frac12$
  \ \le\ \frac1{4\pi^2}\Bigl[\frac{36\,\Lambda^2}{c^2}+64\,\delta^2+\tfrac{64}3\eta^2\Bigr]\ <\ \infty .
 \end{equation}
 Consequently $V_\phi:=\Pm W_\phi\Pp\in\Stwo$ with $\norm{V_\phi}_2\le\norm{G_\phi}_2$.  For
-$\phi=\kt_s$, $0\le s\le1$, all four quantities are $O(s)$, and there is an explicit $C_0$ with
+$\phi=\kt_s$ with $0\le s\le1$ and $s\norm\chi_\infty\le\frac12$ (so that $\eta\le\frac12$ by Lemma~\ref{lem:ext}\ref{E3}; see Correction~\ref{corr0924:C3}), all four quantities are $O(s)$, and there is an explicit $C_0$ with
 $\norm{G_{\kt_s}}_2\le C_0\,s$.
 \end{proposition}
 \lstep{1}{1}{$\kappa_\phi(x,y)=0$ whenever $x\notin K$ and $y\notin K$; hence
@@ -324,13 +324,13 @@ $\norm{G_{\kt_s}}_2\le C_0\,s$.
  $\norm{V_\phi}_2=\norm{G_\phi\Pp}_2\le\norm{G_\phi}_2$.}
 \lby{$W_\phi^*\Pm W_\phi\Pp=(1-W_\phi^*\Pp W_\phi)\Pp=(\Pp-W_\phi^*\Pp W_\phi)\Pp$ since $\Pm\Pp=0$
  and $\Pp^2=\Pp$; $W_\phi$ is unitary, and $\norm{TP}_2\le\norm T_2\norm P$}
-\lstep{1}{8}{For $\phi=\kt_s$, $0\le s\le1$: $\Lambda\le s\Lambda_1e^{2\Lambda_0}$,
+\lstep{1}{8}{For $\phi=\kt_s$, $0\le s\le1$, $s\norm\chi_\infty\le\frac12$: $\Lambda\le s\Lambda_1e^{2\Lambda_0}$,
  $c\ge e^{-\Lambda_0}$, $\eta\le s\norm\chi_\infty$, $\delta\le\frac s2\Lambda_0e^{\Lambda_0/2}$,
  so $\norm{G_{\kt_s}}_2\le C_0s$ with
  $C_0^2=\frac1{4\pi^2}\bigl[36\Lambda_1^2e^{6\Lambda_0}+16\Lambda_0^2e^{\Lambda_0}
  +\frac{64}3\norm\chi_\infty^2\bigr]$.}
 \lby{Lemma~\ref{lem:ext}\ref{E3}, $|\sqrt u-1|\le e^{\Lambda_0 s/2}-1\le\frac s2\Lambda_0e^{\Lambda_0s/2}$
- for $e^{-s\Lambda_0}\le u\le e^{s\Lambda_0}$, and \eqref{eq:HSbound}}
+ for $e^{-s\Lambda_0}\le u\le e^{s\Lambda_0}$, and \eqref{eq:HSbound}, which applies because $\eta\le s\norm\chi_\infty\le\frac12$}
 \lqed{1}{9}\lby{$\langle1\rangle6$--$\langle1\rangle8$}
 
 \begin{remark}[Where the two dangerous places went]\label{rem:danger}
@@ -348,18 +348,18 @@ Definition~\ref{def:ext} avoids the issue.
 \begin{citedbox}{Shale--Stinespring 1965 (implementability); Araki's form}
 \textbf{Statement (faithful paraphrase).}  Let $U$ be a unitary of $H$ and let $\Pp$ be an orthogonal
 projection.  The Bogoliubov automorphism $\beta_U(a(f))=a(Uf)$ of $\CAR(H)$ is unitarily implementable
-in the Fock representation with symbol $\Pp$ if and only if $\Pm U\Pp$ is Hilbert--Schmidt; the
+in the Fock representation with symbol $\Pp$ if and only if $[\Pp,U]$ is Hilbert--Schmidt, i.e.\ both $\Pm U\Pp$ and $\Pp U\Pm$ are Hilbert--Schmidt ($\Pm U\Pp\in\Stwo$ alone does not suffice; see Correction~\ref{corr0924:C1}); the
 implementer $\Gm(U)$ is then unique up to a phase, is even, and satisfies
 $\Gm(U)a(f)\Gm(U)^*=a(Uf)$.  \emph{Locator}: D.~Shale and W.~F.~Stinespring, ``Spinor representations'',
 J.\ Math.\ Mech.\ \textbf{14} (1965) 315--322, Theorem~3; H.~Araki, ``On quasifree states of CAR and
 Bogoliubov automorphisms'', Publ.\ RIMS \textbf{6} (1970/71) 385--442, Lemma~6.3 and Theorem~6.5
 (the criterion in the equivalent form $\norm{[\Pp,U]}_2<\infty$: for a \emph{linear}, i.e.\
 gauge-invariant, $U$ one has $\norm{[\Pp,U]}_2^2=\norm{\Pm U\Pp}_2^2+\norm{\Pp U\Pm}_2^2$, and
-$\Pp U\Pm=-(\Pm U^*\Pp)^*$, so either summand being finite for both $U$ and $U^*$ is the same
-condition).  \emph{Use here}: with $U=\Wt_s$ and Proposition~\ref{prop:HS} it yields the implementer
+$\Pp U\Pm=(\Pm U^*\Pp)^*$ (sign corrected, Correction~\ref{corr0924:C5}), so either summand being finite for both $U$ and $U^*$ is the same
+condition).  \emph{Use here}: with $U=\Wt_s$, Proposition~\ref{prop:HS} and $\Wt_s=(\Wt_{s/n})^n$ (Correction~\ref{corr0924:C2}) it yields the implementer
 $\Gm(\Wt_s)$.  \emph{Screenshot}: NOT OBTAINED (neither source is available online in this
 environment; see \S\ref{sec:used}).  \emph{Verdict on the usage}: hypotheses verified
-(Proposition~\ref{prop:HS} gives $\Pm\Wt_s\Pp\in\Stwo$, and $\Wt_{-s}=\Wt_s^{-1}$ is of the same form,
+(Proposition~\ref{prop:HS} gives $\Pm\Wt_s\Pp\in\Stwo$ when $\norm{\mathrm{id}-\kt_s}_\infty\le\frac12$, and every other $s$ follows through $\Wt_s=(\Wt_{s/n})^n$, see Correction~\ref{corr0924:C2}; $\Wt_{-s}=\Wt_s^{-1}$ is of the same form,
 so the criterion holds symmetrically); conventions match, since Note~4 and this document use the same
 Fock representation \eqref{eq:qf}.
 \end{citedbox}
@@ -368,10 +368,10 @@ Fock representation \eqref{eq:qf}.
 For every $s\in\mathbb R$ there is a unitary $\Gm(\Wt_s)$ of $\Fock$, unique up to a phase, with
 $\Gm(\Wt_s)a(f)\Gm(\Wt_s)^*=a(\Wt_sf)$ for all $f\in H$.  The same holds for
 $U=\Wt_s\,(\one_{L^2(I)}\oplus W')$ with $W'$ any unitary of $L^2(I')$ such that
-$\Pm(\one\oplus W')\Pp\in\Stwo$.
+$\Pm(\one\oplus W')\Pp\in\Stwo$ and $\Pp(\one\oplus W')\Pm\in\Stwo$ (both off-diagonal blocks; the first alone does not suffice, see Correction~\ref{corr0924:C1}).
 \end{corollary}
-\lstep{1}{1}{$\Pm\Wt_s\Pp\in\Stwo$.}\lby{Proposition~\ref{prop:HS}}
-\lstep{1}{2}{$\Pm U\Pp=\Pm\Wt_s\Pp\cdot\Pp(\one\oplus W')\Pp+\Pm\Wt_s\Pm\cdot\Pm(\one\oplus W')\Pp\in\Stwo$.}
+\lstep{1}{1}{$\Pm\Wt_s\Pp\in\Stwo$ and $\Pp\Wt_s\Pm\in\Stwo$.}\lby{Proposition~\ref{prop:HS} applied to $\kt_{\pm t}$, $t:=s/n$ with an integer $n\ge\max(1,2|s|\norm\chi_\infty)$, then $\Pp\Wt_t\Pm=(\Pm\Wt_{-t}\Pp)^*$ and $\Wt_s=(\Wt_t)^n$; see Correction~\ref{corr0924:C2}}
+\lstep{1}{2}{$\Pm U\Pp=\Pm\Wt_s\Pp\cdot\Pp(\one\oplus W')\Pp+\Pm\Wt_s\Pm\cdot\Pm(\one\oplus W')\Pp\in\Stwo$ and $\Pp U\Pm=\Pp\Wt_s\Pp\cdot\Pp(\one\oplus W')\Pm+\Pp\Wt_s\Pm\cdot\Pm(\one\oplus W')\Pm\in\Stwo$.}
 \lby{inserting $\one=\Pp+\Pm$, $\langle1\rangle1$, the hypothesis on $W'$, and the fact that $\Stwo$ is
 an ideal}
 \lqed{1}{3}\lby{$\langle1\rangle1$, $\langle1\rangle2$, and the cited Shale--Stinespring criterion}
@@ -414,7 +414,7 @@ In particular $\widetilde\omega_s$ is normal on $\cM$.
 \lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$; $\norm{\Psi_s}=\norm\Om=1$ as $\Gm(\Wt_s)$ is unitary}
 
 \begin{lemma}[Commutant elements from $I'$]\label{lem:commutant}
-Let $W'$ be a unitary of $L^2(I')$ with $\Pm(\one\oplus W')\Pp\in\Stwo$, and write
+Let $W'$ be a unitary of $L^2(I')$ with $\Pm(\one\oplus W')\Pp\in\Stwo$ and $\Pp(\one\oplus W')\Pm\in\Stwo$ (both off-diagonal blocks, so that an implementer exists by Corollary~\ref{cor:implementer} at $s=0$; the first block alone does not suffice, see Correction~\ref{corr0924:C4}), and write
 $\widehat W':=\one_{L^2(I)}\oplus W'$.  Then any implementer $\Gm(\widehat W')$ lies in $\cM'$.
 \end{lemma}
 \lstep{1}{1}{$\Gm(\widehat W')a(f)\Gm(\widehat W')^*=a(\widehat W'f)=a(f)$ for every $f\in L^2(I)$.}
@@ -590,7 +590,7 @@ with \eqref{eq:det} but outside the hypotheses of the proof.
 
 \begin{citedbox}{Ruijsenaars 1977 / Berezin 1966 (the classical form of Theorem~\ref{thm:det})}
 \textbf{Statement (paraphrase of the classical result).}  For a unitary $U$ of $H$ with
-$\Pm U\Pp\in\Stwo$, the implementer $\Gm(U)$ of the (gauge-invariant) Bogoliubov automorphism
+$\Pm U\Pp\in\Stwo$ and $\Pp U\Pm\in\Stwo$ (both blocks are needed for $\Gm(U)$ to exist; see Correction~\ref{corr0924:C4}), the implementer $\Gm(U)$ of the (gauge-invariant) Bogoliubov automorphism
 satisfies $\ip{\Om}{\Gm(U)\Om}=\det(\Pp U\Pp)$ up to a phase, the determinant being the Fredholm
 determinant on $\Pp H$; equivalently $|\ip{\Om}{\Gm(U)\Om}|=\det(\one-V^*V)^{1/2}$, $V=\Pm U\Pp$.
 \emph{Locators}: S.~N.~M.~Ruijsenaars, ``On Bogoliubov transformations for systems of relativistic
@@ -603,7 +603,7 @@ no open-access copy of either source could be retrieved in this environment (att
 \emph{Consequence}: we do \emph{not} rely on the citation.  Theorem~\ref{thm:det} above is proved from
 scratch (annihilation characterisation, singular value decomposition, one-mode computation, Fredholm
 determinant identity) under the extra hypotheses $\norm V<1$, $\norm A<1$, which are satisfied in the
-application by Proposition~\ref{prop:HS}.  The one-mode case of Remark~\ref{rem:onemode} is the
+application by Proposition~\ref{prop:expansion} $\langle1\rangle6$, which uses the bound of Proposition~\ref{prop:HS} (for $\norm A$ see Correction~\ref{corr0924:C7}; attribution corrected, Correction~\ref{corr0924:C10}).  The one-mode case of Remark~\ref{rem:onemode} is the
 independent cross-check requested by the brief.
 \end{citedbox}
 
@@ -750,14 +750,14 @@ $\mu:=\norm{h'}$, $N:=\Pm h'\Pp$, $\nu:=\norm N_2$, and
  U_s:=\Wt_s\,e^{ish'},\qquad V_s^{\mathrm{tot}}:=\Pm U_s\Pp .
 \end{equation}
 Since $h'$ vanishes on $L^2(I)$, $e^{ish'}=\one_{L^2(I)}\oplus e^{ish'|_{L^2(I')}}$ is of the form
-$\widehat W'$ of Lemma~\ref{lem:commutant}, so $\Gm(U_s)$ exists and
-Propositions~\ref{prop:uhlmann}, \ref{cor:master} apply.
+$\widehat W'$ of Lemma~\ref{lem:commutant} (both off-diagonal blocks of $e^{ish'}$ are Hilbert--Schmidt: $\Pp h'\Pm=(\Pm h'\Pp)^*\in\Stwo$, and Duhamel's formula as in Proposition~\ref{prop:expansion}~$\langle1\rangle3$; see Correction~\ref{corr0924:C4}), so $\Gm(U_s)$ exists and
+Proposition~\ref{prop:uhlmann} and Corollary~\ref{cor:master} apply.
 \end{definition}
 
 \begin{proposition}[Quadratic expansion, with error bound]\label{prop:expansion}
 Let $h'\in\mathcal A'$, $K:=D+ih'$ (skew-adjoint) and
 $\epsilon(s):=\sup_{0\le\sigma\le s}\norm{\Wt_\sigma^*G^{(1)}\Wt_\sigma-G^{(1)}}_2$.  Then
-$\epsilon(s)\to0$ as $s\downarrow0$ and, for $0\le s\le1$,
+$\epsilon(s)\to0$ as $s\downarrow0$ and, for $0\le s\le1$ with $s\norm\chi_\infty\le\frac12$ (the range of the bound $\norm{G_s}_2\le C_0s$ of Proposition~\ref{prop:HS}; see Correction~\ref{corr0924:C3}),
 \begin{equation}\label{eq:expansion}
  \Bigl|\;\norm{V_s^{\mathrm{tot}}}_2-s\,\norm{\Pm K\Pp}_2\;\Bigr|
  \ \le\ s\,\epsilon(s)+C_4\,s^2,\qquad
@@ -810,8 +810,8 @@ $\norm{\Pp U_s\Pm}\to0$ as $s\to0$.
  $\norm{V^{\mathrm{tot}}_s}+\norm{\Pp U_s\Pm}\to0$.}
 \lby{$K^*=-K$ gives $[\Pm,K]=\Pm K\Pp-\Pp K\Pm$ with $\Pp K\Pm=-(\Pm K\Pp)^*$, and the two blocks are
  HS-orthogonal; the second claim from $\norm{V^{\mathrm{tot}}_s}\le\norm{V^{\mathrm{tot}}_s}_2\to0$
- by \eqref{eq:expansion} and, symmetrically, $\Wt_s\Pp U_s\Pm=(\Pp+G_s^{\vee})e^{ish'}\Pm$ with
- $\norm{G^\vee_s}_2=\norm{\Pp-\Wt_s\Pp\Wt_s^*}_2=\norm{G_{-s}}_2\le C_0s$}
+ by \eqref{eq:expansion} and, symmetrically, $\Pp U_s\Pm=\Wt_s\Pp e^{ish'}\Pm+G_s^{\vee}\Wt_se^{ish'}\Pm$ (identity corrected, Correction~\ref{corr0924:C7}) with
+ $G^\vee_s:=\Pp-\Wt_s\Pp\Wt_s^*=G_{-s}=-\Wt_sG_s\Wt_s^*$ (as $\Wt_{-s}=\Wt_s^*$), so $\norm{G^\vee_s}_2=\norm{G_s}_2\le C_0s$, and $\norm{\Pp e^{ish'}\Pm}=\norm{\Pp(e^{ish'}-\one)\Pm}\le s\mu$}
 \lqed{1}{7}\lby{$\langle1\rangle1$--$\langle1\rangle6$}
 
 \begin{corollary}[The variational upper bound]\label{cor:varupper}
@@ -1397,7 +1397,7 @@ $T(g_{\mathrm{tot}}):=-i\!:\!\dd\Gm(D)\!:$ with $g_{\mathrm{tot}}=-\chi$ the fir
 $\kt_s$ (Remark~\ref{rem:normalorder}); recall $\chi=0$ on $A$, $\chi=x^2$ on $D$ ($L=1$).
 
 \begin{lemma}[(H2): norm differentiability on the vacuum]\label{lem:H2}
-For $|s|$ small, $\Gm_s\Om=\Om+s\,\dot\Psi+o(s)$ in the norm of $\Fock$, where $\dot\Psi$ is the
+For $|s|$ small, $\Gm_s\Om=\Om+s\,\dot\Psi+o(s)$ in the norm of $\Fock$ (for $s<0$ the proof below applies with $|s|$ in its bounds, its inputs from Propositions~\ref{prop:HS} and \ref{prop:expansion} following from those at $-s>0$ by the group property $\Wt_{-s}=\Wt_s^*$; see Correction~\ref{corr0924:C6}), where $\dot\Psi$ is the
 one-particle--one-hole vector determined by the Hilbert--Schmidt block $\Pm D\Pp$, i.e.\
 $\dot\Psi=\;:\!\dd\Gm(D)\!:\Om=i\,T(g_{\mathrm{tot}})\Om$.  In particular $T(g_{\mathrm{tot}})\Om$ is
 a vector of $\Fock$ with $\norm{T(g_{\mathrm{tot}})\Om}=\norm{\Pm D\Pp}_2<\infty$, and
@@ -1420,8 +1420,8 @@ enter Proposition~\ref{prop:infimum}, cf.\ the sign remark in Theorem~\ref{thm:g
  $\det(\one+Z^*Z)-1-\norm Z_2^2\le e^{\norm Z_2^2}-1-\norm Z_2^2\le\norm Z_2^4e^{\norm Z_2^2}$}
 \lstep{1}{3}{$\norm{Z_s-sM}_2=o(s)$, where $M:=\Pm D\Pp$.}
 \lproof
-\lstep{2}{1}{$\norm{V_s-sM}_2\le s\epsilon(s)+C_4s^2=o(s)$.}
-\lby{Proposition~\ref{prop:expansion} with $h'=0$}
+\lstep{2}{1}{$\norm{V_s-sM}_2\le\norm{\Wt_s^*V_s-sM}_2+|s|\,\norm{(\Wt_s-\one)M}_2=o(s)$ (Correction~\ref{corr0924:C9}).}
+\lby{$V_s-sM=\Wt_s(\Wt_s^*V_s-sM)+s(\Wt_s-\one)M$; with $h'=0$, $\Wt_s^*V_s-sM=(G_s-sG^{(1)})\Pp$ has $\norm\cdot_2\le s\epsilon(s)$ for $s>0$ by Proposition~\ref{prop:expansion} $\langle1\rangle2$, $\langle1\rangle4$, and $\le2|s|\epsilon(|s|)$ for $s<0$ (Correction~\ref{corr0924:C6}); $\norm{(\Wt_s-\one)M}_2\to0$ as in $\langle2\rangle3$}
 \lstep{2}{2}{$\norm{Z_s-V_s}_2=\norm{(X_s^{-*}-\Pp)V_s^*}_2
  \le3\norm{V_s-sM}_2+s\norm{X_s^{-*}}\,\norm{\Pp(\one-\Wt_s^*)\Pp\,M^*}_2$.}
 \lby{$Z_s-V_s=V_s(X_s^{-1}-\Pp)$ and $\norm T_2=\norm{T^*}_2$; then $V_s^*=sM^*+(V_s-sM)^*$,
@@ -1518,4 +1518,201 @@ requested and have been applied.
  added at the request of agent QA: hypotheses (H2) and (H3) of \texttt{rigor/phase2\_brief.md} are
  stated and proved for the free fermion.  Nothing in \S\S1--9 depends on them.
 \end{enumerate}
+
+\section{Corrections of 2026-09-24}\label{corr0924:sec}
+\sloppy
+These corrections implement the knowledge-base card \texttt{c11-extension-implementer} (project
+\texttt{cft\_cmi}): its refereed Statement, the DOCUMENT ERROR note recorded from referee
+REF-DEP-CFT-B9, and the referee notes of REF-DEP-CFT-B6, B9 and B10 on that card.  Each changed line
+was replaced by exactly one line, so line numbers cited elsewhere still point to the same text.  The
+check scripts are in \texttt{numerics/kb-checks-2026-09-23/}.  Items C5--C10 are not recorded on that
+card: they correct points found while checking the uses of the corrected results (C5 a sign, C6 and
+C7 steps at negative time, C8 a reference, C9 a misquoted bound, C10 an attribution).
+\begin{enumerate}[label=(C\arabic*),ref=C\arabic*,leftmargin=3em]
+\item\label{corr0924:C1} \emph{Shale--Stinespring needs both off-diagonal blocks} (headline of the
+ box before Corollary~\ref{cor:implementer}, l.~351; Corollary~\ref{cor:implementer}, l.~371, and
+ its $\langle1\rangle2$, l.~374).
+ \emph{The document said:} $\beta_U$ is implementable if and only if $\Pm U\Pp$ is Hilbert--Schmidt;
+ and $U=\Wt_s(\one_{L^2(I)}\oplus W')$ has an implementer for every unitary $W'$ of $L^2(I')$ with
+ $\Pm(\one\oplus W')\Pp\in\Stwo$, the proof checking only $\Pm U\Pp$.
+ \emph{It now says:} the criterion is $[\Pp,U]\in\Stwo$, i.e.\ $\Pm U\Pp\in\Stwo$ and
+ $\Pp U\Pm\in\Stwo$, as the parenthesis of the same box (l.~356--359) already stated.  The corollary
+ assumes $\Pm(\one\oplus W')\Pp\in\Stwo$ and $\Pp(\one\oplus W')\Pm\in\Stwo$, and $\langle1\rangle2$
+ also checks $\Pp U\Pm=\Pp\Wt_s\Pp\cdot\Pp(\one\oplus W')\Pm+\Pp\Wt_s\Pm\cdot\Pm(\one\oplus W')\Pm$,
+ where $\Pp\Wt_s\Pm\in\Stwo$ comes from $\langle1\rangle1$ (Correction~\ref{corr0924:C2}).
+ \emph{Why:} convention (C2) of \S\ref{sec:conv} is a complex fermion ($a^*$ linear), and for a linear $U$ the criterion involves
+ both blocks; the first alone does not suffice.  Counterexample at $s=0$ (REF-DEP-CFT-B9, checked by
+ REF-DEP-CFT-B10): let $W'$ be multiplication by $u$ on $L^2(I')$, where $u=1$ near $1$ and $u$ is a
+ product of the complex conjugates of disjointly supported, smoothly truncated Blaschke windings of
+ widths $b_n$ and cut-offs $R_n$.  For a single winding the two squared Hilbert--Schmidt norms differ by exactly $1$ (an
+ index), while the smaller one is of order $(b_n/R_n)^2$.  The script
+ \texttt{numerics/kb-checks-2026-09-23/refb9\_winding.py} (output \texttt{refb9\_winding.out}) gives
+ $0.00710$ and $1.00710$ at $R/b=5$, $0.00049$ and $1.00049$ at $R/b=20$, $0.00003$ and $1.00003$ at
+ $R/b=80$, with difference $1.00000$ each time.  The script's $\Pp$ projects onto positive
+ frequencies, whereas convention (C1) of \S\ref{sec:conv} takes $k<0$; complex conjugation exchanges the two, so in the convention
+ of this document the numbers hold for the conjugated windings of which $u$ is built, whose small
+ block is $\Pm M\Pp$ (REF-DEP-CFT-B10).  For such windings with $\sum_nb_n/R_n<\infty$ the product has
+ $\Pm(\one\oplus W')\Pp\in\Stwo$.  If $\Pp(\one\oplus W')\Pm$ were Hilbert--Schmidt as well, the
+ index identity applied to the tail products would force the index of the Toeplitz operator of the
+ product below $-N+o(1)$ for every $N$, which is impossible (REF-DEP-CFT-B10).  So $\one\oplus W'$
+ is not implementable although the old hypothesis holds.  Knowledge-base card
+ \texttt{c11-extension-implementer}, DOCUMENT ERROR note and Statement: ``with $W'$ a unitary of
+ $L^2(I')$ such that $\Pm(\one\oplus W')\Pp$ and $\Pp(\one\oplus W')\Pm$ are both Hilbert--Schmidt.
+ The Shale--Stinespring criterion needs both off-diagonal blocks''.
+\item\label{corr0924:C2} \emph{Both blocks of $\Wt_s$, for every real $s$}
+ (Corollary~\ref{cor:implementer} $\langle1\rangle1$, l.~373; verdict of the box before it, l.~362;
+ its ``Use here'', l.~359, now also names the step $\Wt_s=(\Wt_{s/n})^n$).
+ \emph{The document said:} $\Pm\Wt_s\Pp\in\Stwo$ for every $s\in\mathbb R$ ``by
+ Proposition~\ref{prop:HS}''.  But \eqref{eq:HSbound} assumes $\eta=\norm{\mathrm{id}-\kt_s}_\infty
+ \le\frac12$ (l.~287), which fails for larger $|s|$ (Correction~\ref{corr0924:C3}); and the block
+ $\Pp\Wt_s\Pm$ appeared only in the remark that $\Wt_{-s}=\Wt_s^{-1}$ is of the same form.
+ \emph{It now says:} $\Pm\Wt_s\Pp$ and $\Pp\Wt_s\Pm$ are Hilbert--Schmidt for every $s$, by the
+ following argument.  Given $s$, pick an integer $n\ge\max(1,2|s|\norm\chi_\infty)$ and put
+ $t:=s/n$.  For $\sigma=\pm t$, $\kt_\sigma$ is an increasing $C^{1,1}$ bijection of $\mathbb R$
+ (Lemma~\ref{lem:ext}, for all real $s$), equal to the identity outside $(0,2)$
+ (Lemma~\ref{lem:ext} $\langle1\rangle2$, for all real $s$), with $\kt_\sigma'\ge e^{-|\sigma|\Lambda_0}$,
+ and \eqref{eq:flow} gives $|x-\kt_\sigma(x)|\le|\sigma|\norm\chi_\infty\le\frac12$.  So
+ Proposition~\ref{prop:HS} applies to $\phi=\kt_{\pm t}$ and gives $\Pm\Wt_{\pm t}\Pp\in\Stwo$.
+ Since $\Wt_t^*=\Wt_{-t}$ by \eqref{eq:pushforward} and the group law,
+ $\Pp\Wt_t\Pm=(\Pm\Wt_{-t}\Pp)^*\in\Stwo$.  For bounded $A,B$ whose two off-diagonal blocks are
+ Hilbert--Schmidt, $\Pm AB\Pp=\Pm A\Pp\cdot\Pp B\Pp+\Pm A\Pm\cdot\Pm B\Pp$ and
+ $\Pp AB\Pm=\Pp A\Pp\cdot\Pp B\Pm+\Pp A\Pm\cdot\Pm B\Pm$ are Hilbert--Schmidt, since $\Stwo$ is an
+ ideal.  By induction $\Wt_s=(\Wt_t)^n$ has both blocks in $\Stwo$, i.e.\ $[\Pp,\Wt_s]\in\Stwo$.
+ This gives the Hilbert--Schmidt property for every $s$; the explicit bound of
+ Proposition~\ref{prop:HS} is proved there only in the range of Correction~\ref{corr0924:C3}.
+ \emph{Why:} card \texttt{c11-extension-implementer}, Statement: ``prop:HS gives an explicit bound
+ when $\norm{\mathrm{id}-\kt_s}_\infty\le1/2$ (l.~286--287).  Every other $s$ follows from
+ $\Wt_s=(\Wt_{s/n})^n$, since products of unitaries with Hilbert--Schmidt off-diagonal parts have
+ Hilbert--Schmidt off-diagonal parts.  The other block is $\Pp\Wt_s\Pm=(\Pm\Wt_{-s}\Pp)^*$,
+ Hilbert--Schmidt by the same argument.''  The steps (the product formula; the hypotheses of
+ Proposition~\ref{prop:HS} for either sign of $t$, including $\kt_t'\ge e^{-|t|\Lambda_0}$;
+ $n\ge2|s|\norm\chi_\infty$; $\Wt_s^*=\Wt_{-s}$) are those checked by REF-DEP-CFT-B6, B9 and B10.
+\item\label{corr0924:C3} \emph{Range of the explicit bound} (Proposition~\ref{prop:HS}, l.~293, and its
+ $\langle1\rangle8$, l.~327 and l.~333; Proposition~\ref{prop:expansion}, l.~760).
+ \emph{The document said:} $\norm{G_{\kt_s}}_2\le C_0s$ for every $0\le s\le1$, and
+ \eqref{eq:expansion} for every $0\le s\le1$.
+ \emph{It now says:} both hold for $0\le s\le1$ with $s\norm\chi_\infty\le\frac12$.  There
+ Lemma~\ref{lem:ext}\ref{E3} gives $\eta\le s\norm\chi_\infty\le\frac12$, so \eqref{eq:HSbound}
+ applies; the constants $C_0$ and $C_4$ are unchanged.
+ \emph{Why:} \eqref{eq:HSbound} assumes $\eta\le\frac12$ (l.~287, used in its $\langle1\rangle3$),
+ and $\eta$ exceeds $\frac12$ inside $[0,1]$: for the standard smooth step $\beta$,
+ $\eta\approx0.6128$ at $s=0.5$ and $\eta\approx0.9538$ at $s=1$
+ (\texttt{numerics/kb-checks-2026-09-23/refb6\_flow.py}, output \texttt{refb6\_flow.out}).  Card
+ \texttt{c11-extension-implementer}, Statement: ``prop:HS gives an explicit bound when
+ $\norm{\mathrm{id}-\kt_s}_\infty\le1/2$ (l.~286--287) \dots\ its `every $0\le s\le1$' (l.~293) and
+ cor:implementer's `every $s$ in $\mathbb R$' use prop:HS beyond its hypothesis''; REF-DEP-CFT-B6
+ proposed the range $|s|\le1/(2\norm\chi_\infty)$.  Every later use of the bound or of
+ \eqref{eq:expansion} is a limit $s\to0$ (for instance Corollary~\ref{cor:varupper},
+ Lemma~\ref{lem:H2} and the verdict of \S\ref{sec:step3}), so none of them changes.  Remark: by
+ \eqref{eq:intrep}, which Lemma~\ref{lem:integralrep} proves for every real $s$,
+ $\norm{G_s}_2\le|s|\,\norm{G^{(1)}}_2$, where $\norm{G^{(1)}}_2<\infty$ by its
+ $\langle1\rangle1$ and $\norm{G^{(1)}}_2=\lim_{s\downarrow0}\norm{G_s}_2/s$ by its
+ $\langle1\rangle5$, and this limit is $\le C_0$ by the bound $\norm{G_s}_2\le C_0s$ of Proposition~\ref{prop:HS} in the range above; hence $\norm{G_s}_2\le C_0|s|$ for every real $s$, and the restriction above
+ concerns only how the proof of Proposition~\ref{prop:HS} is written (the in-place restrictions are
+ kept).
+\item\label{corr0924:C4} \emph{Later uses now supply both blocks.}
+ (a) Lemma~\ref{lem:commutant} (l.~417) assumed only $\Pm(\one\oplus W')\Pp\in\Stwo$, and
+ Proposition~\ref{prop:uhlmann} (l.~456--457) takes $W'$ as in that lemma together with an
+ implementer $\Gm(\widehat W')$.  The lemma now assumes both blocks.  Its conclusion concerns ``any
+ implementer'' and was true as stated (REF-DEP-CFT-B9); but for a $W'$ with only the first block
+ Hilbert--Schmidt an implementer need not exist (Correction~\ref{corr0924:C1}), so the lemma loses
+ nothing, and Proposition~\ref{prop:uhlmann} now gets its implementer from
+ Corollary~\ref{cor:implementer}.
+ (b) Definition~\ref{def:admissible} (l.~753) now says why $e^{ish'}$, $h'\in\mathcal A'$, has both
+ blocks Hilbert--Schmidt.  As $h'=h'^*$, $\Pp h'\Pm=(\Pm h'\Pp)^*\in\Stwo$, with norm $\nu$.  The
+ Duhamel argument of Proposition~\ref{prop:expansion} $\langle1\rangle3$, with $\Pp$ and $\Pm$
+ interchanged, gives $\Pp e^{ish'}\Pm\in\Stwo$ with the same bound $\nu se^{s\mu}$ for $s\ge0$; for
+ $s<0$ apply it to $-h'\in\mathcal A'$.  So $\Gm(U_s)$ exists by Corollary~\ref{cor:implementer}, and
+ the same covers the use of Lemma~\ref{lem:commutant} for $e^{ith'}$ in Lemma~\ref{lem:wick}
+ (l.~1209).  This is the example in the card's Statement (``$W'=e^{ish'}$ with $h'$ self-adjoint, as
+ in def:admissible, l.~745--754''); REF-DEP-CFT-B9, and REF-DEP-CFT-B10: ``Duhamel gives both blocks
+ of $e^{ish'}$ HS''.
+ (c) The Ruijsenaars/Berezin box (l.~593) spoke of ``the implementer $\Gm(U)$'' for $U$ with
+ $\Pm U\Pp\in\Stwo$; it now also requires $\Pp U\Pm\in\Stwo$.  The document does not rely on that
+ citation (l.~603), and Theorem~\ref{thm:det} already assumes both blocks.
+ Checked and unchanged: Proposition~\ref{prop:vector} uses only $\Gm(\Wt_s)$, whose two blocks are
+ given by Correction~\ref{corr0924:C2}; Theorem~\ref{thm:det}, and through it
+ Corollary~\ref{cor:master}, assume both blocks.
+\item\label{corr0924:C5} \emph{A sign in the box before Corollary~\ref{cor:implementer}} (l.~358).
+ \emph{The document said:} $\Pp U\Pm=-(\Pm U^*\Pp)^*$.  \emph{It now says:}
+ $\Pp U\Pm=(\Pm U^*\Pp)^*$.  \emph{Why:} $(\Pm U^*\Pp)^*=\Pp U\Pm$ for every bounded $U$.  Only the
+ norms of these blocks enter the box, so no argument is affected.  This sign is not a recorded
+ DOCUMENT ERROR.  The card's Statement uses the identity in the form
+ $\Pp\Wt_s\Pm=(\Pm\Wt_{-s}\Pp)^*$, and Correction~\ref{corr0924:C2} relies on it.
+\item\label{corr0924:C6} \emph{Lemma~\ref{lem:H2} for $s<0$} (l.~1400).
+ \emph{The document said:} Lemma~\ref{lem:H2} holds for $|s|$ small, but its proof takes two inputs
+ that are stated only for $s\ge0$: the bound $\norm{V_s}_2\le C_0s$ of Proposition~\ref{prop:HS}
+ (in $\langle1\rangle2$) and Proposition~\ref{prop:expansion} with $h'=0$ (in
+ $\langle1\rangle3\langle2\rangle1$).  Lemma~\ref{lem:H3} $\langle1\rangle1$ uses the lemma at
+ $-s<0$, so the case $s<0$ is needed.
+ \emph{It now says} (l.~1400): for $s<0$ the proof applies with $|s|$ in its bounds, and the two inputs
+ follow from those at $-s>0$ by the group property.
+ \emph{Why:} let $t:=-s>0$.  By \eqref{eq:pushforward} and the group law $\Wt_{-t}=\Wt_t^*$, so
+ \eqref{eq:Gphi} gives $G_{-t}=\Pp-\Wt_t\Pp\Wt_t^*=-\Wt_tG_t\Wt_t^*$.  As $\norm\cdot_2$ is
+ unitarily invariant, (a) $\norm{G_{-t}}_2=\norm{G_t}_2\le C_0t$ in the range of
+ Correction~\ref{corr0924:C3}; and (b)
+ $G_{-t}+tG^{(1)}=-\Wt_t(G_t-tG^{(1)})\Wt_t^*-t(\Wt_tG^{(1)}\Wt_t^*-G^{(1)})$, where
+ $\norm{G_t-tG^{(1)}}_2\le t\epsilon(t)$ (Proposition~\ref{prop:expansion} $\langle1\rangle2$) and
+ $\norm{\Wt_tG^{(1)}\Wt_t^*-G^{(1)}}_2=\norm{G^{(1)}-\Wt_t^*G^{(1)}\Wt_t}_2\le\epsilon(t)$, so
+ $\norm{G_{-t}+tG^{(1)}}_2\le2t\epsilon(t)$.  With $h'=0$ one has $\Wt_s^*V_s=G_s\Pp$
+ (Proposition~\ref{prop:expansion} $\langle1\rangle4$) and $G^{(1)}\Pp=M$ \eqref{eq:PDP}.  So at
+ $s=-t$: $\norm{V_s}_2\le\norm{G_s}_2\le C_0|s|$ by (a), the input of $\langle1\rangle2$; and
+ $\norm{\Wt_s^*V_s-sM}_2=\norm{(G_{-t}+tG^{(1)})\Pp}_2\le2|s|\epsilon(|s|)$ by (b), in place of the
+ bound $s\epsilon(s)$ that the proof of Proposition~\ref{prop:expansion} gives for $s>0$.
+ Theorem~\ref{thm:det} applies at $s<0$: both blocks of $\Wt_s$ are Hilbert--Schmidt
+ (Correction~\ref{corr0924:C2}), $\norm{\Pm\Wt_s\Pp}\le C_0|s|$ by (a), and
+ $\norm{\Pp\Wt_s\Pm}=\norm{\Pm\Wt_t\Pp}\le C_0t$ because $\Pp\Wt_s\Pm=(\Pm\Wt_t\Pp)^*$.  The
+ remaining steps are unchanged, with $|s|$ for $s$ in the bounds of $\langle1\rangle2$ and
+ $\langle1\rangle3\langle2\rangle2$.  Step $\langle1\rangle3\langle2\rangle1$ is corrected in
+ Correction~\ref{corr0924:C9}.  So Lemma~\ref{lem:H3}, which uses Lemma~\ref{lem:H2} at $-s$, stands.  The argument for $s<0$ uses only the group
+ property already used in Correction~\ref{corr0924:C2}.
+\item\label{corr0924:C7} \emph{The second block in Proposition~\ref{prop:expansion}
+ $\langle1\rangle6$} (l.~813--814).
+ \emph{The document said:} ``symmetrically, $\Wt_s\Pp U_s\Pm=(\Pp+G_s^\vee)e^{ish'}\Pm$ with
+ $\norm{G^\vee_s}_2=\norm{\Pp-\Wt_s\Pp\Wt_s^*}_2=\norm{G_{-s}}_2\le C_0s$'', which uses the bound of
+ Proposition~\ref{prop:HS} at the negative time $-s$ without a reason.
+ \emph{It now says:} $\Pp U_s\Pm=\Wt_s\Pp e^{ish'}\Pm+G^\vee_s\Wt_se^{ish'}\Pm$ with
+ $G^\vee_s:=\Pp-\Wt_s\Pp\Wt_s^*=G_{-s}=-\Wt_sG_s\Wt_s^*$, so $\norm{G^\vee_s}_2=\norm{G_s}_2\le
+ C_0s$, and $\norm{\Pp e^{ish'}\Pm}\le s\mu$; hence $\norm{\Pp U_s\Pm}\le s\mu+C_0s\to0$.
+ \emph{Why:} the printed identity does not follow from the definitions: for $h'=0$ it would
+ require $\Pp\Wt_s\Pm=-\Pp\Wt_s^*\Pm$.  The new identity follows from
+ $G^\vee_s\Wt_s=\Pp\Wt_s-\Wt_s\Pp$.  The negative-time bound needs no separate argument:
+ $\Wt_{-s}=\Wt_s^*$ (the group property, as in Correction~\ref{corr0924:C2}) gives
+ $G_{-s}=-\Wt_sG_s\Wt_s^*$, and $\norm\cdot_2$ is unitarily invariant.  Finally
+ $\norm{\Pp(e^{ish'}-\one)\Pm}\le\norm{e^{ish'}-\one}\le s\mu$, as in
+ Proposition~\ref{prop:expansion} $\langle1\rangle3\langle2\rangle3$.  The conclusion of
+ $\langle1\rangle6$ is unchanged.
+\item\label{corr0924:C8} \emph{A reference} (l.~754).  \emph{The document said:}
+ ``Propositions~\ref{prop:uhlmann}, \ref{cor:master} apply''.  \emph{It now says:}
+ ``Proposition~\ref{prop:uhlmann} and Corollary~\ref{cor:master} apply''.  \emph{Why:} the label
+ \texttt{cor:master} is Corollary~\ref{cor:master}, not a proposition.
+\item\label{corr0924:C9} \emph{Lemma~\ref{lem:H2} $\langle1\rangle3\langle2\rangle1$} (l.~1423--1424).
+ \emph{The document said:} $\norm{V_s-sM}_2\le s\epsilon(s)+C_4s^2=o(s)$, by
+ Proposition~\ref{prop:expansion} with $h'=0$.  \emph{It now says:}
+ $\norm{V_s-sM}_2\le\norm{\Wt_s^*V_s-sM}_2+|s|\,\norm{(\Wt_s-\one)M}_2=o(s)$.  \emph{Why:} for
+ $h'=0$, $\mu=\nu=0$ and $C_4=0$, so the printed bound reads $\norm{V_s-sM}_2\le s\epsilon(s)$.
+ Proposition~\ref{prop:expansion} does not give this: \eqref{eq:expansion} bounds
+ $\bigl|\norm{V_s}_2-s\norm M_2\bigr|$, and its proof bounds $\norm{\Wt_s^*V_s-sM}_2\le
+ s\epsilon(s)$.  The two differ by $s(\Wt_s-\one)M$, which is $o(s)$ in $\Stwo$ ($\Wt_s\to\one$
+ strongly, $M\in\Stwo$, dominated convergence as in $\langle2\rangle3$) but is not controlled by
+ $\epsilon(s)$.  The conclusion $o(s)$ is unchanged, and so are Lemmas~\ref{lem:H2} and
+ \ref{lem:H3}.  This point is not recorded on the card \texttt{c11-extension-implementer}.
+\item\label{corr0924:C10} \emph{An attribution in the Ruijsenaars/Berezin box} (l.~606).
+ \emph{The document said:} the hypotheses $\norm V<1$, $\norm A<1$ of Theorem~\ref{thm:det} are
+ satisfied in the application ``by Proposition~\ref{prop:HS}''.  \emph{It now says:} by
+ Proposition~\ref{prop:expansion} $\langle1\rangle6$, which uses the bound of
+ Proposition~\ref{prop:HS}.  \emph{Why:} in the application (Corollary~\ref{cor:varupper}
+ $\langle1\rangle1$) both norms come from Proposition~\ref{prop:expansion} $\langle1\rangle6$, and
+ the bound for $\norm A=\norm{\Pp U_s\Pm}$ is the step corrected in Correction~\ref{corr0924:C7};
+ Proposition~\ref{prop:HS} alone bounds only the block $\Pm\Wt_s\Pp$.  Not recorded on the card.
+\end{enumerate}% end of the list C1--C10
+\paragraph{Checked and not changed.}  Lemma~\ref{lem:ext} states \ref{E1}--\ref{E4} only for
+$s\ge0$ (l.~122), and the restriction is needed, because \ref{E2} does not extend to $s<0$.  At
+$s=-1$, $x=0.9$, $x/(1+sx)=9$ lies outside $[0,2]$, which $\kt_s$ maps onto itself.  For every
+admissible $\beta$, \ref{E2} fails for all $s\le-\frac12$; for $-\frac12<s<0$ it depends on $\beta$
+(with $\beta=1$ on $[0,\frac12]$ it holds for $-\frac13\le s<0$; with the standard smooth step it
+fails for every $s<0$).  Card \texttt{c11-extension-implementer};
+\texttt{numerics/kb-checks-2026-09-23/refb6\_flow.py}.  The document uses \ref{E2}, through
+Proposition~\ref{prop:vector} $\langle1\rangle1$, for $k_s$, $\beta_s$ and $\widetilde\omega_s$,
+which live on the recovery curve $s=\zeta\ge0$ of convention (C4) of \S\ref{sec:conv} (REF-DEP-CFT-B3 on the same card).
 \end{document}

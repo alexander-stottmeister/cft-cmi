@@ -8,11 +8,11 @@
 
 ## Statement
 
-Ball-arithmetic enclosure of the compressed vacuum symbol (5.6e-18 per entry), weighted Sylvester identity plus Schur positivity (the unweighted square-root bound is false), cross term removed: Phi_W \<= Phi^box \<= 1.20 Phi_W a priori, and 60-digit enclosures of the box value of width 0.71% (zeta = 1/120) to 1.01% (zeta = 8/15). The left inequality Phi_W \<= Phi^box is monotonicity of the fidelity under restriction, taken from tail_bound.tex Thm 5.1 \<1>1 (card tail-bound, its lower half; certified_numerics.tex:360-361). Not certified: the 2-D quadrature of the defect matrix and the box cutoff beyond kappa_max. The corrected 60-digit table (section 'Corrections after the referee report', sec:rcr, Table tab:rcr) stands after \\end{document} in rigor/certified_numerics.tex and is therefore not in the compiled PDF, which still shows the superseded Table 1 (tab:cert).
+Ball-arithmetic enclosure of the compressed vacuum symbol (5.6e-18 per entry), weighted Sylvester identity plus Schur positivity (the unweighted square-root bound is false), cross term removed: Phi_W \<= Phi^box \<= 1.20 Phi_W a priori, and 60-digit enclosures of the box value of width 0.71% (zeta = 1/120) to 1.01% (zeta = 8/15). The left inequality Phi_W \<= Phi^box is monotonicity of the fidelity under restriction, taken from tail_bound.tex Thm 5.1 \<1>1 (card tail-bound, its lower half; certified_numerics.tex:360-361). Not certified: the 2-D quadrature of the defect matrix and the box cutoff beyond kappa_max. The corrected 60-digit table (section 'Corrections after the referee report', sec:rcr, Table tab:rcr) is typeset since 2026-09-24, as Sec. 9 and Table 2 of the compiled rigor/certified_numerics.tex (\\end{document} moved from l. 561 to the end of the file, Correction C1); until then it stood after \\end{document} and was not in the compiled PDF. The PDF still prints the superseded Table 1 (tab:cert); the body now marks its box-value brackets as superseded by Table 2 and its brackets for Phi with the box-cutoff term (1.54-2.38%) as extrapolated, not certified (l. 537-538; Corrections C2(d), C4), and the other body statements that contradicted sec:rcr now agree with it (Correction C2).
 
 ## How to verify
 
-numerics/certified/hp.log (output of numerics/certified/cert_tail_hp.py: widths 0.708% to 1.010%, control residual \<= 1.5e-26) and numerics/certified/cert_qbox.py (ball radius 5.62e-18); the source text of rigor/certified_numerics.tex from l. 563 (sec:rcr, Table tab:rcr, certification list (C1)-(C4)), which is NOT in the compiled PDF because \\end{document} stands at l. 561; thm:nocross (l. 312-362) for the a-priori bound, its left inequality from tail_bound.tex Thm 5.1 \<1>1.
+numerics/certified/hp.log (output of numerics/certified/cert_tail_hp.py: widths 0.708% to 1.010%, control residual \<= 1.5e-26) and numerics/certified/cert_qbox.py (ball radius 5.62e-18); rigor/certified_numerics.tex from l. 563 (sec:rcr = Sec. 9 of the compiled PDF, Table tab:rcr = Table 2, certification list (C1)-(C4)); since 2026-09-24 l. 561 is a comment and \\end{document} stands at the end of the file (Correction C1 of the section 'Corrections of 2026-09-24', Sec. 10, l. 675-815; until then sec:rcr was not in the compiled PDF); thm:nocross (l. 312-362) for the a-priori bound, its left inequality from tail_bound.tex Thm 5.1 \<1>1.
 
 ## Evidence
 
@@ -28,7 +28,7 @@ _None recorded._
 
 ## Review
 
-**Review record:** passed 2026-09-23 by REF-DEP-CFT-B3.
+**Review record:** passed 2026-09-24 by REF-CARD-CFT.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

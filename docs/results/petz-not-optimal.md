@@ -8,11 +8,11 @@
 
 ## Statement
 
-Per chirality (Prop. prop:convex(4), rigor/optimality_second_order.tex): the zero-collar geometric compression (s = lambda) is an admissible recovery channel with -log F = Phi(z) = f2 z^2 (1+o(1)), f2 = c/(12 pi^2) (Theorem A, card const-f2), and Phi obeys the proved one-sided bound Phi(zeta) \<= -(1/2) log(1 - 2 f2 zeta^2) = f2 zeta^2 (1 + f2 zeta^2 + O(zeta^4)) (free fermion, for 2 f2 zeta^2 \< 1; rigor/rate_of_remainder.tex thm:global with sec:rrr-f2; card rate-of-remainder), whereas the ordinary Petz map (s = 2 lambda, zeta = 2z) gives Phi(2z) = 4 f2 z^2 (1+o(1)): at leading order the Petz map is worse by the factor 4. Phi is nondecreasing (check_note5_theory.tex prop:mono), so within the geometric family the infimum is attained at the compression, and the range constraint beta(A(BC)) subset A(B) (s >= lambda, i.e. zeta >= z) is active there (Remark rem:active). NOT proved: a two-sided O(z^3) remainder. S8 writes f2 z^2 + O(z^3) and 4 f2 z^2 + O(z^3), but the cited step gives only the leading order, and every lower bound with a rate, e.g. Phi >= f2 zeta^2 (1 - 0.99 zeta + O(zeta^2)), is conditional on a cutoff-uniform remainder (Problem 7.2 of quadratic_limit.tex; rate_of_remainder.tex:772-775 and the status table :795-798). The 2D clause of prop:convex(4) (spatial compression 2 f2 z^2 against Petz 8 f2 z^2, both chiralities) is stated in the proposition (:95-97) but no proof step addresses it; it needs the factorisation into two chiral halves, proved only for the massless Dirac fermion (check_note5_theory.tex prop:chirality; card two-chirality-law), and is not claimed here. Numerical, not proved: on lattices the best quasi-free channel found has E_rec/(-log F_Petz) = 0.270, 0.280, 0.284 at (4,8,2), (8,16,4), (4,12,2) (Table tab:opt and eq. (14), :636; card optimal-channel-structure).
+Per chirality (Prop. prop:convex(4), rigor/optimality_second_order.tex): the zero-collar geometric compression (s = lambda) is an admissible recovery channel with -log F = Phi(z) = f2 z^2 (1+o(1)), f2 = c/(12 pi^2) (Theorem A, card const-f2), and Phi obeys the proved one-sided bound Phi(zeta) \<= -(1/2) log(1 - 2 f2 zeta^2) = f2 zeta^2 (1 + f2 zeta^2 + O(zeta^4)) (free fermion, for 2 f2 zeta^2 \< 1; rigor/rate_of_remainder.tex thm:global with sec:rrr-f2; card rate-of-remainder), whereas the ordinary Petz map (s = 2 lambda, zeta = 2z) gives Phi(2z) = 4 f2 z^2 (1+o(1)): at leading order the Petz map is worse by the factor 4. The one-sided bound Phi(zeta) \<= -(1/2) log(1 - 2 f2 zeta^2) is settled from the documents for zeta \< (4 f2)^{-1/2} = pi sqrt(3) = 5.44; on the rest of 2 f2 zeta^2 \< 1, pi sqrt(3) \<= zeta \< pi sqrt(6) = 7.70, it rests on the conjectural card group-index-zero-large-s (index zero of e^{sK} beyond ||G_s||\_2 \< 1; rate_of_remainder.tex Correction C3 of 2026-09-24, through card rate-of-remainder); the leading-order comparison does not use that range. Phi is nondecreasing (check_note5_theory.tex prop:mono), so within the geometric family the infimum is attained at the compression, and the range constraint beta(A(BC)) subset A(B) (s >= lambda, i.e. zeta >= z) is active there (Remark rem:active). NOT proved: a two-sided O(z^3) remainder. S8 writes f2 z^2 + O(z^3) and 4 f2 z^2 + O(z^3), but the cited step gives only the leading order, and every lower bound with a rate, e.g. Phi >= f2 zeta^2 (1 - 0.99 zeta + O(zeta^2)), is conditional on a cutoff-uniform remainder (Problem 7.2 of quadratic_limit.tex; rate_of_remainder.tex:772-775 and the status table :795-798). The 2D clause of prop:convex(4) (spatial compression 2 f2 z^2 against Petz 8 f2 z^2, both chiralities) is stated in the proposition (:95-97) but no proof step addresses it; it needs the factorisation into two chiral halves, proved only for the massless Dirac fermion (check_note5_theory.tex prop:chirality; card two-chirality-law), and is not claimed here. Numerical, not proved: on lattices the best quasi-free channel found has E_rec/(-log F_Petz) = 0.270, 0.280, 0.284 at (4,8,2), (8,16,4), (4,12,2) (Table tab:opt and eq. (14), :636; card optimal-channel-structure).
 
 ## How to verify
 
-rigor/optimality_second_order.tex Prop. 1.3(4) (prop:convex) step \<1>5 with \<2>1-\<2>4 (:132-152) and Remark 1.4 (rem:active); fidelity_recovered_quasifree.tex Cor. 5.1 (cor:collapse); rigor/check_note5_theory.tex Prop. 8.1 (prop:mono); rigor/rate_of_remainder.tex Thm. thm:global with Sec. sec:rrr-f2 and the summary table :795-798 (the upper bound proved, the lower bounds with a rate conditional); lattice ratios: Table 1 (tab:opt) and eq. (14) of optimality_second_order.tex (:636), key numbers 0.2695, 0.2801, 0.2837 in numerics/optimality/README.md.
+rigor/optimality_second_order.tex Prop. 1.3(4) (prop:convex) step \<1>5 with \<2>1-\<2>4 (:132-152) and Remark 1.4 (rem:active); fidelity_recovered_quasifree.tex Cor. 5.1 (cor:collapse); rigor/check_note5_theory.tex Prop. 8.1 (prop:mono); rigor/rate_of_remainder.tex Thm. thm:global with Sec. sec:rrr-f2 and the summary table :795-798 (the upper bound proved, the lower bounds with a rate conditional) and its Correction C3 (l. 1062-1079: the upper bound's settled range); lattice ratios: Table 1 (tab:opt) and eq. (14) of optimality_second_order.tex (:636), key numbers 0.2695, 0.2801, 0.2837 in numerics/optimality/README.md.
 
 ## Evidence
 
@@ -21,6 +21,7 @@ rigor/optimality_second_order.tex Prop. 1.3(4) (prop:convex) step \<1>5 with \<2
 - [rigor/check_note5_theory.tex](../../rigor/check_note5_theory.tex) — document, at `prop:mono`
 - [rigor/rate_of_remainder.tex](../../rigor/rate_of_remainder.tex) — document, at `thm:global`
 - [rigor/optimality_second_order.tex](../../rigor/optimality_second_order.tex) — document, at `tab:opt`
+- [rigor/rate_of_remainder.tex](../../rigor/rate_of_remainder.tex) — document, at `corr0924:C3`
 
 ## Related claims
 
@@ -28,7 +29,7 @@ _None recorded._
 
 ## Review
 
-**Review record:** passed 2026-09-23 by REF-DEP-CFT-A3.
+**Review record:** passed 2026-09-24 by REF-CARD-ROR.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

@@ -13,7 +13,7 @@
   additivity. Closed in the negative: D(L_0)-invariance via commutator/Nelson (form bound needs beta = 1, sharp).
 - **Bosonic check** (numerics/boson, QN): U(1) current net f_2 = 0.00844(2), s_2 = 0.083(2); c-linearity of the vacuum overlap proved analytically
   at second order (boson and fermion both give (s^2/(96 pi^2)) int k^3 |g_hat|^2). Week-8 decision point resolved: proceed to paper 2.
-- **Kubo-Mori** (rigor/kubo_mori_second_variation.tex, QK): exact identity for unitary orbits with affiliated generator; lower bound with no
+- **Kubo-Mori** (rigor/kubo_mori_second_variation.tex, QK): exact identity for unitary orbits with affiliated generator [corrected 2026-09-24: for a generator affiliated with M this is proved only with Omega in D(A) (prop:unbounded), which the lower bound then also needs, and the expansion then holds under (U_eps), since modular analyticity => (U_eps) is proved only for bounded A; a generator affiliated only with a larger algebra is open (Gap QK2); card km-exact-identity]; lower bound with no
   hypothesis; full expansion under modular analyticity; Kosaki/Petz-Donald route refuted (suprema). Open for Theorem B: T(g_tot) not affiliated
   with A(I) -> Kubo-Mori gauge lemma modulo cl(M'_sa Omega). s_2 = c/12 remains conditional.
 - Free fermion (H2),(H3): rigor/uhlmann_upper_bound.tex Sec. 10 (PA).

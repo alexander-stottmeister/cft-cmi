@@ -57,7 +57,7 @@ cd numerics/optimality_all; $V/bin/python f2_t4_wh.py 0.24 10 10 > f2_t4_h024.ou
 
 ## Review
 
-**Review record:** passed 2026-09-23 by REF-DEP-CFT-A7.
+**Review record:** passed 2026-09-24 by REF-CARD-CFT.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

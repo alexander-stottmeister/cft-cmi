@@ -8,11 +8,11 @@
 
 ## Statement
 
-On the half-filled hopping chain (Q_ij = sin(pi(i-j)/2)/(pi(i-j))) with (L_A,L_B,L_C) = (4,8,2), (4,12,2), (4,16,2), the Moore-Penrose choice T := Q_AB^+ Q_AC satisfies Q_AB T = Q_AC to residual 3.6e-17, 1.8e-17, 1.8e-17 (round-off; the tex quotes 1.4e-17, 7.0e-17, 2.3e-17), ||T|| = 0.5524, 0.3779, 0.2894 \< 1 (so T\*T \<= 1), and T\* Q_BB T \<= Q_CC \<= 1 - T\*(1 - Q_BB) T with both margins (smallest eigenvalues) 0.1216, 0.1510, 0.1630 (tex: 0.552, 0.378, 0.289 and 0.122, 0.151, 0.163), as computed by numerics/kb-checks-2026-09-23/tcond_check.py (numpy pinv; REF-DEP-CFT-A1's reproduction). Numerical; no continuum or general-geometry statement: at (6,12,3) and (8,16,4) the same T violates (Tcond) (margins -0.133 and -0.464, ||T|| = 0.80 and 1.29; tcond_check_extra.out). The repository's numerics/optimality/lower_bound.py does not compute this T: it optimises (T, Z_c) by Powell from T = 0, and lb.log prints ||T|| = 0.5503, 0.3776, 0.2851 of that optimised T and no residual.
+On the half-filled hopping chain (Q_ij = sin(pi(i-j)/2)/(pi(i-j))) with (L_A,L_B,L_C) = (4,8,2), (4,12,2), (4,16,2), the Moore-Penrose choice T := Q_AB^+ Q_AC satisfies Q_AB T = Q_AC to residual 3.6e-17, 1.8e-17, 1.8e-17 (round-off; the tex now quotes 3.6e-17, 1.8e-17, 1.8e-17 and credits tcond_check.py, rigor/optimality_second_order.tex:439, :441, corrected 2026-09-24, Correction C1; until then it quoted 1.4e-17, 7.0e-17, 2.3e-17, which no script reproduces), ||T|| = 0.5524, 0.3779, 0.2894 \< 1 (so T\*T \<= 1), and T\* Q_BB T \<= Q_CC \<= 1 - T\*(1 - Q_BB) T with both margins (smallest eigenvalues) 0.1216, 0.1510, 0.1630 (tex: 0.552, 0.378, 0.289 and 0.122, 0.151, 0.163), as computed by numerics/kb-checks-2026-09-23/tcond_check.py (numpy pinv; REF-DEP-CFT-A1's reproduction). Numerical; no continuum or general-geometry statement: at (6,12,3) and (8,16,4) the same T violates (Tcond) (margins -0.133 and -0.464, ||T|| = 0.80 and 1.29; tcond_check_extra.out). The repository's numerics/optimality/lower_bound.py does not compute this T: it optimises (T, Z_c) by Powell from T = 0, and lb.log prints ||T|| = 0.5503, 0.3776, 0.2851 of that optimised T and no residual; the tex, which until 2026-09-24 credited lower_bound.py with the Moore-Penrose check, now attributes to it only that direct minimisation (:445, Correction C1).
 
 ## How to verify
 
-From the cft_cmi root: python3 numerics/kb-checks-2026-09-23/tcond_check.py (needs numpy) and compare its printout with tcond_check.out in the same folder. Compare with the verdict box after Prop. prop:AC-zero, rigor/optimality_second_order.tex:437-443.
+From the cft_cmi root: python3 numerics/kb-checks-2026-09-23/tcond_check.py (needs numpy) and compare its printout with tcond_check.out in the same folder. Compare with the verdict box after Prop. prop:AC-zero, rigor/optimality_second_order.tex:437-443, and with its Correction C1 (Sec. 7, l. 797-819).
 
 ## Evidence
 
@@ -28,7 +28,7 @@ _None recorded._
 
 ## Review
 
-**Review record:** passed 2026-09-24 by REF-PUB-1.
+**Review record:** passed 2026-09-24 by REF-CARD-CFT.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

@@ -393,13 +393,13 @@ Write \(p=\xi_0-\xi>0\), \(p'=\xi'-\xi_0>0\), \(m=\xi-\xi'=-(p+p')<0\), \(n=\tfr
 \]
 The vanishing of the \(O(s)\) coefficient of \(m^2\) is the cancellation between the Jacobian term \(\tfrac12\beta_0'(p'-p)g\) and the coordinate correction \(-\tfrac12\beta_0'p^2\partial_pg+\tfrac12\beta_0'p'^2\partial_{p'}g=\tfrac12\beta_0'\frac{pp'(p-p')}{(p+p')^2}\); it reflects M\"obius covariance (\(\beta_0'\) is not a conformal invariant).  The \(m^2\) coefficient of the \(O(s^2)\) term is \(\int_{-1/2}^{1/2}(\tfrac14-n^2)^2dn=\tfrac1{30}\).  Inserting \(c_2=-\frac{s^2\beta_0^2}{30L^2}\) gives \(\operatorname{Im}J=4\pi|c_2|\kappa^{-3}+O(\kappa^{-5})\) and \eqref{eq:tail}; the sign is the one required by \(\widetilde Q_s\ge0\).  Finally \(\beta_0/L=a/(a+L)\), so \(s\beta_0/L=\zeta\).
 \end{proof}
-\begin{remark}[Status of the proof]The argument above is a sketch.  It is superseded by \texttt{rigor/tail\_bound.tex} (Theorem~4.2), which proves from the exact closed form of the first-order kernel that the second-order tail \(\Sigma(\kappa_c)\) beyond the window satisfies \(|\Sigma(\kappa_c)-\zeta^2/(15\kappa_c^2)|\le0.46\,\zeta^2\kappa_c^{-3}+0.051\,\zeta(1+\kappa_c)e^{-\kappa_c}\), re-derives \(c_2=-\zeta^2/30\), and proves the unconditional full-tail bound \(0\le\Phi-\Phi_W\le0.173\,\zeta^2/\kappa_c+0.88\,\zeta^2/\kappa_c^2\) for \(\kappa_c\ge\max\{10,\,2\log(1/\zeta)+2\log(1+\kappa_c)+3\}\) (Bures-angle triangle inequality with an intermediate product state and a canonical-purification bound controlled by positivity alone).  The tail correction of Section~\ref{sec:numerics} is therefore a best estimate.  Certified statements (\texttt{rigor/certified\_numerics.tex}, refereed): the compressed vacuum symbol \(Q_N\) is enclosed to \(5.6\times10^{-18}\) per entry by ball arithmetic; the windowed value obeys the a priori bracket \(\Phi_W\le\Phi^{\rm box}\le1.20\,\Phi_W\); and with the weighted Sylvester identity in place of the false unweighted square-root bound, the 60-digit evaluation gives enclosure widths \(0.71\%\) (\(\zeta=1/120\)) to \(1.01\%\) (\(\zeta=8/15\)) for the box value at \(\kappa_c=25.3\).  Not yet certified: the two-dimensional quadrature of \(\widehat D\) and the box cutoff beyond \(\kappa_{\max}\), so these enclosures refer to the compressed problem; the \(\log^{-2}(1/\zeta)\) rate claimed in Corollary~\ref{cor:structure} is not reachable by this route (the tail bound needs \(\kappa_c>2\log(1/\zeta)\), a cubic remainder bound of the compressed curve needs \(\kappa_c<\log(1/\zeta)\)), and should be regarded as heuristic.\end{remark}
+\begin{remark}[Status of the proof]The argument above is a sketch.  It is superseded by \texttt{rigor/tail\_bound.tex} (Theorem~4.2), which proves from the exact closed form of the first-order kernel that the second-order tail \(\Sigma(\kappa_c)\) beyond the window satisfies \(|\Sigma(\kappa_c)-\zeta^2/(15\kappa_c^2)|\le C_2\,\zeta^2\kappa_c^{-3}+C_1\,\zeta(1+\kappa_c)e^{-\kappa_c}\) with finite \(C_1,C_2\), re-derives \(c_2=-\zeta^2/30\), and proves the shape of the full-tail bound, \(0\le\Phi-\Phi_W\le C\,\zeta^2/\kappa_c+C'\,\zeta^2/\kappa_c^2\) with finite \(C,C'\) whenever \(\Phi\le f\zeta^2\), for \(\kappa_c\ge\max\{10,\,2\log(1/\zeta)+2\log(1+\kappa_c)+3\}\) (Bures-angle triangle inequality with an intermediate product state and a canonical-purification bound controlled by positivity alone).  The explicit constants \(C_2\le0.47\), \(C_1\le0.051\) and \(0\le\Phi-\Phi_W\le0.173\,\zeta^2/\kappa_c+0.88\,\zeta^2/\kappa_c^2\) are not proved: they rest on the numerical inputs \(A_1\le2.0\) and \(A_3\le0.0374\) (\(0.036\), \(0.46\) before \texttt{rigor/tail\_bound.tex} Correction C10), evaluated in double precision and not certified, and \(f=0.0085\) (see Correction~C1 at the end).  The tail correction of Section~\ref{sec:numerics} is therefore a best estimate.  Certified statements (\texttt{rigor/certified\_numerics.tex}, refereed): the compressed vacuum symbol \(Q_N\) is enclosed to \(5.6\times10^{-18}\) per entry by ball arithmetic; the windowed value obeys the a priori bracket \(\Phi_W\le\Phi^{\rm box}\le1.20\,\Phi_W\), modulo the \(\widehat D\) quadrature and the box cutoff and with the measured constants \(c_0\in[18,42]\), \(c_1\le1.011\) of its hypothesis (Correction~C3 at the end); and with the weighted Sylvester identity in place of the false unweighted square-root bound, the 60-digit evaluation gives enclosure widths \(0.71\%\) (\(\zeta=1/120\)) to \(1.01\%\) (\(\zeta=8/15\)) for the box value at \(\kappa_c=25.3\).  Not yet certified: the two-dimensional quadrature of \(\widehat D\) and the box cutoff beyond \(\kappa_{\max}\), so these enclosures refer to the compressed problem; the \(\log^{-2}(1/\zeta)\) rate claimed in Corollary~\ref{cor:structure} is not reachable by this route (the tail bound needs \(\kappa_c>2\log(1/\zeta)\), a cubic remainder bound of the compressed curve needs \(\kappa_c<\log(1/\zeta)\)), and should be regarded as heuristic.\end{remark}
 
 The tail \eqref{eq:tail} was confirmed numerically by direct quadrature of \eqref{eq:J-def} on a mesh graded towards the corner: for \(a=1\), \(L=2\), \(s=0.2\) the ratio of the computed density to \(\frac2{15}\zeta^2\kappa^{-3}\) is \(1.11,\,1.05,\,1.024,\,1.010\) at \(\kappa=20,30,40,60\) (values re-evaluated in the verification), approaching \(1\) from above, and the density scales as \(s^2\) between \(s=0.1\) and \(s=0.2\) (ratio \(4.000\)).  For the first-order kernel \(\frac sLg\) alone the diagonal drops from \(2.4\times10^{-4}\) at \(\kappa=4\) to \(5.7\times10^{-9}\) at \(\kappa=16\), i.e.\ like \(e^{-0.9\kappa}\), and is below the quadrature floor beyond.
 
 \begin{corollary}[Structure of the small-\(\zeta\) expansion]\label{cor:structure}
-The second-order coefficient of \(-\log\Fid(\zeta)\) is finite: it is given by \eqref{eq:qfi} with \(D\) the first-order defect \(\partial_s\delta_s|_{s=0}\), whose modular matrix decays exponentially so that the weight \eqref{eq:qfi-weight} is harmless.  \emph{Corrected statement (2026-09-09, \texttt{rigor/rate\_of\_remainder.tex}, refereed).}  The expansion proceeds in integer powers, \(-\log\Fid(\zeta)=f_2\zeta^2\,[1+c_3\zeta+c_4\zeta^2+O(\zeta^3)]\) with \(c_3=-0.99(1)\) and \(c_4=+0.9(1)\) per fermion component; the remainder after the quadratic term is negative and of order \(\zeta^3\).  An earlier version of this corollary claimed a \(\log^{-2}(1/\zeta)\) correction from the saturated ultraviolet modes above \(\kappa_*(\zeta)\); that term double-counted a contribution already contained in \(\frac{\zeta^2}8\,(g_B-g_B^{(\kappa_*)})\), and it is refuted by the global bound \(-\log\Fid\le-\frac12\log(1-2f_2\zeta^2)=f_2\zeta^2(1+f_2\zeta^2+O(\zeta^4))\), obtained from the Uhlmann--Bogoliubov construction with the flow extension (for which \(\|V_s\|_2^2\le s^2\|P_-DP_+\|_2^2\) exactly and \(\det(1-V_s^*V_s)\) is even in \(s\)), which admits no cubic term, together with the numerically established \(c_3<0\).  The collar-regularized states \(\widetilde\omega_{\eps}\) do not show this: for \(\eps>0\) the defect kernel is smooth up to the edges of the two-interval region and all modular matrix elements decay exponentially, so the collar acts as a UV regulator of the recovery problem.
-  The estimate of the remainder is heuristic (mode by mode); finiteness of the second-order coefficient uses in addition the exponential decay of the off-diagonal first-order matrix elements, which holds because the first-order modular kernel is even under \((p,p')\to(-p,-p')\) (\texttt{rigor/check\_note5\_theory.tex}); \texttt{rigor/quadratic\_limit.tex} proves unconditionally \(\liminf_{\zeta\to0}\Phi/\zeta^2\ge g_B/8\) and \(\Phi(\zeta)\le\tau/(1-\tau)\) with \(\tau=\frac r{2\pi}\log(1+\zeta)\), and \texttt{rigor/uhlmann\_upper\_bound.tex} proves \(\limsup\Phi/\zeta^2\le g_B/8\) through Uhlmann's inequality with a Bogoliubov extension of the compression map; hence \(\lim_{\zeta\to0}\Phi/\zeta^2=g_B/8\) is a theorem, while the remainder is \(c_3f_2\zeta^3+O(\zeta^4)\) with \(c_3=-0.99(1)\) (\texttt{rigor/rate\_of\_remainder.tex}); the \(\log^{-2}\) rate stated in an earlier version was wrong.
+The second-order coefficient of \(-\log\Fid(\zeta)\) is finite: it is given by \eqref{eq:qfi} with \(D\) the first-order defect \(\partial_s\delta_s|_{s=0}\), whose modular matrix decays exponentially so that the weight \eqref{eq:qfi-weight} is harmless.  \emph{Corrected statement (2026-09-09, \texttt{rigor/rate\_of\_remainder.tex}, refereed).}  Heuristic and numerical, not proved (Correction~C2 at the end): the expansion is expected to proceed in integer powers, \(-\log\Fid(\zeta)=f_2\zeta^2\,[1+c_3\zeta+c_4\zeta^2+O(\zeta^3)]\), with the computed values \(c_3=-0.99(1)\) and \(c_4=+0.9(1)\) per fermion component, i.e.\ with a negative remainder of order \(\zeta^3\) after the quadratic term; proved is only \(\limsup_{\zeta\to0}(\Phi-f_2\zeta^2)/\zeta^3\le0\), from the global bound below.  An earlier version of this corollary claimed a \(\log^{-2}(1/\zeta)\) correction from the saturated ultraviolet modes above \(\kappa_*(\zeta)\); that term double-counted a contribution already contained in \(\frac{\zeta^2}8\,(g_B-g_B^{(\kappa_*)})\), and it is refuted by the global bound \(-\log\Fid\le-\frac12\log(1-2f_2\zeta^2)=f_2\zeta^2(1+f_2\zeta^2+O(\zeta^4))\), obtained from the Uhlmann--Bogoliubov construction with the flow extension (for which \(\|V_s\|_2^2\le s^2\|P_-DP_+\|_2^2\) exactly and \(\det(1-V_s^*V_s)\) is even in \(s\)), which admits no cubic term, together with the numerically established \(c_3<0\).  The collar-regularized states \(\widetilde\omega_{\eps}\) do not show this: for \(\eps>0\) the defect kernel is smooth up to the edges of the two-interval region and all modular matrix elements decay exponentially, so the collar acts as a UV regulator of the recovery problem.
+  The estimate of the remainder is heuristic (mode by mode); finiteness of the second-order coefficient uses in addition the exponential decay of the off-diagonal first-order matrix elements, which holds because the first-order modular kernel is even under \((p,p')\to(-p,-p')\) (\texttt{rigor/check\_note5\_theory.tex}); \texttt{rigor/quadratic\_limit.tex} proves unconditionally \(\liminf_{\zeta\to0}\Phi/\zeta^2\ge g_B/8\) and \(\Phi(\zeta)\le\tau/(1-\tau)\) with \(\tau=\frac r{2\pi}\log(1+\zeta)\), and \texttt{rigor/uhlmann\_upper\_bound.tex} proves \(\limsup\Phi/\zeta^2\le g_B/8\) through Uhlmann's inequality with a Bogoliubov extension of the compression map; hence \(\lim_{\zeta\to0}\Phi/\zeta^2=g_B/8\) is a theorem, while the remainder is, heuristically and numerically, \(c_3f_2\zeta^3+O(\zeta^4)\) with the computed \(c_3=-0.99(1)\) (\texttt{rigor/rate\_of\_remainder.tex}; proved is only \(\limsup(\Phi-f_2\zeta^2)/\zeta^3\le0\), Correction~C2 at the end); the \(\log^{-2}\) rate stated in an earlier version was wrong.
 \end{corollary}
 
 \section{All rotated Petz maps at once}\label{sec:rotated}
@@ -487,4 +487,73 @@ For the free chiral fermion the fidelity between the vacuum and the state recove
 Open problems: (i) a closed form for \(f_2\), for which the modular-flow representation \(\sum_{ik}|D_{ik}|^2/N_{ik}=\int dt\,\mathrm{sech}(\pi t)\,\Tr[\widehat D e^{iKt}\widehat De^{-iKt}]/2\), \(\widehat D=(Q(1-Q))^{-1/4}D(Q(1-Q))^{-1/4}\), combined with the geometric modular flow and the analytic continuation of the kernel to \(\operatorname{Im}\xi=\pm\pi/2\), is the natural starting point; (ii) the large-\(\zeta\) asymptotics of \(\Phi\), which should reproduce the \(-\frac c9\log(1-\eta)\) behaviour reported in \cite{VardhanWeiZou}; (iii) whether \(f_2/c\) is universal beyond free fields, which requires the fidelity of two non-quasi-free states of a conformal net and is where the operator-algebraic formulation of the preceding notes should be tested next; (iv) an optimality statement: the geometric compression is the best rotated Petz map, but it is not known whether any channel \(B\to BC\) does better than \(\Phi(z)\).
 
 \input{fidelity_bib}
+
+\section*{Corrections of 2026-09-24}
+\addcontentsline{toc}{section}{Corrections of 2026-09-24}
+{\sloppy
+These corrections implement the knowledge-base cards \texttt{tail-bound} (C1),
+\texttt{rate-of-remainder} with \texttt{remainder-c3-c4-values} (C2) and \texttt{certified-numerics}
+(C3) of project \texttt{cft\_cmi},
+whose refereed Statements are the specification.  C1 follows \texttt{rigor/tail\_bound.tex} as
+corrected on the same day (its Corrections C1--C4, C8 and C10).  Each changed line (396, 401, 402) was replaced by
+exactly one line, so line numbers cited elsewhere still point to the same text; C2 and C3 were added
+in a third round.
+
+\paragraph{C1. The status of the tail-bound constants (Remark ``Status of the proof'', line~396).}
+\emph{Before:} \texttt{rigor/tail\_bound.tex} ``proves'' $|\Sigma(\kappa_c)-\zeta^2/(15\kappa_c^2)|
+\le0.46\,\zeta^2\kappa_c^{-3}+0.051\,\zeta(1+\kappa_c)e^{-\kappa_c}$ and ``the unconditional
+full-tail bound'' $0\le\Phi-\Phi_W\le0.173\,\zeta^2/\kappa_c+0.88\,\zeta^2/\kappa_c^2$.
+\emph{Now:} it proves the shape: $|\Sigma(\kappa_c)-\zeta^2/(15\kappa_c^2)|\le C_2\zeta^2\kappa_c^{-3}
++C_1\zeta(1+\kappa_c)e^{-\kappa_c}$ with finite $C_1=A_1/(4\pi^2)$ and $C_2=4\pi A_3$, and
+$\Phi-\Phi_W\le C\zeta^2/\kappa_c+C'\zeta^2/\kappa_c^2$ with finite $C,C'$ whenever $\Phi\le f\zeta^2$,
+on the same region of $\kappa_c$.  The explicit constants $C_2\le0.47$, $C_1\le0.051$, $0.173$ and
+$0.88$ rest on numerical inputs and are not proved.
+\emph{Why:} the explicit values come from $A_1\le2.0$ and $A_3\le0.0374$ ($0.036$, and $C_2\le0.46$, before \texttt{rigor/tail\_bound.tex} Correction C10), which are double-precision
+and finite-difference evaluations, not certified, and from $f=0.0085$, a numerical input read off
+tabulated values (\texttt{rigor/tail\_bound.tex}, Corrections C3 and C4).  Given these inputs, the
+bound $0.173\,\zeta^2/\kappa_c+0.88\,\zeta^2/\kappa_c^2$ was checked in double precision over the
+admissible region: the corrected chain of that document stays at most $0.98405$ of it, the maximum
+being at the corner $(\zeta,\kappa_c)=(11e^{-3.5},10)$
+(\texttt{numerics/kb-checks-2026-09-24/refb10\_tail\_sup\_c2.py}, output
+\texttt{refb10\_tail\_sup\_c2.out}; with the former $C_2\le0.46$ the value was $0.98019$,
+\texttt{numerics/kb-checks-2026-09-23/refb10\_tail\_sup.py}, output \texttt{refb10\_tail\_sup.out}).
+That is a numerical verification given the inputs, not an analytic proof.  Knowledge-base card
+\texttt{tail-bound}, title and Statement: ``shape proved; explicit constants 0.173, 0.88 rest on
+numerical inputs'' and ``(b) EXPLICIT CONSTANTS, via numerical inputs: $A_1\le2.0$ and
+$A_3\le0.036$, i.e.\ $C_1\le0.051$ and $C_2\le0.46$ \dots\ (uncertified double-precision and
+finite-difference evaluations), and $f=0.0085$'' (the card's values before 2026-09-24; per
+\texttt{rigor/tail\_bound.tex} Correction C10 they are $A_3\le0.0374$ and $C_2\le0.47$, the others
+unchanged).  The error bars of \texttt{rigor/tail\_bound.tex}
+built on these constants are, for the same reason, no longer called certified there (its
+Correction C8).
+
+\paragraph{C2. The integer-power expansion and the values of $c_3$, $c_4$ (Corollary~\ref{cor:structure},
+lines~401 and~402).}
+\emph{Before:} ``The expansion proceeds in integer powers,
+$-\log\Fid(\zeta)=f_2\zeta^2[1+c_3\zeta+c_4\zeta^2+O(\zeta^3)]$ with $c_3=-0.99(1)$ and
+$c_4=+0.9(1)$ per fermion component; the remainder after the quadratic term is negative and of order
+$\zeta^3$'' (line~401), and ``the remainder is $c_3f_2\zeta^3+O(\zeta^4)$ with $c_3=-0.99(1)$''
+(line~402).
+\emph{Now:} both are marked heuristic and numerical.  What is proved is
+$\limsup_{\zeta\to0}(\Phi-f_2\zeta^2)/\zeta^3\le0$, from the global bound
+$\Phi\le-\frac12\log(1-2f_2\zeta^2)$ quoted in the same corollary.
+\emph{Why:} card \texttt{rate-of-remainder}, Statement: ``NOT claimed here: that Phi has an
+expansion in integer powers, and the values c3 = -0.99(1), c4 = +0.9(1) (card
+remainder-c3-c4-values, heuristic)''.  Card \texttt{remainder-c3-c4-values} (status heuristic): the
+scripts that produce the values are not in the repository, so the numbers cannot be re-run; the
+existence of the expansion is not proved; and the lower side is conditional on a cutoff-uniform
+cubic constant that is only measured.
+\paragraph{C3. The a priori box bracket (Remark ``Status of the proof'', line~396; added in a third
+round).}
+\emph{Before:} among the ``Certified statements'', ``the windowed value obeys the a priori bracket
+$\Phi_W\le\Phi^{\rm box}\le1.20\,\Phi_W$''.
+\emph{Now:} the bracket holds modulo the $\widehat D$ quadrature and the box cutoff, and with the
+measured constants $c_0\in[18,42]$ and $c_1\le1.011$ of its hypothesis.
+\emph{Why:} \texttt{rigor/certified\_numerics.tex} \S9 (RCr), certification list, items (C1) and
+(C2): only the entrywise enclosure of the box symbol is fully rigorous, and the bound
+$\Phi^{\rm box}\le1.20\,\Phi_W$ is ``rigorous modulo the quadrature of $\widehat D$ and the finite
+dimensionality of the box'', obtained ``with the measured constants $c_0,c_1$''; its Correction C2:
+$c_1\le1.011$ but $c_0\in[18,42]$.  The same qualification was made in \texttt{open\_problems\_plan.tex},
+line~209.
+\par}
 \end{document}
