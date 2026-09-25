@@ -1,12 +1,12 @@
 % sec_outlook.tex -- Sources: rigor/phase2b_brief.md (tracks RR, RC), open_problems_plan.tex (O8-O11).
 \paragraph{Optimality of the Petz map.}  \Cref{thm:B} computes the error of \emph{the} zero-collar Petz
-recovery.  It does not say that no recovery channel does better.  The natural conjecture is that the
+recovery.  It does not say that no recovery channel does better.  A natural first conjecture was that the
 coefficient $c/(12\pi^{2})$ is optimal among all channels $\cA(AB)\to\cA(ABC)$ preserving $\omega|_{\cA(AB)}$,
-and that the rotated Petz family of \cite{FHSW} attains it at rotation parameter $t=0$.  Note~7 already
+and that the rotated Petz family of \cite{FHSW} attains it at rotation parameter $t=0$.  The second half is false: for one chirality the geometric compression beats the ordinary Petz map by a factor $4$ at leading order; and the first is contradicted numerically, since a Bogoliubov rotation inside $B$ lowers the compression's second-order error \cite{Paper1}.  Note~7 already
 computes the rotated family in the present normalisation: with $\zeta_{t}=z(1+e^{-2\pi t})$, the chiral
-error is $\Phi_{c}(\zeta_{t})$, so within the family the minimum is at $t=0$ and the two-dimensional
+error is $\Phi_{c}(\zeta_{t})$ (proved for the free fermion; for a general net the collapse onto one function is a conjecture), which is nonincreasing in $t$, so for one chirality no member with $t>0$ is worse than $t=0$, and at leading order in $z$ each is strictly better (the geometric compression, the limit $t\to\infty$, is at least as good as every member), while the two-dimensional
 combination $\Phi_{c}(z(1+e^{-\pi\lambda}))+\Phi_{\bar c}(z(1+e^{\pi\lambda}))$ is even in $\lambda$ with a
-minimum at $\lambda=0$, as observed numerically on the lattice by Vardhan--Wei--Zou \cite{VWZ}.  A genuine
+minimum at $\lambda=0$, observed numerically on the lattice by Vardhan--Wei--Zou \cite{VWZ} and proved only at leading order in the cross ratio.  A genuine
 optimality statement would need a lower bound over all recovery channels, presumably from the strengthened
 data-processing inequality of \cite{FHSW}.
 

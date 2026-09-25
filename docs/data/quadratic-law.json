@@ -1,7 +1,7 @@
 {
  "generator": "tools/build_site_data.py",
  "module": "quadratic-law",
- "note": "Phi(zeta) = -log F(omega, omega-tilde) for the zero-collar compression, free chiral fermion, c = 1.  Records tagged 'certified' are rigorous windowed lower bounds; 'numerical' records are tail-corrected values or extrapolations.  Entries of fidelity_table_largezeta.tex are stored already divided by the table's 10^2 display factor.",
+ "note": "Phi(zeta) = -log F(omega, omega-tilde) for the zero-collar compression, free chiral fermion, c = 1.  Records tagged 'certified' are lower bounds by construction (windowed values; the D-hat quadrature behind them is not certified); 'numerical' records are tail-corrected values or extrapolations.  Entries of fidelity_table_largezeta.tex are stored already divided by the table's 10^2 display factor.",
  "records": [
   {
    "value": 5.816551e-07,
@@ -985,7 +985,7 @@
    "series": "lz_bracket_lo",
    "x": 1.067,
    "kappa_c": 39.1,
-   "label": "certified lower end of the bracket, kappa_c=39.1"
+   "label": "rigorous lower end of the bracket, kappa_c=39.1"
   },
   {
    "value": 0.00441,
@@ -1089,7 +1089,7 @@
    "series": "lz_bracket_lo",
    "x": 2.133,
    "kappa_c": 39.1,
-   "label": "certified lower end of the bracket, kappa_c=39.1"
+   "label": "rigorous lower end of the bracket, kappa_c=39.1"
   },
   {
    "value": 0.010797,
@@ -1193,7 +1193,7 @@
    "series": "lz_bracket_lo",
    "x": 4.267,
    "kappa_c": 39.1,
-   "label": "certified lower end of the bracket, kappa_c=39.1"
+   "label": "rigorous lower end of the bracket, kappa_c=39.1"
   },
   {
    "value": 0.022414,
@@ -1309,7 +1309,7 @@
    "series": "lz_bracket_lo",
    "x": 8.533,
    "kappa_c": 43.8,
-   "label": "certified lower end of the bracket, kappa_c=43.8"
+   "label": "rigorous lower end of the bracket, kappa_c=43.8"
   },
   {
    "value": 0.03974,
@@ -1413,7 +1413,7 @@
    "series": "lz_bracket_lo",
    "x": 17.067,
    "kappa_c": 39.1,
-   "label": "certified lower end of the bracket, kappa_c=39.1"
+   "label": "rigorous lower end of the bracket, kappa_c=39.1"
   },
   {
    "value": 0.064121,

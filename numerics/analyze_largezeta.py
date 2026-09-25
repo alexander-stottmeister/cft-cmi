@@ -54,7 +54,7 @@ def lat_slope(z):
 
 def report():
     rec = load(); zs = sorted(set(r["zeta"] for r in rec))
-    out = ["# PZ (2026-09-08): certified continuum Phi(zeta) = -log F(rho_ABC, rho~_ABC) for zeta >= 1.",
+    out = ["# PZ (2026-09-08): continuum Phi(zeta) = -log F(rho_ABC, rho~_ABC) for zeta >= 1: rigorous lower bounds Phi_sub, extrapolated estimates Phi_inf (not certified; label corrected 2026-09-24).",
            "# a=1, L=2, zeta = s/3.  Phi_sub = spectral-window (eps < w < 1-eps) sub-compression = rigorous LOWER bound.",
            "# kappa_c = log((1-eps)/eps) (clipped to kappa_max).  Pipeline run_largezeta_cert.py, cross-checked",
            "# against fidelity_hp.py/fidelity_flint.py to 7 digits at (Lam,kmax)=(60,30) and (120,45).", "",
@@ -92,7 +92,7 @@ def vu(v, u):
 
 def certify():
     out, best, zs = report()
-    out += ["", "## 4. certified brackets  [Phi_sub(largest window), Phi_inf]  and best estimate",
+    out += ["", "## 4. brackets  [Phi_sub(largest window), Phi_inf]  (lower end rigorous; upper end extrapolated, not a bound)  and best estimate",
             "  zeta     lower=Phi_sub(kc_max)   Phi_inf estimates (free,p1,p2,R1,R2)                      best +- unc      rel"]
     cen = {}
     for z in zs:
@@ -122,11 +122,11 @@ def certify():
     # ---- LaTeX table -------------------------------------------------------
     kcs = sorted(set(round(r["kc"], 1) for r in load() if r["Lam"] == 120 and r["kmax"] == 45))
     L = [r"\begin{table}[ht]\centering\small",
-         r"\caption{Certified continuum \(\Phi(\zeta)=-\log\Fid(\rho_{ABC},\tilde\rho_{ABC})\) at large cross ratio "
+         r"\caption{Continuum \(\Phi(\zeta)=-\log\Fid(\rho_{ABC},\tilde\rho_{ABC})\) at large cross ratio: rigorous lower bounds and uncertified extrapolated estimates "
          r"(\(a=1\), \(L=2\), \(\zeta=s/3\); box \(\Lambda=120\), \(\kappa_{\max}=45\)). \(\Phi^{\rm sub}\) in the spectral "
          r"window \(\eps<w<1-\eps\), \(\kappa_c=\log(1/\eps)\), is a rigorous lower bound; the small-\(\zeta\) tail "
          r"\(\zeta^2/(15\kappa_c^2)\) is NOT valid here. \(\Phi_\infty\) is the \(\kappa_c\to\infty\) extrapolation "
-         r"\(\Phi^{\rm sub}=\Phi_\infty-b\,\kappa_c^{-p}\) (\(p\) free); the bracket is "
+         r"\(\Phi^{\rm sub}=\Phi_\infty-b\,\kappa_c^{-p}\) (\(p\) free), an estimate and not a bound; the bracket is "
          r"\([\Phi^{\rm sub}(\kappa_c^{\max}),\Phi_\infty]\). Last columns: local log-slope and the lattice value "
          r"(O7a, \(c=1\) hopping chain) interpolated at the same \(\zeta\).}\label{tab:largezeta}",
          r"\begin{tabular}{r" + "r"*len(kcs) + r" r r r r}\toprule",

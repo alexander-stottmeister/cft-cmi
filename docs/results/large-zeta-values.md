@@ -8,7 +8,7 @@
 
 ## Statement
 
-Phi(1.07) = 4.410(20)e-3, Phi(2.13) = 1.0797(50)e-2, Phi(4.27) = 2.241(14)e-2, Phi(8.53) = 3.974(72)e-2, Phi(17.1) = 6.41(43)e-2; the window exponent drifts from 2.5 to 1.2 and the local log-slopes from 1.29 to 0.69, matching the lattice exponents.
+Phi(1.07) = 4.410(20)e-3, Phi(2.13) = 1.0797(50)e-2, Phi(4.27) = 2.241(14)e-2, Phi(8.53) = 3.974(72)e-2, Phi(17.1) = 6.41(43)e-2 (best estimates: kappa_c -> infinity extrapolations above the rigorous windowed lower bounds Phi_sub, with estimated, not certified, uncertainties); the window exponent drifts from 2.5 to 1.2 and the local log-slopes from 1.29 to 0.69, matching the lattice exponents.
 
 ## How to verify
 
@@ -25,7 +25,7 @@ _None recorded._
 
 ## Review
 
-**Review record:** passed 2026-09-23 by REF-DEP-CFT-B1.
+**Review record:** passed 2026-09-24 by REF-CARD-OVER.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

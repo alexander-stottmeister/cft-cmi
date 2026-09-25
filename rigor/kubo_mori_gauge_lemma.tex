@@ -30,7 +30,7 @@ $\cM$.  The route is:
 \item choose an interval $K\supseteq I$ that also carries the implementer, so that $U_s\in\cA(K)$ and $\Ad U_s$
  is an \emph{automorphism} of $\cN:=\cA(K)$; then monotonicity of the Araki relative entropy under the
  inclusion $\cM\subseteq\cN$ bounds $D_{\cM}$ by QK's exact expression on $\cN$;
-\item evaluate the right-hand side to second order (hypothesis $(\mathrm U_\eps)$ for $\cN$), obtaining
+\item evaluate the right-hand side to second order under hypothesis $(\mathrm V)$ of Definition~\ref{def:V}, which is open ($(\mathrm U_\eps)$ for $\cN$, the brief's choice, fails by Proposition~\ref{prop:Afails}), obtaining
  $\tfrac12\gKM^{(K)}(T(\hat g)\Om)$ for every admissible pair $(K,\hat g)$, $\hat g$ an extension of the
  field beyond $I$;
 \item \textbf{gauge lemma}: $\inf_{K,\hat g}\gKM^{(K)}(T(\hat g)\Om)\overset?=c/6$.
@@ -45,7 +45,7 @@ The route therefore proves that the second variation is \emph{finite}, with the 
 \begin{equation}\label{eq:mainbound}
  \limsup_{s\downarrow0}\ \frac{D\bigl(\omega_s\Vert\omega\bigr)}{s^2}\ \le\
  \frac{11+5\sqrt5}{24}\,c\;=\;0.9242\,c
- \qquad\text{(conditional on $(\mathrm U_\eps)$ for one $\cA(K)$)},
+ \qquad\text{(conditional on $(\mathrm V)$, open; Correction~C1)},
 \end{equation}
 but it cannot prove $s_2=c/12=0.0833\,c$.  The obstruction is identified exactly
 (Section~\ref{sec:gauge}): in the modular frame of \emph{any} interval $K\supsetneq I$ the Kubo--Mori form is
@@ -72,11 +72,11 @@ $D_{\cM}(\omega_s\Vert\omega)\le\norm{h(\Delta_K)^{1/2}(U_{-s}-\one)\Om}^2$ exac
  & \textbf{proved} (Thm~\ref{thm:mono})\\
 $(\mathrm V_\eps)\Rightarrow(\mathrm U_\eps)$ for a one-parameter unitary group
  & \textbf{proved} (Lemma~\ref{lem:VU})\\
-$(\mathrm A_\eps)$ (modular analyticity of the generator) \emph{fails} for every field compactly supported
+$(\mathrm U_\eps)$ and $(\mathrm A_\eps)$ (modular analyticity of the generator) \emph{fail} for every field compactly supported
  in $K$ & \textbf{proved} (Prop.~\ref{prop:Afails})\\
-$(\mathrm V_\eps)$ at $\sigma=0$, i.e.\ $T(\hat g)\Om\in\bigcap_\eps D(\Delta_K^{-\eps/2})$
- & \textbf{proved} (Lemma~\ref{lem:PW})\\
-$(\mathrm V_\eps)$ uniformly on the orbit & \textbf{open} (Gap~RK1)\\
+$(\mathrm V)$ at $\sigma=0$, i.e.\ for the single tangent vector $T(\hat g)\Om$
+ & \textbf{proved} (Prop.~\ref{prop:V0})\\
+$(\mathrm V)$ along the orbit & \textbf{open} (Gap~RK1)\\
 $\gKM^{(K)}(T(f)\Om)=\frac c{12}\int(\tilde f''^2+\tilde f'^2)$, $\supp f\subset\subset K$; the spectral measure
  identification is a theorem here, not a prescription & \textbf{proved} (Thm~\ref{thm:spectral})\\
 $c$-linearity and net-independence of $\gKM^{(K)}$ on $\HT$ & \textbf{proved} (Cor.~\ref{cor:clin})\\
@@ -865,5 +865,22 @@ merely say that monotonicity is lossy.
 \bibitem{n7} \texttt{universality\_normalization.tex} (Note~7): Lemma~3.1, Lemma~3.2, Lemma~4.1,
  eqs.~(2),(3),(10),(11),(14), Thm.~5.2, eq.~(29).
 \end{thebibliography}
+
+\section*{Corrections of 2026-09-24}
+\addcontentsline{toc}{section}{Corrections of 2026-09-24}
+{\sloppy
+This correction implements the knowledge-base card \texttt{conj-s2} (project \texttt{cft\_cmi}), whose
+Statement is the specification, at the user's request of 2026-09-24.  Each changed line (33, 48, 75, 77--79) was replaced by
+exactly one line, so line numbers cited elsewhere still point to the same text.
+\paragraph{C1. The hypothesis of the upper bound (eq.~\eqref{eq:mainbound}, line~48; lines~33, 75 and 77--79).}
+\emph{Before:} ``(conditional on \((\mathrm U_\eps)\) for one \(\cA(K)\))''.
+\emph{Now:} conditional on hypothesis \((\mathrm V)\) of Definition~\ref{def:V}, which is open.
+\emph{Why:} the status table at the end of this note records the upper bound as ``proved under
+\((\mathrm V)\)'' (Theorem~\ref{thm:second}, Corollary~\ref{cor:final}), and \((\mathrm U_\eps)\),
+\((\mathrm A_\eps)\) of QK for the big interval algebra as refuted (Proposition~\ref{prop:Afails}:
+locality in \(K\) forbids them), so the opening named a hypothesis that cannot hold.  \((\mathrm V)\) is
+open (Gap~RK1) and holds at \(\sigma=0\) (Proposition~\ref{prop:V0}).  Card \texttt{conj-s2}, Statement:
+the upper end ``holds under hypothesis (V), which is open (Gap RK1)''.  \emph{Also:} line~33 named \((\mathrm U_\eps)\) for \(\cN\) as the hypothesis of step~(b); it is \((\mathrm V)\).  Line~75 listed only \((\mathrm A_\eps)\) as failing, and Proposition~\ref{prop:Afails} refutes \((\mathrm U_\eps)\) as well.  Lines~77--79 of the opening table listed \((\mathrm V_\eps)\) at \(\sigma=0\) as proved, by a Lemma \texttt{lem:PW} that this note does not contain, although Proposition~\ref{prop:Afails} shows \(T(\hat g)\Om\notin D(\Delta_K^{-\eps/2})\) for every \(\eps>0\); they now follow the status table: \((\mathrm V)\) at \(\sigma=0\) is proved (Proposition~\ref{prop:V0}), and \((\mathrm V)\) along the orbit is open (Gap~RK1).  Refereed by REF-DOC-OVER.
+\par}
 
 \end{document}

@@ -8,7 +8,7 @@
 
 ## Statement
 
-Conjecture: for a general diffeomorphism-covariant net of central charge c, the Kubo-Mori form of the zero-collar compression direction is g_KM = c/6, i.e. the free-fermion value r/6 (card const-gb) scaled by c/r. Status: Note 7 obtains c/6 only through the formal modular-frame prescription with the analytically continued g-hat (universality_normalization.tex:301-302, 'used here formally, as a computational prescription'; eq:result-general); no admissible representative of the tangent vector is affiliated with A(I), and for fields affiliated with an interval algebra A(K), K containing I, the Kubo-Mori form is a local Sobolev functional whose infimum over admissible gauges is (11 + 5 sqrt 5) c/12 = 11.09 x c/6 (rigor/kubo_mori_gauge_lemma.tex eq:mainvalue); the Kubo-Mori second variation for generators not affiliated with the interval algebra is open (Gap QK2 of rigor/kubo_mori_second_variation.tex; card km-exact-identity). Related numerics support s2 = c/12 for the relative entropy along the recovery curve (free fermion 0.0837(5), free boson 0.083(2); card conj-s2), where the rigorous bracket is 0.034 c \<= liminf s^{-2} D \<= limsup s^{-2} D \<= 0.924 c (the upper bound under a uniform-integrability hypothesis).
+Conjecture: for a general diffeomorphism-covariant net of central charge c, the Kubo-Mori form of the zero-collar compression direction is g_KM = c/6, i.e. the free-fermion value r/6 (card const-gb) scaled by c/r. Status: Note 7 obtains c/6 only through the formal modular-frame prescription with the analytically continued g-hat (universality_normalization.tex:301-302, 'used here formally, as a computational prescription'; eq:result-general); no admissible representative of the tangent vector is affiliated with A(I), and for fields affiliated with an interval algebra A(K), K containing I, the Kubo-Mori form is a local Sobolev functional whose infimum over admissible gauges is (11 + 5 sqrt 5) c/12 = 11.09 x c/6 (rigor/kubo_mori_gauge_lemma.tex eq:mainvalue); the Kubo-Mori second variation for generators not affiliated with the interval algebra is open (Gap QK2 of rigor/kubo_mori_second_variation.tex; card km-exact-identity). Related numerics support s2 = c/12 for the relative entropy along the recovery curve (free fermion 0.0837(5), free boson 0.083(2); card conj-s2), where the bracket 0.034 c \<= liminf s^{-2} D \<= limsup s^{-2} D \<= 0.924 c is conditional at both ends (the upper bound under the uniform-integrability hypothesis (V), which is open, Gap RK1; the lower bound modulo Araki's perturbation expansion, whose sources were not obtained, Gap RK2; rigor/kubo_mori_gauge_lemma.tex, status table; called rigorous here until 2026-09-24).
 
 ## How to verify
 
@@ -30,7 +30,7 @@ universality_normalization.tex l. 296-302 (formal prescription, gauge infimum, b
 
 ## Review
 
-**Review record:** passed 2026-09-23 by REF-DEP-CFT-B3.
+**Review record:** passed 2026-09-24 by REF-CARD-OVER.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

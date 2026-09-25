@@ -278,7 +278,7 @@ if (D) {
       kids.push(cell('relative entropy S', renderRecord(D.series('S')[cur.i])));
     } else {
       kids.push(cell('Φ, best estimate', renderRecord(lzBest[cur.i])));
-      kids.push(cell('certified lower end', renderRecord(lzLo[cur.i])));
+      kids.push(cell('rigorous lower end', renderRecord(lzLo[cur.i])));
       kids.push(cell('upper end (extrapolation)', renderRecord(lzHi[cur.i])));
       kids.push(cell('local exponent', renderRecord(lzSlope[cur.i], { sig: 3 })));
       kids.push(cell('lattice at the same ζ', renderRecord(lzLat[cur.i])));

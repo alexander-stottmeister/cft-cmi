@@ -13,7 +13,7 @@ Source: [`rigor/PHASE1_STATUS.md`](../rigor/PHASE1_STATUS.md)
 - **Theorem A proved.** lim_{zeta->0} Phi/zeta^2 = c/(12 pi^2).
 - **Tail bound proved** (rigor/tail_bound.tex, PT): 0 <= Phi - Phi_W <= 0.173 zeta^2/kappa_c + 0.88 zeta^2/kappa_c^2 [corrected 2026-09-24: the shape of this bound is proved; the explicit constants 0.173 and 0.88 (tail_bound.tex Cor. 5.2, eq:final) rest on numerical inputs, A_1 <= 2.0 and A_3 <= 0.0374 in double precision, not certified, and f = 0.0085 (tail_bound.tex Correction C10); card tail-bound] for kappa_c >= max{10, 2 log(1/zeta) + 2 log(1+kappa_c) + 3}; Note 5 Prop 4.1 upgraded to a theorem with explicit remainder; c_2 = -zeta^2/30.
 - **Lattice (O7a) done** (numerics/lattice, PL): Gaussian rotated Petz map in ball arithmetic up to 72 sites; exponents 1.986, 1.912, 1.635, 1.151 at lambda = 0, 0.5, 1, 1.5 (VWZ: 2.0, 1.9, 1.7, 1.2); lattice/two-branch ratio = 1 - 0.15/L constant in eta_V; single-branch law off by 22-5000.
-- **Large cross ratios certified** (numerics/results_largezeta_certified.txt, PZ): Phi(1.07) = 4.410(20)e-3, Phi(2.13) = 1.0797(50)e-2, Phi(4.27) = 2.241(14)e-2, Phi(8.53) = 3.974(72)e-2, Phi(17.1) = 6.41(43)e-2; window exponent drifts 2.5 -> 1.2; slopes 1.29 -> 0.69 vs lattice.
+- **Large cross ratios certified** [corrected 2026-09-24: not certified; the lower ends Phi_sub are rigorous, the quoted values are extrapolations with an estimated uncertainty; card large-zeta-values] (numerics/results_largezeta_certified.txt, PZ): Phi(1.07) = 4.410(20)e-3, Phi(2.13) = 1.0797(50)e-2, Phi(4.27) = 2.241(14)e-2, Phi(8.53) = 3.974(72)e-2, Phi(17.1) = 6.41(43)e-2; window exponent drifts 2.5 -> 1.2; slopes 1.29 -> 0.69 vs lattice.
 - **Paper 1 draft** (paper1/main.pdf, 26 pp, PW): all sections written; placeholder citations for internal documents; certified brackets [corrected 2026-09-24: these are the brackets of tail_bound.tex, which are not certified, see the tail-bound entry above; card tail-bound] and large-zeta table included; honest gap statements (s_2 = c/12 for the KM form; rate heuristic).
 - **eps = 1e-14 runs**: window contains all box modes at Lambda = 60 -> residual is the box cutoff; recipe min(kappa_c, kappa_max) with box asymptotics 0.0641 zeta^2/kappa_max^2; Phi(1/15) consistent across windows to 2e-4.
 
@@ -60,7 +60,7 @@ Source: [`rigor/PHASE2_STATUS.md`](../rigor/PHASE2_STATUS.md)
 ### Open after Phase 2 day 1
 
 - DONE: QA's repairs applied; the theorem is recorded in Note 7 (Theorem B header, Sec. 8), Note 8 (main box) and paper 2 (abstract).
-- Kubo-Mori: gauge lemma REFUTED 2026-09-09 (rigor/kubo_mori_gauge_lemma.tex): inf over admissible gauges = 11.09 c/6; proved bracket 0.034c <= liminf <= limsup <= 0.924c; s_2 = c/12 for general nets stays conjectural (numerically confirmed for fermion and boson).
+- Kubo-Mori: gauge lemma REFUTED 2026-09-09 (rigor/kubo_mori_gauge_lemma.tex): inf over admissible gauges = 11.09 c/6; proved bracket 0.034c <= liminf <= limsup <= 0.924c [corrected 2026-09-24: not proved outright; both ends are conditional, the upper end on hypothesis (V), open (Gap RK1), the lower end on Araki's perturbation expansion, whose sources were not obtained (Gap RK2); status table of rigor/kubo_mori_gauge_lemma.tex]; s_2 = c/12 for general nets stays conjectural (numerically confirmed for fermion and boson).
 - DONE 2026-09-09: paper 2 draft (paper2/main.pdf, 24 pp, RW).
 
 ### Agents used in Phase 2 (day 1)

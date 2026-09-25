@@ -37,8 +37,8 @@ for the status of the computation that uses it.
 $\Pi_{\pm}$ are the spectral projections of the momentum $-i\partial_{x}$ onto $\pm(0,\infty)$; we use
 \emph{$\Pi_{+}=$ positive momenta}, so that $\Pi_{+}L^{2}$ is the Hardy space of the upper half plane and
 the vacuum is the Fock state of $\Pi_{+}$.  The opposite convention ($\Pi_{+}=$ negative momenta) is also
-common; it replaces $V=\Pi_{-}W\Pi_{+}$ by $\Pi_{+}W\Pi_{-}$, which has the same Hilbert--Schmidt norm, so
-none of the quoted numbers changes.  With $\mathfrak L_{f}=f\partial_{x}+\frac12f'$ one has
+common; it replaces $V=\Pi_{-}W\Pi_{+}$ by $\Pi_{+}W\Pi_{-}$, which has the same Hilbert--Schmidt norm whenever $\Pi_{+}W\Pi_{+}$ has Fredholm index zero (in general the two squared norms differ by that index), so
+none of the quoted numbers changes in that case.  With $\mathfrak L_{f}=f\partial_{x}+\frac12f'$ one has
 $T(f)=\,:\!d\Gamma(-i\mathfrak L_{f})\!:$ and $T(f)\Omega\cong\Pi_{-}(-i\mathfrak L_{f})\Pi_{+}$, and
 $\|\Pi_{-}\mathfrak L_{f}\Pi_{+}\|_{\mathfrak S_{2}}^{2}=\frac{1}{48\pi^{2}}\int_{0}^{\infty}
 p^{3}|\hat f(p)|^{2}dp$, i.e.\ \eqref{eq:appnorm} at $c=1$ (checked numerically to $1.5\cdot10^{-11}$).
@@ -73,7 +73,7 @@ $\inf\|G\|_{3/2}^{2}$ & $8/\pi=2.546479$ & \Cref{rem:varform}, equivalent to $\g
  value $2.547971$ ($0.06\%$)\\
 $\gKM$ & $c/6$ \emph{(conjectural)} & \Cref{sec:km}; free-fermion reduction $\gKM=1/6$
  \cite{RigorKM}, an analytic continuation; the gauge lemma is refuted \cite{RigorRK}\\
-$s_{2}$ & $\gKM/2=c/12$ \emph{(conjectural)} & \Cref{sec:km}; proved bracket
+$s_{2}$ & $\gKM/2=c/12$ \emph{(conjectural)} & \Cref{sec:km}; bracket, both ends conditional,
  $0.034\,c\le\liminf\le\limsup\le0.924\,c$ \cite{RigorRK}; bosonic check $0.083(2)$
  (\Cref{sec:boson})\\
 $J_{\rm jump}$ & $-1/L$ & \Cref{thm:reg}: jump of $G''$ at the touching point, $G$ the \emph{circle}

@@ -24,8 +24,8 @@ that $z=\eta_{\rm V}/(1-\eta_{\rm V})$.  Then
  =\Phi_{c}\bigl(z(1+e^{-\pi\lambda})\bigr)
  +\Phi_{\bar c}\bigl(z(1+e^{\pi\lambda})\bigr).\;}
 \end{equation}
-For $c=\bar c$ this is even in $\lambda$, with its unique minimum at
-$\lambda=0$, and
+For $c=\bar c$ this is even in $\lambda$ (a unique minimum at
+$\lambda=0$ is expected but proved only at leading order, see the end of the proof), and
 \begin{equation}\label{eq:twobranch-small}
  -\log F^{(\lambda)}
  =f_2\,\eta_{\rm V}^2\bigl[2+4\cosh\pi\lambda+2\cosh2\pi\lambda\bigr]
@@ -33,9 +33,9 @@ $\lambda=0$, and
  \qquad
  -\log F^{(0)}=\frac{c+\bar c}{3\pi^2}\,\eta_{\rm V}^2+O(\eta_{\rm V}^3),
 \end{equation}
-with $f_2=c/(12\pi^2)$ per chiral component.  The relative entropy obeys the same
-law with $\Phi$ replaced by $\cD$ and $f_2$ by $s_2=c/12$, i.e.\
-$D=\frac{c+\bar c}3\eta_{\rm V}^2+\dots$ at $\lambda=0$.
+with $f_2=c/(12\pi^2)$ per chiral component.  The relative entropy is expected to obey the same
+law with $\Phi$ replaced by $\cD$ and $f_2$ by $s_2$, conjecturally $c/12$ (the relative entropy follows it numerically to $0.5\%$), i.e.\
+$D=\frac{c+\bar c}3\eta_{\rm V}^2+\dots$ at $\lambda=0$ if $s_2=c/12$.
 \end{proposition}
 
 \begin{proof}
@@ -51,11 +51,11 @@ under $\lambda\to-\lambda$.  Expanding with \cref{thm:main} and $z=\eta_{\rm V}
 +O(\eta_{\rm V}^2)$ gives
 $f_2z^2\bigl[(1+e^{-\pi\lambda})^2+(1+e^{\pi\lambda})^2\bigr]$, which is
 \eqref{eq:twobranch-small}; at $\lambda=0$ the bracket is $8$ and
-$8f_2=2c/(3\pi^2)$ per chirality.  Minimality at $\lambda=0$ follows because
+$8f_2=2c/(3\pi^2)$ per chirality.  At leading order the minimum is at $\lambda=0$, because
 $\lambda\mapsto2+4\cosh\pi\lambda+2\cosh2\pi\lambda$ is strictly increasing in
-$|\lambda|$ and, beyond leading order, because $\Phi$ is nondecreasing
-(\cref{prop:monotone}) and the pair $(\zeta_-,\zeta_+)$ moves outward from the
-symmetric point as $|\lambda|$ grows.
+$|\lambda|$, so for each fixed $\lambda\neq0$ it holds for all sufficiently small $z$, though not uniformly in $\lambda$.  Beyond leading order it is not proved: $\Phi$ is nondecreasing
+(\cref{prop:monotone}), but as the pair $(\zeta_-,\zeta_+)$ moves outward from the
+symmetric point $\Phi(\zeta_-)$ can only decrease while $\Phi(\zeta_+)$ can only increase; the minimum would follow if $\zeta\Phi'(\zeta)$ were nondecreasing, which is not proved.
 \end{proof}
 
 \begin{remark}
@@ -127,7 +127,7 @@ The second branch of \eqref{eq:twobranch} probes $\zeta\gtrsim1$, where the
 continuum $\Phi$ is not yet certified.  The rigorous lower bounds from
 \cref{thm:detrep} give $\Phi_{\rm sub}=4.230\times10^{-3},\,1.012\times10^{-2},
 \,2.010\times10^{-2},\,3.343\times10^{-2},\,4.779\times10^{-2}$ at
-$\zeta=1.067,\,2.133,\,4.267,\,8.533,\,17.07$; the certified extrapolations of
+$\zeta=1.067,\,2.133,\,4.267,\,8.533,\,17.07$; the extrapolations (estimates, not bounds) of
 \cref{tab:largezeta} give $\Phi(2.13)=1.0797(50)\times10^{-2}$ ($0.5\%$) and
 $\Phi(8.53)=3.974(72)\times10^{-2}$ ($1.8\%$), with a local log-slope falling from
 $1.29$ at $\zeta\approx1$ to $0.69$ at $\zeta\approx17$.  The lattice finds

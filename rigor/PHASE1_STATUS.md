@@ -14,7 +14,7 @@
 - **Lattice (O7a) done** (numerics/lattice, PL): Gaussian rotated Petz map in ball arithmetic up to 72 sites; exponents 1.986, 1.912, 1.635, 1.151
   at lambda = 0, 0.5, 1, 1.5 (VWZ: 2.0, 1.9, 1.7, 1.2); lattice/two-branch ratio = 1 - 0.15/L constant in eta_V; single-branch law off by 22-5000.
   Erratum: the continuum exponents 2.04/2.04/1.96/1.31 quoted earlier rested on extrapolating Phi beyond zeta = 0.53 — withdrawn.
-- **Large cross ratios certified** (numerics/results_largezeta_certified.txt, PZ): Phi(1.07) = 4.410(20)e-3, Phi(2.13) = 1.0797(50)e-2,
+- **Large cross ratios certified** [corrected 2026-09-24: not certified; the lower ends Phi_sub are rigorous, the quoted values are extrapolations with an estimated uncertainty; card large-zeta-values] (numerics/results_largezeta_certified.txt, PZ): Phi(1.07) = 4.410(20)e-3, Phi(2.13) = 1.0797(50)e-2,
   Phi(4.27) = 2.241(14)e-2, Phi(8.53) = 3.974(72)e-2, Phi(17.1) = 6.41(43)e-2; window exponent drifts 2.5 -> 1.2; slopes 1.29 -> 0.69 vs lattice.
   Blocker: arb eig fails for spectral range > 1e-20 (kappa_max > 45 inaccessible).
 - **Paper 1 draft** (paper1/main.pdf, 26 pp, PW): all sections written; placeholder citations for internal documents; certified brackets [corrected 2026-09-24: these are the brackets of tail_bound.tex, which are not certified, see the tail-bound entry above; card tail-bound] and

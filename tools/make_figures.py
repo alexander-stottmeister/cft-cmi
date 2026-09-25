@@ -580,7 +580,7 @@ def fig_quadratic_law() -> Path:
     for r in small:
         ax.vbar(r["zeta"], r["sub"], r["tail"], "s1", cap=3)
         sqmark(g, ax.X(r["zeta"]), ax.Y(r["tail"]), 3.2, "f1")
-    # large zeta: certified lower end, and the best (extrapolated) estimate
+    # large zeta: rigorous lower end, and the best (extrapolated) estimate
     for r in large:
         x = ax.X(r["zeta"])
         ax.vbar(r["zeta"], r["best"] - r["err"], r["best"] + r["err"],
@@ -592,7 +592,7 @@ def fig_quadratic_law() -> Path:
     lx, ly = ax.x + 18, ax.y + 22
     for i, (draw, txt) in enumerate((
         ("sq", "error bracket [window value, + tail estimate]"),
-        ("tick", "certified lower bound, largest κ_c"),
+        ("tick", "rigorous lower bound, largest κ_c"),
         ("circ", "best estimate Φ∞ with its quoted error"),
         ("dash", "proved ζ² asymptote, f₂ = c/(12π²)"),
     )):

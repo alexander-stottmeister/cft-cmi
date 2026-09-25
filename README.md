@@ -46,7 +46,7 @@ nothing on the site is reachable only through the site.
 | **C** | Over *all* recovery channels the second-order optimum is a quasi-free convex programme with value `(1−θ)·c/(12π²)·ζ²` per chirality, `θ = 0.384 ± 0.003`. Non-isometric channels do not help. | `numerical`, and **conditional on H1, H2, H3** | [`rigor/exact_optimum_tangent_problem.tex`](rigor/exact_optimum_tangent_problem.tex), [`numerics/optimality_all/F3_RESULTS.md`](numerics/optimality_all/F3_RESULTS.md) |
 | **D** | Sequential recovery along a chain composes to a `C¹` piecewise-Möbius map whose Schwarzian is a sum of negative point masses; the recovered state depends on the map only through that measure, and exact recovery never occurs. | `proved` (the junction form of the calculus holds **under hypothesis (H)**) | [`rigor/network_corner_calculus.tex`](rigor/network_corner_calculus.tex) |
 
-The relative-entropy analogue `s₂ = c/12` remains `conjectural`, with a proved bracket, and one
+The relative-entropy analogue `s₂ = c/12` remains `conjectural`, with a bracket that is conditional at both ends, and one
 gauge lemma that would have implied it is `refuted` here (§4).
 
 **Status vocabulary**, used identically in every caption, table and document of this repository:
@@ -98,7 +98,7 @@ and `s₂ = 0.0837(5)` at `c = 1` ([`fidelity_tables.tex`](fidelity_tables.tex),
 **Figure F2.** `numerical`, with the `ζ²` asymptote `proved`. Filled squares are error
 brackets: the lower end, the value in the spectral window, is a rigorous lower bound; the upper end is that value plus the second-order tail estimate `ζ²/(15κ_c²)`,
 which is not a proved bound. Open circles are best estimates `Φ∞`, the `κ_c → ∞` extrapolations, with their quoted
-errors; the green ticks are the certified lower ends. That tail correction is not valid at large
+errors; the green ticks are the rigorous lower ends, the window values at the largest `κ_c`. That tail correction is not valid at large
 `ζ`, so there the bracket is `[Φ at the largest κ_c, Φ∞]` and `Φ∞` is an extrapolation, not a
 bound: the widest case is `ζ = 17.067`, bracket `[0.05739, 0.06412]`, best estimate `0.0641(43)`.
 The lower panel is the measured remainder `Φ/(f₂ζ²)`; the local log-slope falls from `1.29` at

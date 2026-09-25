@@ -90,7 +90,7 @@ A referee pass is not implied by a status. Of the cards listed here, **0 have ne
 
 ## Kubo-Mori (relative entropy) coefficient s2
 
-> The relative-entropy analogue of f2: exact identity for unitary orbits, the refuted gauge lemma, and the conjecture s2 = c/12 with its proved bracket.
+> The relative-entropy analogue of f2: exact identity for unitary orbits, the refuted gauge lemma, and the conjecture s2 = c/12 with its bracket, conditional at both ends.
 
 | status | claim | |
 |---|---|---|

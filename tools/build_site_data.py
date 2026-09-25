@@ -32,7 +32,7 @@ DATA = ROOT / "docs" / "data"
 # --------------------------------------------------------------------------
 # status vocabulary
 #   proved     a theorem, the value is a closed form
-#   certified  a rigorous bound (ball arithmetic / spectral window lower bound)
+#   certified  a bound by construction (spectral-window lower bound / ball-arithmetic enclosure); the D-hat quadrature is not certified
 #   numerical  a measurement or an extrapolation, with an error bar where known
 # --------------------------------------------------------------------------
 
@@ -247,7 +247,7 @@ def build_quadratic_law():
         lat, _ = parse_paren(cells[9])
         records.append(record("lz.bracket_lo.%d" % k, best_sub * 1e-2, None, src2, ln1,
                               "certified", series="lz_bracket_lo", x=z, kappa_c=best_kc,
-                              label="certified lower end of the bracket, kappa_c=%s" % best_kc))
+                              label="rigorous lower end of the bracket, kappa_c=%s" % best_kc))
         records.append(record("lz.bracket_hi.%d" % k, inf_v * 1e-2, None, src2, ln1,
                               "numerical", series="lz_bracket_hi", x=z,
                               label="kappa_c -> infinity extrapolation Phi_inf"))
@@ -264,8 +264,8 @@ def build_quadratic_law():
         "generator": "tools/build_site_data.py",
         "module": "quadratic-law",
         "note": ("Phi(zeta) = -log F(omega, omega-tilde) for the zero-collar compression, "
-                 "free chiral fermion, c = 1.  Records tagged 'certified' are rigorous "
-                 "windowed lower bounds; 'numerical' records are tail-corrected values or "
+                 "free chiral fermion, c = 1.  Records tagged 'certified' are lower bounds by construction "
+                 "(windowed values; the D-hat quadrature behind them is not certified); 'numerical' records are tail-corrected values or "
                  "extrapolations.  Entries of fidelity_table_largezeta.tex are stored "
                  "already divided by the table's 10^2 display factor."),
         "records": records,

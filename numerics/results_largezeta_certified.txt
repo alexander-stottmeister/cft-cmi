@@ -1,4 +1,4 @@
-# PZ (2026-09-08): certified continuum Phi(zeta) = -log F(rho_ABC, rho~_ABC) for zeta >= 1.
+# PZ (2026-09-08): continuum Phi(zeta) = -log F(rho_ABC, rho~_ABC) for zeta >= 1: rigorous lower bounds Phi_sub, extrapolated estimates Phi_inf (not certified; label corrected 2026-09-24).
 # a=1, L=2, zeta = s/3.  Phi_sub = spectral-window (eps < w < 1-eps) sub-compression = rigorous LOWER bound.
 # kappa_c = log((1-eps)/eps) (clipped to kappa_max).  Pipeline run_largezeta_cert.py, cross-checked
 # against fidelity_hp.py/fidelity_flint.py to 7 digits at (Lam,kmax)=(60,30) and (120,45).
@@ -64,7 +64,7 @@
   zeta=  8.533 kappa_c=32.20: 60/45=3.738828e-02  120/45=3.735541e-02   spread=8.80e-04
   zeta=  8.533 kappa_c=39.10: 60/45=3.808788e-02  120/45=3.806876e-02   spread=5.02e-04
 
-## 4. certified brackets  [Phi_sub(largest window), Phi_inf]  and best estimate
+## 4. brackets  [Phi_sub(largest window), Phi_inf]  (lower end rigorous; upper end extrapolated, not a bound)  and best estimate
   zeta     lower=Phi_sub(kc_max)   Phi_inf estimates (free,p1,p2,R1,R2)                      best +- unc      rel
     1.067  4.381243e-03   4.41039e-03 4.53458e-03 4.43022e-03 4.46090e-03 4.41722e-03  p=2.49 Rich=4.40876e-03   4.41039e-03 +- 2.0e-05   0.45%
     2.133  1.067246e-02   1.07969e-02 1.12260e-02 1.08464e-02 1.09802e-02 1.08114e-02  p=2.31 Rich=1.07891e-02   1.07969e-02 +- 5.0e-05   0.46%

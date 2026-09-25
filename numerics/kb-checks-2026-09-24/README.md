@@ -4,7 +4,7 @@ The referee REF-DOC-TAIL found that the value A_3 <= 0.036 of `rigor/tail_bound.
 from its computation. That computation is `rigor/pt_tailconst.py`: A_3 is a supremum over 0 < zeta <= 1, the sampled
 values decrease in zeta, and so the supremum is the limit zeta -> 0, which was never sampled. The fix author FIX-TAIL
 checked this independently. The two scripts here are that check and the corrected tail check. Both were written on
-2026-09-24; the folder numerics/kb-checks-2026-09-23/ is unchanged.
+2026-09-24; the scripts and outputs in numerics/kb-checks-2026-09-23/ are unchanged.
 
 | script | checks | needs | runtime |
 |---|---|---|---|

@@ -103,8 +103,8 @@ For the free fermion the one-particle space is $L^{2}(\mathbb R)$ and
 $\Pi_{\pm}$ are the spectral projections of the momentum $-i\partial_{x}$ onto $\pm(0,\infty)$; we use
 *$\Pi_{+*=$ positive momenta}, so that $\Pi_{+}L^{2}$ is the Hardy space of the upper half plane and
 the vacuum is the Fock state of $\Pi_{+}$.  The opposite convention ($\Pi_{+}=$ negative momenta) is also
-common; it replaces $V=\Pi_{-}W\Pi_{+}$ by $\Pi_{+}W\Pi_{-}$, which has the same Hilbert--Schmidt norm, so
-none of the quoted numbers changes.  With $\mathfrak L_{f}=f\partial_{x}+\frac12f'$ one has
+common; it replaces $V=\Pi_{-}W\Pi_{+}$ by $\Pi_{+}W\Pi_{-}$, which has the same Hilbert--Schmidt norm whenever $\Pi_{+}W\Pi_{+}$ has Fredholm index zero (in general the two squared norms differ by that index), so
+none of the quoted numbers changes in that case.  With $\mathfrak L_{f}=f\partial_{x}+\frac12f'$ one has
 $T(f)= : d\Gamma(-i\mathfrak L_{f}) :$ and $T(f)\Omega\cong\Pi_{-}(-i\mathfrak L_{f})\Pi_{+}$, and
 $\|\Pi_{-}\mathfrak L_{f}\Pi_{+}\|_{\mathfrak S_{2}}^{2}=\frac{1}{48\pi^{2}}\int_{0}^{\infty}
 p^{3}|\hat f(p)|^{2}dp$, i.e. (eq:appnorm) at $c=1$ (checked numerically to $1.5\cdot10^{-11}$).
@@ -118,7 +118,7 @@ p^{3}|\hat f(p)|^{2}dp$, i.e. (eq:appnorm) at $c=1$ (checked numerically to $1.5
 | $f_{2}$ | $ g_B/8=c/(12\pi^{2})$ | (thm:B); at $c=1$, $0.0084434$ |
 | $\inf\|G\|_{3/2}^{2}$ | $8/\pi=2.546479$ | (rem:varform), equivalent to $ g_B$ at $c=1$; Rayleigh--Ritz value $2.547971$ ($0.06\%$) |
 | $ g_{\mathrm{KM}}$ | $c/6$ *(conjectural)* | (sec:km); free-fermion reduction $ g_{\mathrm{KM}}=1/6$ (RigorKM), an analytic continuation; the gauge lemma is refuted (RigorRK) |
-| $s_{2}$ | $ g_{\mathrm{KM}}/2=c/12$ *(conjectural)* | (sec:km); proved bracket $0.034 c\le\liminf\le\limsup\le0.924 c$ (RigorRK); bosonic check $0.083(2)$ ((sec:boson)) |
+| $s_{2}$ | $ g_{\mathrm{KM}}/2=c/12$ *(conjectural)* | (sec:km); bracket, both ends conditional, $0.034 c\le\liminf\le\limsup\le0.924 c$ (RigorRK); bosonic check $0.083(2)$ ((sec:boson)) |
 | $J_{\rm jump}$ | $-1/L$ | (thm:reg): jump of $G''$ at the touching point, $G$ the *circle* representative; the line-chart field has $g_{\rm tot}''$ jumping by $-2/L$ |
 | $\|T(g_{\rm tot})\Omega\|^{2}$ | $\frac{c}{12}\|g_{\rm tot}\|_{\dot H^{3/2}}^{2}$ | (thm:reg)(f); finite, whereas $\|L_{0}T(g_{\rm tot})\Omega\|^{2}$ diverges logarithmically with coefficient $\frac{c}{12}\frac{J_{\rm jump}^{2}}{4\pi^{2}}$ |
 

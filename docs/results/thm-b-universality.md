@@ -20,7 +20,7 @@ Hypothesis labels used: `H1`, `H2`, `H3`.
 
 ## How to verify
 
-rigor/universality_theorem_B.tex (24 pp) and its referee report; inverted factor V^-1 a = (c/48 pi^2)^{1/2}\[g_tot\] was corrected.
+rigor/universality_theorem_B.tex (25 pp, rigor/universality_theorem_B.log of 2026-09-24, with its section 'Corrections of 2026-09-24', l. 1128-1177; 24 pp before) and its referee report; inverted factor V^-1 a = (c/48 pi^2)^{1/2}\[g_tot\] was corrected.
 
 ## Evidence
 
@@ -35,7 +35,7 @@ rigor/universality_theorem_B.tex (24 pp) and its referee report; inverted factor
 
 ## Review
 
-**Review record:** passed 2026-09-23 by REF-DEP-CFT-B2.
+**Review record:** passed 2026-09-24 by REF-CARD-OVER.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

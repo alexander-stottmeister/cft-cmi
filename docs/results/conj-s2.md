@@ -8,11 +8,11 @@
 
 ## Statement
 
-Relative-entropy coefficient along the recovery curve: proved bracket 0.034 c \<= liminf s^-2 D \<= limsup \<= 0.924 c; fermion 0.0837(5) and boson 0.083(2) support c/12 = 0.08333. The lattice ratio s2/f2 = pi^2 is consistent.
+Relative-entropy coefficient along the recovery curve: bracket 0.034 c \<= liminf s^-2 D \<= limsup \<= 0.924 c, conditional at both ends: the upper end (11+5 sqrt5) c/24 = 0.92418 c holds under hypothesis (V), which is open (Gap RK1), and the lower end c/(3 pi^2) = 0.0338 c rests on Araki's perturbation expansion, whose sources were not obtained, so it is carried as a hypothesis (Gap RK2); until 2026-09-24 this card called the bracket proved; fermion 0.0837(5) and boson 0.083(2) support c/12 = 0.08333. The lattice ratio s2/f2 = pi^2 is consistent.
 
 ## How to verify
 
-Bracket: rigor/kubo_mori_gauge_lemma.tex; numbers: fidelity_tables.tex and numerics/boson.
+Bracket: rigor/kubo_mori_gauge_lemma.tex, status table (l. 800-820): the upper end is 'proved under (V)' (Thm thm:second, Cor. cor:final; hypothesis (V), def:V l. 353, is open, Gap RK1 l. 422), the lower end 'proved modulo Araki's perturbation expansion' (thm:lower l. 696-712, hypothesis (ii); Gap RK2 l. 737-746: the sources were NOT OBTAINED, so (ii) is carried as a hypothesis); numbers: fidelity_tables.tex and numerics/boson.
 
 ## Evidence
 
@@ -26,7 +26,7 @@ Bracket: rigor/kubo_mori_gauge_lemma.tex; numbers: fidelity_tables.tex and numer
 
 ## Review
 
-**Review record:** passed 2026-09-14 by phase referees (rigor/referee_\*.tex, findings ledger).
+**Review record:** passed 2026-09-24 by REF-CARD-OVER.
 
 The referee's report and the card's event log stay in the private knowledge base; only the verdict, the date and the referee are published here.
 

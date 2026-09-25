@@ -48,7 +48,7 @@ fitted tail law at fixed large zeta, to certify Phi for zeta >~ 1 to 1%.
 Lattice comparison at large zeta (lattice/petz_lattice.out): Phi_lat(1.986) = 1.004e-2 and Phi_lat(11.52) = 5.61e-2; rescaled with slope ~1 these give
 ~1.07e-2 at zeta = 2.13 and ~4.2e-2 at zeta = 8.53, i.e. inside the continuum brackets and favouring the 1/kappa_c extrapolation (per-mode UV tail ~ kappa^-2 at large zeta).
 
-### Certified large-zeta continuum values (2026-09-08, agent PZ; `results_largezeta_certified.txt`, `fidelity_table_largezeta.tex`)
+### Certified large-zeta continuum values [corrected 2026-09-24: only the lower ends Phi_sub are rigorous; the continuum values Phi_inf are extrapolations, not certified] (2026-09-08, agent PZ; `results_largezeta_certified.txt`, `fidelity_table_largezeta.tex`)
 New pipeline `run_largezeta_cert.py` (+ `analyze_largezeta.py`): box compression Q and its **high-precision eigendecomposition in
 python-flint** (`acb_mat.eig`, cached per box in `qeig_*.pkl`; quadratures cached per Lambda in `quads_*.pkl`), sub-compression
 `Qs = diag(w) - P^H D P`, and the tau-step (`tau = eig(W W^H)`, `W = D_w U D_q`) in **mpmath `eighe`** — arb's `eig` returns nan
@@ -61,9 +61,9 @@ on that matrix, and it also fails on Q itself once the spectral range exceeds ~1
   *drifts down with zeta*: p = 2.49, 2.31, 1.98, 1.76, 1.21 at zeta = 1.07, 2.13, 4.27, 8.53, 17.07. So the small-zeta law
   (p = 2, from the kappa^-3 occupation tail) survives only up to zeta ~ 4; at large zeta the discarded UV weight decays like
   kappa^-2 per mode and p -> 1. Fixed-p fits bracket the answer: p = 2 undershoots, p = 1 overshoots by up to 4%.
-* **Certified values** Phi(zeta) = -log F (bracket [Phi_sub(kappa_c^max), Phi_inf], best = free-p extrapolation):
+* **Certified values** [corrected 2026-09-24: estimated values; the lower end of each bracket is rigorous, the upper end Phi_inf is an extrapolation] Phi(zeta) = -log F (bracket [Phi_sub(kappa_c^max), Phi_inf], best = free-p extrapolation):
   zeta = 1.067: 4.410e-3 (0.45%); 2.133: 1.0797e-2 (0.46%); 4.267: 2.2414e-2 (0.60%); 8.533: 3.974e-2 (1.8%); 17.07: 6.41e-2 (6.6%).
-  The 1% target is met for zeta <~ 8; at zeta = 17 the window extrapolation is not yet converged (needs kappa_c >~ 60, i.e. an
+  The 1% target [corrected 2026-09-24: met only as an estimated extrapolation uncertainty, not as a certified enclosure] is met for zeta <~ 8; at zeta = 17 the window extrapolation is not yet converged (needs kappa_c >~ 60, i.e. an
   eigensolver that survives a 1e-26 spectral range).
 * **Local log-slope** d log Phi/d log zeta = 1.29, 1.17, 0.94, 0.76, 0.69 at zeta = 1.07, 2.13, 4.27, 8.53, 17.07 — Phi flattens
   steadily, it is *not* a power law. Lattice (`lattice/petz_lattice.out`, log-log interpolated) gives 1.41, 1.18, 0.98, 0.87, 0.68

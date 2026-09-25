@@ -92,15 +92,15 @@ the Kubo--Mori form of the tangent functional $\varphi$ on $\cM$, the infimum be
 real fields $h$ supported in $I'$.
 \end{quote}
 
-The upper-bound half of the route is already available and is worth recording, because it is unconditional
-apart from $(\mathrm U_{\varepsilon})$ for the \emph{large} algebra: since $U_{s}^{*}\in\cA(K_{\delta})$ and
+The upper-bound half of the route is worth recording: its monotonicity step is unconditional, and its second-order step
+needs a uniform-integrability hypothesis for the \emph{large} algebra that is open, $(\mathrm U_{\varepsilon})$ itself failing there \cite{RigorRK}: since $U_{s}^{*}\in\cA(K_{\delta})$ and
 $\Psi_{s}=U_{s}^{*}\Omega$ is a vector representative of $\omega_{s}$ on $\cM\subseteq\cA(K_{\delta})$,
 monotonicity of relative entropy under restriction gives
 \begin{equation}\label{eq:kmmono}
  D_{\cM}(\omega_{s}\Vert\omega)\ \le\ D_{\cA(K_{\delta})}(\omega_{\Psi_{s}}\Vert\omega),
 \end{equation}
 whose right-hand side is \Cref{thm:kmexact} for a genuinely affiliated generator (in the form of \cite[Prop.~8.1]{RigorKM}, which needs $\Omega\in D(T(g_{\rm tot}+h))$) and a \emph{geometric}
-modular operator (the Bisognano--Wichmann dilation of $K_{\delta}$).  Hence
+modular operator (the Bisognano--Wichmann dilation of $K_{\delta}$).  Hence, under that hypothesis,
 $\limsup_{s}s^{-2}D_{\cM}\le\frac12\gKM^{(K_{\delta})}(T(g_{\rm tot}+h)\Omega)$ for every $\delta$ and every
 extension $h$ --- the extension changes $U_{s}$ but not $\omega_{s}|_{\cM}$ by \Cref{lem:ext}.  What is
 missing is that this family of upper bounds has the \emph{right} infimum.  For the lower bound one would
@@ -124,8 +124,8 @@ integral (final paragraph), so it does not by itself fix the constant for a gene
 \textbf{Status.}  $s_{2}=c/12$ is stated as a \emph{conjecture}, not as a conditional theorem: the route
 just described is \emph{closed}, the Kubo--Mori gauge lemma being false (final paragraph).  Unconditional
 at present are the exact identity \eqref{eq:kmexact}, the lower bound \eqref{eq:kmlower} (both also for generators affiliated with $\cM$ with $\Omega\in D(A)$; generators affiliated only with a larger algebra are open, Gap~QK2 of \cite{RigorKM}),
-the bracket $0.034\,c\le\liminf_{s\to0}s^{-2}D\le\limsup_{s\to0}s^{-2}D\le0.924\,c$ of the
-final paragraph, and the numerical confirmation at $c=1$ of \Cref{sec:boson}.
+and the numerical confirmation at $c=1$ of \Cref{sec:boson}.  The bracket $0.034\,c\le\liminf_{s\to0}s^{-2}D\le\limsup_{s\to0}s^{-2}D\le0.924\,c$ of the
+final paragraph is conditional: its upper end holds under a uniform-integrability hypothesis that is open, and its lower end rests on Araki's perturbation theory, carried as a hypothesis \cite{RigorRK}.
 \end{quote}
 
 \begin{remark}[a route that does not work]\label{rem:kosaki}
@@ -138,4 +138,4 @@ on the fidelity, which is a \emph{lower} bound on $-\log\Fid$).
 \end{remark}
 
 \paragraph{Status after the gauge-lemma analysis.}
-The route just described has been carried out in detail in \cite{RigorRK}, with a negative outcome for the sharp constant.  For every admissible gauge, i.e.\ every field $\hat g$ equal to $g_{\rm tot}$ on $\bar I$ and vanishing outside an interval $K=(-\infty,R)\supseteq I$, the recovery unitary $\hat U_s=e^{isT(\hat g)}$ lies in $\cA(K)$, and monotonicity of the relative entropy gives the exact, unconditional bound $D(\omega_s\Vert\omega)\le\|h(\Delta_K)^{1/2}(\hat U_{-s}-1)\Omega\|^2$, $h(\lambda)=\lambda-1-\log\lambda$.  For fields affiliated with $\cA(K)$ the Kubo--Mori form is the local Sobolev expression $\frac c{12}\int(\tilde f''^2+\tilde f'^2)\,d\xi$ in the modular frame of $K$, so the bound is computable and linear in $c$; but its infimum over all admissible gauges is $(11+5\sqrt5)c/12\approx11.09\cdot\frac c6$, attained at $R=(3+\sqrt5)/2$, and not $c/6$: the restriction route is not sharp.  Together with the lower bound $\liminf s^{-2}D\ge\frac12 g_B=c/(3\pi^2)$ from the Petz--Donald formula (a supremum, hence usable for lower bounds), the proved bracket for a general net is $0.034\,c\le\liminf_{s\to0}s^{-2}D\le\limsup_{s\to0}s^{-2}D\le0.924\,c$, the upper half under a uniform-integrability hypothesis on the negative part of $\log\Delta_K$ along the orbit.  The value $c/6$ of the one-particle computation is the analytic continuation of a divergent integral, because the tangent field does not vanish at the moving endpoint; it is confirmed numerically for the free fermion ($s_2=0.0837(5)$) and the free boson ($0.083(2)$, \cref{sec:boson}), and we state $s_2=c/12$ for general nets as a conjecture.
+The route just described has been carried out in detail in \cite{RigorRK}, with a negative outcome for the sharp constant.  For every admissible gauge, i.e.\ every field $\hat g$ equal to $g_{\rm tot}$ on $\bar I$ and vanishing outside an interval $K=(-\infty,R)\supseteq I$, the recovery unitary $\hat U_s=e^{isT(\hat g)}$ lies in $\cA(K)$, and monotonicity of the relative entropy gives the exact, unconditional bound $D(\omega_s\Vert\omega)\le\|h(\Delta_K)^{1/2}(\hat U_{-s}-1)\Omega\|^2$, $h(\lambda)=\lambda-1-\log\lambda$.  For fields affiliated with $\cA(K)$ the Kubo--Mori form is the local Sobolev expression $\frac c{12}\int(\tilde f''^2+\tilde f'^2)\,d\xi$ in the modular frame of $K$, so the bound is computable and linear in $c$; but its infimum over all admissible gauges is $(11+5\sqrt5)c/12\approx11.09\cdot\frac c6$, attained at $R=(3+\sqrt5)/2$, and not $c/6$: the restriction route is not sharp.  Together with the lower bound $\liminf s^{-2}D\ge\frac12 g_B=c/(3\pi^2)$ from the Petz--Donald formula (a supremum, hence usable for lower bounds), which assumes Araki's perturbation theory for the perturbed free energy (its sources were not checked, so it is carried as a hypothesis), the bracket for a general net is $0.034\,c\le\liminf_{s\to0}s^{-2}D\le\limsup_{s\to0}s^{-2}D\le0.924\,c$, the upper half under a uniform-integrability hypothesis on the negative part of $\log\Delta_K$ along the orbit, which is open; neither end is proved outright.  The value $c/6$ of the one-particle computation is the analytic continuation of a divergent integral, because the tangent field does not vanish at the moving endpoint; it is confirmed numerically for the free fermion ($s_2=0.0837(5)$) and the free boson ($0.083(2)$, \cref{sec:boson}), and we state $s_2=c/12$ for general nets as a conjecture.

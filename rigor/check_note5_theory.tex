@@ -1375,7 +1375,7 @@ factors are the geometric maps $\gamma_{s_t^{\pm}}$ with
 \]
 Consequently
 $-\log \Fid^{(t)}_{\mathrm{Dirac}}=\Phi\bigl(z(1+e^{-2\pi t})\bigr)+\Phi\bigl(z(1+e^{2\pi t})\bigr)$,
-which is \emph{even} in $t$ (hence in $\lambda$) and minimised at $t=0$.
+which is \emph{even} in $t$ (hence in $\lambda$); that it is minimised at $t=0$ is proved only at leading order, since step $\langle1\rangle8$ below uses the false ``$\Phi'$ nondecreasing'' (card phi-derivative-nondecreasing; Correction~C1).
 \end{proposition}
 
 \lstep{1}{1}{At $t=0$ the one-particle space of the $1{+}1$-dimensional Dirac fermion on a spatial
@@ -1410,7 +1410,7 @@ conjugation is implemented by an antiunitary, under which $\Fid$ is also invaria
 \lby{$\Fid$ of a tensor product of states in a factorised vacuum is the product of the factors;
 $\langle1\rangle4$--$\langle1\rangle6$ and Corollary 5.1 for each chiral factor}
 \lstep{1}{8}{$g(t):=\Phi(\zeta_-)+\Phi(\zeta_+)$ with $\zeta_\mp=z(1+e^{\mp2\pi t})$ satisfies
-$g(-t)=g(t)$, $g'(0)=0$, and $g'(t)>0$ for $t>0$.}
+$g(-t)=g(t)$, $g'(0)=0$, and $g'(t)>0$ for $t>0$ [the last claim is not proved: Correction~C1].}
 \lby{evenness is the interchange $\zeta_+\leftrightarrow\zeta_-$;
 $g'(t)=2\pi z\bigl[e^{2\pi t}\Phi'(\zeta_+)-e^{-2\pi t}\Phi'(\zeta_-)\bigr]$, and for $t>0$ we
 have $\zeta_+>\zeta_-$ with $\Phi'$ nondecreasing (Proposition~\ref{prop:mono} plus convexity of
@@ -1649,4 +1649,20 @@ The $20\%$ discrepancy quoted in N5 \S7.1 is therefore uncertain.
 (the $8.73$ vs $8.78\cdot10^{-7}$ caption, the ratio column, and the phase test); a full audit of
 the quadrature was out of scope.
 \end{itemize}
+\section*{Corrections of 2026-09-24}
+\addcontentsline{toc}{section}{Corrections of 2026-09-24}
+{\sloppy
+This correction implements the knowledge-base card \texttt{two-chirality-minimum-at-lambda-zero} (project
+\texttt{cft\_cmi}), at the user's request of 2026-09-24.  Each changed line (1378, 1413) was replaced by exactly one line,
+so line numbers cited elsewhere still point to the same text.
+\paragraph{C1. The minimum at \(t=0\) (Proposition~\ref{prop:chirality}, line~1378, and step~\(\langle1\rangle8\), line~1413).}
+\emph{Before:} ``which is \emph{even} in \(t\) (hence in \(\lambda\)) and minimised at \(t=0\)'', with step
+\(\langle1\rangle8\) claiming \(g'(t)>0\) for \(t>0\).
+\emph{Now:} the evenness is proved; the minimum at \(t=0\) is proved only at leading order.
+\emph{Why:} step \(\langle1\rangle8\) uses that \(\Phi'\) is nondecreasing, which is false (card
+\texttt{phi-derivative-nondecreasing}, refuted); card \texttt{two-chirality-minimum-at-lambda-zero} (conjectural) records the
+minimum as open beyond the leading order, where the bracket \(2+4\cosh\pi\lambda+2\cosh2\pi\lambda\) is strictly increasing
+in \(|\lambda|\), and notes that it would follow from the unproved property that \(\zeta\Phi'(\zeta)\) is nondecreasing.
+\par}
+
 \end{document}

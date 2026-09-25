@@ -113,7 +113,7 @@ text{fill:#1f2328;}.sub,.tick,.note{fill:#57606a;}.axis{stroke:#1f2328;}.grid,.f
 <rect x="100.80" y="100.80" width="6.40" height="6.40" rx="0" class="f1"/>
 <text x="120.00" y="108.00" class="note" text-anchor="start">error bracket [window value, + tail estimate]</text>
 <line x1="96.00" y1="123.00" x2="112.00" y2="123.00" class="s3"/>
-<text x="120.00" y="127.00" class="note" text-anchor="start">certified lower bound, largest κ_c</text>
+<text x="120.00" y="127.00" class="note" text-anchor="start">rigorous lower bound, largest κ_c</text>
 <circle cx="104.00" cy="142.00" r="4.20" class="hole s2"/>
 <text x="120.00" y="146.00" class="note" text-anchor="start">best estimate Φ∞ with its quoted error</text>
 <line x1="96.00" y1="161.00" x2="112.00" y2="161.00" class="s4 dash"/>

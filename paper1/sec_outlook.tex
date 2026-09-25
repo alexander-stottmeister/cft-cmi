@@ -52,14 +52,14 @@ in the choice of chart.
 \begin{enumerate}[label=(O\arabic*),leftmargin=2.6em]
 \item \emph{A rate for the remainder.}  \Cref{thm:main} gives
 $\Phi=f_2\zeta^2+o(\zeta^2)$ with no rate.  The expansion
-\eqref{eq:expansion-structure} proceeds in integer powers, so what is missing is a
+\eqref{eq:expansion-structure} is expected, but not proved, to proceed in integer powers; what is missing is a
 two-sided $O(\zeta^3)$ remainder.  The upper half is available: the global bound of
 \cref{rem:norate} gives $\Phi-f_2\zeta^2\le f_2^2\zeta^4/(1-2f_2\zeta^2)$, whence
 $c_3\le0$ once the limit defining $c_3$ exists \cite{RigorRR}.  A matching lower
 bound needs a cubic remainder uniform in the modular cutoff.  (The formal
 fourth-order Taylor coefficient of the quadratic quantum-Fisher functional
-diverges, but that is not the expansion of $\Phi$, whose quartic coefficient is
-finite, $c_4f_2\approx+0.0076$.)
+diverges, but that is not the expansion of $\Phi$, whose quartic coefficient, if the expansion exists, is
+estimated at $c_4f_2\approx+0.0076$.)
 \item \emph{The Kubo--Mori half.}  Prove $\cD(\zeta)=s_2\zeta^2+o(\zeta^2)$ for
 $\cD$ itself.  The Bures upper bound has no Kubo--Mori analogue, since the
 Kubo--Mori weight is not dominated by $1+\lambda$; a substitute would presumably
@@ -85,8 +85,8 @@ same modular geometry after a conformal map, so the collapse
 \eqref{eq:collapse} should persist with $\zeta$ replaced by the appropriate cross
 ratio; the recovery error should again be $f_2\zeta^2$ with the same $f_2$.
 \item \emph{Large cross ratio.}  Certify $\Phi(\zeta)$ for $\zeta\gtrsim1$ to
-$1\%$ (\cref{rem:largezeta}).  The numerics currently give brackets of
-$0.45$--$6.6\%$ (\cref{tab:largezeta}) and a local log-slope falling from $1.29$ to
+$1\%$ (\cref{rem:largezeta}).  The numerics currently give extrapolated estimates, with uncertainties of
+$0.45$--$6.6\%$ (\cref{tab:largezeta}), and a local log-slope falling from $1.29$ to
 $0.69$; the lattice suggests
 $\Phi\sim\zeta^{1.1}$.  The asymptotics of $\Phi$ as $\zeta\to\infty$ is not known
 even heuristically.

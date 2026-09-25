@@ -316,3 +316,71 @@ line was replaced by exactly one line, so line citations stay valid. Every corre
   thm:UH, thm:UHall and thm:main are unaffected (index zero for small s, shown there); the
   push-forwards W~_s have index zero for every s by a one-line reality argument not yet written;
   for e^{sK} the documents settle it only for zeta < (4 f_2^K)^{-1/2}.
+- **Overclaims corrected in a fourth round** (at the user's request; refereed by REF-DOC-OVER):
+  - the Kubo-Mori bracket 0.034c <= liminf s^-2 D <= limsup <= 0.924c was called proved, unconditional
+    or rigorous. Fixed in place in paper2 (main.tex:38-41, sec_intro.tex:75-76, sec_kubo_mori.tex:127-128
+    and :141, app_conventions.tex:76), README.md:49 and docs/index.html:146; open_problems_plan.tex:220
+    (its C6) and universality_normalization.tex:301 (its C2); inline markers in rigor/PHASE2_STATUS.md:29,
+    rigor/public_site_plan.md:110, rigor/findings.tex:250 and findings_entries.tex:201. Both ends are
+    conditional: the upper end on hypothesis (V), open (Gap RK1), the lower end on Araki's perturbation
+    theory, whose sources were not obtained (Gap RK2) [conj-s2, const-gkm-general-nets]
+  - paper2/app_conventions.tex:40-41: the two off-diagonal blocks have the same Hilbert-Schmidt norm
+    only when the diagonal block has Fredholm index zero [group-index-zero-large-s; rate_of_remainder.tex C3]
+  - the large-zeta values were called certified: paper1/sec_numerics.tex:108 (where the boxes are now
+    said to agree to 2e-3, not 1e-3), sec_2d_lattice.tex:130 and sec_outlook.tex:88-89; the caption of
+    numerics/fidelity_table_largezeta.tex and its root copy; fidelity_recovered_quasifree.tex:452 (its C4);
+    open_problems_plan.tex:271 (its C5); markers in numerics/README.md:51, :64 and :66, rigor/findings.tex:222
+    and findings_entries.tex:132 (which also misprinted two error bars, now 2.241(14) and 3.974(72)) and
+    rigor/PHASE1_STATUS.md:17; the labels in numerics/analyze_largezeta.py, numerics/run_largezeta_cert.py,
+    numerics/results_largezeta_certified.txt (numbers unchanged) and numerics/kb-checks-2026-09-23/README.md.
+    The lower end of each bracket is a lower bound by a theorem, but its computed value is not certified
+    (D-hat enters in double precision); the upper end and the quoted values are extrapolations
+    [large-zeta-values]
+  - smaller changes in the same round: docs/explore/relative-entropy.html:57 ("derive" for "prove"),
+    the box dependence in fidelity_recovered_quasifree.tex:452 (<~2e-3, not <~1e-3), and
+    numerics/kb-checks-2026-09-24/README.md:7 ("the scripts and outputs" of the 2026-09-23 folder are unchanged)
+  - rigor/kubo_mori_gauge_lemma.tex:33, 48, 75, 77-79 (its C1): the opening named (U_eps), which the note's
+    own status table and prop:Afails refute, as the hypothesis of the upper bound 0.924c (it is (V), open), and
+    its table listed (V_eps) at sigma = 0 as proved by a lemma lem:PW that the note does not contain; the twin
+    in paper2/sec_kubo_mori.tex:95-96 and :103 now says the second-order step needs an open uniform-integrability
+    hypothesis [conj-s2]
+  - README.md:101 and the F2 legend (tools/make_figures.py:595, docs/assets/quadratic-law.svg) call the
+    large-zeta ticks rigorous lower bounds, not certified; the site defines its status "certified" as a bound
+    by construction whose D-hat quadrature is not certified (docs/lib/ui.js:15, docs/index.html:72,
+    docs/explore/claim-map.html:67, which had "a rigorous enclosure"; tools/build_site_data.py), and labels the
+    large-zeta lower end "rigorous lower end" (docs/explore/quadratic-law.html:281) [large-zeta-values, interactive-site]
+  - the audit summary of open_problems_plan.tex (l. 146, 174, 187; its C7): s2 = c/12 is a conjecture; of the
+    three computations of the one-particle metrics only the kernel identity is a proof, at c = r; the
+    second-variation lemma needs the vector hypothesis (V); the two-chirality law is proved only for the
+    massless Dirac fermion and its optimum at lambda = 0 is a conjecture [const-gb, conj-s2,
+    second-variation-lemma, two-chirality-law]
+  - rigor/INDEX.md:34 and rigor/PHASE2_STATUS.md:29 (markers): the remainder bound, called unconditional, is
+    proved for zeta < pi sqrt(3); beyond that, up to pi sqrt(6), it rests on the index-zero cards; the values
+    c_3, c_4 are heuristic [rate-of-remainder, rrr-bound-small-zeta, remainder-c3-c4-values]
+  - the two-chirality minimum at lambda = 0 was asserted as proved: paper1/sec_2d_lattice.tex (prop:twobranch,
+    l. 27-28, and its proof, l. 54-58), paper1/sec_intro.tex:86, paper2/sec_outlook.tex:7 and :9 (which also
+    claimed that t = 0 is the best member for one chirality, whereas the error is nonincreasing in t),
+    fidelity_recovered_quasifree.tex:437 (its C5) and rigor/findings.tex:19, :201 with findings_entries.tex:47,
+    :89 (markers): it is proved only at leading order [two-chirality-minimum-at-lambda-zero, two-chirality-law];
+    paper1/sec_2d_lattice.tex:36-38 also stated the relative-entropy law with s2 = c/12, a conjecture [conj-s2]
+  - open_problems_plan.tex, further items after its referee (REF-DOC-PLAN): l. 172 (C7: the one-particle metrics
+    by the kernel identity only; s2 = c/12 a conjecture), l. 295 (C8: c_M/c_E ~ mR only in a scaling window)
+    [rg-c-function], l. 209 (C9: the remainder bound holds for zeta < pi sqrt(3), and up to pi sqrt(6) only
+    modulo the index-zero property) [rrr-bound-small-zeta, rate-of-remainder]; markers in rigor/INDEX.md:48
+    ("arbitrary" exterior extensions: subject to two Hilbert-Schmidt conditions) [uhlmann-upper-half-proved] and
+    rigor/PHASE2_STATUS.md:29 (the 1.20 box bracket is not certified) [certified-numerics]
+  - fifth batch (REF-DOC-OVER, REF-CARD-OVER): the two-chirality minimum also in rigor/check_note5_theory.tex
+    prop:chirality (l. 1378, with a marker on its invalid step <1>8 at l. 1413; a new corrections section, C1),
+    universality_normalization.tex cor:law (l. 411, 416, its C3: the relative-entropy formulas of the corollary
+    hold if s2 = c/12, a conjecture; the minimum and the optimality of the ordinary Petz map within the family only at
+    leading order), open_problems_plan.tex:282 (its C10), docs/explore/universality.html:191, 193 and
+    paper1/sec_intro.tex:78-79 (the factor 4 only at leading order); paper2/sec_outlook.tex:3, 5, 7 (the opening
+    conjecture, whose t = 0 half the proved card petz-not-optimal refutes and whose all-channel half the optimality
+    results contradict numerically; the single-chirality collapse proved only for the free fermion)
+    [two-chirality-minimum-at-lambda-zero, two-chirality-law, petz-not-optimal, conj-s2]; also, not listed above:
+    the s2 marker at rigor/findings.tex:201 and findings_entries.tex:89, the clarification of (V) in
+    open_problems_plan.tex C7 (l. 498), and the l. 75 sentence of the gauge lemma's C1
+  - paper1/sec_outlook.tex:55 and :61-62 (the expansion "proceeds in integer powers": expected, not proved; the
+    quartic coefficient is estimated "if the expansion exists") and paper1/sec_fidelity.tex:241 (c_3 "established
+    numerically": a numerical estimate not yet reproducible from the published scripts) [rate-of-remainder,
+    remainder-c3-c4-values]

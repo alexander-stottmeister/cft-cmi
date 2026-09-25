@@ -1,4 +1,4 @@
-"""PZ: certification of the continuum Phi(zeta)=(1/2)(-log F) at large zeta (zeta>=1).
+"""PZ: windowed lower bounds for the continuum Phi(zeta)=(1/2)(-log F) at large zeta (zeta>=1); the kappa_c extrapolation (analyze_largezeta.py) is not certified.
 Subcommands:
   qbox   Lam kmax dps      -- build box compression Q (mpmath) and its hp eigendecomposition; cache to .pkl
   fid    s Lam kmax eps dps-- sub-compressed Phi in the spectral window eps<w<1-eps (uses cached eig)

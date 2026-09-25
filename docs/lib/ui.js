@@ -12,7 +12,7 @@ export const REPO = 'https://github.com/alexander-stottmeister/cft-cmi/blob/main
 const STATUS_TEXT = {
   proved: 'a complete structured proof',
   refereed: 'a complete structured proof an independent referee pass accepted',
-  certified: 'a rigorous bound from ball arithmetic or a spectral window',
+  certified: 'a bound by construction: a spectral-window lower bound, or a ball-arithmetic enclosure of the compressed problem; the defect-matrix quadrature behind it is not certified',
   numerical: 'measured, with an error bar; not a theorem',
   conditional: 'holds only under the hypotheses named beside it',
   conjectural: 'believed, with partial evidence; not proved',

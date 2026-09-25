@@ -434,7 +434,7 @@ so that \(\lambda=2t\), the root fidelity \(F=\|\sqrt\rho\sqrt\sigma\|_1\) as he
  -\log F^{(\lambda)}(\eta_{\mathrm V})=\Phi_{c}\bigl(z(1+e^{-\pi\lambda})\bigr)+\Phi_{\bar c}\bigl(z(1+e^{\pi\lambda})\bigr),\qquad
  -\log F^{(0)}(\eta_{\mathrm V})=2\,\Phi\Bigl(\frac{2\eta_{\mathrm V}}{1-\eta_{\mathrm V}}\Bigr)=8f_2\,\eta_{\mathrm V}^2+O(\eta_{\mathrm V}^3),
 \end{equation}
-for \(c=\bar c\), where \(f_2\) is the coefficient of \(\zeta^2\) in \(\Phi\) per chiral component (the factor \(2\) is the two chiralities of the free Dirac fermion; a chiral Majorana fermion is half a component).  The \(\lambda\)-dependence is even, with its minimum at \(\lambda=0\), in agreement with the observation of \cite{VardhanWeiZou} that the fidelity is largest at \(\lambda=0\) (real lattice states satisfy \(F^{(\lambda)}=F^{(-\lambda)}\) exactly); at small \(\eta_{\mathrm V}\) it equals \(f_2\eta_{\mathrm V}^2[2+4\cosh\pi\lambda+2\cosh2\pi\lambda]\), and with \(f_2=c/(12\pi^2)\) (Note~7) the apparent exponents of \(-\log F^{(\lambda)}\) reported in \cite{VardhanWeiZou}, \(p\approx2.0,1.9,1.7,1.2\) at \(\lambda=0,0.5,1,1.5\), are reproduced by a lattice implementation of the Gaussian rotated Petz map with ball arithmetic (\texttt{numerics/lattice}, up to \(72\) sites against their \(L_A,L_B\le8\)): \(1.99,1.91,1.64,1.15\) on \(\eta_{\mathrm V}\le0.1\), strongly window dependent; the ratio of the lattice value to the two-branch formula is constant in \(\eta_{\mathrm V}\) and equals \(1-0.15/L\), while a single-branch law is off by factors \(22\)--\(5000\).  The branch with the larger \(\zeta\) probes the crossover region of \(\Phi\), where the lattice indicates \(\Phi\sim\zeta^{1.1}\) for \(\zeta\gtrsim1\), far flatter than the last tabulated interval; an earlier version quoted continuum exponents obtained by extrapolating \(\Phi\) beyond \(\zeta=0.53\), which is not reliable.  The collapse onto a single function of one variable is a statement about one chirality; on a lattice it can be tested with a chiral (or parity-broken) model.
+for \(c=\bar c\), where \(f_2\) is the coefficient of \(\zeta^2\) in \(\Phi\) per chiral component (the factor \(2\) is the two chiralities of the free Dirac fermion; a chiral Majorana fermion is half a component).  The \(\lambda\)-dependence is even (real lattice states satisfy \(F^{(\lambda)}=F^{(-\lambda)}\) exactly); a minimum at \(\lambda=0\), as \cite{VardhanWeiZou} observe (the fidelity is largest at \(\lambda=0\)), is proved only at leading order in \(\eta_{\mathrm V}\) (Correction~C5); at small \(\eta_{\mathrm V}\) it equals \(f_2\eta_{\mathrm V}^2[2+4\cosh\pi\lambda+2\cosh2\pi\lambda]\), and with \(f_2=c/(12\pi^2)\) (Note~7) the apparent exponents of \(-\log F^{(\lambda)}\) reported in \cite{VardhanWeiZou}, \(p\approx2.0,1.9,1.7,1.2\) at \(\lambda=0,0.5,1,1.5\), are reproduced by a lattice implementation of the Gaussian rotated Petz map with ball arithmetic (\texttt{numerics/lattice}, up to \(72\) sites against their \(L_A,L_B\le8\)): \(1.99,1.91,1.64,1.15\) on \(\eta_{\mathrm V}\le0.1\), strongly window dependent; the ratio of the lattice value to the two-branch formula is constant in \(\eta_{\mathrm V}\) and equals \(1-0.15/L\), while a single-branch law is off by factors \(22\)--\(5000\).  The branch with the larger \(\zeta\) probes the crossover region of \(\Phi\), where the lattice indicates \(\Phi\sim\zeta^{1.1}\) for \(\zeta\gtrsim1\), far flatter than the last tabulated interval; an earlier version quoted continuum exponents obtained by extrapolating \(\Phi\) beyond \(\zeta=0.53\), which is not reliable.  The collapse onto a single function of one variable is a statement about one chirality; on a lattice it can be tested with a chiral (or parity-broken) model.
 
 \section{Numerical results}\label{sec:numerics}
 
@@ -449,7 +449,7 @@ Table~\ref{tab:convergence} lists \(\Phi(1/15)\) for eight combinations of box l
 \paragraph{The function \(\Phi\).}
 Table~\ref{tab:scan} gives \(\Phi(\zeta)\) and the relative entropy over \(0.008\le\zeta\le0.53\).  The ratio \(\Phi/\zeta^2\) rises towards \(f_2\) as \(\zeta\to0\) and has dropped by a third at \(\zeta=0.53\); the relative entropy stays close to \(\pi^2\approx9.87\) times \(\Phi\); and the ratio \(-2\log\Fid/I_\omega(A{:}C|B)\) grows linearly, \(\approx0.20\zeta\), so the CMI bound is never close to saturation.
 
-\paragraph{Large cross ratios.} For \(\zeta\ge1\) the tail formula \eqref{eq:tail} is invalid (the fitted window exponent \(p\) in \(\Phi_{\rm sub}(\kappa_c)=\Phi_\infty-b\kappa_c^{-p}\) drifts from \(2.5\) to \(1.2\) between \(\zeta=1\) and \(\zeta=17\)) and the systematics is entirely the window, the box dependence being \(\lesssim10^{-3}\).  Windows up to \(\kappa_c=43.8\) and a free-exponent extrapolation give the certified brackets of Table~\ref{tab:largezeta}: \(\Phi(1.07)=4.410(20)\times10^{-3}\), \(\Phi(2.13)=1.0797(50)\times10^{-2}\), \(\Phi(4.27)=2.241(14)\times10^{-2}\), \(\Phi(8.53)=3.974(72)\times10^{-2}\), \(\Phi(17.1)=6.41(43)\times10^{-2}\); the local exponent \(d\log\Phi/d\log\zeta\) decreases from \(1.29\) to \(0.69\), consistent with the lattice (\texttt{numerics/lattice}).  This supplies the large-\(\zeta\) input needed for the two-branch comparison of Corollary~\ref{cor:collapse} and for the large-cross-ratio law (Note~6, P3).
+\paragraph{Large cross ratios.} For \(\zeta\ge1\) the tail formula \eqref{eq:tail} is invalid (the fitted window exponent \(p\) in \(\Phi_{\rm sub}(\kappa_c)=\Phi_\infty-b\kappa_c^{-p}\) drifts from \(2.5\) to \(1.2\) between \(\zeta=1\) and \(\zeta=17\)) and the systematics is entirely the window, the box dependence being \(\lesssim2\times10^{-3}\).  Windows up to \(\kappa_c=43.8\) and a free-exponent extrapolation give the brackets of Table~\ref{tab:largezeta} (rigorous lower ends; the upper ends are extrapolations, not bounds) and the best estimates (Correction~C4): \(\Phi(1.07)=4.410(20)\times10^{-3}\), \(\Phi(2.13)=1.0797(50)\times10^{-2}\), \(\Phi(4.27)=2.241(14)\times10^{-2}\), \(\Phi(8.53)=3.974(72)\times10^{-2}\), \(\Phi(17.1)=6.41(43)\times10^{-2}\); the local exponent \(d\log\Phi/d\log\zeta\) decreases from \(1.29\) to \(0.69\), consistent with the lattice (\texttt{numerics/lattice}).  This supplies the large-\(\zeta\) input needed for the two-branch comparison of Corollary~\ref{cor:collapse} and for the large-cross-ratio law (Note~6, P3).
 \input{fidelity_table_largezeta}
 
 
@@ -492,10 +492,10 @@ Open problems: (i) a closed form for \(f_2\), for which the modular-flow represe
 \addcontentsline{toc}{section}{Corrections of 2026-09-24}
 {\sloppy
 These corrections implement the knowledge-base cards \texttt{tail-bound} (C1),
-\texttt{rate-of-remainder} with \texttt{remainder-c3-c4-values} (C2) and \texttt{certified-numerics}
-(C3) of project \texttt{cft\_cmi},
+\texttt{rate-of-remainder} with \texttt{remainder-c3-c4-values} (C2), \texttt{certified-numerics}
+(C3), \texttt{large-zeta-values} (C4) and \texttt{two-chirality-minimum-at-lambda-zero} (C5; both added in a fourth round) of project \texttt{cft\_cmi},
 whose refereed Statements are the specification.  C1 follows \texttt{rigor/tail\_bound.tex} as
-corrected on the same day (its Corrections C1--C4, C8 and C10).  Each changed line (396, 401, 402) was replaced by
+corrected on the same day (its Corrections C1--C4, C8 and C10).  Each changed line (396, 401, 402; 452 for C4; 437 for C5) was replaced by
 exactly one line, so line numbers cited elsewhere still point to the same text; C2 and C3 were added
 in a third round.
 
@@ -555,5 +555,32 @@ $\Phi^{\rm box}\le1.20\,\Phi_W$ is ``rigorous modulo the quadrature of $\widehat
 dimensionality of the box'', obtained ``with the measured constants $c_0,c_1$''; its Correction C2:
 $c_1\le1.011$ but $c_0\in[18,42]$.  The same qualification was made in \texttt{open\_problems\_plan.tex},
 line~209.
+\paragraph{C4. The large-\(\zeta\) brackets (paragraph ``Large cross ratios'', line~452; added in a fourth
+round).}
+\emph{Before:} ``the box dependence being \(\lesssim10^{-3}\).  Windows up to \(\kappa_c=43.8\) and a
+free-exponent extrapolation give the certified brackets of Table~\ref{tab:largezeta}''.
+\emph{Now:} the box dependence is \(\lesssim2\times10^{-3}\), and the table gives brackets whose lower ends
+are rigorous and whose upper ends are extrapolations, not bounds, together with the best estimates; the
+caption of the table was corrected in the same way.
+\emph{Why:} the lower end of each bracket, the windowed value \(\Phi_{\rm sub}\) at the largest \(\kappa_c\), is a lower bound by a theorem (\(\Phi_{\rm sub}\le\Phi\) for the sub-compression), though its computed value is not certified either: \(\widehat D\) enters in double precision, as for the small-\(\zeta\) box values (\texttt{rigor/certified\_numerics.tex}, repair~(6)); the upper end \(\Phi_\infty\) is the
+extrapolation of the fit \(\Phi_{\rm sub}(\kappa_c)=\Phi_\infty-b\,\kappa_c^{-p}\), and the quoted
+uncertainties are the larger of the spread of alternative fits and a quarter of the distance to the lower end (\texttt{numerics/analyze\_largezeta.py}).
+At fixed \(\kappa_c\) the boxes \(\Lambda=60,120,180\) differ by up to \(1.6\times10^{-3}\) relative
+(\texttt{numerics/results\_largezeta\_certified.txt}, section~3).  Card \texttt{large-zeta-values};
+\texttt{open\_problems\_plan.tex}, Correction~C5.
+\paragraph{C5. The minimum of the two-chirality law (line~437; added in a fourth round).}
+\emph{Before:} ``The \(\lambda\)-dependence is even, with its minimum at \(\lambda=0\), in agreement with the
+observation of \cite{VardhanWeiZou} that the fidelity is largest at \(\lambda=0\)''.
+\emph{Now:} the dependence is even; the minimum at \(\lambda=0\) is proved only at leading order in
+\(\eta_{\mathrm V}\), where the bracket \(2+4\cosh\pi\lambda+2\cosh2\pi\lambda\) is strictly increasing in
+\(|\lambda|\) (so for each fixed \(\lambda\neq0\) it holds for all sufficiently small \(\eta_{\mathrm V}\), not
+uniformly in \(\lambda\)), and beyond leading order it is a conjecture that agrees with the lattice observation.
+\emph{Why:} card \texttt{two-chirality-minimum-at-lambda-zero} (conjectural): ``No proof exists: the only argument
+in the documents, rigor/check\_note5\_theory.tex prop:chirality step \(\langle1\rangle8\) \dots, uses
+`Phi' nondecreasing', which is false (card phi-derivative-nondecreasing, refuted)''; the minimum would follow from
+the weaker, unproved property that \(\zeta\Phi'(\zeta)\) is nondecreasing.  Monotonicity of \(\Phi\) alone does
+not give it, since \(\Phi(\zeta_-)\) can only decrease as \(\Phi(\zeta_+)\) increases.  Card
+\texttt{two-chirality-law} proves the law and its evenness for the massless Dirac fermion.  The same correction
+was made in paper~1 (\texttt{prop:twobranch} and the introduction) and paper~2 (the outlook).
 \par}
 \end{document}
