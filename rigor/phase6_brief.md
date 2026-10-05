@@ -81,7 +81,10 @@ W2 (second-order network law). For corners (y_k, zeta_k) in the modular frame of
   (quadratic_limit.tex Thm "lower") is linear in the defect, hence verbatim. Upper bound: Uhlmann + C^{1,1} flow
   extension (uhlmann_upper_bound.tex Sec. 1, rate_of_remainder.tex) with finitely many second-derivative jumps; the
   three-way identity inf_ext = SLD form = 4 dist(., commutant)^2 is Hilbert-space geometry and extends. Expected global
-  bound: Phi_tot <= -(1/2) log(1 - 2 sum zeta zeta G) (group extension, as in rate-of-remainder).
+  bound: Phi_tot <= -(c/2) log(1 - 2 s^2 sum zeta zeta Ghat) [c-normalised; corrected 2026-10-05 after REF-P6-7: the earlier
+  -(1/2) log(1 - 2 sum zeta zeta G) with G = c Ghat agrees only for c = 1] (group extension, as in rate-of-remainder) --
+  NOT proved by G1b: distinct corners do not compose as a flow (network_second_order.tex lem:nogroup); proved only with the
+  coincident-corner constant under s max_k zeta_k < pi sqrt3 (thm:T3, card network-global-bound-coincident).
 W3 (separation constraint; wording repaired after REF-P6-0). Admissible protocols (s >= lambda) ALL OF WHOSE corners are
   weak (zeta_j <= eps for EVERY j) cannot place two of them close at distinct points: for the L->R chain
   (e^{Delta_k} - 1) zeta_k^(I) = 2 r_k (1+v_k)/(1+r_k) >= 2 r_k/(1 + r_k), and zeta_j <= eps for all j forces

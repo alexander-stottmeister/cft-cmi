@@ -1,0 +1,217 @@
+# N3 -- numerics/networks/lattice_chain.py N3 (run from the repository root cft_cmi/).
+# Discretisation: the lattice model itself, computed exactly in Gaussian form (every one-particle mode of
+# every block kept; no truncation, no taper, flint ball arithmetic at bits_for(n)+200); the lattice
+# spacing is the only regulator, and its effect is the resolution dependence measured below (no
+# regulator-free discretisation exists for a lattice model; continuum statements are compared after
+# extrapolation in n).  Raw data (one line per run, with the normalisation defect nrm):
+#   numerics/networks/vwz_A.raw     <- $PYTHON numerics/networks/lattice_chain.py sweep e015
+#   numerics/networks/vwz_B.raw     <- $PYTHON numerics/networks/lattice_chain.py sweep e005,e010
+#   numerics/networks/vwz_C.raw     <- $PYTHON numerics/networks/lattice_chain.py sweep e020,e030,e040,m010,m020,m030
+#   numerics/networks/vwz_G.raw     <- $PYTHON numerics/networks/lattice_chain.py sweep m020x,e030x,m010x,m030x
+#   numerics/networks/chains_D.raw  <- $PYTHON numerics/networks/lattice_chain.py chains sw,eq3,eq4,eq5,eq6,n4r2
+#   numerics/networks/chains_E.raw  <- $PYTHON numerics/networks/lattice_chain.py chains ref
+#   numerics/networks/chains_F.raw  <- $PYTHON numerics/networks/lattice_chain.py chains n5r2,n4r3,n6r2,n5r3
+#   numerics/networks/chains_H.raw  <- $PYTHON numerics/networks/lattice_chain.py chains eq3x,n4r2x
+#   numerics/networks/chains_I.raw  <- $PYTHON numerics/networks/lattice_chain.py chains n6r2x
+# Fit rules: NFIT = 4 finest resolutions, TOL_FIT = 1e-04 (fixed before the runs); see NETWORK_RESULTS.md.
+# N3: Phi^(1), Phi^(2), Phi^(3) (lattice -log F, ordinary Petz, two chiralities) and D, VWZ symmetric
+# setup.  Corner data (corner_measure = Thm 5.2): zeta_1 = a/b (1A), zeta_2 = a(a+2b)/(2b(a+b)) at p_2
+# and zeta_3 = a/b at p_3 (Protocol 2), Delta_23 = log(1/eta); zeta_eff = 2a/b (Protocol 3).
+# P31 = Phi_A(2a/b)/Phi_A(a/b) (unconditional prediction, continuum tables, flags); P21_2 =
+# (zeta_2^2+zeta_3^2)/zeta_1^2 (Ghat-free part, second order); P21_A = (Phi_A(z2)+Phi_A(z3))/Phi_A(z1)
+# (no cross term, all orders).  X = (R21 - P21_2)/(2 z2 z3/z1^2) estimates Ghat(Delta_23)/Ghat(0) ONLY if
+# all zeta <= 0.2; X_A = (R21 Phi_A(z1) - Phi_A(z2) - Phi_A(z3))/(2 f2 z2 z3) removes the single-corner
+# higher orders.  Sizes: see m, n; n > 72 rows go beyond the brief's 72-site range (labelled).
+
+e005 eta=0.0500 (a,b)=(2,19) x m: z1=0.105263 z2=0.100251 z3=0.105263 Delta23=2.995732 (log 1/eta=2.995732) zeta_eff=0.210526
+  P31=3.634196 [tab,tab]  P21_2=1.907029  P21_A=1.910846 [tab]  2z2z3/z1^2=1.904762
+    m    n            Phi1            Phi2            Phi3        R21        R31      D2/D1      D3/D1 f_i = Phi_i/eta^2
+    1   42 1.912544570e-04 4.435456846e-04 6.250129204e-04   2.319139   3.267965   2.168905   4.155632 0.07650 0.17742 0.25001
+    2   84 1.804330675e-04 4.283922774e-04 6.202958157e-04   2.374245   3.437817   2.066595   3.811112 0.07217 0.17136 0.24812  (n > 72)
+    3  126 1.767105310e-04 4.231672067e-04 6.188314392e-04   2.394692   3.501950   2.037503   3.713122 0.07068 0.16927 0.24753  (n > 72)
+  R31 = Phi3/Phi1                    n=[42, 84, 126]
+    values: 3.2679652545 3.4378167161 3.5019499734
+    stable digits (two finest): 3
+    fits: 1/L: 3.615473 res=3.5e-03 rej dof=1 ; logL: -- res=1.4e-02 rej dof=1 b=2.164e-01; 1/L,1/L^2: 3.641491 res=4.4e-16 ADM dof=0 ; h^p: 3.674560 res=3.8e-05 ADM dof=0 p=0.78
+    => extrapolated 3.658025 +- 3.3e-02 (spread of admissible fits)
+  R21 = Phi2/Phi1                    n=[42, 84, 126]
+    values: 2.3191390752 2.3742448277 2.3946915012
+    stable digits (two finest): 2.3
+    fits: 1/L: 2.431509 res=9.6e-04 rej dof=1 ; logL: -- res=4.8e-03 rej dof=1 b=6.993e-02; 1/L,1/L^2: 2.438702 res=1.3e-15 ADM dof=0 ; h^p: 2.447364 res=1.6e-05 ADM dof=0 p=0.81
+    => extrapolated 2.443033 +- 8.7e-03 (spread of admissible fits)
+  D2/D1                              n=[42, 84, 126]
+    values: 2.1689052878 2.0665947006 2.0375029506
+    stable digits (two finest): 2.0
+    fits: 1/L: 1.969489 res=2.3e-03 rej dof=1 ; logL: -- res=1.3e-02 rej dof=1 b=-1.226e-01; 1/L,1/L^2: 1.986837 res=8.9e-16 ADM dof=0 ; h^p: 1.994185 res=3.7e-05 ADM dof=0 p=1.27
+    => extrapolated 1.990511 +- 7.3e-03 (spread of admissible fits)
+  D3/D1                              n=[42, 84, 126]
+    values: 4.1556318509 3.8111120800 3.7131220279
+    stable digits (two finest): 3
+    fits: 1/L: 3.484090 res=7.8e-03 rej dof=1 ; logL: -- res=4.3e-02 rej dof=1 b=-4.129e-01; 1/L,1/L^2: 3.542417 res=8.9e-16 ADM dof=0 ; h^p: 3.567258 res=1.1e-04 rej dof=0 p=1.27  [one admissible fit: uncertainty = max distance to all extrapolating fits]
+    => extrapolated 3.542417 +- 5.8e-02 (spread of admissible fits)
+  R31_inf/P31 = 1.006557 +- 9.1e-03   (quadratic interpolation: P31q = 3.647137, R31_inf/P31q = 1.002985)
+  excess R21_inf - P21_2 = 0.536003 +- 8.7e-03; X = 0.28140 +- 4.5e-03, X_A = 0.25168 +- 4.1e-03  [lattice estimate of Ghat(2.9957)/Ghat(0)]
+
+e010 eta=0.1000 (a,b)=(2,9) x m: z1=0.222222 z2=0.202020 z3=0.222222 Delta23=2.302585 (log 1/eta=2.302585) zeta_eff=0.444444
+  P31=3.346687 [tab,tab]  P21_2=1.826446  P21_A=1.839577 [tab]  2z2z3/z1^2=1.818182
+    m    n            Phi1            Phi2            Phi3        R21        R31      D2/D1      D3/D1 f_i = Phi_i/eta^2
+    1   22 7.650944332e-04 1.829441283e-03 2.346211194e-03   2.391131   3.066564   2.125711   3.721207 0.07651 0.18294 0.23462
+    2   44 7.221563775e-04 1.763186836e-03 2.308625530e-03   2.441558   3.196850   2.026042   3.416487 0.07222 0.17632 0.23086
+    3   66 7.079667720e-04 1.741279507e-03 2.297888485e-03   2.459550   3.245758   1.998674   3.331266 0.07080 0.17413 0.22979
+    4   88 7.008545592e-04 1.730286296e-03 2.292827554e-03   2.468824   3.271474   1.985980   3.292229 0.07009 0.17303 0.22928  (n > 72)
+  R31 = Phi3/Phi1                    n=[22, 44, 66, 88]
+    values: 3.0665641942 3.1968498825 3.2457575360 3.2714741230
+    stable digits (two finest): 3.2
+    fits: 1/L: 3.336407 res=4.0e-03 rej dof=2 ; logL: -- res=1.7e-02 rej dof=2 b=1.499e-01; 1/L,1/L^2: 3.352358 res=9.0e-05 ADM dof=1 ; h^p: 3.370362 res=2.0e-04 rej dof=1 p=0.81  [one admissible fit: uncertainty = max distance to all extrapolating fits]
+    => extrapolated 3.352358 +- 1.8e-02 (spread of admissible fits)
+  R21 = Phi2/Phi1                    n=[22, 44, 66, 88]
+    values: 2.3911313476 2.4415582145 2.4595497638 2.4688236291
+    stable digits (two finest): 2.4
+    fits: 1/L: 2.493990 res=8.6e-04 rej dof=2 ; logL: -- res=7.1e-03 rej dof=2 b=5.688e-02; 1/L,1/L^2: 2.497442 res=2.2e-05 ADM dof=1 ; h^p: 2.500753 res=3.7e-05 ADM dof=1 p=0.89
+    => extrapolated 2.499098 +- 3.3e-03 (spread of admissible fits)
+  D2/D1                              n=[22, 44, 66, 88]
+    values: 2.1257114036 2.0260415942 1.9986740359 1.9859797435
+    stable digits (two finest): 1.9
+    fits: 1/L: 1.936040 res=4.1e-03 rej dof=2 ; logL: -- res=1.8e-02 rej dof=2 b=-1.026e-01; 1/L,1/L^2: 1.952461 res=4.1e-05 ADM dof=1 ; h^p: 1.958932 res=2.0e-04 rej dof=1 p=1.31  [one admissible fit: uncertainty = max distance to all extrapolating fits]
+    => extrapolated 1.952461 +- 1.6e-02 (spread of admissible fits)
+  D3/D1                              n=[22, 44, 66, 88]
+    values: 3.7212074130 3.4164867032 3.3312661575 3.2922292736
+    stable digits (two finest): 3
+    fits: 1/L: 3.139307 res=1.2e-02 rej dof=2 ; logL: -- res=5.6e-02 rej dof=2 b=-3.150e-01; 1/L,1/L^2: 3.186575 res=1.9e-04 rej dof=1 ; h^p: 3.206158 res=2.8e-04 rej dof=1 p=1.29  => no admissible extrapolating fit
+    => none
+  R31_inf/P31 = 1.001694 +- 5.4e-03   (quadratic interpolation: P31q = 3.363043, R31_inf/P31q = 0.996823)
+  excess R21_inf - P21_2 = 0.672651 +- 3.3e-03; X = 0.36996 +- 1.8e-03, X_A = 0.29423 +- 1.5e-03  [lattice, second order not yet reached (max zeta = 0.222 > 0.2)]
+
+e015 eta=0.1500 (a,b)=(6,17) x m: z1=0.352941 z2=0.306905 z3=0.352941 Delta23=1.897120 (log 1/eta=1.897120) zeta_eff=0.705882
+  P31=3.095191 [tab,gap]  P21_2=1.756144  P21_A=1.787430 [tab]  2z2z3/z1^2=1.739130
+    m    n            Phi1            Phi2            Phi3        R21        R31      D2/D1      D3/D1 f_i = Phi_i/eta^2
+    1   46 1.602089226e-03 3.938660591e-03 4.853733062e-03   2.458453   3.029627   1.946889   3.025613 0.07120 0.17505 0.21572
+    2   92 1.570996032e-03 3.887884896e-03 4.823126891e-03   2.474790   3.070108   1.925582   2.961582 0.06982 0.17279 0.21436  (n > 72)
+    3  138 1.560823016e-03 3.871214634e-03 4.813848497e-03   2.480239   3.084173   1.919037   2.941680 0.06937 0.17205 0.21395  (n > 72)
+  R31 = Phi3/Phi1                    n=[46, 92, 138]
+    values: 3.0296271790 3.0701076207 3.0841731880
+    stable digits (two finest): 3.0
+    fits: 1/L: 3.111182 res=2.6e-04 rej dof=1 ; logL: -- res=4.0e-03 rej dof=1 b=5.059e-02; 1/L,1/L^2: 3.113162 res=4.4e-16 ADM dof=0 ; h^p: 3.114844 res=8.5e-06 ADM dof=0 p=0.93
+    => extrapolated 3.114003 +- 1.7e-03 (spread of admissible fits)
+  R21 = Phi2/Phi1                    n=[46, 92, 138]
+    values: 2.4584527045 2.4747897610 2.4802393316
+    stable digits (two finest): 2.4
+    fits: 1/L: 2.491131 res=1.8e-06 ADM dof=1 ; logL: -- res=1.7e-03 rej dof=1 b=2.023e-02; 1/L,1/L^2: 2.491144 res=1.8e-15 ADM dof=0 ; h^p: 2.491131 res=1.8e-06 ADM dof=0 p=1.00
+    => extrapolated 2.491135 +- 1.3e-05 (spread of admissible fits)
+  D2/D1                              n=[46, 92, 138]
+    values: 1.9468889625 1.9255824807 1.9190373437
+    stable digits (two finest): 1.9
+    fits: 1/L: 1.904854 res=2.6e-04 rej dof=1 ; logL: -- res=2.4e-03 rej dof=1 b=-2.593e-02; 1/L,1/L^2: 1.906783 res=8.9e-16 ADM dof=0 ; h^p: 1.907889 res=2.7e-06 ADM dof=0 p=1.14
+    => extrapolated 1.907336 +- 1.1e-03 (spread of admissible fits)
+  D3/D1                              n=[46, 92, 138]
+    values: 3.0256132936 2.9615824604 2.9416802734
+    stable digits (two finest): 2.9
+    fits: 1/L: 2.899048 res=6.7e-04 rej dof=1 ; logL: -- res=7.2e-03 rej dof=1 b=-7.812e-02; 1/L,1/L^2: 2.904038 res=1.3e-15 ADM dof=0 ; h^p: 2.907030 res=6.5e-06 ADM dof=0 p=1.12
+    => extrapolated 2.905534 +- 3.0e-03 (spread of admissible fits)
+  R31_inf/P31 = 1.006078 +- 5.4e-04   (quadratic interpolation: P31q = 3.114096, R31_inf/P31q = 0.999970)
+  excess R21_inf - P21_2 = 0.734992 +- 1.3e-05; X = 0.42262 +- 7.7e-06, X_A = 0.29360 +- 5.6e-06  [lattice, second order not yet reached (max zeta = 0.353 > 0.2)]
+
+e020 eta=0.2000 (a,b)=(1,2) x m: z1=0.500000 z2=0.416667 z3=0.500000 Delta23=1.609438 (log 1/eta=1.609438) zeta_eff=1.000000
+  P31=2.889434 [tab,gap]  P21_2=1.694444  P21_A=1.732162 [tab]  2z2z3/z1^2=1.666667
+    m    n            Phi1            Phi2            Phi3        R21        R31      D2/D1      D3/D1 f_i = Phi_i/eta^2
+    2   12 3.250535979e-03 7.637610163e-03 8.823183594e-03   2.349646   2.714378   1.987645   3.015840 0.08126 0.19094 0.22058
+    3   18 3.005330721e-03 7.198533684e-03 8.369004871e-03   2.395255   2.784720   1.927250   2.894961 0.07513 0.17996 0.20923
+    4   24 2.937106501e-03 7.082368118e-03 8.264150567e-03   2.411342   2.813705   1.906345   2.834745 0.07343 0.17706 0.20660
+    6   36 2.876778595e-03 6.980627376e-03 8.181090526e-03   2.426543   2.843837   1.888734   2.774253 0.07192 0.17452 0.20453
+    8   48 2.848428433e-03 6.932802432e-03 8.144923588e-03   2.433904   2.859445   1.879781   2.747479 0.07121 0.17332 0.20362
+   10   60 2.831889166e-03 6.904890952e-03 8.124820893e-03   2.438263   2.869046   1.874776   2.732742 0.07080 0.17262 0.20312
+   12   72 2.821054285e-03 6.886589977e-03 8.112076409e-03   2.441141   2.875548   1.871368   2.721065 0.07053 0.17216 0.20280
+  R31 = Phi3/Phi1                    n=[12, 18, 24, 36, 48, 60, 72]
+    values: 2.7143780749 2.7847201014 2.8137047683 2.8438373886 2.8594447003 2.8690462143 2.8755477884
+    stable digits (two finest): 2.8
+    fits: 1/L: 2.907113 res=1.5e-04 rej dof=2 ; logL: -- res=1.4e-03 rej dof=2 b=4.592e-02; 1/L,1/L^2: 2.909243 res=5.1e-07 ADM dof=1 ; h^p: 2.911629 res=6.9e-06 ADM dof=1 p=0.91
+    => extrapolated 2.910436 +- 2.4e-03 (spread of admissible fits)
+  R21 = Phi2/Phi1                    n=[12, 18, 24, 36, 48, 60, 72]
+    values: 2.3496464003 2.3952550824 2.4113419501 2.4265431442 2.4339043771 2.4382631333 2.4411405390
+    stable digits (two finest): 2.4
+    fits: 1/L: 2.455776 res=3.7e-05 ADM dof=2 ; logL: -- res=7.4e-04 rej dof=2 b=2.114e-02; 1/L,1/L^2: 2.455234 res=1.2e-06 ADM dof=1 ; h^p: 2.454776 res=5.1e-07 ADM dof=1 p=1.05
+    => extrapolated 2.455262 +- 1.0e-03 (spread of admissible fits)
+  D2/D1                              n=[12, 18, 24, 36, 48, 60, 72]
+    values: 1.9876445567 1.9272500737 1.9063447878 1.8887335919 1.8797810998 1.8747761977 1.8713680892
+    stable digits (two finest): 1.87
+    fits: 1/L: 1.853933 res=1.9e-04 rej dof=2 ; logL: -- res=1.0e-03 rej dof=2 b=-2.509e-02; 1/L,1/L^2: 1.855991 res=6.5e-05 ADM dof=1 ; h^p: 1.857369 res=7.0e-05 ADM dof=1 p=1.16
+    => extrapolated 1.856680 +- 1.4e-03 (spread of admissible fits)
+  D3/D1                              n=[12, 18, 24, 36, 48, 60, 72]
+    values: 3.0158398957 2.8949612148 2.8347454451 2.7742531319 2.7474790917 2.7327423220 2.7210651520
+    stable digits (two finest): 2.7
+    fits: 1/L: 2.668713 res=7.3e-04 rej dof=2 ; logL: -- res=2.9e-03 rej dof=2 b=-7.643e-02; 1/L,1/L^2: 2.667503 res=7.0e-04 rej dof=1 ; h^p: 2.665548 res=6.8e-04 rej dof=1 p=0.96  => no admissible extrapolating fit
+    => none
+  R31_inf/P31 = 1.007268 +- 8.3e-04   (quadratic interpolation: P31q = 2.891423, R31_inf/P31q = 1.006576)
+  excess R21_inf - P21_2 = 0.760818 +- 1.0e-03; X = 0.45649 +- 6.0e-04, X_A = 0.28455 +- 3.9e-04  [lattice, second order not yet reached (max zeta = 0.500 > 0.2)]
+
+e030 eta=0.3000 (a,b)=(6,7) x m: z1=0.857143 z2=0.659341 z3=0.857143 Delta23=1.203973 (log 1/eta=1.203973) zeta_eff=1.714286
+  P31=2.569156 [gap,large]  P21_2=1.591716  P21_A=1.672466 [gap]  2z2z3/z1^2=1.538462
+    m    n            Phi1            Phi2            Phi3        R21        R31      D2/D1      D3/D1 f_i = Phi_i/eta^2
+    1   26 6.698432594e-03 1.553974508e-02 1.699341252e-02   2.319908   2.536924   1.768558   2.386957 0.07443 0.17266 0.18882
+    2   52 6.550635149e-03 1.528372564e-02 1.675672792e-02   2.333167   2.558031   1.762097   2.347536 0.07278 0.16982 0.18619
+    3   78 6.508775391e-03 1.521094609e-02 1.669459013e-02   2.336990   2.564936   1.759289   2.341311 0.07232 0.16901 0.18550  (n > 72)
+    4  104 6.489043927e-03 1.517659039e-02 1.666659781e-02   2.338802   2.568421   1.757968   2.337516 0.07210 0.16863 0.18518  (n > 72)
+  R31 = Phi3/Phi1                    n=[26, 52, 78, 104]
+    values: 2.5369237185 2.5580310206 2.5649356632 2.5684211730
+    stable digits (two finest): 2.56
+    fits: 1/L: 2.578959 res=7.8e-05 ADM dof=2 ; logL: -- res=3.3e-03 rej dof=2 b=2.308e-02; 1/L,1/L^2: 2.578687 res=2.2e-05 ADM dof=1 ; h^p: 2.578526 res=2.5e-05 ADM dof=1 p=1.02
+    => extrapolated 2.578724 +- 4.3e-04 (spread of admissible fits)
+  R21 = Phi2/Phi1                    n=[26, 52, 78, 104]
+    values: 2.3199076597 2.3331669819 2.3369904739 2.3388022273
+    stable digits (two finest): 2.33
+    fits: 1/L: 2.345442 res=4.2e-04 rej dof=2 ; logL: -- res=2.4e-03 rej dof=2 b=1.386e-02; 1/L,1/L^2: 2.343771 res=4.5e-06 ADM dof=1 ; h^p: 2.342988 res=2.3e-05 ADM dof=1 p=1.23
+    => extrapolated 2.343380 +- 7.8e-04 (spread of admissible fits)
+  D2/D1                              n=[26, 52, 78, 104]
+    values: 1.7685576727 1.7620966953 1.7592894780 1.7579682483
+    stable digits (two finest): 1.75
+    fits: 1/L: 1.754685 res=4.1e-04 rej dof=2 ; logL: -- res=6.7e-04 rej dof=2 b=-7.775e-03; 1/L,1/L^2: 1.753188 res=7.8e-05 ADM dof=1 ; h^p: 1.750791 res=1.1e-04 rej dof=1 p=0.66  [one admissible fit: uncertainty = max distance to all extrapolating fits]
+    => extrapolated 1.753188 +- 2.4e-03 (spread of admissible fits)
+  D3/D1                              n=[26, 52, 78, 104]
+    values: 2.3869565682 2.3475363003 2.3413105216 2.3375155483
+    stable digits (two finest): 2.3
+    fits: 1/L: 2.318299 res=4.4e-03 rej dof=2 ; logL: -- res=9.5e-03 rej dof=2 b=-3.610e-02; 1/L,1/L^2: 2.334468 res=7.6e-04 rej dof=1 ; h^p: 2.334682 res=7.6e-04 rej dof=1 p=1.99  => no admissible extrapolating fit
+    => none
+  R31_inf/P31 = 1.003724 +- 1.7e-04   (quadratic interpolation: P31q = 2.572439, R31_inf/P31q = 1.002443)
+  excess R21_inf - P21_2 = 0.751664 +- 7.8e-04; X = 0.48858 +- 5.1e-04, X_A = 0.22274 +- 2.6e-04  [lattice, second order not yet reached (max zeta = 0.857 > 0.2)]
+
+e040 eta=0.4000 (a,b)=(4,3) x m: z1=1.333333 z2=0.952381 z3=1.333333 Delta23=0.916291 (log 1/eta=0.916291) zeta_eff=2.666667
+  P31=2.321515 [large,large]  P21_2=1.510204  P21_A=1.631523 [gap]  2z2z3/z1^2=1.428571
+    m    n            Phi1            Phi2            Phi3        R21        R31      D2/D1      D3/D1 f_i = Phi_i/eta^2
+    1   14 1.396979930e-02 3.024051665e-02 3.146935698e-02   2.164707   2.252671   1.627317   2.006013 0.08731 0.18900 0.19668
+    2   28 1.240700910e-02 2.726047763e-02 2.849391012e-02   2.197184   2.296598   1.650183   2.089655 0.07754 0.17038 0.17809
+    3   42 1.222857616e-02 2.695210620e-02 2.819536595e-02   2.204027   2.305695   1.654807   2.082576 0.07643 0.16845 0.17622
+    4   56 1.215860830e-02 2.683053434e-02 2.807707470e-02   2.206711   2.309234   1.654860   2.074563 0.07599 0.16769 0.17548
+    5   70 1.212067377e-02 2.676458011e-02 2.801407176e-02   2.208176   2.311264   1.656235   2.074309 0.07575 0.16728 0.17509
+  R31 = Phi3/Phi1                    n=[14, 28, 42, 56, 70]
+    values: 2.2526706581 2.2965978254 2.3056949225 2.3092342493 2.3112635723
+    stable digits (two finest): 2.3
+    fits: 1/L: 2.321490 res=6.1e-04 rej dof=2 ; logL: -- res=1.6e-03 rej dof=2 b=1.608e-02; 1/L,1/L^2: 2.316803 res=7.5e-05 ADM dof=1 ; h^p: 2.315711 res=8.7e-05 ADM dof=1 p=1.58
+    => extrapolated 2.316257 +- 1.1e-03 (spread of admissible fits)
+  R21 = Phi2/Phi1                    n=[14, 28, 42, 56, 70]
+    values: 2.1647065933 2.1971836574 2.2040265244 2.2067109725 2.2081759326
+    stable digits (two finest): 2.20
+    fits: 1/L: 2.215884 res=4.6e-04 rej dof=2 ; logL: -- res=1.2e-03 rej dof=2 b=1.207e-02; 1/L,1/L^2: 2.212206 res=2.9e-05 ADM dof=1 ; h^p: 2.211409 res=3.9e-05 ADM dof=1 p=1.61
+    => extrapolated 2.211807 +- 8.0e-04 (spread of admissible fits)
+  D2/D1                              n=[14, 28, 42, 56, 70]
+    values: 1.6273174272 1.6501827498 1.6548073615 1.6548595349 1.6562352573
+    stable digits (two finest): 1.65
+    fits: 1/L: 1.660236 res=1.0e-03 rej dof=2 ; logL: -- res=1.4e-03 rej dof=2 b=6.238e-03; 1/L,1/L^2: 1.654910 res=6.8e-04 rej dof=1 ; h^p: 1.656115 res=6.5e-04 rej dof=1 p=3.28  => no admissible extrapolating fit
+    => none
+  D3/D1                              n=[14, 28, 42, 56, 70]
+    values: 2.0060133116 2.0896554222 2.0825756896 2.0745628454 2.0743093532
+    stable digits (two finest): 2.074
+    fits: 1/L: 2.062743 res=1.8e-03 rej dof=2 ; logL: -- res=2.3e-03 rej dof=2 b=-1.809e-02; 1/L,1/L^2: 2.058495 res=2.0e-03 rej dof=1 ; h^p: 2.054677 res=1.9e-03 rej dof=1 p=0.69  => no admissible extrapolating fit
+    => none
+  R31_inf/P31 = 0.997735 +- 4.7e-04   (quadratic interpolation: P31q = 2.324518, R31_inf/P31q = 0.996446)
+  excess R21_inf - P21_2 = 0.701603 +- 8.0e-04; X = 0.49112 +- 5.6e-04, X_A = 0.15922 +- 2.2e-04  [lattice, second order not yet reached (max zeta = 1.333 > 0.2)]
+
+Ordering check over all 26 (eta, n) rows: Phi1 < Phi2 < Phi3: True;  D1 < D2 < D3: True
+
+Comparison with G3 (KERNEL_RESULTS.md box values, unrefereed, interpolated in Delta):
+  eta=0.05 Delta23=2.9957 S_G3=0.29513 X=0.28140 X/S_G3=0.9535 +- 0.0154 (1-X/S_G3)/zeta_1=0.442
+  eta=0.10 Delta23=2.3026 S_G3=0.41223 X=0.36996 X/S_G3=0.8975 +- 0.0044 (1-X/S_G3)/zeta_1=0.461
+  eta=0.15 Delta23=1.8971 S_G3=0.50015 X=0.42262 X/S_G3=0.8450 +- 0.0000 (1-X/S_G3)/zeta_1=0.439
+  eta=0.20 Delta23=1.6094 S_G3=0.57115 X=0.45649 X/S_G3=0.7992 +- 0.0011 (1-X/S_G3)/zeta_1=0.402
+  eta=0.30 Delta23=1.2040 S_G3=0.68272 X=0.48858 X/S_G3=0.7156 +- 0.0007 (1-X/S_G3)/zeta_1=0.332
+  eta=0.40 Delta23=0.9163 S_G3=0.76926 X=0.49112 X/S_G3=0.6384 +- 0.0007 (1-X/S_G3)/zeta_1=0.271
+  linear fit X/S_G3 = A + B zeta_1 on the three smallest zeta_1: A = 0.9978, B = -0.4373, max|res| = 3.2e-03

@@ -1,0 +1,31 @@
+# [kernel_decay.out as written by corner_kernel.py, redirected by rigor/ref_p6_5_rerun.py K3] 2026-10-05 21:26
+# K3 + two-frame comparison; command: $PYTHON numerics/networks/corner_kernel.py K3 (reads kernel_t0_est.npz,
+# kernel_box.npz, kernel_boxb.npz). Tolerance fixed in the brief: |R_T0 - R_box| <= 1e-3. Estimators of the same R(Delta):
+# T0: R_h = G_h/G0_h extrapolated in h (kernel_t0_fits.out; centre +- (half spread of the admissible fits + 3e-4, the
+# calibrated overshoot)) and S = G_h/f2;
+# box: S = G/f2 at kappa_max = 120 +- the envelope of kappa_max = 75..120 (no admissible smooth fit at small Delta: the
+# kappa-convergence oscillates), and R = G/G0 (biased by the diagonal cut-off weight 1 - G0/f2 = 5.3e-4 at kappa_max = 120).
+# Primary comparison: R_T0 vs S_box (the best-converged estimator in each frame); the others are printed. Decay fits on
+# Delta in {3,4,5,6,8}: A e^{-alpha Delta} and A Delta^b e^{-alpha Delta} (least squares in log R), for each primary
+# estimator and for R +- u; alpha = centre +- half spread. Sign: positive where R > u in both frames; R/u printed.
+# Agreed value = midpoint of R_T0 and S_box, u = |diff|/2 + max(u_T0, u_box).
+Delta  R_T0 (u)              S_box (u)             |diff| <=1e-3 | S_T0 (u)              R_box (u)             max|diff| all  sign             R/u (T0, box)   agreed (u)
+ 0.0  +1.000000 (0.000000)  +0.999467 (0.000837)  5.3e-04  yes  | +1.000282 (0.000300)  +1.000000 (0.000000)  8.2e-04  positive         n/a (R(0) = 1 by definition)  +0.999734 (0.001104)
+ 0.5  +0.898440 (0.000406)  +0.898349 (0.000188)  9.1e-05  yes  | +0.898672 (0.000300)  +0.898828 (0.000755)  4.8e-04  positive         2211, 4789  +0.898395 (0.000452)
+ 1.0  +0.745727 (0.000440)  +0.745633 (0.000047)  9.4e-05  yes  | +0.745892 (0.000300)  +0.746030 (0.000609)  4.0e-04  positive         1693, 15798  +0.745680 (0.000488)
+ 1.5  +0.600897 (0.000458)  +0.600737 (0.000021)  1.6e-04  yes  | +0.600998 (0.000300)  +0.601057 (0.000507)  3.2e-04  positive         1311, 28939  +0.600817 (0.000538)
+ 2.0  +0.477128 (0.000464)  +0.476965 (0.000019)  1.6e-04  yes  | +0.477190 (0.000300)  +0.477219 (0.000387)  2.5e-04  positive         1029, 25477  +0.477047 (0.000545)
+ 3.0  +0.294682 (0.000453)  +0.294525 (0.000010)  1.6e-04  yes  | +0.294699 (0.000300)  +0.294682 (0.000237)  1.7e-04  positive         651, 29269  +0.294603 (0.000531)
+ 4.0  +0.179911 (0.000428)  +0.179785 (0.000006)  1.3e-04  yes  | +0.180019 (0.000409)  +0.179881 (0.000145)  2.3e-04  positive         420, 32385  +0.179848 (0.000491)
+ 5.0  +0.109391 (0.000399)  +0.109299 (0.000002)  9.2e-05  yes  | +0.109480 (0.000392)  +0.109358 (0.000089)  1.8e-04  positive         274, 47735  +0.109345 (0.000445)
+ 6.0  +0.066415 (0.000374)  +0.066350 (0.000001)  6.5e-05  yes  | +0.066473 (0.000363)  +0.066385 (0.000055)  1.2e-04  positive         177, 122808  +0.066382 (0.000407)
+ 8.0  +0.024448 (0.000337)  +0.024419 (0.000000)  2.9e-05  yes  | +0.024475 (0.000328)  +0.024432 (0.000021)  5.6e-05  positive         72, 91398  +0.024434 (0.000352)
+   R_T0  R  : A e^-aD: alpha = 0.4981 A = 1.3172 (max|res log R| 3.1e-03);  A D^b e^-aD: alpha = 0.5058, b = +0.040 (max|res| 6.2e-04)
+   R_T0  R+u: A e^-aD: alpha = 0.4957 A = 1.3077 (max|res log R| 1.6e-03);  A D^b e^-aD: alpha = 0.4985, b = +0.015 (max|res| 1.1e-03)
+   R_T0  R-u: A e^-aD: alpha = 0.5006 A = 1.3270 (max|res log R| 4.6e-03);  A D^b e^-aD: alpha = 0.5131, b = +0.065 (max|res| 1.4e-04)
+   R_T0  local rates -dlogR/dDelta on 3-4-5-6-8: 0.4934 0.4975 0.4990 0.4997
+   S_box R  : A e^-aD: alpha = 0.4982 A = 1.3170 (max|res log R| 3.0e-03);  A D^b e^-aD: alpha = 0.5058, b = +0.039 (max|res| 6.2e-04)
+   S_box R+u: A e^-aD: alpha = 0.4982 A = 1.3170 (max|res log R| 3.0e-03);  A D^b e^-aD: alpha = 0.5058, b = +0.039 (max|res| 6.3e-04)
+   S_box R-u: A e^-aD: alpha = 0.4982 A = 1.3169 (max|res log R| 3.0e-03);  A D^b e^-aD: alpha = 0.5058, b = +0.039 (max|res| 6.2e-04)
+   S_box local rates -dlogR/dDelta on 3-4-5-6-8: 0.4936 0.4977 0.4991 0.4998
+alpha over all fits: 0.5044 +- 0.0087

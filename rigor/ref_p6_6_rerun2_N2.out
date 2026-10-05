@@ -1,0 +1,82 @@
+# N2 -- numerics/networks/lattice_chain.py N2 (run from the repository root cft_cmi/).
+# Discretisation: the lattice model itself, computed exactly in Gaussian form (every one-particle mode of
+# every block kept; no truncation, no taper, flint ball arithmetic at bits_for(n)+200); the lattice
+# spacing is the only regulator, and its effect is the resolution dependence measured below (no
+# regulator-free discretisation exists for a lattice model; continuum statements are compared after
+# extrapolation in n).  Raw data (one line per run, with the normalisation defect nrm):
+#   numerics/networks/vwz_A.raw     <- $PYTHON numerics/networks/lattice_chain.py sweep e015
+#   numerics/networks/vwz_B.raw     <- $PYTHON numerics/networks/lattice_chain.py sweep e005,e010
+#   numerics/networks/vwz_C.raw     <- $PYTHON numerics/networks/lattice_chain.py sweep e020,e030,e040,m010,m020,m030
+#   numerics/networks/vwz_G.raw     <- $PYTHON numerics/networks/lattice_chain.py sweep m020x,e030x,m010x,m030x
+#   numerics/networks/chains_D.raw  <- $PYTHON numerics/networks/lattice_chain.py chains sw,eq3,eq4,eq5,eq6,n4r2
+#   numerics/networks/chains_E.raw  <- $PYTHON numerics/networks/lattice_chain.py chains ref
+#   numerics/networks/chains_F.raw  <- $PYTHON numerics/networks/lattice_chain.py chains n5r2,n4r3,n6r2,n5r3
+#   numerics/networks/chains_H.raw  <- $PYTHON numerics/networks/lattice_chain.py chains eq3x,n4r2x
+#   numerics/networks/chains_I.raw  <- $PYTHON numerics/networks/lattice_chain.py chains n6r2x
+# Fit rules: NFIT = 4 finest resolutions, TOL_FIT = 1e-04 (fixed before the runs); see NETWORK_RESULTS.md.
+# N2: Protocol 3 vs Theorem A (thm:prot3): Phi^(3) = Phi_A(zeta_eff), zeta_eff = (sigma_1+sigma_2)
+# beta_I(p_3) = 2a/b here.  Lattice dictionary (numerics/lattice/README.md, card two-branch-law-lattice):
+# at lambda = 0 both chiralities carry the same corner measure, so -log F_lat -> 2 Phi_A (c = 1 per
+# chirality), single-step lattice/continuum ratio 1 - 0.15/L.  Q1 = Phi^(3)_lat/(2 Phi_A(zeta_eff)) with
+# Phi_A from the continuum tables (flag); Q2 = Phi^(3)_lat(eta)/Phi^(1A)_lat(matched) where the matched
+# single step has a'/b' = 2a/b (lattice-internal, no table): both extrapolated separately.
+
+e010 eta=0.1000: corner measure [(11.0, 0.080808)], zeta_eff = 0.444444 (2a/b = 0.444444), Phi_A = 1.131897e-03 [tab]
+  Q1 = Phi3/(2 Phi_A(zeta_eff))      n=[22, 44, 66, 88]
+    values: 1.0364068447 1.0198038897 1.0150609463 1.0128253489
+    stable digits (two finest): 1.01
+    fits: 1/L: 1.004509 res=5.6e-04 rej dof=2 ; logL: -- res=3.0e-03 rej dof=2 b=-1.731e-02; 1/L,1/L^2: 1.006732 res=4.8e-06 ADM dof=1 ; h^p: 1.007782 res=2.9e-05 ADM dof=1 p=1.25  [admissible: 1/L,1/L^2 (dof 1), h^p (dof 1)]
+    => extrapolated 1.007257 +- 1.1e-03 (spread of admissible fits)
+  Q1 with the quadratic log-log interpolation Phi_Aq = 1.147008e-03: 0.993988 +- 1.0e-03 (interp. diff 1.33%; 3-node stencil spread 0.49%); |Q1q - 1| = 5.8 fit spreads, |Q1 - 1| = 6.9 fit spreads
+  Phi3(n)/Phi3(n_max)                n=[22, 44, 66, 88]
+    values: 1.0232828847 1.0068901719 1.0022072881 1.0000000000
+    stable digits (two finest): 1.00
+    fits: 1/L: 0.991789 res=5.5e-04 rej dof=2 ; logL: -- res=2.9e-03 rej dof=2 b=-1.709e-02; 1/L,1/L^2: 0.993984 res=4.7e-06 ADM dof=1 ; h^p: 0.995021 res=2.9e-05 ADM dof=1 p=1.25  [admissible: 1/L,1/L^2 (dof 1), h^p (dof 1)]
+    => extrapolated 0.994502 +- 1.0e-03 (spread of admissible fits)
+  Phi1A_matched(n)/(.)(n_max)        n=[26, 52, 78, 104]
+    values: 1.0454807318 1.0145439988 1.0047825640 1.0000000000
+    stable digits (two finest): 1.00
+    fits: 1/L: 0.984520 res=3.9e-04 rej dof=2 ; logL: -- res=5.0e-03 rej dof=2 b=-3.335e-02; 1/L,1/L^2: 0.986074 res=2.0e-06 ADM dof=1 ; h^p: 0.987144 res=2.3e-05 ADM dof=1 p=1.09  [admissible: 1/L,1/L^2 (dof 1), h^p (dof 1)]
+    => extrapolated 0.986609 +- 1.1e-03 (spread of admissible fits)
+  raw Q2 (finest / second-finest resolutions of each): 0.992171 / 0.989628, stable digits 0.9
+  Q2 = Phi3_inf/Phi1A_matched_inf = 1.000109 +- 2.1e-03  (Phi3_inf = 2.280222e-03, 2Phi_A^lat(zeta_eff) = 2.279974e-03, continuum-table 2 Phi_A = 2.263794e-03 [tab])
+
+e020 eta=0.2000: corner measure [(3.0, 0.666667)], zeta_eff = 1.000000 (2a/b = 1.000000), Phi_A = 4.000239e-03 [gap]
+  Q1 = Phi3/(2 Phi_A(zeta_eff))      n=[12, 18, 24, 36, 48, 60, 72]
+    values: 1.1028321570 1.0460632033 1.0329571973 1.0225753115 1.0180547139 1.0155420269 1.0139490615
+    stable digits (two finest): 1.01
+    fits: 1/L: 1.005202 res=1.2e-04 rej dof=2 ; logL: -- res=5.4e-04 rej dof=2 b=-1.249e-02; 1/L,1/L^2: 1.006982 res=3.0e-07 ADM dof=1 ; h^p: 1.007913 res=4.3e-06 ADM dof=1 p=1.28  [admissible: 1/L,1/L^2 (dof 1), h^p (dof 1)]
+    => extrapolated 1.007448 +- 9.3e-04 (spread of admissible fits)
+  Q1 with the quadratic log-log interpolation Phi_Aq = 4.026169e-03: 1.000959 +- 9.3e-04 (interp. diff 0.65%; 3-node stencil spread 0.07%); |Q1q - 1| = 1.0 fit spreads, |Q1 - 1| = 8.0 fit spreads
+  Phi3(n)/Phi3(n_max)                n=[12, 18, 24, 36, 48, 60, 72]
+    values: 1.0876603164 1.0316723424 1.0187466378 1.0085075773 1.0040491703 1.0015710507 1.0000000000
+    stable digits (two finest): 1.00
+    fits: 1/L: 0.991373 res=1.2e-04 rej dof=2 ; logL: -- res=5.3e-04 rej dof=2 b=-1.232e-02; 1/L,1/L^2: 0.993129 res=3.0e-07 ADM dof=1 ; h^p: 0.994047 res=4.3e-06 ADM dof=1 p=1.28  [admissible: 1/L,1/L^2 (dof 1), h^p (dof 1)]
+    => extrapolated 0.993588 +- 9.2e-04 (spread of admissible fits)
+  Phi1A_matched(n)/(.)(n_max)        n=[12, 16, 24, 32, 40, 48, 56, 64, 72, 80, 96]
+    values: 1.1912925015 1.0865386129 1.0353095123 1.0211726944 1.0141114365 1.0097693898 1.0068239865 1.0046966640 1.0030896819 1.0018339074 1.0000000000
+    stable digits (two finest): 1.00
+    fits: 1/L: 0.990590 res=2.3e-05 ADM dof=2 ; logL: -- res=1.5e-04 rej dof=2 b=-1.151e-02; 1/L,1/L^2: 0.991725 res=7.7e-09 ADM dof=1 ; h^p: 0.992507 res=8.2e-07 ADM dof=1 p=1.20  [admissible: 1/L (dof 2), 1/L,1/L^2 (dof 1), h^p (dof 1)]
+    => extrapolated 0.991607 +- 1.9e-03 (spread of admissible fits)
+  raw Q2 (finest / second-finest resolutions of each): 0.998603 / 0.998341, stable digits 0.998
+  Q2 = Phi3_inf/Phi1A_matched_inf = 1.000598 +- 2.9e-03  (Phi3_inf = 8.060062e-03, 2Phi_A^lat(zeta_eff) = 8.055244e-03, continuum-table 2 Phi_A = 8.000477e-03 [gap])
+
+e030 eta=0.3000: corner measure [(13.0, 0.263736)], zeta_eff = 1.714286 (2a/b = 1.714286), Phi_A = 8.140011e-03 [large]
+  Q1 = Phi3/(2 Phi_A(zeta_eff))      n=[26, 52, 78, 104]
+    values: 1.0438199740 1.0292816275 1.0254648151 1.0237453881
+    stable digits (two finest): 1.02
+    fits: 1/L: 1.016453 res=7.3e-04 rej dof=2 ; logL: -- res=2.8e-03 rej dof=2 b=-1.475e-02; 1/L,1/L^2: 1.019365 res=1.5e-06 ADM dof=1 ; h^p: 1.020340 res=2.6e-05 ADM dof=1 p=1.39  [admissible: 1/L,1/L^2 (dof 1), h^p (dof 1)]
+    => extrapolated 1.019853 +- 9.7e-04 (spread of admissible fits)
+  Q1 with the quadratic log-log interpolation Phi_Aq = 8.286222e-03: 1.001857 +- 9.6e-04 (interp. diff 1.80%; 3-node stencil spread 0.13%); |Q1q - 1| = 1.9 fit spreads, |Q1 - 1| = 20.4 fit spreads
+  Phi3(n)/Phi3(n_max)                n=[26, 52, 78, 104]
+    values: 1.0196089635 1.0054078284 1.0016795456 1.0000000000
+    stable digits (two finest): 1.00
+    fits: 1/L: 0.992877 res=7.1e-04 rej dof=2 ; logL: -- res=2.7e-03 rej dof=2 b=-1.440e-02; 1/L,1/L^2: 0.995722 res=1.5e-06 ADM dof=1 ; h^p: 0.996673 res=2.6e-05 ADM dof=1 p=1.39  [admissible: 1/L,1/L^2 (dof 1), h^p (dof 1)]
+    => extrapolated 0.996197 +- 9.5e-04 (spread of admissible fits)
+  Phi1A_matched(n)/(.)(n_max)        n=[38, 76, 114, 152]
+    values: 1.0179146545 1.0048110030 1.0014905936 1.0000000000
+    stable digits (two finest): 1.00
+    fits: 1/L: 0.993432 res=7.4e-04 rej dof=2 ; logL: -- res=2.6e-03 rej dof=2 b=-1.316e-02; 1/L,1/L^2: 0.996356 res=1.0e-05 ADM dof=1 ; h^p: 0.997257 res=3.3e-05 ADM dof=1 p=1.45  [admissible: 1/L,1/L^2 (dof 1), h^p (dof 1)]
+    => extrapolated 0.996807 +- 9.0e-04 (spread of admissible fits)
+  raw Q2 (finest / second-finest resolutions of each): 1.000473 / 1.000662, stable digits 1.000
+  Q2 = Phi3_inf/Phi1A_matched_inf = 0.999861 +- 1.9e-03  (Phi3_inf = 1.660322e-02, 2Phi_A^lat(zeta_eff) = 1.660553e-02, continuum-table 2 Phi_A = 1.628002e-02 [large])

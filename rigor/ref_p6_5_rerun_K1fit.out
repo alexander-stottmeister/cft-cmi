@@ -1,0 +1,173 @@
+# [kernel_t0_fits.out as written by corner_kernel.py, redirected by rigor/ref_p6_5_rerun.py K1fit] 2026-10-05 21:26
+# K1 fits, T0 frame; command: $PYTHON numerics/networks/corner_kernel.py K1fit (reads kernel_t0.npz, kernel_t0b.npz)
+# Convergence variable h (cell width). Fits (corner_kernel.hfits) on 4 consecutive rungs: lin = v0 + c h (1/L), log = v0 + c log h
+# (log L, no finite limit), pow = v0 + c h^p (p free); window 4f = 4 finest rungs, 4c = 4 rungs one step coarser (its
+# residual at the finest rung is a prediction). Admissible iff max |residual| at the 3 finest rungs <= 1e-4 (fixed in the
+# brief). Estimate = centre of the admissible limits +- half their spread. Two estimators of the same R: R_h = G_h/G0_h and
+# G_h/f2 (f2 = Ghat(0) exactly, Theorem A). Resolved/cut-off modes: see kernel_t0.out; the cut-off (sub-cell) weight of
+# the diagonal is 1 - G0_h/f2 (first block). 'log' fits have no finite limit and are excluded from the estimate even when
+# their residual passes (R_h at Delta = 0.5, 8): a log h drift has constant increments per halving of h, the measured
+# increments shrink by factors 0.47 ... 0.69 per halving (p_loc) -- a data argument, not a proof. Uncertainty u = fit
+# half-spread + T0_SYST = 3e-4, the overshoot of this procedure on the known diagonal limit (G0/f2 -> 1.00028).
+Ladder h = 0.2500000 0.1250000 0.0625000 0.0312500 0.0156250 0.0078125  (K1b path vs K1 at the shared rungs: max rel. diff 2.1e-16)
+Delta = 0.0 G/f2      : 0.91413641 0.95829428 0.98094448 0.99171297 0.99654463 0.99861108  p_loc = 0.963 1.073 1.156 1.225
+      lin-4f  limit = +1.0015000  p = 1.000  max res(3 finest) = 4.0e-04  -
+      log-4f  limit = +nan  p = 1.000  max res(3 finest) = 2.7e-03  -
+      pow-4f  limit = +1.0002824  p = 1.180  max res(3 finest) = 3.1e-05  admissible
+      lin-4c  limit = +1.0024839  p = 1.000  max res(3 finest) = 1.1e-03  -
+      log-4c  limit = +nan  p = 1.000  max res(3 finest) = 1.5e-02  -
+      pow-4c  limit = +1.0008759  p = 1.102  max res(3 finest) = 2.6e-04  -
+   -> estimate +1.000282 +- 0.000000 (fit half-spread) + 3e-04 (calibrated overshoot) = +- 0.000300  (admissible finite-limit fits: pow-4f)
+Delta = 0.5 R_h = G/G0: 0.89604889 0.89695474 0.89757818 0.89797598 0.89819546 0.89830355  p_loc = 0.539 0.648 0.858 1.022
+      lin-4f  limit = +0.8984014  p = 1.000  max res(3 finest) = 1.1e-05  admissible
+      log-4f  limit = +nan  p = 1.000  max res(3 finest) = 8.2e-05  admissible
+      pow-4f  limit = +0.8984308  p = 0.919  max res(3 finest) = 3.4e-06  admissible
+      lin-4c  limit = +0.8983339  p = 1.000  max res(3 finest) = 5.7e-05  admissible
+      log-4c  limit = +nan  p = 1.000  max res(3 finest) = 4.0e-04  -
+      pow-4c  limit = +0.8985467  p = 0.731  max res(3 finest) = 3.3e-05  admissible
+   -> estimate +0.898440 +- 0.000106 (fit half-spread) + 3e-04 (calibrated overshoot) = +- 0.000406  (admissible finite-limit fits: lin-4f, pow-4f, lin-4c, pow-4c)
+Delta = 0.5 G/f2      : 0.81911091 0.85954659 0.88047436 0.89053443 0.89509186 0.89705588  p_loc = 0.950 1.057 1.142 1.214
+      lin-4f  limit = +0.8997454  p = 1.000  max res(3 finest) = 3.4e-04  -
+      log-4f  limit = +nan  p = 1.000  max res(3 finest) = 2.5e-03  -
+      pow-4f  limit = +0.8986724  p = 1.167  max res(3 finest) = 3.0e-05  admissible
+      lin-4c  limit = +0.9005526  p = 1.000  max res(3 finest) = 9.4e-04  -
+      log-4c  limit = +nan  p = 1.000  max res(3 finest) = 1.4e-02  -
+      pow-4c  limit = +0.8992592  p = 1.087  max res(3 finest) = 2.5e-04  -
+   -> estimate +0.898672 +- 0.000000 (fit half-spread) + 3e-04 (calibrated overshoot) = +- 0.000300  (admissible finite-limit fits: pow-4f)
+Delta = 1.0 R_h = G/G0: 0.73936836 0.74197080 0.74367397 0.74466703 0.74518416 0.74543044  p_loc = 0.612 0.778 0.941 1.070
+      lin-4f  limit = +0.7456813  p = 1.000  max res(3 finest) = 9.0e-06  admissible
+      log-4f  limit = +nan  p = 1.000  max res(3 finest) = 2.2e-04  -
+      pow-4f  limit = +0.7456910  p = 0.988  max res(3 finest) = 6.3e-06  admissible
+      lin-4c  limit = +0.7455865  p = 1.000  max res(3 finest) = 7.2e-05  admissible
+      log-4c  limit = +nan  p = 1.000  max res(3 finest) = 1.1e-03  -
+      pow-4c  limit = +0.7458675  p = 0.841  max res(3 finest) = 5.8e-05  admissible
+   -> estimate +0.745727 +- 0.000140 (fit half-spread) + 3e-04 (calibrated overshoot) = +- 0.000440  (admissible finite-limit fits: lin-4f, pow-4f, lin-4c, pow-4c)
+Delta = 1.0 G/f2      : 0.67588354 0.71102637 0.72950287 0.73849596 0.74260927 0.74439509  p_loc = 0.928 1.039 1.129 1.204
+      lin-4f  limit = +0.7467910  p = 1.000  max res(3 finest) = 2.8e-04  -
+      log-4f  limit = +nan  p = 1.000  max res(3 finest) = 2.2e-03  -
+      pow-4f  limit = +0.7458915  p = 1.154  max res(3 finest) = 2.9e-05  admissible
+      lin-4c  limit = +0.7474050  p = 1.000  max res(3 finest) = 7.4e-04  -
+      log-4c  limit = +nan  p = 1.000  max res(3 finest) = 1.2e-02  -
+      pow-4c  limit = +0.7464646  p = 1.070  max res(3 finest) = 2.4e-04  -
+   -> estimate +0.745892 +- 0.000000 (fit half-spread) + 3e-04 (calibrated overshoot) = +- 0.000300  (admissible finite-limit fits: pow-4f)
+Delta = 1.5 R_h = G/G0: 0.59186773 0.59565014 0.59807093 0.59945051 0.60015937 0.60049465  p_loc = 0.644 0.811 0.961 1.080
+      lin-4f  limit = +0.6008450  p = 1.000  max res(3 finest) = 8.3e-06  admissible
+      log-4f  limit = +nan  p = 1.000  max res(3 finest) = 3.1e-04  -
+      pow-4f  limit = +0.6008406  p = 1.004  max res(3 finest) = 8.0e-06  admissible
+      lin-4c  limit = +0.6007387  p = 1.000  max res(3 finest) = 7.7e-05  admissible
+      log-4c  limit = +nan  p = 1.000  max res(3 finest) = 1.6e-03  -
+      pow-4c  limit = +0.6010552  p = 0.868  max res(3 finest) = 7.3e-05  admissible
+   -> estimate +0.600897 +- 0.000158 (fit half-spread) + 3e-04 (calibrated overshoot) = +- 0.000458  (admissible finite-limit fits: lin-4f, pow-4f, lin-4c, pow-4c)
+Delta = 1.5 G/f2      : 0.54104784 0.57080812 0.58667438 0.59448285 0.59808560 0.59966061  p_loc = 0.907 1.023 1.116 1.194
+      lin-4f  limit = +0.6017341  p = 1.000  max res(3 finest) = 2.2e-04  -
+      log-4f  limit = +nan  p = 1.000  max res(3 finest) = 1.9e-03  -
+      pow-4f  limit = +0.6009982  p = 1.143  max res(3 finest) = 2.6e-05  admissible
+      lin-4c  limit = +0.6021837  p = 1.000  max res(3 finest) = 5.7e-04  -
+      log-4c  limit = +nan  p = 1.000  max res(3 finest) = 1.0e-02  -
+      pow-4c  limit = +0.6015246  p = 1.056  max res(3 finest) = 2.2e-04  -
+   -> estimate +0.600998 +- 0.000000 (fit half-spread) + 3e-04 (calibrated overshoot) = +- 0.000300  (admissible finite-limit fits: pow-4f)
+Delta = 2.0 R_h = G/G0: 0.46684686 0.47119475 0.47394972 0.47550623 0.47630260 0.47667875  p_loc = 0.658 0.824 0.967 1.082
+      lin-4f  limit = +0.4770745  p = 1.000  max res(3 finest) = 9.5e-06  admissible
+      log-4f  limit = +nan  p = 1.000  max res(3 finest) = 3.5e-04  -
+      pow-4f  limit = +0.4770646  p = 1.008  max res(3 finest) = 8.7e-06  admissible
+      lin-4c  limit = +0.4769648  p = 1.000  max res(3 finest) = 7.7e-05  admissible
+      log-4c  limit = +nan  p = 1.000  max res(3 finest) = 1.8e-03  -
+      pow-4c  limit = +0.4772921  p = 0.878  max res(3 finest) = 7.8e-05  admissible
+   -> estimate +0.477128 +- 0.000164 (fit half-spread) + 3e-04 (calibrated overshoot) = +- 0.000464  (admissible finite-limit fits: lin-4f, pow-4f, lin-4c, pow-4c)
+Delta = 2.0 G/f2      : 0.42676171 0.45154323 0.46491836 0.47156570 0.47465680 0.47601668  p_loc = 0.890 1.009 1.105 1.185
+      lin-4f  limit = +0.4777764  p = 1.000  max res(3 finest) = 1.8e-04  -
+      log-4f  limit = +nan  p = 1.000  max res(3 finest) = 1.6e-03  -
+      pow-4f  limit = +0.4771898  p = 1.132  max res(3 finest) = 2.3e-05  admissible
+      lin-4c  limit = +0.4780960  p = 1.000  max res(3 finest) = 4.2e-04  -
+      log-4c  limit = +nan  p = 1.000  max res(3 finest) = 8.7e-03  -
+      pow-4c  limit = +0.4776614  p = 1.043  max res(3 finest) = 1.9e-04  -
+   -> estimate +0.477190 +- 0.000000 (fit half-spread) + 3e-04 (calibrated overshoot) = +- 0.000300  (admissible finite-limit fits: pow-4f)
+Delta = 3.0 R_h = G/G0: 0.28467249 0.28892754 0.29160657 0.29311353 0.29388410 0.29424869  p_loc = 0.667 0.830 0.968 1.080
+      lin-4f  limit = +0.2946317  p = 1.000  max res(3 finest) = 8.9e-06  admissible
+      log-4f  limit = +nan  p = 1.000  max res(3 finest) = 3.4e-04  -
+      pow-4f  limit = +0.2946221  p = 1.008  max res(3 finest) = 8.1e-06  admissible
+      lin-4c  limit = +0.2945290  p = 1.000  max res(3 finest) = 7.3e-05  admissible
+      log-4c  limit = +nan  p = 1.000  max res(3 finest) = 1.7e-03  -
+      pow-4c  limit = +0.2948347  p = 0.882  max res(3 finest) = 7.3e-05  admissible
+   -> estimate +0.294682 +- 0.000153 (fit half-spread) + 3e-04 (calibrated overshoot) = +- 0.000453  (admissible finite-limit fits: lin-4f, pow-4f, lin-4c, pow-4c)
+Delta = 3.0 G/f2      : 0.26022949 0.27687760 0.28604986 0.29068449 0.29286862 0.29384000  p_loc = 0.860 0.985 1.085 1.169
+      lin-4f  limit = +0.2950604  p = 1.000  max res(3 finest) = 1.0e-04  -
+      log-4f  limit = +nan  p = 1.000  max res(3 finest) = 1.1e-03  -
+      pow-4f  limit = +0.2946986  p = 1.114  max res(3 finest) = 1.7e-05  admissible
+      lin-4c  limit = +0.2952085  p = 1.000  max res(3 finest) = 2.2e-04  -
+      log-4c  limit = +nan  p = 1.000  max res(3 finest) = 5.9e-03  -
+      pow-4c  limit = +0.2950583  p = 1.021  max res(3 finest) = 1.5e-04  -
+   -> estimate +0.294699 +- 0.000000 (fit half-spread) + 3e-04 (calibrated overshoot) = +- 0.000300  (admissible finite-limit fits: pow-4f)
+Delta = 4.0 R_h = G/G0: 0.17176779 0.17522569 0.17740387 0.17863065 0.17925964 0.17955825  p_loc = 0.667 0.828 0.964 1.075
+      lin-4f  limit = +0.1798695  p = 1.000  max res(3 finest) = 6.9e-06  admissible
+      log-4f  limit = +nan  p = 1.000  max res(3 finest) = 2.7e-04  -
+      pow-4f  limit = +0.1798655  p = 1.004  max res(3 finest) = 6.6e-06  admissible
+      lin-4c  limit = +0.1797831  p = 1.000  max res(3 finest) = 6.2e-05  admissible
+      log-4c  limit = +nan  p = 1.000  max res(3 finest) = 1.4e-03  -
+      pow-4c  limit = +0.1800392  p = 0.879  max res(3 finest) = 6.0e-05  admissible
+   -> estimate +0.179911 +- 0.000128 (fit half-spread) + 3e-04 (calibrated overshoot) = +- 0.000428  (admissible finite-limit fits: lin-4f, pow-4f, lin-4c, pow-4c)
+Delta = 4.0 G/f2      : 0.15701919 0.16791778 0.17402335 0.17715033 0.17864023 0.17930886  p_loc = 0.836 0.965 1.070 1.156
+      lin-4f  limit = +0.1801285  p = 1.000  max res(3 finest) = 6.0e-05  admissible
+      log-4f  limit = +nan  p = 1.000  max res(3 finest) = 7.4e-04  -
+      pow-4f  limit = +0.1799102  p = 1.100  max res(3 finest) = 1.2e-05  admissible
+      lin-4c  limit = +0.1801874  p = 1.000  max res(3 finest) = 1.1e-04  -
+      log-4c  limit = +nan  p = 1.000  max res(3 finest) = 3.9e-03  -
+      pow-4c  limit = +0.1801727  p = 1.003  max res(3 finest) = 1.0e-04  -
+   -> estimate +0.180019 +- 0.000109 (fit half-spread) + 3e-04 (calibrated overshoot) = +- 0.000409  (admissible finite-limit fits: lin-4f, pow-4f)
+Delta = 5.0 R_h = G/G0: 0.10332481 0.10589270 0.10751505 0.10843161 0.10890321 0.10912793  p_loc = 0.662 0.824 0.959 1.069
+      lin-4f  limit = +0.1093600  p = 1.000  max res(3 finest) = 5.1e-06  admissible
+      log-4f  limit = +nan  p = 1.000  max res(3 finest) = 2.0e-04  -
+      pow-4f  limit = +0.1093607  p = 0.999  max res(3 finest) = 4.9e-06  admissible
+      lin-4c  limit = +0.1092921  p = 1.000  max res(3 finest) = 5.0e-05  admissible
+      log-4c  limit = +nan  p = 1.000  max res(3 finest) = 1.0e-03  -
+      pow-4c  limit = +0.1094905  p = 0.875  max res(3 finest) = 4.4e-05  admissible
+   -> estimate +0.109391 +- 0.000099 (fit half-spread) + 3e-04 (calibrated overshoot) = +- 0.000399  (admissible finite-limit fits: lin-4f, pow-4f, lin-4c, pow-4c)
+Delta = 5.0 G/f2      : 0.09445297 0.10147637 0.10546630 0.10753303 0.10852691 0.10897636  p_loc = 0.816 0.949 1.056 1.145
+      lin-4f  limit = +0.1095159  p = 1.000  max res(3 finest) = 3.5e-05  admissible
+      log-4f  limit = +nan  p = 1.000  max res(3 finest) = 4.8e-04  -
+      pow-4f  limit = +0.1093882  p = 1.087  max res(3 finest) = 8.3e-06  admissible
+      lin-4c  limit = +0.1095320  p = 1.000  max res(3 finest) = 5.2e-05  admissible
+      log-4c  limit = +nan  p = 1.000  max res(3 finest) = 2.6e-03  -
+      pow-4c  limit = +0.1095712  p = 0.988  max res(3 finest) = 7.1e-05  admissible
+   -> estimate +0.109480 +- 0.000092 (fit half-spread) + 3e-04 (calibrated overshoot) = +- 0.000392  (admissible finite-limit fits: lin-4f, pow-4f, lin-4c, pow-4c)
+Delta = 6.0 R_h = G/G0: 0.06211714 0.06392859 0.06507760 0.06572917 0.06606568 0.06622661  p_loc = 0.657 0.818 0.953 1.064
+      lin-4f  limit = +0.0663912  p = 1.000  max res(3 finest) = 4.5e-06  admissible
+      log-4f  limit = +nan  p = 1.000  max res(3 finest) = 1.4e-04  -
+      pow-4f  limit = +0.0663949  p = 0.993  max res(3 finest) = 3.6e-06  admissible
+      lin-4c  limit = +0.0663404  p = 1.000  max res(3 finest) = 3.8e-05  admissible
+      log-4c  limit = +nan  p = 1.000  max res(3 finest) = 7.4e-04  -
+      pow-4c  limit = +0.0664890  p = 0.869  max res(3 finest) = 3.2e-05  admissible
+   -> estimate +0.066415 +- 0.000074 (fit half-spread) + 3e-04 (calibrated overshoot) = +- 0.000374  (admissible finite-limit fits: lin-4f, pow-4f, lin-4c, pow-4c)
+Delta = 6.0 G/f2      : 0.05678354 0.06126241 0.06383752 0.06518447 0.06583740 0.06613462  p_loc = 0.798 0.935 1.045 1.135
+      lin-4f  limit = +0.0664850  p = 1.000  max res(3 finest) = 2.1e-05  admissible
+      log-4f  limit = +nan  p = 1.000  max res(3 finest) = 3.1e-04  -
+      pow-4f  limit = +0.0664103  p = 1.077  max res(3 finest) = 5.6e-06  admissible
+      lin-4c  limit = +0.0664828  p = 1.000  max res(3 finest) = 2.1e-05  admissible
+      log-4c  limit = +nan  p = 1.000  max res(3 finest) = 1.7e-03  -
+      pow-4c  limit = +0.0665365  p = 0.975  max res(3 finest) = 4.8e-05  admissible
+   -> estimate +0.066473 +- 0.000063 (fit half-spread) + 3e-04 (calibrated overshoot) = +- 0.000363  (admissible finite-limit fits: lin-4f, pow-4f, lin-4c, pow-4c)
+Delta = 8.0 R_h = G/G0: 0.02246983 0.02329629 0.02382521 0.02412751 0.02428478 0.02436050  p_loc = 0.644 0.807 0.943 1.055
+      lin-4f  limit = +0.0244366  p = 1.000  max res(3 finest) = 2.9e-06  admissible
+      log-4f  limit = +nan  p = 1.000  max res(3 finest) = 6.6e-05  admissible
+      pow-4f  limit = +0.0244408  p = 0.983  max res(3 finest) = 1.7e-06  admissible
+      lin-4c  limit = +0.0244105  p = 1.000  max res(3 finest) = 2.0e-05  admissible
+      log-4c  limit = +nan  p = 1.000  max res(3 finest) = 3.4e-04  -
+      pow-4c  limit = +0.0244854  p = 0.859  max res(3 finest) = 1.5e-05  admissible
+   -> estimate +0.024448 +- 0.000037 (fit half-spread) + 3e-04 (calibrated overshoot) = +- 0.000337  (admissible finite-limit fits: lin-4f, pow-4f, lin-4c, pow-4c)
+Delta = 8.0 G/f2      : 0.02054049 0.02232470 0.02337121 0.02392756 0.02420087 0.02432666  p_loc = 0.770 0.912 1.025 1.119
+      lin-4f  limit = +0.0244705  p = 1.000  max res(3 finest) = 6.8e-06  admissible
+      log-4f  limit = +nan  p = 1.000  max res(3 finest) = 1.3e-04  -
+      pow-4f  limit = +0.0244463  p = 1.059  max res(3 finest) = 2.4e-06  admissible
+      lin-4c  limit = +0.0244608  p = 1.000  max res(3 finest) = 8.0e-06  admissible
+      log-4c  limit = +nan  p = 1.000  max res(3 finest) = 6.8e-04  -
+      pow-4c  limit = +0.0245033  p = 0.953  max res(3 finest) = 2.1e-05  admissible
+   -> estimate +0.024475 +- 0.000028 (fit half-spread) + 3e-04 (calibrated overshoot) = +- 0.000328  (admissible finite-limit fits: lin-4f, pow-4f, lin-4c, pow-4c)
+Brief's ladder h = 0.24, 0.12, 0.06, 0.03 (window 4f only), against the dyadic estimate:
+   Delta = 3.0: h = [np.float64(0.12), np.float64(0.06), np.float64(0.03)]  R_h = 0.28912576 0.29172331 0.29317545  -> +nan +- nan (no admissible fit / < 4 rungs);  dyadic estimate +0.294682
+   Delta = 6.0: h = [np.float64(0.24), np.float64(0.12), np.float64(0.06), np.float64(0.03)]  R_h = 0.06224384 0.06401337 0.06512788 0.06575609  -> +0.066750 +- 0.000000 (pow-4f);  dyadic estimate +0.066415
+Ymax dependence (Y = 14): Ymax = 20 vs Ymax = 24, R_h and G/f2 at Delta = 8, and G0/f2:
+   h = 0.250000: R_h(8) = 0.02246983 / 0.02247010 (diff +2.7e-07);  G(8)/f2 diff +2.5e-07;  G0/f2 = 0.91413641 / 0.91413641
+   h = 0.125000: R_h(8) = 0.02329629 / 0.02329654 (diff +2.5e-07);  G(8)/f2 diff +2.4e-07;  G0/f2 = 0.95829428 / 0.95829428
+   h = 0.062500: R_h(8) = 0.02382521 / 0.02382545 (diff +2.4e-07);  G(8)/f2 diff +2.3e-07;  G0/f2 = 0.98094448 / 0.98094449
+   h = 0.031250: R_h(8) = 0.02412751 / 0.02412774 (diff +2.3e-07);  G(8)/f2 diff +2.3e-07;  G0/f2 = 0.99171297 / 0.99171297
+   h = 0.015625: R_h(8) = 0.02428478 / 0.02428501 (diff +2.3e-07);  G(8)/f2 diff +2.2e-07;  G0/f2 = 0.99654463 / 0.99654463

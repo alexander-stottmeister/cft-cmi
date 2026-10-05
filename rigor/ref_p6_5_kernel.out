@@ -1,0 +1,47 @@
+# ref_p6_5_kernel.out -- rigor/ref_p6_5_kernel.py (REF-P6-5, item 6); 2026-10-05 20:56
+# Quantity: R(Delta) = G(Delta)/G(0) and S(Delta) = G(Delta)/f2, continuum (infinite line, modular frame of the T0 kernel).
+# Resolved: all (p, p') with |q| <= QM on the lattice hZ^2 (trapezoid, error ~ G(2 pi/h - Delta) + e^{-pi/h}); cut off:
+# |q| > QM (replaced by the tail model, printed), |P| > |q|/2 + 5 (weight < e^{-10 pi}). Tolerance 1e-7 (fixed before the run).
+S table h = 0.1: 10101 values, 4s
+S table h = 0.05: 20201 values, 11s
+(i) trapezoid self-check (k -> k/2, smax 80 -> 90): max|dS| = 1.5e-13, max|dS'| = 5.8e-13
+    a =     0.1: S trap 0.955723356676052  QUADPACK 0.955723356676052  |diff| 0.0e+00;  S' trap +8.956e+00 QUADPACK +8.956e+00 |diff| 0.0e+00;  diagnostic |S - pi tanh(pi a)| = 3.3e-16
+    a =     0.7: S trap 3.065254065189624  QUADPACK 3.065254065189625  |diff| 8.9e-16;  S' trap +4.738e-01 QUADPACK +4.738e-01 |diff| 6.1e-16;  diagnostic |S - pi tanh(pi a)| = 4.4e-16
+    a =     3.2: S trap 3.141592641943944  QUADPACK 3.141592641943941  |diff| 2.7e-15;  S' trap +7.317e-08 QUADPACK +7.333e-08 |diff| 1.6e-10;  diagnostic |S - pi tanh(pi a)| = 8.9e-16
+    a =    17.5: S trap 3.141592653589792  QUADPACK 3.141592653589793  |diff| 8.9e-16;  S' trap -2.874e-16 QUADPACK +3.855e-11 |diff| 3.9e-11;  diagnostic |S - pi tanh(pi a)| = 8.9e-16
+    a =   250.3: S trap 3.141592653589788  QUADPACK 3.141592653589794  |diff| 5.3e-15;  S' trap -4.409e-15 QUADPACK +6.994e-11 |diff| 7.0e-11;  diagnostic |S - pi tanh(pi a)| = 4.9e-15
+    a =  1000.0: S trap 3.141592653589809  QUADPACK 3.141592653691873  |diff| 1.0e-10;  S' trap -2.612e-13 QUADPACK +4.400e-12 |diff| 4.7e-12;  diagnostic |S - pi tanh(pi a)| = 1.6e-14
+(ii) dhat(+0.3,-0.7): reduced +2.724826960260150e-02  brute 2-D (3980 nodes/dim) +2.724826960260147e-02  |diff| 2.8e-17
+(ii) dhat(+1.1,+0.4): reduced -1.692358090784114e-02  brute 2-D (3980 nodes/dim) -1.692358090784109e-02  |diff| 5.2e-17
+(ii) dhat(-2.0,+1.5): reduced +1.715811809976595e-03  brute 2-D (3980 nodes/dim) +1.715811809976593e-03  |diff| 2.0e-18
+(ii) dhat(+0.5,+0.5): reduced -3.970789829501587e-02  brute 2-D (3980 nodes/dim) -3.970789829501582e-02  |diff| 5.6e-17
+(ii) dhat(+2.5,-2.5): reduced -0.000000000000000e+00  brute 2-D (3980 nodes/dim) -1.032872352926358e-19  |diff| 1.0e-19
+(ii) dhat(+0.0,+0.9): reduced -4.365873074478258e-02  brute 2-D (3980 nodes/dim) -4.365873074478258e-02  |diff| 6.9e-18
+(iii) h = 0.1, QM = 500: tail model q^3 rho -> c3 = 0.00211086 (c5 = -0.00211; diagnostic 1/(48 pi^2) = 0.00211086); G(0)/f2 - 1 = -5.31e-12 (tail 1.00e-06 of f2)  25s
+      Delta:  0.5  1.0  1.5  2.0  3.0  4.0  5.0  6.0  8.0
+      R    : 0.898386587 0.745615143 0.600745362 0.476960337 0.294523055 0.179784303 0.109299034 0.066349837 0.024419214
+      G/f2 : 0.898386587 0.745615143 0.600745362 0.476960337 0.294523055 0.179784303 0.109299034 0.066349837 0.024419214
+      tail : +1e-08 +4e-09 -3e-09 -3e-09 +2e-09 -2e-09 +6e-10 +9e-11 +8e-10
+(iii) h = 0.1, QM = 1000: tail model q^3 rho -> c3 = 0.00211086 (c5 = -0.00211; diagnostic 1/(48 pi^2) = 0.00211086); G(0)/f2 - 1 = -5.32e-12 (tail 2.50e-07 of f2)  29s
+      Delta:  0.5  1.0  1.5  2.0  3.0  4.0  5.0  6.0  8.0
+      R    : 0.898386581 0.745615141 0.600745364 0.476960338 0.294523053 0.179784304 0.109299033 0.066349837 0.024419213
+      G/f2 : 0.898386581 0.745615141 0.600745364 0.476960338 0.294523053 0.179784304 0.109299033 0.066349837 0.024419213
+      tail : +9e-10 -8e-10 +6e-10 -4e-10 -2e-11 +2e-10 +2e-10 +2e-11 -1e-10
+(iii) h = 0.05, QM = 1000: tail model q^3 rho -> c3 = 0.00211086 (c5 = -0.00211; diagnostic 1/(48 pi^2) = 0.00211086); G(0)/f2 - 1 = -5.39e-12 (tail 2.50e-07 of f2)  43s
+      Delta:  0.5  1.0  1.5  2.0  3.0  4.0  5.0  6.0  8.0
+      R    : 0.898386581 0.745615141 0.600745364 0.476960338 0.294523053 0.179784304 0.109299033 0.066349837 0.024419213
+      G/f2 : 0.898386581 0.745615141 0.600745364 0.476960338 0.294523053 0.179784304 0.109299033 0.066349837 0.024419213
+      tail : +9e-10 -8e-10 +6e-10 -4e-10 -5e-11 +2e-10 +2e-10 +5e-11 -1e-10
+(iv) max|dR| QM 500 -> 1000: 6.0e-09;  h 0.1 -> 0.05: 1.1e-11;  max|R - G/f2| at the finest: 4.8e-12  (tolerance 1e-7)
+(v) three-way table, R_mine = h 0.05, QM 1000 (full precision); g1b = rigor/g1b_kernel.out P1 A(dps40) (refereed);
+    Delta  R_mine            mine-g1b   agreed(G3)-mine [inside?]  R_T0(card)-mine [inside?]  S_box(card)-mine [inside?]
+     0.5  0.898386580531  +4.3e-10   +1.3e-05 [yes]          +5.3e-05 [yes]      -3.7e-05 [yes]
+     1.0  0.745615140755  -3.7e-10   +8.5e-05 [yes]          +1.1e-04 [yes]      +1.8e-05 [yes]
+     1.5  0.600745363884  +3.0e-10   +5.5e-05 [yes]          +1.5e-04 [yes]      -8.4e-06 [yes]
+     2.0  0.476960337791  -2.0e-10   +4.0e-05 [yes]          +1.7e-04 [NO]      +4.7e-06 [yes]
+     3.0  0.294523053415  -2.4e-11   +7.7e-05 [yes]          +1.6e-04 [NO]      +1.9e-06 [yes]
+     4.0  0.179784303649  +8.3e-11   +1.6e-05 [yes]          +1.3e-04 [yes]      +6.0e-07 [yes]
+     5.0  0.109299033464  +8.5e-11   +9.7e-07 [yes]          +9.1e-05 [yes]      +2.7e-07 [yes]
+     6.0  0.066349836900  +2.0e-11   +3.0e-05 [yes]          +6.5e-05 [yes]      +6.3e-08 [yes]
+     8.0  0.024419213260  -5.7e-11   +1.1e-05 [yes]          +2.9e-05 [yes]      -1.3e-08 [yes]
+saved rigor/ref_p6_5_kernel.npz  total 43s

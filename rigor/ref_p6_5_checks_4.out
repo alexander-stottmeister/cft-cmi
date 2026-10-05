@@ -1,0 +1,21 @@
+# ref_p6_5_checks_4.out -- written by rigor/ref_p6_5_checks.py 4 (REF-P6-5)
+eps = [np.float64(1e-13), np.float64(1e-12), np.float64(1e-11)] ; D = [np.float64(0.0), np.float64(0.5), np.float64(1.0), np.float64(1.5), np.float64(2.0), np.float64(3.0), np.float64(4.0), np.float64(5.0), np.float64(6.0), np.float64(8.0)]
+(60_30): eps-spread R 6.5e-10, G/f2 1.3e-09; max|R_win(1e-12) - R_line| 8.5e-06; max|R_win - R_box| per eps 1e-13: 0.0e+00, 1e-12: 6.3e-11, 1e-11: 6.5e-10; max|R_win - R_box| over eps 6.5e-10, max|G_win - G_box|/G_box(0) 1.3e-09; max|R_line - R_box| 8.5e-06; 1 - G0/f2 (win) 8.7226e-03, x kmax^2 = 7.647
+(120_30): eps-spread R 8.1e-10, G/f2 1.7e-09; max|R_win(1e-12) - R_line| 8.4e-08; max|R_win - R_box| per eps 1e-13: 0.0e+00, 1e-12: 7.5e-11, 1e-11: 8.1e-10; max|R_win - R_box| over eps 8.1e-10, max|G_win - G_box|/G_box(0) 1.7e-09; max|R_line - R_box| 8.4e-08; 1 - G0/f2 (win) 8.6263e-03, x kmax^2 = 7.732
+(120_45): eps-spread R 5.2e-10, G/f2 1.5e-09; max|R_win(1e-12) - R_line| 1.7e-08; 1 - G0/f2 (win) 3.8294e-03, x kmax^2 = 7.666
+(120_60): eps-spread R 6.5e-10, G/f2 1.8e-09; max|R_win(1e-12) - R_line| 1.7e-07; 1 - G0/f2 (win) 2.1332e-03, x kmax^2 = 7.648
+(120_75): eps-spread R 5.6e-10, G/f2 1.5e-09; max|R_win(1e-12) - R_line| 1.2e-01; 1 - G0/f2 (win) 1.3701e-03, x kmax^2 = 7.641
+(120_90): eps-spread R 6.1e-10, G/f2 1.7e-09; max|R_win(1e-12) - R_line| 1.0e+01; 1 - G0/f2 (win) 9.4700e-04, x kmax^2 = 7.639
+(120_105): eps-spread R 6.6e-10, G/f2 1.8e-09; max|R_win(1e-12) - R_line| 8.2e+00; 1 - G0/f2 (win) 6.9351e-04, x kmax^2 = 7.638
+(120_120): eps-spread R 6.9e-10, G/f2 1.9e-09; max|R_win(1e-12) - R_line| 8.2e+00; 1 - G0/f2 (win) 5.3263e-04, x kmax^2 = 7.638
+S = G/f2 (eps 1e-12) at kappa_max = 75, 90, 105, 120; envelope = max|S(k) - S(120)|, k = 75..105; |S(105) - S(120)|:
+   Delta 0.0: 0.998629873 0.999052997 0.999306493 0.999467372  env 8.4e-04  two finest 1.6e-04
+   Delta 0.5: 0.898350091 0.898536405 0.898440438 0.898348834  env 1.9e-04  two finest 9.2e-05
+   Delta 1.0: 0.745616391 0.745646390 0.745585642 0.745632840  env 4.7e-05  two finest 4.7e-05
+   Delta 1.5: 0.600739947 0.600733572 0.600757564 0.600736805  env 2.1e-05  two finest 2.1e-05
+   Delta 2.0: 0.476951278 0.476946226 0.476959958 0.476964947  env 1.9e-05  two finest 5.0e-06
+   Delta 3.0: 0.294514586 0.294523883 0.294525727 0.294524648  env 1.0e-05  two finest 1.1e-06
+   Delta 4.0: 0.179779354 0.179786540 0.179783259 0.179784905  env 5.6e-06  two finest 1.6e-06
+   Delta 5.0: 0.109296967 0.109298398 0.109298968 0.109299256  env 2.3e-06  two finest 2.9e-07
+   Delta 6.0: 0.066349370 0.066349418 0.066350123 0.066349910  env 5.4e-07  two finest 2.1e-07
+   Delta 8.0: 0.024419476 0.024419279 0.024419209 0.024419209  env 2.7e-07  two finest 4.2e-11

@@ -1,0 +1,66 @@
+# kernel_box_fits.out -- written by numerics/networks/corner_kernel.py on 2026-10-03 17:24
+# K2 fits, box frame; command: $PYTHON numerics/networks/corner_kernel.py K2fit (reads kernel_box.npz, kernel_boxb.npz)
+# Production box symbol: Q_box eigenbasis with the spectral window eps = 1e-12 ('win'; equal to the regulator-free [box] where
+# Q_box is resolved, eps-spread printed). Convergence variable 1/kappa_max at Lam = 120, kappa_max = 30, 45, ..., 120
+# (kappa_max_eff 29.94 ... 119.7): the fits of corner_kernel.hfits with h := 1/kappa_max_eff (lin = 1/L, log = log L,
+# pow = h^p) on 4 consecutive rungs (4f finest, 4c one step coarser), admissible iff residuals at the 3 finest rungs <= 1e-4.
+# Cut-off weight of the modes beyond kappa_max: v(kappa_max) - v(finest) is printed (no extrapolated value if no fit is
+# admissible). Window effect: (60,30) vs (120,30). [line] = line_so.py weights on the same modes, shown as [line] - [win].
+kappa_max_eff = 29.94 44.74 59.88 74.68 89.81 104.95 119.75
+Delta = 0.0 G/f2 : 0.9913737 0.9961706 0.9978668 0.9986299 0.9990530 0.9993065 0.9994674   window (60,30)-(120,30) -9.6e-05   eps-spread 2e-09   max|[line]-[win]| 3e+16
+      cut-off weight v(kappa_max) - v(120): -8.1e-03 -3.3e-03 -1.6e-03 -8.4e-04 -4.1e-04 -1.6e-04   |v(105) - v(120)| = 1.6e-04
+      fits: lin-4f +1.0008845 p=1.00 res=3e-05*; log-4f +nan p=1.00 res=5e-05*; pow-4f +0.9999987 p=2.00 res=2e-08*; lin-4c +1.0012774 p=1.00 res=1e-04; log-4c +nan p=1.00 res=3e-04; pow-4c +0.9999972 p=2.01 res=2e-07*  -> +1.0004408 +- 0.0004437
+Delta = 0.5 R    : 0.9100638 0.9015201 0.8997374 0.8995826 0.8993881 0.8990639 0.8988276   window (60,30)-(120,30) +1.7e-04   eps-spread 2e-10   max|[line]-[win]| 2e+00
+      cut-off weight v(kappa_max) - v(120): +1.1e-02 +2.7e-03 +9.1e-04 +7.6e-04 +5.6e-04 +2.4e-04   |v(105) - v(120)| = 2.4e-04
+      fits: lin-4f +0.8976182 p=1.00 res=9e-05*; log-4f +nan p=1.00 res=7e-05*; pow-4f +0.8829267 p=0.10 res=7e-05*; lin-4c +0.8983217 p=1.00 res=2e-04; log-4c +nan p=1.00 res=2e-04; pow-4c +0.8878598 p=0.10 res=2e-04  -> +0.8902724 +- 0.0073458
+Delta = 0.5 G/f2 : 0.9022133 0.8980679 0.8978181 0.8983501 0.8985364 0.8984404 0.8983488   window (60,30)-(120,30) +7.9e-05   eps-spread 2e-09   max|[line]-[win]| 3e+16
+      cut-off weight v(kappa_max) - v(120): +3.9e-03 -2.8e-04 -5.3e-04 +1.3e-06 +1.9e-04 +9.2e-05   |v(105) - v(120)| = 9.2e-05
+      fits: lin-4f +0.8984150 p=1.00 res=1e-04; log-4f +nan p=1.00 res=1e-04; pow-4f +0.8981173 p=0.10 res=1e-04; lin-4c +0.8994720 p=1.00 res=3e-04; log-4c +nan p=1.00 res=4e-04; pow-4c +0.8986195 p=4.00 res=2e-04  -> no admissible fit
+Delta = 1.0 R    : 0.7498704 0.7490504 0.7470695 0.7466394 0.7463532 0.7461031 0.7460302   window (60,30)-(120,30) +3.5e-05   eps-spread 4e-10   max|[line]-[win]| 2e+00
+      cut-off weight v(kappa_max) - v(120): +3.8e-03 +3.0e-03 +1.0e-03 +6.1e-04 +3.2e-04 +7.3e-05   |v(105) - v(120)| = 7.3e-05
+      fits: lin-4f +0.7449501 p=1.00 res=4e-05*; log-4f +nan p=1.00 res=6e-05*; pow-4f +0.7456967 p=2.28 res=3e-05*; lin-4c +0.7448497 p=1.00 res=7e-05*; log-4c +nan p=1.00 res=2e-04; pow-4c +0.7436280 p=0.58 res=1e-04  -> +0.7452732 +- 0.0004235
+Delta = 1.0 G/f2 : 0.7434018 0.7461820 0.7454759 0.7456164 0.7456464 0.7455856 0.7456328   window (60,30)-(120,30) -3.8e-05   eps-spread 2e-09   max|[line]-[win]| 3e+16
+      cut-off weight v(kappa_max) - v(120): -2.2e-03 +5.5e-04 -1.6e-04 -1.6e-05 +1.4e-05 -4.7e-05   |v(105) - v(120)| = 4.7e-05
+      fits: lin-4f +0.7456114 p=1.00 res=3e-05*; log-4f +nan p=1.00 res=3e-05*; pow-4f +0.7456158 p=1.93 res=3e-05*; lin-4c +0.7458057 p=1.00 res=5e-05*; log-4c +nan p=1.00 res=5e-05*; pow-4c +0.7456495 p=4.00 res=5e-05*  -> +0.7457086 +- 0.0000971
+Delta = 1.5 R    : 0.6071337 0.6027287 0.6021001 0.6015642 0.6013030 0.6011745 0.6010569   window (60,30)-(120,30) +5.2e-05   eps-spread 6e-10   max|[line]-[win]| 2e+00
+      cut-off weight v(kappa_max) - v(120): +6.1e-03 +1.7e-03 +1.0e-03 +5.1e-04 +2.5e-04 +1.2e-04   |v(105) - v(120)| = 1.2e-04
+      fits: lin-4f +0.6002204 p=1.00 res=2e-05*; log-4f +nan p=1.00 res=4e-05*; pow-4f +0.6006684 p=1.74 res=1e-05*; lin-4c +0.5998779 p=1.00 res=9e-05*; log-4c +nan p=1.00 res=2e-04; pow-4c +0.6009306 p=2.80 res=4e-05*  -> +0.6004043 +- 0.0005264
+Delta = 1.5 G/f2 : 0.6018963 0.6004206 0.6008157 0.6007399 0.6007336 0.6007576 0.6007368   window (60,30)-(120,30) -6.8e-06   eps-spread 2e-09   max|[line]-[win]| 3e+16
+      cut-off weight v(kappa_max) - v(120): +1.2e-03 -3.2e-04 +7.9e-05 +3.1e-06 -3.2e-06 +2.1e-05   |v(105) - v(120)| = 2.1e-05
+      fits: lin-4f +0.6007533 p=1.00 res=1e-05*; log-4f +nan p=1.00 res=1e-05*; pow-4f +0.6007451 p=4.00 res=1e-05*; lin-4c +0.6006487 p=1.00 res=2e-05*; log-4c +nan p=1.00 res=2e-05*; pow-4c +0.6007271 p=4.00 res=2e-05*  -> +0.6007010 +- 0.0000523
+Delta = 2.0 R    : 0.4807328 0.4789286 0.4780404 0.4776057 0.4773983 0.4772910 0.4772191   window (60,30)-(120,30) +8.1e-05   eps-spread 7e-10   max|[line]-[win]| 2e+00
+      cut-off weight v(kappa_max) - v(120): +3.5e-03 +1.7e-03 +8.2e-04 +3.9e-04 +1.8e-04 +7.2e-05   |v(105) - v(120)| = 7.2e-05
+      fits: lin-4f +0.4765643 p=1.00 res=2e-05*; log-4f +nan p=1.00 res=3e-05*; pow-4f +0.4770394 p=2.42 res=3e-06*; lin-4c +0.4762442 p=1.00 res=9e-05*; log-4c +nan p=1.00 res=2e-04; pow-4c +0.4770909 p=2.78 res=1e-05*  -> +0.4766675 +- 0.0004234
+Delta = 2.0 G/f2 : 0.4765858 0.4770946 0.4770207 0.4769513 0.4769462 0.4769600 0.4769649   window (60,30)-(120,30) +3.4e-05   eps-spread 2e-09   max|[line]-[win]| 3e+16
+      cut-off weight v(kappa_max) - v(120): -3.8e-04 +1.3e-04 +5.6e-05 -1.4e-05 -1.9e-05 -5.0e-06   |v(105) - v(120)| = 5.0e-06
+      fits: lin-4f +0.4769873 p=1.00 res=8e-06*; log-4f +nan p=1.00 res=7e-06*; pow-4f +0.4772888 p=0.10 res=7e-06*; lin-4c +0.4768562 p=1.00 res=3e-05*; log-4c +nan p=1.00 res=4e-05*; pow-4c +0.4769359 p=4.00 res=2e-05*  -> +0.4770725 +- 0.0002163
+Delta = 3.0 R    : 0.2973509 0.2956349 0.2951269 0.2949187 0.2948031 0.2947301 0.2946816   window (60,30)-(120,30) +5.3e-05   eps-spread 8e-10   max|[line]-[win]| 1e+00
+      cut-off weight v(kappa_max) - v(120): +2.7e-03 +9.5e-04 +4.5e-04 +2.4e-04 +1.2e-04 +4.9e-05   |v(105) - v(120)| = 4.9e-05
+      fits: lin-4f +0.2942830 p=1.00 res=5e-06*; log-4f +nan p=1.00 res=1e-05*; pow-4f +0.2944880 p=1.69 res=4e-08*; lin-4c +0.2941897 p=1.00 res=3e-05*; log-4c +nan p=1.00 res=7e-05*; pow-4c +0.2945215 p=1.90 res=3e-06*  -> +0.2943556 +- 0.0001659
+Delta = 3.0 G/f2 : 0.2947859 0.2945028 0.2944973 0.2945146 0.2945239 0.2945257 0.2945246   window (60,30)-(120,30) +2.4e-05   eps-spread 1e-09   max|[line]-[win]| 5e+16
+      cut-off weight v(kappa_max) - v(120): +2.6e-04 -2.2e-05 -2.7e-05 -1.0e-05 -7.7e-07 +1.1e-06   |v(105) - v(120)| = 1.1e-06
+      fits: lin-4f +0.2945442 p=1.00 res=3e-06*; log-4f +nan p=1.00 res=3e-06*; pow-4f +0.2945283 p=4.00 res=2e-06*; lin-4c +0.2945674 p=1.00 res=9e-06*; log-4c +nan p=1.00 res=1e-05*; pow-4c +0.2945300 p=3.77 res=3e-06*  -> +0.2945479 +- 0.0000195
+Delta = 4.0 R    : 0.1814750 0.1804416 0.1801805 0.1800260 0.1799570 0.1799080 0.1798807   window (60,30)-(120,30) +8.5e-06   eps-spread 8e-10   max|[line]-[win]| 3e+00
+      cut-off weight v(kappa_max) - v(120): +1.6e-03 +5.6e-04 +3.0e-04 +1.5e-04 +7.6e-05 +2.7e-05   |v(105) - v(120)| = 2.7e-05
+      fits: lin-4f +0.1796336 p=1.00 res=4e-06*; log-4f +nan p=1.00 res=7e-06*; pow-4f +0.1797625 p=1.71 res=2e-06*; lin-4c +0.1795365 p=1.00 res=3e-05*; log-4c +nan p=1.00 res=5e-05*; pow-4c +0.1798100 p=2.34 res=4e-06*  -> +0.1796733 +- 0.0001367
+Delta = 4.0 G/f2 : 0.1799095 0.1797507 0.1797961 0.1797794 0.1797865 0.1797833 0.1797849   window (60,30)-(120,30) -9.0e-06   eps-spread 1e-09   max|[line]-[win]| 7e+16
+      cut-off weight v(kappa_max) - v(120): +1.2e-04 -3.4e-05 +1.1e-05 -5.6e-06 +1.6e-06 -1.6e-06   |v(105) - v(120)| = 1.6e-06
+      fits: lin-4f +0.1797931 p=1.00 res=4e-06*; log-4f +nan p=1.00 res=4e-06*; pow-4f +0.1797863 p=4.00 res=3e-06*; lin-4c +0.1797672 p=1.00 res=5e-06*; log-4c +nan p=1.00 res=6e-06*; pow-4c +0.1797804 p=4.00 res=4e-06*  -> +0.1797801 +- 0.0000129
+Delta = 5.0 R    : 0.1102059 0.1097037 0.1095270 0.1094469 0.1094020 0.1093748 0.1093575   window (60,30)-(120,30) +5.1e-07   eps-spread 7e-10   max|[line]-[win]| 3e+00
+      cut-off weight v(kappa_max) - v(120): +8.5e-04 +3.5e-04 +1.7e-04 +8.9e-05 +4.4e-05 +1.7e-05   |v(105) - v(120)| = 1.7e-05
+      fits: lin-4f +0.1092063 p=1.00 res=3e-06*; log-4f +nan p=1.00 res=6e-06*; pow-4f +0.1092986 p=1.96 res=2e-08*; lin-4c +0.1091668 p=1.00 res=1e-05*; log-4c +nan p=1.00 res=3e-05*; pow-4c +0.1092983 p=1.95 res=5e-08*  -> +0.1092327 +- 0.0000659
+Delta = 5.0 G/f2 : 0.1092552 0.1092836 0.1092934 0.1092970 0.1092984 0.1092990 0.1092993   window (60,30)-(120,30) -1.0e-05   eps-spread 8e-10   max|[line]-[win]| 9e+16
+      cut-off weight v(kappa_max) - v(120): -4.4e-05 -1.6e-05 -5.9e-06 -2.3e-06 -8.6e-07 -2.9e-07   |v(105) - v(120)| = 2.9e-07
+      fits: lin-4f +0.1093032 p=1.00 res=2e-07*; log-4f +nan p=1.00 res=3e-07*; pow-4f +0.1092997 p=4.00 res=2e-08*; lin-4c +0.1093070 p=1.00 res=1e-06*; log-4c +nan p=1.00 res=2e-06*; pow-4c +0.1092997 p=3.82 res=3e-08*  -> +0.1093033 +- 0.0000036
+Delta = 6.0 R    : 0.0668902 0.0666033 0.0664944 0.0664404 0.0664123 0.0663962 0.0663853   window (60,30)-(120,30) +8.8e-06   eps-spread 5e-10   max|[line]-[win]| 5e+00
+      cut-off weight v(kappa_max) - v(120): +5.0e-04 +2.2e-04 +1.1e-04 +5.5e-05 +2.7e-05 +1.1e-05   |v(105) - v(120)| = 1.1e-05
+      fits: lin-4f +0.0662923 p=1.00 res=2e-06*; log-4f +nan p=1.00 res=4e-06*; pow-4f +0.0663503 p=2.00 res=3e-07*; lin-4c +0.0662607 p=1.00 res=9e-06*; log-4c +nan p=1.00 res=2e-05*; pow-4c +0.0663588 p=2.30 res=1e-06*  -> +0.0663097 +- 0.0000491
+Delta = 6.0 G/f2 : 0.0663131 0.0663483 0.0663526 0.0663494 0.0663494 0.0663501 0.0663499   window (60,30)-(120,30) +2.3e-06   eps-spread 6e-10   max|[line]-[win]| 1e+17
+      cut-off weight v(kappa_max) - v(120): -3.7e-05 -1.6e-06 +2.7e-06 -5.4e-07 -4.9e-07 +2.1e-07   |v(105) - v(120)| = 2.1e-07
+      fits: lin-4f +0.0663512 p=1.00 res=3e-07*; log-4f +nan p=1.00 res=3e-07*; pow-4f +0.0663502 p=2.73 res=3e-07*; lin-4c +0.0663458 p=1.00 res=1e-06*; log-4c +nan p=1.00 res=1e-06*; pow-4c +0.0663490 p=4.00 res=8e-07*  -> +0.0663485 +- 0.0000027
+Delta = 8.0 R    : 0.0246429 0.0245156 0.0244721 0.0244530 0.0244424 0.0244362 0.0244322   window (60,30)-(120,30) +1.9e-06   eps-spread 3e-10   max|[line]-[win]| 1e+01
+      cut-off weight v(kappa_max) - v(120): +2.1e-04 +8.3e-05 +4.0e-05 +2.1e-05 +1.0e-05 +3.9e-06   |v(105) - v(120)| = 3.9e-06
+      fits: lin-4f +0.0243971 p=1.00 res=7e-07*; log-4f +nan p=1.00 res=1e-06*; pow-4f +0.0244196 p=2.06 res=4e-09*; lin-4c +0.0243869 p=1.00 res=3e-06*; log-4c +nan p=1.00 res=7e-06*; pow-4c +0.0244193 p=2.04 res=3e-08*  -> +0.0244033 +- 0.0000164
+Delta = 8.0 G/f2 : 0.0244303 0.0244217 0.0244199 0.0244195 0.0244193 0.0244192 0.0244192   window (60,30)-(120,30) -4.6e-07   eps-spread 4e-10   max|[line]-[win]| 2e+17
+      cut-off weight v(kappa_max) - v(120): +1.1e-05 +2.5e-06 +6.7e-07 +2.7e-07 +7.0e-08 +4.2e-11   |v(105) - v(120)| = 4.2e-11
+      fits: lin-4f +0.0244187 p=1.00 res=4e-08*; log-4f +nan p=1.00 res=5e-08*; pow-4f +0.0244191 p=4.00 res=2e-08*; lin-4c +0.0244182 p=1.00 res=2e-07*; log-4c +nan p=1.00 res=2e-07*; pow-4c +0.0244191 p=3.38 res=5e-08*  -> +0.0244187 +- 0.0000004

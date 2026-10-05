@@ -1,0 +1,34 @@
+# N6 (a) VWZ (5.3)-(5.5): ratios -log F^(i)(lam=0) / b, b1 = I(A:CD|B)/2, b23 = (I(A:C|B)+I(B:D|C)+I(A:D|BC))/2
+  e005 finest n=126: Phi1/b1=0.0207 Phi2/b23=0.0254 Phi3/b23=0.0371  b23-(5.11)=8.2e-07 b1-(1/6)log(1/(1-eta))=4.1e-07 chain rule 0.0e+00
+  e010 finest n=88: Phi1/b1=0.0399 Phi2/b23=0.0517 Phi3/b23=0.0685  b23-(5.11)=3.7e-06 b1-(1/6)log(1/(1-eta))=1.9e-06 chain rule -1.4e-17
+  e015 finest n=138: Phi1/b1=0.0576 Phi2/b23=0.0768 Phi3/b23=0.0955  b23-(5.11)=2.5e-06 b1-(1/6)log(1/(1-eta))=1.3e-06 chain rule 6.9e-18
+  e020 finest n=72: Phi1/b1=0.0758 Phi2/b23=0.1019 Phi3/b23=0.1200  b23-(5.11)=1.4e-05 b1-(1/6)log(1/(1-eta))=7.4e-06 chain rule 0.0e+00
+  e030 finest n=104: Phi1/b1=0.1091 Phi2/b23=0.1471 Phi3/b23=0.1615  b23-(5.11)=1.3e-05 b1-(1/6)log(1/(1-eta))=7.0e-06 chain rule 4.2e-17
+  e040 finest n=70: Phi1/b1=0.1423 Phi2/b23=0.1895 Phi3/b23=0.1983  b23-(5.11)=5.4e-05 b1-(1/6)log(1/(1-eta))=2.9e-05 chain rule 0.0e+00
+  largest ratio over all (eta, n): 0.2190 (margin 4.57)
+# N6 (b), (c): L->R chains, Phi_tot/(sum_k I_k/2) at the finest n; equal blocks Phi_tot extrapolated
+  eq3 n=72: Phi_tot/(sum I_k/2) = 0.0924 (margin 10.8)
+  Phi_tot          n=[12, 18, 24, 30, 36, 48, 60, 72] values 0.004872 0.004599 0.004530 0.004496 0.004476 0.004451 0.004438 0.004429 stable 0.0044
+      A:1/L 0.004382 r=1.2e-04 rej dof=2 ; Dlog -- r=6.3e-04 rej dof=2 ; B:1/L+1/L2 0.00438959 r=5.4e-07 ADM dof=1 ; C:h^p 0.00439414 r=4.9e-06 ADM dof=1 p=1.222
+      => 0.004391863 +- 4.6e-06
+      zeta^(I) = ['0.6667']; Phi_tot/(2 sum Phi_A) lin 1.0136 quad 0.9986
+  eq4 n=48: Phi_tot/(sum I_k/2) = 0.1626 (margin 6.2)
+  Phi_tot          n=[16, 24, 32, 40, 48] values 0.019912 0.019155 0.018957 0.018857 0.018796 stable 0.018
+      A:1/L 0.0184264 r=6.2e-04 rej dof=2 ; Dlog -- r=1.5e-03 rej dof=2 ; B:1/L+1/L2 0.0185836 r=4.9e-05 ADM dof=1 ; C:h^p 0.0186202 r=6.0e-05 ADM dof=1 p=1.604
+      => 0.01860192 +- 3.7e-05
+      zeta^(I) = ['0.7500', '1.0000']; Phi_tot/(2 sum Phi_A) lin 1.4116 quad 1.3967
+  eq5 n=60: Phi_tot/(sum I_k/2) = 0.2198 (margin 4.5)
+  Phi_tot          n=[20, 30, 40, 50, 60] values 0.044667 0.043286 0.042927 0.042748 0.042639 stable 0.042
+      A:1/L 0.0419732 r=5.1e-04 rej dof=2 ; Dlog -- r=1.2e-03 rej dof=2 ; B:1/L+1/L2 0.0422697 r=3.9e-05 ADM dof=1 ; C:h^p 0.0423325 r=4.8e-05 ADM dof=1 p=1.634
+      => 0.04230112 +- 6.3e-05
+      zeta^(I) = ['0.8000', '1.2000', '1.2000']; Phi_tot/(2 sum Phi_A) lin 1.6116 quad 1.5916
+  eq6 n=72: Phi_tot/(sum I_k/2) = 0.2664 (margin 3.8)
+  Phi_tot          n=[24, 36, 48, 60, 72] values 0.077412 0.075321 0.074789 0.074527 0.074368 stable 0.074
+      A:1/L 0.0733852 r=4.6e-04 rej dof=2 ; Dlog -- r=1.1e-03 rej dof=2 ; B:1/L+1/L2 0.0738533 r=3.5e-05 ADM dof=1 ; C:h^p 0.0739376 r=4.2e-05 ADM dof=1 p=1.680
+      => 0.07389548 +- 8.4e-05
+      zeta^(I) = ['0.8333', '1.3333', '1.5000', '1.3333']; Phi_tot/(2 sum Phi_A) lin 1.7064 quad 1.6767
+  n4r2 n=180: Phi_tot/(sum I_k/2) = 0.1405 (margin 7.1)
+  n5r2 n=93: Phi_tot/(sum I_k/2) = 0.1880 (margin 5.3)
+  n6r2 n=189: Phi_tot/(sum I_k/2) = 0.2221 (margin 4.5)
+  n4r3 n=120: Phi_tot/(sum I_k/2) = 0.1168 (margin 8.6)
+  n5r3 n=121: Phi_tot/(sum I_k/2) = 0.1593 (margin 6.3)

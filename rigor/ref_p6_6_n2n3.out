@@ -1,0 +1,215 @@
+# Phi_A table (per chirality): leave-one-out on interior nodes (rel. error of the prediction)
+  node zeta=0.0167: linear +0.4925%  quadratic +1.1484%
+  node zeta=0.0333: linear -1.2118%  quadratic -1.1318%
+  node zeta=0.0667: linear -1.2454%  quadratic +1.0041%
+  node zeta=0.1333: linear -2.7112%  quadratic -0.9933%
+  node zeta=0.2667: linear -4.2303%  quadratic +1.7001%
+  node zeta=0.5333: linear -6.6192%  quadratic -1.6713%
+  node zeta=1.0667: linear -7.3578%  quadratic +0.4114%
+  node zeta=2.1333: linear -7.9260%  quadratic -0.4097%
+  node zeta=4.2667: linear -7.5677%  quadratic +0.2592%
+  node zeta=8.5333: linear -4.6277%  quadratic +2.1094%
+# linear vs quadratic (full table) at the zeta values of N2/N3/N5: (quad/lin - 1)
+  zeta=0.1053 lin=8.427130e-05 quad=8.479264e-05 diff +0.619%
+  zeta=0.2000 lin=2.787690e-04 quad=2.817121e-04 diff +1.056%
+  zeta=0.2105 lin=3.062058e-04 quad=3.091979e-04 diff +0.977%
+  zeta=0.4444 lin=1.131703e-03 quad=1.146827e-03 diff +1.336%
+  zeta=0.5000 lin=1.384437e-03 quad=1.392458e-03 diff +0.579%
+  zeta=0.6667 lin=2.166458e-03 quad=2.199104e-03 diff +1.507%
+  zeta=1.0000 lin=3.999918e-03 quad=4.025815e-03 diff +0.647%
+  zeta=1.2351 lin=5.329551e-03 quad=5.397911e-03 diff +1.283%
+  zeta=1.3333 lin=5.883164e-03 quad=5.982122e-03 diff +1.682%
+  zeta=1.4540 lin=6.580048e-03 quad=6.705523e-03 diff +1.907%
+  zeta=1.7143 lin=8.139923e-03 quad=8.286385e-03 diff +1.799%
+  zeta=2.1407 lin=1.083628e-02 quad=1.084071e-02 diff +0.041%
+  zeta=2.6667 lin=1.365855e-02 quad=1.390700e-02 diff +1.819%
+  zeta=2.6772 lin=1.371522e-02 quad=1.396699e-02 diff +1.836%
+# stencil variants at the N2 zeta values (per chirality Phi_A; rel. to the 3-node quadratic of interp)
+  zeta=0.4444 nodes [0.1333, 0.2667, 0.5333]: 1.141412e-03 (-0.489% vs quad)
+  zeta=0.4444 nodes [0.2667, 0.5333, 1.0667]: 1.147017e-03 (+0.000% vs quad)
+  zeta=0.4444 nodes [0.1333, 0.2667, 0.5333, 1.0667]: 1.144654e-03 (-0.206% vs quad)
+  zeta=1.0000 nodes [0.2667, 0.5333, 1.0667]: 4.023122e-03 (-0.067% vs quad)
+  zeta=1.0000 nodes [0.5333, 1.0667, 2.1333]: 4.025815e-03 (+0.000% vs quad)
+  zeta=1.0000 nodes [0.2667, 0.5333, 1.0667, 2.1333]: 4.024833e-03 (-0.024% vs quad)
+  zeta=1.7143 nodes [0.5333, 1.0667, 2.1333]: 8.275286e-03 (-0.133% vs quad)
+  zeta=1.7143 nodes [1.0667, 2.1333, 4.2667]: 8.286299e-03 (+0.000% vs quad)
+  zeta=1.7143 nodes [0.5333, 1.0667, 2.1333, 4.2667]: 8.281468e-03 (-0.058% vs quad)
+  zeta=0.6667 nodes [0.2667, 0.5333, 1.0667]: 2.199104e-03 (+0.000% vs quad)
+  zeta=0.6667 nodes [0.5333, 1.0667, 2.1333]: 2.202911e-03 (+0.173% vs quad)
+  zeta=0.6667 nodes [0.2667, 0.5333, 1.0667, 2.1333]: 2.200781e-03 (+0.076% vs quad)
+  zeta=1.2351 nodes [0.5333, 1.0667, 2.1333]: 5.398183e-03 (+0.000% vs quad)
+  zeta=1.2351 nodes [1.0667, 2.1333, 4.2667]: 5.403732e-03 (+0.103% vs quad)
+  zeta=1.2351 nodes [0.5333, 1.0667, 2.1333, 4.2667]: 5.400423e-03 (+0.041% vs quad)
+  zeta=2.6772 nodes [1.0667, 2.1333, 4.2667]: 1.396727e-02 (+0.000% vs quad)
+  zeta=2.6772 nodes [2.1333, 4.2667, 8.5333]: 1.395532e-02 (-0.086% vs quad)
+  zeta=2.6772 nodes [1.0667, 2.1333, 4.2667, 8.5333]: 1.396198e-02 (-0.038% vs quad)
+  zeta=1.4540 nodes [0.5333, 1.0667, 2.1333]: 6.705379e-03 (+0.000% vs quad)
+  zeta=1.4540 nodes [1.0667, 2.1333, 4.2667]: 6.715594e-03 (+0.152% vs quad)
+  zeta=1.4540 nodes [0.5333, 1.0667, 2.1333, 4.2667]: 6.710304e-03 (+0.073% vs quad)
+
+# N2: zeta_eff = (sigma1+sigma2) beta_I(p3), sigma = 2a/(b(a+b)) each, beta_I(p3) = (a+b)/2 (exact)
+
+e010 (a,b)=(2,9) eta=1/10 zeta_eff=4/9=0.444444; matched m010 (a',b')=(4,9): a'/b'=4/9
+  Phi3 (lattice -log F)        n=[22, 44, 66, 88]
+    values 0.002346211 0.002308626 0.002297888 0.002292828
+    stable(two finest) 0.00229 | A:1/L 0.002274 r=5.5e-04 rej dof=2 ; Dlog -- r=2.9e-03 rej dof=2 ; B:1/L+1/L2 0.00227903 r=4.7e-06 ADM dof=1 ; C:h^p 0.00228141 r=2.8e-05 ADM dof=1 p=1.250
+    => 0.002280 +- 2.4e-06
+  Phi1A matched                n=[26, 52, 78, 104]
+    values 0.002416023 0.002344530 0.002321973 0.002310920
+    stable(two finest) 0.0023 | A:1/L 0.00227515 r=3.9e-04 rej dof=2 ; Dlog -- r=5.0e-03 rej dof=2 ; B:1/L+1/L2 0.00227874 r=2.0e-06 ADM dof=1 ; C:h^p 0.00228112 r=2.3e-05 ADM dof=1 p=1.088
+    => 0.002280 +- 2.4e-06
+  Q2 = 1.00013 +- 2.1e-03 (rel. spreads added) | Q1 lin = 1.00726, Q1 quad = 0.99398 (+- 1.0e-03 fit) | 2Phi_A lin 2.263794e-03 quad 2.294035e-03
+  Q1 lin as ratio, own fit     n=[22, 44, 66, 88]
+    values 1.036406845 1.019803890 1.015060946 1.012825349
+    stable(two finest) 1.01 | A:1/L 1.00451 r=5.5e-04 rej dof=2 ; Dlog -- r=2.9e-03 rej dof=2 ; B:1/L+1/L2 1.00673 r=4.7e-06 ADM dof=1 ; C:h^p 1.00778 r=2.8e-05 ADM dof=1 p=1.250
+    => 1.007256 +- 1.0e-03
+
+e020 (a,b)=(1,2) eta=1/5 zeta_eff=1=1.000000; matched m020 (a',b')=(1,1): a'/b'=1
+  Phi3 (lattice -log F)        n=[12, 18, 24, 36, 48, 60, 72]
+    values 0.008823184 0.008369005 0.008264151 0.008181091 0.008144924 0.008124821 0.008112076
+    stable(two finest) 0.0081 | A:1/L 0.0080421 r=1.2e-04 rej dof=2 ; Dlog -- r=5.3e-04 rej dof=2 ; B:1/L+1/L2 0.00805634 r=3.0e-07 ADM dof=1 ; C:h^p 0.00806386 r=4.5e-06 ADM dof=1 p=1.281
+    => 0.008060 +- 7.5e-06
+  Phi1A matched                n=[12, 16, 24, 32, 40, 48, 56, 64, 72, 80, 96]
+    values 0.009677372 0.008826412 0.008410256 0.008295417 0.008238055 0.008202783 0.008178856 0.008161575 0.008148521 0.008138319 0.008123422
+    stable(two finest) 0.0081 | A:1/L 0.00804698 r=2.3e-05 ADM dof=2 ; Dlog -- r=1.5e-04 rej dof=2 ; B:1/L+1/L2 0.0080562 r=7.7e-09 ADM dof=1 ; C:h^p 0.00806239 r=5.9e-07 ADM dof=1 p=1.198
+    => 0.008055 +- 1.5e-05
+  Q2 = 1.00061 +- 2.8e-03 (rel. spreads added) | Q1 lin = 1.00753, Q1 quad = 1.00105 (+- 9.4e-04 fit) | 2Phi_A lin 7.999836e-03 quad 8.051629e-03
+  Q1 lin as ratio, own fit     n=[12, 18, 24, 36, 48, 60, 72]
+    values 1.102920606 1.046147099 1.033040042 1.022657324 1.018136364 1.015623475 1.014030382
+    stable(two finest) 1.01 | A:1/L 1.00528 r=1.2e-04 rej dof=2 ; Dlog -- r=5.3e-04 rej dof=2 ; B:1/L+1/L2 1.00706 r=3.0e-07 ADM dof=1 ; C:h^p 1.008 r=4.5e-06 ADM dof=1 p=1.281
+    => 1.007533 +- 9.4e-04
+
+e030 (a,b)=(6,7) eta=3/10 zeta_eff=12/7=1.714286; matched m030 (a',b')=(12,7): a'/b'=12/7
+  Phi3 (lattice -log F)        n=[26, 52, 78, 104]
+    values 0.016993413 0.016756728 0.016694590 0.016666598
+    stable(two finest) 0.0166 | A:1/L 0.0165479 r=7.1e-04 rej dof=2 ; Dlog -- r=2.7e-03 rej dof=2 ; B:1/L+1/L2 0.0165953 r=1.5e-06 ADM dof=1 ; C:h^p 0.0166114 r=2.6e-05 ADM dof=1 p=1.393
+    => 0.016603 +- 1.6e-05
+  Phi1A matched                n=[38, 76, 114, 152]
+    values 0.016957157 0.016738867 0.016683553 0.016658722
+    stable(two finest) 0.0166 | A:1/L 0.0165493 r=7.4e-04 rej dof=2 ; Dlog -- r=2.6e-03 rej dof=2 ; B:1/L+1/L2 0.016598 r=1.0e-05 ADM dof=1 ; C:h^p 0.0166126 r=3.3e-05 ADM dof=1 p=1.445
+    => 0.016605 +- 1.5e-05
+  Q2 = 0.99988 +- 1.8e-03 (rel. spreads added) | Q1 lin = 1.01988, Q1 quad = 1.00186 (+- 9.9e-04 fit) | 2Phi_A lin 1.627967e-02 quad 1.657260e-02
+  Q1 lin as ratio, own fit     n=[26, 52, 78, 104]
+    values 1.043842480 1.029303820 1.025486925 1.023767461
+    stable(two finest) 1.02 | A:1/L 1.01647 r=7.1e-04 rej dof=2 ; Dlog -- r=2.7e-03 rej dof=2 ; B:1/L+1/L2 1.01939 r=1.5e-06 ADM dof=1 ; C:h^p 1.02038 r=2.6e-05 ADM dof=1 p=1.393
+    => 1.019883 +- 9.9e-04
+
+# N3: R31 = Phi3/Phi1A, R21 = Phi2/Phi1A (lattice -log F), exact corner data, X = (R21-P21)/(2 z2 z3/z1^2)
+
+e005 eta=1/20 n=[42, 84, 126] z1=0.105263 z2=0.100251 zeff=0.210526 Delta23=2.995732 P21_2=1.907029 2z2z3/z1^2=1.904762
+  R31                          n=[42, 84, 126]
+    values 3.267965254 3.437816716 3.501949973
+    stable(two finest) 3. | A:1/L 3.61547 r=9.9e-04 rej dof=1 ; Dlog -- r=4.1e-03 rej dof=1 ; B:1/L+1/L2 3.64149 r=2.2e-16 ADM dof=0 ; C:h^p 3.67376 r=9.9e-11 ADM dof=0 p=0.782
+    => 3.657628 +- 3.2e-02
+  R21                          n=[42, 84, 126]
+    values 2.319139075 2.374244828 2.394691501
+    stable(two finest) 2.3 | A:1/L 2.43151 r=4.0e-04 rej dof=1 ; Dlog -- r=2.0e-03 rej dof=1 ; B:1/L+1/L2 2.4387 r=4.4e-16 ADM dof=0 ; C:h^p 2.44706 r=2.8e-09 ADM dof=0 p=0.813
+    => 2.442881 +- 8.4e-03
+  D2/D1                        n=[42, 84, 126]
+    values 2.168905288 2.066594701 2.037502951
+    stable(two finest) 2.0 | A:1/L 1.96949 r=1.1e-03 rej dof=1 ; Dlog -- r=6.2e-03 rej dof=1 ; B:1/L+1/L2 1.98684 r=2.2e-16 ADM dof=0 ; C:h^p 1.99451 r=7.5e-11 ADM dof=0 p=1.275
+    => 1.990673 +- 7.7e-03
+  D3/D1                        n=[42, 84, 126]
+    values 4.155631851 3.811112080 3.713122028
+    stable(two finest) 3. | A:1/L 3.48409 r=2.1e-03 rej dof=1 ; Dlog -- r=1.1e-02 rej dof=1 ; B:1/L+1/L2 3.54242 r=2.2e-16 ADM dof=0 ; C:h^p 3.56824 r=1.5e-10 ADM dof=0 p=1.274
+    => 3.555328 +- 2.6e-02
+  P31 lin 3.6342 quad 3.6471; R31/P31 lin 1.0064 quad 1.0029 (+- 8.9e-03) | X = 0.2813 +- 0.0044, X_A lin 0.2516 quad 0.2530 | S_closed(Delta23) = 0.29514, X/S = 0.9532 +- 0.0149, (1-X/S)/z1 = 0.445, (X-S)/sX = -3.1
+
+e010 eta=1/10 n=[22, 44, 66, 88] z1=0.222222 z2=0.202020 zeff=0.444444 Delta23=2.302585 P21_2=1.826446 2z2z3/z1^2=1.818182
+  R31                          n=[22, 44, 66, 88]
+    values 3.066564194 3.196849882 3.245757536 3.271474123
+    stable(two finest) 3.2 | A:1/L 3.33641 r=1.2e-03 rej dof=2 ; Dlog -- r=5.2e-03 rej dof=2 ; B:1/L+1/L2 3.35236 r=2.8e-05 ADM dof=1 ; C:h^p 3.37142 r=6.2e-05 ADM dof=1 p=0.805
+    => 3.361889 +- 1.9e-02
+  R21                          n=[22, 44, 66, 88]
+    values 2.391131348 2.441558215 2.459549764 2.468823629
+    stable(two finest) 2.4 | A:1/L 2.49399 r=3.5e-04 rej dof=2 ; Dlog -- r=2.9e-03 rej dof=2 ; B:1/L+1/L2 2.49744 r=8.7e-06 ADM dof=1 ; C:h^p 2.50091 r=1.5e-05 ADM dof=1 p=0.888
+    => 2.499178 +- 3.5e-03
+  D2/D1                        n=[22, 44, 66, 88]
+    values 2.125711404 2.026041594 1.998674036 1.985979743
+    stable(two finest) 1.9 | A:1/L 1.93604 r=2.1e-03 rej dof=2 ; Dlog -- r=9.3e-03 rej dof=2 ; B:1/L+1/L2 1.95246 r=2.1e-05 ADM dof=1 ; C:h^p 1.95917 r=1.0e-04 rej dof=1 p=1.314
+    => 1.952461 +- 0.0e+00
+  D3/D1                        n=[22, 44, 66, 88]
+    values 3.721207413 3.416486703 3.331266157 3.292229274
+    stable(two finest) 3. | A:1/L 3.13931 r=3.6e-03 rej dof=2 ; Dlog -- r=1.7e-02 rej dof=2 ; B:1/L+1/L2 3.18658 r=5.9e-05 ADM dof=1 ; C:h^p 3.20683 r=8.7e-05 ADM dof=1 p=1.294
+    => 3.196702 +- 2.0e-02
+  P31 lin 3.3467 quad 3.3631; R31/P31 lin 1.0045 quad 0.9996 (+- 5.7e-03) | X = 0.3700 +- 0.0019, X_A lin 0.2943 quad 0.2960 | S_closed(Delta23) = 0.41308, X/S = 0.8957 +- 0.0046, (1-X/S)/z1 = 0.469, (X-S)/sX = -22.6
+
+e015 eta=3/20 n=[46, 92, 138] z1=0.352941 z2=0.306905 zeff=0.705882 Delta23=1.897120 P21_2=1.756144 2z2z3/z1^2=1.739130
+  R31                          n=[46, 92, 138]
+    values 3.029627179 3.070107621 3.084173188
+    stable(two finest) 3.0 | A:1/L 3.11118 r=8.6e-05 ADM dof=1 ; Dlog -- r=1.3e-03 rej dof=1 ; B:1/L+1/L2 3.11316 r=5.6e-16 ADM dof=0 ; C:h^p 3.11497 r=1.5e-11 ADM dof=0 p=0.928
+    => 3.113106 +- 3.8e-03
+  R21                          n=[46, 92, 138]
+    values 2.458452705 2.474789761 2.480239332
+    stable(two finest) 2.4 | A:1/L 2.49113 r=7.2e-07 ADM dof=1 ; Dlog -- r=6.8e-04 rej dof=1 ; B:1/L+1/L2 2.49114 r=2.2e-16 ADM dof=0 ; C:h^p 2.49115 r=4.9e-11 ADM dof=0 p=0.999
+    => 2.491143 +- 2.4e-05
+  D2/D1                        n=[46, 92, 138]
+    values 1.946888963 1.925582481 1.919037344
+    stable(two finest) 1.9 | A:1/L 1.90485 r=1.3e-04 rej dof=1 ; Dlog -- r=1.3e-03 rej dof=1 ; B:1/L+1/L2 1.90678 r=2.2e-16 ADM dof=0 ; C:h^p 1.90792 r=2.6e-11 ADM dof=0 p=1.142
+    => 1.907350 +- 1.1e-03
+  D3/D1                        n=[46, 92, 138]
+    values 3.025613294 2.961582460 2.941680273
+    stable(two finest) 2.9 | A:1/L 2.89905 r=2.3e-04 rej dof=1 ; Dlog -- r=2.5e-03 rej dof=1 ; B:1/L+1/L2 2.90404 r=4.4e-16 ADM dof=0 ; C:h^p 2.9071 r=1.0e-11 ADM dof=0 p=1.121
+    => 2.905570 +- 3.1e-03
+  P31 lin 3.0951 quad 3.1140; R31/P31 lin 1.0058 quad 0.9997 (+- 1.2e-03) | X = 0.4226 +- 0.0000, X_A lin 0.2936 quad 0.2978 | S_closed(Delta23) = 0.50056, X/S = 0.8443 +- 0.0000, (1-X/S)/z1 = 0.441, (X-S)/sX = -5630.0
+
+e020 eta=1/5 n=[12, 18, 24, 36, 48, 60, 72] z1=0.500000 z2=0.416667 zeff=1.000000 Delta23=1.609438 P21_2=1.694444 2z2z3/z1^2=1.666667
+  R31                          n=[12, 18, 24, 36, 48, 60, 72]
+    values 2.714378075 2.784720101 2.813704768 2.843837389 2.859444700 2.869046214 2.875547788
+    stable(two finest) 2.8 | A:1/L 2.90711 r=5.2e-05 ADM dof=2 ; Dlog -- r=4.8e-04 rej dof=2 ; B:1/L+1/L2 2.90924 r=1.8e-07 ADM dof=1 ; C:h^p 2.91166 r=2.5e-06 ADM dof=1 p=0.910
+    => 2.909337 +- 4.5e-03
+  R21                          n=[12, 18, 24, 36, 48, 60, 72]
+    values 2.349646400 2.395255082 2.411341950 2.426543144 2.433904377 2.438263133 2.441140539
+    stable(two finest) 2.4 | A:1/L 2.45578 r=1.5e-05 ADM dof=2 ; Dlog -- r=3.0e-04 rej dof=2 ; B:1/L+1/L2 2.45523 r=5.1e-07 ADM dof=1 ; C:h^p 2.45477 r=2.0e-07 ADM dof=1 p=1.050
+    => 2.455261 +- 1.0e-03
+  D2/D1                        n=[12, 18, 24, 36, 48, 60, 72]
+    values 1.987644557 1.927250074 1.906344788 1.888733592 1.879781100 1.874776198 1.871368089
+    stable(two finest) 1.87 | A:1/L 1.85393 r=9.9e-05 ADM dof=2 ; Dlog -- r=5.5e-04 rej dof=2 ; B:1/L+1/L2 1.85599 r=3.5e-05 ADM dof=1 ; C:h^p 1.85736 r=3.7e-05 ADM dof=1 p=1.159
+    => 1.855761 +- 3.4e-03
+  D3/D1                        n=[12, 18, 24, 36, 48, 60, 72]
+    values 3.015839896 2.894961215 2.834745445 2.774253132 2.747479092 2.732742322 2.721065152
+    stable(two finest) 2.7 | A:1/L 2.66871 r=2.7e-04 rej dof=2 ; Dlog -- r=1.1e-03 rej dof=2 ; B:1/L+1/L2 2.6675 r=2.6e-04 rej dof=1 ; C:h^p 2.6654 r=2.5e-04 rej dof=1 p=0.958
+    => none admissible
+  P31 lin 2.8892 quad 2.8912; R31/P31 lin 1.0070 quad 1.0063 (+- 1.6e-03) | X = 0.4565 +- 0.0006, X_A lin 0.2846 quad 0.2833 | S_closed(Delta23) = 0.57170, X/S = 0.7985 +- 0.0011, (1-X/S)/z1 = 0.403, (X-S)/sX = -191.1
+  VWZ sizes (L_A <= 4, L_B <= 8, n = [12, 18, 24]): R21 = [2.3496, 2.3953, 2.4113], R31 = [2.7144, 2.7847, 2.8137]
+
+e030 eta=3/10 n=[26, 52, 78, 104] z1=0.857143 z2=0.659341 zeff=1.714286 Delta23=1.203973 P21_2=1.591716 2z2z3/z1^2=1.538462
+  R31                          n=[26, 52, 78, 104]
+    values 2.536923718 2.558031021 2.564935663 2.568421173
+    stable(two finest) 2.56 | A:1/L 2.57896 r=3.0e-05 ADM dof=2 ; Dlog -- r=1.3e-03 rej dof=2 ; B:1/L+1/L2 2.57869 r=8.6e-06 ADM dof=1 ; C:h^p 2.57849 r=1.0e-05 ADM dof=1 p=1.022
+    => 2.578712 +- 4.7e-04
+  R21                          n=[26, 52, 78, 104]
+    values 2.319907660 2.333166982 2.336990474 2.338802227
+    stable(two finest) 2.33 | A:1/L 2.34544 r=1.8e-04 rej dof=2 ; Dlog -- r=1.0e-03 rej dof=2 ; B:1/L+1/L2 2.34377 r=1.9e-06 ADM dof=1 ; C:h^p 2.34296 r=9.9e-06 ADM dof=1 p=1.234
+    => 2.343364 +- 8.2e-04
+  D2/D1                        n=[26, 52, 78, 104]
+    values 1.768557673 1.762096695 1.759289478 1.757968248
+    stable(two finest) 1.75 | A:1/L 1.75469 r=2.3e-04 rej dof=2 ; Dlog -- r=3.8e-04 rej dof=2 ; B:1/L+1/L2 1.75319 r=4.5e-05 ADM dof=1 ; C:h^p 1.75083 r=6.2e-05 ADM dof=1 p=0.662
+    => 1.752009 +- 2.4e-03
+  D3/D1                        n=[26, 52, 78, 104]
+    values 2.386956568 2.347536300 2.341310522 2.337515548
+    stable(two finest) 2.3 | A:1/L 2.3183 r=1.9e-03 rej dof=2 ; Dlog -- r=4.0e-03 rej dof=2 ; B:1/L+1/L2 2.33447 r=3.2e-04 rej dof=1 ; C:h^p 2.3347 r=3.2e-04 rej dof=1 p=1.993
+    => none admissible
+  P31 lin 2.5693 quad 2.5727; R31/P31 lin 1.0037 quad 1.0023 (+- 1.8e-04) | X = 0.4886 +- 0.0005, X_A lin 0.2227 quad 0.2269 | S_closed(Delta23) = 0.68438, X/S = 0.7139 +- 0.0008, (1-X/S)/z1 = 0.334, (X-S)/sX = -369.4
+
+e040 eta=2/5 n=[14, 28, 42, 56, 70] z1=1.333333 z2=0.952381 zeff=2.666667 Delta23=0.916291 P21_2=1.510204 2z2z3/z1^2=1.428571
+  R31                          n=[14, 28, 42, 56, 70]
+    values 2.252670658 2.296597825 2.305694922 2.309234249 2.311263572
+    stable(two finest) 2.3 | A:1/L 2.32149 r=2.7e-04 rej dof=2 ; Dlog -- r=6.8e-04 rej dof=2 ; B:1/L+1/L2 2.3168 r=3.2e-05 ADM dof=1 ; C:h^p 2.31569 r=3.8e-05 ADM dof=1 p=1.583
+    => 2.316247 +- 1.1e-03
+  R21                          n=[14, 28, 42, 56, 70]
+    values 2.164706593 2.197183657 2.204026524 2.206710973 2.208175933
+    stable(two finest) 2.20 | A:1/L 2.21588 r=2.1e-04 rej dof=2 ; Dlog -- r=5.4e-04 rej dof=2 ; B:1/L+1/L2 2.21221 r=1.3e-05 ADM dof=1 ; C:h^p 2.21141 r=1.8e-05 ADM dof=1 p=1.611
+    => 2.211806 +- 8.0e-04
+  D2/D1                        n=[14, 28, 42, 56, 70]
+    values 1.627317427 1.650182750 1.654807361 1.654859535 1.656235257
+    stable(two finest) 1.65 | A:1/L 1.66024 r=6.2e-04 rej dof=2 ; Dlog -- r=8.4e-04 rej dof=2 ; B:1/L+1/L2 1.65491 r=4.1e-04 rej dof=1 ; C:h^p 1.65612 r=3.9e-04 rej dof=1 p=3.278
+    => none admissible
+  D3/D1                        n=[14, 28, 42, 56, 70]
+    values 2.006013312 2.089655422 2.082575690 2.074562845 2.074309353
+    stable(two finest) 2.074 | A:1/L 2.06274 r=8.9e-04 rej dof=2 ; Dlog -- r=1.1e-03 rej dof=2 ; B:1/L+1/L2 2.0585 r=9.4e-04 rej dof=1 ; C:h^p 2.0547 r=9.4e-04 rej dof=1 p=0.690
+    => none admissible
+  P31 lin 2.3215 quad 2.3247; R31/P31 lin 0.9977 quad 0.9964 (+- 4.8e-04) | X = 0.4911 +- 0.0006, X_A lin 0.1592 quad 0.1630 | S_closed(Delta23) = 0.77132, X/S = 0.6367 +- 0.0007, (1-X/S)/z1 = 0.272, (X-S)/sX = -500.7
+
+Ordering over 26 (eta, n) rows: Phi1 < Phi2 < Phi3: True; D1 < D2 < D3: True
+linear fit X/S = A + B zeta_1 on the 3 smallest zeta_1: A = 0.9972, B = -0.4387

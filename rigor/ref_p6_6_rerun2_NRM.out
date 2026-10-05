@@ -1,0 +1,6 @@
+# NRM: largest normalisation defects |log K det(1+T)| over all 284 raw lines (bits_for(n)+200)
+  3.0e-39  chains_E.raw  set=ref m=3 n=180  prot/k=Ud
+  2.4e-73  vwz_B.raw  set=e005 eta=0.05000000 a=6  prot/k=1B
+  8.0e-80  vwz_A.raw  set=e015 eta=0.15000000 a=18  prot/k=1B
+  9.3e-98  chains_E.raw  set=ref m=3 n=180  prot/k=3LR
+  1.1e-101  chains_E.raw  set=ref m=2 n=120  prot/k=Ud

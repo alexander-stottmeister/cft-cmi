@@ -1,0 +1,8 @@
+# kernel_k4_validate.out -- written by numerics/networks/corner_kernel.py on 2026-10-03 18:10
+# K4 validation; command: $PYTHON numerics/networks/corner_kernel.py K4v (about 2 min)
+# box_composite with sigma2 = 0 (one corner, sigma1 = s/L) and logF_window in the window eps against the published
+# sub-compressed values -log F_sub of numerics/results_A2.txt (eps = 1e-8, 61 modes) and numerics/results_hp.txt
+# (eps = 1e-11, 81 modes, dps 40); box (60, 30), a = 1, L = 2.
+   eps = 1e-08, s = 0.025: -log F_sub = 5.679016216e-07  published 5.679016e-07 (results_A2.txt:1)  rel. diff 3.8e-08
+   eps = 1e-08, s = 0.1: -log F_sub = 8.863062300e-06  published 8.863062e-06 (results_A2.txt:3)  rel. diff 3.4e-08
+   eps = 1e-11, s = 0.025: -log F_sub = 5.744385648e-07  published 5.744436e-07 (results_hp.txt:1)  rel. diff 8.8e-06

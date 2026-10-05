@@ -1,0 +1,14 @@
+# [kernel_t0.out (one rung) as written by corner_kernel.py, redirected by rigor/ref_p6_5_rerun.py K1r] 2026-10-05 21:12
+# K1 rung h = 1/16 of the dyadic ladder [A]: Y = 14, Ymax = 20, all Delta of DGRID
+[A] dyadic ladder, Y = 14, Ymax = 20, all Delta (rung h = 0.0625 only)
+  h = 0.062500  mesh [-14.000, 20.000]  N = 544  eig(Q) in [4.71e-04, 0.999529]  G0/f2 = 0.9809445  (cut-off weight of the diagonal: 1 - G0/f2 = 1.91e-02)
+     Delta = 0.0  R_h = G/G0 = +1.00000000  G/f2 = +0.98094448  |pol - bil|/G0 = 0.0e+00  translate check 2.6e-16  5s
+     Delta = 0.5  R_h = G/G0 = +0.89757818  G/f2 = +0.88047436  |pol - bil|/G0 = 1.0e-16  translate check 2.6e-16  7s
+     Delta = 1.0  R_h = G/G0 = +0.74367397  G/f2 = +0.72950287  |pol - bil|/G0 = 0.0e+00  translate check 2.6e-16  9s
+     Delta = 1.5  R_h = G/G0 = +0.59807093  G/f2 = +0.58667438  |pol - bil|/G0 = 0.0e+00  translate check 1.8e-16  11s
+     Delta = 2.0  R_h = G/G0 = +0.47394972  G/f2 = +0.46491836  |pol - bil|/G0 = 0.0e+00  translate check 2.6e-16  14s
+     Delta = 3.0  R_h = G/G0 = +0.29160657  G/f2 = +0.28604986  |pol - bil|/G0 = 5.2e-17  translate check 2.6e-16  16s
+     Delta = 4.0  R_h = G/G0 = +0.17740387  G/f2 = +0.17402335  |pol - bil|/G0 = 0.0e+00  translate check 2.6e-16  18s
+     Delta = 5.0  R_h = G/G0 = +0.10751505  G/f2 = +0.10546630  |pol - bil|/G0 = 5.2e-17  translate check 2.6e-16  20s
+     Delta = 6.0  R_h = G/G0 = +0.06507760  G/f2 = +0.06383752  |pol - bil|/G0 = 7.9e-17  translate check 2.6e-16  22s
+     Delta = 8.0  R_h = G/G0 = +0.02382521  G/f2 = +0.02337121  |pol - bil|/G0 = 6.5e-17  translate check 2.6e-16  24s

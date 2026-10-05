@@ -1,0 +1,1 @@
+PYTHONDONTWRITEBYTECODE=1 PYTHON=$V/bin/python $V/bin/python  chains sw  20,64s user 0,33s system 99% cpu 21,142 total

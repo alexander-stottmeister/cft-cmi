@@ -1,0 +1,639 @@
+\documentclass[11pt]{article}\input{rigor_preamble}
+\usepackage{tabularx}
+\newcommand{\norm}[1]{\lVert#1\rVert}\newcommand{\abs}[1]{\lvert#1\rvert}\newcommand{\Gh}{\widehat G}
+\newcommand{\Pp}{P_+}\newcommand{\Pm}{P_-}\newcommand{\Stwo}{\mathfrak S_2}\newcommand{\Dc}{\mathfrak D}
+\newcommand{\Dtot}{D_{\rm tot}}\newcommand{\Om}{\Omega}\newcommand{\ip}[2]{\langle#1,#2\rangle}
+\newcommand{\doc}{\textbf{NSO}}
+\DeclareMathOperator{\artanh}{artanh}\DeclareMathOperator{\dist}{dist}\newcommand{\Qt}{\widetilde Q}\newcommand{\one}{\mathbf 1}\newcommand{\Sch}{\mathcal S}\newcommand{\Rp}{\mathsf R}\newcommand{\kt}{\widetilde k}\newcommand{\Wt}{\widetilde W}
+
+\title{\color{navy}\bfseries Referee report REF-P6-4 on \texttt{rigor/network\_second\_order.tex}\\[0.3em]
+\large The second-order network law, the corner kernel $\hat G$, and the six G1b cards}
+\author{Referee REF-P6-4 (Opus)}\date{2026-10-03}
+
+\begin{document}\maketitle
+
+\begin{abstract}\noindent
+Adversarial review of \texttt{rigor/network\_second\_order.tex} (G1b, 27 pp.) and of the six cards built on it.
+Every step of T1, T2, T4, T5, T6 and of the lemmas behind them was checked against the cited documents (QL, PA, RR,
+KI, TB, C11, G1a; the labels and corrections quoted below were opened, not remembered), and every number in a
+theorem or card Statement was recomputed with my own scripts (\texttt{rigor/ref\_p6\_4\_kernel.py},
+\texttt{rigor/ref\_p6\_4\_composite.py}; no code shared with \texttt{g1b\_kernel.py}).
+\textbf{Verdict.} T1, T2, the network law at fixed configuration (cor:law), the kernel theorem T4 with its closed
+form, bounds, sign and monotonicity, T5, cor:vwz and T6 \textbf{stand}.  \textbf{T3 stands only with a repair}: its
+range ``every $s$ with $2\hat f_2s^2Z^2<1$'' uses RR Lemma~6.1 (\texttt{lem:groupbound}) ``for all real $\sigma$'',
+which RR's own Correction~C3 (l.~1062--1079) settles only for $|\sigma|\,\norm{[P_-,K]}_2<1$; the proved range is
+$2\hat f_2s^2Z^2<1$ \emph{and} $s\max_k\zeta_k<\pi\sqrt3$, the rest rests on the conjectural card
+\texttt{group-index-zero-large-s}.  Minor points: the same unrestricted ``for $\sigma\ge0$'' in lem:onegroup(i)
+(harmless for T5, which needs only $\sigma\to0$); ``$C^1$ but not $C^2$'' is proved only in a remark; a QAWF/QAWO
+mislabel in the script docstring.  All independent recomputations agree with the document (largest deviation
+$7\cdot10^{-16}$ against tolerances $10^{-8}$--$10^{-12}$); the rerun of \texttt{g1b\_kernel.py} reproduces
+\texttt{g1b\_kernel.out} byte for byte.  Card verdicts: five pass, \texttt{network-global-bound-coincident} fails
+(repair: restrict the range).
+\end{abstract}
+
+\tableofcontents
+
+\section{Method and verdict table}\label{sec:method}
+\doc\ is \texttt{rigor/network\_second\_order.tex} as of 2026-10-03 17:51 (sha of its output
+\texttt{g1b\_kernel.out}: \texttt{7581c0e3\dots}; unchanged by my rerun).  Its log: 27 pages, no line \verb|^!|, no
+undefined reference.  Labels of the cited documents were opened at the lines named here: QL
+\texttt{quadratic\_limit.tex} (\texttt{lem:standing} l.~135, \texttt{def:PhiP} l.~212, Bures box l.~266--290,
+\texttt{prop:oneparticle} l.~329, \texttt{thm:lower} l.~410--470); PA \texttt{uhlmann\_upper\_bound.tex}
+(\texttt{eq:hardy} l.~42, \texttt{lem:kernel} l.~220, \texttt{prop:HS} l.~284, \texttt{def:admissible},
+\texttt{prop:expansion} l.~745--800, \texttt{lem:tangentvec} l.~1096, \texttt{prop:infimum} l.~1216, Corrections
+C2--C3 l.~1562--1612); RR \texttt{rate\_of\_remainder.tex} (\texttt{thm:global} l.~180, \texttt{lem:groupbound}
+l.~818, \texttt{prop:rrr} l.~848, Correction C3 l.~1026--1079); TB \texttt{universality\_theorem\_B.tex} ((BW)
+l.~83--89, (H1)--(H3) l.~118--160, \texttt{prop:H3} l.~290, \texttt{rem:H2H3} l.~358, \texttt{prop:H2} l.~392,
+\texttt{lem:reduce} l.~517, \texttt{prop:reduce} l.~569, \texttt{thm:linear} l.~594); C11 \texttt{thm:main} l.~792 and
+\S8(b) l.~824; G1a \texttt{network\_corner\_calculus.tex} (\texttt{def:H} l.~614, \texttt{thm:corner} l.~658,
+\texttt{thm:state} l.~870, \texttt{cor:phiA} l.~924, \texttt{prop:1B1A} l.~1156, \texttt{prop:prot2} l.~1199,
+\texttt{thm:sep} l.~1606); \texttt{f3\_t0.py} and \texttt{kkt\_continuum.Qmat}.  No external PDF is cited directly by
+\doc; its seven excerpts (\texttt{rigor/shots/g1b\_*.png}) are of project documents and exist.
+Numbers: \S\ref{sec:num}.  Verdict words: STANDS; STANDS WITH REPAIR (= \texttt{kb verdict fail} with the repair);
+FAILS.
+
+\begin{center}\small
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.27\textwidth} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}p{0.17\textwidth}}\toprule
+Statement of \doc & Finding (section) & Verdict\\\midrule
+thm:T3 (Thm.~5.2) & range uses RR lem:groupbound beyond RR Correction C3; proved for $s\max_k\zeta_k<\pi\sqrt3$ only (\S\ref{sec:i9}) & \textbf{stands with repair}\\
+lem:onegroup(i) (Lem.~7.1) & ``for $\sigma\ge0$'' has the same C3 restriction; only $\sigma\to0$ is used (\S\ref{sec:i12}) & stands (minor)\\
+lem:frame, lem:canon, rem:scaled & (H) stated and used through G1a thm:corner (\S\ref{sec:i1}) & stands\\
+lem:implementer & every input checked; normality from PA, not from Note 4 (\S\ref{sec:i2}) & stands\\
+lem:Dtot, lem:polar & sign and frame $y_k$ confirmed independently (\S\ref{sec:i3}) & stands\\
+lem:taylor, thm:T1 & first-order differentiability suffices (\S\S\ref{sec:i4},\ref{sec:i5}) & stands\\
+lem:prodexp, prop:inf, thm:T2 & (\S\ref{sec:i6}) & stands\\
+cor:law & fixed configuration only, nothing uniform claimed (\S\ref{sec:i7}) & stands\\
+lem:nogroup & masses recomputed exactly (\S\ref{sec:i8}) & stands\\
+thm:T4 (a)--(e), (cf), lem:lorentz & every step and every number recomputed; ``not $C^2$'' only in rem:kernelshape (\S\ref{sec:i10}) & stands (minor)\\
+cor:W3W4 & (\S\ref{sec:i11}) & stands\\
+thm:T5, cor:vwz & uniform in $y_2-y_1$; $M=2$ used in $\langle2\rangle1$; strengths recomputed exactly (\S\S\ref{sec:i12},\ref{sec:i13}) & stands\\
+thm:T6 & (\S\ref{sec:i14}) & stands\\\midrule
+card \texttt{network-law-free-fermion} & (\S\ref{sec:i16}) & pass\\
+card \texttt{corner-kernel-closed-form} & (\S\ref{sec:i16}) & pass\\
+card \texttt{network-global-bound-coincident} & range of (1) (\S\S\ref{sec:i9},\ref{sec:i16}) & \textbf{fail}\\
+card \texttt{network-upper-uniform-two-corners} & (\S\ref{sec:i16}) & pass\\
+card \texttt{network-law-c-linear} & (\S\ref{sec:i16}) & pass\\
+card \texttt{network-remainder-uniformity} & (\S\S\ref{sec:i15},\ref{sec:i16}) & pass\\\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{Item 1: frame reduction and canonical composite (lem:frame, lem:canon)}\label{sec:i1}
+\lstep{1}{1}{lem:frame $\langle1\rangle1$--$\langle1\rangle3$ are correct.}
+\lby{recomputed: $g=(2x-p_1-p_{n+1})/(x-p_1)$ has $ad-bc=p_{n+1}-p_1>0$, $1-g=(p_{n+1}-x)/(x-p_1)$, so
+ $y\circ g=y_{I_1}$; differentiating gives $g'\beta_{I_1}=\beta_0\circ g$; the composition rule
+ $\Sch(f\circ h)=\Sch(h)+(h')^2\Sch(f)\circ h$ (brief, ``Setting'') applied to $\Phi\circ g^{-1}$ turns
+ $\delta_{p_k}\circ g^{-1}$ into $g'(p_k)\delta_{g(p_k)}$ and multiplies by $(g^{-1})'(g(p_k))^2=g'(p_k)^{-2}$, hence
+ the mass $\kappa_k/g'(p_k)$, and $\Sch(g)=0$ adds nothing; the strength is then $\kappa_k\beta_{I_1}(p_k)$}
+\lstep{1}{2}{lem:frame $\langle1\rangle4$ and lem:canon are correct.}
+\lby{$\beta_{V_{\Phi^g}}\circ\beta_{W_g}=\beta_{W_gV_\Phi}=\beta_{W_g}\circ\beta_{V_\Phi}$ and $\omega\circ\beta_{W_g}=\omega$
+ (G1a lem:moebius-inv, $W_g$ unitary on all of $H$ although the pole of $g$ is the end $p_1$); lem:canon
+ $\langle1\rangle2$: every factor with index $j>k$ is the identity on $(-\infty,q_j]\ni q_k$, so $G_k'(q_k)=1$;
+ $\langle1\rangle4$ is G1a lem:same-schwarz plus Möbius invariance}
+\lstep{1}{3}{Hypothesis (H) is stated ((C8), with G1a def:H) and used exactly once: to know the protocol's
+ Schwarzian (G1a thm:corner), after which only the corner measure enters.}
+\lby{(C8), lem:canon last sentence, thm:T1/thm:T2 last sentences.  The scaled family is \emph{defined} in (C8) as the
+ corner-measure family $s\sum\kappa_k\delta_{p_k}$ (the brief's definition), so its state is $\omega_s$ by lem:canon
+ and lem:frame without rem:scaled; rem:scaled is an additional interpretation (protocol-shaped composite with
+ $\sigma_m\to s\sigma_m$) that nothing below uses.  G1a thm:state(1) (which needs admissible steps, $s_m\ge\lambda_m$)
+ is \emph{not} used for $s<1$: normality of $\omega_s$ comes from PA's implementer (\S\ref{sec:i2})}
+\lstep{1}{4}{``Right compressions in canonical order'' and ``the protocols'' are the same object at the level of
+ \emph{states} for the free fermion, not at the level of maps.}
+\lby{$\Psi_s$ and a protocol's composite differ by a post-composed Möbius map (G1a lem:same-schwarz), which does not
+ change the quasi-free state (G1a thm:state(2)); for a general net this identification needs the implementer-level
+ Möbius step, which \doc\ correctly lists as open (T6 verdict box; \S\ref{sec:i14})}
+\begin{verdictok}
+lem:frame, lem:canon: STAND.  (H) is stated and used; the identification with protocols is the Schwarzian
+dependence of the free-fermion state, exactly as claimed.
+\end{verdictok}
+
+\section{Item 2: the implementer (lem:implementer)}\label{sec:i2}
+\lstep{1}{1}{(i) holds: $d_k\circ\kt_{s\zeta_k}\circ d_k^{-1}=\Rp_{q_k,s\kappa_k}$ on $I$.}
+\lby{$d_k(x)=q_k+(1-q_k)x$ is affine with $d_k(0)=q_k$; conjugating $x\mapsto x/(1+\sigma x)$ ($x>0$) gives
+ $x'\mapsto q_k+(x'-q_k)/(1+\sigma(x'-q_k)/(1-q_k))$, i.e.\ parameter $s\zeta_k/(1-q_k)=s\kappa_k$; PA lem:ext(E2)
+ gives $\kt_\sigma|_I=\Rp_{0,\sigma}|_I$; order of the product $W^{(1)}\cdots W^{(M)}=V_{\Rp_1\circ\dots\circ\Rp_M}$ on
+ $H_I$ matches eq.~(Psi)}
+\lstep{1}{2}{(ii) telescoping and (iii) the bound $\norm{G_{\rm tot}(s)}_2\le C_0s\sum\zeta_k$ hold \emph{for every}
+ $s\ge0$.}
+\lby{the identity $\Pp-W_2^*W_1^*\Pp W_1W_2=(\Pp-W_2^*\Pp W_2)+W_2^*(\Pp-W_1^*\Pp W_1)W_2$ (checked); the
+ per-factor bound $\norm{G_\sigma}_2\le C_0|\sigma|$ for all real $\sigma$ is PA's Correction C3 remark
+ (l.~1606--1612: $\norm{G_s}_2\le|s|\norm{G^{(1)}}_2\le C_0|s|$ from \texttt{lem:integralrep}), not PA prop:HS, whose
+ own range is $s\norm\chi_\infty\le\frac12$; [K3](b) of \doc\ cites both, correctly}
+\lstep{1}{3}{(iv): every hypothesis of PA cor:implementer and prop:vector is met.}
+\lby{both off-diagonal blocks of $W_{\rm tot}(s)$ are Hilbert--Schmidt by (iii) (PA Correction C4 requires both,
+ and both are supplied); $W_{\rm tot}f=V_{\Psi_s}f$ on $H_I$ by (i)}
+\lstep{1}{4}{Note~4 Thm.~7.1 and G1a thm:state(1) are not needed and not used for $s<1$.}
+\lby{the scaled steps are not admissible for $s<1$ (G1a lem:admissible), which \doc\ says in (C8); normality comes
+ from (iv).  At $s=1$ the state is the protocol's (\S\ref{sec:i1})}
+\begin{verdictok}
+lem:implementer: STANDS.  (v) $\delta(s)=E_IG_{\rm tot}E_I$ follows from (i) as written.
+\end{verdictok}
+
+\section{Item 3: the first-order defect of the composite (lem:Dtot)}\label{sec:i3}
+\lstep{1}{1}{The frame of the translation is $+y_k$: $E_IW_{d_t}G^{(1)}W_{d_t}^*E_I=D_t$ with $y$-kernel
+ $\widetilde D(y-t,y'-t)$, and the corner of $D^{(1)}$ sits at $y=0$.}
+\lby{$U_0V_{d_t}U_0^{-1}=\tau_t$, $(\tau_tg)(y)=g(y-t)$ (\doc\ eq.~(transl), recomputed: $(d_t^{-1})'=e^t$,
+ $\beta_0(x')=e^{-y'}$); $d_{y_k}(0)=q_k$}
+\lstep{1}{2}{The sign of eq.~(ddot) is the one forced by PA eq.~(hardy).}
+\lby{with $\Pp(x,y)=\frac12\delta-\frac i{2\pi}\mathrm{pv}\frac1{x-y}$ the recovered symbol has kernel
+ $\sqrt{\Psi'(x)\Psi'(x')}\Pp(\Psi(x),\Psi(x'))$, so $\delta(s)=\frac i{2\pi}\kappa_{\Psi_s}$ (PA lem:kernel); for one
+ corner at $0$, $\partial_\sigma\kappa|_0=xx'/(x-x')^2$ for $x<0<x'$, and in the $y$-frame (half-density factor
+ $e^{-(y+y')/2}$, $x=2e^{-y/2}\sinh\frac y2$, $x-x'=2e^{-(y+y')/2}\sinh\frac{y-y'}2$) this is
+ $\frac{\sinh(y/2)\sinh(y'/2)}{\sinh^2((y-y')/2)}$; with the factor $-\frac i{2\pi}$ from $\delta=Q_I-\Qt$ this is
+ eq.~(ddot), and it is \texttt{f3\_t0.py}'s \texttt{ddot} (its \texttt{kern} $=-\sinh\sinh/\sinh^2$ times
+ $\frac i{2\pi}$ in the $A$--$D$ block)}
+\lstep{1}{3}{$\langle1\rangle2$--$\langle1\rangle5$ of lem:Dtot are correct.}
+\lby{PA prop:expansion $\langle1\rangle2$ (in its range $s\norm\chi_\infty\le\frac12$, enough for $s\downarrow0$);
+ strong convergence $U_k(s)\to\one$ and the finite-rank density argument; $\norm{E_IXE_I}_2\le\norm X_2$}
+\lstep{1}{4}{Independent numerical instance (item L of \S\ref{sec:num}): for $M=2$, $(q,\kappa)=((-0.5,0.9),(0.4,1.7))$
+ and $M=3$, $(q,\kappa)=((-1.5,0.3),(0.2,1.2),(0.75,2.5))$, at 8 points each, the complex-step derivative of the exact
+ kernel equals $\sum_k\zeta_k\widetilde D(y-y_k,y'-y_k)$ to relative $2.0\cdot10^{-50}$ (tolerance $10^{-12}$), while
+ the wrong frame $\widetilde D(y+y_k,y'+y_k)$ is off by $133\,\%$.}
+\lby{\texttt{rigor/ref\_p6\_4\_composite.out}, block L; my configurations, points and differentiation rule (complex
+ step) differ from \texttt{g1b\_kernel.py}'s (Richardson)}
+\begin{verdictok}
+lem:Dtot: STANDS, with sign and frame $y_k$ (not $-y_k$) confirmed.  lem:polar: STANDS ($\overline{D_a}D_b=
+\abs{D^{(1)}}^2e^{-iu(b-a)/2\pi}$ by eq.~(Dt); the bound $\iint\abs{\Dtot}^2/N\le Z^2/(3\pi^2)$ is Minkowski with QL
+prop:gB, $2r\iint\abs{D^{(1)}}^2/N=2r/(3\pi^2)$).
+\end{verdictok}
+
+\section{Item 4: differentiability of the compressed symbol (lem:polar, lem:taylor)}\label{sec:i4}
+\lstep{1}{1}{The exact hypothesis of QL thm:lower that the composite lacks is QL lem:standing(c): $z\mapsto R_z(u,v)$
+ holomorphic on $\{|z|<1\}$ with $|R_z|\le|z|/(L(1-|z|))$, used at thm:lower $\langle1\rangle4\langle2\rangle1$ to make
+ $\zeta\mapsto Q_P-P\delta_\zeta P$ holomorphic and hence $\Phi_P$ real-analytic ($\langle2\rangle4$), which feeds
+ the Taylor step $\langle1\rangle5$.}
+\lby{QL l.~135--150 and l.~437--470, read}
+\lstep{1}{2}{lem:taylor replaces it correctly: analyticity is moved from the curve to the function of the symbol.}
+\lby{$f(Z)=-\log F(\omega_X,\omega_Z)$ is real-analytic on the open set $\{0<Z<1\}$ of a finite-dimensional real
+ space (QL thm:lower $\langle2\rangle3$, Note~5 Thm.~2.1: $F=\det[(1-X)(1-Z)]^{1/2}\det[1+(G_X^{1/2}G_ZG_X^{1/2})^{1/2}]>0$);
+ $X$ is an interior minimum, so $\mathrm Df(X)=0$; the Bures box is applied only to the straight lines $X+\eps Z$
+ (real-analytic, faithful); Taylor's theorem with remainder for a $C^3$ function in finitely many variables gives
+ $f(Y_s)=\frac12\mathrm D^2f(X)[H_s,H_s]+O(\norm{H_s}^3)$ with $H_s=s\dot Y+o(s)$.  Only $\norm{Y_s-X-s\dot Y}=o(s)$
+ is used, which lem:Dtot supplies in Hilbert--Schmidt norm}
+\lstep{1}{3}{The identification $\mathrm D^2f(X)[Z,Z]=\frac14g_B$ and the Legendre inequality are correct.}
+\lby{comparison of $\eps^2$-coefficients of the Taylor expansion and of the Bures box ($-\log F=\frac{\eps^2}8g_B+
+ O(\eps^3)$, QL eq.~(bures)); QL prop:oneparticle needs only a differentiable curve of symbols in $(0,1)$ with hermitian
+ derivative, which the line $X+\eps\dot Y$ is}
+\begin{verdictok}
+lem:taylor: STANDS.  First-order differentiability of the compressed symbol is enough; no property of $s\mapsto\delta(s)$
+beyond $\norm{\delta(s)-s\Dtot}_2=o(s)$ is used.  The spectrum of $Y_s$ stays in $(0,1)$ for every $s$ (T1 $\langle1\rangle4$),
+so the QL step $\langle2\rangle2$ is not needed either.
+\end{verdictok}
+
+\section{Item 5: the lower bound (thm:T1), direction $\ge$}\label{sec:i5}
+Direction ledger: quantity $\liminf_{s\downarrow0}\Phi_{\rm tot}(s)/s^2$ (exact functional, free fermion, $\cF(I)$);
+evidence: $\Phi_{\rm tot}\ge\Phi_P$ (lower bound, exact), $\lim\Phi_P/s^2=\frac18g_B^{(P)}$ (equality, finite
+dimensions), $g_B^{(P)}\ge\frac18\cdot$ Legendre bracket (lower bound); all three point the same way.
+\lstep{1}{1}{Data processing is used in the right direction.}
+\lby{restriction $\cF(I)\to\cM_P$ is a channel, fidelity does not decrease, $-\log$ reverses: $\Phi_{\rm tot}\ge\Phi_P$
+ (QL thm:lower $\langle1\rangle3$); $\omega_s$ is normal by lem:implementer(iv), so the restriction is defined}
+\lstep{1}{2}{The bound is linear in the defect: only $\dot Y=-P\Dtot P$ enters, and $Y_s-X=-P\delta(s)P$.}
+\lby{eq.~(Qts): the symbol of $\omega_s$ is $Q_I-\delta(s)$; lem:Dtot}
+\lstep{1}{3}{The compression $P$ is legitimate and the sign of the trial operator is handled.}
+\lby{$0<X,Y_s<1$ by QL lem:standing(a) for $Q_I$ and for $Q_{\Psi_s(I)}$ ($\Psi_s(I)$ is a half-line $(-\infty,\Psi_s(1))$,
+ its complement has positive measure), pulled back by the unitary $V_{\Psi_s}:H_I\to H_{\Psi_s(I)}$; with $\ell'=-\ell$ the
+ bracket is $2\Tr(\Dtot\ell)-\Tr(Q_I\ell(1-Q_I)\ell)=\Omega_{\rm tot}(\ell)$; $\sup_\ell\Omega_{\rm tot}=2\iint\abs{\Dtot}^2/N$
+ needs only hermiticity of $\Dtot$ ([K2](i), QL prop:gB $\langle1\rangle2$--$\langle1\rangle5$)}
+\lstep{1}{4}{$r$ components: fidelities multiply, $g_Q$ carries the factor $r$.}
+\lby{PA thm:main-upper $\langle1\rangle1$, as cited}
+\begin{verdictok}
+thm:T1: STANDS for every finite configuration (C6), with the constant $g_Q(\Dtot)=c\sum\zeta_j\zeta_k\Gh(y_j-y_k)$.
+\end{verdictok}
+
+\section{Item 6: the upper bound (lem:prodexp, prop:inf, thm:T2), direction $\le$}\label{sec:i6}
+Direction ledger: $\Phi_{\rm tot}\le-\log\abs{\ip\Om{\Gamma(U_s)\Om}}$ (upper bound: Uhlmann with one trial vector),
+$\le\norm{V_s^{\rm tot}}_2^2/(2(1-\norm{V_s^{\rm tot}}^2))$ (upper bound, PA cor:master), then the infimum over $h'$
+(an infimum of upper bounds is an upper bound).  All in the same direction.
+\lstep{1}{1}{lem:prodexp: the expansion $\norm{W_{\rm tot}^*V_s^{\rm tot}-s(\Pm\Dc_{\rm tot}\Pp+iN')}_2=o(s)$ is
+ correct, and both blocks of $U_s$ go to $0$ in norm.}
+\lby{$W_{\rm tot}^*\Pm W_{\rm tot}=\Pm+G_{\rm tot}$; insertion of $\Pp+\Pm$; PA prop:expansion $\langle1\rangle3$ for
+ $Z_s$; lem:Dtot $\langle1\rangle4$ times $\Pp$ with $T_k\Pp=\Pm\Dc_k\Pp$ ($W_{d_k}$ commutes with $P_\pm$); for
+ $\Pp U_s\Pm$ the decomposition through $\Pp W_{\rm tot}\Pm=-W_{\rm tot}G_{\rm tot}\Pm$; all rechecked}
+\lstep{1}{2}{PA's Uhlmann step and the overlap formula apply to the product.}
+\lby{PA prop:uhlmann uses of the unitary only that it restricts to $V_{\Psi_s}$ on $H_I$ and has an implementer
+ (both blocks Hilbert--Schmidt, lem:prodexp(iii)); PA thm:det needs $\norm V<1$ \emph{and} $\norm{\Pp U\Pm}<1$, and
+ T2 $\langle2\rangle3$ checks both (the omission of the second that RR Correction C3 records for RR is not repeated
+ here); with both blocks of norm $<1$, $\Pp U\Pp$ is invertible, so no index question arises}
+\lstep{1}{3}{prop:inf: PA prop:infimum $\langle1\rangle1$--$\langle1\rangle6$ and lem:tangentvec use the generator
+ only through $\Pm\Dc\Pp\in\Stwo$, $G^{(1)}=[\Pm,\Dc]$ with $\Pp\Dc\Pm=-(\Pm\Dc\Pp)^*$, and the value of
+ $\sup_\ell\Omega$.}
+\lby{read at PA l.~1096--1160 and 1216--1257: lem:wick and thm:three-faces do not involve $\Dc$; for $\Dc_{\rm tot}$,
+ $[\Pm,\Dc_{\rm tot}]=\sum\zeta_kT_k$ and the skew relation hold factor by factor after conjugation by $W_{d_k}$;
+ the bookkeeping $\varphi-\mathrm{Var}=\frac14\Omega_{\rm tot}(-2\ell)$ was recomputed:
+ $\frac14\Omega_{\rm tot}(-2\ell)=-\Tr(\Dtot\ell)-\Tr(Q\ell(1-Q)\ell)$}
+\lstep{1}{4}{Constant check at $M=1$: $\inf_{h'}\norm{\Pm(\Dc+ih')\Pp}_2^2=2g_Q(D^{(1)})=2\cdot\frac14\cdot\frac1{3\pi^2}
+ =\frac1{6\pi^2}$, PA eq.~(infimum); hence $\limsup\le\frac1{12\pi^2}$, Theorem~A.}
+\lby{prop:inf at $M=1$, lem:polar, QL prop:gB}
+\begin{verdictok}
+lem:prodexp, prop:inf, thm:T2: STAND.  Every hypothesis of PA thm:main-upper's chain (implementer with both blocks,
+vector representative, commutant trial unitaries $e^{ish'}$ of the form $\one\oplus W'$, overlap formula with both
+norms $<1$, three faces, Wick reduction) is checked for the multi-corner product; the multi-jump field never needs an
+implementer of its own.
+\end{verdictok}
+
+\section{Item 7: the law at fixed configuration (cor:law)}\label{sec:i7}
+\lstep{1}{1}{cor:law asserts the limit at fixed corner data only, and says so.}
+\lby{statement: ``$(s\downarrow0$, fixed corner data$)$'' and ``The $o(s^2)$ is \emph{not} asserted to be uniform'';
+ T1 has no rate (finite-rank $P$ chosen after $\ell$), T2's $o(s)$ comes from strong continuity}
+\lstep{1}{2}{No uniformity is claimed by accident.}
+\lby{every occurrence of ``uniform'' in \doc\ (\texttt{grep -n uniform}: l.~32, 637, 912, 927--1054, 1206--1223)
+ either denies uniformity or refers to thm:T5 (upper half, $M=2$) and its use in cor:vwz; cor:W3W4(ii) says ``again
+ at fixed configuration''; the Summary table marks T5 ``partial''}
+\begin{verdictok}
+cor:law: STANDS, at fixed configuration, as stated.
+\end{verdictok}
+
+\section{Item 8: no one-parameter group (lem:nogroup)}\label{sec:i8}
+\lstep{1}{1}{$\langle1\rangle1$--$\langle1\rangle3$ are correct.}
+\lby{$\Psi_t(q_2)=\Rp_{q_1,t\kappa_1}(q_2)\in(q_1,q_2)$; $\Psi_s$ is Möbius between its breakpoints, so the jump of
+ $(\Psi_s\circ\Psi_t)''/(\Psi_s\circ\Psi_t)'=(\Psi_s''/\Psi_s')\circ\Psi_t\cdot\Psi_t'+\Psi_t''/\Psi_t'$ at $q_2$ is that of
+ $\Psi_t''/\Psi_t'$, i.e.\ $-2t\kappa_2$; push-forwards of all $f\in H_I$ determine the map}
+\lstep{1}{2}{Exact recomputation (item N of \S\ref{sec:num}), $q=(-\frac12,\frac13)$, $\kappa=(\frac32,\frac54)$,
+ $s=\frac27$, $t=\frac35$, one-sided jets in rational arithmetic: mass of $\Sch(\Psi_s\circ\Psi_t)$ at $q_2$ is
+ $-\frac32=-2t\kappa_2$, that of $\Sch(\Psi_{s+t})$ is $-\frac{31}{14}=-2(s+t)\kappa_2$; at $q_1$ both are
+ $-\frac{93}{35}=-2(s+t)\kappa_1$; here $\Psi_t(1)=\frac{73}{774}<q_2$, so the corner of $\Rp_{q_2,s\kappa_2}$ lies
+ outside $\Psi_t(I)$ and contributes nothing (G1a thm:general).}
+\lby{\texttt{rigor/ref\_p6\_4\_composite.out}, block N}
+\begin{verdictok}
+lem:nogroup: STANDS.  The Schwarzian mass $-2t\kappa_2$ is exact.
+\end{verdictok}
+
+\section{Item 9: the global bound (thm:T3), direction $\le$}\label{sec:i9}
+\lstep{1}{1}{$\langle1\rangle2$--$\langle1\rangle4$ and $\langle1\rangle6$--$\langle1\rangle7$ are correct.}
+\lby{RR prop:rrr $\langle1\rangle1$--$\langle1\rangle2$ hold for every $s\ge0$ (Dyson cocycle; both blocks via PA C2);
+ moving $c^{(k)}$ to the right: $X^*c^{(k)}X$ fixes $H_I$ because $XH_I\subseteq H_I$; $\Pm AB\Pp=\Pm A\Pp B\Pp+
+ \Pm A\Pm B\Pp$; $\det(\one-V^*V)\ge1-\norm V_2^2$; the infimum $2\hat f_2$ is PA eq.~(infimum)}
+\lstep{1}{2}{\textbf{GAP} at $\langle1\rangle5$.  Objected sentence: ``RR Lemma~\texttt{lem:groupbound} for
+ $e^{\pm s\zeta_kK}$ \dots: $\norm{\Pm e^{\sigma K}\Pp}_2\le\abs\sigma\norm{\Pm K\Pp}_2$ \emph{for all real} $\sigma$''
+ (and the verbatim box [K4], ``for all $s$'').}
+\lby{RR's Correction C3 (l.~1026--1079), part (ii) of ``Status of the uses'': the equality $\norm{G_s}_2^2=2\norm{V_s}_2^2$
+ behind this bound needs $\operatorname{ind}(\Pp e^{sK}\Pp)=0$, which ``the documents settle \dots\ only while
+ $\norm{G_s}_2<1$'', i.e.\ for $\abs s\norm{[\Pm,K]}_2<1$; ``in Lemma~6.1 [\texttt{lem:groupbound}], which is stated for all
+ $s$, every $s$ with $\abs s\norm{[\Pm,K]}_2\ge1$'' is open (card \texttt{group-index-zero-large-s}, conjectural).
+ Without index zero only $\norm{\Pm e^{\sigma K}\Pp}_2\le\norm{[\Pm,e^{\sigma K}]}_2\le\abs\sigma\norm{[\Pm,K]}_2=
+ \sqrt2\abs\sigma\norm{\Pm K\Pp}_2$ is available, a factor $\sqrt2$ too weak}
+\lstep{1}{3}{Size of the gap.  For $h'$ near the infimum, $\norm{[\Pm,K]}_2^2=2\norm{\Pm K\Pp}_2^2\downarrow4\hat f_2$,
+ so the settled range for factor $k$ is $s\zeta_k<(4\hat f_2)^{-1/2}=\pi\sqrt3\approx5.44$, while T3 claims every
+ $s$ with $sZ<(2\hat f_2)^{-1/2}=\pi\sqrt6\approx7.70$.}
+\lby{$\hat f_2=1/(12\pi^2)$.  For $M=1$ (allowed by (C6)) the uncovered range is RR's own open range
+ $\pi\sqrt3\le\zeta<\pi\sqrt6$, recorded on card \texttt{rate-of-remainder}; for $M\ge2$ it is empty iff
+ $\max_k\zeta_k\le Z/\sqrt2$, and nonempty e.g.\ for $\zeta=(1,0.01)$: $s\in[5.44,7.62)$}
+\lstep{1}{4}{Repair (either suffices).  (a) Add the hypothesis $s\max_k\zeta_k<\pi\sqrt3$ (equivalently
+ $4\hat f_2s^2\zeta_k^2<1$ for every $k$): choose $h'$ with $\norm{\Pm K\Pp}_2^2<\min\{(sZ)^{-2},(2s^2\max\zeta_k^2)^{-1}\}$
+ close to $2\hat f_2$; then $s\zeta_k\norm{[\Pm,K]}_2<1$ for every factor, index zero holds by RR C3(ii), and
+ $\langle1\rangle5$--$\langle1\rangle7$ go through verbatim.  (b) Keep the range and make the excess conditional on
+ \texttt{group-index-zero-large-s} (theorem statement and card \texttt{depends}).}
+\lby{RR C3(ii); $\langle1\rangle2$, $\langle1\rangle3$}
+\lstep{1}{5}{The comparison in the verdict box is correct, in both directions.}
+\lby{$0<\Gh(\Delta)<\Gh(0)$ for $\Delta\ne0$ (T4(d),(e); my grid check, \S\ref{sec:num} B, E) and $\zeta_k>0$ give
+ $\sum\zeta_j\zeta_k\Gh(y_j-y_k)\le\Gh(0)Z^2$, equality iff all $y_j$ coincide; $x\mapsto-\frac12\log(1-2x)$ is
+ increasing, so the conjectured network form would be the \emph{smaller} (stronger) bound, T3 the weaker; and
+ ``implies T2's upper half only'' is the right relation (expansion of $-\frac12\log(1-2x)$)}
+\begin{verdictgap}
+thm:T3: STANDS WITH REPAIR (repair (a) or (b) of $\langle1\rangle4$).  Not a BREAK: nothing shows the bound false in
+the uncovered range.  The verdict box's ``not proved'' for the network-form bound and the relation ``implies only''
+are accurate.
+\end{verdictgap}
+
+\section{Item 10: the kernel $\Gh$ in closed form (thm:T4)}\label{sec:i10}
+\paragraph{(a), (b).}
+\lstep{1}{1}{(a) $\langle1\rangle1$--$\langle1\rangle3$: the constants are right.}
+\lby{recomputed: $\dd\kappa\dd\kappa'=\frac12\dd u\dd v$ gives $\frac r8\int\cos\frac{u\Delta}{2\pi}S(u)\dd u$ with
+ $S$ of QL lem:V ($\frac23\tanh\frac u2/(u(u^2+4\pi^2))$); $u=2\pi q$: $\frac18\cdot\frac23\cdot2\pi\tanh(\pi q)/(8\pi^3q(1+q^2))
+ =\tanh(\pi q)/(48\pi^2q(1+q^2))$; in $p$: $\abs{\hat d_0}^2=4\pi^2\abs{D^{(1)}}^2$, $\abs{\dd v/\dd p}=4\pi$, so
+ $\frac14\cdot4\pi^2\cdot\frac1{4\pi}S(2\pi q)=\rho(q)$}
+\lstep{1}{2}{Independent check of $\rho(q)=\frac14\int\abs{\hat d_0(p,p-q)}^2/W(p,p-q)\dd p$ at $q=0.1,0.5,1,2,5$:
+ maximal relative deviation $2.7\cdot10^{-51}$ (tolerance $10^{-10}$).}
+\lby{item R of \S\ref{sec:num} (mpmath tanh-sinh, 160 digits, $\hat d_0$ and $W$ literally from T4(c) and (C4),
+ $\abs p\le45+\abs q$, neglected weight $<10^{-115}$)}
+\lstep{1}{3}{(a) $\langle1\rangle4$--$\langle1\rangle6$ and (b) are correct: $\int\rho=\frac1{12\pi^2}$, and strict
+ positive-definiteness follows from $\rho>0$ and the identity $\sum c_j\bar c_k\cos q(\Delta_j-\Delta_k)=\frac12(\abs{\sum
+ c_je^{iq\Delta_j}}^2+\abs{\sum c_je^{-iq\Delta_j}}^2)$.}
+\lby{identity expanded; QL lem:U $\langle1\rangle6$; my $\int_0^\infty\tanh(\pi q)/(q(1+q^2))\dd q=2$ to $8.9\cdot10^{-16}$ at
+ three cut-offs $Q=20,40,80$ (item V2)}
+\paragraph{(c) and the Fourier convention.}
+\lstep{1}{4}{Both forms of $\hat d_0$ follow from KI thm:main by the substitution of (C3).}
+\lby{$\kappa=-2\pi p$: $q_\kappa=w(p)$, $u=-2\pi(p-p')$, $v=-2\pi(p+p')$, $u^2+4\pi^2=4\pi^2(1+(p-p')^2)$,
+ $\sinh\frac u2=-\sinh\pi(p-p')$; both members recomputed}
+\lstep{1}{5}{The convention is (C3): $\hat A(p,p')=(2\pi)^{-1}\iint e^{ipy}\widetilde A(y,y')e^{-ip'y'}$, $p=-\kappa/2\pi$.
+ It is the one in which \texttt{f3\_t0.py}'s $Q$ is the multiplier $w(p)=(1+e^{-2\pi p})^{-1}$ of its docstring.}
+\lby{\texttt{f3\_t0.py} never Fourier-transforms: it uses \texttt{kkt\_continuum.Qmat}, whose kernel is
+ $\frac12\delta-\frac i{4\pi}\mathrm{pv}\,\sinh^{-1}\frac{y-y'}2$ (its \texttt{F2} has $F_2'(t)=2\log\tanh\frac{\abs t}4$,
+ $F_2''=1/\sinh\frac t2$, $F_2(\pm\infty)=\mp\pi^2$; checked by differentiating the dilogarithm form), and its
+ \texttt{ddot} is eq.~(ddot) (\S\ref{sec:i3}); with $\int_0^\infty\sin(pz)/\sinh\frac z2\,\dd z=\pi\tanh\pi p$ (item V3)
+ the $e^{+ipy}$ transform of that kernel is $\frac12+\frac12\tanh\pi p=w(p)$.  Under the opposite sign convention
+ $\hat d_0$ would change sign ($\hat d_0(-p,-p')=-\hat d_0(p,p')$)}
+\lstep{1}{6}{Direct 2-D Fourier integral of eq.~(ddot), my code, at
+ $(p,p')=(0.4,-0.1),(1.2,0.3),(-0.9,0.6),(0.35,0.35),(2,-1.5),(0.05,0.8)$: maximal $\abs{\text{direct}-\text{T4(c)}}=
+ 7.2\cdot10^{-18}$ (tolerance $10^{-9}$), imaginary parts $0$; the sign-flipped formula misses by $\ge3.4\cdot10^{-3}$.}
+\lby{item K of \S\ref{sec:num}: $(t,u)$ coordinates on both quadrants, composite Gauss--Legendre with 16 and 24 nodes
+ per panel (difference $\le5.8\cdot10^{-17}$), $t\le100$ (integrand $\le100e^{-50}$ beyond); the diagonal point tests the
+ removable singularity, where T4(c) is $w'(p)p/\pi$}
+\begin{verdictok}
+T4(a), (b), (c): STAND; the Fourier convention is (C3), used consistently, and agrees with \texttt{f3\_t0.py}.
+\end{verdictok}
+\paragraph{(cf), (d), (e).}
+\lstep{1}{7}{Every step of the derivation of (cf) is correct.}
+\lby{re-derived: Mittag-Leffler (QL lem:U $\langle1\rangle3$, refereed, Ahlfors locator there) divided by $q(1+q^2)$;
+ Tonelli for the nonnegative series ($\sum_n\int=\frac\pi2\cdot4$); partial fractions
+ $\frac1{(q^2+a^2)(q^2+1)}=\frac1{1-a^2}(\frac1{q^2+a^2}-\frac1{q^2+1})$; lem:lorentz (its Gaussian regularisation:
+ $(\pi/\eps)^{1/2}=2\pi(4\pi\eps)^{-1/2}$, error $a\,\mathbb E\abs z=2a(\eps/\pi)^{1/2}$, checked; numerically item V1);
+ $\frac1{1-a_n^2}=-\frac4{(2n-1)(2n+3)}$ telescopes to $0$; the three power series and $\frac1{a(1-a^2)}=\frac1a+
+ \frac1{2(1-a)}-\frac1{2(1+a)}$; $2-x^2-x^{-2}=-(x^{-1}-x)^2$; $\artanh x=\frac12\log\coth\frac{\abs\Delta}4$ for
+ $x=e^{-\abs\Delta/2}$}
+\lstep{1}{8}{Numerically, closed form, series and an independent quadrature of $\int\rho(q)\cos(q\Delta)\dd q$ agree at
+ $\Delta=0.5,1,1.5,2,3,4,5,6,8$: $\max\abs{\text{QG}-\text{CF}}/\Gh(0)=7.2\cdot10^{-16}$ (tolerance $10^{-8}$), stable under
+ $Q=20,40,80$; $\max\abs{\text{SR}-\text{CF}}/\Gh(0)=5.0\cdot10^{-49}$ (tolerance $10^{-12}$).  The values $\Gh/\Gh(0)$ of
+ \doc's table and of the card agree with mine in every printed digit (e.g.\ $0.898386580099973$, $0.024419213316489$).}
+\lby{item P of \S\ref{sec:num}; QG = composite Gauss--Legendre on $[0,Q]$ plus the \emph{exact} tail by $\mathrm{Ci}$ and
+ $E_1$ (not \texttt{quadosc}, not QUADPACK), SR = term-by-term sum, CF at 50 digits}
+\lstep{1}{9}{(d): both bounds and the sharpness hold.}
+\lby{proof re-derived ($b_n>0$, $\sum_{n\ge1}b_n=\frac23$ from (b), $x^{2n+1}\le x^3$); grid
+ $\Delta=0.01,\dots,20$ (2000 points, 50 digits): 0 violations of $x(4-x^2)/(36\pi^2)\le\Gh\le x/(9\pi^2)$ and of
+ $\abs{\Gh-x/(9\pi^2)}\le x^3/(36\pi^2)$, smallest relative margin $1.0\cdot10^{-10}$ (at $\Delta=20$, where the bounds
+ are asymptotically tight); $9\pi^2e^{\Delta/2}\Gh-1=-9.1\cdot10^{-6},-4.1\cdot10^{-10},-8.5\cdot10^{-19}$ at
+ $\Delta=10,20,40$, so the rate $\frac12$ and the constant $\frac1{9\pi^2}=\frac43\Gh(0)$ are sharp (item B)}
+\lstep{1}{10}{(e): positivity and strict decrease are proved and confirmed (0 sign changes, 0 non-decreasing steps on the
+ grid, item E).  ``$C^1$ but not $C^2$ at $0$'' is true but stated only in Remark~\texttt{rem:kernelshape}, not in
+ T4(e), with a prose argument.}
+\lby{$C^1$, $\Gh'(0)=0$: M-test, as written.  Not $C^2$: if $\Gh$ were $C^2$ near $0$, Taylor and $\Gh'(0)=0$ would give
+ $(\Gh(\Delta)-\Gh(0))/\Delta^2\to\frac12\Gh''(0)$, but by the closed form this ratio is
+ $\frac1{12\pi^2}[\frac18-\frac14\log\frac4{\abs\Delta}+o(\log\frac1{\abs\Delta})]\to-\infty$; equivalently, termwise,
+ $\Gh''(\Delta)=\frac1{24\pi^2}\sum_na_ne^{-a_n\Delta}/(1-a_n^2)\le\frac1{24\pi^2}[\frac23e^{-\Delta/2}-\sum_{n\ge1}e^{-a_n\Delta}/a_n]
+ \to-\infty$.  Numerically $\Gh''(\Delta)-\Gh''(10\Delta)\to-\frac{\ln10}{24\pi^2}=-9.720860\cdot10^{-3}$ (7 digits at
+ $\Delta=10^{-5},10^{-6}$; item E): a logarithmic singularity of $\Gh''$, as the remark says}
+\begin{verdictok}
+T4 (cf), (d), (e) and lem:lorentz: STAND.  The closed form is derived, not fitted.  MINOR: move ``$C^1$, not $C^2$ at $0$''
+from rem:kernelshape into T4(e) with the two-line argument of $\langle1\rangle10$ (the card states it as part of (e)).
+\end{verdictok}
+
+\section{Item 11: consequences for W3, W4 (cor:W3W4)}\label{sec:i11}
+\lstep{1}{1}{(i) is T4(d) at $x=\sqrt\eta$ divided by $\Gh(0)$: $\sqrt\eta(4-\eta)/3\le\Gh(\log\frac1\eta)/\Gh(0)\le\frac43\sqrt\eta$.}
+\lby{$x(4-x^2)/(36\pi^2)\cdot12\pi^2=x(4-x^2)/3$, $x/(9\pi^2)\cdot12\pi^2=\frac43x$}
+\lstep{1}{2}{(ii) is conditional on $e^\Delta\ge2/\eps$ and bounds each cross term of the second-order coefficient.}
+\lby{G1a thm:sep (l.~1606) gives $e^{\Delta_k}\ge2/\eps$ for adjacent corners of an all-weak L$\to$R ordinary-Petz chain;
+ non-adjacent separations are sums of adjacent ones; $\zeta_j\zeta_k\Gh\le\eps^2\cdot\frac1{9\pi^2}(\eps/2)^{1/2}$}
+\lstep{1}{3}{What is inferred: W4's hypothesis ``$\Gh(\Delta)\to0$'' and W3's hypothesis ``$\Gh\sim e^{-\Delta/2}$'' are
+ proved; the other hypothesis of both (uniform remainder) is explicitly left to \S7.  Nothing beyond T4 is used.}
+\lby{statement of cor:W3W4 and the ``Effect on the working results'' paragraph}
+\begin{verdictok}
+cor:W3W4: STANDS; it infers nothing beyond T4(d) and G1a thm:sep, and keeps ``at fixed configuration''.
+\end{verdictok}
+
+\section{Item 12: uniform upper bound for two corners (lem:onegroup, thm:T5), direction $\le$}\label{sec:i12}
+\lstep{1}{1}{lem:onegroup (ii), (iii) hold for every $\sigma\ge0$; (i) holds only for $\sigma\norm{[\Pm,K]}_2<1$.}
+\lby{(ii): $\Pm U_\sigma\Pp=U_\sigma G_\sigma\Pp$, $G_\sigma=\int_0^\sigma U_\tau^*[\Pm,K]U_\tau\dd\tau$ (sign rechecked:
+ $\partial_\tau U_\tau^*\Pp U_\tau=U_\tau^*[\Pp,K]U_\tau$), $[\Pm,K]\Pp=k$, no index needed; (iii): strong continuity.
+ (i) rests on RR lem:groupbound, whose range is restricted by RR Correction C3 exactly as in \S\ref{sec:i9}.
+ MINOR: T5 uses (i) only as $\sigma=s\zeta_j\downarrow0$}
+\lstep{1}{2}{The cross term is controlled uniformly in $y_2-y_1$, including $y_2-y_1\to\infty$.}
+\lby{$V=V_1A_2+B_1V_2$; in $\Tr(A_2^*k_{y_1}^*B_1k_{y_2})-\Tr(k_{y_1}^*k_{y_2})=\Tr(k_{y_2}(A_2-\Pp)^*k_{y_1}^*B_1)+
+ \Tr(k_{y_1}^*(B_1-\Pm)k_{y_2})$ (recomputed) the diagonal block $A_2$ of corner 2 multiplies only $k_{y_2}$ and $B_1$ of
+ corner 1 only $k_{y_1}^*$; $\norm{k_{y_2}(U^{(2)*}-\one)}_2=\norm{k(U^*_{s\zeta_2}-\one)}_2$ because $k_{y_2}$ and $U^{(2)}$
+ are conjugated by the \emph{same} $W_{d_{y_2}}$.  The remainders $R_j$ are translation invariant likewise.  The
+ trial generator $h'$ is fixed by $\delta$ alone ($\langle1\rangle3$), not by the configuration, and $\tau_t$ commutes
+ with the projection $\Pi$ because $W_{d_t}\mathcal A'W_{d_t}^*=\mathcal A'$ ($d_t(I')=I'$).  So no operator of one corner
+ ever acts on the first-order vector of the other, and the ``far corner near the moving endpoint'' never meets $k$}
+\lstep{1}{3}{$M=2$ is used in $\langle2\rangle1$ (two factors) and in $\langle2\rangle3$ (adjacency of each corner's
+ diagonal block to its own $k$); for $M\ge3$ an intermediate corner's block sits between $k_{y_j}^*$ and $k_{y_k}$, which is
+ (U2) of the verdict box.}
+\lby{expansion of $\Pm U^{(1)}U^{(2)}U^{(3)}\Pp$ written out}
+\lstep{1}{4}{MINOR: the side condition of $\langle1\rangle4$, $s(\zeta_1+\zeta_2)\norm k_2<1$, must be supplemented by
+ $\sqrt2\,s\max_j\zeta_j\norm k_2<1$ (the index-zero range of the factor bounds used through T3 $\langle1\rangle5$).}
+\lby{\S\ref{sec:i9}; with $h'$ fixed and $\mathcal Z$ compact this holds for all $s\le s_\eps$ after shrinking $s_\eps$,
+ uniformly in the configuration, so the statement of T5 is unaffected}
+\begin{verdictok}
+thm:T5: STANDS (uniform in all $y_1<y_2$ and locally uniform in $\zeta$, upper bound only, $M=2$).  lem:onegroup: (i)
+should read ``for $0\le\sigma<\norm{[\Pm,K]}_2^{-1}$''.
+\end{verdictok}
+
+\section{Item 13: the VWZ ratio (cor:vwz)}\label{sec:i13}
+\lstep{1}{1}{The corner data are right, recomputed exactly for $(a,b)=(1,1),(1,3),(2,7),(1,100)$ from G1a prop:1B1A and
+ prop:prot2 ($c=b$, $d=a$, $\theta_t=1$): $\zeta_1=\zeta_3=a/b$, $\zeta_2=\frac{a(a+2b)}{2b(a+b)}$, $e^{\Delta_{23}}=
+ \frac{a+2b}a=1/\eta$, $\zeta_3^{(J)}=\frac{2a}{a+2b}$, $\hat\zeta_2=\frac{s+2}{2(s+1)}$; the brief's L$\to$R formula
+ $\zeta_k=2r_k(1+v_k)/((1+r_k)(e^{\Delta_k}-1))$ gives the same $\zeta_2$.}
+\lby{item W of \S\ref{sec:num} (rational arithmetic)}
+\lstep{1}{2}{Upper half: T5 with $\mathcal Z=[\frac34,1]\times\{1\}$ applies although $y_3-y_2=\log\frac{s+2}s$ moves with
+ $s$, because T5 is uniform in the positions; then $\Gh(\log\frac1\eta)\to0$ (cor:W3W4(i)) and $\hat\zeta_2\to1$ give
+ $\limsup\le2$.}
+\lby{Protocol 2 is $\Rp_{p_2}\circ\Rp_{p_3}$, canonical order, (H) by G1a prop:prot2; lem:frame carries its data to
+ the T0 frame}
+\lstep{1}{3}{Lower half: data processing is used in the right direction, and the restricted state is a one-corner state.}
+\lby{restriction $\cF(I)\to\cF(J)$, $J=(p_2,p_5)$, can only raise the fidelity, so $\Phi^{(2)}\ge\Phi_A(\zeta_3^{(J)})$;
+ on $J$, $\Rp_{p_2,\sigma_2}$ is Möbius with pole $p_2-1/\sigma_2\notin(p_2,\infty)$, so G1a thm:state(2) removes it and
+ G1a cor:phiA gives $e^{-\Phi_A(\zeta)}$ with $\zeta=\sigma_3\beta_J(p_3)$; $\Phi_A(\frac{2s}{s+2})/\Phi_A(s)\to1$ by
+ Theorem~A}
+\begin{verdictok}
+cor:vwz: STANDS: $1\le\liminf\Phi^{(2)}/\Phi^{(1)}\le\limsup\Phi^{(2)}/\Phi^{(1)}\le2$ as $a/b\to0$, free fermion,
+ordinary Petz.  The limit $2$ is correctly reduced to a uniform lower bound (open).
+\end{verdictok}
+
+\section{Item 14: $c$-linearity (thm:T6)}\label{sec:i14}
+\lstep{1}{1}{$\langle1\rangle1$: (H1), (H2), (H2$'$) hold for each conjugated factor, with $a_k=\Delta_I^{i\tau_k}a\in\mathcal H_T$.}
+\lby{C11 thm:main (l.~792) for TB's $g_{\rm tot}=-\chi\in\mathcal E$ ($L=1$); TB (BW) on the line (l.~88--89):
+ $\Delta^{i\tau}$ is $u\mapsto e^{2\pi\tau}u$, $u=1-x$, i.e.\ $d_t$ with $t=-2\pi\tau$, so $\tau_k=-y_k/2\pi$ puts the corner at
+ $y_k$ (sign checked against TB's audited convention); $\Delta^{i\tau}\Om=\Om$; TB lem:reduce(3) for $\mathcal H_T$}
+\lstep{1}{2}{$\langle1\rangle2$: the product implements the extension of $\Psi_s$ and
+ $\norm{U(s)^*\Om-\Om+is\,a_{\rm tot}}=o(s)$.}
+\lby{covariance composes; induction over the factors in the order $U(s)^*=U^{(M)*}\cdots U^{(1)*}$, each step using
+ $U^{(m+1)}(s)^*\to\one$ strongly, so $s(U^{(m+1)*}a_k-a_k)=o(s)$}
+\lstep{1}{3}{$\langle1\rangle3$: TB prop:H3, rem:H2H3, prop:H2 need no group property.}
+\lby{read at TB l.~290--410: prop:H3 uses (H1) only to make $\omega_s$ a vector state, (H3) on $K,K^2$, and
+ thm:three; rem:H2H3 derives (H3) from the vector expansion alone; prop:H2 is hypothesis (V) of thm:uhllower for
+ $\Psi_s=U(s)^*\Om$; (RS) for $\cA(I)$}
+\lstep{1}{4}{$\langle1\rangle4$: TB prop:reduce and thm:linear apply to $a_{\rm tot}$.}
+\lby{their proofs use $b\in\mathcal H_T$ (closest point $E'b\in\mathcal H_T$) and $\operatorname{Im}\ip\Om b=0$
+ ($\ip\Om{\Delta^{i\tau}a}=\ip\Om a=0$); $V^{-1}\Delta^{it}V$ is the push-forward on $\mathcal K$ (thm:linear
+ $\langle1\rangle2$), whence $V^{-1}a_{\rm tot}=(c/48\pi^2)^{1/2}\sum\zeta_k[\delta_{\tau_k*}g]$; $\frac c{48\pi^2}\cdot\frac12=
+ \frac c{96\pi^2}$; $q$ involves only $(\mathcal K,\Delta_0,J_0,g,\zeta,\tau)$}
+\lstep{1}{5}{$\langle1\rangle5$: the free-fermion evaluation gives $q=2\sum\zeta_j\zeta_k\Gh(y_j-y_k)$.}
+\lby{TB thm:value $\langle2\rangle2$: $T(f)\Om=\Pm(-i\mathfrak L_f)\Pp$, and $\mathfrak L_{-\chi}=-\Dc$, so $a=i\Pm\Dc\Pp$
+ and $a_{\rm tot}=i\Pm\Dc_{\rm tot}\Pp$; TB rem:klein (graded net: thm:linear applies verbatim); prop:inf with
+ $\dist(-b,R)=\dist(b,R)$ for the real subspace $R=\overline{\cF(I)'_{\rm sa}\Om}$; $\frac18\cdot4c\,q=c\sum\zeta_j\zeta_k\Gh$}
+\lstep{1}{6}{Scope.  The theorem concerns the canonical product eq.~(Ugen) and says so (its $\omega^{\cA}_s$ is defined
+ by eq.~(Ugen)); its identification with protocols is restricted to right compressions in the canonical order, where
+ the product of step implementers \emph{is} eq.~(Ugen); for other orders it needs $U_{h\circ\Psi}\in\mathbb T\,U(h)U_\Psi
+ \cA(I)'$, which C11 \S8(b) (l.~824--829) gives only for integer-$c$ Fock representations.}
+\lby{T6 verdict box, C11 l.~824--829 read}
+\begin{verdictok}
+thm:T6: STANDS for the canonical product under TB's standing hypotheses (S2), (HD), (BW), (RS).  Status word: the
+proof is complete and uses only refereed cards (\texttt{thm-b-universality}, \texttt{implementer-hypotheses}, both
+refereed) and two proved ones of this document; ``proved'' is the weakest word the evidence supports and also the
+strongest it allows before a referee pass; no ``under'' qualifier is needed beyond TB's standing hypotheses, which the
+Statement names.  The fixed-configuration restriction is in the Statement.
+\end{verdictok}
+
+\section{Item 15: the open card network-remainder-uniformity}\label{sec:i15}
+\lstep{1}{1}{(U1), (U2) on the card are the two items of \doc's verdict box closing \S7 (l.~1046--1059), in substance and
+ in their quantifiers.}
+\lby{card Statement vs.\ \doc\ l.~1050--1058: (U1) uniform lower bound, $M\ge2$, needs a uniform spectral gap of $PQ_IP$
+ and a uniform bound on $\norm{P(\delta(s)-s\Dtot)P}$ for translated trial operators; (U2) uniform upper bound, $M\ge3$,
+ needs $\sup_{t>0}\norm{k(W_{d_t}U_\sigma W_{d_t}^*-\one)}_2\to0$}
+\lstep{1}{2}{They are exact in the sense that they name the step at which each proof route stops (T1's finite-rank
+ compression without a rate, lem:taylor's constant $C$ depending on the spectrum of $X$; T5 $\langle2\rangle3$ for
+ $M\ge3$), not that no other route exists; the card does not claim more.}
+\lby{\S\S\ref{sec:i4}, \ref{sec:i12}}
+\lstep{1}{3}{\texttt{next} names a lemma ((U1) for $M=2$ as a new lemma in \S7 of \doc) or a named computation with an
+ existing script (\texttt{numerics/networks/corner\_kernel.py}, whose block K4 computes $-\log F$ for two corners at finite
+ $\zeta$, l.~507--610).}
+\lby{file opened}
+\begin{verdictok}
+network-remainder-uniformity: status \texttt{open} is right; question well posed (quantifiers: $\lim_{s\to0}\sup$ over
+separations and over compact $\zeta$-sets); evidence \texttt{doc:...\#sec:T5} resolves (l.~927).
+\end{verdictok}
+
+\section{Item 16: the cards, the findings entries, the notes}\label{sec:i16}
+Every evidence locator resolves (\texttt{grep -n}): thm:T1 l.~487, thm:T2 l.~599, cor:law l.~629, lem:nogroup l.~660,
+thm:T3 l.~684, thm:T4 l.~737, sec:T5 l.~927, lem:onegroup l.~933, thm:T5 l.~958, cor:vwz l.~1008, thm:T6 l.~1075;
+\texttt{rigor/g1b\_kernel.py} exists and reproduces its output (\S\ref{sec:num}).  Every \texttt{depends} card exists
+(\texttt{corner-calculus}, \texttt{const-gb}, \texttt{const-f2}, \texttt{bures-three-faces}: proved;
+\texttt{thm-a-quadratic-law}, \texttt{thm-b-universality}, \texttt{implementer-hypotheses}: refereed).
+\begin{enumerate}[leftmargin=1.5em,label=(\roman*)]
+\item \texttt{network-law-free-fermion} [proved]: Statement = cor:law with T1, T2 (constant $c\sum\zeta_j\zeta_k\Gh$,
+ ``FIXED configuration'', non-uniformity stated, (H) stated).  For a bounded $I$ the Statement is read through
+ lem:frame, which the evidence includes implicitly via cor:law; acceptable.  \texttt{depends} covers G1a, QL/PA, KI,
+ three faces.  How to verify reproduces (item L: $3.7\cdot10^{-18}$).  \textbf{Pass.}
+\item \texttt{corner-kernel-closed-form} [proved]: (a)--(e) and the five values agree with thm:T4 and with my
+ recomputation in every printed digit.  MINOR: ``$C^1$ but not $C^2$ at $0$'' is in rem:kernelshape (l.~898--906), not in
+ thm:T4(e); true (\S\ref{sec:i10} $\langle1\rangle10$).  \texttt{depends} (\texttt{const-gb}: KI thm:main, QL prop:gB,
+ lem:V; \texttt{const-f2}) complete.  G3's note of 18:13 (box and T0 frames minus \texttt{g1b\_kernel.out}) compares
+ against the values I reproduce, so it is consistent with this card.  \textbf{Pass}, with a note.
+\item \texttt{network-global-bound-coincident} [proved]: part (1) states thm:T3 for \emph{every} $s$ with
+ $2s^2Z^2/(12\pi^2)<1$; proved only where also $s\max_k\zeta_k<\pi\sqrt3$ (\S\ref{sec:i9}).  Part (2) (lem:nogroup)
+ stands.  Missing edge: the comparison ``weaker \dots\ because $0<\Gh(\Delta)<\Gh(0)$'' uses T4(d),(e), i.e.\
+ \texttt{corner-kernel-closed-form}.  \textbf{Fail} (stands with repair: restrict the range in the Statement,
+ or add \texttt{group-index-zero-large-s} to \texttt{depends} and mark the excess conditional; add the edge).
+\item \texttt{network-upper-uniform-two-corners} [proved]: Statement = thm:T5 + cor:vwz, quantifiers exact (``for every
+ compact $\mathcal Z$ and $\eps$ there is $s_\eps$ \dots\ ALL positions''), open parts stated.  Its edge to
+ \texttt{network-global-bound-coincident} uses T3 $\langle1\rangle3$--$\langle1\rangle6$ at small $s$ only, which the range
+ gap does not touch.  MINOR notes of \S\ref{sec:i12}.  \textbf{Pass.}
+\item \texttt{network-law-c-linear} [proved]: Statement = thm:T6 (standing hypotheses, canonical product, fixed
+ configuration, scope and the open Möbius step); status word right (\S\ref{sec:i14}).  \textbf{Pass.}
+\item \texttt{network-remainder-uniformity} [open]: \S\ref{sec:i15}.  \textbf{Pass.}
+\end{enumerate}
+\paragraph{The six entries G1b appended to \texttt{rigor/findings\_entries.tex}} (read with \texttt{git diff}, not
+edited): plain \LaTeX\ with the project's \verb|\finding| macro; theorem numbers (Thms.~3.2, 4.3, Cor.~4.4, Thm.~5.2,
+6.1, 7.2, Cor.~7.3, Thm.~8.1) match \texttt{network\_second\_order.aux}.  Accurate, except the third (GAP) entry: it
+states the proved T3 bound with no range at all; it should carry ``for $2s^2(\sum\zeta_k)^2/(12\pi^2)<1$ and
+$s\max_k\zeta_k<\pi\sqrt3$''.
+\paragraph{G1b's notes on the orchestrator cards.}  \texttt{corner-correlation-kernel}: accurate in every number and
+claim.  \texttt{network-second-order-law}: accurate, except that ``proved instead the coincident-corner bound thm:T3''
+needs the range of \S\ref{sec:i9}.  \texttt{vwz-protocol-ordering}: accurate, except one ambiguity: ``T6 makes the
+Protocol 2 statement $c$-linear for every net'' holds for the fixed-configuration second-order law of Protocol 2's corner
+data only; the asymptotic bracket $1\le\Phi^{(2)}/\Phi^{(1)}\le2$ (cor:vwz) rests on T5, which is proved for the free
+fermion only.  None of these notes changes a status.
+
+\section{Numerics: independent recomputations and the rerun}\label{sec:num}
+Interpreter: \texttt{\$V/bin/python} (numpy 2.5.3, scipy 1.18.1, mpmath 1.4.1), $V$ the venv of the brief.  Commands
+(repository root), each output saved next to its script:
+\begin{itemize}[leftmargin=1.5em]
+\item \texttt{\$\{PYTHON:-python3\} rigor/ref\_p6\_4\_kernel.py > rigor/ref\_p6\_4\_kernel.out} (47\,s): items V, P, R, K, B, E.
+\item \texttt{\$\{PYTHON:-python3\} rigor/ref\_p6\_4\_composite.py > rigor/ref\_p6\_4\_composite.out} (1\,s): items L, N, W.
+\item \texttt{PYTHON=\$V/bin/python \$V/bin/python rigor/ref\_p6\_4\_rerun\_g1b.py > rigor/ref\_p6\_4\_g1b\_kernel\_rerun.out}
+ (under 2\,min).  \texttt{g1b\_kernel.py} writes \texttt{rigor/g1b\_kernel.out} \emph{itself} (its l.~206), so the brief's literal
+ command would have overwritten the reviewed file; the wrapper executes the unchanged script by \texttt{runpy} and
+ redirects that one write-open to \texttt{rigor/ref\_p6\_4\_g1b\_kernel\_rerun\_selfwrite.out}.  Result: both the stdout capture
+ and the redirected file are \emph{byte-identical} to \texttt{rigor/g1b\_kernel.out} (\texttt{diff} empty), whose sha256
+ \texttt{7581c0e3\dots cbbf} is unchanged.
+\end{itemize}
+Tolerances were fixed in the script docstrings before the runs.  No operator is discretised and no regulator is used
+anywhere below (continuum integrals, exact kernels, rational arithmetic), so the convergence/regulator rules of
+AGENTS.md \S5 reduce to the truncation statements given; ``validate first'' is item V.
+\begin{center}\small
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.06\textwidth} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}p{0.30\textwidth}}\toprule
+item & quantity, method & result (tolerance)\\\midrule
+V & $\int_0^\infty\cos(q\Delta)/(1+q^2)=\frac\pi2e^{-\Delta}$ ($\Delta=0.5,3$); $\int_0^\infty\tanh(\pi q)/(q(1+q^2))=2$ ($Q=20,40,80$);
+ $\int_0^\infty\sin(pz)/\sinh\frac z2=\pi\tanh\pi p$ & max dev.\ $8.9\cdot10^{-16}$ ($10^{-12}$) PASS\\
+P & $\Gh(\Delta)/\Gh(0)$ at 9 $\Delta$'s: Gauss--Legendre + exact Ci/$E_1$ tail vs closed form vs series & $7.2\cdot10^{-16}$
+ ($10^{-8}$); series $5.0\cdot10^{-49}$ ($10^{-12}$) PASS\\
+R & $\rho(q)$ from the $p$-integral, $q=0.1,0.5,1,2,5$ & rel.\ $2.7\cdot10^{-51}$ ($10^{-10}$) PASS\\
+K & $\hat d_0$ by direct 2-D quadrature of eq.~(ddot), 6 points & $7.2\cdot10^{-18}$ ($10^{-9}$) PASS; sign flip excluded\\
+B & T4(d) bounds on $\Delta=0.01,\dots,20$ (2000 pts) & 0 violations; sharpness to $8.5\cdot10^{-19}$ at $\Delta=40$\\
+E & sign, monotonicity, $\Gh''$ log-singularity & 0/0 failures; increment $\to-\ln10/(24\pi^2)$, 7 digits\\
+L & lem:Dtot, $M=2,3$, 8 points each, complex step & rel.\ $2.0\cdot10^{-50}$ ($10^{-12}$) PASS; wrong frame 133\,\%\\
+N & lem:nogroup masses, exact & $-\frac32=-2t\kappa_2$ vs $-\frac{31}{14}$\\
+W & VWZ corner data, exact, 4 $(a,b)$ & all equal to cor:vwz\\\bottomrule
+\end{tabularx}
+\end{center}
+\noindent Values (three methods, CF, SR and QG, agree to $7\cdot10^{-16}$): $\Gh(\Delta)/\Gh(0)=0.898386580099973$,
+$0.745615141121157$, $0.600745363582704$, $0.476960337995355$, $0.294523053439204$, $0.179784303566026$,
+$0.109299033378915$, $0.066349836879668$, $0.024419213316489$ at $\Delta=0.5,1,1.5,2,3,4,5,6,8$; $\Gh(0)/f_2=1$.
+MINOR on \texttt{g1b\_kernel.py}: its docstring and SUMMARY line call method B ``QAWF (semi-infinite)'', but production B
+calls \texttt{quad(\dots, 0, UCUT, weight='cos')} (QAWO on $[0,10^5]$, its l.~81), as \doc\ \S9 correctly says; only V1d uses QAWF.
+
+\section{Second pass (REF-P6-4b, 2026-10-05)}\label{sec:pass2}
+Object: \doc\ as revised by G1b (29 pp.; log: no \verb|^!|, no undefined reference; theorem numbers unchanged
+per its \texttt{.aux}), its new \S11 (\texttt{sec:corrREF}, l.~1252, items R1--R6), \texttt{g1b\_kernel.py/.out},
+\texttt{findings\_entries.tex}, the cards.  Only the coordinator's five questions; actor \texttt{REF-P6-4b}.
+\paragraph{(1) thm:T3 as repaired (l.~688).}
+\lstep{1}{1}{The only step that uses RR \texttt{lem:groupbound} is $\langle1\rangle5$; under its new assumption
+ $s\zeta_{\max}\norm{[\Pm,K]}_2<1$ it is valid verbatim.}
+\lby{per factor $\sigma=s\zeta_k\le s\zeta_{\max}$: $\norm{G_{\pm\sigma}}_2\le\sigma\norm{[\Pm,K]}_2<1$ (Duhamel, RR
+ $\langle1\rangle2$, every $s$); then both blocks of $e^{\pm\sigma K}$ have norm $<1$, $\Pp e^{\pm\sigma K}\Pp$ is
+ invertible, index $0$ (RR C3(ii)), the two block norms agree, $\norm{G}_2^2=\norm{\Pm U\Pp}_2^2+\norm{\Pp U\Pm}_2^2=
+ 2\norm{\Pm U\Pp}_2^2$, hence $\norm{\Pm e^{\pm\sigma K}\Pp}_2\le\sigma\norm{[\Pm,K]}_2/\sqrt2=\sigma\norm{\Pm K\Pp}_2$;
+ conjugation by $W_{d_k}$ and the decomposition $\Pm AB\Pp=\Pm A\Pp B\Pp+\Pm A\Pm B\Pp$ give $sZ\norm{\Pm K\Pp}_2$.
+ Box [K4] now states the range}
+\lstep{1}{2}{$\langle1\rangle7$ is valid verbatim.}
+\lby{the hypotheses are $2\hat f_2<(sZ)^{-2}$ and $2\hat f_2<(2s^2\zeta_{\max}^2)^{-1}$, i.e.\ $2\hat f_2<m$; since
+ $2\hat f_2$ is the infimum (PA eq.~(infimum)), $h'$ with $2\hat f_2\le\norm{\Pm K\Pp}_2^2<m$ arbitrarily close to $2\hat f_2$
+ exist; for them $s^2Z^2\norm{\Pm K\Pp}_2^2<1$ and $\sqrt2s\zeta_{\max}\norm{\Pm K\Pp}_2<1$; continuity of
+ $-\frac12\log(1-x)$}
+\lstep{1}{3}{MINOR (wording): $\langle1\rangle6$ reads ``If $s^2Z^2\norm{\Pm K\Pp}_2^2<1$: $\Phi_{\rm tot}\le\dots$'' and
+ cites $\langle1\rangle5$, whose new assumption it does not carry; read alone it is the old unrestricted claim for a
+ fixed $h'$ (e.g.\ $M=1$, $\frac12\le s^2\zeta^2\norm{\Pm K\Pp}_2^2<1$).}
+\lby{l.~725; harmless, because $\langle1\rangle7$ invokes $\langle1\rangle6$ only for $h'$ satisfying both conditions and
+ says so (``$\langle1\rangle5$ applies'').  Fix: add ``and $s\zeta_{\max}\norm{[\Pm,K]}_2<1$'' to $\langle1\rangle6$}
+\lstep{1}{4}{No other step needs index zero.}
+\lby{$\langle1\rangle2$ (Dyson cocycle, both blocks, every $s\ge0$), $\langle1\rangle3$, and $\langle1\rangle4$ (PA thm:det
+ for the product, with both block norms $<1$ supplied by $\langle1\rangle5$, so $\Pp U(s)\Pp$ is invertible)}
+\begin{verdictok}
+thm:T3: STANDS in the stated range $2\hat f_2s^2Z^2<1$, $s\zeta_{\max}<\pi\sqrt3$.  MINOR wording in $\langle1\rangle6$.
+\end{verdictok}
+\paragraph{(2) lem:onegroup(i) (l.~955) and thm:T5 $\langle1\rangle4$.}
+\lstep{1}{5}{The side conditions hold for $s\le s_\eps$ uniformly on compact $\mathcal Z$ and in $y_1<y_2$.}
+\lby{$h'$, hence $k$, $\norm k_2$, $\eta$, $\theta$, is fixed by $\delta$ alone ($\langle1\rangle3$); with
+ $\bar z:=\max_{\mathcal Z}(\zeta_1+\zeta_2)$, every $s<(\sqrt2\,\bar z\norm k_2)^{-1}$ gives $s(\zeta_1+\zeta_2)\norm k_2<1$,
+ $\sqrt2s\max_j\zeta_j\norm k_2<1$, and, by T3 $\langle1\rangle5$, $\norm V_2\le s(\zeta_1+\zeta_2)\norm k_2<2^{-1/2}$; none
+ involves $y_1,y_2$; lem:onegroup(i) in $\langle2\rangle1$ needs $\sqrt2s\zeta_j\norm k_2<1$, the third condition}
+\lstep{1}{6}{MINOR (wording, as in $\langle1\rangle3$): T5 $\langle1\rangle5$ is stated with no condition on $s$ but uses
+ lem:onegroup(i) in $\langle2\rangle1$; it holds under the side conditions of $\langle1\rangle4$, which is how
+ $\langle1\rangle6$ uses it (``choose $\delta$, then $s_\eps$'').}
+\lby{T5 proof, read}
+\begin{verdictok}
+lem:onegroup and thm:T5: STAND; the T5 Statement needs nothing beyond $s\le s_\eps$.
+\end{verdictok}
+\paragraph{(3) thm:T4(e), new steps $\langle1\rangle4$--$\langle1\rangle5$.}
+\lstep{1}{7}{The $C^1$/not-$C^2$ proof is complete, and (e) now states it.}
+\lby{$\langle1\rangle4$: the (cf) series and its termwise derivative converge uniformly on $[0,\infty)$ (M-test with
+ $\sum1/(a_n\abs{1-a_n^2}),\sum1/\abs{1-a_n^2}<\infty$), so $\Gh\in C^1[0,\infty)$ with right derivative
+ $-\frac1{24\pi^2}\sum\frac1{1-a_n^2}=0$ at $0$, and evenness gives $C^1(\mathbb R)$, $\Gh'(0)=0$; $\langle1\rangle5$: if
+ $\Gh\in C^2$ near $0$, $(\Gh(\Delta)-\Gh(0))/\Delta^2\to\frac12\Gh''(0)$; the expansions of $\cosh$, $\sinh^2$ and
+ $\log\coth z=-\log z+\frac{z^2}3+O(z^4)$ are right and give $\frac18-\frac14\log\frac4{\abs\Delta}+o(1)\to-\infty$; first-pass
+ numerics agree (\S\ref{sec:num}, item E)}
+\paragraph{(4) \S11, R1--R6.}
+\lstep{1}{8}{R1--R6 state my findings and the repairs accurately.}
+\lby{R1 reproduces my locators, numbers and both uncovered examples and option (a); R2--R4 match
+ \S\S\ref{sec:i10},\ref{sec:i12}; R5 verified: the current \texttt{g1b\_kernel.out} differs from the original only in its
+ SUMMARY line (QAWF$\to$QAWO), and my guarded rerun of the corrected script
+ (\texttt{rigor/ref\_p6\_4\_b\_rerun\_g1b.py} $\to$ \texttt{rigor/ref\_p6\_4\_b\_g1b\_kernel\_rerun.out}) reproduces it byte for
+ byte (sha256 \texttt{e72d7ecd\dots}, unchanged); R6: the third G1b findings entry now carries ``for
+ $s\max_k\zeta_k<\pi\sqrt3$ (and $2s^2(\sum\zeta_k)^2/(12\pi^2)<1$)'' with a dated note, and card
+ \texttt{network-second-order-law} has a new note of 2026-10-05 with the corrected range.  ``Nothing else altered'' cannot
+ be checked against a stored copy (the file is untracked); every spot check (T3, [K4], lem:onegroup, T5, T4(e),
+ rem:kernelshape, Summary table l.~1222) agrees.  Not in R1--R6, and not required: my remark on the wording of G1b's note
+ on \texttt{vwz-protocol-ordering} (\S\ref{sec:i16}); the abstract (l.~31) still says the coincident-corner bound ``is
+ proved'' without its range}
+\paragraph{(5) Card \texttt{network-global-bound-coincident}.}
+\lstep{1}{9}{Statement (1) is thm:T3 with both conditions and names the excess range as open (card
+ \texttt{group-index-zero-large-s}); \texttt{proved} is the weakest status the evidence supports for it; \texttt{depends}
+ (\texttt{rate-of-remainder}, \texttt{thm-a-quadratic-law}, \texttt{network-law-free-fermion},
+ \texttt{corner-kernel-closed-form}) is complete (G1a enters through \texttt{network-law-free-fermion}); locators
+ \texttt{\#thm:T3} (l.~688), \texttt{\#lem:nogroup} (l.~664) and the How-to-verify's \texttt{sec:corrREF}/R1 (l.~1252,
+ 1257) resolve.}
+\lby{\texttt{kb show}, \texttt{grep -n}}
+\begin{verdictok}
+Second pass: \texttt{network-global-bound-coincident} PASSES (\texttt{kb verdict} by REF-P6-4b), with the MINOR wording
+items $\langle1\rangle3$ and $\langle1\rangle6$ recorded in the verdict note.
+\end{verdictok}
+
+\end{document}

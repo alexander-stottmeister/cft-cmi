@@ -1,0 +1,71 @@
+# N4: L->R chains; Phi_tot, Sstep = sum_k Phi_step (lattice single steps), SA = 2 sum Phi_A(zeta^(I)),
+#     Samp = 2 sum Phi_A(zeta_step), S2 = 2 f2 sum zeta^2, SW6 = 2 f2 (sum zeta)^2; linear interpolation
+
+n4r2 (8, 4, 2, 1): zeta^(I)=['0.6222', '0.8000'] zeta_step=['0.5714', '0.8000'] SA/Samp=1.0516 n=[15, 30, 45, 60, 90, 120, 150, 180]
+  tot/Sstep        n=[15, 30, 45, 60, 90, 120, 150, 180] values 1.387934 1.470582 1.478747 1.480312 1.481393 1.481830 1.482063 1.482207 stable 1.482
+      A:1/L 1.48304 r=1.2e-05 ADM dof=2 ; Dlog -- r=3.8e-05 ADM dof=2 ; B:1/L+1/L2 1.48279 r=7.1e-08 ADM dof=1 ; C:h^p 1.48269 r=3.9e-07 ADM dof=1 p=1.425
+      => 1.482838 +- 0.00035
+  tot/SA           n=[15, 30, 45, 60, 90, 120, 150, 180] values 1.925805 1.503801 1.460801 1.449352 1.440236 1.436221 1.433966 1.432525 stable 1.43
+      A:1/L 1.42472 r=6.7e-05 ADM dof=2 ; Dlog -- r=3.3e-04 rej dof=2 ; B:1/L+1/L2 1.42609 r=4.3e-07 ADM dof=1 ; C:h^p 1.42688 r=2.8e-06 ADM dof=1 p=1.242
+      => 1.425897 +- 0.0022
+  tot/S2           n=[15, 30, 45, 60, 90, 120, 150, 180] values 1.067200 0.833343 0.809514 0.803170 0.798118 0.795893 0.794644 0.793845 stable 0.79
+      A:1/L 0.789521 r=6.7e-05 ADM dof=2 ; Dlog -- r=3.3e-04 rej dof=2 ; B:1/L+1/L2 0.790279 r=4.3e-07 ADM dof=1 ; C:h^p 0.790716 r=2.8e-06 ADM dof=1 p=1.242
+      => 0.7901721 +- 0.0012
+  Sstep/Samp       n=[15, 30, 45, 60, 90, 120, 150, 180] values 1.459137 1.075360 1.038843 1.029612 1.022389 1.019238 1.017478 1.016356 stable 1.01
+      A:1/L 1.01025 r=7.9e-05 ADM dof=2 ; Dlog -- r=3.7e-04 rej dof=2 ; B:1/L+1/L2 1.0114 r=5.2e-07 ADM dof=1 ; C:h^p 1.01204 r=3.3e-06 ADM dof=1 p=1.260
+      => 1.011227 +- 0.0018
+  tot/SW6 per n: 15:0.5419 30:0.4232 45:0.4111 60:0.4079 90:0.4053 120:0.4042 150:0.4035 180:0.4031
+
+n5r2 (16, 8, 4, 2, 1): zeta^(I)=['0.6452', '0.9032', '0.9032'] zeta_step=['0.5714', '0.8000', '0.9032'] SA/Samp=1.1151 n=[31, 62, 93]
+  tot/Sstep        n=[31, 62, 93] values 1.708620 1.811548 1.822104 stable 1.8
+      A:1/L 1.88981 r=6.0e-03 rej dof=1 ; Dlog -- r=1.1e-02 rej dof=1 ; B:1/L+1/L2 1.80758 r=8.9e-16 ADM dof=0 ; C:h^p 1.82663 r=1.3e-10 ADM dof=0 p=2.968
+      => 1.817108 +- 0.019
+  tot/SA           n=[31, 62, 93] values 2.008835 1.721137 1.689231 stable 1.
+      A:1/L 1.49989 r=1.7e-02 rej dof=1 ; Dlog -- r=3.3e-02 rej dof=1 ; B:1/L+1/L2 1.72141 r=8.9e-16 ADM dof=0 ; C:h^p 1.67449 r=4.0e-10 ADM dof=0 p=2.842
+      => 1.697951 +- 0.047
+  tot/S2           n=[31, 62, 93] values 1.036330 0.887911 0.871451 stable 0.8
+      A:1/L 0.773774 r=1.7e-02 rej dof=1 ; Dlog -- r=3.3e-02 rej dof=1 ; B:1/L+1/L2 0.88805 r=8.9e-16 ADM dof=0 ; C:h^p 0.863848 r=4.0e-10 ADM dof=0 p=2.842
+      => 0.8759492 +- 0.024
+  Sstep/Samp       n=[31, 62, 93] values 1.311023 1.059441 1.033778 stable 1.0
+      A:1/L 0.868295 r=2.6e-02 rej dof=1 ; Dlog -- r=4.8e-02 rej dof=1 ; B:1/L+1/L2 1.06975 r=2.0e-15 ADM dof=0 ; C:h^p 1.02282 r=3.7e-10 ADM dof=0 p=2.976
+      => 1.046285 +- 0.047
+  tot/SW6 per n: 31:0.3531 62:0.3025 93:0.2969
+
+n6r2 (32, 16, 8, 4, 2, 1): zeta^(I)=['0.6561', '0.9524', '1.0370', '0.9524'] zeta_step=['0.5714', '0.8000', '0.9032', '0.9524'] SA/Samp=1.1756 n=[63, 126, 189]
+  tot/Sstep        n=[63, 126, 189] values 1.956185 2.063085 2.074359 stable 2.0
+      A:1/L 2.14469 r=5.4e-03 rej dof=1 ; Dlog -- r=1.0e-02 rej dof=1 ; B:1/L+1/L2 2.06037 r=4.4e-16 ADM dof=0 ; C:h^p 2.07932 r=7.0e-11 ADM dof=0 p=2.923
+      => 2.069847 +- 0.019
+  tot/SA           n=[63, 126, 189] values 2.050879 1.840513 1.816067 stable 1.8
+      A:1/L 1.67758 r=1.2e-02 rej dof=1 ; Dlog -- r=2.2e-02 rej dof=1 ; B:1/L+1/L2 1.83569 r=2.2e-16 ADM dof=0 ; C:h^p 1.80425 r=2.8e-10 ADM dof=0 p=2.766
+      => 1.819971 +- 0.031
+  tot/S2           n=[63, 126, 189] values 1.007563 0.904214 0.892204 stable none
+      A:1/L 0.824167 r=1.2e-02 rej dof=1 ; Dlog -- r=2.2e-02 rej dof=1 ; B:1/L+1/L2 0.901843 r=2.2e-16 ADM dof=0 ; C:h^p 0.8864 r=2.8e-10 ADM dof=0 p=2.766
+      => 0.8941218 +- 0.015
+  Sstep/Samp       n=[63, 126, 189] values 1.232463 1.048735 1.029181 stable 1.0
+      A:1/L 0.908299 r=1.9e-02 rej dof=1 ; Dlog -- r=3.5e-02 rej dof=1 ; B:1/L+1/L2 1.05261 r=2.2e-16 ADM dof=0 ; C:h^p 1.0205 r=4.3e-10 ADM dof=0 p=2.908
+      => 1.036551 +- 0.032
+  tot/SW6 per n: 63:0.2584 126:0.2319 189:0.2288
+
+n4r3 (27, 9, 3, 1): zeta^(I)=['0.4875', '0.6000'] zeta_step=['0.4615', '0.6000'] SA/Samp=1.0388 n=[40, 80, 120]
+  tot/Sstep        n=[40, 80, 120] values 1.433941 1.464247 1.465719 stable 1.46
+      A:1/L 1.48559 r=2.7e-03 rej dof=1 ; Dlog -- r=4.6e-03 rej dof=1 ; B:1/L+1/L2 1.45572 r=7.8e-16 ADM dof=0 ; C:h^p 1.46606 r=9.4e-11 ADM dof=0 p=4.150
+      => 1.460888 +- 0.01
+  tot/SA           n=[40, 80, 120] values 1.615857 1.458220 1.442582 stable 1.4
+      A:1/L 1.33891 r=1.2e-02 rej dof=1 ; Dlog -- r=2.2e-02 rej dof=1 ; B:1/L+1/L2 1.46666 r=7.8e-16 ADM dof=0 ; C:h^p 1.43608 r=5.7e-11 ADM dof=0 p=3.021
+      => 1.451371 +- 0.031
+  tot/S2           n=[40, 80, 120] values 1.016066 0.916943 0.907109 stable 0.9
+      A:1/L 0.841919 r=1.2e-02 rej dof=1 ; Dlog -- r=2.2e-02 rej dof=1 ; B:1/L+1/L2 0.922253 r=3.3e-16 ADM dof=0 ; C:h^p 0.903019 r=5.7e-11 ADM dof=0 p=3.021
+      => 0.9126359 +- 0.019
+  Sstep/Samp       n=[40, 80, 120] values 1.170553 1.034495 1.022373 stable 1.0
+      A:1/L 0.932945 r=1.5e-02 rej dof=1 ; Dlog -- r=2.7e-02 rej dof=1 ; B:1/L+1/L2 1.04797 r=8.9e-16 ADM dof=0 ; C:h^p 1.0178 r=6.4e-10 ADM dof=0 p=3.194
+      => 1.032886 +- 0.03
+  tot/SW6 per n: 40:0.5135 80:0.4634 120:0.4584
+
+n5r3 (81, 27, 9, 3, 1): zeta^(I)=['0.4959', '0.6446', '0.6446'] zeta_step=['0.4615', '0.6000', '0.6446'] SA/Samp=1.0722 n=[121]
+  tot/Sstep        n=[121] value 1.75004 (one resolution, not extrapolated)
+  tot/SA           n=[121] value 1.82682 (one resolution, not extrapolated)
+  tot/S2           n=[121] value 1.10152 (one resolution, not extrapolated)
+  Sstep/Samp       n=[121] value 1.11926 (one resolution, not extrapolated)
+  tot/SW6 per n: 121:0.3723
+
+chordal (thm:w6chord): d_B(tot)/sum_k d_B(step k) over 33 multi-step rows: min 0.7072 max 0.8695

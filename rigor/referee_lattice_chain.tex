@@ -1,0 +1,689 @@
+\documentclass[11pt]{article}
+\input{rigor_preamble}
+\usepackage{adjustbox}
+\title{Referee report REF-P6-6: G2's lattice chains and VWZ protocols\\
+\small numerics/networks/lattice\_chain.py, NETWORK\_RESULTS.md, N1--N6,\\ six G2 cards, two re-opened G1a cards}
+\author{REF-P6-6 (Opus), Phase 6\\ started 2026-10-03, resumed 2026-10-05 after a rate limit}
+\date{2026-10-05}
+\begin{document}
+\sloppy
+\maketitle
+
+\section*{Summary of verdicts}
+Stance: adversarial; the burden of proof was on G2's scripts, outputs and cards. Every number in the six card
+Statements was recomputed or reproduced: exact corner data in rational arithmetic with masses read off as
+Schwarzian jumps (rigor/ref\_p6\_6\_corners.py); every extrapolation re-fitted from the saved raw data with my own
+parser, fits and $\Phi_A$ interpolation (ref\_p6\_6\_fitlib.py, ref\_p6\_6\_n2n3.py, ref\_p6\_6\_n4n6.py); an
+independent mpmath implementation of the two-step protocols at $n=12,18$ (ref\_p6\_6\_mpmath.py); reruns of V0, of
+N1--N6 and of two production sets with the output redirected. \textbf{No number is wrong and no conclusion
+changes.} Five cards overstate precision or omit a disclosure and need a one- or two-clause repair.
+
+\medskip\noindent\textbf{Card verdicts} (failures first; STANDS WITH REPAIR is recorded as \texttt{kb verdict fail}
+with the repair):
+\begin{enumerate}[leftmargin=2em]
+\item lattice-vwz-protocol-ratios: STANDS WITH REPAIR. The card does not compare $X=0.281\pm0.005$ with the proved
+ $\hat G(\log20)/\hat G(0)=0.29514$ ($X/S=0.953\pm0.015$, 3 fit spreads low; attributed correctly elsewhere to a
+ relative $O(\zeta_1)$ remainder); $\pm0.005$ is a 0-dof spread (\S\ref{sec:i5}, \S\ref{sec:i11}).
+\item lattice-protocol3-equals-theorem-a: STANDS WITH REPAIR. ``No deviation \ldots\ beyond the fit spread'' holds for
+ $Q_2$ only; $Q_1$ is consistent with 1 only within the table-interpolation uncertainty (\S\ref{sec:i4}).
+\item lattice-lr-chains-cross-terms: STANDS WITH REPAIR. Chordal range is $0.707$--$0.870$ (not 0.72--0.87); the
+ ``0.790--0.913 ($<1$)'' range omits the single-resolution chain (1.102); 0-dof fits unflagged; ``second-order form
+ holds with margin'' tests nothing proved at these strengths (\S\ref{sec:i6}).
+\item lattice-general-rule-where-h-fails: STANDS WITH REPAIR. Title ``to 0.1\%'' ignores the 0.45\% uncertainty of the
+ uncertified large-$\zeta$ table and the interpolation choice (1.4\% linear) (\S\ref{sec:i7}).
+\item lattice-vwz-bounds-equal-block-chains: STANDS WITH REPAIR. Title ``margin $\ge5$'' is false at $\eta=0.4$, $n=14$
+ (4.57); the bounds and the chain rule are consistency checks of theorems/identities (\S\ref{sec:i8}).
+\item lattice-vwz-1b-equals-1a: STANDS (\S\ref{sec:i3}).
+\item corner-calculus: STANDS; Statement still true, G2's note accurate (\S\ref{sec:i11}).
+\item frame-strength-amplification: STANDS; Statement still true, G2's note accurate (\S\ref{sec:i11}).
+\end{enumerate}
+
+\noindent\textbf{Checklist.} 1 model and dictionary: OK. 2 V0 (rerun identical) and mpmath check ($\le3.5\times10^{-18}$):
+OK. 3 N1 identity derived; card wording right: OK. 4 N2: numbers OK, $Q_1$ wording GAP. 5 N3: numbers OK, $X$
+disclosure GAP on the card. 6 N4: premise false as stated; chordal inequality right; two misquotes. 7 N5: exact
+corner data and ratios reproduced; title precision GAP. 8 N6: directions and a fortiori argument right; title GAP.
+9 fits and digits: OK with MINOR items. 10 deviations: all disclosed (one read-only \texttt{git status} verified in
+G2's transcript). 11 cards: as above; G2's notes on vwz-protocol-ordering and network-second-order-law accurate
+(one misquoted $\zeta$ range in the latter).
+
+\section{Item 1: model and dictionary}\label{sec:i1}
+\paragraph{Step map.} \texttt{run\_protocol} (lattice\_chain.py l.~97--126) applies, for every step, the
+Gaussian form of the vacuum Petz map of the step's own inclusion $\cF(A_B)\subset\cF(A_B\cup A_{\rm new})$:
+$X_M=T_M^{a}(T_B^{-a}\oplus1_{\rm new})$, $a=\tfrac12-\tfrac{i\lambda}2$ (code: \texttt{pw(...,0.5,-lam/2)},
+\texttt{pw(...,-0.5,lam/2)}), with $T_M,T_B$ the vacuum blocks $G=C/(1-C)$ of $M=A_B\cup A_{\rm new}$ and of
+$A_B$; $X$ is the identity off $M$; $T\leftarrow X(T\oplus1_{\rm new})X^\dagger$; $\log K\leftarrow\log K-\log\det(1+T_M)+\log\det(1+T_B)$.
+Derivation (my own): for number-conserving Gaussian operators $e^{c^\dagger Xc}e^{c^\dagger Yc}=e^{c^\dagger Zc}$
+with $e^Z=e^Xe^Y$ (Klich; quoted in the docstring of numerics/lattice/petz\_lattice.py), so
+$\rho_M^{a}\rho_B^{-a}\,x\,\rho_B^{-\bar a}\rho_M^{\bar a}$ with $x=Ke^{c^\dagger Xc}\otimes1_{\rm new}$ has matrix
+$X_M(T\oplus1)X_M^\dagger$ (since $(T_B^{-a})^\dagger=T_B^{-\bar a}$) and prefactor
+$K K_M^{a+\bar a}K_B^{-(a+\bar a)}=KK_M/K_B$ with $K_Y=\det(1+T_Y)^{-1}$, $a+\bar a=1$. This is VWZ (5.1)
+verbatim (p.~43: ``$\mathcal P_{R\to RS}(\cdot)=\rho_{RS}^{\frac12-\frac{i\lambda}2}\rho_R^{-\frac12+\frac{i\lambda}2}(\cdot)
+\rho_R^{-\frac12-\frac{i\lambda}2}\rho_{RS}^{\frac12+\frac{i\lambda}2}$ (5.1) where $\rho_R,\rho_{RS}$ are the reduced
+density matrices of the target state''), applied to ``whatever state the earlier steps produced'' (the state $T$
+carried from step to step), as network\_corner\_calculus.tex (C3)(i) prescribes. The fidelity is the root fidelity
+$F=\lVert\sqrt\rho\sqrt\sigma\rVert_1$ of VWZ (2.1) (p.~7): \texttt{fid\_relent} computes
+$-\log F=\frac12\log\det(1+G_1)+\frac12\log\det(1+T_2)-\sum\log(1+\sqrt{\tau})$, $\tau=\mathrm{eig}(G_1^{1/2}T_2G_1^{1/2})$,
+which I re-derived from $\sqrt{\rho_1}\rho_2\sqrt{\rho_1}\propto e^{c^\dagger Yc}$, $e^{Y}=T_1^{1/2}T_2T_1^{1/2}$,
+$\Tr e^{c^\dagger Yc/2}=\det(1+e^{Y/2})$; and $D=-S_1+\sum_l[\log(1+s_l)-Y_{ll}\log s_l]$ with
+$Y=V_2^\dagger CV_2$, which is $-S_1-\Tr\rho_1\log\rho_2$ for $\log\rho_2=-\sum\log(1+s_l)+c^\dagger\log T_2\,c$.
+\begin{verdictok}
+The code implements the brief's model: per step the vacuum (rotated) Petz map of the step's own inclusion, applied
+to the state produced so far, in the exact Gaussian composition rule of petz\_lattice.py; root fidelity as in VWZ
+(2.1) and paper~1; the per-step identity $K\det(1+T)=1$ is a genuine consequence of trace preservation.
+\end{verdictok}
+
+\paragraph{Dictionary.} (i) VWZ $\lambda=0$ is our $s=2\lambda_{\rm geom}$: \texttt{corner\_measure} uses
+$\sigma=2l_{\rm new}/(l_B(l_B+l_{\rm new}))=s/(l_B+l_{\rm new})$ with $s=2l_{\rm new}/l_B$, the ordinary Petz value
+of rigor/phase6\_brief.md (Setting and conventions). (ii) Two chiralities: at $\lambda=0$ the README two-branch law
+(numerics/lattice/README.md, l.~92: $-\log F=\Phi(z(1+e^{-\pi\lambda}))+\Phi(z(1+e^{\pi\lambda}))$) gives
+$2\Phi(2z)$, and both chiralities carry the same $\theta_0=1$ in every step, so $-\log F_{\rm lat}\to2\Phi_{\rm cont}$
+is used only as a dictionary for comparisons with $2\Phi_A$; the lattice-internal ratios ($Q_2$, $R_{31}$,
+$R_{21}$) do not depend on it. For multi-step protocols the factorisation into two chiral protocols is not proved
+anywhere in the project (it is a dictionary, card two-branch-law-lattice is numerical); G2 states it as such.
+(iii) $\eta$ is VWZ (5.9) (p.~47): ``$\eta=\frac{L_A(L_C+L_D)}{(L_A+L_B)(L_B+L_C+L_D)}$''; with $L_A=L_D=a$,
+$L_B=L_C=b$ it is $a/(a+2b)$ (asserted in exact arithmetic for all nine $(a,b)$ sets, rigor/ref\_p6\_6\_corners.py).
+\begin{verdictok}
+All three dictionary entries hold as stated in NETWORK\_RESULTS.md ``Conventions and conversions''; the conversion
+$\zeta_1=a/b=2\eta/(1-\eta)=2z$ holds exactly (ref\_p6\_6\_corners.out, section 1).
+\end{verdictok}
+
+\paragraph{Protocols against VWZ Sec.~5.} VWZ p.~43--44 and Fig.~24 (p.~45):
+``Protocol 1(A) is simply the protocol in Fig.~1 \ldots\ with $CD$ playing the role of $C$'' (code \texttt{'1A'}: start
+$AB$, $P_{B\to BCD}$); ``In Protocol 1(B), we act with $P_{B\to BC}$ in the first step, forming the output state
+$\sigma^{(1)}_{ABC}$. In the next step, we act with $P_{BC\to BCD}$ on $\sigma^{(1)}_{ABC}$'' (\texttt{'1B'});
+``In Protocol 2, we start with the state $\rho_{AB}$, and the first step is the same as in Protocol 1(B). In the next
+step, we act with the map $P_{C\to CD}$'' (\texttt{'2'}); ``In Protocol 3, we start with $\rho_{BC}$ and act with
+$P_{B\to AB}$ \ldots\ In the next step, we act with the same map as in Protocol 2'' (\texttt{'3LR'}; \texttt{'3RL'} is
+the other order, identical on the lattice by V0 and in the continuum by thm:prot3(2)).
+\shotc[0.8\textwidth]{G1a_VWZ_fig24.png}
+\noindent(Existing excerpt rigor/shots/G1a\_VWZ\_fig24.png, VWZ Fig.~24, p.~45; no new screenshot could be made:
+rigor/shots/ is outside my output paths, see NEEDS ORCHESTRATOR.)
+\begin{verdictok}
+Start block, conditioning block and order of every step of 1(A), 1(B), 2, 3 in PROT (l.~240--251) agree with
+VWZ Sec.~5 and Fig.~24; the variants RL, U, SW, S2, Ud are G1a/REF-P6-0 protocols, correctly labelled.
+\end{verdictok}
+
+\section{Item 2: V0 validation and an independent mpmath check}\label{sec:i2}
+\paragraph{V0 as run.} validate.out lists exactly 23 cases: $n=8$: $(2,2,2,2)$ with 1A, 1B, 2, 3LR, 3RL, RL, U
+($\lambda=0$); $(1,3,2,2)$ with 2, 3LR, U at $\lambda=0,0.5,1$; $(2,1,3,2)$ with 1B, 1A at $\lambda=1$; the L$\to$R
+chain $(2,1,2,1,2)$; $n=9$: Ex.~5.6 $(3,3,3)$; $n=10$: L$\to$R $(2,2,2,2,2)$, $(3,2,2,3)$ with 2 and 3LR.
+The tolerances $|\Delta D|\le10^{-12}$, $|\Delta(-\log F)|\le10^{-7}$ are those of rigor/phase6\_g2\_brief.md
+l.~24--26 (fixed before the run) and are hard-coded in \texttt{V0} (l.~274). The reference \texttt{exact\_hp}
+(l.~171--236) builds the many-body operators $\rho_{\rm blk}^{z}\otimes1=K^ze^{z\sum X_{ab}c_a^\dagger c_b}$ in
+the occupation basis (Jordan--Wigner signs), per particle-number sector, by matrix exponentials at 400 bits, and
+multiplies the Petz factors as operators; it shares with the Gaussian pipeline only the one-particle matrix
+$X=\log(C/(1-C))$ of each block, not the composition rule. I read it: the sector decomposition is legitimate
+because every factor is number conserving; $\log\sigma$ is formed with $V^{-1}$ (degenerate spectra), and
+$-\log F$ from $\mathrm{eig}(\rho^{1/2}\sigma\rho^{1/2})$.
+
+\paragraph{Rerun.} \texttt{PYTHONDONTWRITEBYTECODE=1 PYTHON=\$V/bin/python \$V/bin/python
+numerics/networks/lattice\_chain.py V0 > rigor/ref\_p6\_6\_validate.out} (2026-10-03, 18:27--18:49, 22 min,
+one core; the script names the task \texttt{V0}, not \texttt{validate}). \texttt{diff} against
+numerics/networks/validate.out after stripping the per-case timing column: \emph{identical}. All 23 cases print
+$dF=dD=0$ in double precision, normalisation defects $\le1.2\times10^{-156}$, \texttt{V0 RESULT: ALL PASS}.
+
+\paragraph{Independent mpmath path (my own composition).} rigor/ref\_p6\_6\_mpmath.py imports only the
+mpmath functions of petz\_lattice.py (\texttt{corr\_infinite}, \texttt{block}, \texttt{gspec}, \texttt{embed\_pow},
+\texttt{hermitize}, \texttt{fid\_relent}; mpmath \texttt{eigsy}/\texttt{eighe}, no flint, nothing from
+lattice\_chain.py), composes the steps itself ($T\leftarrow X_sTX_s^\dagger$, $T=1$ on sites not yet adjoined) and
+compares with G2's flint doubles in vwz\_C.raw (set e020) at tolerance $10^{-10}$ (brief, item 2):
+\begin{center}\small
+\begin{adjustbox}{max width=\textwidth}\begin{tabular}{llll}
+\toprule
+$(L_A,L_B,L_C,L_D)$, protocol & mpmath $-\log F$ (130 digits, shown 20) & G2 flint & $|\Delta(-\log F)|$, $|\Delta D|$\\
+\midrule
+$(2,4,4,2)$, 1B & 0.0032505359792259606816 & 3.250535979225961e-03 & 0, $3.5\times10^{-18}$\\
+$(2,4,4,2)$, 2 & 0.0076376101627663483957 & 7.637610162766349e-03 & $8.7\times10^{-19}$, 0\\
+$(2,4,4,2)$, 3LR & 0.0088231835937363961675 & 8.823183593736397e-03 & 0, 0\\
+$(3,6,6,3)$, 1B & 0.0030053307212121320171 & 3.005330721212132e-03 & 0, 0\\
+$(3,6,6,3)$, 2 & 0.0071985336844024080938 & 7.198533684402408e-03 & 0, 0\\
+$(3,6,6,3)$, 3LR & 0.0083690048706647370223 & 8.369004870664738e-03 & 0, 0\\
+\bottomrule
+\end{tabular}\end{adjustbox}
+\end{center}
+Precision check inside the script: 90 against 130 digits differ by $\le1.1\times10^{-59}$ ($-\log F$) and
+$\le9.6\times10^{-81}$ ($D$); the normalisation $\log K+\log\det(1+T)$ is $\le7\times10^{-82}$. Output
+rigor/ref\_p6\_6\_mpmath.out, \texttt{RESULT: ALL PASS}, 17\,s. The same script runs the single step 1A through \texttt{recovered\_G} itself (nA $=a$, nB $=b$, nC $=a+b$): it reproduces G2's 1A doubles ($|\Delta|\le3.5\times10^{-18}$) and agrees with my composed 1B to all 20 printed digits (0.0032505359792259606816 at $n=12$, 0.0030053307212121320171 at $n=18$), an independent confirmation of the 1(B) $=$ 1(A) identity of item~3.
+\begin{verdictok}
+V0 reproduces byte for byte (timings aside); the 23 cases, the exact $2^n$ sector reference and the fixed
+tolerances are as NETWORK\_RESULTS.md states; and an independent mpmath implementation of the two-step protocols
+1B, 2, 3 at $n=12$ and $n=18$ reproduces G2's production doubles to $\le3.5\times10^{-18}$, eight orders inside the
+tolerance $10^{-10}$. The production pipeline is validated beyond $n\le10$.
+\end{verdictok}
+
+\section{Item 3: N1, the operator identity of protocol 1(B)}\label{sec:i3}
+\paragraph{Derivation of the identity.} From the Petz-map formula of the petz\_lattice.py docstring (= VWZ (5.1)),
+with $a=(1-i\lambda)/2$, a common $\lambda$ for both steps and all operators extended by the identity:
+\lstep{1}{1}{$\sigma_{ABC}:=P_{B\to BC}(\rho_{AB})=\rho_{BC}^{a}\rho_B^{-a}\rho_{AB}\rho_B^{-\bar a}\rho_{BC}^{\bar a}$.}
+\lby{(5.1) with $R=B$, $S=C$}
+\lstep{1}{2}{$P_{BC\to BCD}(\sigma_{ABC})=\rho_{BCD}^{a}\rho_{BC}^{-a}\,\rho_{BC}^{a}\rho_B^{-a}\rho_{AB}\rho_B^{-\bar a}
+ \rho_{BC}^{\bar a}\,\rho_{BC}^{-\bar a}\rho_{BCD}^{\bar a}$.}
+\lby{(5.1) with $R=BC$, $S=D$, and $\langle1\rangle1$}
+\lstep{1}{3}{$\rho_{BC}^{-a}\rho_{BC}^{a}=1=\rho_{BC}^{\bar a}\rho_{BC}^{-\bar a}$.}
+\lby{functional calculus of the positive invertible operator $\rho_{BC}$ (faithful: on the lattice
+ $0<C_{BC}<1$, so $T_{BC}=C_{BC}/(1-C_{BC})$ is positive definite), exponents adding to $0$}
+\lstep{1}{4}{$P_{BC\to BCD}\circ P_{B\to BC}(\rho_{AB})=\rho_{BCD}^{a}\rho_B^{-a}\rho_{AB}\rho_B^{-\bar a}\rho_{BCD}^{\bar a}
+ =P_{B\to BCD}(\rho_{AB})$, for every finite size, every $\lambda$ and every faithful state.}
+\lby{$\langle1\rangle2$, $\langle1\rangle3$; (5.1) with $R=B$, $S=CD$}
+\noindent In Gaussian form the same cancellation is $T_{BC}^{-a}T_{BC}^{a}=1$ between the two \texttt{X} factors
+of \texttt{run\_protocol}. The identity uses neither the vacuum nor any geometry, so on the lattice it carries no
+information about the continuum statement prop:1B1A (network\_corner\_calculus.tex l.~1156: the two composite
+\emph{point maps} coincide, $\sigma_1+\sigma_2=\sigma_{1(A)}$); VWZ assert the lattice-level identity in the main
+text of p.~44 (``we can immediately see from the definition of $P_{R\to RS}$ that it gives rise to exactly the same
+final state on ABCD''), not in a footnote (footnote 10 on that page concerns superscripts).
+
+\paragraph{Data and rerun.} \texttt{lattice\_chain.py N1 > rigor/ref\_p6\_6\_rerun\_N1.out}: identical to
+numerics/networks/N1.out. Every row prints $r_1-1=0$ and $r_D-1=0$ in double precision: $\eta=0.1$, $(2,9)m$,
+$n=22,44,66,88$; $\eta=0.2$, $(1,2)m$, $n=12,\dots,72$ (7); $\eta=0.3$, $(6,7)m$, $n=26,52,78,104$ (the card's
+sizes); extrapolated $1\pm1.1\times10^{-16}$, $\pm8.9\times10^{-16}$, $\pm4.4\times10^{-16}$ (the card's
+``$\pm10^{-15}$'' is an upper envelope). In addition, V0 contains 1B against 1A at $(2,2,2,2)$, $\lambda=0$, and at
+$(2,1,3,2)$, $\lambda=1$, against the exact $2^n$ reference, and my mpmath path (item~2) reproduces 1B at $n=12,18$.
+\begin{verdictok}
+The operator identity is derived above from the docstring formula; the card states correctly that N1 validates the
+sequential pipeline with a union conditioning region and does \emph{not} test the continuum prop:1B1A (``which it is
+consistent with'' is the right strength). MINOR: ``as VWZ p.~44 note'' should read ``as VWZ state on p.~44 (main
+text)''; ``$\pm10^{-15}$'' could be $\le9\times10^{-16}$.
+\end{verdictok}
+
+\section{Item 4: N2, protocol 3 against Theorem A}\label{sec:i4}
+\paragraph{Exact data.} Protocol 3 on $(a,b,b,a)$: $\sigma_1=\sigma_2=2a/(b(a+b))$, $\beta_I(p_3)=(a+b)(a+b)/(2(a+b))=(a+b)/2$,
+hence $\zeta_{\rm eff}=(\sigma_1+\sigma_2)\beta_I(p_3)=2a/b$ (phase6\_brief W1(ii), thm:prot3 eq.~(prot3)); the matched
+single step 1(A) on $(a',b',b',a')$ has $\zeta_1=a'/b'$. Recomputed in rational arithmetic, with the masses read
+off as exact Schwarzian jumps (ref\_p6\_6\_corners.out \S1): $\zeta_{\rm eff}=4/9,\,1,\,12/7$ for $(2,9),(1,2),(6,7)$,
+and $a'/b'=4/9,\,1,\,12/7$ for the matched sets $(4,9),(1,1),(12,7)$: exact. Protocols 3LR and 3RL have identical
+corner data (one double corner at $p_3$).
+
+\paragraph{Re-fit from vwz\_*.raw with my own code} (rigor/ref\_p6\_6\_fitlib.py: own parser; fits on the 4 finest
+resolutions of $y/y(n_{\max})$: $a+b/L$, $a+b/L+c/L^2$, $a+bL^{-p}$ with $p\in[0.05,6]$ by profile least squares,
+$a+b\log L$; admissible iff $|{\rm res}|\le10^{-4}$ at the 3 finest; estimate = mean, uncertainty = spread):
+\begin{center}\small
+\begin{adjustbox}{max width=\textwidth}\begin{tabular}{lllll}
+\toprule
+$\eta$ ($\zeta_{\rm eff}$) & $\Phi^{(3)}_\infty$ (admissible fits) & $\Phi^{(1A)}_\infty$ matched & $Q_2$ own [G2] & $Q_1$ lin.\,/\,quad.\ own [G2]\\
+\midrule
+0.1 (4/9) & $2.2802(24)\times10^{-3}$ (B, C) & $2.2799(24)\times10^{-3}$ (B, C) & 1.00013(21) [1.0001(21)] & 1.0073\,/\,0.9940 [same]\\
+0.2 (1) & $8.060(8)\times10^{-3}$ (B, C) & $8.055(15)\times10^{-3}$ (A, B, C) & 1.00061(28) [1.0006(29)] & 1.0075\,/\,1.0010 [1.0074\,/\,1.0010]\\
+0.3 (12/7) & $1.6603(16)\times10^{-2}$ (B, C) & $1.6605(15)\times10^{-2}$ (B, C) & 0.99988(18) [0.9999(19)] & 1.0199\,/\,1.0019 [same]\\
+\bottomrule
+\end{tabular}\end{adjustbox}
+\end{center}
+All fits have one degree of freedom (4 finest of 4--11 resolutions); the pure $1/L$ fit is rejected except for
+the matched $\eta=0.2$ set; $\log L$ is rejected everywhere; $p=1.09$--$1.45$. Every number of the card's (i) and
+(ii) is reproduced to the printed digits (rigor/ref\_p6\_6\_n2n3.out).
+
+\paragraph{Interpolation claim, tested on the table nodes.} The table (paper1/fidelity\_tables.tex tab:scan col.~A,
+l.~34--40, $=$ petz\_lattice.PHI\_TAB; numerics/fidelity\_table\_largezeta.tex ``best $\Phi$'') has log-log slopes
+1.97, 1.99, 1.95, 1.91, 1.83, 1.71, 1.51, 1.29, 1.05, 0.83, 0.69 between consecutive nodes: concave from
+$\zeta\approx0.03$ on, so linear log-log interpolation lies \emph{below} the curve. Leave-one-out on the interior
+nodes (spacing doubled): linear errors $-1.2\%\dots-7.9\%$ (at the real spacing about a quarter of that, i.e.\
+$0.3$--$2\%$), quadratic errors alternating $\pm(0.3$--$1.7)\%$ (third differences of $\log\Phi$, not noise).
+At the N2 points quad/lin$-1=+1.34\%,\,+0.65\%,\,+1.80\%$ (G2: 1.33, 0.65, 1.80), and the spread of 3-node
+stencils is $0.49\%,\,0.07\%,\,0.13\%$ (cubic: $-0.21\%,-0.02\%,-0.06\%$ from the quadratic).
+\begin{verdictok}
+$\zeta_{\rm eff}=2a/b$, $a'/b'=2a/b$ and $Q_2=1.0001(21),\,1.0006(29),\,0.9999(19)$ are reproduced independently:
+the lattice-internal statement (i), which uses no table, supports the title ``to 0.3\%''. The linear
+interpolation demonstrably underestimates $\Phi_A$ by 0.6--1.8\% at these $\zeta$, as G2 says.
+\end{verdictok}
+\begin{verdictgap}
+Wording of (ii) is stronger than the evidence. ``The residual is the table-interpolation error'' and ``No
+deviation from thm:prot3 beyond the fit spread'' are true for $Q_2$ only: $Q_1$(lin) deviates by 7--20 fit spreads
+and $Q_1$(quad)$=0.9940\pm0.0010$ at $\eta=0.1$ by 6; these deviations lie \emph{within} the interpolation
+uncertainty (lin--quad 0.65--1.8\%, stencil spread 0.49\% at $\zeta=0.444$) and the 0.45\% uncertainty of the
+uncertified large-$\zeta$ table at $\zeta=1.714$, which the quoted $\pm0.0010$ does not contain. Weakest supported
+wording: ``$Q_1$ is consistent with 1 within the table-interpolation uncertainty (0.5--1.8\%); no deviation of $Q_2$
+from 1 beyond the fit spread.'' Status \texttt{numerical} is right.
+\end{verdictgap}
+
+\section{Item 5: N3, the VWZ protocol ratios}\label{sec:i5}
+\paragraph{Exact corner data.} For $(a,b,b,a)$, read off as exact Schwarzian jumps (ref\_p6\_6\_corners.out \S1,
+all nine sets): $\zeta_1=a/b$ (1A; 1B has the same masses and the same point map at six rational points),
+$\zeta_2=a(a+2b)/(2b(a+b))$ at $p_2$, $\zeta_3=a/b$ at $p_3$ (Protocol 2), $y_3-y_2=\log(1/\eta)$, i.e.\
+$e^{\Delta_{23}}=1/\eta$, and $\zeta_{\rm eff}=2a/b$ (3LR $=$ 3RL): ``ALL CLOSED FORMS EXACT: True''. Hence
+$\zeta_2/\zeta_1=1/(1+\eta)$, $P_{21}:=(\zeta_2^2+\zeta_3^2)/\zeta_1^2=1+(1+\eta)^{-2}=1.907,1.826,1.756,1.694,1.592,1.510$
+and $2\zeta_2\zeta_3/\zeta_1^2=2/(1+\eta)$, as on the card.
+
+\paragraph{Re-fit (own code, rigor/ref\_p6\_6\_n2n3.out).}
+\begin{center}\small
+\begin{adjustbox}{max width=\textwidth}\begin{tabular}{llllll}
+\toprule
+$\eta$ ($n$) & $R_{31}$ own [card] & $P_{31}$ lin.\,/\,quad. & $R_{21}$ own [card] & $X$ own & $S(\Delta_{23})$ closed form\\
+\midrule
+0.05 (42--126, 3) & 3.658(32) [3.658(33)] & 3.634\,/\,3.647 & 2.4429(84) [2.443(9)] & 0.2813(44) & 0.29514\\
+0.10 (22--88, 4) & 3.362(19) [3.352(18)] & 3.347\,/\,3.363 & 2.4992(35) [2.499(3)] & 0.3700(19) & 0.41308\\
+0.15 (46--138, 3) & 3.1131(38) [3.114(2)] & 3.095\,/\,3.114 & 2.49114(2) [2.4911(1)] & 0.4226 & 0.50056\\
+0.20 (12--72, 7) & 2.9093(45) [2.910(2)] & 2.889\,/\,2.891 & 2.4553(10) [2.455(1)] & 0.4565(6) & 0.57170\\
+0.30 (26--104, 4) & 2.5787(5) [2.5790(4)] & 2.569\,/\,2.573 & 2.3434(8) [2.343(1)] & 0.4886(5) & 0.68438\\
+0.40 (14--70, 5) & 2.3162(11) [2.316(1)] & 2.322\,/\,2.325 & 2.2118(8) [2.212(1)] & 0.4911(6) & 0.77132\\
+\bottomrule
+\end{tabular}\end{adjustbox}
+\end{center}
+Everything reproduces except $R_{31}(\eta=0.1)$, where my fits give $3.362(19)$ against G2's $3.352(18)$: G2
+fits the \emph{unnormalised} ratio (values $\approx3.3$), so its tolerance $10^{-4}$ is effectively $3\times10^{-5}$
+relative and rejects $h^p$ (residual $2.0\times10^{-4}$), leaving one admissible fit; I normalise by the finest
+value, as NETWORK\_RESULTS.md says all fits do, and accept both. The two intervals overlap; $R_{31}/P_{31}$ stays
+within 0.7\% either way. [MINOR, documentation: N3/N4/N5 ratios are fitted unnormalised, contrary to
+``values are fitted as $\Phi(n)/\Phi(n_{\max})$'' in ``Conventions and conversions''.]
+$R_{21}-P_{21}=0.536\dots0.761$ (card 0.54--0.76); $X_A=0.2516$ (lin.), 0.2530 (quad.) at $\eta=0.05$ (card 0.252).
+At VWZ's sizes ($\eta=0.2$, $n=12,18,24$, $L_A\le4$, $L_B\le8$; VWZ fn.~12: ``$L_A,L_B\le8$''): $R_{21}=2.350,
+2.395,2.411$, $R_{31}=2.714,2.785,2.814$ (card 2.35--2.41, 2.71--2.81). Ordering: $\Phi^{(1)}<\Phi^{(2)}<\Phi^{(3)}$
+and $D^{(1)}<D^{(2)}<D^{(3)}$ in all 26 $(\eta,n)$ rows (my count). $D_2/D_1\to1.9907(77)$ ($\eta=0.05$) \ldots\
+$1.7520(24)$ ($0.3$).
+
+\paragraph{VWZ (5.10), from the PDF} (p.~47):
+\shotc[0.8\textwidth]{G1a_VWZ_510_511.png}
+``$f'<f$'' read literally ($f'_i:=\Phi^{(i)}/(c\eta^2)$, $f$ the coefficient of $-\log F^{(1)}$ named two lines
+earlier) says $\Phi^{(2,3)}<\Phi^{(1)}$; the lattice has $R_{21},R_{31}>2$ at VWZ's own sizes, so the inequality is
+contradicted and VWZ's prose (``less effective'') is confirmed, as the card says.
+
+\paragraph{$X$ against the kernel.} The kernel is now known in closed form, $S(\Delta)=\hat G(\Delta)/\hat G(0)=
+\cosh\frac\Delta2-\sinh^2\frac\Delta2\log\coth\frac\Delta4$ (card corner-kernel-closed-form, proved, passed
+REF-P6-4); $S(\log20)=0.29514$, equal to G3's interpolated 0.2951. $X=0.2813\pm0.0044$ lies $3.1$ fit spreads
+below; $X/S=0.953(15),0.896(5),0.844,0.799,0.714,0.637$ and $(1-X/S)/\zeta_1=0.445,0.469,0.441,0.403,0.334,0.272$;
+a line through the three smallest $\zeta_1$ gives $X/S=0.997-0.439\,\zeta_1$ (G2: $0.998-0.437\zeta_1$). The
+$\eta=0.05$ value rests on two 0-dof fits through 3 resolutions; extrapolation moves $X$ by $+0.025$ from its
+finest-$n$ value 0.256, more than the deficit $0.014$.
+\begin{verdictok}
+Every number of the Statement is reproduced (R31 at $\eta=0.1$ within the overlapping intervals); the labels are
+as the brief prescribes (``lattice estimate'' only at $\eta=0.05$, ``second order not yet reached'' at
+$\eta\ge0.1$); the ordering and the contradiction of VWZ's $f'<f$ hold. The deficit of $X$ is disclosed in
+NETWORK\_RESULTS.md N3, in the status file and in G2's note on network-second-order-law, and it is attributed
+correctly, not explained away: the better-resolved $\eta=0.1,0.15$ points fix a relative $O(\zeta_1)$ correction
+($\approx-0.45\zeta_1$) that predicts $X/S=0.953$ at $\zeta_1=0.105$, and the intercept $0.997$ is 1 within 0.3\%.
+\end{verdictok}
+\begin{verdictgap}
+The card itself does not compare $X$ with the now proved value $S(\log20)=0.2951$, and its ``$\pm0.005$'' is the
+spread of two 0-dof fits. Repair (one clause): ``$X/S=0.953\pm0.015$ against the closed form (card
+corner-kernel-closed-form): 3 fit spreads low; the deficit follows the $O(\zeta_1)$ trend of the $\eta=0.1,0.15$
+points; $\pm0.005$ is a 0-dof fit spread (3 resolutions).'' MINOR: in G2's note on network-second-order-law
+``not small for $\zeta\ge0.2$ (X/S = 0.64--0.80 there)'' should read $\zeta_1\ge0.5$ (at $\zeta_1=0.22,0.35$:
+0.896, 0.844).
+\end{verdictgap}
+
+\section{Item 6: N4, L$\to$R chains with geometric lengths}\label{sec:i6}
+\paragraph{The premise.} Exact chain-frame data (ref\_p6\_6\_corners.out \S3; masses from Schwarzian jumps,
+$\kappa_k=2l_{k+1}/(l_k(l_k+l_{k+1}))$, lem:ampl and eq:LR1 verified exactly): $r=\frac12$: $\zeta^{(I)}=
+0.6222,0.8000$ (4 blocks), $0.6452,0.9032,0.9032$ (5), $0.6561,0.9524,1.0370,0.9524$ (6); $r=\frac13$:
+$0.4875,0.6000$ (4), $0.4959,0.6446,0.6446$ (5). Range $0.4875$--$1.0370$ (card 0.49--1.04); modular separations
+$0.9163$--$1.4663$ (card 0.92--1.47); $1+z'=1.0889$; $1.1290,1.1290$; $1.1481,1.1905,1.1481$; $1.0562$;
+$1.0744,1.0744$ (and 1 for the last step): card 1.06--1.19. Why fixed $r$ forbids weak corners: by eq:LR1,
+$\zeta_k=2r(1+v_k)/((1+r)((1+u_k)(1+v_k)-1))$ with $u_k=l_k/L_{k-1}\le r$ (geometric lengths) and
+$v_k\ge(1-r)/r$, so $\zeta_k\ge2r(1+v_k)/((1+r)(r+(1+r)v_k))\to2r/(1+r)^2$ as $v_k\to\infty$ and is bounded
+below by it: $0.44$ ($r=\frac12$), $0.375$ ($r=\frac13$), at every resolution and chain length.
+\begin{verdictok}
+G2's ``weak corners'' premise of its brief is false for these chains, as G2 reports and the card states; the card
+does \emph{not} present N4 as a test of the second-order law (it labels the corners ``NOT weak'' and the ratio to
+$2f_2\sum\zeta_k^2$ ``$<1$ because the corners are strong''); ``cross term'' is used in the all-orders sense
+$\Phi_{\rm tot}-2\sum_k\Phi_A(\zeta_k^{(I)})$, which the card defines through its ratios.
+\end{verdictok}
+
+\paragraph{Re-fit from chains\_*.raw (own code, rigor/ref\_p6\_6\_n4.out).}
+\begin{center}\small
+\begin{adjustbox}{max width=\textwidth}\begin{tabular}{llllll}
+\toprule
+chain ($n$) & $\Phi_{\rm tot}/S_{\rm step}$ & $\Phi_{\rm tot}/S_A$ & $\Phi_{\rm tot}/S_2$ & $S_{\rm step}/S_{\rm amp}$ & $S_A/S_{\rm amp}$\\
+\midrule
+$r=\frac12$, 4 (15--180, 8) & 1.48284(35) & 1.4259(22) & 0.7902(12) & 1.0112(18) & 1.0516\\
+$r=\frac12$, 5 (31, 62, 93) & 1.817(19) & 1.698(47) & 0.876(24) & 1.046(47) & 1.1151\\
+$r=\frac12$, 6 (63, 126, 189) & 2.070(19) & 1.820(31) & 0.894(15) & 1.037(32) & 1.1756\\
+$r=\frac13$, 4 (40, 80, 120) & 1.461(10) & 1.451(31) & 0.913(19) & 1.033(30) & 1.0388\\
+$r=\frac13$, 5 (121 only) & 1.750 & 1.827 & 1.102 & 1.119 & 1.0722\\
+\bottomrule
+\end{tabular}\end{adjustbox}
+\end{center}
+All card values are reproduced (linear interpolation of $\Phi_A$, as on the card). $\Phi_{\rm tot}/(2f_2(\sum\zeta_k)^2)$
+at the finest $n$: 0.403, 0.297, 0.229, 0.458, 0.372 (card 0.23--0.46); largest over all rows 0.542 ($n=15$).
+\textbf{Two misquotes (MINOR).} (a) The card's ``$\Phi_{\rm tot}/2f_2\sum_k\zeta_k^2=0.790$--$0.913$ ($<1$ because
+the corners are strong)'' and the list for $\Phi_{\rm tot}/S_A$ omit the single-resolution $r=\frac13$ five-block
+chain, where these ratios are $1.102$ and $1.827$ (its 1-site last block makes the lattice steps 12\% too large,
+$S_{\rm step}/S_{\rm amp}=1.119$); the range must be restricted to the four extrapolated chains. (b) The chordal
+ratios range over $0.7072$--$0.8695$ (minimum at $r=\frac12$, 6 blocks, $n=63$; G2's own N4.out prints 0.707208),
+not ``0.72--0.87''.
+
+\paragraph{The chordal bound.} thm:w6chord (network\_corner\_calculus.tex l.~1879--1886) is an \emph{upper} bound
+on the Bures \emph{distance} $d_{\rm B}=\sqrt{2-2F}$ ($F$ the root fidelity, (C7): $F=e^{-\Phi}$):
+\[
+d_{\rm B}\bigl(\omega|_{\cN_m},\,\omega|_{\cN_1}\circ R\bigr)\le\sum_{k=1}^{m-1}d_{\rm B}\bigl(\omega|_{\cN_{k+1}},\,\omega|_{\cN_k}\circ R_k\bigr),
+\]
+each step with the \emph{true} state on $\cN_k$ as input and its error measured on $\cN_{k+1}$; on the lattice
+$\cN_{k+1}=A_1\cdots A_{k+1}$, which is exactly G2's STEP line (\texttt{gauss(L[:k+1], ((1,k),[(k+1,(k,k))]))}).
+Its proof (triangle inequality of $d_{\rm B}$, AU02 Prop.~1, plus monotonicity of $F$ under channels) holds in
+finite dimensions, so on the lattice it cannot fail: the check is a consistency test of the data. Recomputed from
+the saved $-\log F$: 33 multi-step rows (geometric and equal-block chains), ratio $0.7072$--$0.8695\le1$.
+\begin{verdictok}
+Statement numbers reproduced; the inequality is the right one, in the right direction and with the right step
+errors. MINOR: (a), (b) above; ``the second-order form of the sequential bound holds with margin'' compares
+$\Phi_{\rm tot}$ with the leading term of cor:w6-second(2) (with chain-frame strengths, i.e.\ the $\check\Phi_k$
+version) far outside its asymptotic regime ($\Phi_k\to0$); it tests nothing proved and should say so.
+\end{verdictok}
+
+\section{Item 7: N5, Ex.~5.6 and the displaced corner}\label{sec:i7}
+\paragraph{(a) Ex.~5.6.} The first step adjoins $A_3$ to the block $A_2$ conditioning on all of it:
+\lstep{1}{1}{$P_{A_2\to A_2A_3}(\rho_{A_2}\otimes1)=\rho_{A_2A_3}^{a}\rho_{A_2}^{-a}\rho_{A_2}\rho_{A_2}^{-\bar a}\rho_{A_2A_3}^{\bar a}$.}
+\lby{(5.1) with $R=A_2$, $S=A_3$; the input is the vacuum on the starting block $A_2$}
+\lstep{1}{2}{$\rho_{A_2}^{-a}\rho_{A_2}\rho_{A_2}^{-\bar a}=\rho_{A_2}^{1-a-\bar a}=1$, hence the output is
+ $\rho_{A_2A_3}^{a+\bar a}=\rho_{A_2A_3}$, for every $\lambda$ and every size.}
+\lby{functional calculus of the faithful $\rho_{A_2}$ (all three factors are functions of it); $a+\bar a=1$; then
+ $\rho_{A_2A_3}^{a}\rho_{A_2A_3}^{\bar a}=\rho_{A_2A_3}$}
+\noindent So protocol SW (start $A_2$, $A_3$ on $A_2$, then $A_1$ on $A_2$) applies its second step to
+$\rho_{A_2A_3}$, which is protocol S2: $\Phi_{\rm SW}=\Phi_{\rm S2}$ is an identity (``EXACTLY on the lattice''),
+and the data show it as identical doubles, $\Phi$ and $D$, at $n=12,18,24,36,48,72$ (``difference 0 in double
+precision''); the card uses both phrases correctly, each for what it supports. The continuum side agrees: the
+corner of step 1 is swallowed (exactly: $G_1((0,3))=(4/3,3)\not\ni p_2$), one corner $\zeta=2/3$ at $p_3$
+(ref\_p6\_6\_corners.out \S2). Re-fit (rigor/ref\_p6\_6\_n5.out): $\Phi_{\rm SW}/(2\Phi_A(2/3))\to1.0140(15)$
+(linear), $0.9990(15)$ (quadratic; card 0.9989(15)); 3-node stencil spread at $\zeta=2/3$: $0.17\%$.
+
+\paragraph{(b) The REF-P6-0 geometry with a degenerate second step (Ud).} My exact code (Fractions; masses from
+Schwarzian jumps, compared with Thm~5.2's $\sigma_mG_m'(x_m)$; ref\_p6\_6\_corners.out \S2):
+$x_1=G_1^{-1}(p_3)=1383/536$, $x_1/T=0.430037$, $\kappa=\sigma_1k_2'(x_1)=0.839875$ (jump $=$ formula, exactly),
+$\zeta=\kappa\,x_1(T-x_1)/T=1.235146$; the second step's corner is $p_5=T$ (swallowed, $\beta_I=0$); the composite is
+$C^1$. Naive (H) rule: $\sigma_1\beta_I(p_3)=1.452991\times1.473333=2.140741$. Control 3LR: one double corner,
+$\zeta=2.677249$. Protocol U: $1.453976$ at $x/T=0.533428$ ($x=5633/1760$) and $0.245556$ at $p_4$,
+$\Delta=0.794075$. All as stated by G2 (1.2351 at 0.4300; 2.1407; 2.6772; 1.4540 at 0.5334, 0.2456, 0.794).
+\begin{center}\small
+\begin{adjustbox}{max width=\textwidth}\begin{tabular}{lll}
+\toprule
+ratio ($n=60,120,180$; extrapolated, own fits) & linear interp. & quadratic interp. [card]\\
+\midrule
+Ud / $2\Phi_A(1.2351)$ (general rule) & 1.0141(4) & 1.00125(39) [1.0012(4)]\\
+Ud / $2\Phi_A(2.1407)$ (naive rule) & 0.49877(19) [0.4988(2)] & 0.49857(19)\\
+3LR / $2\Phi_A(2.6772)$ (control) & 1.0190(5) & 1.00066(46) [1.0006(5)]\\
+U / no-cross-term sum, general & 1.23318(66) [1.2331(6)] & 1.21111(64) [1.2110]\\
+U / no-cross-term sum, naive & 0.76629(41) [0.7663(4)] & 0.76586(41)\\
+\bottomrule
+\end{tabular}\end{adjustbox}
+\end{center}
+Only Ud has a 1-dof fit ($1/L$, residual $3\times10^{-5}$); the others rest on 0-dof fits, as the card says. The raw data themselves were regenerated (\texttt{lattice\_chain.py chains ref}, 12.5\,min, rigor/ref\_p6\_6\_rerun\_chains\_ref.out): all 9 lines of chains\_E.raw are identical up to the timing column; likewise \texttt{chains sw} (21\,s) for the 12 Ex.~5.6 lines of chains\_D.raw.
+Stencil spreads of the quadratic interpolation: $0.10\%$ ($\zeta=1.235$), $0.09\%$ ($2.677$), $0.15\%$ ($1.454$); at $2.141$ (next to the node 2.133) linear and quadratic differ by $0.04\%$; but $\Phi_A$ at these $\zeta$ comes from the uncertified large-$\zeta$ table (0.45\% at
+$\zeta=1.07$, 0.46\% at 2.13; numerics/fidelity\_table\_largezeta.tex).
+\begin{verdictok}
+(a) and (b) are reproduced to every printed digit, from an independent exact implementation of the corner data
+and an independent re-fit; the general rule is selected over the naive one by a factor $2.005$, which no
+interpolation or table uncertainty can affect. The brief's two-corner protocol U cannot test a single-corner
+prediction (its two corners at $\Delta=0.794$ need the cross term); G2 says so and does not claim $\to1$ for U.
+\end{verdictok}
+\begin{verdictgap}
+Precision overstated in the title: ``predicts the fidelity to 0.1\%'' rests on $1.0012(4)$, but the continuum value
+$\Phi_A(1.2351)$ is uncertain by $\approx0.45\%$ (uncertified table) and the linear interpolation gives 1.4\%;
+weakest supported wording: ``agrees to 0.1\% (quadratic interpolation), within the 0.45\% uncertainty of the
+large-$\zeta$ table''. Same for the control (0.06\%). ``a positive cross term (W2, conjectural)'' for U is an
+interpretation consistent with the proved positivity of $\hat G$ (corner-kernel-closed-form), not a measurement;
+the card's wording allows that reading.
+\end{verdictgap}
+
+\section{Item 8: N6, VWZ bounds and equal-block chains}\label{sec:i8}
+\paragraph{Direction of VWZ (5.3)--(5.5), from the PDF} (pp.~43--44, verbatim from the text layer; no screenshot
+of these lines exists in rigor/shots/ and I may not create one): ``$\max_\lambda F^{(1)}=\max_\lambda
+F(\rho_{ABCD},\tilde\rho^{(1)}_{ABCD})\ge e^{-I(A:CD|B)/2}$ (5.3)''; ``$\max_\lambda F^{(2)}\ge
+e^{-\frac12(I(A:C|B)+I(B:D|C)+I(A:D|BC))}$ (5.4)'', proved ``in any quantum-mechanical system'' (App.~C); (5.5)
+the same bound for $F^{(3)}$. They are \emph{lower} bounds on $\max_\lambda F$ (root fidelity, VWZ (2.1)), i.e.\
+upper bounds $-\log\max_\lambda F^{(i)}\le b_i$ with $b_1=I(A{:}CD|B)/2$, $b_{2}=b_3=b_{23}$. A fortiori argument:
+$\max_\lambda F\ge F^{(\lambda=0)}$, so $-\log\max_\lambda F\le-\log F^{(0)}$, and $-\log F^{(0)}\le b$ implies the
+bound; the direction is right, and $\Phi/b<1$ at $\lambda=0$ is a sufficient check. (Note: VWZ's single-step bound
+(2.4) is for $\min_\lambda$, not for $\lambda=0$; the lattice ratios at $\lambda=0$ are therefore stronger than
+what (5.3)--(5.5) assert, and they hold.)
+
+\paragraph{Recomputed from the raw CMI and fidelity lines} (rigor/ref\_p6\_6\_n6.out). Finest $n$ per $\eta$
+($0.05,\dots,0.4$; $n=126,88,138,72,104,70$): $\Phi^{(1)}/b_1=0.0207,0.0399,0.0576,0.0758,0.1091,0.1423$,
+$\Phi^{(2)}/b_{23}=0.0254\dots0.1895$, $\Phi^{(3)}/b_{23}=0.0371\dots0.1983$; largest ratio over all
+$(\eta,n)$: $0.2190$ (margin 4.57). $b_{23}-(5.11)=8\times10^{-7}\dots5.4\times10^{-5}$ with (5.11)
+$=-\frac16\log\frac{1-\eta}{1+\eta}$ ($c=1$); I re-derived (5.11) from $I(X{:}Z|Y)=\frac13\log\frac1{1-\eta_V}$:
+the three cross ratios are $\eta/(1+\eta)$, $\eta/(1+\eta)$, $\eta^2$, and
+$\frac16[2\log(1+\eta)-\log(1-\eta^2)]=-\frac16\log\frac{1-\eta}{1+\eta}$. Chain rule:
+$|I(B{:}D|C)+I(A{:}D|BC)-I(AB{:}D|C)|\le4.2\times10^{-17}$. L$\to$R chains: $\Phi_{\rm tot}/(\sum_kI_k/2)=
+0.0924,0.1626,0.2198,0.2664$ (equal blocks, 3--6) and $0.1405,0.1880,0.2221,0.1168,0.1593$ (geometric): margins
+$3.75$--$10.8$. Equal blocks, own fits (1-dof, 4 finest of 5--8 resolutions): $\Phi_{\rm tot}=4.391863(46)\times10^{-3}$,
+$1.860192(37)\times10^{-2}$, $4.230112(63)\times10^{-2}$, $7.389548(84)\times10^{-2}$; ratios to
+$2\sum\Phi_A(\zeta_k)$: $0.9986,1.3967,1.5916,1.6767$ (quad.), $1.0136,1.4116,1.6116,1.7064$ (lin.); corner data
+$\zeta_k=(k-1)(n_b-k+1)/n_b$ and separations $0.69$--$1.10$ exact (ref\_p6\_6\_corners.out \S3). All as on the card.
+
+\paragraph{Results or bounds checks?} (5.3)--(5.5) are theorems for every finite-dimensional system, so on the
+lattice they cannot fail: ``hold'' is a consistency check, and only the \emph{margins} (ratios $\le0.22$) are
+lattice information. The chain rule is an algebraic identity of the entropy combination
+($S(CD)-S(C)+S(ABC)-S(ABCD)$ on both sides) and checks rounding only. The L$\to$R ``sequential analogue''
+$F\ge e^{-\sum_kI_k/2}$ has no proof (the card says ``numerical statement, no proof''). The equal-block values (c)
+and their ratios are genuine numerical results.
+\begin{verdictok}
+Directions, the a fortiori argument, (5.11), the chain rule and every number of the Statement are verified or
+reproduced. The card labels (b) as numerical without proof.
+\end{verdictok}
+\begin{verdictgap}
+Wording: the title's ``VWZ CMI bounds (5.3)--(5.5) hold with margin $\ge5$'' presents a theorem check as a result
+and drops ``at the finest sizes'' (at $\eta=0.4$, $n=14$ the margin is 4.57); the chain-rule clause should be
+labelled an identity check. Repair: ``consistency check of VWZ's theorems (5.3)--(5.5): ratios $\le0.20$ at the
+finest sizes, $\le0.22$ overall''. Digits: see item~9 for the five-digit $\Phi_{\rm tot}$ values.
+\end{verdictgap}
+
+\section{Item 9: fits and digits (\S5 of AGENTS.md)}\label{sec:i9}
+\paragraph{Resolutions and degrees of freedom} (from the raw files; my parser): VWZ sets e005 3, e010 4, e015 3,
+e020 7, e030 4, e040 5; matched m010 4, m020 11, m030 4; chains n4r2 8, n5r2 3, n6r2 3, n4r3 3, n5r3 \emph{1},
+sw 6, ref 3, eq3 8, eq4--eq6 5 each. With the 4 finest points the 3-parameter fits have 1 dof; with 3 points they
+have 0 dof and pass trivially.
+\begin{itemize}
+\item \emph{Three resolutions minimum:} met everywhere except n5r3, which every document labels ``one resolution,
+ not extrapolated'' (card lattice-lr-chains-cross-terms: ``1.750 \ldots\ not extrapolated'').
+\item \emph{0-dof fits flagged:} in the outputs (\texttt{dof=0}), in NETWORK\_RESULTS.md (N3, N4, N5) and on the
+ cards lattice-vwz-protocol-ratios and lattice-general-rule-where-h-fails. \textbf{Not} on lattice-lr-chains-cross-terms,
+ whose 5- and 6-block ($r=\frac12$) and 4-block ($r=\frac13$) values rest on 3 resolutions (MINOR).
+\item \emph{Uncertainty $=$ spread of admissible fits:} implemented as stated, with one disclosed addition (a single
+ admissible fit gets its largest distance to all extrapolating fits, which widens). Where both admissible fits are
+ 0-dof, the spread can understate the extrapolation: $X(\eta=0.05)$ has spread $0.0044$ but moves by $0.025$ from
+ its finest-$n$ value; $R_{21}(\eta=0.15)=2.4911(1)$ is safe only because $a+b/L$ is also admissible with 1 dof
+ (residual $7\times10^{-7}$, $p=0.999$).
+\item \emph{Normalisation (documentation):} ``values are fitted as $\Phi(n)/\Phi(n_{\max})$'' holds for the absolute quantities
+ (N2's $\Phi^{(3)}$, $\Phi^{(1A)}$; N6(c)'s $\Phi_{\rm tot}$); the ratio fits (N1, N2's $Q_1$, N3, N4, N5) are unnormalised, so $10^{-4}$ is absolute on numbers up to 3.7. Only
+ $R_{31}(\eta=0.1)$ changes (item~5); MINOR.
+\item \emph{Digits stable across the two finest resolutions} are printed for every quantity in the .out files and in
+ NETWORK\_RESULTS.md (e.g.\ $\Phi_{\rm tot}$: 4.4e-3, 1.8e-2, 4.2e-2, 7.4e-2). The cards quote extrapolated values with
+ more digits plus the fit spread (e.g.\ $4.3918\times10^{-3}\pm4.5\times10^{-6}$, title ``0.0186''), which is the
+ project's practice for extrapolations (cf.\ corner-kernel-two-frames) but is more than \S5's ``only digits stable
+ across the two finest resolutions'' allows if read literally. MINOR; the orchestrator should decide the reading.
+\item \emph{Fixed tolerances:} TOL\_FIT and the V0 tolerances were fixed before the runs; the two later analysis
+ rules (NFIT $=4$, single-fit rule) are disclosed with their reason. No regulator other than the lattice spacing;
+ the output headers say so. Precision: prec.out reruns five production cases at +400 bits with differences $0$ in
+ double precision, and every raw line carries the normalisation defect ($\le10^{-100}$).
+\item \emph{Two methods:} the production lattice numbers come from one method (flint Gaussian pipeline), validated
+ against exact $2^n$ at $n\le10$; AGENTS.md \S5 asks for the label ``single method'', which the cards do not carry.
+ My mpmath path (item~2) now confirms the pipeline at $n=12,18$ to $3.5\times10^{-18}$; the continuum comparisons
+ (Q1, P31, N5, N6(c)) are two-method by construction (lattice vs.\ paper~1's tables).
+\end{itemize}
+\begin{verdictok}
+The \S5 discipline is followed in substance: at least three resolutions or an explicit ``not extrapolated'',
+admissibility fixed in advance, spreads reported, stable digits printed, precision checked. The MINOR items above
+(0-dof flag missing on one card, documentation of the normalisation, single-method labels, digits on the cards)
+are wording repairs, none changes a conclusion.
+\end{verdictok}
+
+\section{Item 10: deviations from the brief and process}\label{sec:i10}
+Status file rigor/PHASE6\_STATUS.md, section ``G2 result'' (l.~101--120), against the documents and the record.
+\begin{enumerate}[label=(\alph*),leftmargin=2em]
+\item \emph{Sizes up to 189 sites} (G2's brief: ``total sites up to 72'', N3). Disclosed in NETWORK\_RESULTS.md
+ (``Sizes''), in N3.out (rows labelled ``(n > 72)''), on card lattice-protocol3-equals-theorem-a, and accepted by the
+ orchestrator (status file l.~120). The other cards give their $n$ ranges (12--138, 15--189, 60--180) without the
+ word ``beyond the brief'', which is enough for a reader. Precision: prec.out reruns five cases ($n=60$--$138$) at
+ +400 bits, differences 0; for $n=150$--$189$ only the per-step normalisation identity is available. Over all 284
+ raw lines the largest defect $|\log K\det(1+T)|$ is $3.0\times10^{-39}$ (Ud, $n=180$, 1869 bits; next
+ $2.4\times10^{-73}$), i.e.\ the degenerate and union steps lose digits, but at least 38 remain: no double-precision
+ output is affected. MINOR: prec.out does not cover $n>138$ or the degenerate step Ud.
+\item \emph{Production before V0 was complete} (brief: ``No production run before''). Disclosed in NETWORK\_RESULTS.md
+ (V0, ``Procedural note'': sweeps started after 18 of 23 cases) and in the status file; all 23 passed, and my rerun of
+ V0 is identical (item~2): no result depends on the order. A process breach of the brief, disclosed.
+\item \emph{N4 premise} (``weak corners''): false for fixed $r$ (item~6, bound $\zeta_k\ge2r/(1+r)^2$); disclosed in
+ NETWORK\_RESULTS.md N4, on the card and in the status file, and the analysis was adapted (no second-order claim).
+\item \emph{N5(b) variant}: the brief's protocol U has two corners, so its criterion ``lattice/prediction $\to1$'' through
+ the single-corner law could not hold without a cross term; G2 added the single-corner variant Ud and reports U
+ separately with ``does not tend to 1 there and is not claimed to'' (NETWORK\_RESULTS.md N5). Disclosed.
+\item \emph{One read-only \texttt{git status}} (AGENTS.md \S1: a track agent MUST NOT run git). Verified in G2's
+ transcript (subagent agent-a6c15c78d903e36b3, session 7fe3011d): exactly one tool call contains git,
+ 2026-10-03T16:04:37Z, \texttt{git status -{}-short numerics/ | head -5} (checking for \texttt{\_\_pycache\_\_}); no
+ \texttt{./pgit}, no write. Disclosed in the status file (``§1 breach, no effect''). No stray
+ \texttt{\_\_pycache\_\_} exists under numerics/.
+\end{enumerate}
+\begin{verdictok}
+Every deviation is disclosed where it matters (NETWORK\_RESULTS.md for the numerics, the cards for the premise and
+the variant, the status file for the process breaches), and none changes a reported number. The \S1 breach is the
+orchestrator's to report; it is read-only and had no effect.
+\end{verdictok}
+
+\section{Item 11: cards}\label{sec:i11}
+\paragraph{Common checks.} \texttt{kb -p cft\_cmi history} shows no verdict or note on any of the eight cards after
+its last content change (G2, 2026-10-03 17:59--18:20). Every evidence token of the six G2 cards
+(\texttt{num:numerics/networks/lattice\_chain.py} and N1--N6.out, validate.out) resolves; \texttt{kb deps -{}-check}
+reports no warning for them. Every ``How to verify'' command was run exactly as written with the output redirected
+(rigor/ref\_p6\_6\_rerun\_N1.out \ldots\ N6.out): all six analyses are byte-identical to G2's outputs, and V0 is
+identical (item~2). The related cards exist and say what the G2 cards use them for (two-branch-law-lattice: the
+dictionary; large-zeta-values: the large-$\zeta$ table; sequential-recovery-bound-type-iii: Thm~12.6;
+protocol-corner-data-n4-n5, vacuum-rigidity-exact-recovery, corner-separation-constraint: corner data, the degenerate
+step, lem:LRdata); none of the numerical cards needs a \texttt{depends}. Missing: corner-kernel-closed-form
+(proved) on lattice-vwz-protocol-ratios, where $X$ estimates exactly that kernel.
+
+\paragraph{Per card.}
+\begin{description}[leftmargin=1em,style=nextline]
+\item[lattice-vwz-1b-equals-1a] Statement reproduced (item~3). \textbf{STANDS.} Cosmetic: ``as VWZ p.~44 note''
+ is VWZ's main text on p.~44.
+\item[lattice-protocol3-equals-theorem-a] Numbers reproduced (item~4). \textbf{STANDS WITH REPAIR}: replace
+ ``the residual is the table-interpolation error (\ldots). No deviation from thm:prot3 beyond the fit spread.'' by
+ ``$Q_1$ is consistent with 1 within the table-interpolation uncertainty (linear vs.\ quadratic 1.33\%, 0.65\%, 1.80\%;
+ 3-node stencil spread 0.49\% at $\zeta=0.444$) and the 0.45\% uncertainty of the uncertified large-$\zeta$ table;
+ no deviation of $Q_2$ from 1 beyond the fit spread.'' ($Q_1$(quad) $=0.9940\pm0.0010$ is 6 fit spreads from 1.)
+\item[lattice-vwz-protocol-ratios] Numbers reproduced (item~5). \textbf{STANDS WITH REPAIR}: add the comparison with
+ the proved closed form, $S(\log20)=0.29514$ (corner-kernel-closed-form): $X/S=0.953\pm0.015$, 3 fit spreads low,
+ following the relative $O(\zeta_1)$ trend of the $\eta=0.1,0.15$ points ($X/S=0.997-0.439\zeta_1$); say that
+ $\pm0.005$ is the spread of two 0-dof fits on 3 resolutions (extrapolation moves $X$ by $0.025$); add
+ corner-kernel-closed-form to \texttt{related}.
+\item[lattice-lr-chains-cross-terms] Numbers reproduced (item~6). \textbf{STANDS WITH REPAIR}: (i) chordal ratios
+ range $0.707$--$0.870$, not ``0.72--0.87'' (N4.out: 0.707208 at $r=\frac12$, 6 blocks, $n=63$); (ii) ``0.790--0.913
+ ($<1$ \ldots)'' and the $\Phi_{\rm tot}/S_A$ list hold for the four extrapolated chains only (the single-resolution
+ $r=\frac13$ five-block chain gives 1.102 and 1.827); (iii) flag the 0-dof fits of the three 3-resolution chains;
+ (iv) ``the second-order form of the sequential bound holds with margin'' $\to$ ``$2f_2(\sum_k\zeta_k)^2$, the leading
+ term of cor:w6-second(2) in the chain frame, exceeds $\Phi_{\rm tot}$ by a factor 2.2--4.4; at these strengths this
+ tests no proved statement''.
+\item[lattice-general-rule-where-h-fails] Numbers reproduced (item~7). \textbf{STANDS WITH REPAIR}: the title's
+ ``predicts the fidelity to 0.1\%'' $\to$ ``agrees to 0.1\% (quadratic interpolation; 1.4\% linear), within the 0.45\%
+ uncertainty of the uncertified large-$\zeta$ table''.
+\item[lattice-vwz-bounds-equal-block-chains] Numbers reproduced (item~8). \textbf{STANDS WITH REPAIR}: the title's
+ ``hold with margin $\ge5$'' is false at $\eta=0.4$, $n=14$ (4.57); write ``consistency check of VWZ's theorems
+ (5.3)--(5.5): $-\log F/b\le0.20$ at the finest sizes, $\le0.22$ at all sizes''; call the chain rule an identity check.
+\item[corner-calculus] (re-opened by G2's note). The Statement is unchanged and still true where the lattice
+ touches it: in exact arithmetic I re-verified Thm~5.2 (masses from Schwarzian jumps $=$ $\sigma_mG_m'(x_m)$ in all
+ protocols computed, including U, Ud, SW), the swallowing of Ex.~5.6, 1(B) $=$ 1(A) as point maps (nine sets),
+ Protocol~3 in either order (one double corner, $\zeta_{\rm eff}=2a/b$), and the degenerate step's exactness on the
+ vacuum (item~7). G2's note is accurate; one qualifier is missing: $1.0012(4)$ is with the quadratic interpolation
+ (1.0140 linear) and limited by the 0.45\% table uncertainty. \textbf{STANDS.}
+\item[frame-strength-amplification] (re-opened by G2's note). $\zeta^{(I)}=\zeta_{\rm step}(1+z')$,
+ $z'=ac/(b(a+b+c))$ re-verified exactly on all nine chains (ref\_p6\_6\_corners.out \S3); G2's numbers (1.011(2),
+ 1.48--2.07, $1+z'=1.06$--$1.19$, factor 1.04--1.18) reproduced (item~6); the note says ``consistent with the
+ card'', which is all it can say (the lattice data do not test an exact geometric identity). \textbf{STANDS.}
+\end{description}
+
+\paragraph{Report only: G2's notes on the conjectural cards.} \emph{vwz-protocol-ordering}: accurate; every number
+reproduced (R31 3.658(33)\ldots2.316(1) within 0.7\% of $P_{31}$; R21 2.21--2.50, excess 0.54--0.76; ordering in
+26 rows; $f'<f$ contradicted at VWZ's sizes); like the card, it does not compare $X=0.281$ with the proved
+$S(\log20)=0.2951$. \emph{network-second-order-law}: accurate except ``the remainder is not small for $\zeta\ge0.2$
+($X/S=0.64$--$0.80$ there)'', which holds for $\zeta_1\ge0.5$ (at $\zeta_1=0.222,0.353$: $0.896,0.844$); its $S$ are
+G3's interpolated box values, which the closed form now replaces with the same $X/S$ to $0.002$.
+
+\section{Reproduction}\label{sec:repro}
+All commands from the repository root cft\_cmi/, with
+\texttt{V=<scratchpad>/venv} (numpy 2.5.3, scipy 1.18.1, mpmath 1.4.1, python-flint 0.9.0) and
+\texttt{PYTHONDONTWRITEBYTECODE=1 PYTHON=\$V/bin/python}; one core at a time.
+\begin{center}\small
+\begin{tabular}{p{0.52\textwidth}p{0.42\textwidth}}
+\toprule
+command & output (rigor/), result\\
+\midrule
+\texttt{numerics/networks/lattice\_chain.py V0} & ref\_p6\_6\_validate.out (+ empty .err.out); 22 min; identical to validate.out up to timings\\
+\texttt{lattice\_chain.py N1} \ldots\ \texttt{N6} & ref\_p6\_6\_rerun\_N1.out \ldots\ N6.out; byte-identical to N1.out \ldots\ N6.out\\
+\texttt{lattice\_chain.py chains sw} & ref\_p6\_6\_rerun\_chains\_sw.out (+ .time.out: 21\,s); the 12 sw lines of chains\_D.raw, identical up to timings\\
+\texttt{lattice\_chain.py chains ref} & ref\_p6\_6\_rerun\_chains\_ref.out (+ .time.out): 12.5\,min; the 9 ref lines of chains\_E.raw (U, Ud, 3LR at $n=60,120,180$), identical up to timings\\
+\texttt{rigor/ref\_p6\_6\_corners.py} & ref\_p6\_6\_corners.out: exact corner data (items 1, 4--8, 11)\\
+\texttt{rigor/ref\_p6\_6\_mpmath.py} & ref\_p6\_6\_mpmath.out: mpmath path, 8 cases, ALL PASS (17\,s + 2\,s)\\
+\texttt{rigor/ref\_p6\_6\_n2n3.py} & ref\_p6\_6\_n2n3.out: interpolation tests, N2, N3 (items 4, 5)\\
+\texttt{rigor/ref\_p6\_6\_n4n6.py N4} (\texttt{N5}, \texttt{N6}) & ref\_p6\_6\_n4.out (n5.out, n6.out) (items 6--8)\\
+\bottomrule
+\end{tabular}
+\end{center}
+rigor/ref\_p6\_6\_fitlib.py is the shared library (parser, fits, $\Phi_A$ table typed from paper1/fidelity\_tables.tex
+l.~34--40 and numerics/fidelity\_table\_largezeta.tex). The production sweeps other than sw and ref were not
+repeated: the vwz sets and the long chains need 15 min to several hours each (raw \texttt{t=} columns); the raw data
+behind them are checked by V0, by the mpmath path at $n=12,18$ and by the two reruns.
+
+\paragraph{Files created by REF-P6-6.} rigor/referee\_lattice\_chain.tex (+ .pdf, .aux, .log, .out), the scripts and
+outputs listed above (rigor/ref\_p6\_6\_*); nothing else. No screenshot could be added (rigor/shots/ is outside my
+output paths): VWZ (5.1), (5.3)--(5.5), (5.9) are quoted verbatim from the PDF's text layer with page and equation;
+Fig.~24 and (5.10)--(5.11) are embedded from the existing excerpts G1a\_VWZ\_fig24.png and
+G1a\_VWZ\_510\_511.png; fn.~12 (p.~47) is quoted verbatim (the existing excerpt R4\_VWZ\_fn12.png shows it).
+
+\paragraph{For the orchestrator.} (1) Five cards carry a REF-P6-6 FAIL note with the repair (STANDS WITH REPAIR);
+after G2's repair exactly one referee re-reviews. (2) Commit this report and rigor/ref\_p6\_6\_* (I run no git).
+(3) Optional excerpts of VWZ pp.~43--44 ((5.1), (5.3)--(5.5)) and p.~47 ((5.9)) via rigor/snap.py, then
+\texttt{./pgit sync}. (4) G2's read-only \texttt{git status} (\S1 breach) is verified and should be reported to the
+user. (5) Decide the reading of AGENTS.md \S5 ``only digits stable across the two finest resolutions'' for
+extrapolated values quoted with a fit spread (item~9). (6) NETWORK\_RESULTS.md needs two documentation fixes: the
+ratio fits are unnormalised (item~5), and the chordal range is 0.707--0.870 (item~6).
+
+\section{Second pass (REF-P6-6b, 2026-10-05)}\label{sec:second}
+G2 applied the repairs of \S\ref{sec:i11} to the five cards that carried a REF-P6-6 FAIL note, added a dated
+``repair applied'' note to each, revised numerics/networks/lattice\_chain.py (1033 lines) and NETWORK\_RESULTS.md
+(350 lines), and regenerated N1--N6.out and the new nrm.out from the \emph{same} raw files. Re-reviewed here: those
+five cards only, against my repair notes, the regenerated outputs and the orchestrator's quoting rule
+(NETWORK\_RESULTS.md l.~53--56: an extrapolated value is quoted to the digits its fit spread supports and labelled
+``extrapolated'', with the digits stable across the two finest resolutions of the raw values beside it; a
+single-resolution value is ``not extrapolated'').
+
+\paragraph{Reruns with the repaired script} (output redirected to rigor/ref\_p6\_6\_rerun2\_\textless task\textgreater.out, tasks N2, N3, N4, N5, N6, NRM):
+all six are byte-identical to the regenerated N2.out \ldots\ N6.out and nrm.out. The regenerated N3.out prints the
+normalised fit $R_{31}(\eta=0.1)=3.3614\pm0.0018$ (mine: $3.3619\pm0.0019$, \S\ref{sec:i5}) and the block ``Comparison
+with the closed form'': $X=0.28140\pm0.0045$, $X/S=0.9535\pm0.0154$, $(S-X)/\text{spread}=3.0$, and the line
+$X/S=0.9975-0.4398\,\zeta_1$ (mine $0.9972-0.4387\,\zeta_1$; the difference is the fit implementation, both from
+the same three points). N2.out now prints the stencil spreads $0.49\%,0.07\%,0.13\%$ (mine identical) and the
+distances $|Q_1^{\rm quad}-1|=5.8,1.0,1.9$ and $|Q_1^{\rm lin}-1|=6.9,8.0,20.4$ fit spreads. nrm.out: largest
+normalisation defect $3.0\times10^{-39}$ (Ud, $n=180$), as in \S\ref{sec:i10}. \texttt{kb deps -{}-check}: no
+warning for any lattice card; every evidence token resolves.
+
+\paragraph{The five cards.}
+\begin{description}[leftmargin=1em,style=nextline]
+\item[lattice-vwz-protocol-ratios] All repairs present: $X=0.281(5)$ compared with $S(\log20)=0.29514$ (card
+ corner-kernel-closed-form, now in \texttt{related}), ``3.0 fit spreads (3.1 with REF-P6-6's spread 0.0044)'',
+ $X/S=0.953(15)$, the $O(\zeta_1)$ line, the 0-dof origin of $\pm0.005$ and the extrapolation distance 0.025; every
+ value flagged [0-dof] where only 0-dof fits are admissible; unnormalised ratio fits stated, normalised
+ $R_{31}=3.36(2)$ quoted; quoting rule applied (e.g.\ $3.66(3)$ [0-dof] \{3\}, $2.5787(4)$ \{2.56\}); single-method
+ label. Every quoted digit checked against my fits. \textbf{STANDS.}
+\item[lattice-protocol3-equals-theorem-a] My wording adopted verbatim; $Q_2=1.000(2),1.001(3),1.000(2)$ extrapolated
+ with raw stable digits \{0.9\}, \{0.998\}, \{1.000\} (checked: raw pairs $0.99217/0.98963$, $0.99860/0.99834$,
+ $1.00047/1.00066$); unrounded values kept; fit normalisation stated; precision sentence cites nrm.out.
+ \textbf{STANDS.}
+\item[lattice-lr-chains-cross-terms] Chordal range $0.707$--$0.870$ with the minimum's location (N4.out prints
+ min $=0.707208$); the four extrapolated chains separated from the single-resolution one (1.750, 1.119, 1.827, 1.102
+ ``not extrapolated''); 0-dof flags on the three 3-resolution chains; the cor:w6-second sentence replaced by the
+ factor 2.2--4.4 and ``tests no proved statement''; the chordal check labelled a consistency check. All values agree
+ with my re-fit (\S\ref{sec:i6}). \textbf{STANDS.}
+\item[lattice-general-rule-where-h-fails] New title (``agrees with the lattice to 0.1\% (quadratic table interpolation;
+ 1.4\% linear; table uncertainty 0.45\%)''); the Statement states the interpolation for every ratio, the 0.45--0.60\%
+ uncertainty of the large-$\zeta$ nodes 1.07, 2.13, 4.27 (the 0.60\% at 4.27 is the source's own relative
+ uncertainty, numerics/results\_largezeta\_certified.txt l.~71; $1.4\times10^{-4}$ there is rounded), the 1-dof fit
+ of Ud (and of the naive ratio: N5.out l.~42, 48) and the 0-dof control and U; U's excess ``an interpretation''.
+ \textbf{STANDS.} Cosmetic: ``(W2, conjectural)'' is stale since network-second-order-law became \texttt{proved} at
+ fixed configuration (2026-10-05 21:34); the reading of U stays an interpretation because its corners are strong
+ ($\zeta=1.45$), outside the $s\to0$ regime of the proved law.
+\item[lattice-vwz-bounds-equal-block-chains] New title (consistency check, $\le0.20$ at the finest sizes, $\le0.22$
+ at all sizes, both checked: 0.1983, 0.2190); (a) checks, (b) unproved observation, (c) results separated; chain rule
+ an identity check; equal-block values by the quoting rule, $4.392(5)\times10^{-3}$ \{4.4e-3\} \ldots\
+ $7.390(8)\times10^{-2}$ \{7.4e-2\}, consistent with my fits. \textbf{STANDS.}
+\end{description}
+
+\paragraph{corner-calculus.} G2 left its note unchanged. The missing qualifier (1.0012 uses the quadratic
+interpolation; 0.45\% table uncertainty) now stands in the title and Statement of lattice-general-rule-where-h-fails,
+which the note cites, and in my STANDS note on corner-calculus; that suffices, and re-opening corner-calculus for a
+qualifier of a note is not warranted.
+
+\paragraph{Report only: G2's new note on network-second-order-law} (2026-10-05 21:38). Accurate: the range
+correction ($\zeta_1\ge0.5$ for $X/S=0.64$--$0.80$; $0.896$, $0.844$ at $\zeta_1=0.222,0.353$) is right; the closed-form
+values $X/S=0.953(15),0.896,0.844,0.799,0.714,0.637$ and the line $0.9975-0.440\,\zeta_1$ match N3.out and my
+\S\ref{sec:i5}; ``change by at most 0.002'' against G3's interpolated values is right ($0.954\to0.953$,
+$0.898\to0.896$, $0.845\to0.844$); ``3.0 fit spreads'' uses G2's spread 0.0045.
+\begin{verdictok}
+Second pass: all five repaired cards STAND; every repair asked for in \S\ref{sec:i11} is applied, no number changed,
+and the regenerated outputs reproduce byte for byte.
+\end{verdictok}
+
+\end{document}

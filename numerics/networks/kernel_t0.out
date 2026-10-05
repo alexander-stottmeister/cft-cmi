@@ -1,0 +1,99 @@
+# kernel_t0.out -- written by numerics/networks/corner_kernel.py on 2026-10-03 17:10
+# K1, T0 frame (brief sec. 3); command: $PYTHON numerics/networks/corner_kernel.py K1 (background, ~30 min)
+# Mesh: uniform cells of width h on [-Y, Ymax] (f3_t0.mesh), node at y = 0; Y = 14 >= Delta + 6, Ymax = 20 >= Delta + 10
+# for every Delta <= 8 (the corner at Delta = 8 keeps 12 units of y on its D side); second Ymax = 24 at Delta = 0, 8.
+# Q = kkt_continuum.Qmat (exact Galerkin), delta_Delta = corner_kernel.t0_defect (f3_t0.ddot, ng = 10, graded cells at
+# the corner). Resolved: cell functions of width h on [-Y, Ymax]; cut off: sub-cell (UV) structure, y < -Y, y > Ymax.
+# Weight of the cut-off modes: 1 - G0/f2 for the diagonal (printed per h); for Delta > 0 it is not separable and is
+# removed by the extrapolation in h (kernel_t0_fits.out). |pol - bil| = polarisation identity check; 'translate check' =
+# max|delta_Delta[i+s, j+s] - delta_0[i, j]|/max|delta_0| on the overlap (s = Delta/h), i.e. delta_Delta IS the translate.
+# Ladders: dyadic h = 0.25 ... 0.015625 (all Delta are nodes); the brief's h = 0.24, 0.12, 0.06, 0.03 (Delta = 0, 3, 6).
+[A] dyadic ladder, Y = 14, Ymax = 20, all Delta
+  h = 0.250000  mesh [-14.000, 20.000]  N = 136  eig(Q) in [4.53e-03, 0.995468]  G0/f2 = 0.9141364  (cut-off weight of the diagonal: 1 - G0/f2 = 8.59e-02)
+     Delta = 0.0  R_h = G/G0 = +1.00000000  G/f2 = +0.91413641  |pol - bil|/G0 = 0.0e+00  translate check 1.8e-16  0s
+     Delta = 0.5  R_h = G/G0 = +0.89604889  G/f2 = +0.81911091  |pol - bil|/G0 = 0.0e+00  translate check 1.8e-16  0s
+     Delta = 1.0  R_h = G/G0 = +0.73936836  G/f2 = +0.67588354  |pol - bil|/G0 = 1.1e-16  translate check 1.8e-16  1s
+     Delta = 1.5  R_h = G/G0 = +0.59186773  G/f2 = +0.54104784  |pol - bil|/G0 = 2.2e-16  translate check 1.8e-16  1s
+     Delta = 2.0  R_h = G/G0 = +0.46684686  G/f2 = +0.42676171  |pol - bil|/G0 = 0.0e+00  translate check 1.8e-16  1s
+     Delta = 3.0  R_h = G/G0 = +0.28467249  G/f2 = +0.26022949  |pol - bil|/G0 = 0.0e+00  translate check 1.8e-16  1s
+     Delta = 4.0  R_h = G/G0 = +0.17176779  G/f2 = +0.15701919  |pol - bil|/G0 = 1.1e-16  translate check 1.8e-16  1s
+     Delta = 5.0  R_h = G/G0 = +0.10332481  G/f2 = +0.09445297  |pol - bil|/G0 = 4.2e-17  translate check 1.8e-16  1s
+     Delta = 6.0  R_h = G/G0 = +0.06211714  G/f2 = +0.05678354  |pol - bil|/G0 = 5.6e-17  translate check 0.0e+00  2s
+     Delta = 8.0  R_h = G/G0 = +0.02246983  G/f2 = +0.02054049  |pol - bil|/G0 = 5.3e-17  translate check 1.8e-16  2s
+  h = 0.125000  mesh [-14.000, 20.000]  N = 272  eig(Q) in [1.48e-03, 0.998519]  G0/f2 = 0.9582943  (cut-off weight of the diagonal: 1 - G0/f2 = 4.17e-02)
+     Delta = 0.0  R_h = G/G0 = +1.00000000  G/f2 = +0.95829428  |pol - bil|/G0 = 0.0e+00  translate check 6.7e-17  1s
+     Delta = 0.5  R_h = G/G0 = +0.89695474  G/f2 = +0.85954659  |pol - bil|/G0 = 1.1e-16  translate check 3.6e-16  2s
+     Delta = 1.0  R_h = G/G0 = +0.74197080  G/f2 = +0.71102637  |pol - bil|/G0 = 1.1e-16  translate check 2.7e-16  2s
+     Delta = 1.5  R_h = G/G0 = +0.59565014  G/f2 = +0.57080812  |pol - bil|/G0 = 2.1e-16  translate check 3.6e-16  2s
+     Delta = 2.0  R_h = G/G0 = +0.47119475  G/f2 = +0.45154323  |pol - bil|/G0 = 0.0e+00  translate check 0.0e+00  3s
+     Delta = 3.0  R_h = G/G0 = +0.28892754  G/f2 = +0.27687760  |pol - bil|/G0 = 5.4e-17  translate check 2.7e-16  4s
+     Delta = 4.0  R_h = G/G0 = +0.17522569  G/f2 = +0.16791778  |pol - bil|/G0 = 5.4e-17  translate check 0.0e+00  4s
+     Delta = 5.0  R_h = G/G0 = +0.10589270  G/f2 = +0.10147637  |pol - bil|/G0 = 8.0e-17  translate check 2.7e-16  4s
+     Delta = 6.0  R_h = G/G0 = +0.06392859  G/f2 = +0.06126241  |pol - bil|/G0 = 4.0e-17  translate check 3.6e-16  5s
+     Delta = 8.0  R_h = G/G0 = +0.02329629  G/f2 = +0.02232470  |pol - bil|/G0 = 1.1e-16  translate check 2.7e-16  5s
+  h = 0.062500  mesh [-14.000, 20.000]  N = 544  eig(Q) in [4.71e-04, 0.999529]  G0/f2 = 0.9809445  (cut-off weight of the diagonal: 1 - G0/f2 = 1.91e-02)
+     Delta = 0.0  R_h = G/G0 = +1.00000000  G/f2 = +0.98094448  |pol - bil|/G0 = 0.0e+00  translate check 2.2e-17  4s
+     Delta = 0.5  R_h = G/G0 = +0.89757818  G/f2 = +0.88047436  |pol - bil|/G0 = 1.0e-16  translate check 2.6e-16  6s
+     Delta = 1.0  R_h = G/G0 = +0.74367397  G/f2 = +0.72950287  |pol - bil|/G0 = 1.0e-16  translate check 2.6e-16  7s
+     Delta = 1.5  R_h = G/G0 = +0.59807093  G/f2 = +0.58667438  |pol - bil|/G0 = 1.0e-16  translate check 2.6e-16  9s
+     Delta = 2.0  R_h = G/G0 = +0.47394972  G/f2 = +0.46491836  |pol - bil|/G0 = 0.0e+00  translate check 2.6e-16  11s
+     Delta = 3.0  R_h = G/G0 = +0.29160657  G/f2 = +0.28604986  |pol - bil|/G0 = 5.2e-17  translate check 1.8e-16  13s
+     Delta = 4.0  R_h = G/G0 = +0.17740387  G/f2 = +0.17402335  |pol - bil|/G0 = 5.2e-17  translate check 1.8e-16  15s
+     Delta = 5.0  R_h = G/G0 = +0.10751505  G/f2 = +0.10546630  |pol - bil|/G0 = 5.2e-17  translate check 2.6e-16  16s
+     Delta = 6.0  R_h = G/G0 = +0.06507760  G/f2 = +0.06383752  |pol - bil|/G0 = 2.6e-17  translate check 2.6e-16  18s
+     Delta = 8.0  R_h = G/G0 = +0.02382521  G/f2 = +0.02337121  |pol - bil|/G0 = 5.9e-17  translate check 2.6e-16  20s
+  h = 0.031250  mesh [-14.000, 20.000]  N = 1088  eig(Q) in [1.47e-04, 0.999853]  G0/f2 = 0.9917130  (cut-off weight of the diagonal: 1 - G0/f2 = 8.29e-03)
+     Delta = 0.0  R_h = G/G0 = +1.00000000  G/f2 = +0.99171297  |pol - bil|/G0 = 0.0e+00  translate check 3.5e-16  17s
+     Delta = 0.5  R_h = G/G0 = +0.89797598  G/f2 = +0.89053443  |pol - bil|/G0 = 1.0e-16  translate check 2.6e-16  23s
+     Delta = 1.0  R_h = G/G0 = +0.74466703  G/f2 = +0.73849596  |pol - bil|/G0 = 0.0e+00  translate check 2.6e-16  30s
+     Delta = 1.5  R_h = G/G0 = +0.59945051  G/f2 = +0.59448285  |pol - bil|/G0 = 1.0e-16  translate check 2.6e-16  37s
+     Delta = 2.0  R_h = G/G0 = +0.47550623  G/f2 = +0.47156570  |pol - bil|/G0 = 1.0e-16  translate check 2.6e-16  44s
+     Delta = 3.0  R_h = G/G0 = +0.29311353  G/f2 = +0.29068449  |pol - bil|/G0 = 1.0e-16  translate check 3.5e-16  51s
+     Delta = 4.0  R_h = G/G0 = +0.17863065  G/f2 = +0.17715033  |pol - bil|/G0 = 5.2e-17  translate check 2.6e-16  58s
+     Delta = 5.0  R_h = G/G0 = +0.10843161  G/f2 = +0.10753303  |pol - bil|/G0 = 2.6e-17  translate check 2.6e-16  65s
+     Delta = 6.0  R_h = G/G0 = +0.06572917  G/f2 = +0.06518447  |pol - bil|/G0 = 1.3e-17  translate check 2.6e-16  72s
+     Delta = 8.0  R_h = G/G0 = +0.02412751  G/f2 = +0.02392756  |pol - bil|/G0 = 1.3e-17  translate check 2.6e-16  78s
+  h = 0.015625  mesh [-14.000, 20.000]  N = 2176  eig(Q) in [4.48e-05, 0.999955]  G0/f2 = 0.9965446  (cut-off weight of the diagonal: 1 - G0/f2 = 3.46e-03)
+     Delta = 0.0  R_h = G/G0 = +1.00000000  G/f2 = +0.99654463  |pol - bil|/G0 = 0.0e+00  translate check 3.5e-16  91s
+     Delta = 0.5  R_h = G/G0 = +0.89819546  G/f2 = +0.89509186  |pol - bil|/G0 = 1.0e-16  translate check 3.5e-16  120s
+     Delta = 1.0  R_h = G/G0 = +0.74518416  G/f2 = +0.74260927  |pol - bil|/G0 = 2.1e-16  translate check 3.5e-16  149s
+     Delta = 1.5  R_h = G/G0 = +0.60015937  G/f2 = +0.59808560  |pol - bil|/G0 = 0.0e+00  translate check 3.5e-16  179s
+     Delta = 2.0  R_h = G/G0 = +0.47630260  G/f2 = +0.47465680  |pol - bil|/G0 = 0.0e+00  translate check 3.5e-16  210s
+     Delta = 3.0  R_h = G/G0 = +0.29388410  G/f2 = +0.29286862  |pol - bil|/G0 = 5.2e-17  translate check 3.5e-16  249s
+     Delta = 4.0  R_h = G/G0 = +0.17925964  G/f2 = +0.17864023  |pol - bil|/G0 = 0.0e+00  translate check 3.5e-16  284s
+     Delta = 5.0  R_h = G/G0 = +0.10890321  G/f2 = +0.10852691  |pol - bil|/G0 = 2.6e-17  translate check 3.5e-16  322s
+     Delta = 6.0  R_h = G/G0 = +0.06606568  G/f2 = +0.06583740  |pol - bil|/G0 = 5.2e-17  translate check 3.5e-16  351s
+     Delta = 8.0  R_h = G/G0 = +0.02428478  G/f2 = +0.02420087  |pol - bil|/G0 = 3.2e-18  translate check 3.5e-16  380s
+[B] the brief's ladder, Y = 14, Ymax = 20, Delta = 0, 3, 6
+  h = 0.240000  mesh [-13.920, 19.920]  N = 141  eig(Q) in [4.25e-03, 0.995751]  G0/f2 = 0.9175452  (cut-off weight of the diagonal: 1 - G0/f2 = 8.25e-02)
+     Delta = 0.0  R_h = G/G0 = +1.00000000  G/f2 = +0.91754518  |pol - bil|/G0 = 0.0e+00  translate check 4.8e-17  0s
+     Delta = 6.0  R_h = G/G0 = +0.06224384  G/f2 = +0.05711154  |pol - bil|/G0 = 1.4e-17  translate check 2.4e-15  1s
+  h = 0.120000  mesh [-14.040, 20.040]  N = 284  eig(Q) in [1.38e-03, 0.998615]  G0/f2 = 0.9601129  (cut-off weight of the diagonal: 1 - G0/f2 = 3.99e-02)
+     Delta = 0.0  R_h = G/G0 = +1.00000000  G/f2 = +0.96011293  |pol - bil|/G0 = 0.0e+00  translate check 3.7e-16  1s
+     Delta = 3.0  R_h = G/G0 = +0.28912576  G/f2 = +0.27759338  |pol - bil|/G0 = 5.3e-17  translate check 3.5e-15  2s
+     Delta = 6.0  R_h = G/G0 = +0.06401337  G/f2 = +0.06146007  |pol - bil|/G0 = 5.3e-17  translate check 5.3e-15  2s
+  h = 0.060000  mesh [-13.980, 19.980]  N = 566  eig(Q) in [4.40e-04, 0.999560]  G0/f2 = 0.9818331  (cut-off weight of the diagonal: 1 - G0/f2 = 1.82e-02)
+     Delta = 0.0  R_h = G/G0 = +1.00000000  G/f2 = +0.98183306  |pol - bil|/G0 = 0.0e+00  translate check 4.6e-17  4s
+     Delta = 3.0  R_h = G/G0 = +0.29172331  G/f2 = +0.28642359  |pol - bil|/G0 = 0.0e+00  translate check 5.5e-15  7s
+     Delta = 6.0  R_h = G/G0 = +0.06512788  G/f2 = +0.06394471  |pol - bil|/G0 = 5.2e-17  translate check 8.6e-15  9s
+  h = 0.030000  mesh [-14.010, 20.010]  N = 1134  eig(Q) in [1.37e-04, 0.999863]  G0/f2 = 0.9921204  (cut-off weight of the diagonal: 1 - G0/f2 = 7.88e-03)
+     Delta = 0.0  R_h = G/G0 = +1.00000000  G/f2 = +0.99212038  |pol - bil|/G0 = 0.0e+00  translate check 3.7e-16  20s
+     Delta = 3.0  R_h = G/G0 = +0.29317545  G/f2 = +0.29086534  |pol - bil|/G0 = 0.0e+00  translate check 1.1e-14  28s
+     Delta = 6.0  R_h = G/G0 = +0.06575609  G/f2 = +0.06523796  |pol - bil|/G0 = 0.0e+00  translate check 2.1e-14  36s
+[C] dyadic ladder, Y = 14, Ymax = 24, Delta = 0, 8
+  h = 0.250000  mesh [-14.000, 24.000]  N = 152  eig(Q) in [4.49e-03, 0.995508]  G0/f2 = 0.9141364  (cut-off weight of the diagonal: 1 - G0/f2 = 8.59e-02)
+     Delta = 0.0  R_h = G/G0 = +1.00000000  G/f2 = +0.91413641  |pol - bil|/G0 = 2.2e-16  translate check 1.8e-16  0s
+     Delta = 8.0  R_h = G/G0 = +0.02247010  G/f2 = +0.02054074  |pol - bil|/G0 = 1.1e-16  translate check 1.8e-16  1s
+  h = 0.125000  mesh [-14.000, 24.000]  N = 304  eig(Q) in [1.47e-03, 0.998531]  G0/f2 = 0.9582943  (cut-off weight of the diagonal: 1 - G0/f2 = 4.17e-02)
+     Delta = 0.0  R_h = G/G0 = +1.00000000  G/f2 = +0.95829428  |pol - bil|/G0 = 0.0e+00  translate check 3.6e-16  1s
+     Delta = 8.0  R_h = G/G0 = +0.02329654  G/f2 = +0.02232494  |pol - bil|/G0 = 3.0e-17  translate check 3.4e-17  2s
+  h = 0.062500  mesh [-14.000, 24.000]  N = 608  eig(Q) in [4.68e-04, 0.999532]  G0/f2 = 0.9809445  (cut-off weight of the diagonal: 1 - G0/f2 = 1.91e-02)
+     Delta = 0.0  R_h = G/G0 = +1.00000000  G/f2 = +0.98094449  |pol - bil|/G0 = 2.1e-16  translate check 2.6e-16  5s
+     Delta = 8.0  R_h = G/G0 = +0.02382545  G/f2 = +0.02337144  |pol - bil|/G0 = 6.5e-17  translate check 2.6e-16  7s
+  h = 0.031250  mesh [-14.000, 24.000]  N = 1216  eig(Q) in [1.46e-04, 0.999854]  G0/f2 = 0.9917130  (cut-off weight of the diagonal: 1 - G0/f2 = 8.29e-03)
+     Delta = 0.0  R_h = G/G0 = +1.00000000  G/f2 = +0.99171297  |pol - bil|/G0 = 0.0e+00  translate check 3.5e-16  25s
+     Delta = 8.0  R_h = G/G0 = +0.02412774  G/f2 = +0.02392779  |pol - bil|/G0 = 1.0e-16  translate check 3.5e-16  39s
+  h = 0.015625  mesh [-14.000, 24.000]  N = 2432  eig(Q) in [4.45e-05, 0.999955]  G0/f2 = 0.9965446  (cut-off weight of the diagonal: 1 - G0/f2 = 3.46e-03)
+     Delta = 0.0  R_h = G/G0 = +1.00000000  G/f2 = +0.99654463  |pol - bil|/G0 = 0.0e+00  translate check 2.6e-16  132s
+     Delta = 8.0  R_h = G/G0 = +0.02428501  G/f2 = +0.02420110  |pol - bil|/G0 = 2.3e-17  translate check 2.6e-16  168s
+saved numerics/networks/kernel_t0.npz

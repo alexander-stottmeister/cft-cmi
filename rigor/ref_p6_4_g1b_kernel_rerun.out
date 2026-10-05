@@ -1,0 +1,69 @@
+# g1b_kernel.out -- produced by rigor/g1b_kernel.py (see its docstring for methods, tolerances, truncations)
+# tolerances fixed before the run: TOL_Q=1e-08 (rel. to Ghat(0)), TOL_S=1e-12, TOL_K=1e-06
+## V1 validation of the integrators on exactly known integrals (QL lem:U; Lemma lorentz)
+V1a int tanh(u/2)/(u(u^2+4pi^2)) - 1/pi^2      = -1.23e-32
+V1b int tanh(u/4)/(u(u^2+4pi^2)) - log2/pi^2   = 0.0
+V1c int cos(3k)/(k^2+1/4) - 2 pi e^(-3/2) (A)  = 0.0
+V1d same by QAWF (B)                          = 9.365e-12
+## V2 exact case Ghat(0)/f2 = 1 (T4(b))
+V2 A: Ghat(0)/f2 - 1 at dps 20,30,40 = -4.72e-22, -9.86e-32, -9.86e-32
+V2 B: Ghat(0)/f2 - 1                = -9.826e-10
+V2 C,S: closed form/f2 - 1 = -9.86e-32, series/f2 - 1 = -9.86e-32
+## K kernel identity spot check: direct quadrature of the transform of ddot vs T4(c)
+K p=+0.30 p'=-0.20  direct=+0.0164661947+0.00e+00i  formula=+0.0164661947  |dev|=3.47e-18
+K p=+1.00 p'=+0.50  direct=+0.0151107574+0.00e+00i  formula=+0.0151107574  |dev|=8.80e-16
+K p=-0.70 p'=+0.40  direct=-0.0179303166+0.00e+00i  formula=-0.0179303166  |dev|=6.94e-17
+K p=+0.25 p'=+0.25  direct=+0.0712417455+0.00e+00i  formula=+0.0712417455  |dev|=2.78e-17
+K p=+0.10 p'=+1.30  direct=+0.0264525416+0.00e+00i  formula=+0.0264525416  |dev|=9.37e-17
+K max |dev| = 8.80e-16  (tol 1e-06) -> PASS
+## L first-order defect of the composite = sum of translated single-corner defects (Lemma lem:Dtot)
+L corners (q,zeta) = [(0.0, 0.7), (0.698806, 1.3)]: max rel. dev = 3.7e-18
+L   y=-1.0 y'=+0.5  composite=      0.13626724276501  sum of translates=      0.13626724276501  rel=1.4e-39
+L   y=+0.5 y'=-1.0  composite=     -0.13626724276501  sum of translates=     -0.13626724276501  rel=1.4e-39
+L   y=+0.4 y'=+2.0  composite=      0.27808260547638  sum of translates=      0.27808260547638  rel=1.5e-38
+L   y=-0.5 y'=+3.0  composite=       0.2122193395663  sum of translates=       0.2122193395663  rel=1.2e-37
+L   y=+2.5 y'=-0.3  composite=      -0.2519504963663  sum of translates=      -0.2519504963663  rel=6.7e-38
+L   y=+0.3 y'=+0.9  composite=  -3.6998684624212e-48  sum of translates=                   0.0  rel=3.7e-18
+L   y=-3.0 y'=-1.5  composite=                   0.0  sum of translates=                   0.0  rel=0.0
+L   y=+1.0 y'=+4.0  composite=     0.054693701708614  sum of translates=     0.054693701708614  rel=1.6e-39
+L corners (q,zeta) = [(-2.0, 0.4), (0.3, 1.1), (0.917915, 0.9)]: max rel. dev = 2.61e-18
+L   y=-1.0 y'=+0.5  composite=     0.085355943383676  sum of translates=     0.085355943383676  rel=3.5e-40
+L   y=+0.5 y'=-1.0  composite=    -0.085355943383676  sum of translates=    -0.085355943383676  rel=3.5e-40
+L   y=+0.4 y'=+2.0  composite=   2.6084511870801e-48  sum of translates=                   0.0  rel=2.6e-18
+L   y=-0.5 y'=+3.0  composite=      0.17080409211267  sum of translates=      0.17080409211267  rel=4.1e-38
+L   y=+2.5 y'=-0.3  composite=     -0.13068775948466  sum of translates=     -0.13068775948466  rel=1.5e-38
+L   y=+0.3 y'=+0.9  composite=     0.092456606735258  sum of translates=     0.092456606735258  rel=2.2e-41
+L   y=-3.0 y'=-1.5  composite=                   0.0  sum of translates=                   0.0  rel=0.0
+L   y=+1.0 y'=+4.0  composite=       0.1342318068633  sum of translates=       0.1342318068633  rel=2.3e-38
+L max relative deviation = 3.7e-18 (tol 1e-10; zero-blocks compared absolutely) -> PASS
+## P1 production: Ghat(D)/Ghat(0) by A (dps 30, 40), B, C, S
+#   D     A(dps40)              A40-A30     B-C        A40-C      S-C
+  0.5     0.898386580099973    1.2e-32    2.3e-14    1.2e-32    0.0e+00
+  1.0     0.745615141121157    1.9e-32    2.3e-14    7.2e-32    1.8e-31
+  1.5     0.600745363582704    3.5e-32    2.3e-14    1.5e-31    9.1e-32
+  2.0     0.476960337995355    1.1e-32    2.3e-14    8.1e-32    9.1e-32
+  3.0     0.294523053439204    4.5e-33    2.2e-14    4.1e-32    4.6e-32
+  4.0     0.179784303566026    1.1e-32    2.1e-14    7.4e-31    7.5e-31
+  5.0     0.109299033378915    7.7e-33    2.0e-14    1.6e-30    1.6e-30
+  6.0    0.0663498368796676    8.5e-31    1.9e-14    1.4e-30    1.4e-30
+  8.0    0.0244192133164891    1.6e-33    1.5e-14    7.0e-32    6.8e-32
+P1 max|A-B|/Ghat(0) = 2.31e-14, max|A-C| = 1.63e-30, max|B-C| = 2.31e-14  (tol 1e-08) -> PASS;  max|S-C| = 1.64e-30 (tol 1e-12) -> PASS
+## D1 decay: T4(d) bounds and the rate
+D1 D=  0.0  9pi^2 e^(D/2) Ghat =             0.75   (|.-1| = 0.25 <= x^2/4 = 0.25)  bounds ok
+D1 D=  0.1  9pi^2 e^(D/2) Ghat =   0.782161348776   (|.-1| = 0.218 <= x^2/4 = 0.226)  bounds ok
+D1 D=  0.5  9pi^2 e^(D/2) Ghat =   0.865163402145   (|.-1| = 0.135 <= x^2/4 = 0.152)  bounds ok
+D1 D=  1.0  9pi^2 e^(D/2) Ghat =   0.921983657192   (|.-1| = 0.078 <= x^2/4 = 0.092)  bounds ok
+D1 D=  1.5  9pi^2 e^(D/2) Ghat =   0.953833458513   (|.-1| = 0.0462 <= x^2/4 = 0.0558)  bounds ok
+D1 D=  2.0  9pi^2 e^(D/2) Ghat =   0.972384464751   (|.-1| = 0.0276 <= x^2/4 = 0.0338)  bounds ok
+D1 D=  3.0  9pi^2 e^(D/2) Ghat =   0.989970562171   (|.-1| = 0.01 <= x^2/4 = 0.0124)  bounds ok
+D1 D=  4.0  9pi^2 e^(D/2) Ghat =   0.996327228567   (|.-1| = 0.00367 <= x^2/4 = 0.00458)  bounds ok
+D1 D=  5.0  9pi^2 e^(D/2) Ghat =   0.998651110537   (|.-1| = 0.00135 <= x^2/4 = 0.00168)  bounds ok
+D1 D=  6.0  9pi^2 e^(D/2) Ghat =   0.999504073871   (|.-1| = 0.000496 <= x^2/4 = 0.00062)  bounds ok
+D1 D=  8.0  9pi^2 e^(D/2) Ghat =   0.999932904259   (|.-1| = 6.71e-5 <= x^2/4 = 8.39e-5)  bounds ok
+D1 D= 12.0  9pi^2 e^(D/2) Ghat =   0.999998771156   (|.-1| = 1.23e-6 <= x^2/4 = 1.54e-6)  bounds ok
+D1 D= 16.0  9pi^2 e^(D/2) Ghat =   0.999999977493   (|.-1| = 2.25e-8 <= x^2/4 = 2.81e-8)  bounds ok
+D1 D= 24.0  9pi^2 e^(D/2) Ghat =   0.999999999992   (|.-1| = 7.55e-12 <= x^2/4 = 9.44e-12)  bounds ok
+D1 bound violations: 0
+D2 least-squares fit log Ghat = log A - alpha D on D in {4,5,6,8}: alpha = 0.499180, A*9pi^2 = 0.993905;  T4(d): alpha = 1/2 exactly, A*9pi^2 -> 1, fit bias from the e^(-3D/2) term predicted <= 4.6e-03 in the log
+## summary
+SUMMARY Ghat(0)/f2 = 1 (A,B,C,S); two quadrature rules (A: mpmath quadosc; B: QUADPACK QAGS+QAWF) agree with the closed form to max 2.3e-14 relative to Ghat(0); kernel identity spot check max 8.8e-16

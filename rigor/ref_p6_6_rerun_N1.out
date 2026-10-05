@@ -1,0 +1,47 @@
+# N1 -- numerics/networks/lattice_chain.py N1 (run from the repository root cft_cmi/).
+# Discretisation: the lattice model itself, computed exactly in Gaussian form (every one-particle mode of
+# every block kept; no truncation, no taper, flint ball arithmetic at bits_for(n)+200); the lattice
+# spacing is the only regulator, and its effect is the resolution dependence measured below (no
+# regulator-free discretisation exists for a lattice model; continuum statements are compared after
+# extrapolation in n).  Raw data (one line per run, with the normalisation defect nrm):
+#   numerics/networks/vwz_A.raw     <- $PYTHON numerics/networks/lattice_chain.py sweep e015
+#   numerics/networks/vwz_B.raw     <- $PYTHON numerics/networks/lattice_chain.py sweep e005,e010
+#   numerics/networks/vwz_C.raw     <- $PYTHON numerics/networks/lattice_chain.py sweep e020,e030,e040,m010,m020,m030
+#   numerics/networks/vwz_G.raw     <- $PYTHON numerics/networks/lattice_chain.py sweep m020x,e030x,m010x,m030x
+#   numerics/networks/chains_D.raw  <- $PYTHON numerics/networks/lattice_chain.py chains sw,eq3,eq4,eq5,eq6,n4r2
+#   numerics/networks/chains_E.raw  <- $PYTHON numerics/networks/lattice_chain.py chains ref
+#   numerics/networks/chains_F.raw  <- $PYTHON numerics/networks/lattice_chain.py chains n5r2,n4r3,n6r2,n5r3
+#   numerics/networks/chains_H.raw  <- $PYTHON numerics/networks/lattice_chain.py chains eq3x,n4r2x
+#   numerics/networks/chains_I.raw  <- $PYTHON numerics/networks/lattice_chain.py chains n6r2x
+# Fit rules: NFIT = 4 finest resolutions, TOL_FIT = 1e-04 (fixed before the runs); see NETWORK_RESULTS.md.
+# N1: r_1 = Phi^(1B)/Phi^(1A) (ordinary Petz, Phi = -log F, two chiralities), VWZ symmetric setup
+# L_A = L_D = a m, L_B = L_C = b m sites, eta = a/(a+2b); prop:1B1A predicts r_1 = 1 for all sizes.
+# On the lattice 1(B) = 1(A) is an operator identity (rho_BC^-a rho_BC^a = 1 between the steps), so
+# r_1 - 1 measures only rounding; criterion (brief N1): extrapolated r_1 - 1 within the fit spread of 0.
+
+e010 eta=0.1000 (a,b)=(2,9)x m, m=[1, 2, 3, 4], n=[22, 44, 66, 88]
+  r_1 - 1 (-log F):  0.0e+00 0.0e+00 0.0e+00 0.0e+00
+  r_D - 1 (rel. ent.): 0.0e+00 0.0e+00 0.0e+00 0.0e+00
+  r_1                                n=[22, 44, 66, 88]
+    values: 1.0000000000 1.0000000000 1.0000000000 1.0000000000
+    stable digits (two finest): 1.0000000000
+    fits: 1/L: 1.000000 res=0.0e+00 ADM dof=2 ; logL: -- res=1.1e-16 ADM dof=2 b=-2.857e-17; 1/L,1/L^2: 1.000000 res=1.1e-16 ADM dof=1 ; h^p: 1.000000 res=0.0e+00 ADM dof=1 p=0.20  [logL also admissible: divergence not excluded]
+    => extrapolated 1.000000 +- 1.1e-16 (spread of admissible fits)
+
+e020 eta=0.2000 (a,b)=(1,2)x m, m=[2, 3, 4, 6, 8, 10, 12], n=[12, 18, 24, 36, 48, 60, 72]
+  r_1 - 1 (-log F):  0.0e+00 0.0e+00 0.0e+00 0.0e+00 0.0e+00 0.0e+00 0.0e+00
+  r_D - 1 (rel. ent.): 0.0e+00 0.0e+00 0.0e+00 0.0e+00 0.0e+00 0.0e+00 0.0e+00
+  r_1                                n=[12, 18, 24, 36, 48, 60, 72]
+    values: 1.0000000000 1.0000000000 1.0000000000 1.0000000000 1.0000000000 1.0000000000 1.0000000000
+    stable digits (two finest): 1.0000000000
+    fits: 1/L: 1.000000 res=6.7e-16 ADM dof=2 ; logL: -- res=2.2e-16 ADM dof=2 b=-5.612e-17; 1/L,1/L^2: 1.000000 res=2.2e-16 ADM dof=1 ; h^p: 1.000000 res=0.0e+00 ADM dof=1 p=0.21  [logL also admissible: divergence not excluded]
+    => extrapolated 1.000000 +- 8.9e-16 (spread of admissible fits)
+
+e030 eta=0.3000 (a,b)=(6,7)x m, m=[1, 2, 3, 4], n=[26, 52, 78, 104]
+  r_1 - 1 (-log F):  0.0e+00 0.0e+00 0.0e+00 0.0e+00
+  r_D - 1 (rel. ent.): 0.0e+00 0.0e+00 0.0e+00 0.0e+00
+  r_1                                n=[26, 52, 78, 104]
+    values: 1.0000000000 1.0000000000 1.0000000000 1.0000000000
+    stable digits (two finest): 1.0000000000
+    fits: 1/L: 1.000000 res=0.0e+00 ADM dof=2 ; logL: -- res=0.0e+00 ADM dof=2 b=0.000e+00; 1/L,1/L^2: 1.000000 res=4.4e-16 ADM dof=1 ; h^p: 1.000000 res=0.0e+00 ADM dof=1 p=0.27  [logL also admissible: divergence not excluded]
+    => extrapolated 1.000000 +- 4.4e-16 (spread of admissible fits)

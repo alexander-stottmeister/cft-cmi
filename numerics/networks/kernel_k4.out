@@ -1,0 +1,27 @@
+# kernel_k4.out -- written by numerics/networks/corner_kernel.py on 2026-10-03 17:51
+# K4, finite zeta, two corners; command: $PYTHON numerics/networks/corner_kernel.py K4 (background)
+# Box frame, I = (-1, 2), corners at x = 0 and p'(Delta) (KERNEL_RESULTS.md (C3)), zeta1 = zeta2 = zeta: sigma1 = zeta (a+L)/(a L),
+# sigma2 = zeta (a+L)/((a+p')(L-p')). D = EXACT composite kernel of Phi = k1 o k2 (corner_kernel.box_composite); Phi_A(zeta_i)
+# = the same code path with the other sigma = 0 (same box, modes and nodes: discretisation errors common to Phi_2 and Phi_A
+# cancel at first order). compression_box.fid_relent is NOT used: in double precision it returns -log F < 0 for exact kernels
+# at (60,30) (also numerics/results_batch3.txt:1-7); instead the Theorem A pipeline's method (numerics/fidelity_hp.py):
+# sub-compression onto the eigenvectors of Q_box with eigenvalue in [eps, 1-eps] (a compression, so -log F_eps <= -log F),
+# 30-digit mpmath fidelity (corner_kernel.logF_window). G_eps(Delta) = the 'first'-kernel bilinear form in the SAME window.
+# rem = Phi_2 - Phi_A1 - Phi_A2 - 2 zeta^2 G_eps(Delta). Resolved: box modes with |kappa| <~ kappa_c = log((1-eps)/eps)
+# (18.4 for eps = 1e-8, 25.3 for 1e-11) inside |kappa| <= kappa_max; cut off: the rest (tail of the diagonal ~ zeta^2/
+# (15 kappa_c^2), numerics/fidelity_hp.py), common to all three Phi's.
+(60, 30): N = 91, kappa_max_eff = 29.61
+   code check: box_composite(sigma2 = 0) vs box_corner exact 5.2e-13; (sigma1 = 0) vs box_corner exact at p'(2) 5.2e-13
+   window eps = 1e-08: 61 of 91 modes, G_eps(0)/f2 = 0.976711
+   eps 1e-08 Delta = 1.0 zeta = 0.05: Phi_2 = 6.7897851494e-05 Phi_A1 = 1.9618792226e-05 Phi_A2 = 1.9620460994e-05 2zeta^2 G = 3.171061e-05 rem = -3.0520e-06 rem/zeta^3 = -0.024416 rem/(2zeta^2 G) = -9.625e-02 Phi_A1/zeta^2/G(0) - 1 = -4.842e-02  44s
+   eps 1e-08 Delta = 1.0 zeta = 0.10: Phi_2 = 2.5381604110e-04 Phi_A1 = 7.4809823015e-05 Phi_A2 = 7.4816432535e-05 2zeta^2 G = 1.268424e-04 rem = -2.2653e-05 rem/zeta^3 = -0.022653 rem/(2zeta^2 G) = -1.786e-01 Phi_A1/zeta^2/G(0) - 1 = -9.286e-02  88s
+   eps 1e-08 Delta = 1.0 zeta = 0.20: Phi_2 = 8.9587742127e-04 Phi_A1 = 2.7325268487e-04 Phi_A2 = 2.7327865592e-04 2zeta^2 G = 5.073698e-04 rem = -1.5802e-04 rem/zeta^3 = -0.019753 rem/(2zeta^2 G) = -3.115e-01 Phi_A1/zeta^2/G(0) - 1 = -1.716e-01  132s
+   eps 1e-08 Delta = 2.0 zeta = 0.05: Phi_2 = 5.7588635975e-05 Phi_A1 = 1.9618792226e-05 Phi_A2 = 1.9621448682e-05 2zeta^2 G = 2.005483e-05 rem = -1.7064e-06 rem/zeta^3 = -0.013651 rem/(2zeta^2 G) = -8.509e-02 Phi_A1/zeta^2/G(0) - 1 = -4.842e-02  43s
+   eps 1e-08 Delta = 2.0 zeta = 0.10: Phi_2 = 2.1707298561e-04 Phi_A1 = 7.4809823015e-05 Phi_A2 = 7.4820345560e-05 2zeta^2 G = 8.021930e-05 rem = -1.2776e-05 rem/zeta^3 = -0.012776 rem/(2zeta^2 G) = -1.593e-01 Phi_A1/zeta^2/G(0) - 1 = -9.286e-02  87s
+   eps 1e-08 Delta = 2.0 zeta = 0.20: Phi_2 = 7.7697485319e-04 Phi_A1 = 2.7325268487e-04 Phi_A2 = 2.7329403873e-04 2zeta^2 G = 3.208772e-04 rem = -9.0449e-05 rem/zeta^3 = -0.011306 rem/(2zeta^2 G) = -2.819e-01 Phi_A1/zeta^2/G(0) - 1 = -1.716e-01  132s
+   eps 1e-08 Delta = 4.0 zeta = 0.05: Phi_2 = 4.6237001125e-05 Phi_A1 = 1.9618792226e-05 Phi_A2 = 1.9619249364e-05 2zeta^2 G = 7.568068e-06 rem = -5.6911e-07 rem/zeta^3 = -0.004553 rem/(2zeta^2 G) = -7.520e-02 Phi_A1/zeta^2/G(0) - 1 = -4.842e-02  44s
+   eps 1e-08 Delta = 4.0 zeta = 0.10: Phi_2 = 1.7560073623e-04 Phi_A1 = 7.4809823015e-05 Phi_A2 = 7.4811632532e-05 2zeta^2 G = 3.027227e-05 rem = -4.2930e-06 rem/zeta^3 = -0.004293 rem/(2zeta^2 G) = -1.418e-01 Phi_A1/zeta^2/G(0) - 1 = -9.286e-02  87s
+   eps 1e-08 Delta = 4.0 zeta = 0.20: Phi_2 = 6.3681800801e-04 Phi_A1 = 2.7325268487e-04 Phi_A2 = 2.7325978911e-04 2zeta^2 G = 1.210891e-04 rem = -3.0784e-05 rem/zeta^3 = -0.003848 rem/(2zeta^2 G) = -2.542e-01 Phi_A1/zeta^2/G(0) - 1 = -1.716e-01  130s
+   eps 1e-08 Delta = 8.0 zeta = 0.05: Phi_2 = 4.0194815463e-05 Phi_A1 = 1.9618792226e-05 Phi_A2 = 1.9620509265e-05 2zeta^2 G = 1.028309e-06 rem = -7.2795e-08 rem/zeta^3 = -0.000582 rem/(2zeta^2 G) = -7.079e-02 Phi_A1/zeta^2/G(0) - 1 = -4.842e-02  43s
+   eps 1e-08 Delta = 8.0 zeta = 0.10: Phi_2 = 1.5318865110e-04 Phi_A1 = 7.4809823015e-05 Phi_A2 = 7.4816618967e-05 2zeta^2 G = 4.113238e-06 rem = -5.5103e-07 rem/zeta^3 = -0.000551 rem/(2zeta^2 G) = -1.340e-01 Phi_A1/zeta^2/G(0) - 1 = -9.286e-02  87s
+   eps 1e-08 Delta = 8.0 zeta = 0.20: Phi_2 = 5.5900980678e-04 Phi_A1 = 2.7325268487e-04 Phi_A2 = 2.7327936239e-04 2zeta^2 G = 1.645295e-05 rem = -3.9752e-06 rem/zeta^3 = -0.000497 rem/(2zeta^2 G) = -2.416e-01 Phi_A1/zeta^2/G(0) - 1 = -1.716e-01  130s

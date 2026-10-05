@@ -1,0 +1,83 @@
+# ref_p6_5_fits.out -- written by rigor/ref_p6_5_fits.py (REF-P6-5); tolerance for admissibility 1e-4 (brief)
+npz vs kernel_t0.out print (block [A], 50 values): max|diff| = 4.9e-09
+h-ladder: 0.2500000 0.1250000 0.0625000 0.0312500 0.0156250 0.0078125; ordering coarse -> fine
+Delta=0.0 S=G/f2: finest two 0.99654463 0.99861108 (|diff| 2.07e-03); p_loc 0.963 1.073 1.156 1.225
+    lin-4f +1.0015000 p=1.000 r3=4.0e-04; pow-4f +1.0003119 p=1.175 r3=3.3e-05*; log-4f +nan p=0.000 r3=2.7e-03; lin-4c +1.0024839 p=1.000 r3=1.1e-03; pow-4c +1.0009577 p=1.096 r3=3.0e-04; log-4c +nan p=0.000 r3=1.5e-02
+    -> mine 1.000312 +- 0.000000   (admissible incl. log: pow-4f)
+Delta=0.5 R=G/G0: finest two 0.89819546 0.89830355 (|diff| 1.08e-04); p_loc 0.539 0.648 0.858 1.022
+    lin-4f +0.8984014 p=1.000 r3=1.1e-05*; pow-4f +0.8984347 p=0.909 r3=3.7e-06*; log-4f +nan p=0.000 r3=8.2e-05*; lin-4c +0.8983339 p=1.000 r3=5.7e-05*; pow-4c +0.8985573 p=0.721 r3=3.7e-05*; log-4c +nan p=0.000 r3=4.0e-04
+    -> mine 0.898446 +- 0.000112   (admissible incl. log: lin-4f, pow-4f, log-4f, lin-4c, pow-4c)
+Delta=0.5 S=G/f2: finest two 0.89509186 0.89705588 (|diff| 1.96e-03); p_loc 0.950 1.057 1.142 1.214
+    lin-4f +0.8997454 p=1.000 r3=3.4e-04; pow-4f +0.8987004 p=1.162 r3=3.3e-05*; log-4f +nan p=0.000 r3=2.5e-03; lin-4c +0.9005526 p=1.000 r3=9.4e-04; pow-4c +0.8993392 p=1.081 r3=3.0e-04; log-4c +nan p=0.000 r3=1.4e-02
+    -> mine 0.898700 +- 0.000000   (admissible incl. log: pow-4f)
+Delta=1.0 R=G/G0: finest two 0.74518416 0.74543044 (|diff| 2.46e-04); p_loc 0.612 0.778 0.941 1.070
+    lin-4f +0.7456813 p=1.000 r3=9.0e-06*; pow-4f +0.7456975 p=0.980 r3=6.8e-06*; log-4f +nan p=0.000 r3=2.2e-04; lin-4c +0.7455865 p=1.000 r3=7.2e-05*; pow-4c +0.7458870 p=0.832 r3=6.6e-05*; log-4c +nan p=0.000 r3=1.1e-03
+    -> mine 0.745737 +- 0.000150   (admissible incl. log: lin-4f, pow-4f, lin-4c, pow-4c)
+Delta=1.0 S=G/f2: finest two 0.74260927 0.74439509 (|diff| 1.79e-03); p_loc 0.928 1.039 1.129 1.204
+    lin-4f +0.7467910 p=1.000 r3=2.8e-04; pow-4f +0.7459164 p=1.149 r3=3.1e-05*; log-4f +nan p=0.000 r3=2.2e-03; lin-4c +0.7474050 p=1.000 r3=7.4e-04; pow-4c +0.7465323 p=1.065 r3=2.8e-04; log-4c +nan p=0.000 r3=1.2e-02
+    -> mine 0.745916 +- 0.000000   (admissible incl. log: pow-4f)
+Delta=1.5 R=G/G0: finest two 0.60015937 0.60049465 (|diff| 3.35e-04); p_loc 0.644 0.811 0.961 1.080
+    lin-4f +0.6008450 p=1.000 r3=8.3e-06*; pow-4f +0.6008490 p=0.996 r3=8.7e-06*; log-4f +nan p=0.000 r3=3.1e-04; lin-4c +0.6007387 p=1.000 r3=7.7e-05*; pow-4c +0.6010788 p=0.860 r3=8.3e-05*; log-4c +nan p=0.000 r3=1.6e-03
+    -> mine 0.600909 +- 0.000170   (admissible incl. log: lin-4f, pow-4f, lin-4c, pow-4c)
+Delta=1.5 S=G/f2: finest two 0.59808560 0.59966061 (|diff| 1.58e-03); p_loc 0.907 1.023 1.116 1.194
+    lin-4f +0.6017341 p=1.000 r3=2.2e-04; pow-4f +0.6010235 p=1.137 r3=2.8e-05*; log-4f +nan p=0.000 r3=1.9e-03; lin-4c +0.6021837 p=1.000 r3=5.7e-04; pow-4c +0.6015932 p=1.050 r3=2.6e-04; log-4c +nan p=0.000 r3=1.0e-02
+    -> mine 0.601024 +- 0.000000   (admissible incl. log: pow-4f)
+Delta=2.0 R=G/G0: finest two 0.47630260 0.47667875 (|diff| 3.76e-04); p_loc 0.658 0.824 0.967 1.082
+    lin-4f +0.4770745 p=1.000 r3=9.5e-06*; pow-4f +0.4770730 p=1.001 r3=9.4e-06*; log-4f +nan p=0.000 r3=3.5e-04; lin-4c +0.4769648 p=1.000 r3=7.7e-05*; pow-4c +0.4773176 p=0.870 r3=8.9e-05*; log-4c +nan p=0.000 r3=1.8e-03
+    -> mine 0.477141 +- 0.000176   (admissible incl. log: lin-4f, pow-4f, lin-4c, pow-4c)
+Delta=2.0 S=G/f2: finest two 0.47465680 0.47601668 (|diff| 1.36e-03); p_loc 0.890 1.009 1.105 1.185
+    lin-4f +0.4777764 p=1.000 r3=1.8e-04; pow-4f +0.4772101 p=1.127 r3=2.5e-05*; log-4f +nan p=0.000 r3=1.6e-03; lin-4c +0.4780960 p=1.000 r3=4.2e-04; pow-4c +0.4777221 p=1.037 r3=2.3e-04; log-4c +nan p=0.000 r3=8.7e-03
+    -> mine 0.477210 +- 0.000000   (admissible incl. log: pow-4f)
+Delta=3.0 R=G/G0: finest two 0.29388410 0.29424869 (|diff| 3.65e-04); p_loc 0.667 0.830 0.968 1.080
+    lin-4f +0.2946317 p=1.000 r3=8.9e-06*; pow-4f +0.2946304 p=1.001 r3=8.8e-06*; log-4f +nan p=0.000 r3=3.4e-04; lin-4c +0.2945290 p=1.000 r3=7.3e-05*; pow-4c +0.2948577 p=0.874 r3=8.4e-05*; log-4c +nan p=0.000 r3=1.7e-03
+    -> mine 0.294693 +- 0.000164   (admissible incl. log: lin-4f, pow-4f, lin-4c, pow-4c)
+Delta=3.0 S=G/f2: finest two 0.29286862 0.29384000 (|diff| 9.71e-04); p_loc 0.860 0.985 1.085 1.169
+    lin-4f +0.2950604 p=1.000 r3=1.0e-04; pow-4f +0.2947134 p=1.109 r3=1.8e-05*; log-4f +nan p=0.000 r3=1.1e-03; lin-4c +0.2952085 p=1.000 r3=2.2e-04; pow-4c +0.2951032 p=1.015 r3=1.7e-04; log-4c +nan p=0.000 r3=5.9e-03
+    -> mine 0.294713 +- 0.000000   (admissible incl. log: pow-4f)
+Delta=4.0 R=G/G0: finest two 0.17925964 0.17955825 (|diff| 2.99e-04); p_loc 0.667 0.828 0.964 1.075
+    lin-4f +0.1798695 p=1.000 r3=6.9e-06*; pow-4f +0.1798725 p=0.997 r3=7.1e-06*; log-4f +nan p=0.000 r3=2.7e-04; lin-4c +0.1797831 p=1.000 r3=6.2e-05*; pow-4c +0.1800566 p=0.872 r3=6.7e-05*; log-4c +nan p=0.000 r3=1.4e-03
+    -> mine 0.179920 +- 0.000137   (admissible incl. log: lin-4f, pow-4f, lin-4c, pow-4c)
+Delta=4.0 S=G/f2: finest two 0.17864023 0.17930886 (|diff| 6.69e-04); p_loc 0.836 0.965 1.070 1.156
+    lin-4f +0.1801285 p=1.000 r3=6.0e-05*; pow-4f +0.1799222 p=1.094 r3=1.3e-05*; log-4f +nan p=0.000 r3=7.4e-04; lin-4c +0.1801874 p=1.000 r3=1.1e-04; pow-4c +0.1802043 p=0.997 r3=1.2e-04; log-4c +nan p=0.000 r3=3.9e-03
+    -> mine 0.180025 +- 0.000103   (admissible incl. log: lin-4f, pow-4f)
+Delta=5.0 R=G/G0: finest two 0.10890321 0.10912793 (|diff| 2.25e-04); p_loc 0.662 0.824 0.959 1.069
+    lin-4f +0.1093600 p=1.000 r3=5.1e-06*; pow-4f +0.1093660 p=0.992 r3=5.4e-06*; log-4f +nan p=0.000 r3=2.0e-04; lin-4c +0.1092921 p=1.000 r3=5.0e-05*; pow-4c +0.1095047 p=0.867 r3=5.0e-05*; log-4c +nan p=0.000 r3=1.0e-03
+    -> mine 0.109398 +- 0.000106   (admissible incl. log: lin-4f, pow-4f, lin-4c, pow-4c)
+Delta=5.0 S=G/f2: finest two 0.10852691 0.10897636 (|diff| 4.49e-04); p_loc 0.816 0.949 1.056 1.145
+    lin-4f +0.1095159 p=1.000 r3=3.5e-05*; pow-4f +0.1093957 p=1.081 r3=8.9e-06*; log-4f +nan p=0.000 r3=4.8e-04; lin-4c +0.1095320 p=1.000 r3=5.2e-05*; pow-4c +0.1095932 p=0.981 r3=8.3e-05*; log-4c +nan p=0.000 r3=2.6e-03
+    -> mine 0.109494 +- 0.000099   (admissible incl. log: lin-4f, pow-4f, lin-4c, pow-4c)
+Delta=6.0 R=G/G0: finest two 0.06606568 0.06622661 (|diff| 1.61e-04); p_loc 0.657 0.818 0.953 1.064
+    lin-4f +0.0663912 p=1.000 r3=4.5e-06*; pow-4f +0.0663983 p=0.987 r3=3.8e-06*; log-4f +nan p=0.000 r3=1.4e-04; lin-4c +0.0663404 p=1.000 r3=3.8e-05*; pow-4c +0.0664982 p=0.862 r3=3.6e-05*; log-4c +nan p=0.000 r3=7.4e-04
+    -> mine 0.066419 +- 0.000079   (admissible incl. log: lin-4f, pow-4f, lin-4c, pow-4c)
+Delta=6.0 S=G/f2: finest two 0.06583740 0.06613462 (|diff| 2.97e-04); p_loc 0.798 0.935 1.045 1.135
+    lin-4f +0.0664850 p=1.000 r3=2.1e-05*; pow-4f +0.0664160 p=1.071 r3=6.0e-06*; log-4f +nan p=0.000 r3=3.1e-04; lin-4c +0.0664828 p=1.000 r3=2.1e-05*; pow-4c +0.0665513 p=0.968 r3=5.6e-05*; log-4c +nan p=0.000 r3=1.7e-03
+    -> mine 0.066484 +- 0.000068   (admissible incl. log: lin-4f, pow-4f, lin-4c, pow-4c)
+Delta=8.0 R=G/G0: finest two 0.02428478 0.02436050 (|diff| 7.57e-05); p_loc 0.644 0.807 0.943 1.055
+    lin-4f +0.0244366 p=1.000 r3=2.9e-06*; pow-4f +0.0244424 p=0.977 r3=1.8e-06*; log-4f +nan p=0.000 r3=6.6e-05*; lin-4c +0.0244105 p=1.000 r3=2.0e-05*; pow-4c +0.0244903 p=0.851 r3=1.7e-05*; log-4c +nan p=0.000 r3=3.4e-04
+    -> mine 0.024450 +- 0.000040   (admissible incl. log: lin-4f, pow-4f, log-4f, lin-4c, pow-4c)
+Delta=8.0 S=G/f2: finest two 0.02420087 0.02432666 (|diff| 1.26e-04); p_loc 0.770 0.912 1.025 1.119
+    lin-4f +0.0244705 p=1.000 r3=6.8e-06*; pow-4f +0.0244487 p=1.053 r3=2.6e-06*; log-4f +nan p=0.000 r3=1.3e-04; lin-4c +0.0244608 p=1.000 r3=8.0e-06*; pow-4c +0.0245093 p=0.947 r3=2.4e-05*; log-4c +nan p=0.000 r3=6.8e-04
+    -> mine 0.024479 +- 0.000030   (admissible incl. log: lin-4f, pow-4f, lin-4c, pow-4c)
+Ymax 20 -> 24 at Delta = 8 (R_h), per h: +2.75e-07 +2.50e-07 +2.37e-07 +2.29e-07 +2.25e-07
+brief's ladder Delta = 6 (4 rungs): lin-4f +0.0661457 r3=1.5e-04; pow-4f +0.0667724 r3=1.9e-05*; log-4f +nan r3=3.1e-04
+item 5: Delta | R_T0 card vs out | S_box card vs out | |R_T0-S_box| | my midpoint, |d|/2+max u | card agreed | both inside? | R/u T0, box | T0-g1b, box-g1b, agreed-g1b
+0.5 | 0.898440 0.898440 | 0.8983500 0.8983490 | 9.00e-05 | 0.898395 2.35e-04 | 0.8984(3) (+5.0e-06) | yes | 8168 4728 | +5.3e-05 -3.7e-05 +1.3e-05 (u_T0 1.1e-04, ratio 0.49)
+1.0 | 0.745730 0.745727 | 0.7456330 0.7456330 | 9.70e-05 | 0.745681 1.89e-04 | 0.7457(2) (+1.9e-05) | yes | 5327 15865 | +1.1e-04 +1.8e-05 +8.5e-05 (u_T0 1.4e-04, ratio 0.82)
+1.5 | 0.600900 0.600897 | 0.6007370 0.6007370 | 1.63e-04 | 0.600818 2.42e-04 | 0.6008(3) (-1.8e-05) | yes | 3756 28607 | +1.5e-04 -8.4e-06 +5.5e-05 (u_T0 1.6e-04, ratio 0.97)
+2.0 | 0.477130 0.477128 | 0.4769650 0.4769650 | 1.65e-04 | 0.477047 2.43e-04 | 0.4770(3) (-4.7e-05) | yes | 2982 25103 | +1.7e-04 +4.7e-06 +4.0e-05 (u_T0 1.6e-04, ratio 1.06)
+3.0 | 0.294680 0.294682 | 0.2945250 0.2945250 | 1.55e-04 | 0.294602 2.28e-04 | 0.2946(3) (-2.5e-06) | yes | 1965 29452 | +1.6e-04 +1.9e-06 +7.7e-05 (u_T0 1.5e-04, ratio 1.05)
+4.0 | 0.179910 0.179911 | 0.1797849 0.1797850 | 1.25e-04 | 0.179847 1.93e-04 | 0.1798(2) (-4.7e-05) | yes | 1384 32688 | +1.3e-04 +6.0e-07 +1.6e-05 (u_T0 1.3e-04, ratio 0.97)
+5.0 | 0.109390 0.109391 | 0.1092993 0.1092990 | 9.07e-05 | 0.109345 1.45e-04 | 0.1093(2) (-4.5e-05) | yes | 1094 47521 | +9.1e-05 +2.7e-07 +9.7e-07 (u_T0 1.0e-04, ratio 0.91)
+6.0 | 0.066415 0.066415 | 0.0663499 0.0663500 | 6.51e-05 | 0.066382 1.07e-04 | 0.06638(11) (-2.5e-06) | yes | 898 132700 | +6.5e-05 +6.3e-08 +3.0e-05 (u_T0 7.4e-05, ratio 0.88)
+8.0 | 0.024448 0.024448 | 0.0244192 0.0244190 | 2.88e-05 | 0.024434 5.14e-05 | 0.02443(6) (-3.6e-06) | yes | 661 81397 | +2.9e-05 -1.3e-08 +1.1e-05 (u_T0 3.7e-05, ratio 0.78)
+min R/u over both frames and the grid: 661
+  decay R_T0 R: exp: alpha=0.4981 A=1.3172 res=3.1e-03; D^b exp: alpha=0.5058 b=+0.040 res=6.2e-04
+  decay R_T0 R+u: exp: alpha=0.4979 A=1.3171 res=3.1e-03; D^b exp: alpha=0.5055 b=+0.040 res=6.2e-04
+  decay R_T0 R-u: exp: alpha=0.4983 A=1.3173 res=3.1e-03; D^b exp: alpha=0.5060 b=+0.040 res=6.2e-04
+  local rates R_T0: 0.4934 0.4975 0.4990 0.4997
+  decay S_box R: exp: alpha=0.4982 A=1.3170 res=3.0e-03; D^b exp: alpha=0.5058 b=+0.039 res=6.2e-04
+  decay S_box R+u: exp: alpha=0.4982 A=1.3170 res=3.0e-03; D^b exp: alpha=0.5058 b=+0.039 res=6.3e-04
+  decay S_box R-u: exp: alpha=0.4982 A=1.3169 res=3.0e-03; D^b exp: alpha=0.5058 b=+0.039 res=6.2e-04
+  local rates S_box: 0.4936 0.4977 0.4991 0.4998
+  local rates g1b (comparison): 0.4936 0.4977 0.4991 0.4998
+alpha over all 12 fits: 0.5019 +- 0.0040

@@ -1,0 +1,48 @@
+# kernel_t0b.out -- written by numerics/networks/corner_kernel.py on 2026-10-03 17:29
+# K1b, T0 frame, finer rung h = 1/128 (and K1 rungs 1/8, 1/64 recomputed by this path); command:
+# $PYTHON numerics/networks/corner_kernel.py K1b (background). Same mesh [-14, 20], Q, kernel as K1 (kernel_t0.out header);
+# delta_Delta = translate of delta_0 computed once on [-22, 20] by corner_kernel.t0_ddot_fast. Checks: t0_ddot_fast vs
+# f3_t0.ddot at h = 1/8 (all Delta), and the K1 values at h = 1/8, 1/64.
+  h = 0.1250000  N = 272  extended N = 336  eig(Q) in [1.48e-03, 0.998519]  0s
+     check vs f3_t0.ddot, Delta = 0.0: 3.6e-16
+     Delta = 0.0  R_h = +1.00000000  G/f2 = +0.95829428  1s
+     check vs f3_t0.ddot, Delta = 0.5: 3.6e-16
+     Delta = 0.5  R_h = +0.89695474  G/f2 = +0.85954659  1s
+     check vs f3_t0.ddot, Delta = 1.0: 3.6e-16
+     Delta = 1.0  R_h = +0.74197080  G/f2 = +0.71102637  2s
+     check vs f3_t0.ddot, Delta = 1.5: 3.6e-16
+     Delta = 1.5  R_h = +0.59565014  G/f2 = +0.57080812  2s
+     check vs f3_t0.ddot, Delta = 2.0: 3.6e-16
+     Delta = 2.0  R_h = +0.47119475  G/f2 = +0.45154323  3s
+     check vs f3_t0.ddot, Delta = 3.0: 3.6e-16
+     Delta = 3.0  R_h = +0.28892754  G/f2 = +0.27687760  3s
+     check vs f3_t0.ddot, Delta = 4.0: 3.6e-16
+     Delta = 4.0  R_h = +0.17522569  G/f2 = +0.16791778  4s
+     check vs f3_t0.ddot, Delta = 5.0: 3.6e-16
+     Delta = 5.0  R_h = +0.10589270  G/f2 = +0.10147637  4s
+     check vs f3_t0.ddot, Delta = 6.0: 3.6e-16
+     Delta = 6.0  R_h = +0.06392859  G/f2 = +0.06126241  5s
+     check vs f3_t0.ddot, Delta = 8.0: 3.6e-16
+     Delta = 8.0  R_h = +0.02329629  G/f2 = +0.02232470  5s
+  h = 0.0156250  N = 2176  extended N = 2688  eig(Q) in [4.48e-05, 0.999955]  33s
+     Delta = 0.0  R_h = +1.00000000  G/f2 = +0.99654463  37s
+     Delta = 0.5  R_h = +0.89819546  G/f2 = +0.89509186  40s
+     Delta = 1.0  R_h = +0.74518416  G/f2 = +0.74260927  44s
+     Delta = 1.5  R_h = +0.60015937  G/f2 = +0.59808560  48s
+     Delta = 2.0  R_h = +0.47630260  G/f2 = +0.47465680  51s
+     Delta = 3.0  R_h = +0.29388410  G/f2 = +0.29286862  55s
+     Delta = 4.0  R_h = +0.17925964  G/f2 = +0.17864023  59s
+     Delta = 5.0  R_h = +0.10890321  G/f2 = +0.10852691  62s
+     Delta = 6.0  R_h = +0.06606568  G/f2 = +0.06583740  66s
+     Delta = 8.0  R_h = +0.02428478  G/f2 = +0.02420087  69s
+  h = 0.0078125  N = 4352  extended N = 5376  eig(Q) in [1.35e-05, 0.999987]  254s
+     Delta = 0.0  R_h = +1.00000000  G/f2 = +0.99861108  282s
+     Delta = 0.5  R_h = +0.89830355  G/f2 = +0.89705588  308s
+     Delta = 1.0  R_h = +0.74543044  G/f2 = +0.74439509  335s
+     Delta = 1.5  R_h = +0.60049465  G/f2 = +0.59966061  365s
+     Delta = 2.0  R_h = +0.47667875  G/f2 = +0.47601668  395s
+     Delta = 3.0  R_h = +0.29424869  G/f2 = +0.29384000  423s
+     Delta = 4.0  R_h = +0.17955825  G/f2 = +0.17930886  451s
+     Delta = 5.0  R_h = +0.10912793  G/f2 = +0.10897636  479s
+     Delta = 6.0  R_h = +0.06622661  G/f2 = +0.06613462  508s
+     Delta = 8.0  R_h = +0.02436050  G/f2 = +0.02432666  537s

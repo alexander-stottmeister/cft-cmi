@@ -1,0 +1,31 @@
+# ref_p6_4_composite.out -- referee REF-P6-4, produced by rigor/ref_p6_4_composite.py (see docstring)
+## L first-order defect of the composite vs sum of translated single-corner defects (lem:Dtot)
+L corners q = (-0.5, 0.4), kappa = (0.9, 1.7) -> y_k = ['-0.40546511', '0.51082562'], zeta_k = ['1.35', '1.02']
+L   y=-1.20 y'=+0.10  d/ds delta(s) = (0.0 + 0.046102525922723j)   sum_k zeta_k D(y-y_k,.) = (0.0 + 0.046102525922723j)   rel.dev = 1.6e-51   wrong frame |dev| = 9.65e-03
+L   y=+0.10 y'=-1.20  d/ds delta(s) = (0.0 - 0.046102525922723j)   sum_k zeta_k D(y-y_k,.) = (0.0 - 0.046102525922723j)   rel.dev = 1.6e-51   wrong frame |dev| = 9.65e-03
+L   y=-0.30 y'=+2.50  d/ds delta(s) = (0.0 + 0.021762037761043j)   sum_k zeta_k D(y-y_k,.) = (0.0 + 0.021762037761043j)   rel.dev = 2.7e-51   wrong frame |dev| = 4.90e-03
+L   y=+1.00 y'=+3.00  d/ds delta(s) = (0.0 - 1.4089256229186e-62j)   sum_k zeta_k D(y-y_k,.) = (0.0 + 0.0j)   rel.dev = 1.4e-62   wrong frame |dev| = 1.41e-62
+L   y=-2.00 y'=-0.80  d/ds delta(s) = (0.0 + 0.0j)   sum_k zeta_k D(y-y_k,.) = (0.0 + 0.0j)   rel.dev = 0.0e+00   wrong frame |dev| = 0.00e+00
+L   y=+0.60 y'=+1.20  d/ds delta(s) = (0.0 + 1.122389804865e-61j)   sum_k zeta_k D(y-y_k,.) = (0.0 + 0.0j)   rel.dev = 1.1e-61   wrong frame |dev| = 1.12e-61
+L   y=-0.90 y'=+0.00  d/ds delta(s) = (0.0 + 0.050592629128734j)   sum_k zeta_k D(y-y_k,.) = (0.0 + 0.050592629128734j)   rel.dev = 8.8e-52   wrong frame |dev| = 1.27e-02
+L   y=+2.00 y'=-2.00  d/ds delta(s) = (0.0 - 0.038099956207783j)   sum_k zeta_k D(y-y_k,.) = (0.0 - 0.038099956207783j)   rel.dev = 2.0e-50   wrong frame |dev| = 7.53e-52
+L corners q = (-1.5, 0.2, 0.75), kappa = (0.3, 1.2, 2.5) -> y_k = ['-0.91629073', '0.22314355', '1.3862944'], zeta_k = ['0.75', '0.96', '0.625']
+L   y=-1.20 y'=+0.10  d/ds delta(s) = (0.0 + 0.018558774139938j)   sum_k zeta_k D(y-y_k,.) = (0.0 + 0.018558774139938j)   rel.dev = 2.6e-52   wrong frame |dev| = 7.39e-03
+L   y=+0.10 y'=-1.20  d/ds delta(s) = (0.0 - 0.018558774139938j)   sum_k zeta_k D(y-y_k,.) = (0.0 - 0.018558774139938j)   rel.dev = 2.6e-52   wrong frame |dev| = 7.39e-03
+L   y=-0.30 y'=+2.50  d/ds delta(s) = (0.0 + 0.030832895394609j)   sum_k zeta_k D(y-y_k,.) = (0.0 + 0.030832895394609j)   rel.dev = 3.0e-51   wrong frame |dev| = 9.22e-03
+L   y=+1.00 y'=+3.00  d/ds delta(s) = (0.0 + 0.012560150931218j)   sum_k zeta_k D(y-y_k,.) = (0.0 + 0.012560150931218j)   rel.dev = 3.4e-52   wrong frame |dev| = 1.26e-02
+L   y=-2.00 y'=-0.80  d/ds delta(s) = (0.0 + 0.0097446300666867j)   sum_k zeta_k D(y-y_k,.) = (0.0 + 0.0097446300666867j)   rel.dev = 6.1e-53   wrong frame |dev| = 1.30e-02
+L   y=+0.60 y'=+1.20  d/ds delta(s) = (0.0 - 2.8665115618629e-62j)   sum_k zeta_k D(y-y_k,.) = (0.0 + 0.0j)   rel.dev = 2.9e-62   wrong frame |dev| = 2.91e-02
+L   y=-0.90 y'=+0.00  d/ds delta(s) = (0.0 + 1.213974890017e-63j)   sum_k zeta_k D(y-y_k,.) = (0.0 + 0.0j)   rel.dev = 1.2e-63   wrong frame |dev| = 2.72e-02
+L   y=+2.00 y'=-2.00  d/ds delta(s) = (0.0 - 0.032577847320151j)   sum_k zeta_k D(y-y_k,.) = (0.0 - 0.032577847320151j)   rel.dev = 1.1e-50   wrong frame |dev| = 3.57e-52
+L max rel.dev = 1.98e-50 (tol 1e-12) -> PASS;  wrong frame (y + y_k): max rel.dev = 1.33e+00 (must FAIL)
+## N lem:nogroup: Schwarzian masses of Psi_s o Psi_t vs Psi_{s+t}, M = 2, exact rationals
+N q1=-1/2 q2=1/3 kappa=(3/2,5/4) s=2/7 t=3/5;  Psi_t(q2) = -1/42 (in (q1,q2)),  Psi_t(1) = 73/774
+N   at x = -1/2       mass of Sch(Psi_s o Psi_t) = -93/35       mass of Sch(Psi_(s+t)) = -93/35
+N   at x = 1/3        mass of Sch(Psi_s o Psi_t) = -3/2         mass of Sch(Psi_(s+t)) = -31/14
+N   predicted at q2: -2 t kappa_2 = -3/2  vs  -2 (s+t) kappa_2 = -31/14;  match: True
+## W VWZ corner data (G1a prop:1B1A, prop:prot2, c = b, d = a, theta_t = 1), exact
+W a=1 b=1: zeta_1=1 zeta_2=3/4 zeta_3=1 e^D23=3 1/eta=3 zeta_3^(J)=2/3 chain-formula zeta_2=3/4 -> all as in cor:vwz
+W a=1 b=3: zeta_1=1/3 zeta_2=7/24 zeta_3=1/3 e^D23=7 1/eta=7 zeta_3^(J)=2/7 chain-formula zeta_2=7/24 -> all as in cor:vwz
+W a=2 b=7: zeta_1=2/7 zeta_2=16/63 zeta_3=2/7 e^D23=8 1/eta=8 zeta_3^(J)=1/4 chain-formula zeta_2=16/63 -> all as in cor:vwz
+W a=1 b=100: zeta_1=1/100 zeta_2=201/20200 zeta_3=1/100 e^D23=201 1/eta=201 zeta_3^(J)=2/201 chain-formula zeta_2=201/20200 -> all as in cor:vwz

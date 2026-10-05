@@ -1,0 +1,25 @@
+# ref_p6_5_second.out -- rigor/ref_p6_5_second.py (REF-P6-5b)
+(a) T0 card: Delta | estimate, fit spread, total (kernel_t0_fits.out) | card | total = spread + 3e-4? | true R (mine) inside? |T0 - true|/u
+    0.5 | 0.898440 0.000106 0.000406 | 0.89844(41) | yes | yes | 0.13 (card values: 0.13)
+    1.0 | 0.745727 0.000140 0.000440 | 0.74573(44) | yes | yes | 0.25 (card values: 0.26)
+    1.5 | 0.600897 0.000158 0.000458 | 0.60090(46) | yes | yes | 0.33 (card values: 0.34)
+    2.0 | 0.477128 0.000164 0.000464 | 0.47713(47) | yes | yes | 0.36 (card values: 0.36)
+    3.0 | 0.294682 0.000153 0.000453 | 0.29468(46) | yes | yes | 0.35 (card values: 0.34)
+    4.0 | 0.179911 0.000128 0.000428 | 0.17991(43) | yes | yes | 0.30 (card values: 0.29)
+    5.0 | 0.109391 0.000099 0.000399 | 0.10939(40) | yes | yes | 0.23 (card values: 0.23)
+    6.0 | 0.066415 0.000074 0.000374 | 0.06642(38) | yes | yes | 0.17 (card values: 0.18)
+    8.0 | 0.024448 0.000037 0.000337 | 0.02445(34) | yes | yes | 0.09 (card values: 0.09)
+(b) two-frames card: Delta | my midpoint, u = |d|/2 + max u | out agreed | card | unrounded interval inside card interval? | frames, true R inside? | R/u T0
+    0.5 | 0.898394 4.52e-04 | 0.898395 0.000452 | 0.8984(5) | yes | yes | 2213
+    1.0 | 0.745680 4.87e-04 | 0.745680 0.000488 | 0.7457(5) | no (by 7.0e-06) | yes | 1695
+    1.5 | 0.600817 5.38e-04 | 0.600817 0.000538 | 0.6008(6) | yes | yes | 1312
+    2.0 | 0.477046 5.46e-04 | 0.477047 0.000545 | 0.4770(6) | yes | yes | 1028
+    3.0 | 0.294604 5.32e-04 | 0.294603 0.000531 | 0.2946(6) | yes | yes | 651
+    4.0 | 0.179848 4.91e-04 | 0.179848 0.000491 | 0.1798(5) | no (by 3.9e-05) | yes | 420
+    5.0 | 0.109345 4.45e-04 | 0.109345 0.000445 | 0.1093(5) | yes | yes | 274
+    6.0 | 0.066383 4.06e-04 | 0.066382 0.000407 | 0.06638(41) | yes | yes | 178
+    8.0 | 0.024434 3.52e-04 | 0.024434 0.000352 | 0.02443(36) | yes | yes | 73
+    min R_T0/u_T0 = 72.5
+(c) alpha over the 12 fits (my lstsq, regenerated R +- u): 0.5044 +- 0.0087
+(d) kernel_t0_fits.out block headers, last three: Delta = 8.0 G/f2      : 0.02054049 0.02232470 0.02337121 0.0 || Brief's ladder h = 0.24, 0.12, 0.06, 0.03 (window 4f only),  || Ymax dependence (Y = 14): Ymax = 20 vs Ymax = 24, R_h and G/
+(e) KERNEL_RESULTS.md: "no shared code" occurrences: 1; lines: 255

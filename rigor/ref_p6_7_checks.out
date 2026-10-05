@@ -1,0 +1,26 @@
+== A. validation: Ghat(0) = 1/(12 pi^2) exactly (thm:T4(b))
+  series/G0 - 1 = 0.00e+00   quad/G0 - 1 = 0.00e+00   -> PASS
+== B. the nine values Ghat(D)/Ghat(0) quoted on corner-correlation-kernel
+  D=0.5  closed 0.8983865801  |cl-ser| 2.3e-41  |cl-quad| 1.1e-41  card 0.8983866  |diff| 2.0e-08  bounds ok
+  D=1    closed 0.7456151411  |cl-ser| 1.1e-41  |cl-quad| 1.1e-41  card 0.7456151  |diff| 4.1e-08  bounds ok
+  D=1.5  closed 0.6007453636  |cl-ser| 2.3e-41  |cl-quad| 1.1e-41  card 0.6007454  |diff| 3.6e-08  bounds ok
+  D=2    closed 0.4769603380  |cl-ser| 2.9e-41  |cl-quad| 2.9e-41  card 0.4769603  |diff| 3.8e-08  bounds ok
+  D=3    closed 0.2945230534  |cl-ser| 5.7e-42  |cl-quad| 1.1e-41  card 0.2945231  |diff| 4.7e-08  bounds ok
+  D=4    closed 0.1797843036  |cl-ser| 1.1e-40  |cl-quad| 1.1e-40  card 0.1797843  |diff| 3.6e-09  bounds ok
+  D=5    closed 0.1092990334  |cl-ser| 6.0e-41  |cl-quad| 5.9e-41  card 0.1092990  |diff| 3.3e-08  bounds ok
+  D=6    closed 0.0663498369  |cl-ser| 6.6e-40  |cl-quad| 6.6e-40  card 0.0663498  |diff| 3.7e-08  bounds ok
+  D=8    closed 0.0244192133  |cl-ser| 5.9e-39  |cl-quad| 5.9e-39  card 0.0244192  |diff| 1.3e-08  bounds ok
+  max |closed - card| = 4.66e-08  (tol 6e-08) -> PASS
+== C. VWZ symmetric setup (b = 1, a = 2 eta/(1-eta)); zeta's of cor:vwz step <1>1
+  eta=0.05 z1=0.1053 z2=0.1003 z3=0.1053 zeff=0.2105  S(log 1/eta)=0.29514  in [0.29442, 0.29814]  Ghat-free part 1.907
+  eta=0.10 z1=0.2222 z2=0.2020 z3=0.2222 zeff=0.4444  S(log 1/eta)=0.41308  in [0.41110, 0.42164]  Ghat-free part 1.826
+  eta=0.15 z1=0.3529 z2=0.3069 z3=0.3529 zeff=0.7059  S(log 1/eta)=0.50056  in [0.49703, 0.51640]  Ghat-free part 1.756
+  eta=0.20 z1=0.5000 z2=0.4167 z3=0.5000 zeff=1.0000  S(log 1/eta)=0.57170  in [0.56647, 0.59628]  Ghat-free part 1.694
+  eta=0.30 z1=0.8571 z2=0.6593 z3=0.8571 zeff=1.7143  S(log 1/eta)=0.68438  in [0.67552, 0.73030]  Ghat-free part 1.592
+  eta=0.40 z1=1.3333 z2=0.9524 z3=1.3333 zeff=2.6667  S(log 1/eta)=0.77132  in [0.75895, 0.84327]  Ghat-free part 1.510
+  eta=0.05: (S - X)/u with X = 0.28140, u = 0.0045 : 3.05
+  eta=0.05: (S - X)/u with X = 0.28140, u = 0.0044 : 3.12
+  eta=0.05: (S - X)/u with X = 0.28140, u = 0.005 : 2.75
+  8 f2/c = 8/(12 pi^2) = 0.06755 ;  pi*sqrt(3) = 5.44140
+== D. numerics/networks/N4.out: extrapolated Phi_tot/Sstep per chain
+  values: 1.4828, 1.8171, 2.0699, 1.4610  -> range 1.4610 ... 2.0699

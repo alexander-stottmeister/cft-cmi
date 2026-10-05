@@ -1,0 +1,29 @@
+# ref_p6_5_checks_9.out -- written by rigor/ref_p6_5_checks.py 9 (REF-P6-5)
+(a) beta_I at t = xi - xi0: defect_matrix route (x+a)(L-x)/(a+L) vs cancellation-free a(1+r)e^t/(1+re^t)^2 (my formula):
+    t =  -60: beta naive 0.000000e+00  stable 1.313477e-26  rel. err 1.0e+00
+    t =  -45: beta naive 0.000000e+00  stable 4.293778e-20  rel. err 1.0e+00
+    t =  -37: beta naive 1.110223e-16  stable 1.279957e-16  rel. err 1.3e-01
+    t =  -30: beta naive 1.404432e-13  stable 1.403643e-13  rel. err 5.6e-04
+    t =  -20: beta naive 3.091730e-09  stable 3.091730e-09  rel. err 3.7e-08
+    t =  +20: beta naive 1.236692e-08  stable 1.236692e-08  rel. err 2.0e-09
+    t =  +30: beta naive 5.615508e-13  stable 5.614574e-13  rel. err 1.7e-04
+    t =  +37: beta naive 6.661338e-16  stable 5.119829e-16  rel. err 3.0e-01
+    t =  +45: beta naive 0.000000e+00  stable 1.717511e-19  rel. err 1.0e+00
+    t =  +60: beta naive 0.000000e+00  stable 5.253906e-26  rel. err 1.0e+00
+    D level (60,30): max|run - stable|/max|D| = 7.0e-12
+    D level (120,45): max|run - stable|/max|D| = 2.5e-08
+(b) shifted frame (a', L') = (a + p', L - p') with the defect_matrix formulas (box_corner stable=False), Lam = 120, kmax = 45:
+    Delta = 0.5: NaN entries 74529 of 74529
+    Delta = 2.0: NaN entries 74529 of 74529
+    Delta = 8.0: NaN entries 0 of 74529
+(c) compression_box.qfi_c2 of the first kernel (stable) where Q_box eigenvalues reach machine precision:
+    (60,30): N = 91, min eig +2.77e-13, 1 - max eig +2.77e-13, qfi_c2/zeta^2 = 0.008369783257431892
+    (60,45): N = 137, min eig -3.36e-16, 1 - max eig -1.78e-15, qfi_c2/zeta^2 = inf
+    (120,45): N = 273, min eig -4.95e-16, 1 - max eig -4.88e-15, qfi_c2/zeta^2 = inf
+    (120,60): N = 365, min eig -6.79e-16, 1 - max eig -3.33e-15, qfi_c2/zeta^2 = inf
+(d) fid_relent, exact kernel s = 0.025, (60,30): -log F = +1.234958e+00 (results_batch3.txt:1: -6.54030981e+00; windowed 30-digit value 5.679e-07, results_A2.txt:1)
+(e) published values built on defect_matrix.run at Lam = 120, recomputed with the cancellation-free kernel:
+    line_so.txt (120,37) f2_line: published 0.0083956; defect_matrix.run 0.008395613; cancellation-free 0.008395611 (shift -1.6e-09)
+    line_so.txt (120,41) f2_line: published 0.0084045; defect_matrix.run 0.008404505; cancellation-free 0.008404489 (shift -1.7e-08)
+    line_so.txt (120,45) f2_line: published 0.0084112; defect_matrix.run 0.008411248; cancellation-free 0.008411099 (shift -1.5e-07)
+    results_first_window.txt:1 (120,45), eps 1e-8, f2_sub: published 0.0082392; defect_matrix.run 0.008239162; cancellation-free 0.008239162 (shift -8.5e-13); 117 modes kept

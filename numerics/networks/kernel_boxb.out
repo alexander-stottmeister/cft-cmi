@@ -1,0 +1,72 @@
+# kernel_boxb.out -- written by numerics/networks/corner_kernel.py on 2026-10-03 17:19
+# K2b, box frame (brief sec. 3); command: $PYTHON numerics/networks/corner_kernel.py K2b (background)
+# I = (-a, L) = (-1, 2), xi = log((x+a)/(L-x)); corner 1 at x = 0 (xi0 = log(1/2)), corner 2 at p'(Delta) (KERNEL_RESULTS.md
+# (C3)), both 'first' kernels with zeta = 1/3, ONE window [xi0 - Lam/2, xi0 + Lam/2] (corner_kernel.box_corner, graded
+# mesh of defect_matrix.py, ngl = 12). G(Delta) = g_Q(D1, D2)/zeta^2, R = G(Delta)/G(0).
+# Resolved: box modes |kappa_j| <= kappa_max (kappa_j = 4 pi^2 j/Lam) on the window; cut off: |kappa| > kappa_max (weight of
+# the diagonal f2 - G(0) printed per box; for Delta > 0 measured by the kappa_max ladder in kernel_box_fits.out) and
+# |xi - xi0| > Lam/2 (corner 2 keeps Lam/2 - Delta on its D side; Lam = 60 vs 120 measures it).
+# Symbols: [box] eigenbasis of Q_box (compression_box.Q_box), polarised qfi_c2 vs direct sum; where Q_box has eigenvalues
+# below machine precision [box] is not evaluable and [win eps] drops the pairs with both eigenvalues < eps or both > 1 - eps
+# (a regulator); [line] = q(kappa_j) = 1/(1+e^kappa_j) on the same modes (no eigen-decomposition, no regulator).
+# (120,75) window eps = 1e-13: 34848 pairs dropped, min kept W = 1.12e-13
+# (120,75) window eps = 1e-12: 38642 pairs dropped, min kept W = 1.09e-12
+# (120,75) window eps = 1e-11: 42632 pairs dropped, min kept W = 1.03e-11
+(120, 75): N = 455, kappa_max_eff = 74.68, eig(Q_box) in [-8.72e-16, 1 - -6.00e-15] -> [box] NOT resolved
+   Delta = 0.0: [line] R = +1.00000000 G/f2 = +1.00997265 (pol 0e+00)  [win] R = +1.00000000 +1.00000000 +1.00000000  9s
+   Delta = 0.5: [line] R = +0.90002913 G/f2 = +0.90900481 (pol 0e+00)  [win] R = +0.89958263 +0.89958263 +0.89958263  11s
+   Delta = 1.0: [line] R = +0.74650483 G/f2 = +0.75394946 (pol 1e-16)  [win] R = +0.74663938 +0.74663938 +0.74663938  12s
+   Delta = 1.5: [line] R = +0.59916322 G/f2 = +0.60513846 (pol 0e+00)  [win] R = +0.60156417 +0.60156417 +0.60156417  14s
+   Delta = 2.0: [line] R = +0.47055270 G/f2 = +0.47524536 (pol 2e-16)  [win] R = +0.47760566 +0.47760566 +0.47760566  16s
+   Delta = 3.0: [line] R = +0.27433883 G/f2 = +0.27707471 (pol 2e-16)  [win] R = +0.29491866 +0.29491866 +0.29491866  18s
+   Delta = 4.0: [line] R = +0.14865789 G/f2 = +0.15014040 (pol 1e-16)  [win] R = +0.18002601 +0.18002601 +0.18002601  20s
+   Delta = 5.0: [line] R = +0.08496754 G/f2 = +0.08581489 (pol 7e-17)  [win] R = +0.10944692 +0.10944692 +0.10944692  22s
+   Delta = 6.0: [line] R = +0.07555633 G/f2 = +0.07630983 (pol 1e-16)  [win] R = +0.06644040 +0.06644040 +0.06644040  23s
+   Delta = 8.0: [line] R = +0.14499971 G/f2 = +0.14644574 (pol 1e-15)  [win] R = +0.02445298 +0.02445298 +0.02445298  25s
+   diagonal cut-off weight 1 - G(0)/f2: [line] -9.9727e-03  [box] nan  [win] 1.3701e-03 1.3701e-03 1.3701e-03
+# (120,90) window eps = 1e-13: 63368 pairs dropped, min kept W = 1.25e-13
+# (120,90) window eps = 1e-12: 68450 pairs dropped, min kept W = 1.22e-12
+# (120,90) window eps = 1e-11: 73728 pairs dropped, min kept W = 1.14e-11
+(120, 90): N = 547, kappa_max_eff = 89.81, eig(Q_box) in [-1.55e-15, 1 - -7.77e-15] -> [box] NOT resolved
+   Delta = 0.0: [line] R = +1.00000000 G/f2 = +13421.80849441 (pol 0e+00)  [win] R = +1.00000000 +1.00000000 +1.00000000  13s
+   Delta = 0.5: [line] R = +0.73136756 G/f2 = +9816.27530020 (pol 1e-16)  [win] R = +0.89938813 +0.89938813 +0.89938813  16s
+   Delta = 1.0: [line] R = +0.00783761 G/f2 = +105.19488059 (pol 5e-17)  [win] R = +0.74635319 +0.74635319 +0.74635319  18s
+   Delta = 1.5: [line] R = -0.87225369 G/f2 = -11707.22192078 (pol 0e+00)  [win] R = +0.60130301 +0.60130301 +0.60130301  20s
+   Delta = 2.0: [line] R = -1.41755039 G/f2 = -19026.08982798 (pol 3e-16)  [win] R = +0.47739832 +0.47739832 +0.47739832  23s
+   Delta = 3.0: [line] R = -0.03611945 G/f2 = -484.78835585 (pol 7e-17)  [win] R = +0.29480306 +0.29480306 +0.29480306  26s
+   Delta = 4.0: [line] R = +2.70684687 G/f2 = +36330.78034172 (pol 1e-15)  [win] R = +0.17995696 +0.17995696 +0.17995696  28s
+   Delta = 5.0: [line] R = -0.13351828 G/f2 = -1792.05675922 (pol 9e-16)  [win] R = +0.10940200 +0.10940200 +0.10940200  31s
+   Delta = 6.0: [line] R = -5.35345524 G/f2 = -71853.05104875 (pol 9e-15)  [win] R = +0.06641231 +0.06641231 +0.06641231  34s
+   Delta = 8.0: [line] R = +10.42976646 G/f2 = +139986.32801595 (pol 9e-15)  [win] R = +0.02444243 +0.02444243 +0.02444243  37s
+   diagonal cut-off weight 1 - G(0)/f2: [line] -1.3421e+04  [box] nan  [win] 9.4700e-04 9.4700e-04 9.4700e-04
+# (120,105) window eps = 1e-13: 99458 pairs dropped, min kept W = 9.88e-14
+# (120,105) window eps = 1e-12: 106722 pairs dropped, min kept W = 1.33e-12
+# (120,105) window eps = 1e-11: 113288 pairs dropped, min kept W = 1.23e-11
+(120, 105): N = 639, kappa_max_eff = 104.95, eig(Q_box) in [-1.27e-15, 1 - -6.88e-15] -> [box] NOT resolved
+   Delta = 0.0: [line] R = +1.00000000 G/f2 = +20068382128.08965683 (pol 0e+00)  [win] R = +1.00000000 +1.00000000 +1.00000000  16s
+   Delta = 0.5: [line] R = -0.39754865 G/f2 = -7978158296.20209026 (pol 5e-17)  [win] R = +0.89906395 +0.89906395 +0.89906394  19s
+   Delta = 1.0: [line] R = -0.75931949 G/f2 = -15238313718.99007607 (pol 2e-16)  [win] R = +0.74610307 +0.74610307 +0.74610307  21s
+   Delta = 1.5: [line] R = +1.14083897 G/f2 = +22894792342.67592621 (pol 0e+00)  [win] R = +0.60117448 +0.60117448 +0.60117448  23s
+   Delta = 2.0: [line] R = -0.06745386 G/f2 = -1353689771.11944795 (pol 2e-16)  [win] R = +0.47729096 +0.47729096 +0.47729096  25s
+   Delta = 3.0: [line] R = +1.49018993 G/f2 = +29905701029.61639404 (pol 4e-16)  [win] R = +0.29473012 +0.29473012 +0.29473012  28s
+   Delta = 4.0: [line] R = -2.63021865 G/f2 = -52784232938.20635986 (pol 8e-16)  [win] R = +0.17990803 +0.17990803 +0.17990803  30s
+   Delta = 5.0: [line] R = +1.81990671 G/f2 = +36522583225.30455780 (pol 4e-15)  [win] R = +0.10937482 +0.10937482 +0.10937482  33s
+   Delta = 6.0: [line] R = +2.04025704 G/f2 = +40944657953.37782288 (pol 5e-15)  [win] R = +0.06639617 +0.06639617 +0.06639617  35s
+   Delta = 8.0: [line] R = +8.22567224 G/f2 = +165075933835.49334717 (pol 4e-14)  [win] R = +0.02443616 +0.02443616 +0.02443616  37s
+   diagonal cut-off weight 1 - G(0)/f2: [line] -2.0068e+10  [box] nan  [win] 6.9351e-04 6.9351e-04 6.9351e-04
+# (120,120) window eps = 1e-13: 143648 pairs dropped, min kept W = 1.05e-13
+# (120,120) window eps = 1e-12: 151250 pairs dropped, min kept W = 1.04e-12
+# (120,120) window eps = 1e-11: 160178 pairs dropped, min kept W = 1.31e-11
+(120, 120): N = 729, kappa_max_eff = 119.75, eig(Q_box) in [-1.94e-15, 1 - -8.88e-15] -> [box] NOT resolved
+   Delta = 0.0: [line] R = +1.00000000 G/f2 = +25760368262374288.00000000 (pol 0e+00)  [win] R = +1.00000000 +1.00000000 +1.00000000  14s
+   Delta = 0.5: [line] R = -0.97816796 G/f2 = -25197966748273476.00000000 (pol 3e-16)  [win] R = +0.89882757 +0.89882757 +0.89882757  18s
+   Delta = 1.0: [line] R = +1.06677104 G/f2 = +27480414883017308.00000000 (pol 2e-16)  [win] R = +0.74603020 +0.74603020 +0.74603020  21s
+   Delta = 1.5: [line] R = -1.13331287 G/f2 = -29194557010442260.00000000 (pol 2e-16)  [win] R = +0.60105694 +0.60105694 +0.60105694  24s
+   Delta = 2.0: [line] R = +1.33580099 G/f2 = +34410725353708840.00000000 (pol 3e-16)  [win] R = +0.47721913 +0.47721913 +0.47721913  26s
+   Delta = 3.0: [line] R = +1.76698594 G/f2 = +45518208583327840.00000000 (pol 3e-16)  [win] R = +0.29468160 +0.29468160 +0.29468160  29s
+   Delta = 4.0: [line] R = +2.56073342 G/f2 = +65965435938893192.00000000 (pol 6e-16)  [win] R = +0.17988071 +0.17988071 +0.17988071  32s
+   Delta = 5.0: [line] R = +3.54128956 G/f2 = +91224923191798880.00000000 (pol 3e-15)  [win] R = +0.10935750 +0.10935750 +0.10935750  34s
+   Delta = 6.0: [line] R = +4.84348674 G/f2 = +124770002042077056.00000000 (pol 5e-15)  [win] R = +0.06638527 +0.06638527 +0.06638527  37s
+   Delta = 8.0: [line] R = +8.20706228 G/f2 = +211416946619767712.00000000 (pol 1e-14)  [win] R = +0.02443222 +0.02443222 +0.02443222  40s
+   diagonal cut-off weight 1 - G(0)/f2: [line] -2.5760e+16  [box] nan  [win] 5.3263e-04 5.3263e-04 5.3263e-04
+saved numerics/networks/kernel_boxb.npz

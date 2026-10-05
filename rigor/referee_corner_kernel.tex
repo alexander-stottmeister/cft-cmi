@@ -1,0 +1,540 @@
+\documentclass[11pt]{article}
+\input{rigor_preamble}
+\title{Referee report REF-P6-5: G3's corner-kernel numerics and its five cards}
+\author{REF-P6-5 (Opus), Phase 6, 2026-10-03}
+\date{}
+\begin{document}
+\maketitle
+
+\section*{Scope and stance}
+Object (brief \texttt{rigor/phase6\_referee\_g3\_brief.md}): G3's \texttt{numerics/networks/corner\_kernel.py} (612 lines),
+\texttt{KERNEL\_RESULTS.md}, the outputs \texttt{kernel\_*.out/.npz/.log}, and the five \texttt{numerical} cards
+\texttt{corner-kernel-pipeline-validation}, \texttt{corner-kernel-t0-frame}, \texttt{corner-kernel-box-frame},
+\texttt{corner-kernel-two-frames}, \texttt{two-corner-remainder-finite-zeta}. Report only (no verdict) on G3's notes
+on \texttt{corner-correlation-kernel}, \texttt{network-second-order-law}, \texttt{dhat-quadrature-certification},
+\texttt{corner-kernel-closed-form}. Stance: adversarial; the burden of proof is on the scripts, outputs and cards.
+G1b's closed form (\texttt{rigor/g1b\_kernel.out}) is under review by REF-P6-4 and is used here as a comparison only.
+
+Conventions: \texttt{rigor/phase6\_brief.md} ``Setting and conventions''; $R(\Delta)=G(\Delta)/G(0)$,
+$G(\Delta)=g_Q(\delta_0,\delta_\Delta)$ the real bilinear form of
+$g_Q(\delta)=\tfrac14\sum_{ij}|\delta_{ij}|^2/W_{ij}$, $W_{ij}=w_i(1-w_j)+w_j(1-w_i)$;
+$f_2=1/(12\pi^2)$; $c=1$.
+
+My files (the only ones I created): this report; \texttt{rigor/ref\_p6\_5\_rerun.py} (reruns of G3's script with every
+output redirected into \texttt{rigor/ref\_p6\_5\_rerun\_*}; G3's files are never written), \texttt{rigor/ref\_p6\_5\_fits.py}
+(my own re-fits, items 3 and 5), \texttt{rigor/ref\_p6\_5\_kernel.py} (independent continuum recomputation, item 6),
+\texttt{rigor/ref\_p6\_5\_checks.py} (items 1, 7, 9), each with its \texttt{.out}. Interpreter:
+\texttt{\$V/bin/python} of the brief, 2 threads. Every number below is quoted from one of these outputs or from
+a G3 output that I opened, with the file named.
+
+\section{Item 1: definitions, the shift sign, the box corner 2}
+\textbf{(a) The quantity.} \texttt{corner\_kernel.bil} returns $\tfrac14{\rm Re}\sum_{ij}\overline{A_{ij}}B_{ij}/W_{ij}$ with
+$A,B$ in $Q$'s eigenbasis (\texttt{to\_eig}) and $W_{ij}=w_i(1-w_j)+w_j(1-w_i)$ (\texttt{sld}): the real polarisation of
+$g_Q$ of the brief. The polarisation identity holds to $\le2.2\times10^{-16}G_0$ in every T0 rung (\texttt{kernel\_t0.out})
+and qfi\_c2 polarised equals it to $\le2.3\times10^{-16}$ where $Q_{\rm box}$ is resolved (\texttt{kernel\_box.out}). OK.
+
+\textbf{(b) Sign of the shift.} \texttt{t0\_defect} calls \texttt{f3\_t0.ddot(e - e[k], k)} with $e_k=\Delta$: the cell
+integrals of \texttt{f3\_t0.kern} at $(y_1-\Delta,y_2-\Delta)$ over cells left/right of node $k$, i.e.\ the kernel is
+supported on $y_1<\Delta<y_2$ --- the corner sits at $y=+\Delta$, the translate of lem:field's field
+$\zeta w(y-y_p)\mathbf 1_{y>y_p}\partial_y$ with $y_p=\Delta$ (\texttt{rigor/network\_corner\_calculus.tex}:399--412). In
+$y=-\log(1-x)$ this is $x_p=1-e^{-\Delta}>0$, the same side as the box's $p'(\Delta)>0$. In the continuum the sign is
+immaterial ($G(-\Delta)=g_Q(\delta_{-\Delta},\delta_0)=G(\Delta)$ by translation invariance of $Q$ and symmetry of the real
+form); on the meshes it decides which window edge the second corner approaches: $Y_{\max}-\Delta\ge12$ (T0) and
+$\Lambda/2-\Delta\ge22$ (box). OK.
+
+\textbf{(c) $p'(\Delta)$.} With $y_I(x)=\log\frac{x+a}{L-x}$ (\texttt{rigor/phase6\_brief.md}, modular frame):
+$y_I(p')-y_I(0)=\Delta\iff L(p'+a)=a e^{\Delta}(L-p')\iff p'=\frac{aL(e^{\Delta}-1)}{L+ae^{\Delta}}$, exactly. OK.
+
+\textbf{(d) $\zeta'=\zeta$.} The second corner is the corner $x'=0$ of the frame $(a',L')=(a+p',L-p')$ of the SAME interval
+$I$, with the `first' kernel of parameter $s'$, i.e.\ $\sigma'=s'/L'$ (Theorem A's $\sigma=s/L$, phase6\_brief). By the
+definition $\zeta=\kappa\beta_I(p)$, $\kappa=\sigma$: $\zeta'=\frac{s'}{L'}\cdot\frac{(p'+a)(L-p')}{a+L}=\frac{s'a'}{a+L}$, which
+equals $\zeta$ exactly for G3's choice $s'=\zeta(a+L)/a'$. The card's statement is right (an identity, not only the
+30-digit check of K0(e)); lem:density (:364--372) is not needed for it.
+
+\textbf{(e) Both frames discretise the same $G$.} For $I=(-a,L)$, $r=a/L$, $t=\xi-\xi_0$:
+\lstep{1}{1}{$x=\frac{a(e^t-1)}{1+re^t}$, $\beta_I(x)=\frac{a(1+r)e^t}{(1+re^t)^2}$.}
+\lby{$x=(Le^{\xi}-a)/(1+e^{\xi})$ with $e^{\xi}=re^t$; $x+a=\frac{a(1+r)e^t}{1+re^t}$, $L-x=\frac{a+L}{1+re^t}$ (as $Lr=a$)}
+\lstep{1}{2}{With $u=-x_1$, $v=x_2$: $\frac{uv}{(u+v)^2}=\frac{(1-e^{t_1})(e^{t_2}-1)(1+re^{t_1})(1+re^{t_2})}{(1+r)^2(e^{t_2}-e^{t_1})^2}$.}
+\lby{<1>1; $u+v=\frac{a(1+r)(e^{t_2}-e^{t_1})}{(1+re^{t_1})(1+re^{t_2})}$ after expanding the numerator}
+\lstep{1}{3}{$\sqrt{\beta_I(x_1)\beta_I(x_2)}\,\sigma\frac{uv}{(u+v)^2}=\zeta\,{\rm kern}_{T0}(t_1,t_2)$,
+${\rm kern}_{T0}(t_1,t_2)=-\frac{\sinh(t_1/2)\sinh(t_2/2)}{\sinh^2((t_1-t_2)/2)}$, $\zeta=\sigma\frac{aL}{a+L}$.}
+\lby{<1>1, <1>2: the factors $(1+re^{t})$ cancel, $\sigma a/(1+r)=\sigma aL/(a+L)=\zeta$; then $1-e^{t_1}=-2e^{t_1/2}\sinh\frac{t_1}2$,
+$e^{t_2}-1=2e^{t_2/2}\sinh\frac{t_2}2$, $e^{t_2}-e^{t_1}=2e^{(t_1+t_2)/2}\sinh\frac{t_2-t_1}2$}
+\lqed{1}{4}\ So the box `first' defect in half-density form is exactly $\zeta\,\dot\delta(\xi-\xi_p)$ at each corner, with
+$\zeta=1/3$ for both (by (d)); dividing by $\zeta_1\zeta_2=1/9$ (code: \texttt{/zeta**2}) gives the same $G(\Delta)$ as the
+T0 frame. The conversions (C1)--(C5) of \texttt{KERNEL\_RESULTS.md} are right; the box line symbol
+$q(\kappa)=(1+e^{\kappa})^{-1}$ on $e^{ik\xi}$, $\kappa=2\pi k$, is $1-w(k)$ of the T0 convention, and $W$ is invariant under
+$w\to1-w$, so $g_Q$ is the same.
+\begin{verdictok}
+Item 1: definitions, sign of the shift, $p'(\Delta)$, $\zeta'=\zeta$ and the frame conversions are correct; (c), (d), (e)
+hold exactly (proved above), not only to 30 digits.
+\end{verdictok}
+
+\section{Item 2: K0 reproductions}
+Rerun: \texttt{\$V/bin/python rigor/ref\_p6\_5\_rerun.py K0} (G3's \texttt{k0()} with every write redirected) $\to$
+\texttt{rigor/ref\_p6\_5\_rerun\_K0.out}: its 32 result lines are identical, digit for digit, to those of
+\texttt{numerics/networks/kernel\_validate.out} (only timestamps and timings differ; the current script reproduces the
+file). I opened every cited source myself:
+\begin{itemize}[leftmargin=*]
+\item \texttt{numerics/optimality\_all/f3\_t0\_final.out} lines 1--5: $g/f_2=0.91158, 0.95454, 0.97654, 0.98699, 0.99019$ at
+$h=0.24\ldots0.02$, $Y=6$, $Y_{\max}=20$. K0(a): $0.9115757, 0.9545448, 0.9765373, 0.9869870, 0.9901862$; $\max|{\rm diff}|
+=4.8\times10^{-6}<5\times10^{-6}$ (half a unit of the 5th decimal). Reproduced.
+\item \texttt{numerics/results\_batch3.txt}:8: ``first\_s1.0\_Lam60\_k30 \ldots c2/zeta\^{}2 = f2 = 0.00836978 [eig(Q\_N) in
+(2.78e-13,1.000000)]''. K0(c): $0.008369783$, smallest eigenvalue $2.77\times10^{-13}$. Reproduced.
+\item \texttt{numerics/line\_so.txt}:4: ``Dhat\_first\_s1.0\_Lam120\_k45\_g12.npz: kmax=44.74 N=273 f2\_line=0.0084112''; line 1:
+$0.0083698$ at $(60,30)$. K0(c$'$): $0.008411248$, $0.008369789$. Reproduced. The line symbol and the compression
+$Q_{\rm box}$ differ by $5.3\times10^{-9}$ $(60,30)$ and $3.7\times10^{-10}$ $(120,30)$ in $f_2$, where both are evaluable.
+\item K0(b): bilinear code vs \texttt{f3\_gal.theta}'s $g_0$: relative $0, 0, 2.1, 2.1, 0\times10^{-16}$. K0(d):
+\texttt{box\_corner(stable=False)} vs \texttt{defect\_matrix.run}: $1.8\times10^{-16}$ $(60,30)$, $3.5\times10^{-16}$ $(120,45)$
+of $\max|D|$. K0(e): worst $6.0\times10^{-27}$ (30 digits). All reproduced; item 1 proves (e) exactly.
+\item \texttt{rigor/check\_note5\_numerics.tex}:677--679 already records that substituting the closed form of
+\texttt{rigor/kernel\_identity.tex} for $\hat D$ on the same $(120,45)$ grid gives $f_2=0.0084111$ instead of
+$0.0084112$. G3's cancellation-free kernel gives $0.99617060\,f_2$, i.e.\ $0.0084111$ (\texttt{kernel\_box.out}, block
+$(120,45)$): G3's finding (ii) explains that earlier unexplained $10^{-7}$ discrepancy (item 9).
+\item Finding (iii): \texttt{numerics/optimality\_all/f3\_t0\_Y.out} lines 3 and 6: $g/f_2=0.95443$ ($Y=6$) and
+$0.96000$ ($Y=14$) at $h=0.12$, $Y_{\max}=10$: a $0.58\,\%$ A-side window loss. Reproduced; G3's own $Y=14$ rungs give
+$1-G_0/f_2=0.829\,\%$ ($h=1/32$) and $0.139\,\%$ ($h=1/128$).
+\end{itemize}
+One locator problem: the card's finding (ii) says that in a shifted frame \texttt{defect\_matrix.run}'s formula ``gives NaN
+at $\Lambda=120$'' and that each finding is ``checked in the outputs named'', but no named output contains a NaN (the
+first K2 pass that produced it was overwritten; \texttt{KERNEL\_RESULTS.md} K2 says so). I reproduce it in item 9.
+\begin{verdictok}
+K0 reproductions: every value of the card's (a)--(e) and of findings (i) and (iii) is reproduced from the cited files and
+by the rerun. MINOR: the NaN of finding (ii) is not in any output named on the card (item 9 reproduces it).
+\end{verdictok}
+
+\section{Item 3: T0 frame (corner-kernel-t0-frame)}
+Script \texttt{rigor/ref\_p6\_5\_fits.py} $\to$ \texttt{rigor/ref\_p6\_5\_fits.out} (my own fit code: \texttt{lin}
+and \texttt{log} by linear least squares, \texttt{pow} $v_0+c\,h^p$ by nonlinear least squares in $(v_0,c,p)$,
+$p\in[0.1,4]$, nine starts; windows 4f/4c and the residual criterion $\max|{\rm res}|\le10^{-4}$ at the three finest
+rungs exactly as in the brief). Input: G3's saved rungs \texttt{kernel\_t0.npz}, \texttt{kernel\_t0b.npz}; they equal the
+printed values of \texttt{kernel\_t0.out} to $4.9\times10^{-9}$ (8-decimal print).
+
+\begin{center}\small
+\begin{tabular}{lllllll}\toprule
+$\Delta$ & G3 (card) & mine & two finest rungs $R_{1/64},R_{1/128}$ & $|$diff$|$ & $R_{T0}-$closed form & ratio to $u$\\\midrule
+0.5 & 0.898440(106) & 0.898446(112) & 0.898195, 0.898304 & 1.1e-4 & +5.3e-5 & 0.49\\
+1   & 0.745727(140) & 0.745737(150) & 0.745184, 0.745430 & 2.5e-4 & +1.1e-4 & 0.82\\
+1.5 & 0.600897(158) & 0.600909(170) & 0.600159, 0.600495 & 3.4e-4 & +1.5e-4 & 0.97\\
+2   & 0.477128(164) & 0.477141(176) & 0.476303, 0.476679 & 3.8e-4 & +1.7e-4 & 1.06\\
+3   & 0.294682(153) & 0.294693(164) & 0.293884, 0.294249 & 3.6e-4 & +1.6e-4 & 1.05\\
+4   & 0.179911(128) & 0.179920(137) & 0.179260, 0.179558 & 3.0e-4 & +1.3e-4 & 0.97\\
+5   & 0.109391(99)  & 0.109398(106) & 0.108903, 0.109128 & 2.2e-4 & +9.1e-5 & 0.91\\
+6   & 0.066415(74)  & 0.066419(79)  & 0.066066, 0.066227 & 1.6e-4 & +6.5e-5 & 0.88\\
+8   & 0.024448(37)  & 0.024450(40)  & 0.024285, 0.024361 & 7.6e-5 & +2.9e-5 & 0.78\\\bottomrule
+\end{tabular}\end{center}
+(``closed form'': \texttt{rigor/g1b\_kernel.out} block P1, refereed by REF-P6-4; ratio $=|R_{T0}-{\rm closed\ form}|/u$ with the
+card's rounded values; item 6 gives an independent value of the same quantity.)
+
+\begin{itemize}[leftmargin=*]
+\item Re-fit: my centres differ from G3's by $\le1.3\times10^{-5}$ and my half-spreads by $\le1.2\times10^{-5}$; the
+difference is the \texttt{pow} criterion (G3 picks $p$ on a grid by the smallest in-window maximum residual, I minimise
+the sum of squares). The quoted estimates follow, their fifth digit is criterion-dependent. Local exponents at
+$\Delta=1$: $0.612, 0.778, 0.941, 1.070$ (card: 0.61, 0.78, 0.94, 1.07) --- reproduced.
+\item Admissible fits: \texttt{lin} and \texttt{pow} on 4f and 4c at every $\Delta$, as the card says --- but ALSO
+\texttt{log-4f}, a model with NO finite limit, at $\Delta=0.5$ ($r_3=8.2\times10^{-5}$) and $\Delta=8$ ($6.6\times10^{-5}$)
+(G3's own \texttt{kernel\_t0\_fits.out} prints it ``admissible'' too). \texttt{corner\_kernel.estimate} drops non-finite
+limits without a stated reason, and the card's list of admissible fits omits it. Under AGENTS.md \S5 an admissible
+divergent model means the data do not exclude it; the exclusion must be argued (the bound $|R_h|\le1$ does not exclude it
+on any computable range) or disclosed. [MINOR]
+\item Uncertainty: the quoted $u$ (fit half-spreads, $3.7\times10^{-5}\ldots1.6\times10^{-4}$) is smaller than the
+difference of the two finest rungs at every $\Delta$ ($7.6\times10^{-5}\ldots3.8\times10^{-4}$), the estimates lie
+$1.4\ldots4.5\times10^{-4}$ beyond the finest rung, and the frame's own calibration on the known diagonal limit gives an
+overshoot of $+2.8\times10^{-4}$ (mine: $+3.1\times10^{-4}$, \texttt{pow-4f}, the only admissible fit) --- larger than every
+quoted $u$. Against the refereed closed form the T0 values are all high, by $0.49\ldots1.06\,u$; at $\Delta=2$ and $3$
+the true value lies outside the quoted interval. The card discloses the overshoot in a separate sentence but quotes the
+values with an uncertainty that excludes it. [GAP in the card's uncertainty, repair below]
+\item Systematics: $Y_{\max}=20\to24$ changes $R_h(8)$ by $+2.25\times10^{-7}\ldots+2.75\times10^{-7}$ ($h=1/64\ldots1/4$;
+card ``$2.3\times10^{-7}$'') --- reproduced; it is checked only up to $h=1/64$ (no $Y_{\max}=24$ rung at $1/128$).
+Diagonal cut-off weight $1-G_0/f_2=1.389\times10^{-3}$ at $h=1/128$ --- reproduced. Brief's ladder at $\Delta=6$: my
+\texttt{pow-4f} gives $0.0667724$ (G3 $0.066750$), $3.6\times10^{-4}$ above the dyadic estimate (card $3.4\times10^{-4}$).
+\end{itemize}
+\begin{verdictgap}
+\texttt{corner-kernel-t0-frame}: the rungs, exponents, fits, $Y_{\max}$ and diagonal checks reproduce; the quoted
+uncertainties $(11)\ldots(16)$ are fit spreads that exclude the frame's own calibrated $h$-extrapolation overshoot
+($\approx3\times10^{-4}$), and the truth lies outside them at $\Delta=2,3$. Repair: quote $u_{T0}=$ fit spread $+\,3\times10^{-4}$
+(or say ``fit spread only; calibrated overshoot $+3\times10^{-4}$ not included; values $0.5\ldots1.06\,u$ above the refereed
+closed form''), and list \texttt{log-4f} as admissible at $\Delta=0.5,8$ with the reason it is excluded.
+\end{verdictgap}
+
+\section{Item 4: box frame (corner-kernel-box-frame)}
+Script \texttt{rigor/ref\_p6\_5\_checks.py 4} $\to$ \texttt{rigor/ref\_p6\_5\_checks\_4.out} (G3's
+\texttt{kernel\_box.npz}, \texttt{kernel\_boxb.npz} at full precision); rerun \texttt{rigor/ref\_p6\_5\_rerun.py K2r}
+(G3's \texttt{k2} on the box $(120,45)$): result lines identical to \texttt{kernel\_box.out}, arrays bit-identical
+(\texttt{rigor/ref\_p6\_5\_rerun\_K2r\_kernel\_box.npz}).
+\begin{itemize}[leftmargin=*]
+\item Regulator size. $\varepsilon=10^{-13},10^{-12},10^{-11}$ change $R$ by $\le8.1\times10^{-10}$ and $G/f_2$ by
+$\le1.9\times10^{-9}$ at every box (card: $\le2\times10^{-9}$). Where $Q_{\rm box}$ is resolved ($\kappa_{\max}=30$),
+$[{\rm win}]-[{\rm box}]$ in $R$ is $0$ ($10^{-13}$: no pair dropped), $6.3\times10^{-11}$ / $7.5\times10^{-11}$
+($10^{-12}$, production; $(60,30)$ / $(120,30)$), $8.1\times10^{-10}$ ($10^{-11}$): the card's $7.5\times10^{-11}$ is the
+production value. Reproduced.
+\item Line weights: $|R_{\rm line}-R_{\rm win}|\le8.5\times10^{-6}$ $(60,30)$; $8.4\times10^{-8}$, $1.7\times10^{-8}$,
+$1.7\times10^{-7}$ at $\Lambda=120$, $\kappa_{\max}=30,45,60$ --- reproduced; $0.12$, $10$, $8.2$, $8.2$ at
+$\kappa_{\max}=75\ldots120$: the line weights are unusable there (\texttt{kernel\_boxb.out}).
+\item \S5 regulator rule. A regulator-free computation on the same mesh exists only at $\kappa_{\max}=30$ ([box]); at
+45 and 60 the regulator-free comparison is a different operator (the line symbol, which differs from $Q_{\rm box}$ by up
+to $8.5\times10^{-6}$ in $R$ where both exist); at $\kappa_{\max}=75\ldots120$ --- the rungs that carry $S_{\rm box}$ and its
+envelope --- none exists in double precision. The card's sentence ``equal to line\_so.py's weights \ldots up to
+kappa\_max = 60'' is exact, but the card does not say that the production rungs have no regulator-free comparison,
+nor that the values are therefore regulator-dependent with spread $\le2\times10^{-9}$, as AGENTS.md \S5 requires
+(``its card says so''). The regulator is harmless in fact: my regulator-free continuum value (item 6) lies inside the
+envelope at every $\Delta$. [MINOR, wording]
+\item Envelope as uncertainty: disclosed (``S = G/f2 at kappa\_max = 120 with the envelope of kappa\_max = 75 \ldots 120'').
+It replaces \S5's ``spread across admissible fits'' at EVERY $\Delta$, but the card justifies it only at $\Delta=0.5$
+(``no smooth fit \ldots admissible''); at $\Delta\ge1$ fits are admissible (\texttt{kernel\_box\_fits.out}) and at $\Delta=3$
+their interval $0.2945479\pm1.95\times10^{-5}$ excludes the true $0.2945231$ (item 6), while the envelope contains it.
+The deviation is justified by the data (oscillatory sharp cut-off) and must be stated for all $\Delta$. [MINOR]
+\item Envelope values: $S(120)$ and $\max_{k=75..105}|S(k)-S(120)|$ reproduce the card ($1.9\times10^{-4}$ at
+$\Delta=0.5$ down to $2.7\times10^{-7}$ at $\Delta=8$); each envelope is $\ge|S(105)-S(120)|$, and the true value lies inside
+at every $\Delta$ ($\le0.38$ envelope). Cosmetic: the envelopes $5.551\times10^{-6}$ ($\Delta=4$) and $5.40\times10^{-7}$
+($\Delta=6$) are quoted as $(55)$ and $(5)$, i.e.\ rounded down.
+\item $\Lambda=60$ vs $120$ at $\kappa_{\max}=30$: $|\delta(G/f_2)|\le9.6\times10^{-5}$, $|\delta R|\le1.7\times10^{-4}$
+(\texttt{kernel\_box\_fits.out}, window column; it mixes $\kappa_{\max}^{\rm eff}=29.61$ vs $29.94$, as
+\texttt{KERNEL\_RESULTS.md} says). Diagonal cut-off weight $1-G_0/f_2=8.63\times10^{-3}\ldots5.33\times10^{-4}$, times
+$\kappa_{\max}^2$: $7.73\ldots7.64$ --- the $\kappa^{-2}$ law, reproduced. $R_{\rm box}-S_{\rm box}=R\times5.3\times10^{-4}$:
+reproduced (\texttt{kernel\_decay.out}).
+\end{itemize}
+\begin{verdictgap}
+\texttt{corner-kernel-box-frame}: every number reproduces and the values are accurate (item 6); repair the wording:
+(1) at $\kappa_{\max}=75\ldots120$ no regulator-free computation exists on the same mesh ([line] unstable, [box] not
+evaluable), so $S_{\rm box}$ is regulator-dependent with spread $\le2\times10^{-9}$ over $\varepsilon=10^{-13}\ldots10^{-11}$
+(\S5); (2) the envelope replaces the \S5 fit spread at every $\Delta$, not only where no fit is admissible.
+\end{verdictgap}
+
+\section{Item 5: two frames (corner-kernel-two-frames)}
+Script \texttt{rigor/ref\_p6\_5\_fits.py} (second part) $\to$ \texttt{rigor/ref\_p6\_5\_fits.out}, lines ``item 5''.
+\begin{itemize}[leftmargin=*]
+\item $|R_{T0}-S_{\rm box}|$ from the two single-frame cards: $9.0, 9.7, 16.3, 16.5, 15.5, 12.5, 9.1, 6.5, 2.9\times10^{-5}$ at
+$\Delta=0.5\ldots8$ (from the unrounded outputs: max $1.63\times10^{-4}$); card ``$1.6\times10^{-4}$'' --- reproduced. All four
+estimators within $4.8\times10^{-4}$ (\texttt{kernel\_decay.out}) --- reproduced.
+\item Agreed values: my midpoints and $|{\rm diff}|/2+\max(u_{T0},u_{\rm box})=2.35, 1.89, 2.42, 2.43, 2.28, 1.93, 1.45, 1.07,
+0.51\times10^{-4}$, rounded up, give exactly the card's $0.8984(3)\ldots0.02443(6)$; both frames lie inside at every $\Delta$;
+the true value (item 6) lies inside at every $\Delta$, by $\le0.43\,u$ (all agreed values are high, by
+$10^{-6}\ldots8.5\times10^{-5}$: the midpoint inherits half the T0 overshoot).
+\item Independence (AGENTS.md \S5: different algorithm, no shared code beyond numpy/scipy/mpmath/flint primitives). The
+two frames share \texttt{corner\_kernel.sld/bil} (eigen-decomposition of $Q$, $W_{ij}$, the real bilinear sum; 8 lines).
+The card discloses it and both functions are checked against independent code (\texttt{f3\_gal.theta}: $\le2.1\times10^{-16}$;
+polarised \texttt{compression\_box.qfi\_c2}: $\le2.3\times10^{-16}$), so I accept ``independent up to the definition of
+$g_Q$'' as disclosed. Item 6 removes the question: an algorithm with no shared code reproduces both frames within their
+quoted uncertainties (the T0 exception at $\Delta=2,3$ is item 3's). \texttt{KERNEL\_RESULTS.md}'s ``Three methods with no
+shared code agree'' is inaccurate for the two frames. [MINOR]
+\item Sign: $\min R/u=661$ (T0, $\Delta=8$) --- reproduced (card $\ge600$). It rests on the T0 uncertainty that item 3 finds
+understated; with $u_{T0}+3\times10^{-4}$ the factor is $\ge72$, the sign conclusion on the grid is unchanged.
+``R $<$ 1 at every Delta $>$ 0'' is a claim between grid points, which the same Statement disclaims (``nothing is claimed
+between grid points''); numerically only the nine grid values are $<1$. (It is true for all $\Delta\ne0$ by the refereed
+\texttt{corner-kernel-closed-form} (e), which the card may cite instead.) The title's ``on Delta in [0.5, 8]'' likewise
+means nine grid points. [MINOR, wording; a claim beyond the data]
+\item Decay: local rates $0.4934, 0.4975, 0.4990, 0.4997$ (T0) and $0.4936, 0.4977, 0.4991, 0.4998$ (box) --- reproduced; the
+closed form gives the box's four values to 4 digits. My own least-squares fits on $\Delta\in\{3,\ldots,8\}$:
+$Ae^{-\alpha\Delta}$: $\alpha=0.4981$ (T0), $0.4982$ (box), $A=1.317$, max log-residual $3.1\times10^{-3}$;
+$A\Delta^be^{-\alpha\Delta}$: $\alpha=0.5058$, $b=+0.040$, $6.2\times10^{-4}$; over both models, frames and $R\pm u$:
+$\alpha=0.5019\pm0.0040$ --- card ``$0.502\pm0.004$'' reproduced. Neither model is the true form
+($R=\tfrac43x(1-\tfrac{x^2}4+\ldots)$, $x=e^{-\Delta/2}$, refereed card (d)); the fitted $\alpha$ is model-dependent, contains
+$1/2$, and the card correctly calls the local rates the cleaner statement.
+\end{itemize}
+\begin{verdictgap}
+\texttt{corner-kernel-two-frames}: all numbers reproduce and the agreed values contain the true $R$ at every grid point.
+Repair: replace ``R $<$ 1 at every Delta $>$ 0'' by ``at every grid Delta'' (or cite corner-kernel-closed-form (e)); restate
+``R/u $\ge$ 600'' with the repaired T0 uncertainty ($\ge70$); title ``on the nine grid points of [0.5, 8]''.
+\end{verdictgap}
+
+\section{Item 6: independent recomputation of $R(\Delta)$}
+Script \texttt{rigor/ref\_p6\_5\_kernel.py} $\to$ \texttt{rigor/ref\_p6\_5\_kernel.out}, \texttt{.npz} (43\,s). Algorithm:
+a continuum computation on the whole line in the modular frame of the T0 kernel --- no cells, no box, no window, no
+eigen-decomposition, no regulator; it shares no code with \texttt{corner\_kernel.py}, and I did not open
+\texttt{rigor/g1b\_kernel.py}. The only common input is the definition of $\dot\delta$ and of $w$.
+
+\lstep{1}{1}{$1/W(p,p')=1+\cosh(2\pi P)/\cosh(\pi q)$, $P=\tfrac{p+p'}2$, $q=p-p'$.}
+\lby{$w(p)(1-w(p'))=e^{-2\pi p'}/((1+e^{-2\pi p})(1+e^{-2\pi p'}))$, so $1/W=(1+e^{-2\pi p})(1+e^{-2\pi p'})/(e^{-2\pi p}+e^{-2\pi p'})
+=2\cosh(\pi p)\cosh(\pi p')/\cosh(\pi q)$, and $2\cosh\pi p\cosh\pi p'=\cosh 2\pi P+\cosh\pi q$}
+\lstep{1}{2}{With $\hat d(p,p')=\frac1{2\pi}\iint e^{-ipy}D(y,y')e^{ip'y'}$, $D=\dot\delta$ (AD block $\tfrac{i}{2\pi}k(u,v)$,
+$y=-u$, $y'=v$, $k=\sinh\tfrac u2\sinh\tfrac v2/\sinh^2\tfrac{u+v}2$) plus its adjoint: $\hat d=-\frac1{2\pi^2}\,{\rm Im}\,K(p,p')$,
+$K=\int_0^\infty\!\!\int_0^\infty e^{i(pu+p'v)}k\,du\,dv$ (real, symmetric in $p,p'$).}
+\lby{the DA block contributes $\overline{A(p',p)}$ and $k(u,v)=k(v,u)$, so $\hat d=\frac{i}{4\pi^2}(K-\bar K)$}
+\lstep{1}{3}{${\rm Im}\,K=\frac{1}{2(1+q^2)}\bigl[\frac{\tilde C(p')-\tilde C(p)}{q}-S(p)-S(p')\bigr]$ with
+$S(a)=\int_0^\infty\frac{\sin as}{\sinh(s/2)}ds$, $\tilde C(a)=\int_0^\infty(\cos as-1)\frac{\cosh(s/2)}{\sinh^2(s/2)}ds$.}
+\lby{$s=u+v$, $d=u-v$, $du\,dv=\tfrac12 ds\,dd$, $\sinh\tfrac u2\sinh\tfrac v2=\tfrac12(\cosh\tfrac s2-\cosh\tfrac d2)$; the odd part
+in $d$ drops; $\int_{-s}^{s}\cos\tfrac{qd}2(\cosh\tfrac s2-\cosh\tfrac d2)dd=\frac{4}{1+q^2}\bigl[\frac{\sin(qs/2)\cosh(s/2)}{q}-\cos\tfrac{qs}2\sinh\tfrac s2\bigr]$
+(elementary antiderivative), then product-to-sum}
+\lstep{1}{4}{$\tilde C(a)=-2aS(a)$, hence $\hat d(p,p')=-\frac{(p+p')(S(p)-S(p'))}{4\pi^2(1+q^2)\,q}$, $\hat d(p,p)=-\frac{pS'(p)}{2\pi^2}$.}
+\lby{$\frac{\cosh(s/2)}{\sinh^2(s/2)}=\frac{d}{ds}\frac{-2}{\sinh(s/2)}$; the boundary terms vanish ($(\cos as-1)/\sinh\tfrac s2\to0$ at both
+ends); then algebra}
+\lstep{1}{5}{Numerics (all in \texttt{ref\_p6\_5\_kernel.out}). $S$, $S'$ on $a\in h\mathbb Z$ by the trapezoid rule on
+$s=(i+\frac12)k$ (even integrand): $k\to k/2$, $s_{\max}=80\to90$ changes them by $\le1.5\times10^{-13}$, $5.8\times10^{-13}$;
+QUADPACK (QAWO/QAWF $+\,2\,{\rm Si}$) agrees to $\le5\times10^{-15}$ for $a\le250$ ($10^{-10}$ at $a=1000$, a QUADPACK
+error: the trapezoid's refinement is stable there). The reduction <1>3--<1>4 is checked against a brute-force 2-D
+Gauss--Legendre quadrature of $\dot\delta$ itself (3980 nodes per axis, graded at the corner) at six points:
+$|\hat d_{\rm reduced}-\hat d_{\rm brute}|\le5.6\times10^{-17}$. Sums: product trapezoid on $(p,p')\in h\mathbb Z^2$
+(Poisson aliasing $\sim G(2\pi/h-\Delta)+O(e^{-\pi/h})$), $|P|\le|q|/2+5$, $|q|\le Q_M$, tail $|q|>Q_M$ from
+$q^3\rho(q)=c_3+c_5/q^2$ fitted on $[Q_M/2,Q_M]$ (a model in the convergence variable; $c_3=0.00211086$, equal to
+$1/(48\pi^2)$ to 8 digits --- observed, not used).}
+\lstep{1}{6}{Validation and convergence (tolerance $10^{-7}$, fixed before the run): $G(0)/f_2-1=-5.4\times10^{-12}$
+(exactly known case, Theorem A); $h=0.1\to0.05$: $\max|\delta R|=1.1\times10^{-11}$; $Q_M=500\to1000$:
+$6.0\times10^{-9}$; $\max|R-G/f_2|=4.8\times10^{-12}$. The tail is $2.5\times10^{-7}f_2$ at $\Delta=0$ and
+$\le10^{-9}f_2$ for $\Delta\ge0.5$. Digits stable across the two finest resolutions: 8 (two methods: the trapezoid in
+$s$ and the 2-D brute force agree on $\hat d$; the q-sum is single-method).}
+
+\begin{center}\small Three-way deviations ($R_{\rm mine}$ at $h=0.05$, $Q_M=1000$; ``g1b'' $=$ \texttt{rigor/g1b\_kernel.out}
+P1, refereed by REF-P6-4; card values as transcribed; [$\checkmark$] $=$ inside the card's quoted uncertainty)\\[2pt]
+\begin{tabular}{llllll}\toprule
+$\Delta$ & $R_{\rm mine}$ & mine$-$g1b & agreed (G3)$-$mine & $R_{T0}-$mine & $S_{\rm box}-$mine\\\midrule
+0.5 & 0.8983865805 & $+4.3\times10^{-10}$ & $+1.3\times10^{-5}$ [$\checkmark$] & $+5.3\times10^{-5}$ [$\checkmark$] & $-3.7\times10^{-5}$ [$\checkmark$]\\
+1   & 0.7456151408 & $-3.7\times10^{-10}$ & $+8.5\times10^{-5}$ [$\checkmark$] & $+1.1\times10^{-4}$ [$\checkmark$] & $+1.8\times10^{-5}$ [$\checkmark$]\\
+1.5 & 0.6007453639 & $+3.0\times10^{-10}$ & $+5.5\times10^{-5}$ [$\checkmark$] & $+1.5\times10^{-4}$ [$\checkmark$] & $-8.4\times10^{-6}$ [$\checkmark$]\\
+2   & 0.4769603378 & $-2.0\times10^{-10}$ & $+4.0\times10^{-5}$ [$\checkmark$] & $+1.7\times10^{-4}$ [\textbf{out}] & $+4.7\times10^{-6}$ [$\checkmark$]\\
+3   & 0.2945230534 & $-2.4\times10^{-11}$ & $+7.7\times10^{-5}$ [$\checkmark$] & $+1.6\times10^{-4}$ [\textbf{out}] & $+1.9\times10^{-6}$ [$\checkmark$]\\
+4   & 0.1797843036 & $+8.3\times10^{-11}$ & $+1.6\times10^{-5}$ [$\checkmark$] & $+1.3\times10^{-4}$ [$\checkmark$] & $+6.0\times10^{-7}$ [$\checkmark$]\\
+5   & 0.1092990335 & $+8.5\times10^{-11}$ & $+9.7\times10^{-7}$ [$\checkmark$] & $+9.1\times10^{-5}$ [$\checkmark$] & $+2.7\times10^{-7}$ [$\checkmark$]\\
+6   & 0.0663498369 & $+2.0\times10^{-11}$ & $+3.0\times10^{-5}$ [$\checkmark$] & $+6.5\times10^{-5}$ [$\checkmark$] & $+6.3\times10^{-8}$ [$\checkmark$]\\
+8   & 0.0244192133 & $-5.7\times10^{-11}$ & $+1.1\times10^{-5}$ [$\checkmark$] & $+2.9\times10^{-5}$ [$\checkmark$] & $-1.3\times10^{-8}$ [$\checkmark$]\\\bottomrule
+\end{tabular}\end{center}
+\begin{verdictok}
+Item 6: an independent algorithm reproduces the refereed closed form to $\le4.3\times10^{-10}$ at all nine $\Delta$ (and
+$G(0)=f_2$ to $5\times10^{-12}$). G3's agreed values contain the true $R$ at every grid point (all high, by
+$10^{-6}\ldots8.5\times10^{-5}\le0.43\,u$); the box values lie inside their envelopes (by $\le0.38$ of it); the T0 values are
+all high by $2.9\times10^{-5}\ldots1.7\times10^{-4}$ and fall outside their quoted uncertainty at $\Delta=2,3$ --- the item-3 GAP.
+\end{verdictok}
+
+\section{Item 7: K4 (two-corner-remainder-finite-zeta)}
+Script \texttt{rigor/ref\_p6\_5\_checks.py 7} $\to$ \texttt{rigor/ref\_p6\_5\_checks\_7.out}; rerun
+\texttt{rigor/ref\_p6\_5\_rerun.py K4v} $\to$ \texttt{rigor/ref\_p6\_5\_rerun\_K4v.out}. K4 and K4b themselves were not rerun:
+their outputs record 1047\,s and 2250\,s (\texttt{kernel\_k4.out}, \texttt{kernel\_k4b.out}, per-line timings); K4b exceeds the
+brief's 20-minute limit and K4 is close to it.
+\begin{itemize}[leftmargin=*]
+\item Exact composite kernel. With $\Phi=k_1\circ k_2$ ($k_1$ parabolic at 0 acting on $x>0$, $k_2$ at $p'$ acting on $x>p'$),
+$\Phi={\rm id}$ on $P_1$, $m_1$ on $P_2$, $m_1\circ m_2$ on $P_3$, $m_1(z)=z/(1+\sigma_1z)$, $m_2(y)=p'+(y-p')/(1+\sigma_2(y-p'))$,
+so the outer kernel is $\sqrt{m'(y)}/(x-m(y))-1/(x-y)$ with $m=m_1\circ m_2$. My direct composition (40 digits, 400 random
+points, random $\sigma_1,\sigma_2\in[0,3]$, $p'\in[0.05,1.95]$) equals \texttt{box\_composite}'s closed expression
+$K_{13}=N/((U+Y+N)(U+Y))$ to $3.2\times10^{-40}$ relative. The reduction to the single-corner exact kernel at
+$\sigma_2=0$ and at $\sigma_1=0$: $5.2\times10^{-13}$, $5.2\times10^{-13}$ of $\max|D|$ --- reproduced (card $5.2\times10^{-13}$).
+The first-order parts in $\sigma_1,\sigma_2$ of $K_{12},K_{13},K_{23}$ are exactly the two `first' kernels (corner 1 on
+$P_1\times(P_2\cup P_3)$, corner 2 on $(P_1\cup P_2)\times P_3$), so $2\zeta^2G_\varepsilon$ is the exact second-order cross term.
+\item Window method: the K4v rerun is identical to \texttt{kernel\_k4\_validate.out}: one corner, $\varepsilon=10^{-8}$,
+$s=0.025, 0.1$: $-\log F_{\rm sub}=5.679016216\times10^{-7}$, $8.863062300\times10^{-6}$ against \texttt{numerics/results\_A2.txt}:1,3
+($5.679016\times10^{-7}$, $8.863062\times10^{-6}$; I opened the file): reproduced to all printed digits. At $\varepsilon=10^{-11}$, the
+window of all the card's quoted values, the same check against \texttt{numerics/results\_hp.txt}:1 FAILS at
+$8.8\times10^{-6}$ relative ($5.744386$ vs $5.744436\times10^{-7}$; ``cause not investigated'', \texttt{KERNEL\_RESULTS.md}).
+The card does not mention it. Its effect on the card is bounded by the measured $\varepsilon$-dependence of $rem/\zeta^3$
+($\le2.2\times10^{-5}$, below the quoted digits), but the card's ``reproducing results\_A2.txt to all printed digits'' holds
+only for the other window. [MINOR, disclosure]
+\item Table: $rem/\zeta^3$ at $\varepsilon=10^{-11}$ reproduces the card at every $(\Delta,\zeta)$; its variation over
+$\zeta\in\{0.05,0.1,0.2\}$ is $19.1, 17.1, 15.5, 14.7\,\%$ of the largest value ($23.7\ldots17.2\,\%$ of the smallest) at
+$\Delta=1,2,4,8$ --- ``$\le20\,\%$'' holds relative to the largest. $|\varepsilon=10^{-8}$ vs $10^{-11}|\le2.2\times10^{-5}$ in
+$rem/\zeta^3$ --- reproduced. $rem/(2\zeta^2G)/\zeta=-1.95,-1.69,-1.50,-1.42$ at $\zeta=0.05$ (card ``$-(1.4$ to $1.9)\zeta$'';
+$-1.21\ldots-1.57$ at $\zeta=0.2$). Clustering ratio $0.02415$ --- reproduced.
+\item Wording ``O(zeta$^3$)''. In the spectral window the problem is finite-dimensional: $-\log F$ of two quasi-free states
+with symbols strictly inside $(0,1)$ is real-analytic in the defect matrix, the exact composite defect is analytic in
+$(\sigma_1,\sigma_2)$ near 0, and by the previous item its second-order part is exactly $g(D_1)+g(D_2)+2\zeta^2G_\varepsilon$.
+Hence $rem=O(\zeta^3)$ holds there AUTOMATICALLY; three values of $\zeta$ do not test it, they measure the coefficient
+$c(\Delta)\approx rem/\zeta^3$ and show the next order is $\lesssim20\,\%$ on $[0.05,0.2]$. Whether the CONTINUUM remainder
+of the law is $O(\zeta^3)$ (rather than, e.g., $o(\zeta^2)$ with a non-analytic term) is not tested: one box, one window,
+the window removing $1.2\,\%$ of the diagonal. The card's Statement says ``on this box and at these Delta'', but its title
+(``the remainder of the second-order network law is O(zeta\^{}3)'') and G3's note on \texttt{network-second-order-law}
+(``the second-order form holds with an O(zeta\^{}3) remainder at these separations'') state it for the law. [GAP, wording;
+a claim beyond the data]
+\end{itemize}
+
+\begin{verdictgap}
+\texttt{two-corner-remainder-finite-zeta}: the kernel, the validation at $\varepsilon=10^{-8}$ and every table entry reproduce.
+Repair: (1) the title and the Statement must say that $O(\zeta^3)$ refers to the windowed $(60,30)$ problem, where it holds
+by analyticity; the numerics measure the coefficient $c(\Delta)$ (decreasing in $\Delta$), not the order of the continuum
+remainder; (2) disclose that the $\varepsilon=10^{-11}$ validation differs from \texttt{results\_hp.txt}:1 by $8.8\times10^{-6}$
+(cause not identified), bounded on the card's numbers by the $\varepsilon$-dependence $2.2\times10^{-5}$; (3) write
+$-(1.4$ to $2.0)\zeta$ at $\zeta=0.05$ ($-1.95$ at $\Delta=1$).
+\end{verdictgap}
+
+\section{Item 8: G3's deviations from its brief}
+Source: \texttt{rigor/PHASE6\_STATUS.md}, section ``G3 result'' (three deviations), against G3's brief
+\texttt{rigor/phase6\_g3\_brief.md} \S3 and the cards.
+\begin{enumerate}[leftmargin=*]
+\item \emph{$h$-ladder $1/4\ldots1/128$ instead of $0.24\ldots0.03$.} Justified: $\delta_\Delta$ is the exact translate of
+$\delta_0$ on the mesh only if $\Delta/h\in\mathbb Z$ (G3's translate check $\le3.6\times10^{-16}$); for $h=0.24$ this fails at
+every grid $\Delta$ except 6 ($0.5/0.24=2.08$, $3/0.24=12.5$), and $\Delta=3$ is a node only for $h\le0.12$. The brief's
+ladder is run as a cross-check ($\Delta=6$: four rungs; $\Delta=3$: three, no fit). Disclosed on \texttt{corner-kernel-t0-frame}
+with the reason. $Y=14\ge\Delta+6$ and $Y_{\max}=20\ge\Delta+10$ for all $\Delta\le8$, as the brief requires. OK.
+\item \emph{The spectral-window regulator above $\kappa_{\max}\approx33$.} Justified ($Q_{\rm box}$'s eigenvalues
+$\sim e^{-\kappa_{\max}}$ are below machine precision; item 9 (c)); disclosed on \texttt{corner-kernel-box-frame}, with the
+$\varepsilon$-spread. Missing on the card: the \S5 statement that at the production rungs no regulator-free comparison exists
+(item 4). MINOR.
+\item \emph{\texttt{fid\_relent} replaced by the windowed 30-digit method of \texttt{numerics/fidelity\_hp.py}.} Justified
+(item 9 (d): $O(1)$ noise instead of $\sim10^{-7}$). The card \texttt{two-corner-remainder-finite-zeta} names the method used
+(``method of numerics/fidelity\_hp.py'') but neither says that it replaces the brief's \texttt{fid\_relent} nor why; the reason
+is only in the output header and \texttt{KERNEL\_RESULTS.md}. MINOR.
+\end{enumerate}
+Deviations not in the status-file list: (a) the box uncertainty is the envelope of $\kappa_{\max}=75\ldots120$, not the \S5
+fit spread, at every $\Delta$ (item 4; stated on the card, justified there only at $\Delta=0.5$); (b) the T0 estimate drops the
+admissible \texttt{log-4f} fits at $\Delta=0.5,8$ (item 3; not stated); (c) K0(c) at $(120,45)$ is validated against the
+line symbol because \texttt{qfi\_c2} is \texttt{inf} there (stated on the card, finding (i)); (d) added boxes $(120,30)$ and
+$(120,75\ldots120)$, and K4 at $\Delta=8$ besides the clustering (additions, stated). The polarised-\texttt{qfi\_c2} test the
+brief requires ``both must agree to $10^{-10}$'' could be run only at $\kappa_{\max}=30$; the card says so.
+\begin{verdictok}
+Item 8: all three listed deviations are forced by measured obstructions and are justified; (1) is fully disclosed, (2) and (3)
+are disclosed as methods but lack the \S5 regulator statement and the reason for replacing \texttt{fid\_relent} on the cards
+(MINOR); two further deviations (a), (b) are only partly or not stated (items 3, 4).
+\end{verdictok}
+
+\section{Item 9: G3's MINOR code findings}
+Script \texttt{rigor/ref\_p6\_5\_checks.py 9} $\to$ \texttt{rigor/ref\_p6\_5\_checks\_9.out} (G3's and the project's modules
+imported read-only; nothing written outside \texttt{rigor/ref\_p6\_5\_*}).
+\begin{itemize}[leftmargin=*]
+\item \texttt{defect\_matrix.run}'s $\beta_I$. My evaluation at $t=\xi-\xi_0$ of the route $x\mapsto(x+a)(L-x)/(a+L)$ against
+the cancellation-free $a(1+r)e^t/(1+re^t)^2$ (item 1, <1>1): relative error $3.7\times10^{-8}$, $2.0\times10^{-9}$ at
+$t=\mp20$; $5.6\times10^{-4}$, $1.7\times10^{-4}$ at $t=\mp30$; $0.13$, $0.30$ at $t=\mp37$; $\beta=0$ exactly for $|t|\ge45$.
+In the matrix: $\max|D_{\rm run}-D_{\rm stable}|/\max|D|=7.0\times10^{-12}$ $(60,30)$ and $2.5\times10^{-8}$ $(120,45)$ ---
+reproduced. In a shifted frame at $\Lambda=120$, $\kappa_{\max}=45$ the same formulas give NaN in ALL entries at
+$\Delta=0.5$ and $2$ (none at $\Delta=8$) --- reproduced (G3 named no output for it, item 2).
+\item \texttt{compression\_box.qfi\_c2} of the first kernel: finite at $(60,30)$ ($0.008369783$), \texttt{inf} at $(60,45)$,
+$(120,45)$, $(120,60)$, where the smallest eigenvalue of $Q_{\rm box}$ is computed as $-3.4\ldots-6.8\times10^{-16}$ --- reproduced
+(``kappa\_max $\ge$ 45'' holds at both $\Lambda$).
+\item \texttt{compression\_box.fid\_relent}, exact kernel, $s=0.025$, $(60,30)$: my run gives $-\log F=+1.235$;
+\texttt{numerics/results\_batch3.txt}:1 has $-6.540$; lines 1--7 range from $-9.36$ to $+3.06$; the windowed 30-digit value is
+$5.679\times10^{-7}$ (\texttt{results\_A2.txt}:1). So the routine returns $O(1)$ noise of EITHER sign, not reproducibly; G3's
+``returns $-\log F<0$'' (\texttt{KERNEL\_RESULTS.md} K4, K4 output header, status file) describes one draw of it. The
+conclusion (unusable, replaced by the windowed method) stands. [MINOR, wording]
+\item Effect on published numbers, recomputed with the cancellation-free kernel: \texttt{numerics/line\_so.txt}:2--4
+($\Lambda=120$, $\kappa_{\max}=37,41,45$): $f_2^{\rm line}$ shifts by $-1.6\times10^{-9}$, $-1.7\times10^{-8}$, $-1.5\times10^{-7}$, i.e.\
+$0.0083956$ and $0.0084045$ are unchanged at their printed digits and only $0.0084112\to0.0084111$ moves (the value
+\texttt{rigor/check\_note5\_numerics.tex}:677--679 already obtained from the closed form). The windowed value
+\texttt{numerics/results\_first\_window.txt}:1 ($\Lambda=120$, $\kappa_{\max}=45$, $\varepsilon=10^{-8}$, 117 modes): I reproduce
+$f_2^{\rm sub}=0.008239162$ (published $0.0082392$); the cancellation shifts it by $-8.5\times10^{-13}$: the window discards the
+affected modes. The $(60,30)$ certified enclosures move at the $7\times10^{-12}$ level only (G3's note, confirmed by the matrix
+difference). NOT checked: the exact-kernel windowed values at $\Lambda=120$ (\texttt{results\_L120.txt},
+\texttt{results\_final2.txt}, \texttt{results\_largezeta2.txt}); by the $f_2^{\rm sub}$ case the same window makes them insensitive,
+but I did not recompute them.
+\end{itemize}
+\begin{verdictok}
+Item 9: findings (i)--(iii) of \texttt{corner-kernel-pipeline-validation} reproduce; among the published numbers I recomputed
+only $0.0084112$ moves (to $0.0084111$). Wording: \texttt{fid\_relent} returns $O(1)$ noise of either sign, not ``$<0$''.
+\end{verdictok}
+
+\section{Item 10: cards, locators, depends, notes}
+\textbf{Locators and links.} \texttt{kb -p cft\_cmi lint}: 0 issues, 17 awaiting review; \texttt{kb -p cft\_cmi deps --check}
+reports no warning for any of the five cards (all \texttt{num:} tokens resolve; I opened each file). Every \texttt{related} id
+exists (\texttt{theta-value}, \texttt{certified-numerics}, \texttt{dhat-quadrature-certification}, \texttt{thm-a-quadratic-law}, \ldots).
+No \texttt{depends} is declared. The box estimator $S=G/f_2$ and the T0 calibration use $G(0)=f_2$ (Theorem A); a link to
+\texttt{thm-a-quadratic-law} (refereed) on \texttt{corner-kernel-box-frame} and \texttt{corner-kernel-two-frames} would make that
+input explicit. [MINOR]
+
+\textbf{Statements against the outputs} (details in items 2--7): \texttt{corner-kernel-pipeline-validation}: every number
+reproduced; the NaN of finding (ii) is in no named output (item 2). \texttt{corner-kernel-t0-frame}: numbers reproduced;
+uncertainties exclude the calibrated overshoot, \texttt{log-4f} admissible fits unmentioned (item 3). \texttt{corner-kernel-box-frame}:
+numbers reproduced; \S5 regulator statement missing; envelope deviation justified only at $\Delta=0.5$ (item 4).
+\texttt{corner-kernel-two-frames}: numbers reproduced; ``R $<$ 1 at every Delta $>$ 0'' beyond the grid (item 5).
+\texttt{two-corner-remainder-finite-zeta}: numbers reproduced; ``O(zeta\^{}3)'' stated for the law; $\varepsilon=10^{-11}$
+validation mismatch undisclosed (item 7). Labels ``single frame'' are on both single-frame cards. Digits: the box values quote
+envelopes $\ge$ the two-finest-rung differences; the T0 values quote fit spreads SMALLER than their two-finest-rung differences
+(item 3) --- the AGENTS.md \S5 digit rule is met only through the explicit uncertainty, which is understated.
+
+\textbf{G3's notes on the four non-verdict cards} (report only):
+\begin{itemize}[leftmargin=*]
+\item \texttt{corner-correlation-kernel}: values, ``frames agree to $\le1.6\times10^{-4}$'', the $0.6\,\%$ A-side window loss
+(\texttt{f3\_t0\_Y.out} lines 3, 6) and the $0.14\,\%$ T0 deficit at $h=1/128$ are accurate; ``$R/u\ge600$'' rests on the
+understated T0 uncertainty ($\ge72$ after the item-3 repair); the decay rate $1/2$ is now proved (refereed
+\texttt{corner-kernel-closed-form} (d)). Accurate otherwise.
+\item \texttt{network-second-order-law}, first G3 note: $c(\Delta)=-0.024,-0.014,-0.0045,-0.0006$ and the clustering
+$1-0.071$ reproduce; ``the second-order form holds with an O(zeta\^{}3) remainder at these separations'' is stated for the law
+but measured in the windowed $(60,30)$ problem, where $O(\zeta^3)$ is automatic (item 7) --- an overclaim of the same kind as
+the K4 card's title. Second note: the withdrawal is accurate ($A=1.3172$ in \texttt{kernel\_decay.out}; the withdrawn
+$(\varepsilon/2)^{1/2}f_2$ also lacks the prefactor $4/3$ that the refereed bound (d) supplies). Unrelated to G3: the card's
+token \texttt{doc:rigor/network\_corner\_calculus.tex\#label\{thm:sep\}} does not resolve (\texttt{deps --check}).
+\item \texttt{dhat-quadrature-certification}: the cancellation numbers ($7.0\times10^{-12}$, $2.5\times10^{-8}$), the NaN, the
+$0.0084112\to0.0084111$ shift and the $7\times10^{-12}$ effect on the certified $(60,30)$ enclosures are accurate (item 9).
+Inaccurate: ``qfi\_c2 and fid\_relent cannot be evaluated in double precision beyond kappa\_max $\sim$ 33'' --- \texttt{fid\_relent}
+already fails at $\kappa_{\max}=30$ for exact kernels ($O(1)$ noise, \texttt{results\_batch3.txt}:1--7, item 9 (d)), and the cited
+\texttt{kernel\_validate.out} block (c) shows only \texttt{qfi\_c2}.
+\item \texttt{corner-kernel-closed-form}: the box$-$g1b differences ($-3.8\times10^{-5}\ldots0$, inside the envelopes), the
+T0$-$g1b differences ($+5.3\times10^{-5}\ldots+1.7\times10^{-4}$, ``at most 1.05 times the T0 uncertainty'' with the
+unrounded outputs, 1.06 with the card's rounded values) and the local rates are accurate. Item 6 confirms the closed form
+independently to $\le4.3\times10^{-10}$.
+\end{itemize}
+
+\section{Reruns}
+All reruns go through \texttt{rigor/ref\_p6\_5\_rerun.py}, which imports G3's script as a module and redirects its writer and
+\texttt{numpy.savez} into \texttt{rigor/ref\_p6\_5\_rerun\_*} (2 threads; G3 used 4). G3's outputs were not touched (their
+modification times, 2026-10-03 17:17--18:15, are unchanged).
+\begin{center}\small
+\begin{tabular}{lll}\toprule
+job & my output & comparison with G3's output\\\midrule
+K0 & \texttt{ref\_p6\_5\_rerun\_K0.out} & all 32 result lines identical (\texttt{kernel\_validate.out})\\
+K1, one rung $h=1/16$ & \texttt{ref\_p6\_5\_rerun\_K1r.out} & $R_h$, $G/f_2$ identical to 8 decimals at all 10 $\Delta$ (\texttt{kernel\_t0.out});\\
+ & & only the round-off diagnostics ($|{\rm pol}-{\rm bil}|$, translate check, $\sim10^{-16}$) differ\\
+K2, box $(120,45)$ & \texttt{ref\_p6\_5\_rerun\_K2r.out}, \texttt{\_K2r\_kernel\_box.npz} & result lines identical; arrays bit-identical\\
+K4v & \texttt{ref\_p6\_5\_rerun\_K4v.out} & identical (\texttt{kernel\_k4\_validate.out})\\\bottomrule
+\end{tabular}\end{center}
+Not rerun: the full K1 ladder ($\approx10$\,min by the timings in \texttt{kernel\_t0.out}) and K1b (537\,s), K2b, K4 (1047\,s) ---
+all under the 20-minute limit but not needed after the bit-level agreement above; K4b (2250\,s by its per-line timings) exceeds
+the limit. K1fit, K2fit, K3 are post-processing of the saved arrays, which I re-implemented with my own code (items 3, 5). One
+slip of mine: the K0 rerun's stderr went first to \texttt{rigor/ref\_p6\_5\_rerun\_K0.err}, a name outside my permitted
+patterns; I moved it to my scratchpad.
+
+\section{Verdicts}
+Recorded with \texttt{KB\_ACTOR=REF-P6-5 kb -p cft\_cmi verdict ID pass|fail --note ...}; failures first.
+\begin{enumerate}[leftmargin=*]
+\item \texttt{corner-kernel-t0-frame}: STANDS WITH REPAIR (\texttt{fail}). Numbers, exponents, fits, $Y_{\max}$ and diagonal
+checks reproduce (item 3), but the quoted $(11)\ldots(16)$ are fit spreads that exclude the frame's own calibrated
+$h$-extrapolation overshoot ($+2.8\times10^{-4}$ on the diagonal), and the true $R$ (item 6; refereed closed form) lies outside
+them at $\Delta=2$ ($1.06\,u$) and $\Delta=3$ ($1.05\,u$). Repair: $u_{T0}=$ fit spread $+3\times10^{-4}$, or label the spread as
+excluding the overshoot; list \texttt{log-4f} (no finite limit) as admissible at $\Delta=0.5,8$ with the reason it is dropped.
+\item \texttt{corner-kernel-box-frame}: STANDS WITH REPAIR (\texttt{fail}). Numbers reproduce and are accurate (items 4, 6).
+Repair (AGENTS.md \S5): state that at $\kappa_{\max}=75\ldots120$, which carry $S$ and its envelope, no regulator-free
+computation exists on the same mesh ([line] unstable, [box] not evaluable), so $S_{\rm box}$ is regulator-dependent with spread
+$\le2\times10^{-9}$ over $\varepsilon=10^{-13}\ldots10^{-11}$; state the envelope as a deviation from the \S5 fit spread at every
+$\Delta$ (at $\Delta=3$ the admissible fits' interval misses the true value).
+\item \texttt{corner-kernel-two-frames}: STANDS WITH REPAIR (\texttt{fail}). Numbers and agreed values reproduce; the agreed
+values contain the true $R$ at all nine $\Delta$ (item 6). Repair: ``R $<$ 1 at every Delta $>$ 0'' $\to$ ``at every grid Delta''
+(or cite \texttt{corner-kernel-closed-form} (e)); ``R/u $\ge$ 600'' $\to\ \ge70$ with the repaired T0 uncertainty; title
+``at the nine grid points of [0.5, 8]''.
+\item \texttt{two-corner-remainder-finite-zeta}: STANDS WITH REPAIR (\texttt{fail}). Kernel (to $3\times10^{-40}$), validation and
+table reproduce (item 7). Repair: ``O(zeta\^{}3)'' refers to the windowed $(60,30)$ problem, where it holds by analyticity; the
+numerics measure the coefficient, not the order of the continuum remainder (title and Statement); disclose the
+$8.8\times10^{-6}$ mismatch of the $\varepsilon=10^{-11}$ validation with \texttt{results\_hp.txt}:1.
+\item \texttt{corner-kernel-pipeline-validation}: STANDS (\texttt{pass}). Every number reproduced from the cited files and by the
+rerun (item 2), findings (i)--(iii) reproduced (item 9); MINOR: the NaN of finding (ii) is in no named output.
+\end{enumerate}
+
+\section{Second pass (REF-P6-5b)}
+Actor \texttt{REF-P6-5b}, 2026-10-05. Object: G3's repairs of the four cards that failed in the first pass, the regenerated
+\texttt{numerics/networks/kernel\_t0\_fits.out} (173 lines), \texttt{kernel\_decay.out} (31 lines), \texttt{kernel\_t0\_est.npz},
+\texttt{corner\_kernel.py} (623 lines; \texttt{T0\_SYST}$=3\times10^{-4}$ in \texttt{k1fit}, the margin printed in \texttt{k3}),
+and G3's three corrective notes. Checks: \texttt{rigor/ref\_p6\_5\_second.py} $\to$ \texttt{rigor/ref\_p6\_5\_second.out};
+reruns \texttt{rigor/ref\_p6\_5\_rerun.py K1fit}, \texttt{K3} $\to$ \texttt{rigor/ref\_p6\_5\_rerun\_K1fit.out},
+\texttt{\_K3.out}: identical (all non-header lines) to the regenerated \texttt{kernel\_t0\_fits.out} and \texttt{kernel\_decay.out},
+so the current script reproduces them; G3's files untouched.
+\begin{itemize}[leftmargin=*]
+\item \texttt{corner-kernel-t0-frame}. Every total uncertainty in \texttt{kernel\_t0\_fits.out} equals fit half-spread $+3\times10^{-4}$;
+the card's $0.89844(41)\ldots0.02445(34)$ are those totals. My independent $R$ (first pass, item 6) lies inside every
+interval, at $|R_{T0}-R|/u=0.09\ldots0.36$ (card: ``$\le0.4\,u_{T0}$''). The \texttt{log-4f} fits at $\Delta=0.5$ ($8.2\times10^{-5}$) and
+$8$ ($6.6\times10^{-5}$) are named, with a stated data argument for their exclusion (increment ratios $2^{-p_{\rm loc}}=0.47\ldots0.69$,
+from the printed $p_{\rm loc}=0.539\ldots1.082$; correct). $Y_{\max}$ now ``checked up to $h=1/64$''. The How-to-verify locators
+(``-$>$ estimate'' lines; brief-ladder and $Y_{\max}$ as the last two blocks) resolve. All first-pass requests met.
+\item \texttt{corner-kernel-box-frame}. The Statement now says that at $\kappa_{\max}=75\ldots120$ no regulator-free computation
+exists on the same mesh ($|R_{\rm line}-R_{\rm win}|=0.12\ldots10$), that $S$ is regulator-dependent with spread $\le2\times10^{-9}$
+over $\varepsilon=10^{-13}\ldots10^{-11}$, where regulator-free comparisons exist ($\kappa_{\max}=30$; 45, 60 with the line symbol),
+and that the envelope replaces the \S5 fit spread at every $\Delta$, with the $\Delta=3$ example (the fits' interval
+$0.2945479\pm1.95\times10^{-5}$ misses $0.2945231$). The envelopes are rounded up ($(56)$, $(6)$). All requests met; values unchanged.
+\item \texttt{corner-kernel-two-frames}. Title and Statement restricted to the nine grid points; $R<1$ and $R>0$ for all
+$\Delta\ne0$ cited to the refereed \texttt{corner-kernel-closed-form} (e); margin $R/u\ge72$ (mine: $72.5$); agreed values
+$0.8984(5)\ldots0.02443(36)$ follow from the stated rule with the repaired $u_{T0}$ (my midpoints and $u$ equal the regenerated
+column); both frames and the true $R$ lie inside every agreed interval; $\alpha=0.504\pm0.009$ (mine: $0.5044\pm0.0087$),
+labelled model-dependent, the proved rate cited. Cosmetic only: rounding the midpoint to the quoted decimal is not compensated
+at $\Delta=1$ and $\Delta=4$, where the rounded interval misses the computed one by $7\times10^{-6}$ and $3.9\times10^{-5}$
+(e.g.\ $0.1798(6)$ would contain it); the frames and the true value are inside, so no repair is required.
+\item \texttt{two-corner-remainder-finite-zeta}. The new title and Statement say that $rem=O(\zeta^3)$ is automatic in the
+windowed finite-dimensional problem and that the numerics measure the coefficient $c(\Delta)$ and the size of the next order;
+the continuum remainder and its order are listed as not tested; the $8.8\times10^{-6}$ mismatch at $\varepsilon=10^{-11}$ and the
+reason for replacing \texttt{fid\_relent} (``$O(1)$ noise of either sign'', \texttt{results\_batch3.txt}:1--7 from $-9.4$ to $+3.1$)
+are disclosed; ``$-(1.4$ to $2.0)\zeta$''. All requests met. Residual: the headers of the evidence files \texttt{kernel\_k4.out},
+\texttt{kernel\_k4b.out} still say ``returns $-\log F<0$'' (not rerun, 17 and 37\,min; disclosed in \texttt{KERNEL\_RESULTS.md}).
+Acceptable: it describes a method, not a number on the card.
+\end{itemize}
+G3's corrective notes (report only): \texttt{dhat-quadrature-certification} --- accurate (the range $-9.36\ldots+3.06$, the windowed
+$5.7\times10^{-7}$, the cancellation numbers; ``inf from kappa\_max = 45 on'' is supported by my item-9 check at $(60,45)$, not by
+\texttt{kernel\_validate.out} alone); \texttt{network-second-order-law} --- accurate (the $O(\zeta^3)$ sentence withdrawn as a statement about
+the law; $c(\Delta)$ and the $\le20\,\%$ next order as measured); \texttt{corner-correlation-kernel} --- accurate ($R/u\ge72$, the
+new agreed intervals, the decay rate now proved). \texttt{KERNEL\_RESULTS.md} corrects ``no shared code'' (line 223--224).
+\begin{verdictok}
+Second pass: \texttt{corner-kernel-t0-frame}, \texttt{corner-kernel-box-frame}, \texttt{corner-kernel-two-frames},
+\texttt{two-corner-remainder-finite-zeta} STAND (\texttt{kb verdict ... pass}, actor REF-P6-5b).
+\end{verdictok}
+
+\end{document}

@@ -1,0 +1,39 @@
+# N5 (a) Ex. 5.6 (1,1,1)m: SW - S2 and SW/(2 Phi_A(2/3)); (b) REF-P6-0 (13,21,9,17)m: U, Ud, 3LR
+  SW - S2 (-log F): 12:0.0e+00 18:0.0e+00 24:0.0e+00 36:0.0e+00 48:0.0e+00 72:0.0e+00; (D): 12:0.0e+00 18:0.0e+00 24:0.0e+00 36:0.0e+00 48:0.0e+00 72:0.0e+00
+  SW/2PhiA(2/3) lin n=[12, 18, 24, 36, 48, 72] values 1.124428 1.061297 1.045488 1.032930 1.027355 1.022188 stable 1.02
+      A:1/L 1.01003 r=5.1e-04 rej dof=2 ; Dlog -- r=2.0e-03 rej dof=2 ; B:1/L+1/L2 1.01325 r=1.3e-05 ADM dof=1 ; C:h^p 1.01478 r=3.8e-05 ADM dof=1 p=1.292
+      => 1.014011 +- 0.0015
+  SW/2PhiA(2/3) quad n=[12, 18, 24, 36, 48, 72] values 1.107736 1.045542 1.029967 1.017596 1.012104 1.007014 stable 1.0
+      A:1/L 0.995039 r=5.1e-04 rej dof=2 ; Dlog -- r=2.0e-03 rej dof=2 ; B:1/L+1/L2 0.998204 r=1.3e-05 ADM dof=1 ; C:h^p 0.999713 r=3.8e-05 ADM dof=1 p=1.292
+      => 0.9989582 +- 0.0015
+  exact: U zeta = ['1.453976', '0.245556'] at x/T = ['0.533428', '0.716667']; Ud zeta = 1.235146 at x/T = 0.430037; 3LR zeta = 2.677249; naive 2.140741
+  Ud/general lin   n=[60, 120, 180] values 1.026854 1.020337 1.018232 stable 1.0
+      A:1/L 1.01389 r=3.0e-05 ADM dof=1 ; Dlog -- r=6.9e-04 rej dof=1 ; B:1/L+1/L2 1.01412 r=4.4e-16 ADM dof=0 ; C:h^p 1.01429 r=4.6e-11 ADM dof=0 p=1.054
+      => 1.014099 +- 0.00039
+  Ud/naive lin     n=[60, 120, 180] values 0.505046 0.501841 0.500806 stable 0.50
+      A:1/L 0.49867 r=3.0e-05 ADM dof=1 ; Dlog -- r=6.9e-04 rej dof=1 ; B:1/L+1/L2 0.498784 r=4.4e-16 ADM dof=0 ; C:h^p 0.498864 r=4.6e-11 ADM dof=0 p=1.054
+      => 0.4987729 +- 0.00019
+  3LR/pred lin     n=[60, 120, 180] values 1.028805 1.022769 1.021214 stable 1.02
+      A:1/L 1.01721 r=2.1e-04 rej dof=1 ; Dlog -- r=8.0e-04 rej dof=1 ; B:1/L+1/L2 1.01879 r=2.2e-16 ADM dof=0 ; C:h^p 1.01926 r=3.9e-11 ADM dof=0 p=1.444
+      => 1.019027 +- 0.00047
+  U/general lin    n=[60, 120, 180] values 1.246886 1.238598 1.236401 stable 1.23
+      A:1/L 1.2309 r=2.1e-04 rej dof=1 ; Dlog -- r=8.8e-04 rej dof=1 ; B:1/L+1/L2 1.23285 r=4.4e-16 ADM dof=0 ; C:h^p 1.23351 r=4.7e-11 ADM dof=0 p=1.395
+      => 1.233183 +- 0.00066
+  U/naive lin      n=[60, 120, 180] values 0.774803 0.769653 0.768288 stable 0.76
+      A:1/L 0.764868 r=2.1e-04 rej dof=1 ; Dlog -- r=8.8e-04 rej dof=1 ; B:1/L+1/L2 0.766084 r=4.4e-16 ADM dof=0 ; C:h^p 0.766492 r=4.7e-11 ADM dof=0 p=1.395
+      => 0.7662883 +- 0.00041
+  Ud/general quad  n=[60, 120, 180] values 1.013847 1.007413 1.005335 stable 1.00
+      A:1/L 1.00105 r=3.0e-05 ADM dof=1 ; Dlog -- r=6.9e-04 rej dof=1 ; B:1/L+1/L2 1.00128 r=4.4e-16 ADM dof=0 ; C:h^p 1.00144 r=4.6e-11 ADM dof=0 p=1.054
+      => 1.001254 +- 0.00039
+  Ud/naive quad    n=[60, 120, 180] values 0.504838 0.501635 0.500600 stable 0.50
+      A:1/L 0.498465 r=3.0e-05 ADM dof=1 ; Dlog -- r=6.9e-04 rej dof=1 ; B:1/L+1/L2 0.498579 r=4.4e-16 ADM dof=0 ; C:h^p 0.498659 r=4.6e-11 ADM dof=0 p=1.054
+      => 0.498568 +- 0.00019
+  3LR/pred quad    n=[60, 120, 180] values 1.010259 1.004331 1.002805 stable 1.00
+      A:1/L 0.998871 r=2.1e-04 rej dof=1 ; Dlog -- r=8.0e-04 rej dof=1 ; B:1/L+1/L2 1.00043 r=4.4e-16 ADM dof=0 ; C:h^p 1.00089 r=3.9e-11 ADM dof=0 p=1.444
+      => 1.000657 +- 0.00046
+  U/general quad   n=[60, 120, 180] values 1.224569 1.216429 1.214271 stable 1.21
+      A:1/L 1.20887 r=2.1e-04 rej dof=1 ; Dlog -- r=8.8e-04 rej dof=1 ; B:1/L+1/L2 1.21079 r=4.4e-16 ADM dof=0 ; C:h^p 1.21143 r=4.7e-11 ADM dof=0 p=1.395
+      => 1.211111 +- 0.00064
+  U/naive quad     n=[60, 120, 180] values 0.774369 0.769222 0.767857 stable 0.76
+      A:1/L 0.764439 r=2.1e-04 rej dof=1 ; Dlog -- r=8.8e-04 rej dof=1 ; B:1/L+1/L2 0.765655 r=2.2e-16 ADM dof=0 ; C:h^p 0.766063 r=4.7e-11 ADM dof=0 p=1.395
+      => 0.765859 +- 0.00041

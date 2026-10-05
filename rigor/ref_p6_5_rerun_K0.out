@@ -1,0 +1,41 @@
+# [kernel_validate.out as written by corner_kernel.py, redirected by rigor/ref_p6_5_rerun.py K0] 2026-10-03 18:31
+# K0 validation, brief rigor/phase6_g3_brief.md sec. 3; command: $PYTHON numerics/networks/corner_kernel.py K0
+# (a) T0 frame (f3_t0.py: cell basis of y, kkt_continuum.Qmat exact, closed-form ddot, ng = 10): g_Q(ddot)/f2, Y = 6, Ymax = 20.
+# Resolved: cell functions of width h on [-6, 20]; cut off: y < -6, y > 20 and all sub-cell structure; the weight of
+# the cut-off modes is the deficit 1 - g/f2 (column g/f2). Reference: numerics/optimality_all/f3_t0_final.out.
+# (b) bilinear code at Delta = 0 against f3_gal.theta's g0 on the same matrices (relative tolerance 1e-12).
+# (c) box frame (defect_matrix.run 'first', a = 1, L = 2, s = 1, zeta = 1/3; compression_box.Q_box, qfi_c2):
+# f2_box = c2/zeta^2. Resolved: box modes |kappa| <= kappa_max on the window |xi - xi0| <= Lam/2; cut off:
+# |kappa| > kappa_max (weight f2 - f2_box ~ 0.0641/kappa_max^2, an unproved asymptotic) and |xi - xi0| > Lam/2.
+(a,b)  h      N    nA   g/f2 ours   F3 value  |diff|   g0 = f3_gal.theta(...)[1]   rel|bil-g0|   time
+      0.240   108   25  0.9115757  0.91158  4.3e-06   7.696827577819983e-03  0.0e+00  PASS  0s
+      0.120   217   50  0.9545448  0.95454  4.8e-06   8.059633953189482e-03  0.0e+00  PASS  0s
+      0.060   433  100  0.9765373  0.97654  2.7e-06   8.245325951381340e-03  2.1e-16  PASS  1s
+      0.030   867  200  0.9869870  0.98699  3.0e-06   8.333557321097385e-03  2.1e-16  PASS  7s
+      0.020  1300  300  0.9901862  0.99019  3.8e-06   8.360569900331825e-03  0.0e+00  PASS  21s
+(c)  Lam kmax    N  kappa_max_eff  f2_box = c2/zeta^2   reference  |diff|   eig(Q_N): min, 1-max   source
+      60   30   91    29.61      0.008369783   0.0083698  1.7e-08  2.77e-13, 2.77e-13  numerics/results_batch3.txt:8 (0.00836978), numerics/line_so.txt:1  PASS  1s
+     120   45  273    44.74      inf   0.0084112  inf  -4.95e-16, -4.88e-15  numerics/line_so.txt:4, rigor/check_note5_numerics.tex:677  FAIL  4s
+    (120, 45) via compression_box.qfi_c2 in double precision: Q_N has eigenvalues ~ e^{-44.7} below machine epsilon,
+    computed as negative -> W_ij <= 0 -> inf (code path not evaluable there); the published 0.0084112 is line_so.py.
+(c') LINE symbol q(kappa_j) on the same box modes (numerics/line_so.py), and Q_box vs line where Q_box is resolved:
+    (Lam, kmax) = (60, 30): f2_line = 0.008369789  ref(line_so.txt) = 0.0083698  f2_box(Q_box) = 0.008369783  |line - box| = 5.3e-09  min eig Q_box = 2.77e-13  PASS
+    (Lam, kmax) = (120, 30): f2_line = 0.008370596  ref(line_so.txt) = None  f2_box(Q_box) = 0.008370596  |line - box| = 3.7e-10  min eig Q_box = 1.28e-13  PASS
+    (Lam, kmax) = (120, 45): f2_line = 0.008411248  ref(line_so.txt) = 0.0084112  f2_box(Q_box) = nan  |line - box| = nan  min eig Q_box = -1.24e-15  PASS
+(d) box_corner(.., xic = xi0) against defect_matrix.run (same window, same graded mesh):
+    (60, 30): max|diff|/max|D| = 1.8e-16  PASS;  (d') cancellation-free formulas (production) vs defect_matrix.run: 7.0e-12
+    (120, 45): max|diff|/max|D| = 3.5e-16  PASS;  (d') cancellation-free formulas (production) vs defect_matrix.run: 2.5e-08
+(e) p'(Delta) = a L (e^Delta - 1)/(L + a e^Delta); second corner (a', L') = (a + p', L - p'), s' = zeta (a+L)/a' so that
+    zeta' = sigma' beta_I(p') = (s'/L') (p'+a)(L-p')/(a+L) = zeta (lem:field, lem:density); kernels in half-density form:
+    Delta = 0.0: p' = 0.000000000000  |y(p')-y(0)-Delta| = 0.0e+00  |zeta'-zeta| = 0.0e+00  max|K2/K1 - 1| = 0.0e+00  max|K1/(zeta kern_T0) - 1| = 4.9e-29  (30 digits)
+    Delta = 0.5: p' = 0.355588285633  |y(p')-y(0)-Delta| = 9.9e-32  |zeta'-zeta| = 0.0e+00  max|K2/K1 - 1| = 1.3e-28  max|K1/(zeta kern_T0) - 1| = 2.6e-29  (30 digits)
+    Delta = 1.0: p' = 0.728350654297  |y(p')-y(0)-Delta| = 9.9e-32  |zeta'-zeta| = 0.0e+00  max|K2/K1 - 1| = 1.1e-28  max|K1/(zeta kern_T0) - 1| = 7.4e-29  (30 digits)
+    Delta = 1.5: p' = 1.074315362109  |y(p')-y(0)-Delta| = 0.0e+00  |zeta'-zeta| = 0.0e+00  max|K2/K1 - 1| = 1.3e-28  max|K1/(zeta kern_T0) - 1| = 6.2e-29  (30 digits)
+    Delta = 2.0: p' = 1.360958126485  |y(p')-y(0)-Delta| = 3.9e-31  |zeta'-zeta| = 0.0e+00  max|K2/K1 - 1| = 7.1e-29  max|K1/(zeta kern_T0) - 1| = 3.5e-29  (30 digits)
+    Delta = 3.0: p' = 1.728328995538  |y(p')-y(0)-Delta| = 7.9e-31  |zeta'-zeta| = 0.0e+00  max|K2/K1 - 1| = 1.1e-28  max|K1/(zeta kern_T0) - 1| = 8.6e-29  (30 digits)
+    Delta = 4.0: p' = 1.893989467916  |y(p')-y(0)-Delta| = 3.9e-30  |zeta'-zeta| = 0.0e+00  max|K2/K1 - 1| = 6.2e-29  max|K1/(zeta kern_T0) - 1| = 6.4e-29  (30 digits)
+    Delta = 5.0: p' = 1.960109873127  |y(p')-y(0)-Delta| = 9.5e-30  |zeta'-zeta| = 0.0e+00  max|K2/K1 - 1| = 2.4e-28  max|K1/(zeta kern_T0) - 1| = 3.5e-29  (30 digits)
+    Delta = 6.0: p' = 1.985200853772  |y(p')-y(0)-Delta| = 3.9e-29  |zeta'-zeta| = 0.0e+00  max|K2/K1 - 1| = 1.3e-28  max|K1/(zeta kern_T0) - 1| = 7.0e-29  (30 digits)
+    Delta = 8.0: p' = 1.997988573749  |y(p')-y(0)-Delta| = 5.5e-28  |zeta'-zeta| = 0.0e+00  max|K2/K1 - 1| = 6.0e-27  max|K1/(zeta kern_T0) - 1| = 3.5e-29  (30 digits)
+    (e): worst deviation 6.0e-27  PASS
+K0 overall (a), (b), (c) at (60,30), (c') line symbol, (d), (e): PASS

@@ -1,0 +1,71 @@
+# N5 -- numerics/networks/lattice_chain.py N5 (run from the repository root cft_cmi/).
+# Discretisation: the lattice model itself, computed exactly in Gaussian form (every one-particle mode of
+# every block kept; no truncation, no taper, flint ball arithmetic at bits_for(n)+200); the lattice
+# spacing is the only regulator, and its effect is the resolution dependence measured below (no
+# regulator-free discretisation exists for a lattice model; continuum statements are compared after
+# extrapolation in n).  Raw data (one line per run, with the normalisation defect nrm):
+#   numerics/networks/vwz_A.raw     <- $PYTHON numerics/networks/lattice_chain.py sweep e015
+#   numerics/networks/vwz_B.raw     <- $PYTHON numerics/networks/lattice_chain.py sweep e005,e010
+#   numerics/networks/vwz_C.raw     <- $PYTHON numerics/networks/lattice_chain.py sweep e020,e030,e040,m010,m020,m030
+#   numerics/networks/vwz_G.raw     <- $PYTHON numerics/networks/lattice_chain.py sweep m020x,e030x,m010x,m030x
+#   numerics/networks/chains_D.raw  <- $PYTHON numerics/networks/lattice_chain.py chains sw,eq3,eq4,eq5,eq6,n4r2
+#   numerics/networks/chains_E.raw  <- $PYTHON numerics/networks/lattice_chain.py chains ref
+#   numerics/networks/chains_F.raw  <- $PYTHON numerics/networks/lattice_chain.py chains n5r2,n4r3,n6r2,n5r3
+#   numerics/networks/chains_H.raw  <- $PYTHON numerics/networks/lattice_chain.py chains eq3x,n4r2x
+#   numerics/networks/chains_I.raw  <- $PYTHON numerics/networks/lattice_chain.py chains n6r2x
+# Fit rules: NFIT = 4 finest resolutions, TOL_FIT = 1e-04 (fixed before the runs); see NETWORK_RESULTS.md.
+# N5: where (H) fails (thm:general).  (a) Ex. 5.6 (lengths (1,1,1) m, start A_2, A_3 on A_2, then A_1 on
+# A_2): Thm 5.2 swallows the first corner, prediction Phi_tot = Phi(second step alone) = 2 Phi_A(2/3).
+# (b) REF-P6-0 geometry (13,21,9,17) m = (1.3,2.1,0.9,1.7): U = start A_2A_3, A_4 on A_3, A_1 on the
+# UNION A_2A_3 (two corners: displaced mass at x_0 and p_4); Ud = A_1 on the WHOLE block A_2A_3A_4
+# (degenerate step = global Moebius map: ONE displaced corner, an exact single-corner prediction);
+# 3LR = control with A_B = A_2 (both corners at p_3, masses add).  Predictions: general rule (Thm
+# 5.2, corner_measure) vs the naive (H) rule (mass sigma_1 at p_3), each through the single-corner law
+# 2 Phi_A(zeta) per corner; for U the two-corner cross term (W2, Ghat unknown) is NOT included.
+
+(a) Ex. 5.6: n=12 SW-S2=0.0e+00, n=18 SW-S2=0.0e+00, n=24 SW-S2=0.0e+00, n=36 SW-S2=0.0e+00, n=48 SW-S2=0.0e+00, n=72 SW-S2=0.0e+00
+  SW/(2 Phi_A(2/3)) [gap]            n=[12, 18, 24, 36, 48, 72]
+    values: 1.1243961725 1.0612671947 1.0454577392 1.0329008138 1.0273258270 1.0221593093
+    stable digits (two finest): 1.02
+    fits: 1/L: 1.010004 res=5.2e-04 rej dof=2 ; logL: -- res=2.1e-03 rej dof=2 b=-2.109e-02; 1/L,1/L^2: 1.013217 res=1.3e-05 ADM dof=1 ; h^p: 1.014722 res=3.7e-05 ADM dof=1 p=1.29  [admissible: 1/L,1/L^2 (dof 1), h^p (dof 1)]
+    => extrapolated 1.013969 +- 1.5e-03 (spread of admissible fits)
+    with the quadratic interpolation Phi_Aq(2/3) = 2.199145e-03: -> 0.998927 +- 1.5e-03
+
+(b) corners (x/T, kappa T, zeta): U [(0.533428, 5.842016, 1.453976), (0.716667, 1.209302, 0.245556)]; Ud [(0.430037, 5.039247, 1.235146)]; 3LR [(0.566667, 10.902823, 2.677249)]; naive zeta at p_3 = 2.140741
+  Phi_A flags: {1.454: 'large', 0.2456: 'tab', 1.2351: 'large', 2.6772: 'large', 2.1407: 'large'}
+  3-node stencil spread of the quadratic interpolation: 1.4540: 0.15%, 0.2456: 0.17%, 1.2351: 0.10%, 2.6772: 0.08%, 2.1407: 0.00%; the large-zeta table itself is uncertain by
+  0.45% (zeta = 1.07) and 0.46% (2.13) (numerics/results_largezeta_certified.txt sec. 4)
+  Ud: lattice 1.094586041e-02 1.087640065e-02 1.085396001e-02; prediction general rule 1.066033e-02 (quadratic interp. 1.079726e-02), naive (H) rule 2.167282e-02
+  Ud lattice/general                 n=[60, 120, 180]
+    values: 1.0267839621 1.0202682419 1.0181631820
+    stable digits (two finest): 1.0
+    fits: 1/L: 1.013822 res=3.1e-05 ADM dof=1 ; logL: -- res=7.0e-04 rej dof=1 b=-8.014e-03; 1/L,1/L^2: 1.014053 res=2.2e-16 ADM dof=0 ; h^p: 1.014187 res=2.4e-06 ADM dof=0 p=1.05  [admissible: 1/L (dof 1), 1/L,1/L^2 (dof 0), h^p (dof 0)]
+    => extrapolated 1.014021 +- 3.7e-04 (spread of admissible fits)
+    with the quadratic interpolation: lattice/general -> 1.001161 +- 3.6e-04
+  Ud lattice/naive                   n=[60, 120, 180]
+    values: 0.5050501601 0.5018452351 0.5008098072
+    stable digits (two finest): 0.50
+    fits: 1/L: 0.498674 res=1.5e-05 ADM dof=1 ; logL: -- res=3.5e-04 rej dof=1 b=-3.942e-03; 1/L,1/L^2: 0.498788 res=0.0e+00 ADM dof=0 ; h^p: 0.498854 res=1.2e-06 ADM dof=0 p=1.05  [admissible: 1/L (dof 1), 1/L,1/L^2 (dof 0), h^p (dof 0)]
+    => extrapolated 0.498772 +- 1.8e-04 (spread of admissible fits)
+  U: lattice 1.742176674e-02 1.730596352e-02 1.727526465e-02; prediction general rule 1.397281e-02 (quadratic interp. 1.422777e-02), naive (H) rule 2.248523e-02
+  U lattice/general                  n=[60, 120, 180]
+    values: 1.2468331941 1.2385454414 1.2363483987
+    stable digits (two finest): 1.23
+    fits: 1/L: 1.230845 res=2.6e-04 rej dof=1 ; logL: -- res=1.1e-03 rej dof=1 b=-9.804e-03; 1/L,1/L^2: 1.232803 res=4.4e-16 ADM dof=0 ; h^p: 1.233437 res=2.9e-06 ADM dof=0 p=1.39  [admissible: 1/L,1/L^2 (dof 0), h^p (dof 0); ALL 0-dof]
+    => extrapolated 1.233120 +- 6.3e-04 (spread of admissible fits)
+    with the quadratic interpolation: lattice/general -> 1.211023 +- 6.2e-04
+  U lattice/naive                    n=[60, 120, 180]
+    values: 0.7748094617 0.7696592706 0.7682939801
+    stable digits (two finest): 0.76
+    fits: 1/L: 0.764874 res=1.6e-04 rej dof=1 ; logL: -- res=6.8e-04 rej dof=1 b=-6.092e-03; 1/L,1/L^2: 0.766091 res=2.2e-16 ADM dof=0 ; h^p: 0.766485 res=1.8e-06 ADM dof=0 p=1.39  [admissible: 1/L,1/L^2 (dof 0), h^p (dof 0); ALL 0-dof]
+    => extrapolated 0.766288 +- 3.9e-04 (spread of admissible fits)
+  3LR: lattice 2.822110824e-02 2.805552509e-02 2.801288541e-02; prediction general rule 2.743239e-02 (quadratic interp. 2.793511e-02)
+  3LR lattice/general                n=[60, 120, 180]
+    values: 1.0287512609 1.0227152160 1.0211608609
+    stable digits (two finest): 1.02
+    fits: 1/L: 1.017154 res=2.1e-04 rej dof=1 ; logL: -- res=8.1e-04 rej dof=1 b=-7.103e-03; 1/L,1/L^2: 1.018739 res=4.4e-16 ADM dof=0 ; h^p: 1.019195 res=1.8e-06 ADM dof=0 p=1.44  [admissible: 1/L,1/L^2 (dof 0), h^p (dof 0); ALL 0-dof]
+    => extrapolated 1.018967 +- 4.6e-04 (spread of admissible fits)
+    with the quadratic interpolation: lattice/general -> 1.000630 +- 4.5e-04
+  U: modular separation of its two corners Delta = 0.794075 (naive: 0.659723); the missing cross term of U
+  is the excess over the no-cross-term single-corner sum (W2: 2 f2 zeta_a zeta_b Ghat(Delta)/Ghat(0) per
+  chirality at second order; zeta_a = 1.454 is not small).

@@ -1,0 +1,72 @@
+# kernel_box.out -- written by numerics/networks/corner_kernel.py on 2026-10-03 17:16
+# K2, box frame (brief sec. 3); command: $PYTHON numerics/networks/corner_kernel.py K2 (background, ~10 min)
+# I = (-a, L) = (-1, 2), xi = log((x+a)/(L-x)); corner 1 at x = 0 (xi0 = log(1/2)), corner 2 at p'(Delta) (KERNEL_RESULTS.md
+# (C3)), both 'first' kernels with zeta = 1/3, ONE window [xi0 - Lam/2, xi0 + Lam/2] (corner_kernel.box_corner, graded
+# mesh of defect_matrix.py, ngl = 12). G(Delta) = g_Q(D1, D2)/zeta^2, R = G(Delta)/G(0).
+# Resolved: box modes |kappa_j| <= kappa_max (kappa_j = 4 pi^2 j/Lam) on the window; cut off: |kappa| > kappa_max (weight of
+# the diagonal f2 - G(0) printed per box; for Delta > 0 measured by the kappa_max ladder in kernel_box_fits.out) and
+# |xi - xi0| > Lam/2 (corner 2 keeps Lam/2 - Delta on its D side; Lam = 60 vs 120 measures it).
+# Symbols: [box] eigenbasis of Q_box (compression_box.Q_box), polarised qfi_c2 vs direct sum; where Q_box has eigenvalues
+# below machine precision [box] is not evaluable and [win eps] drops the pairs with both eigenvalues < eps or both > 1 - eps
+# (a regulator); [line] = q(kappa_j) = 1/(1+e^kappa_j) on the same modes (no eigen-decomposition, no regulator).
+# (60,30) window eps = 1e-13: 0 pairs dropped, min kept W = 5.55e-13
+# (60,30) window eps = 1e-12: 8 pairs dropped, min kept W = 1.67e-12
+# (60,30) window eps = 1e-11: 50 pairs dropped, min kept W = 1.27e-11
+(60, 30): N = 91, kappa_max_eff = 29.61, eig(Q_box) in [2.77e-13, 1 - 2.77e-13] -> [box] resolved
+   Delta = 0.0: [line] R = +1.00000000 G/f2 = +0.99127803 (pol 0e+00)  [win] R = +1.00000000 +1.00000000 +1.00000000  [box] R = +1.00000000 G/f2 = +0.99127740 |polarised qfi_c2 - direct|/G0 = 0.0e+00 PASS  |R_line - R_box| = 0.0e+00  2s
+   Delta = 0.5: [line] R = +0.91023108 G/f2 = +0.90229207 (pol 0e+00)  [win] R = +0.91023210 +0.91023210 +0.91023210  [box] R = +0.91023210 G/f2 = +0.90229251 |polarised qfi_c2 - direct|/G0 = 1.2e-16 PASS  |R_line - R_box| = 1.0e-06  2s
+   Delta = 1.0: [line] R = +0.74990462 G/f2 = +0.74336397 (pol 1e-16)  [win] R = +0.74990523 +0.74990523 +0.74990523  [box] R = +0.74990523 G/f2 = +0.74336410 |polarised qfi_c2 - direct|/G0 = 0.0e+00 PASS  |R_line - R_box| = 6.1e-07  2s
+   Delta = 1.5: [line] R = +0.60718625 G/f2 = +0.60189039 (pol 2e-16)  [win] R = +0.60718578 +0.60718578 +0.60718578  [box] R = +0.60718578 G/f2 = +0.60188954 |polarised qfi_c2 - direct|/G0 = 2.3e-16 PASS  |R_line - R_box| = 4.7e-07  2s
+   Delta = 2.0: [line] R = +0.48081262 G/f2 = +0.47661899 (pol 1e-16)  [win] R = +0.48081421 +0.48081421 +0.48081421  [box] R = +0.48081421 G/f2 = +0.47662026 |polarised qfi_c2 - direct|/G0 = 5.8e-17 PASS  |R_line - R_box| = 1.6e-06  2s
+   Delta = 3.0: [line] R = +0.29740452 G/f2 = +0.29481056 (pol 1e-16)  [win] R = +0.29740438 +0.29740438 +0.29740438  [box] R = +0.29740438 G/f2 = +0.29481024 |polarised qfi_c2 - direct|/G0 = 0.0e+00 PASS  |R_line - R_box| = 1.3e-07  3s
+   Delta = 4.0: [line] R = +0.18148572 G/f2 = +0.17990281 (pol 0e+00)  [win] R = +0.18148353 +0.18148353 +0.18148353  [box] R = +0.18148353 G/f2 = +0.17990052 |polarised qfi_c2 - direct|/G0 = 2.9e-17 PASS  |R_line - R_box| = 2.2e-06  3s
+   Delta = 5.0: [line] R = +0.11020526 G/f2 = +0.10924405 (pol 3e-17)  [win] R = +0.11020640 +0.11020640 +0.11020639  [box] R = +0.11020640 G/f2 = +0.10924511 |polarised qfi_c2 - direct|/G0 = 1.5e-16 PASS  |R_line - R_box| = 1.1e-06  3s
+   Delta = 6.0: [line] R = +0.06689470 G/f2 = +0.06631125 (pol 2e-16)  [win] R = +0.06689897 +0.06689897 +0.06689897  [box] R = +0.06689897 G/f2 = +0.06631543 |polarised qfi_c2 - direct|/G0 = 5.8e-17 PASS  |R_line - R_box| = 4.3e-06  3s
+   Delta = 8.0: [line] R = +0.02465329 G/f2 = +0.02443827 (pol 7e-17)  [win] R = +0.02464479 +0.02464479 +0.02464479  [box] R = +0.02464479 G/f2 = +0.02442982 |polarised qfi_c2 - direct|/G0 = 3.6e-17 PASS  |R_line - R_box| = 8.5e-06  4s
+   diagonal cut-off weight 1 - G(0)/f2: [line] 8.7220e-03  [box] 8.7226e-03  [win] 8.7226e-03 8.7226e-03 8.7226e-03
+# (120,30) window eps = 1e-13: 0 pairs dropped, min kept W = 2.57e-13
+# (120,30) window eps = 1e-12: 72 pairs dropped, min kept W = 1.31e-12
+# (120,30) window eps = 1e-11: 338 pairs dropped, min kept W = 1.34e-11
+(120, 30): N = 183, kappa_max_eff = 29.94, eig(Q_box) in [1.28e-13, 1 - 1.28e-13] -> [box] resolved
+   Delta = 0.0: [line] R = +1.00000000 G/f2 = +0.99137361 (pol 0e+00)  [win] R = +1.00000000 +1.00000000 +1.00000000  [box] R = +1.00000000 G/f2 = +0.99137365 |polarised qfi_c2 - direct|/G0 = 1.2e-16 PASS  |R_line - R_box| = 0.0e+00  3s
+   Delta = 0.5: [line] R = +0.91006387 G/f2 = +0.90221331 (pol 2e-16)  [win] R = +0.91006379 +0.91006379 +0.91006379  [box] R = +0.91006379 G/f2 = +0.90221326 |polarised qfi_c2 - direct|/G0 = 2.3e-16 PASS  |R_line - R_box| = 8.4e-08  4s
+   Delta = 1.0: [line] R = +0.74987041 G/f2 = +0.74340173 (pol 0e+00)  [win] R = +0.74987041 +0.74987041 +0.74987041  [box] R = +0.74987041 G/f2 = +0.74340177 |polarised qfi_c2 - direct|/G0 = 1.2e-16 PASS  |R_line - R_box| = 6.8e-09  5s
+   Delta = 1.5: [line] R = +0.60713373 G/f2 = +0.60189635 (pol 1e-16)  [win] R = +0.60713367 +0.60713367 +0.60713367  [box] R = +0.60713367 G/f2 = +0.60189632 |polarised qfi_c2 - direct|/G0 = 0.0e+00 PASS  |R_line - R_box| = 5.6e-08  6s
+   Delta = 2.0: [line] R = +0.48073277 G/f2 = +0.47658578 (pol 6e-17)  [win] R = +0.48073276 +0.48073276 +0.48073276  [box] R = +0.48073276 G/f2 = +0.47658579 |polarised qfi_c2 - direct|/G0 = 5.8e-17 PASS  |R_line - R_box| = 8.1e-09  7s
+   Delta = 3.0: [line] R = +0.29735094 G/f2 = +0.29478588 (pol 6e-17)  [win] R = +0.29735091 +0.29735091 +0.29735091  [box] R = +0.29735091 G/f2 = +0.29478586 |polarised qfi_c2 - direct|/G0 = 0.0e+00 PASS  |R_line - R_box| = 3.0e-08  8s
+   Delta = 4.0: [line] R = +0.18147503 G/f2 = +0.17990955 (pol 9e-17)  [win] R = +0.18147501 +0.18147501 +0.18147501  [box] R = +0.18147501 G/f2 = +0.17990954 |polarised qfi_c2 - direct|/G0 = 8.7e-17 PASS  |R_line - R_box| = 1.9e-08  9s
+   Delta = 5.0: [line] R = +0.11020589 G/f2 = +0.10925521 (pol 4e-17)  [win] R = +0.11020589 +0.11020589 +0.11020589  [box] R = +0.11020589 G/f2 = +0.10925522 |polarised qfi_c2 - direct|/G0 = 2.9e-17 PASS  |R_line - R_box| = 2.1e-09  10s
+   Delta = 6.0: [line] R = +0.06689016 G/f2 = +0.06631314 (pol 3e-17)  [win] R = +0.06689016 +0.06689016 +0.06689016  [box] R = +0.06689016 G/f2 = +0.06631315 |polarised qfi_c2 - direct|/G0 = 5.8e-17 PASS  |R_line - R_box| = 2.5e-09  11s
+   Delta = 8.0: [line] R = +0.02464286 G/f2 = +0.02443029 (pol 2e-17)  [win] R = +0.02464286 +0.02464286 +0.02464286  [box] R = +0.02464286 G/f2 = +0.02443028 |polarised qfi_c2 - direct|/G0 = 7.3e-18 PASS  |R_line - R_box| = 3.4e-09  12s
+   diagonal cut-off weight 1 - G(0)/f2: [line] 8.6264e-03  [box] 8.6263e-03  [win] 8.6263e-03 8.6263e-03 8.6263e-03
+# (120,45) window eps = 1e-13: 3528 pairs dropped, min kept W = 9.88e-14
+# (120,45) window eps = 1e-12: 4802 pairs dropped, min kept W = 1.03e-12
+# (120,45) window eps = 1e-11: 6272 pairs dropped, min kept W = 1.02e-11
+(120, 45): N = 273, kappa_max_eff = 44.74, eig(Q_box) in [-1.24e-15, 1 - -4.66e-15] -> [box] NOT resolved
+   Delta = 0.0: [line] R = +1.00000000 G/f2 = +0.99617060 (pol 0e+00)  [win] R = +1.00000000 +1.00000000 +1.00000000  5s
+   Delta = 0.5: [line] R = +0.90152014 G/f2 = +0.89806786 (pol 0e+00)  [win] R = +0.90152013 +0.90152013 +0.90152013  6s
+   Delta = 1.0: [line] R = +0.74905041 G/f2 = +0.74618200 (pol 1e-16)  [win] R = +0.74905040 +0.74905040 +0.74905040  7s
+   Delta = 1.5: [line] R = +0.60272873 G/f2 = +0.60042064 (pol 1e-16)  [win] R = +0.60272873 +0.60272873 +0.60272873  8s
+   Delta = 2.0: [line] R = +0.47892860 G/f2 = +0.47709459 (pol 1e-16)  [win] R = +0.47892859 +0.47892859 +0.47892859  9s
+   Delta = 3.0: [line] R = +0.29563493 G/f2 = +0.29450283 (pol 6e-17)  [win] R = +0.29563493 +0.29563493 +0.29563493  10s
+   Delta = 4.0: [line] R = +0.18044165 G/f2 = +0.17975067 (pol 6e-17)  [win] R = +0.18044165 +0.18044165 +0.18044165  11s
+   Delta = 5.0: [line] R = +0.10970374 G/f2 = +0.10928364 (pol 6e-17)  [win] R = +0.10970374 +0.10970374 +0.10970374  12s
+   Delta = 6.0: [line] R = +0.06660335 G/f2 = +0.06634830 (pol 3e-17)  [win] R = +0.06660335 +0.06660335 +0.06660335  13s
+   Delta = 8.0: [line] R = +0.02451559 G/f2 = +0.02442171 (pol 1e-17)  [win] R = +0.02451559 +0.02451559 +0.02451559  14s
+   diagonal cut-off weight 1 - G(0)/f2: [line] 3.8294e-03  [box] nan  [win] 3.8294e-03 3.8294e-03 3.8294e-03
+# (120,60) window eps = 1e-13: 15488 pairs dropped, min kept W = 1.33e-13
+# (120,60) window eps = 1e-12: 18050 pairs dropped, min kept W = 1.31e-12
+# (120,60) window eps = 1e-11: 20808 pairs dropped, min kept W = 1.25e-11
+(120, 60): N = 365, kappa_max_eff = 59.88, eig(Q_box) in [-1.08e-15, 1 - -2.66e-15] -> [box] NOT resolved
+   Delta = 0.0: [line] R = +1.00000000 G/f2 = +0.99786685 (pol 0e+00)  [win] R = +1.00000000 +1.00000000 +1.00000000  7s
+   Delta = 0.5: [line] R = +0.89973741 G/f2 = +0.89781813 (pol 0e+00)  [win] R = +0.89973742 +0.89973742 +0.89973742  8s
+   Delta = 1.0: [line] R = +0.74706946 G/f2 = +0.74547584 (pol 2e-16)  [win] R = +0.74706948 +0.74706948 +0.74706948  10s
+   Delta = 1.5: [line] R = +0.60210006 G/f2 = +0.60081569 (pol 1e-16)  [win] R = +0.60210006 +0.60210006 +0.60210006  11s
+   Delta = 2.0: [line] R = +0.47804046 G/f2 = +0.47702072 (pol 0e+00)  [win] R = +0.47804044 +0.47804044 +0.47804044  12s
+   Delta = 3.0: [line] R = +0.29512685 G/f2 = +0.29449730 (pol 1e-16)  [win] R = +0.29512689 +0.29512689 +0.29512689  14s
+   Delta = 4.0: [line] R = +0.18018049 G/f2 = +0.17979614 (pol 1e-16)  [win] R = +0.18018045 +0.18018045 +0.18018045  15s
+   Delta = 5.0: [line] R = +0.10952697 G/f2 = +0.10929333 (pol 1e-16)  [win] R = +0.10952703 +0.10952703 +0.10952703  17s
+   Delta = 6.0: [line] R = +0.06649452 G/f2 = +0.06635268 (pol 4e-17)  [win] R = +0.06649444 +0.06649444 +0.06649444  18s
+   Delta = 8.0: [line] R = +0.02447225 G/f2 = +0.02442005 (pol 6e-17)  [win] R = +0.02447209 +0.02447209 +0.02447209  20s
+   diagonal cut-off weight 1 - G(0)/f2: [line] 2.1332e-03  [box] nan  [win] 2.1332e-03 2.1332e-03 2.1332e-03
+saved numerics/networks/kernel_box.npz
