@@ -293,32 +293,32 @@ independent of the continuation used to build the trial family, which is \Cref{l
 \subsection{The universality theorem}
 
 \begin{theorem}[universality of the recovery error]\label{thm:B}
-Let $(\cA,U,\Omega)$ be a diffeomorphism covariant conformal net on $S^{1}$ with central charge $c$ on a
-separable Hilbert space, satisfying the axioms of \Cref{ss:standing} together with \textup{(HD)},
-\textup{(BW)} and \textup{(RS)}.  Let $A=(-\infty,0)$, $D=(0,L)$, $I=AD$, $\cM=\cA(I)$, and let
+Let $(\cA,U,\Omega)$ be a diffeomorphism covariant conformal net on $S^{1}$ with central charge $c>0$ on a
+separable Hilbert space, as in \Cref{ss:standing} \textup{(}axioms and the standing facts \textup{(HD)},
+\textup{(BW)}, \textup{(RS)} there\textup{)}.  Let $A=(-\infty,0)$, $D=(0,L)$, $I=AD$, $\cM=\cA(I)$, let
+$U_{s}=e^{is\overline{T(g_{\rm tot})}}$ be the implementers of \Cref{thm:impl}, and let
 $\omega_{s}=\omega\circ\Ad U_{s}|_{\cM}$ be the zero-collar recovery curve of \Cref{H1} attached to the
-compression $k_{s}(x)=Lx/(L+sx)$ on $D$.  Assume \Cref{H1}, \Cref{H2}\,\textup{(}with
-\textup{(H2$'$)}\textup{)} and \Cref{H3}.  Then, with $\zeta$ the cross ratio of the four endpoints
+compression $k_{s}(x)=Lx/(L+sx)$ on $D$.  Then, with $\zeta$ the cross ratio of the four endpoints
 \textup{(}$\zeta=s$ in this normal form\textup{)},
 \begin{equation}\label{eq:B}
  \boxed{\ -\log\Fid(\omega,\omega_{s})=\frac{s^{2}}{8}\,\gB+o(s^{2}),\qquad
  \gB=\frac{2c}{3\pi^{2}},\qquad f_{2}=\frac{\gB}{8}=\frac{c}{12\pi^{2}}.\ }
 \end{equation}
-Moreover, by \Cref{thm:impl} the hypotheses \textup{(H1)}--\textup{(H3)} hold for \emph{every} such net, so
-\eqref{eq:B} is unconditional.
+No hypothesis beyond those of \Cref{ss:standing} is made.
 \end{theorem}
 
 \begin{proof}
-The lower bound is \Cref{prop:lower} (using (H1), (H3), (RS)); the upper bound is \Cref{prop:upper} (using
+By \Cref{thm:impl}, \Cref{H1}, \Cref{H2}\,(with (H2$'$)) and \Cref{H3} hold for the net, with the $U_{s}$ of
+the statement.  The lower bound is \Cref{prop:lower} (using (H1), (H3), (RS)); the upper bound is \Cref{prop:upper} (using
 (H1), (H2), (RS)); the value of $\gB$ is \Cref{thm:linear} (using (BW), (H2$'$)) together with
 \Cref{thm:value}.  In the half-line normal form the cross ratio is $\zeta=as/(a+L)|_{a=\infty}=s$, so
-$\Phi(\zeta)=\frac{\zeta^{2}}{8}\gB+o(\zeta^{2})$ and $f_{2}=\gB/8$.  Unconditionality is
-\Cref{thm:impl}.
+$\Phi(\zeta)=\frac{\zeta^{2}}{8}\gB+o(\zeta^{2})$ and $f_{2}=\gB/8$.
 \end{proof}
 
 \begin{corollary}[additivity]\label{cor:tensor}
-Let $\cA_{1},\cA_{2}$ satisfy the hypotheses of \Cref{thm:B}, with central charges $c_{1},c_{2}$, and assume
-that $\cA=\cA_{1}\otimes\cA_{2}$ does too.  Then $f_{2}(\cA)=f_{2}(\cA_{1})+f_{2}(\cA_{2})$.  Indeed the stress
+Let $(\cA_{1},U_{1},\Omega_{1})$, $(\cA_{2},U_{2},\Omega_{2})$ satisfy the hypotheses of \Cref{thm:B}, with
+central charges $c_{1},c_{2}$, and assume that $\cA=\cA_{1}\otimes\cA_{2}$ with the covariance
+$U=U_{1}\otimes U_{2}$ and the vacuum $\Omega_{1}\otimes\Omega_{2}$ does too.  Then $f_{2}(\cA)=f_{2}(\cA_{1})+f_{2}(\cA_{2})$.  Indeed the stress
 tensor of $\cA$ is $T(f)=T_{1}(f)\otimes\one+\one\otimes T_{2}(f)$, so its central charge is $c=c_{1}+c_{2}$,
 and \Cref{thm:B} applied to each of the three nets gives $f_{2}=c/(12\pi^{2})$, which is additive in $c$.
 (Additivity of $\|T(g_{\rm tot})\Omega\|^{2}$ alone would not suffice: $\gB$ is a distance to

@@ -1,0 +1,58 @@
+[
+ {
+  "file": "paper2/sec_universality.tex",
+  "old": "Let $(\\cA,U,\\Omega)$ be a diffeomorphism covariant conformal net on $S^{1}$ with central charge $c$ on a\nseparable Hilbert space, satisfying the axioms of \\Cref{ss:standing} together with \\textup{(HD)},\n\\textup{(BW)} and \\textup{(RS)}.  Let $A=(-\\infty,0)$, $D=(0,L)$, $I=AD$, $\\cM=\\cA(I)$, and let\n$\\omega_{s}=\\omega\\circ\\Ad U_{s}|_{\\cM}$ be the zero-collar recovery curve of \\Cref{H1} attached to the\ncompression $k_{s}(x)=Lx/(L+sx)$ on $D$.  Assume \\Cref{H1}, \\Cref{H2}\\,\\textup{(}with\n\\textup{(H2$'$)}\\textup{)} and \\Cref{H3}.  Then, with $\\zeta$ the cross ratio of the four endpoints\n\\textup{(}$\\zeta=s$ in this normal form\\textup{)},",
+  "new": "Let $(\\cA,U,\\Omega)$ be a diffeomorphism covariant conformal net on $S^{1}$ with central charge $c>0$ on a\nseparable Hilbert space, as in \\Cref{ss:standing} \\textup{(}axioms and the standing facts \\textup{(HD)},\n\\textup{(BW)}, \\textup{(RS)} there\\textup{)}.  Let $A=(-\\infty,0)$, $D=(0,L)$, $I=AD$, $\\cM=\\cA(I)$, let\n$U_{s}=e^{is\\overline{T(g_{\\rm tot})}}$ be the implementers of \\Cref{thm:impl}, and let\n$\\omega_{s}=\\omega\\circ\\Ad U_{s}|_{\\cM}$ be the zero-collar recovery curve of \\Cref{H1} attached to the\ncompression $k_{s}(x)=Lx/(L+sx)$ on $D$.  Then, with $\\zeta$ the cross ratio of the four endpoints\n\\textup{(}$\\zeta=s$ in this normal form\\textup{)},",
+  "finding": "P8/follow-up",
+  "reason": "P8: state thm:B without assuming (H1)-(H3)"
+ },
+ {
+  "file": "paper2/sec_universality.tex",
+  "old": "Moreover, by \\Cref{thm:impl} the hypotheses \\textup{(H1)}--\\textup{(H3)} hold for \\emph{every} such net, so\n\\eqref{eq:B} is unconditional.\n\\end{theorem}\n\n\\begin{proof}\nThe lower bound is",
+  "new": "No hypothesis beyond those of \\Cref{ss:standing} is made.\n\\end{theorem}\n\n\\begin{proof}\nBy \\Cref{thm:impl}, \\Cref{H1}, \\Cref{H2}\\,(with (H2$'$)) and \\Cref{H3} hold for the net, with the $U_{s}$ of\nthe statement.  The lower bound is",
+  "finding": "P8/follow-up",
+  "reason": "P8: hypotheses moved into the proof"
+ },
+ {
+  "file": "paper2/sec_universality.tex",
+  "old": "and $f_{2}=\\gB/8$.  Unconditionality is\n\\Cref{thm:impl}.",
+  "new": "and $f_{2}=\\gB/8$.",
+  "finding": "P8/follow-up",
+  "reason": "P8"
+ },
+ {
+  "file": "paper2/sec_universality.tex",
+  "old": "Let $\\cA_{1},\\cA_{2}$ satisfy the hypotheses of \\Cref{thm:B}, with central charges $c_{1},c_{2}$, and assume\nthat $\\cA=\\cA_{1}\\otimes\\cA_{2}$ does too.",
+  "new": "Let $(\\cA_{1},U_{1},\\Omega_{1})$, $(\\cA_{2},U_{2},\\Omega_{2})$ satisfy the hypotheses of \\Cref{thm:B}, with\ncentral charges $c_{1},c_{2}$, and assume that $\\cA=\\cA_{1}\\otimes\\cA_{2}$ with the covariance\n$U=U_{1}\\otimes U_{2}$ and the vacuum $\\Omega_{1}\\otimes\\Omega_{2}$ does too.",
+  "finding": "P8/follow-up",
+  "reason": "REF-RP-3 MINOR: name U = U1 x U2"
+ },
+ {
+  "file": "paper2/sec_setting.tex",
+  "old": "(under review); \\Cref{thm:B} is",
+  "new": "(refereed internally on 2026-11-19; proved there for $s\\ge0$ and every admissible extension of the field, and for both signs for one explicit extension); \\Cref{thm:B} is",
+  "finding": "P8/follow-up",
+  "reason": "stale 'under review'"
+ },
+ {
+  "file": "paper2/app_conventions.tex",
+  "old": "moebius\\_reduction\\_general\\_nets.tex}, under review)",
+  "new": "moebius\\_reduction\\_general\\_nets.tex}, refereed internally on 2026-11-19)",
+  "finding": "P8/follow-up",
+  "reason": "stale"
+ },
+ {
+  "file": "paper2/main.tex",
+  "old": "internal document under review).",
+  "new": "internal document, refereed internally on 2026-11-19).",
+  "finding": "P8/follow-up",
+  "reason": "stale"
+ },
+ {
+  "file": "rigor/universality_theorem_B.tex",
+  "old": "(under review; implementers of",
+  "new": "(refereed 2026-11-19, card \\texttt{moebius-reduction-general-nets}; implementers of",
+  "finding": "P8/follow-up",
+  "reason": "stale"
+ }
+]

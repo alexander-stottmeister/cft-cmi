@@ -53,3 +53,14 @@ Third pass: REF-RR-C on the 7 pending cards (packet <scratchpad>/review_packet_3
 REF-RR-C: 5 PASS; two-branch-law-lattice, paper1-status FAIL -> repaired (ORCH_patch_6.json, card_changes_8.json); REF-RR-C resumed for the re-check of these two.
 REF-RR-C re-check: two-branch-law-lattice, paper1-status PASS. kb lint: 0 issues, 0 awaiting review (cft_cmi). Round closed 2026-11-19.
 Committed b972fdd (public), pgit sync done (private). kb sync REFUSED: lint issues in area_law (169) and zed (303): evidence paths missing on this machine; not caused by this session; --force needs the user.
+
+## 2026-11-19 evening: user decisions
+- "pull area_law and zed onto this machine first. Yes to the other decision points" (push; title kept; P8 applied).
+- zed cloned from alexander-stottmeister/zed into the workspace root: kb lint 0 issues.
+- area_law cloned from alexander-stottmeister/area-law (last remote commit 2026-10-24): 92 evidence paths still missing,
+  all under area_law/peps/ and area_law/peps_approx.pdf (work of 2026-10-24 ... 11-07 on host Macmini, not on the remote).
+  kb sync stays refused until that machine pushes area_law (or the user orders --force).
+- Pushed: public a1b73a8, private d3e2358.
+- P8: rigor/repair/ORCH_patch_7.json applied (thm:B unconditional, cor:tensor, 'under review' wordings); paper2 26 pp,
+  universality_theorem_B 25 pp, logs clean. Referee REF-P8 agent ab65b02e7ca80cb8b, brief rigor/repair/REF_P8_BRIEF.md.
+- REF-P8: FAIL (item 4, Moebius-reduction range in three places) -> rigor/repair/ORCH_patch_8.json -> re-review PASS. kb -p cft_cmi lint 0 issues, 0 awaiting.

@@ -1,0 +1,23 @@
+[
+ {
+  "file": "paper2/app_conventions.tex",
+  "old": "and for the free fermion all recovery quantities depend on $(a,L,s)$ only through the cross ratio (for a\ngeneral net, the $U(1)$ current net of \\Cref{sec:boson} included, the reduction rests on \\texttt{rigor/moebius\\_reduction\\_general\\_nets.tex}, reviewed internally on 2026-11-19)",
+  "new": "and for the free fermion all recovery quantities depend on $(a,L,s)$ only through the cross ratio (for a\ngeneral net, the $U(1)$ current net of \\Cref{sec:boson} included, this is proved only for the recovered state\nand its fidelity, for $s\\ge0$ and every admissible extension of the field and for both signs for one explicit\nextension, in \\texttt{rigor/moebius\\_reduction\\_general\\_nets.tex}, reviewed internally on 2026-11-19; for\nrelative entropies of a general net no such reduction is proved)",
+  "finding": "REF-P8 item 4",
+  "reason": "range of the card"
+ },
+ {
+  "file": "paper2/main.tex",
+  "old": "internal document, reviewed internally on 2026-11-19).",
+  "new": "internal document, reviewed internally on 2026-11-19, which proves it for the recovered state and its fidelity when $s\\ge0$).",
+  "finding": "REF-P8 item 4",
+  "reason": "range"
+ },
+ {
+  "file": "paper2/sec_boson.tex",
+  "old": "geometry is that of \\Cref{sec:setting} with $a=1$, $L=2$, so $\\zeta=s/3$.",
+  "new": "geometry is that of \\Cref{sec:setting} with $a=1$, $L=2$, so $\\zeta=s/3$.  For the fidelity and $s\\ge0$ the\ndependence on $\\zeta$ alone is the M\\\"obius reduction quoted in \\Cref{ss:geom}; for the relative entropy no\nreduction is proved for this net, and $\\zeta=s/3$ there only labels this one configuration.",
+  "finding": "REF-P8 item 4",
+  "reason": "s2 conversion not covered by the card"
+ }
+]
