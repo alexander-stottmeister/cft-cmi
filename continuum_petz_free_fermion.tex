@@ -249,7 +249,7 @@ We use the following established results.
     \qquad
     (1-S)^{1/2}-(1-T)^{1/2}\in\Stwo;
   \]
-  see Powers--St\o rmer and Araki \cite{PowersStormer,ArakiCAR}.
+  see Powers--St\o rmer \cite[Thm.~5.1, p.~25]{PowersStormer} and Araki \cite{ArakiCAR}.  Quasi-equivalence of two representations \(\pi_1,\pi_2\) means, by definition \cite[Def.~1.1 and p.~4]{PowersStormer}, that there is a \(*\)-isomorphism \(\phi\) of \(\pi_1(\mathfrak A)''\) onto \(\pi_2(\mathfrak A)''\) with \(\phi\circ\pi_1=\pi_2\).
 \end{enumerate}
 
 The first three inputs determine the recovery map.  The fourth converts the endpoint trace-class calculation into normality on the type-III local algebra.
@@ -409,7 +409,7 @@ The split property gives the graded tensor-product identifications
  \qquad
  \cN_\eps\simeq\cF_r(A_\eps)\,\overline\otimes_{\mathrm{gr}}\,\cF_r(B).
 \end{equation}
-For parity-preserving maps one may equivalently use the usual Klein transform and ordinary tensor products: Longo--Xu's Lemma~3.1 identifies \(\cM_\eps\) with an ordinary tensor product after conjugating the \(D\)-factor by the Klein unitary, \(\sigma_\eps\) is the unique normal state factorizing on \(\cF_r(A_\eps)\times\cF_r(D)\) (it is faithful), and the Petz maps computed below are parity preserving; all statements of this section are to be read with this identification (verification document \texttt{rigor/check\_note4.tex}).  Let
+For parity-preserving maps one may equivalently use the usual Klein transform and ordinary tensor products: Longo--Xu's Lemma~3.1 identifies \(\cM_\eps\) with an ordinary tensor product after conjugating the \(D\)-factor by the Klein unitary, \(\sigma_\eps\) is the unique normal state factorizing on \(\cF_r(A_\eps)\times\cF_r(D)\) (it is faithful), and the Petz maps computed below are parity preserving; all statements of this section are to be read with this identification (verification document \texttt{rigor/check\_note4.tex}).  The identification is checked as follows.  Let \(\Gamma\) be the grading unitary (\(\Gamma\Omega=\Omega\)) and \(Z=(1+i\Gamma)/(1+i)\), so that \(ZyZ^*=y\) for even and \(ZyZ^*=i\Gamma y\) for odd \(y\), and \(Z\Omega=\Omega\).  (a) The product state of the commuting pair \(\cF_r(A_\eps)\), \(Z\cF_r(D)Z^*\) and the graded product state agree: on \(x\,ZyZ^*\) with \(x\in\cF_r(A_\eps)\), \(y\in\cF_r(D)\) the first gives \(\omega(x)\omega(ZyZ^*)=\omega(x)\omega(y)\), since \(Z\) fixes \(\Omega\), and the odd part of \(y\) contributes zero to both because the vacuum is even.  (b) The transfer map \(\alpha^{D\to B}=\mathrm{Ad}\,U(s_t)\) commutes with \(\Gamma\), hence with \(Z\), so \(\mathrm{Ad}Z\circ\alpha\circ\mathrm{Ad}Z^*=\alpha\).  Let
 \begin{equation}\label{eq:sigma-eps}
  \sigma_\eps=\omega_{A_\eps}\otimes\omega_D.
 \end{equation}
@@ -742,7 +742,7 @@ For \(s=s_t\), its restriction to every positive-collar algebra is the Faulkner-
 \end{theorem}
 
 \begin{proof}
-The representation of \(\CAR(H_I)\) obtained by pulling the vacuum representation on \(\CAR(H_{J_s})\) back along \(\beta_s\) is the quasi-free representation with symbol \(\widetilde Q_s\).  The unique normal extension provided by quasi-equivalence is a \(*\)-isomorphism of von Neumann algebras and hence automatically normal (Kadison--Ringrose II, \S7.1).  (The vacuum restricted to \(\CAR(H_I)\) is faithful and \(\Omega\) is cyclic for \(\cF_r(I)\) by Reeh--Schlieder, so the restricted vacuum representation is the GNS representation of \(\omega|_{\CAR(H_I)}\), to which the Powers--St\o rmer criterion refers.)  Equations \eqref{eq:PS-1}--\eqref{eq:PS-2} show that it is quasi-equivalent to the vacuum representation with symbol \(Q_I\).  A \(C^*\)-isomorphism whose source representation and pulled-back target representation are quasi-equivalent extends uniquely to a normal \(*\)-isomorphism between their von Neumann closures.  This gives \eqref{eq:normal-beta}.  The restriction identity already holds on the norm-dense CAR generators localized in \(A_\eps\cup D\); normality extends it to \(\cM_\eps\).
+The representation of \(\CAR(H_I)\) obtained by pulling the vacuum representation on \(\CAR(H_{J_s})\) back along \(\beta_s\) is the quasi-free representation with symbol \(\widetilde Q_s\).  The unique normal extension provided by quasi-equivalence is a \(*\)-isomorphism of von Neumann algebras and hence automatically normal (Kadison--Ringrose II, \S7.1).  (The vacuum restricted to \(\CAR(H_I)\) is faithful and \(\Omega\) is cyclic for \(\cF_r(I)\) by Reeh--Schlieder, so the restricted vacuum representation is the GNS representation of \(\omega|_{\CAR(H_I)}\), to which the Powers--St\o rmer criterion refers.)  Equations \eqref{eq:PS-1}--\eqref{eq:PS-2} show that it is quasi-equivalent to the vacuum representation with symbol \(Q_I\).  A \(C^*\)-isomorphism whose source representation and pulled-back target representation are quasi-equivalent extends uniquely to a normal \(*\)-isomorphism between their von Neumann closures: existence is the definition of quasi-equivalence recalled in item 4 of the external inputs (Section~1), uniqueness holds because two normal maps that agree on the ultraweakly dense \(*\)-subalgebra \(\pi_I(\CAR(H_I))\) agree, and the range is \(\cF_r(J_s)\) because \(\beta_s\) maps \(\CAR(H_I)\) onto \(\CAR(H_{J_s})\) (\(W_s\) is unitary); the steps are written out in \texttt{rigor/check\_note4.tex}, proof of Theorem~8.2 (label \texttt{thm:normal}), \(\langle1\rangle1\)--\(\langle1\rangle8\).  This gives \eqref{eq:normal-beta}.  The restriction identity already holds on the norm-dense CAR generators localized in \(A_\eps\cup D\); normality extends it to \(\cM_\eps\).
 \end{proof}
 
 \begin{remark}
@@ -833,7 +833,7 @@ Let
  \qquad
  \int_{\mathbb R}p(t)\dd t=1.
 \end{equation}
-The maps \(t\mapsto\overline\beta_{s_t}(x)\) are ultraweakly measurable and uniformly bounded for each \(x\in\cF_r(I)\).  One may see this first on the ultraweakly dense CAR algebra (measurability for every \(x\in\cF_r(I)\) then follows because \(\cF_r(I)\) has a separable predual, so ultraweak measurability may be tested on a countable separating family of normal functionals), where the one-particle maps depend strongly continuously on \(t\), and then on the von Neumann algebra by bounded strong approximation from the increasing collar algebras.  Define the ultraweak integral
+The maps \(t\mapsto\overline\beta_{s_t}(x)\) are ultraweakly measurable and uniformly bounded for each \(x\in\cF_r(I)\).  One may see this first on the ultraweakly dense CAR algebra (measurability for every \(x\in\cF_r(I)\) then follows because \(\cF_r(I)\) has a separable predual, so ultraweak measurability may be tested on a countable separating family of normal functionals), where the one-particle maps depend strongly continuously on \(t\), and then on the von Neumann algebra by a sequence: \(\cF_r(I)\) acts on the separable vacuum Hilbert space, so its unit ball is strongly metrisable and Kaplansky's density theorem gives a bounded sequence \(x_n\in\CAR(H_I)\) with \(x_n\to x\) strongly, hence ultraweakly; since each \(\overline\beta_{s_t}\) is normal, \(\varphi(\overline\beta_{s_t}(x))=\lim_n\varphi(\overline\beta_{s_t}(x_n))\) for every normal \(\varphi\), a pointwise limit of measurable functions of \(t\).  Define the ultraweak integral
 \begin{equation}\label{eq:twirled-beta}
  \boxed{
  \overline\beta(x)
@@ -894,7 +894,7 @@ Let
  =\omega|_{\cF_r(AB)}\circ\overline\beta
  =\int_{\mathbb R}p(t)\widetilde\omega_t\dd t.
 \]
-Joint concavity of root fidelity and the arithmetic--geometric mean inequality imply
+Concavity of root fidelity in its second argument, in integral form, and Jensen's inequality for the logarithm imply the two lines below.  The first: by the arithmetic-mean form of Alberti's formula in the proof of Lemma~\ref{lem:fidelity-below}, and \(\int p=1\), \(\Fid(\omega,\overline\omega)=\inf_{x>0}\int p(t)\,\tfrac12\bigl(\omega(x)+\widetilde\omega_t(x^{-1})\bigr)\dd t\ge\int p(t)\inf_{x>0}\tfrac12\bigl(\omega(x)+\widetilde\omega_t(x^{-1})\bigr)\dd t\); the second is Jensen's inequality \(\int p\log\Fid_t\le\log\int p\,\Fid_t\).  Hence
 \begin{align}
  \Fid(\omega,\overline\omega)
  &\ge\int p(t)\Fid(\omega,\widetilde\omega_t)\dd t\notag\\
@@ -909,7 +909,7 @@ Together with \eqref{eq:fixed-t-integrated-bound},
  =\eta^{r/12}.
  }
 \end{equation}
-The corresponding norm estimate is
+The corresponding norm estimate follows from the Fuchs--van de Graaf inequality \(\tfrac12\norm{\omega_\psi-\omega_\phi}\le\sqrt{1-\Fid(\omega_\psi,\omega_\phi)^2}\) for vector states of a von Neumann algebra (\cite[Lemma~3(3), eq.~(58)]{FHWS}, arXiv:2006.08002v1 p.~11; \(\omega\) and \(\overline\omega\) are normal, hence vector states in the standard form of \(\cF_r(ABC)\) on the vacuum Hilbert space, where \(\Omega\) is cyclic and separating):
 \begin{equation}\label{eq:zero-collar-norm}
  \norm{\omega-\overline\omega}
  \le2\sqrt{1-\Fid(\omega,\overline\omega)^2}

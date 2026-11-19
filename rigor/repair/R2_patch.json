@@ -1,0 +1,121 @@
+[
+ {
+  "file": "rigor/universality_theorem_B.tex",
+  "old": " $U_s\\cA(K)U_s^*=\\cA(\\kt_s(K))$ for every interval $K$; the assignment is local in the sense that\n $U_s=U(\\phi)\\,U_s^{\\sharp}$ (up to a phase) whenever $U_s,U_s^\\sharp$ implement two $C^{1,1}$ extensions of\n $k_s$ that differ by $\\phi:=\\kt_s\\circ(\\kt^\\sharp_s)^{-1}$, and",
+  "new": " $U_s\\cA(K)U_s^*=\\cA(\\kt_s(K))$ for every interval $K$.  This is (H1) in the form (C7) of\n \\texttt{rigor/implementation\\_C11.tex}, which Theorem~``(H1) for every conformal net'' there proves for every\n $s\\in\\mathbb R$ with $U_s=e^{is\\overline{T(\\gtot)}}$.  \\emph{No} locality clause for non-smooth maps is assumed:\n $U(\\phi)$ is defined only for smooth $\\phi\\in\\mathrm{Diff}^+(S^1)$ (CDIT axiom (10)), and for those\n \\texttt{rigor/implementation\\_C11.tex} Lemma~``locality of implementers'' (i) gives the standing fact",
+  "finding": "C2 F3",
+  "reason": "UB's (H1) postulated a locality clause U_s = U(phi)U_s^sharp for C^{1,1} phi, for which U(phi) is undefined and which C11 does not prove; (H1) is restated in C11's (C7) form, (H1loc) kept as the smooth-phi fact C11 lem:loc-HT(i) proves."
+ },
+ {
+  "file": "rigor/universality_theorem_B.tex",
+  "old": "  \\mathrm{Diff}(K):=\\{\\phi:\\ \\phi|_{K'}=\\mathrm{id}\\}",
+  "new": "  \\mathrm{Diff}(K):=\\{\\phi\\in\\mathrm{Diff}^+(S^1):\\ \\phi|_{K'}=\\mathrm{id}\\}",
+  "finding": "C2 F3",
+  "reason": "eq:H1loc holds (CDIT axiom (10), C11 lem:loc-HT(i)) only for smooth phi; the set Diff(K) is restricted accordingly."
+ },
+ {
+  "file": "rigor/universality_theorem_B.tex",
+  "old": " is \\emph{unusable} here, because the $\\phi$ of Lemma~\\ref{lem:ext} has",
+  "new": " would be \\emph{unusable} even if $U(\\phi)$ were defined, because the map $\\phi=\\kt_s\\circ(\\kt^\\sharp_s)^{-1}$\n relating two extensions (only $C^{1,1}$; Lemma~\\ref{lem:ext} does not use it) has",
+  "finding": "C2 F3",
+  "reason": "the remark referred to the phi of lem:ext, which the repaired lem:ext no longer uses."
+ },
+ {
+  "file": "rigor/universality_theorem_B.tex",
+  "old": "Let $\\kt_s$ and $\\kt_s^\\sharp$ be two $C^{1,1}$ diffeomorphisms of $\\mathbb R$ (or of $S^1$) with\n$\\kt_s|_I=\\kt_s^\\sharp|_I=k_s$, and let $U_s,U_s^\\sharp$ be implementers as in \\textup{(H1)}.  Then\n$\\omega\\circ\\Ad U_s|_{\\cM}=\\omega\\circ\\Ad U_s^\\sharp|_{\\cM}$.",
+  "new": "Let $\\gtot$ and $\\gtot^\\sharp$ be two fields of the class $\\mathcal E$ of \\texttt{rigor/implementation\\_C11.tex},\nDefinition~``the extension class and the field'' (conditions (E1)--(E3), with $L=1$ and some $a>0$), which\nagree on $I$, let $\\kt_s,\\kt_s^\\sharp$ be their flows and $U_s:=e^{is\\overline{T(\\gtot)}}$,\n$U_s^\\sharp:=e^{is\\overline{T(\\gtot^\\sharp)}}$ (the implementers of \\textup{(H1)} constructed there).  Then\n$\\omega\\circ\\Ad U_s|_{\\cM}=\\omega\\circ\\Ad U_s^\\sharp|_{\\cM}$ for every $s\\ge0$.  (Arbitrary $C^{1,1}$\nextensions, arbitrary implementers and $s<0$ are \\emph{not} covered; nothing below uses them.)",
+  "finding": "C2 F3",
+  "reason": "the lemma's statement (arbitrary C^{1,1} extensions and implementers, both signs of s) rested on the undefined U(phi); it is restricted to what C11 thm:H1 <1>7's argument proves (class E, s >= 0)."
+ },
+ {
+  "file": "rigor/universality_theorem_B.tex",
+  "old": "\\end{lemma}\n\\lstep{1}{1}{\\ldefine $\\phi:=\\kt_s\\circ(\\kt^\\sharp_s)^{-1}$.  Then $\\phi|_{J_s}=\\mathrm{id}$ with\n $J_s=k_s(I)$, i.e.\\ $\\phi\\in\\mathrm{Diff}(J_s')$; in general $\\supp\\phi=\\overline{J_s'}$, so $\\phi$ is\n \\emph{not} supported in any interval strictly inside $J_s'$.}\n\\lby{for $y\\in J_s$ write $y=k_s(x)$, $x\\in I$; then $(\\kt^\\sharp_s)^{-1}(y)=x$ and $\\kt_s(x)=k_s(x)=y$;\n for $y$ just to the right of $\\partial J_s$ the two continuations differ, so\n $\\partial J_s\\in\\supp\\phi$}\n\\lstep{1}{2}{$U(\\phi)\\in\\cA(J_s)'$.}\n\\lby{$\\langle1\\rangle1$ and the locality clause \\eqref{eq:H1loc} of (H1) with $K=J_s'$ give\n $U(\\phi)\\in\\cA(J_s')$; then $\\cA(J_s')\\subseteq\\cA(J_s)'$ by \\emph{locality} alone (Haag duality is not\n needed, and fails for the graded net of \\S\\ref{sec:models})}\n\\lstep{1}{3}{For $X\\in\\cM$: $Y:=U^\\sharp_sX U_s^{\\sharp*}\\in\\cA(J_s)$ and $U(\\phi)YU(\\phi)^*=Y$.}\n\\lby{(H1) covariance with $\\kt^\\sharp_s(I)=J_s$; then $\\langle1\\rangle2$}\n\\lstep{1}{4}{$\\omega(U_sXU_s^*)=\\omega(Y)=\\omega(U^\\sharp_sXU_s^{\\sharp*})$.}\n\\lby{(H1) locality: $U_s=\\lambda\\,U(\\phi)U^\\sharp_s$ with $|\\lambda|=1$, so\n $U_sXU_s^*=U(\\phi)YU(\\phi)^*=Y$ by $\\langle1\\rangle3$ (the phase cancels)}\n\\lqed{1}{5}\\lby{$\\langle1\\rangle4$}",
+  "new": "\\end{lemma}\n\\lstep{1}{1}{$\\phi:=\\gtot-\\gtot^\\sharp$ is real, $\\norm{\\phi}_{3/2}<\\infty$, $\\phi=0$ on $I$, and\n $e^{it\\overline{T(\\phi)}}\\in\\cA(I)'=\\cM'$ for every $t\\in\\mathbb R$.}\n\\lby{both fields agree on $I$; $\\norm{\\gtot}_{3/2},\\norm{\\gtot^\\sharp}_{3/2}<\\infty$ by\n \\texttt{implementation\\_C11.tex} Thm.~``regularity of the first-order field''(c) and the triangle inequality;\n then that document's Thm.~``(H1) for every conformal net'' step $\\langle1\\rangle2$ with $I_0=I$ (it uses (HD))}\n\\lstep{1}{2}{For $b\\ge0$ and $X\\in\\cM$: $U^\\sharp_bXU^{\\sharp*}_b\\in\\cA(\\kt^\\sharp_bI)\\subseteq\\cM$.}\n\\lby{\\texttt{implementation\\_C11.tex} Thm.~``(H1) for every conformal net''(iii); $\\kt_b^\\sharp$ fixes\n $(-\\infty,0]$ pointwise ($\\gtot^\\sharp=0$ there) and equals $k_b$ on $[0,1)$ (eq.~\\eqref{eq:ks}), so\n $\\kt^\\sharp_bI=(-\\infty,\\frac1{1+b})\\subseteq I$; isotony}\n\\lstep{1}{3}{For $b\\ge0$ and $X\\in\\cM$: $\\Ad\\bigl(e^{ib\\overline{T(\\phi)}}U^\\sharp_b\\bigr)(X)=\\Ad U^\\sharp_b(X)$.}\n\\lby{$\\langle1\\rangle2$ puts $\\Ad U^\\sharp_b(X)$ in $\\cM$, and $\\langle1\\rangle1$ says $e^{ib\\overline{T(\\phi)}}$\n commutes with $\\cM$}\n\\lstep{1}{4}{$U_s=\\lim_n\\bigl(e^{i\\frac sn\\overline{T(\\phi)}}U^\\sharp_{s/n}\\bigr)^n$ strongly.}\n\\lby{Trotter's formula, Reed--Simon~I Thm.~VIII.31, as in \\texttt{implementation\\_C11.tex}\n Thm.~``(H1) for every conformal net'' $\\langle2\\rangle1$ of $\\langle1\\rangle4$: $\\overline{T(\\phi)}$,\n $\\overline{T(\\gtot^\\sharp)}$ are self-adjoint, $T(\\gtot)=T(\\phi)+T(\\gtot^\\sharp)$ termwise on the finite-energy\n vectors, which are a core for $\\overline{T(\\gtot)}$ (that document's Lemma ``the Carpi--Weiner package''), so\n the sum on $D(\\overline{T(\\phi)})\\cap D(\\overline{T(\\gtot^\\sharp)})$ is a symmetric extension of an\n essentially self-adjoint operator and has closure $\\overline{T(\\gtot)}$}\n\\lstep{1}{5}{For $X\\in\\cM$ and $s\\ge0$: $\\Ad\\bigl(e^{i\\frac sn\\overline{T(\\phi)}}U^\\sharp_{s/n}\\bigr)^n(X)=\n \\Ad U^\\sharp_s(X)$.}\n\\lby{$n$-fold iteration of $\\langle1\\rangle3$ with $b=s/n$; after $k$ steps the image is\n $\\Ad U^\\sharp_{ks/n}(X)\\in\\cM$ by $\\langle1\\rangle2$; and $(U^\\sharp_{s/n})^n=U^\\sharp_s$ (one-parameter group)}\n\\lstep{1}{6}{$\\Ad U_s|_\\cM=\\Ad U^\\sharp_s|_\\cM$ for $s\\ge0$.}\n\\lby{$\\langle1\\rangle4$, $\\langle1\\rangle5$: if unitaries $V_n\\to V$ strongly then $V_nXV_n^*\\to VXV^*$\n strongly, and the left-hand side of $\\langle1\\rangle5$ is constant in $n$}\n\\lqed{1}{7}\\lby{$\\langle1\\rangle6$ and $\\omega_s=\\omega\\circ\\Ad U_s|_\\cM$}",
+  "finding": "C2 F3",
+  "reason": "the old proof applied the locality clause to U(phi) with phi = ktil_s o (ktil_s^sharp)^{-1} only C^{1,1}; replaced by the Trotter argument of C11 thm:H1 <1>7 adapted to I = (-infinity, 1)."
+ },
+ {
+  "file": "rigor/universality_theorem_B.tex",
+  "old": "which is why the \\emph{state} on $\\cA(I)$, i.e.\\ on $\\cA(J_s)$ after transport, does not see the extension.\nOnly two inputs are used, and neither is Haag duality: \\emph{locality} ($\\cA(J_s')\\subseteq\\cA(J_s)'$),\nand the locality clause \\eqref{eq:H1loc} of (H1) in its correct form\n$U(\\mathrm{Diff}(K))\\subseteq\\cA(K)$, which for smooth $\\phi$ is the standard theorem of diffeomorphism\ncovariance (\\'a la Carpi--Weiner) and for the $C^{1,1}$ maps used here is part of what track QB\n(\\texttt{rigor/implementation\\_C11.tex}) must verify.  The naive clause ``$\\supp\\phi\\subset K$'' is\ninapplicable here, see $\\langle1\\rangle1$.  Note that the \\emph{vector} $\\Psi_s$ and the tangent vector $T(\\gtot)\\Om$",
+  "new": "which is why the \\emph{state} on $\\cA(I)$, i.e.\\ on $\\cA(J_s)$ after transport, does not see the extension.\nThe inputs are (HD) (inside the cited step $\\langle1\\rangle2$ of \\texttt{implementation\\_C11.tex}), the covariance\n(H1)(iii) proved there, and Trotter's formula; \\emph{no} locality clause for a non-smooth map is used, and none is\navailable: $U(\\phi)$ is undefined for $\\phi=\\kt_s\\circ(\\kt^\\sharp_s)^{-1}$, which is only $C^{1,1}$.  The\nrestriction $s\\ge0$ enters through $\\kt^\\sharp_bI\\subseteq I$ in $\\langle1\\rangle2$.  Note that the \\emph{vector} $\\Psi_s$ and the tangent vector $T(\\gtot)\\Om$",
+  "finding": "C2 F3",
+  "reason": "the verdict box described the old proof (locality clause of (H1) for C^{1,1} maps)."
+ },
+ {
+  "file": "rigor/universality_theorem_B.tex",
+  "old": "Let $h$ be real, $C^{1,1}$, with $\\supp h\\subset I'$ compact, and assume $T(h)$ is essentially self-adjoint\nwith $\\Om\\in D(T(h))$ and $e^{i\\tau T(h)}=U(\\phi'_\\tau)$, $\\phi'_\\tau$ the flow of $h\\partial_x$\n\\textup{(}so $\\supp\\phi'_\\tau\\subset I'$\\textup{)}.",
+  "new": "Let $h$ be real with $\\supp h\\subset I'$ compact and $\\norm h_{3/2}<\\infty$ (the Carpi--Weiner norm of\n\\texttt{rigor/implementation\\_C11.tex}).  Then $T(h)$ is essentially self-adjoint on the finite-energy vectors,\n$\\Om$ is one of them, and we write $e^{i\\tau T(h)}:=e^{i\\tau\\overline{T(h)}}$ (that document's Lemma ``the\nCarpi--Weiner package''); for smooth $h$ this equals $U(\\phi'_\\tau)$ up to a scalar phase, $\\phi'_\\tau$ the flow\nof $h\\partial_x$ (its Lemma ``the phase \\dots\\ is scalar''), and for non-smooth $h$ no $U(\\phi'_\\tau)$ is used.",
+  "finding": "C2 F3, C2 table prop:geom",
+  "reason": "prop:geom postulated e^{i tau T(h)} = U(phi'_tau) for C^{1,1} h, where U(phi') is undefined; the hypothesis is replaced by ||h||_{3/2} < infinity, which C11 lem:dirsum turns into a self-adjoint T(h)."
+ },
+ {
+  "file": "rigor/universality_theorem_B.tex",
+  "old": "\\lstep{1}{1}{$u'_\\tau:=U(\\phi'_\\tau)=e^{i\\tau T(h)}\\in\\U(\\cM')$ for every $\\tau\\in\\mathbb R$.}\n\\lby{$\\supp\\phi'_\\tau\\subseteq\\supp h$ is a \\emph{compact} subset of the open arc $I'$, so\n $\\phi'_\\tau\\in\\mathrm{Diff}(K)$ for an interval $K$ with $\\supp h\\subset K\\subseteq I'$, whence\n $U(\\phi'_\\tau)\\in\\cA(K)$ by \\eqref{eq:H1loc}; then $\\cA(K)\\subseteq\\cA(I')\\subseteq\\cA(I)'=\\cM'$ by\n isotony and \\emph{locality} (Haag duality is not needed)}\n\\lstep{1}{2}{$\\Fid(\\omega,\\omega_s)\\ \\ge\\ \\bigl|\\ip{\\Om}{u'_{-s}\\Psi_s}\\bigr|$.}",
+  "new": "\\lstep{1}{1}{$u'_\\tau:=e^{i\\tau\\overline{T(h)}}\\in\\U(\\cM')$ for every $\\tau\\in\\mathbb R$.}\n\\lby{$h=0$ on the open interval $I$, because $\\supp h$ is a compact subset of the open arc $I'$; then\n \\texttt{rigor/implementation\\_C11.tex} Thm.~``(H1) for every conformal net'' step $\\langle1\\rangle2$ (with\n $\\phi=h$, $I_0=I$; it uses (HD)) gives $e^{i\\tau\\overline{T(h)}}\\in\\cA(I)'=\\cM'$.  No locality clause for a\n non-smooth map is used}\n\\lstep{1}{2}{$\\Fid(\\omega,\\omega_s)\\ \\ge\\ \\bigl|\\ip{\\Om}{u'_{-s}\\Psi_s}\\bigr|$.}",
+  "finding": "C2 F3, C2 table prop:geom",
+  "reason": "<1>1 needs only e^{i tau T(h)} in M', which C11 thm:H1 <1>2 proves; the old step applied eq:H1loc to a non-smooth phi'."
+ },
+ {
+  "file": "rigor/universality_theorem_B.tex",
+  "old": "(ii) The trial unitary is $u'_{-s}=U(\\phi'_{-s})$, i.e.",
+  "new": "(ii) For smooth $h$ the trial unitary is $u'_{-s}=U(\\phi'_{-s})$ up to a phase, i.e.",
+  "finding": "C2 F3",
+  "reason": "U(phi'_{-s}) is defined only for smooth h after the prop:geom repair."
+ },
+ {
+  "file": "rigor/universality_theorem_B.tex",
+  "old": " & \\textbf{proved}, from (HD) and the locality clause of (H1)\\\\",
+  "new": " & \\textbf{proved} for fields of class $\\mathcal E$ and $s\\ge0$, from (HD), (H1)(iii) and Trotter (\\texttt{implementation\\_C11.tex}); no locality clause for non-smooth maps\\\\",
+  "finding": "C2 F4, F3",
+  "reason": "summary table said lem:ext is proved from (HD) and the locality clause; the repaired proof uses neither the clause nor more than (HD) inside a cited step."
+ },
+ {
+  "file": "rigor/universality_theorem_B.tex",
+  "old": " & \\textbf{proved} from (H1), (H2), (HD)\\\\",
+  "new": " & \\textbf{proved} from (H1), (H2), (HD), for $\\norm h_{3/2}<\\infty$\\\\",
+  "finding": "C2 F3",
+  "reason": "summary row follows the repaired hypothesis of prop:geom."
+ },
+ {
+  "file": "rigor/universality_theorem_B.tex",
+  "old": "at \\emph{zero collar throughout}: $\\cM=\\cA(I)$ with $I=ABC$, no",
+  "new": "at \\emph{zero collar throughout}: $\\cM=\\cA(I)$ with $I=AD$ (eq.~\\eqref{eq:geom}), no",
+  "finding": "C2 F4",
+  "reason": "naming drift: (S3) names the interval I = AD."
+ },
+ {
+  "file": "rigor/universality_theorem_B.tex",
+  "old": "(H1)--(H3) for general nets & \\textbf{open} (track QB)\\\\",
+  "new": "(H1)--(H3) for general nets & \\textbf{proved} in \\texttt{implementation\\_C11.tex} Thm.~``main (card implementer-hypotheses), with (H1) in the form of (S4), for fields of class $\\mathcal E$; \\S\\ref{sec:remains}(QB) records the earlier state\\\\",
+  "finding": "C2 F3 (inheritance), own",
+  "reason": "the summary row 'open (track QB)' contradicts the refereed card implementer-hypotheses (C11 thm:main), now that (H1) is stated in the form C11 proves."
+ },
+ {
+  "file": "rigor/universality_theorem_B.tex",
+  "old": " compact subset of the open arc $I'$.\n\\item[\\textbf{R3}]",
+  "new": " compact subset of the open arc $I'$.  \\emph{Superseded on 2026-11-19:} $U(\\phi)$ is undefined for the non-smooth maps of both places; (H1) now carries no clause for them, Lemma~\\ref{lem:ext} is proved by the Trotter argument of \\texttt{implementation\\_C11.tex}, and Proposition~\\ref{prop:geom} $\\langle1\\rangle1$ by that document's localisation step.\n\\item[\\textbf{R3}]",
+  "finding": "C2 F3",
+  "reason": "correction R2 asserted that (H1) carries a locality clause applicable in lem:ext and prop:geom; both uses are replaced by this repair."
+ },
+ {
+  "file": "rigor/implementation_C11.tex",
+  "old": "$\\langle1\\rangle2$.  For $x\\in\\cA(I)$ and $s\\ge0$, $\\Ad\\widehat U_a(x)\\in\\cA(\\ktil_aI)\\subseteq\\cA(I)$ by (iii) and\n$\\ktil_aI=(-a,\\tfrac L{1+a})\\subseteq I$; hence\n$\\Ad\\bigl(e^{ia\\overline{T(\\gtot-\\widehat\\gtot)}}\\widehat U_a\\bigr)(x)=\\Ad\\widehat U_a(x)$, and iterating $n$ times\nwith $a=s/n$ and using Trotter as in $\\langle1\\rangle4$ gives $\\Ad U_s|_{\\cA(I)}=\\Ad\\widehat U_s|_{\\cA(I)}$}",
+  "new": "$\\langle1\\rangle2$.  For $x\\in\\cA(I)$ and $b\\ge0$, $\\Ad\\widehat U_b(x)\\in\\cA(\\widehat\\ktil_bI)\\subseteq\\cA(I)$ by (iii)\nfor $\\widehat\\gtot$ and $\\widehat\\ktil_bI=(-a,\\tfrac L{1+b})\\subseteq I$ ($\\widehat\\ktil_b$ the flow of $\\widehat\\gtot$); hence\n$\\Ad\\bigl(e^{ib\\overline{T(\\gtot-\\widehat\\gtot)}}\\widehat U_b\\bigr)(x)=\\Ad\\widehat U_b(x)$, and iterating $n$ times\nwith $b=s/n$, $s\\ge0$, and using Trotter as in $\\langle1\\rangle4$ gives $\\Ad U_s|_{\\cA(I)}=\\Ad\\widehat U_s|_{\\cA(I)}$}",
+  "finding": "own (C2 F3 context)",
+  "reason": "the step size was called a, which is also the left endpoint of I = (-a, L), and the flow of widehat g_tot was written ktil; renamed b and widehat ktil, and s >= 0 made explicit."
+ },
+ {
+  "file": "rigor/implementation_C11.tex",
+  "old": "\\item[(H2$'$)] $T(\\gtot)\\Om\\in\\Hil_T:=\\overline{\\{T(f)\\Om:f\\in\\Vect(S^1)\\}}$ (required by QR1 for the\noptimisation over extensions inside $\\Hil_T$);\n\\item[(H2$'$)] $T(\\gtot)\\Om\\in\\Hil_T:=\\overline{\\{T(f)\\Om:f\\in\\Vect(S^1)\\}}$ (the clause added by referee QR1:",
+  "new": "\\item[(H2$'$)] $T(\\gtot)\\Om\\in\\Hil_T:=\\overline{\\{T(f)\\Om:f\\in\\Vect(S^1)\\}}$ (the clause added by referee QR1:",
+  "finding": "C2 sec. 9 (MINOR residue)",
+  "reason": "(C7) lists (H2') twice; the first copy is deleted, the second (with its QR1 provenance) kept."
+ },
+ {
+  "file": "rigor/universality_theorem_B.tex",
+  "old": "(legitimate: by Note~5 Lemma~1.1 all quantities",
+  "new": "(legitimate: by Note~5 Lemma~1.1 for the free fermion, and for every net by \\texttt{rigor/moebius\\_reduction\\_general\\_nets.tex} Theorem~``M\\\"obius reduction'' (under review; implementers of \\texttt{implementation\\_C11.tex}, $s\\ge0$ for every extension of class $\\mathcal E$), the recovered state and its fidelity",
+  "finding": "C2 F2, C6 B6",
+  "reason": "the reduction to the half-line chart was attributed to a free-fermion lemma only; the general-net proof is the new document."
+ }
+]

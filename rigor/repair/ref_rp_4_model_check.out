@@ -1,0 +1,7 @@
+(i) model A s=3.0: max|U - U^T| = 5.39e-16;  max|B - C^T| = 2.91e-16
+(i) model A s=4.0: max|U - U^T| = 7.45e-16;  max|B - C^T| = 1.70e-16
+(ii) circular shift window: sv(B) top [1. 0.]  sv(C) top [1. 0.]
+(iii) flux model: ||[P-,K]||_2 = 1.325443, old range |s| < 0.7545
+(iii) s= 2.00 |s|*||[P-,K]||_2= 2.651  max|B - C^T| = 5.743e-01 (not small: no transposition symmetry)  max|sv(B)-sv(C)| = 2.78e-16 PASS  top sv [0.93258456 0.48258065 0.03941794]  Tr G_inner^3 = -3.33e-16
+(iii) s= 4.00 |s|*||[P-,K]||_2= 5.302  max|B - C^T| = 6.059e-01 (not small: no transposition symmetry)  max|sv(B)-sv(C)| = 2.22e-16 PASS  top sv [0.99255212 0.86730445 0.49121389]  Tr G_inner^3 = +1.33e-15
+(iii) s=-3.50 |s|*||[P-,K]||_2= 4.639  max|B - C^T| = 6.784e-01 (not small: no transposition symmetry)  max|sv(B)-sv(C)| = 5.55e-16 PASS  top sv [0.98809063 0.81073401 0.36048632]  Tr G_inner^3 = +2.22e-16

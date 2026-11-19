@@ -117,7 +117,7 @@ Let $A_{0}$ be an open arc on which $g_{\rm tot}$ vanishes and which contains $A
 \begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.4em]
 \item $U_{s}\in\cA(A_{0})'=\cA(A_{0}')$; in particular $\Ad U_{s}$ is the identity on $\cA(K)$ for every
  interval $K\subseteq A_{0}$, hence for $K=A$;
-\item $\Ad U_{s}|_{\cA(D)}=\Ad U(h_{s})|_{\cA(D)}$, where $U(h_{s})$ is the M\"obius unitary of
+\item $\Ad U_{s}|_{\cA(D)}=\Ad U(h_{s})|_{\cA(D)}$ for $s\ge0$, where $U(h_{s})$ is the M\"obius unitary of
  $h_{s}=\mathrm{Exp}(sm)$, $m$ the global M\"obius field agreeing with $g_{\rm tot}$ on $D$;
 \item $U_{s}\cA(K)U_{s}^{*}=\cA(\tilde k_{s}K)$ for \emph{every} interval $K\subseteq S^{1}$, including
  those containing the touching point.
@@ -215,11 +215,13 @@ Hilbert--Schmidt \cite{RigorUB} (the criterion needs both blocks, i.e.\ $[\Pi_{+
 Weil--Petersson class $H^{3/2}$ --- and no Virasoro energy bound.  It implements the \emph{same} geometric
 automorphism of $\cA(I)$ as \Cref{thm:H1}, hence the same $\omega_{s}$.
 
-\emph{(b) Fock representations with integer $c$.}  By \cite{DIT} (via the Outlook of \cite{CDIT}),
-$U^{(n,h)}$ extends to $D^{\sigma}(S^{1})$ for $\sigma>2$; since $\tilde k_{s}\in D^{\sigma}$ for all
+\emph{(b) Fock representations with integer $c$.}  According to the Outlook of \cite{CDIT} (\S5, PDF p.~24),
+for every positive integer $n$ and \emph{some} $h$ the representation $U^{(n,h)}$ extends to $D^{\sigma}(S^{1})$
+for $\sigma>2$ \cite{DIT}.  We have not obtained \cite{DIT}, so this paragraph is not checked against that
+source and nothing in the paper uses it.  If it applies, then, since $\tilde k_{s}\in D^{\sigma}$ for all
 $\sigma<5/2$ by \Cref{thm:reg}(e), one obtains $U(\tilde k_{s})$ as a value of a \emph{group}
 representation, hence also for compositions and for piecewise-M\"obius maps with several touching points.
-This is strictly stronger than \Cref{thm:impl} for those models, and it is open for general $c$.
+This would be strictly stronger than \Cref{thm:impl} for those representations; it is open for general $c$.
 
 \emph{(c) Tensor products, direct sums, subnets.}  (H1)--(H3) tensorise, since
 $T(f)=T_{1}(f)\otimes\one+\one\otimes T_{2}(f)$ and $\|g_{\rm tot}\|_{3/2}$ is unchanged; likewise for

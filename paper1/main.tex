@@ -42,13 +42,13 @@ matching Uhlmann upper bound built from a Bogoliubov extension of the compressio
 whose vacuum overlap is a Fredholm determinant.  The corresponding relative-entropy
 coefficient of the Kubo--Mori form is $c/12$, a value the relative entropy itself follows numerically to $0.5\%$.  Because the answer depends only on $\zeta$, the whole
 rotated family collapses onto one function $\Phi$ of one variable per chirality,
-with $\zeta_t=z(1+e^{-2\pi t})$; in a two-dimensional CFT the two chiralities see
+with $\zeta_t=z(1+e^{-2\pi t})$; for the massless Dirac fermion (conjecturally in every two-dimensional CFT) the two chiralities see
 opposite modular rotations, so the recovery error is a sum of two branches,
 $-\log F^{(\lambda)}=\Phi_c(z(1+e^{-\pi\lambda}))+\Phi_{\bar c}(z(1+e^{\pi\lambda}))$.
 This explains the apparently $\lambda$-dependent power laws observed on the lattice
 by Vardhan, Wei and Zou, which we reproduce with a ball-arithmetic Gaussian
-implementation on up to $72$ sites.  High-precision numerics for $\Phi$ over three
-decades of cross ratio confirm the quadratic law to $10^{-4}$ relative.
+implementation on up to $72$ sites.  Numerically, the second-order coefficient agrees with $c/(12\pi^2)$ to $10^{-4}$ relative
+(with a heuristic tail correction), and $\Phi$ itself is computed for $0.008\le\zeta\le0.53$ with a realistic uncertainty of $0.3$--$1\%$.
 \end{abstract}
 
 \section{Introduction}
@@ -80,7 +80,6 @@ decades of cross ratio confirm the quadratic law to $10^{-4}$ relative.
 \input{app_proofs}
 \section{Conventions}
 \input{app_conventions}
-\bibliographystyle{plain}
 \section*{Provenance and AI use}
 
 The work reported here was carried out in collaboration with AI agents (Claude, Anthropic)
@@ -107,7 +106,7 @@ numerical means a measurement with a stated error bar, not a proof.
 \begin{thebibliography}{99}
 \bibitem{LX} R. Longo, F. Xu, Relative entropy in CFT, Adv. Math. 337 (2018).
 \bibitem{FHSW} T. Faulkner, S. Hollands, B. Swingle, Y. Wang, Approximate recovery and relative entropy I, arXiv:2006.08002.
-\bibitem{VWZ} S. Vardhan, A. Wei, Y. Zou, Petz recovery from subsystems in conformal field theory, arXiv:2307.14434.
+\bibitem{VWZ} S. Vardhan, A. Y. Wei, Y. Zou, Petz recovery from subsystems in conformal field theory, arXiv:2307.14434.
 \bibitem{AU02} P. M. Alberti, A. Uhlmann, Acta Appl. Math. 60 (2000) 1--37, arXiv:math-ph/0202038.
 \bibitem{RigorTB} \textbf{[internal document, to be replaced before submission]} Internal rigor document \texttt{rigor/tail\_bound.tex}: ultraviolet tail bound and error bars (2026-09-08); the bars are not certified, since their upper ends are built from its eq.~(13), whose constants rest on uncertified numerical inputs.
 \bibitem{RigorRR} \textbf{[internal document, to be replaced before submission]} Internal rigor document \texttt{rigor/rate\_of\_remainder.tex}: global Uhlmann bound and the cubic coefficient (2026-09-09).

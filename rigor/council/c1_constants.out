@@ -1,0 +1,14 @@
+validation series OK
+f2 = 1/(12 pi^2)                                        0.00844343197019  card  0.0084434  OK
+g_B/8 with g_B = 2/(3 pi^2)                             0.00844343197019  card  0.0084434  OK
+(4 f2)^(-1/2) = pi sqrt3                                    5.4413980927  card       5.44  OK
+(2 f2)^(-1/2) = pi sqrt6                                   7.69529898097  card       7.70  OK
+crossover -1/2 log(1-2 f2 z^2) = 0.0085 z^2               0.886815429106  card    0.88681  MISMATCH
+ratio -1/2 log(1-2 f2)/1 at zeta=1                      0.00851553641161  card  0.0085155  OK
+2 sqrt(0.875*0.008516)                                    0.172644142675  card     0.1726  OK
+0.0085*0.8868^2                                            0.00668452104  card    6.68e-3  OK
+C2 = 4 pi A3 at A3=0.0374                                 0.469982260977  card       0.47  OK
+VWZ: 8 f2                                                0.0675474557616  card     0.0676  MISMATCH
+VWZ: 2 f2                                                0.0168868639404  card     0.0169  OK
+ratio increasing on (0,1]: power series with nonnegative coefficients -> yes (analytic, no sampling)
+SOME MISMATCH

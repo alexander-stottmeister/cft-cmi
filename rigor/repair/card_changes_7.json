@@ -1,0 +1,50 @@
+[
+ {
+  "id": "two-branch-law-lattice",
+  "key": "statement",
+  "old": "lattice/two-branch ratio = 1 - a/L with a = 0.15, 0.14, 0.14 at L = 4, 6, 8 (L(1 - ratio) = 0.1525, 0.1444, 0.1357, mean over eta_V <= 0.05), constant in eta for eta_V <= 0.05 only (at L = 4, lambda = 0.5 it falls to 0.726 at eta_V = 0.33);",
+  "new": "lattice/two-branch ratio at lambda = 0.5 (petz_lattice.out [8]): 1 - a/L with a = 0.15, 0.14, 0.14 at L = 4, 6, 8 (L(1 - ratio) = 0.1525, 0.1444, 0.1357, mean over eta_V <= 0.05), constant in eta for eta_V <= 0.05 only (at L = 4 it falls to 0.726 at eta_V = 0.33); at lambda = 1 and 1.5 ([6]) the ratio is 0.836-0.940 and 0.61-0.80 for eta_V <= 0.05, with L(1 - ratio) = 0.37, 0.28, 0.26 and 1.22, 1.58, 1.85 at L = 4, 6, 8, so no 1 - a/L law with a fixed a is claimed there;"
+ },
+ {
+  "id": "paper2-status",
+  "key": "statement",
+  "old": "25 pp",
+  "new": "26 pp (25 pp until the repair round of 2026-11-19)"
+ },
+ {
+  "id": "rate-of-remainder",
+  "key": "statement",
+  "old": "they rest on the cards pushforward-blocks-equal-singular-values (heuristic) for the push-forwards W~_s = e^{sD} (h' = 0; thm:global with f2^chi) and group-index-zero-large-s (conjectural) for every other e^{sK};",
+  "new": "they follow from index zero for every real s, proved on 2026-11-19 in rigor/index_zero.tex: card group-index-zero-large-s (proved) for the groups e^{sK}, K = D + i h', with PA's field, and card pushforward-blocks-equal-singular-values (proved for fields chi satisfying condition (W); for a general admissible chi (W) is only asserted, so thm:global with f2^chi beyond (4 f2^chi)^{-1/2} is proved for such chi only);"
+ },
+ {
+  "id": "rate-of-remainder",
+  "key": "statement",
+  "old": "The documents settle this while ||G_s||_2 < 1,",
+  "new": "Until 2026-11-19 the documents settled this only while ||G_s||_2 < 1,"
+ },
+ {
+  "id": "group-index-zero-large-s",
+  "key": "statement",
+  "old": "with K^* = -K and [P_-, K] Hilbert-Schmidt (the setting",
+  "new": "with K^* = -K and [P_-, K] Hilbert-Schmidt in the form sense on a core (index_zero.tex lem:gen; the setting"
+ },
+ {
+  "id": "group-index-zero-large-s",
+  "key": "statement",
+  "old": "in particular K = D + i h' with h' in PA's class A', Prop. 6.2)",
+  "new": "in particular K = D + i h' with h' in PA's class A' and PA's field chi, Prop. 6.2, index_zero.tex lem:app-K)"
+ },
+ {
+  "id": "group-index-zero-large-s",
+  "key": "statement",
+  "old": "have the same singular values, also for",
+  "new": "have the same nonzero singular values with multiplicities (index_zero.tex thm:sv), also for"
+ },
+ {
+  "id": "thm-b-universality",
+  "key": "verify",
+  "old": "(25 pp, rigor/universality_theorem_B.log of 2026-09-24, with its section 'Corrections of 2026-09-24', l. 1128-1177; 24 pp before)",
+  "new": "(25 pp, rigor/universality_theorem_B.log of 2026-11-19, with its section 'Corrections of 2026-09-24' (grep -n 'Corrections of 2026-09-24' rigor/universality_theorem_B.tex); 24 pp before 2026-09-24; repairs of 2026-11-19: rigor/repair/R2_patch.json, ORCH_patch_1.json, ORCH_patch_5.json)"
+ }
+]

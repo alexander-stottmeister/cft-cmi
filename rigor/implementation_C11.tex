@@ -124,8 +124,6 @@ $M(\theta)=2m(x)/(1+x^2)=-\frac2L\sin^2(\theta/2)$.
 \begin{itemize}[leftmargin=1.3em]
 \item[(H1)] for small $s$ there are unitaries $U_s$ with $U_s\cA(J)U_s^*=\cA(\ktil_s(J))$ for every interval $J$;
 \item[(H2)] $U_s\Om=\Om+is\,T(\gtot)\Om+o(s)$ in norm, with $T(\gtot)\Om\in\Hil$;
-\item[(H2$'$)] $T(\gtot)\Om\in\Hil_T:=\overline{\{T(f)\Om:f\in\Vect(S^1)\}}$ (required by QR1 for the
-optimisation over extensions inside $\Hil_T$);
 \item[(H2$'$)] $T(\gtot)\Om\in\Hil_T:=\overline{\{T(f)\Om:f\in\Vect(S^1)\}}$ (the clause added by referee QR1:
 the optimisation over extensions in the Uhlmann upper bound takes place inside $\Hil_T$);
 \item[(H3)] $\omega_s(X)=\omega(X)+s\varphi(X)+o(s)$ with $\varphi(X)=i\omega([T(\gtot),X])$ for $X$ in a
@@ -630,10 +628,10 @@ is $\ktil_s^{-1}$}
 \lstep{1}{7}{$\omega_s$ depends only on $k_s|_I$.}
 \lby{let $\gtot,\widehat\gtot\in\mathcal E$ agree on $I$ and let $\widehat U_s$ be the group built from
 $\widehat\gtot$.  Then $\gtot-\widehat\gtot=0$ on $I$, so $e^{it\overline{T(\gtot-\widehat\gtot)}}\in\cA(I)'$ by
-$\langle1\rangle2$.  For $x\in\cA(I)$ and $s\ge0$, $\Ad\widehat U_a(x)\in\cA(\ktil_aI)\subseteq\cA(I)$ by (iii) and
-$\ktil_aI=(-a,\tfrac L{1+a})\subseteq I$; hence
-$\Ad\bigl(e^{ia\overline{T(\gtot-\widehat\gtot)}}\widehat U_a\bigr)(x)=\Ad\widehat U_a(x)$, and iterating $n$ times
-with $a=s/n$ and using Trotter as in $\langle1\rangle4$ gives $\Ad U_s|_{\cA(I)}=\Ad\widehat U_s|_{\cA(I)}$}
+$\langle1\rangle2$.  For $x\in\cA(I)$ and $b\ge0$, $\Ad\widehat U_b(x)\in\cA(\widehat\ktil_bI)\subseteq\cA(I)$ by (iii)
+for $\widehat\gtot$ and $\widehat\ktil_bI=(-a,\tfrac L{1+b})\subseteq I$ ($\widehat\ktil_b$ the flow of $\widehat\gtot$); hence
+$\Ad\bigl(e^{ib\overline{T(\gtot-\widehat\gtot)}}\widehat U_b\bigr)(x)=\Ad\widehat U_b(x)$, and iterating $n$ times
+with $b=s/n$, $s\ge0$, and using Trotter as in $\langle1\rangle4$ gives $\Ad U_s|_{\cA(I)}=\Ad\widehat U_s|_{\cA(I)}$}
 \lqed{1}{8}\lby{$\langle1\rangle3$, $\langle1\rangle4$, $\langle1\rangle6$, $\langle1\rangle7$}
 
 \begin{verdictok}

@@ -8,7 +8,9 @@ independently of the arguments above.
 
 The $U(1)$ current net has $c=1$.  We normalise the current $J$ (weight $1$) by
 $\langle J(x)J(y)\rangle=-\frac{1}{4\pi^{2}}(x-y-i0)^{-2}$, so that the Sugawara tensor has
-$\langle TT\rangle=\frac{1}{8\pi^{2}}(x-y-i0)^{-4}$, i.e.\ $c=1$ in the convention \eqref{eq:TT}.  For real
+$\langle TT\rangle=\frac{1}{8\pi^{2}}(x-y-i0)^{-4}$, i.e.\ $c=1$ in the convention \eqref{eq:TT}.  In this section, as in the numerics, $\hat f(p)=\int fe^{+ipx}dx$,
+opposite to \Cref{app:conv}; for real $f$ this replaces $\hat f$ by $\overline{\hat f}$ and changes none of the
+quoted numbers.  For real
 $f\in C_{c}^{\infty}$,
 \[
  \langle J(f)J(g)\rangle=\frac{1}{4\pi^{2}}\int_{0}^{\infty}p\,\overline{\hat f(p)}\hat g(p)\,dp,
@@ -74,14 +76,14 @@ The whole systematics is the spectral window.  Exact second-order coefficients a
 $\kappa_{c}$:
 \begin{center}
 \begin{tabular}{@{}lcccccc@{}}\toprule
-$\kappa_{c}$ & 1.58 & 2.31 & 3.04 & 3.77 & 4.51 & 5.24\\\midrule
+$\kappa_{c}$ & 1.58 & 2.31 & 3.41 & 4.14 & 4.51 & 5.24\\\midrule
 $f_{2}$ & 0.007915 & 0.008226 & 0.008351 & 0.008383 & 0.008391 & 0.008405\\
 $s_{2}$ & 0.059029 & 0.067017 & 0.072487 & 0.074552 & 0.075097 & 0.076322\\\bottomrule
 \end{tabular}
 \end{center}
 Fitting the UV tail as $X(\kappa_{c})=X_{\infty}-b\,\kappa_{c}^{-p}$ over $\kappa_{c}\ge2.3$ (three bases,
 $N=60,120$, $\sigma=1.6,2.26$) gives free exponents $p=2.3$--$2.8$ for $f_{2}$ and $p=1.14$--$1.39$ for
-$s_{2}$.  The different exponents are expected, not fitted: the discarded per-mode weight decays like
+$s_{2}$.  The different exponents have a heuristic explanation (the exponents themselves were fitted): the discarded per-mode weight decays like
 $\kappa^{-3}$, the Bures metric integrates it directly ($p=2$) while the Kubo--Mori metric carries an extra
 modular-energy factor $\kappa$ ($p=1$).  The resulting values are
 \begin{equation}\label{eq:bosonvals}
@@ -89,7 +91,12 @@ modular-energy factor $\kappa$ ($p=1$).  The resulting values are
  \qquad
  s_{2}=0.083\,(2)\quad\text{vs}\quad \frac{1}{12}=0.0833333,
 \end{equation}
-i.e.\ agreement at the $0.2\%$ level for $f_{2}$ and the $1\%$ level for $s_{2}$: \emph{universality is
+from a single method.  For $f_{2}$ the fits with free $p$ and with $p=2$ agree (0.008426--0.008457).  For $s_{2}$
+the extrapolation depends on the tail exponent: free $p$ gives 0.0810--0.0824, $p=1$ gives 0.0838--0.0842,
+$p=2$ gives 0.0782--0.0785 (outside the quoted interval), against the raw value $0.0763$ at the finest window
+(\texttt{numerics/boson/boson\_recovery.out}); the quoted $s_{2}$ therefore rests on the heuristic $p\approx1$
+tail law.  With this caveat, $f_{2}$ agrees with $1/(12\pi^{2})$ at the $0.2\%$ level and $s_{2}$ with $1/12$
+at the $1\%$ level: \emph{universality is
 confirmed at $c=1$ on a bosonic model}, and, since $s_{2}$ is not covered by \Cref{thm:B}, this is at
 present the only evidence for \eqref{eq:s2} beyond the free fermion.
 

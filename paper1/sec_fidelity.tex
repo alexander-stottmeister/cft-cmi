@@ -204,8 +204,8 @@ kernel, $X(\kappa,\kappa')=\langle\psi_\kappa,X\psi_{\kappa'}\rangle$ is continu
 and bounded, and $X(\kappa,\kappa)$ is the occupation density per unit modular
 energy.
 
-\begin{proposition}[Ultraviolet tail; {\cite[Prop.~4.1]{Note5}}]\label{prop:tail}
-Let $\beta_0=\beta(0)=aL/(a+L)$.  As $\kappa\to+\infty$,
+\begin{remark}[Ultraviolet tail, proof sketch only; {\cite[Prop.~4.1]{Note5}}; integrated form proved in {\cite[Thm.~4.2]{RigorTB}}]\label{prop:tail}
+The following pointwise statement is argued in \cite{Note5} only as a sketch (see \cref{rem:tail-status}).  Let $\beta_0=\beta(0)=aL/(a+L)$.  As $\kappa\to+\infty$,
 \begin{equation}\label{eq:tail}
  \widetilde Q_s(\kappa,\kappa)-q_\kappa
  =\frac2{15}\frac{s^2\beta_0^2}{L^2}\frac1{\kappa^3}+O(\kappa^{-5})
@@ -214,11 +214,11 @@ Let $\beta_0=\beta(0)=aL/(a+L)$.  As $\kappa\to+\infty$,
 and by particle--hole symmetry the same holds for holes as $\kappa\to-\infty$.
 The first-order (in $s$) part of the defect does not contribute: its diagonal
 decays like $e^{-\kappa}$ up to powers.
-\end{proposition}
+\end{remark}
 
 \begin{remark}[Status]\label{rem:tail-status}
 The argument in \cite{Note5} is a sketch; a complete proof of the remainder bound
-$|\Sigma(\kappa_c)-\zeta^2/(15\kappa_c^2)|\le C_2\,\zeta^2\kappa_c^{-3}+C_1\,\zeta(1+\kappa_c)e^{-\kappa_c}$ with finite constants $C_1,C_2$ (the values $C_2\le0.47$ and $C_1\le0.051$ come from the double-precision evaluations $A_3\le0.0374$ and $A_1\le2.0$ of two explicit integrals, which are not certified),
+$|\Sigma(\kappa_c)-\zeta^2/(15\kappa_c^2)|\le C_2\,\zeta^2\kappa_c^{-3}+C_1\,\zeta(1+\kappa_c)e^{-\kappa_c}$ for $0<\zeta\le1$ and $\kappa_c\ge8$, with finite constants $C_1,C_2$ (the values $C_2\le0.47$ and $C_1\le0.051$ come from the double-precision evaluations $A_3\le0.0374$ and $A_1\le2.0$ of two explicit integrals, which are not certified),
 together with the shape of the full-tail bound, $0\le\Phi-\Phi_W\le C\zeta^2/\kappa_c+C'\zeta^2/\kappa_c^2$ with finite $C,C'$ whenever $\Phi\le f\zeta^2$ (\cite[Thm.~5.1]{RigorTB}, proved with $Y=e^{\Phi_W}y$ in place of $y$ and provided $\mathcal T<1$ and $Y<1$, in the notation there),
 for $\kappa_c\ge\max\{10,2\log(1/\zeta)+2\log(1+\kappa_c)+3\}$, is given in \cite{RigorTB}.  The explicit form $0\le\Phi-\Phi_W\le0.173\,\zeta^2/\kappa_c+0.88\,\zeta^2/\kappa_c^2$ \cite[Cor.~5.2, eq.~(13)]{RigorTB} is not proved unconditionally: its constants rest on the numerical inputs $A_1\le2.0$ and $A_3\le0.0374$ (double precision, not certified) and $f=0.0085$, and on a double-precision evaluation of the corrected chain of \cite[Thm.~5.1]{RigorTB} over that region.
 \Cref{prop:tail} is \emph{not used} in any of the theorems of
@@ -235,10 +235,10 @@ $\frac12\int_{\kappa_*}^\infty\frac2{15}\zeta^2\kappa^{-3}d\kappa
 =\zeta^2/(30\kappa_*^2)\approx\zeta^2/(120\log^2(1/\zeta))$ per component.  This is
 the heuristic reason to expect
 \begin{equation}\label{eq:expansion-structure}
- \Phi(\zeta)=f_2\zeta^2\bigl[1+c_3\zeta+c_4\zeta^2+O(\zeta^3)\bigr],\qquad c_3=-0.99(1),\ c_4=+0.9(1):
+ \Phi(\zeta)=f_2\zeta^2\bigl[1+c_3\zeta+c_4\zeta^2+O(\zeta^3)\bigr],\qquad c_3\approx-1,\ c_4\approx+0.9\ \text{(unreproduced estimates)}:
 \end{equation}
-an expansion in integer powers with a negative cubic coefficient (a $\log^{-2}(1/\zeta)$ correction from the saturated ultraviolet modes, claimed in an earlier version, double-counted a contribution already contained in $\tfrac{\zeta^2}{8}(g_B-g_B^{(\kappa_*)})$ and is excluded by the global bound $\Phi\le-\tfrac12\log(1-2f_2\zeta^2)$ of \cref{sec:quadratic}).  The quadratic coefficient itself is proved unconditionally in
-\cref{sec:quadratic}; the cubic coefficient $c_3=-0.99(1)$ is a numerical estimate \cite{RigorRR}, not yet reproducible from the published scripts.  For positive collar
+an expansion in integer powers with a negative cubic coefficient (a $\log^{-2}(1/\zeta)$ correction from the saturated ultraviolet modes, claimed in an earlier version, double-counted a contribution already contained in $\tfrac{\zeta^2}{8}(g_B-g_B^{(\kappa_*)})$ and is excluded by the bound $\Phi\le-\tfrac12\log(1-2f_2\zeta^2)$, $0\le\zeta<\pi\sqrt3$, of \cref{rem:norate}).  The quadratic coefficient itself is proved unconditionally in
+\cref{sec:quadratic}; the cubic coefficient $c_3\approx-1$ is a numerical estimate \cite{RigorRR}, not yet reproducible from the published scripts, so no error bar is quoted.  For positive collar
 $\eps>0$ the defect kernel is smooth up to the edges and all modular matrix
 elements decay exponentially: the collar is a UV regulator of the recovery
 problem.
@@ -254,11 +254,11 @@ $\widetilde\omega_t=\omega\circ\overline\beta_{s_t}$ satisfies
 \end{equation}
 and likewise for the relative entropy.  In particular the whole one-parameter
 family is one function of one variable; the ordinary Petz map ($t=0$) sits at
-$\zeta_0=2z$; for a single chirality the family is monotone in $t$ and its best
-member is the limit $t\to+\infty$, where $\zeta_t\downarrow z$ and the recovery
+$\zeta_0=2z$; for a single chirality the family is monotone in $t$ and its infimum
+over the family is attained only in the limit $t\to+\infty$ (not a member), where $\zeta_t\downarrow z$ and the recovery
 map becomes the pure geometric compression $\overline\beta_\lambda$ of $ABC$ onto
 $AB$.  For a single chirality and small $z$ the ordinary Petz map is therefore
-worse than the optimal rotation by a factor $4$ in $-\log\Fid$.
+worse than this limit by a factor $4$ in $-\log\Fid$ at leading order.
 \end{corollary}
 
 \begin{proof}
@@ -273,10 +273,7 @@ $\Phi$ is nondecreasing on $(0,\infty)$.
 \end{proposition}
 
 \begin{proof}
-Proved in the verification document \cite{RigorCN5}; the argument compares the
-pairs $(\omega,\widetilde\omega_s)$ and $(\omega,\widetilde\omega_{s'})$ for
-$s\le s'$ through the semigroup law $h_{s'}=h_{s'-s}\circ h_s$ of \eqref{eq:hs}
-and the monotonicity of root fidelity under the resulting compression.  It is also
+\cite[Prop.~8.1]{RigorCN5}.  Fix $L$ and $s$, and write $I_i=(-a_i,L)$ with $a_1<a_2$.  The glued map does not depend on $a$, so by uniqueness of the normal extension (\cref{thm:normal}) the normal map on $\cF_r(I_2)$ restricts to the one on $\cF_r(I_1)$.  Root fidelity is monotone under restriction to a subalgebra, hence $\Phi(a_1s/(a_1+L))\le\Phi(a_2s/(a_2+L))$.  Every pair $0<\zeta_1<\zeta_2$ is realised by $L=1$, any $s>\zeta_2$ and $a_i=\zeta_i/(s-\zeta_i)$, and $\Phi$ depends on $(a,L,s)$ only through $\zeta$ (\cref{lem:mobius}).  It is also
 visible in \cref{tab:scan}.
 \end{proof}
 

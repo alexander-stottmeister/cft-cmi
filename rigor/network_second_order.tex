@@ -1009,16 +1009,18 @@ for all $s\in(0,s_\eps]$, all $(\zeta_1,\zeta_2)\in\mathcal Z$ and \emph{all} po
  $y_1,y_2$}
 \lstep{1}{5}{Under the three side conditions of $\langle1\rangle4$ (added after REF-P6-4b):
  $\norm V_2^2\le s^2\norm{\zeta_1k_{y_1}+\zeta_2k_{y_2}}_2^2+s^2E(s)$ with
- $E(s):=2\zeta_1\zeta_2\norm k_2\,[\eta(s\zeta_1)+\eta(s\zeta_2)+\theta(s\zeta_1)+\theta(s\zeta_2)]$.}
+ $E(s):=2\zeta_1\zeta_2\bigl(\norm k_2\,[\eta(s\zeta_1)+\eta(s\zeta_2)+\theta(s\zeta_1)+\theta(s\zeta_2)]+\eta(s\zeta_1)\eta(s\zeta_2)\bigr)$ (the product term added after the council of 2026-11-19, C5).}
 \lproof
 \lstep{2}{1}{$V=V_1A_2+B_1V_2$, $V_j:=\Pm U^{(j)}\Pp$, $A_2:=\Pp U^{(2)}\Pp$, $B_1:=\Pm U^{(1)}\Pm$, and
  $\norm V_2^2\le\norm{V_1}_2^2+\norm{V_2}_2^2+2\operatorname{Re}\Tr(A_2^*V_1^*B_1V_2)$, $\norm{V_j}_2\le
  s\zeta_j\norm k_2$.}
 \lby{$\one=\Pp+\Pm$ between the factors; $\norm{A_2},\norm{B_1}\le1$; Lemma~\ref{lem:onegroup}(i)}
 \lstep{2}{2}{$\abs{\Tr(A_2^*V_1^*B_1V_2)-s^2\zeta_1\zeta_2\Tr(A_2^*k_{y_1}^*B_1k_{y_2})}\le s^2\zeta_1\zeta_2
- \norm k_2[\eta(s\zeta_1)+\eta(s\zeta_2)]$.}
-\lby{$V_j=s\zeta_jk_{y_j}+R_j$, $\norm{R_j}_2\le s\zeta_j\eta(s\zeta_j)$ (Lemma~\ref{lem:onegroup}(ii)),
- $\abs{\Tr XY}\le\norm X_2\norm Y_2$}
+ \bigl(\norm k_2[\eta(s\zeta_1)+\eta(s\zeta_2)]+\eta(s\zeta_1)\eta(s\zeta_2)\bigr)$.}
+\lby{$V_j=s\zeta_jk_{y_j}+R_j$, $\norm{R_j}_2\le s\zeta_j\eta(s\zeta_j)$ (Lemma~\ref{lem:onegroup}(ii)); the difference is
+ $s\zeta_1\Tr(A_2^*k_{y_1}^*B_1R_2)+s\zeta_2\Tr(A_2^*R_1^*B_1k_{y_2})+\Tr(A_2^*R_1^*B_1R_2)$ (bilinearity), and each term is
+ bounded by $\abs{\Tr XY}\le\norm X_2\norm Y_2$, $\norm{A_2},\norm{B_1}\le1$ and $\norm{k_{y_j}}_2=\norm k_2$ ($W_{d_{y_j}}$ unitary):
+ $s^2\zeta_1\zeta_2\norm k_2\eta(s\zeta_2)$, $s^2\zeta_1\zeta_2\norm k_2\eta(s\zeta_1)$ and $s^2\zeta_1\zeta_2\eta(s\zeta_1)\eta(s\zeta_2)$}
 \lstep{2}{3}{$\abs{\Tr(A_2^*k_{y_1}^*B_1k_{y_2})-\Tr(k_{y_1}^*k_{y_2})}\le\norm k_2[\theta(s\zeta_1)+\theta(s\zeta_2)]$.}
 \lby{$\Pp k^*_{y_1}=k^*_{y_1}=k^*_{y_1}\Pm$, $\Pm k_{y_2}=k_{y_2}$, so the difference is
  $\Tr(k_{y_2}(A_2-\Pp)^*k_{y_1}^*B_1)+\Tr(k_{y_2}k_{y_1}^*(B_1-\Pm))$ (cyclicity); and

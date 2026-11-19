@@ -6,11 +6,12 @@ two-dimensional CFT with chiral halves of central charges $c$ and $\bar c$, and
 let $A,B,C$ be three adjacent intervals of a fixed time slice.  The double-cone
 algebras factorize over the two light-ray coordinates $x^\pm$, and the modular
 group of a double cone is the Bisognano--Wichmann boost, which acts on the two
-light rays by \emph{opposite} dilations.  Consequently the rotated Petz map with
-parameter $t$ is the pair of chiral rotated Petz maps with parameters $t$ and
-$-t$.
+light rays by \emph{opposite} dilations.  For the massless Dirac fermion this makes the rotated Petz map with
+parameter $t$ the pair of chiral rotated Petz maps with parameters $t$ and
+$-t$ (\cref{prop:twobranch}); for a general CFT of this form the resulting law is conjectural (\cref{rem:twobranch-general}).
 
-\begin{proposition}[Two-chirality law]\label{prop:twobranch}
+\begin{proposition}[Two-chirality law, massless Dirac fermion]\label{prop:twobranch}
+Let $\cA_{\rm chiral}=\overline{\cA}_{\rm chiral}=\cF_1$ (the massless Dirac fermion: one complex chiral fermion per chirality), so $c=\bar c=1$ and $\Phi_c=\Phi_{\bar c}=\Phi$ is the function of \cref{cor:collapse} for $r=1$.
 Write $\lambda=2t$ for the rotation parameter in the convention of \cite{VWZ},
 \begin{equation}\label{eq:vwz-channel}
  P^{(\lambda)}_{B\to BC}(\cdot)=\rho_{BC}^{1/2-i\lambda/2}\rho_B^{-1/2+i\lambda/2}
@@ -29,19 +30,19 @@ $\lambda=0$ is expected but proved only at leading order, see the end of the pro
 \begin{equation}\label{eq:twobranch-small}
  -\log F^{(\lambda)}
  =f_2\,\eta_{\rm V}^2\bigl[2+4\cosh\pi\lambda+2\cosh2\pi\lambda\bigr]
- +O(\eta_{\rm V}^3),
+ +o(\eta_{\rm V}^2),
  \qquad
- -\log F^{(0)}=\frac{c+\bar c}{3\pi^2}\,\eta_{\rm V}^2+O(\eta_{\rm V}^3),
+ -\log F^{(0)}=\frac{c+\bar c}{3\pi^2}\,\eta_{\rm V}^2+o(\eta_{\rm V}^2),
 \end{equation}
-with $f_2=c/(12\pi^2)$ per chiral component.  The relative entropy is expected to obey the same
+as $\eta_{\rm V}\to0$ at fixed $\lambda$ (not uniformly in $\lambda$), with $f_2=c/(12\pi^2)$ per chiral component.  The relative entropy is expected to obey the same
 law with $\Phi$ replaced by $\cD$ and $f_2$ by $s_2$, conjecturally $c/12$ (the relative entropy follows it numerically to $0.5\%$), i.e.\
 $D=\frac{c+\bar c}3\eta_{\rm V}^2+\dots$ at $\lambda=0$ if $s_2=c/12$.
 \end{proposition}
 
 \begin{proof}
 The recovery channel \eqref{eq:vwz-channel} is built from the modular data of
-$\cA(B)\subset\cA(BC)$, which for a two-dimensional CFT is the tensor product of
-the chiral modular data, and the state is the product vacuum.  Fidelity is
+$\cA(B)\subset\cA(BC)$, which for the massless Dirac fermion is the tensor product of
+the chiral modular data (the Dirac net is the tensor product of the two chiral $\cF_1$ nets), and the state is the product vacuum.  Fidelity is
 multiplicative over the tensor factors, so $-\log F^{(\lambda)}$ is the sum of the
 two chiral contributions.  By \cref{cor:collapse} the chiral contribution with
 rotation parameter $t$ is $\Phi(z(1+e^{-2\pi t}))$; the boost acts with $+t$ on
@@ -51,12 +52,16 @@ under $\lambda\to-\lambda$.  Expanding with \cref{thm:main} and $z=\eta_{\rm V}
 +O(\eta_{\rm V}^2)$ gives
 $f_2z^2\bigl[(1+e^{-\pi\lambda})^2+(1+e^{\pi\lambda})^2\bigr]$, which is
 \eqref{eq:twobranch-small}; at $\lambda=0$ the bracket is $8$ and
-$8f_2=2c/(3\pi^2)$ per chirality.  At leading order the minimum is at $\lambda=0$, because
+$8f_2=2c/(3\pi^2)$ is the sum of both chiralities ($4f_2=c/(3\pi^2)$ each).  At leading order the minimum is at $\lambda=0$, because
 $\lambda\mapsto2+4\cosh\pi\lambda+2\cosh2\pi\lambda$ is strictly increasing in
 $|\lambda|$, so for each fixed $\lambda\neq0$ it holds for all sufficiently small $z$, though not uniformly in $\lambda$.  Beyond leading order it is not proved: $\Phi$ is nondecreasing
 (\cref{prop:monotone}), but as the pair $(\zeta_-,\zeta_+)$ moves outward from the
 symmetric point $\Phi(\zeta_-)$ can only decrease while $\Phi(\zeta_+)$ can only increase; the minimum would follow if $\zeta\Phi'(\zeta)$ were nondecreasing, which is not proved.
 \end{proof}
+
+\begin{remark}[Conjecture: general two-dimensional CFTs]\label{rem:twobranch-general}
+For $\cA=\cA_{\rm chiral}\otimes\overline{\cA}_{\rm chiral}$ with general chiral halves of central charges $c,\bar c$ we conjecture \eqref{eq:twobranch}, with $\Phi_c$ the single-chirality zero-collar recovery error of the chiral half.  The argument above would need (i) the factorisation of the rotated Petz map into chiral rotated maps with parameters $t$ and $-t$, and (ii) a per-chirality function $\Phi_c$: the collapse of \cref{cor:collapse} and the normal extension behind it are proved only for the free fermion, and for a general chiral net only the second-order coefficient $f_2=c/(12\pi^2)$ is known.
+\end{remark}
 
 \begin{remark}
 The collapse \eqref{eq:collapse} onto a single function of one variable is a
@@ -107,11 +112,11 @@ the second of which is pushed into the crossover region of $\Phi$ as $\lambda$
 grows.
 \item \emph{The two-branch law holds; the single-branch law does not.}  Feeding
 the lattice's own $\Phi_{\rm lat}$ into \eqref{eq:twobranch} reproduces the
-measured $-\log F^{(\lambda)}$ with a ratio that is \emph{constant in
-$\eta_{\rm V}$} and equal to $1-0.15/L$ at fixed block size $L$ --- i.e.\ the law
-is exact in the continuum limit and the deviation is a pure finite-size effect
-($0.962$ at $L=4$).  The single-branch expression
-$\Phi(z(1+e^{-\pi\lambda}))$ alone is off by factors between $4$ and $7600$ over
+measured $-\log F^{(\lambda)}$ with a ratio that, at $\lambda=0.5$ and for $\eta_{\rm V}\le0.05$, is \emph{constant in
+$\eta_{\rm V}$} and equal to $1-a/L$ with $a=0.15,\,0.14,\,0.14$ at block sizes $L=4,6,8$ ($0.962$ at $L=4$; at larger $\eta_{\rm V}$ the ratio falls, to $0.73$ at $\eta_{\rm V}=0.33$, $L=4$; for $\eta_{\rm V}\le0.05$ the ratio at $\lambda=1$ is $0.84$--$0.94$, $0.94$--$0.96$, $0.96$--$0.97$ at $L=4,6,8$ and at $\lambda=1.5$ it is $0.61$--$0.80$ over all three $L$, with $L(1-\text{ratio})=0.37,\,0.28,\,0.26$ and $1.2,\,1.6,\,1.8$ at $L=4,6,8$) ---
+consistent with the law being exact in the continuum limit and the deviation a finite-size effect
+(an extrapolation of a fit at finitely many $L$, not a lattice result).  The single-branch expression
+$\Phi(z(1+e^{-\pi\lambda}))$ alone is off by factors between $2.8$ and $7600$ over
 the same data.
 \item \emph{Finite-size drift.}  At fixed $\eta_{\rm V}$ and growing $n$ the
 lattice value decreases monotonically towards a limit; e.g.\ at
@@ -124,9 +129,9 @@ residual being the same $1/L$ drift.
 
 \begin{remark}[Large $\zeta$]\label{rem:largezeta}
 The second branch of \eqref{eq:twobranch} probes $\zeta\gtrsim1$, where the
-continuum $\Phi$ is not yet certified.  The rigorous lower bounds from
-\cref{thm:detrep} give $\Phi_{\rm sub}=4.230\times10^{-3},\,1.012\times10^{-2},
-\,2.010\times10^{-2},\,3.343\times10^{-2},\,4.779\times10^{-2}$ at
+continuum $\Phi$ is not yet certified.  The best lower bounds (rigorous up to the uncertified $\widehat D$ quadrature) from
+\cref{thm:detrep} (the largest-$\kappa_c$ columns of \cref{tab:largezeta}) give $\Phi_{\rm sub}=4.381\times10^{-3},\,1.0672\times10^{-2},
+\,2.1872\times10^{-2},\,3.8259\times10^{-2},\,5.7395\times10^{-2}$ at
 $\zeta=1.067,\,2.133,\,4.267,\,8.533,\,17.07$; the extrapolations (estimates, not bounds) of
 \cref{tab:largezeta} give $\Phi(2.13)=1.0797(50)\times10^{-2}$ ($0.5\%$) and
 $\Phi(8.53)=3.974(72)\times10^{-2}$ ($1.8\%$), with a local log-slope falling from

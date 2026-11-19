@@ -68,12 +68,12 @@ number $\gB$ depends on the tangent vector only through $\varphi$.
 
 The geometric meaning of \Cref{lem:gauge} is that replacing $\tilde k_{s}$ by $\phi'_{-s}\circ\tilde k_{s}$
 with $\phi'$ a flow supported in $I'$ changes the first-order field from $g_{\rm tot}$ to
-$g_{\rm tot}+h$ but not the recovered state (\Cref{lem:ext}).  The Uhlmann bound therefore holds with any
+$g_{\rm tot}+h$ but not the recovered state (\Cref{lem:ext}, for smooth $h$, so that $g_{\rm tot}+h\in\mathcal E$, and $s\ge0$; \Cref{prop:geom} does not use it).  The Uhlmann bound therefore holds with any
 of these fields, and this is how the abstract distance becomes a concrete variational problem.
 
 \begin{proposition}[Uhlmann with geometric trial unitaries]\label{prop:geom}
 Let $h$ be real, $C^{1,1}$, with compact $\supp h\subset I'$, and assume $T(h)$ is essentially self-adjoint
-with $\Omega\in D(T(h))$ and $e^{i\tau T(h)}=U(\phi'_{\tau})$, $\phi'_{\tau}$ the flow of $h\partial_{x}$.
+with $\Omega\in D(T(h))$, and $\|h\|_{3/2}<\infty$ (for smooth $h$, $e^{i\tau\overline{T(h)}}=U(\phi'_{\tau})$ up to a phase, $\phi'_{\tau}$ the flow of $h\partial_{x}$; for $C^{1,1}$ $h$ the right-hand side is not defined and is not used).
 Then, under \Cref{H1} and \Cref{H2},
 \begin{equation}\label{eq:geombound}
  -\log\Fid(\omega,\omega_{s})\ \le\ \frac{s^{2}}{2}\,\bigl\|T(g_{\rm tot}+h)\Omega\bigr\|^{2}+o(s^{2}),
@@ -82,10 +82,10 @@ and consequently $\limsup_{s\to0}s^{-2}(-\log\Fid)\le\frac12\inf_{h}\|T(g_{\rm t
 \end{proposition}
 
 \begin{proof}
-Since $\supp\phi'_{\tau}\subseteq\supp h$ is a compact subset of the \emph{open} arc $I'$, there is an
-interval $K$ with $\supp h\subset K\subseteq I'$ and $\phi'_{\tau}\in\mathrm{Diff}(K)$, so
-$u'_{\tau}:=U(\phi'_{\tau})\in\cA(K)\subseteq\cA(I')\subseteq\cM'$ by \eqref{eq:H1loc}, isotony and
-locality; in particular $u'_{\tau}\in\U(\cM')$.  Hence $u'_{-s}\Psi_{s}$ is a vector representative of
+Since $\supp h$ is a nonempty compact subset of the \emph{open} arc $I'$, $h$ vanishes on the connected
+component $I_{0}$ of $S^{1}\setminus\supp h$ that contains $\bar I$, an open interval; so
+$u'_{\tau}:=e^{i\tau\overline{T(h)}}\in\cA(I_{0})'\subseteq\cA(I)'=\cM'$ by \Cref{lem:loc}(i) and isotony
+(for $h=0$ there is nothing to prove); in particular $u'_{\tau}\in\U(\cM')$.  Hence $u'_{-s}\Psi_{s}$ is a vector representative of
 $\omega_{s}$, and the ``$\ge$'' half of the Alberti--Uhlmann supremum formula \cite[Theorem 2(3)]{AU02}
 gives $\Fid(\omega,\omega_{s})\ge|\langle\Omega,u'_{-s}\Psi_{s}\rangle|$.  For unit vectors,
 $|\langle\xi,\psi\rangle|\ge\operatorname{Re}\langle\xi,\psi\rangle=1-\frac12\|\xi-\psi\|^{2}$, so
@@ -279,8 +279,9 @@ $\|G\|_{3/2}^{2}:=\int_{\mathbb R}|p|^{3}|\hat G(p)|^{2}\frac{dp}{2\pi}$, the co
 $I'$.  Proving that the infimum over $h$ in \Cref{prop:geom} really equals $\dist(a,H_{\cM'})^{2}$ requires
 one more input, namely that $\{T(h)\Omega:\supp h\subset I'\}$ is dense in $H_{\cM'}\cap\HT$ --- a
 one-particle Reeh--Schlieder/Bisognano--Wichmann statement for stress-tensor vectors, in the spirit of
-Brunetti--Guido--Longo.  \emph{This is a gap}, and we flag it as such; it is known in the models where
-(H1)--(H3) were first verified.  \Cref{thm:B} does not use it: the $c$-linearity route of
+Brunetti--Guido--Longo, together with the one-particle Bisognano--Wichmann property (BW1) that the modular
+data of the standard subspace of $\HT$ for $I'$ are geometric \cite{RigorB}.  \emph{This is a gap}, and we flag
+it as such.  \Cref{thm:B} does not use it: the $c$-linearity route of
 \Cref{thm:linear} replaces it entirely.  As a numerical cross-check, a Rayleigh--Ritz computation of
 \eqref{eq:varform} at $c=1$, $L=1$ (FFT evaluation on $[-\ell,\ell]$ with $2^{20}$ points, $27$ trial
 functions) gives $\inf\|G\|_{3/2}^{2}=2.5678,\,2.5630,\,2.5579$ at $\ell=512,1024,2048$, decreasing towards
@@ -316,7 +317,10 @@ $\Phi(\zeta)=\frac{\zeta^{2}}{8}\gB+o(\zeta^{2})$ and $f_{2}=\gB/8$.  Unconditio
 \end{proof}
 
 \begin{corollary}[additivity]\label{cor:tensor}
-If $\cA=\cA_{1}\otimes\cA_{2}$ with central charges $c_{1},c_{2}$, then $f_{2}(\cA)=f_{2}(\cA_{1})+
-f_{2}(\cA_{2})$, consistent with $c=c_{1}+c_{2}$.  Indeed $T(f)=T_{1}(f)\otimes\one+\one\otimes T_{2}(f)$,
-$U_{s}=U_{s}^{(1)}\otimes U_{s}^{(2)}$, and $\|T(g_{\rm tot})\Omega\|^{2}$ adds.
+Let $\cA_{1},\cA_{2}$ satisfy the hypotheses of \Cref{thm:B}, with central charges $c_{1},c_{2}$, and assume
+that $\cA=\cA_{1}\otimes\cA_{2}$ does too.  Then $f_{2}(\cA)=f_{2}(\cA_{1})+f_{2}(\cA_{2})$.  Indeed the stress
+tensor of $\cA$ is $T(f)=T_{1}(f)\otimes\one+\one\otimes T_{2}(f)$, so its central charge is $c=c_{1}+c_{2}$,
+and \Cref{thm:B} applied to each of the three nets gives $f_{2}=c/(12\pi^{2})$, which is additive in $c$.
+(Additivity of $\|T(g_{\rm tot})\Omega\|^{2}$ alone would not suffice: $\gB$ is a distance to
+$\overline{\cM'_{\rm sa}\Omega}$, not a norm.)
 \end{corollary}

@@ -1,0 +1,44 @@
+[
+ {
+  "id": "theta-value",
+  "key": "statement",
+  "old": "0.300 +- 0.005 is a LOWER BOUND: its ultraviolet taper",
+  "new": "0.300 +- 0.005 is taper-suppressed (it lies below the taper-free frames; no direction is proved, so it is not a bound): its ultraviolet taper"
+ },
+ {
+  "id": "theta-value",
+  "key": "statement",
+  "old": "theta = sup_G cos^2(u,v_G) = 0.384 +- 0.003, hence 1-theta = 0.616 +- 0.003.",
+  "new": "theta = sup_G cos^2(u,v_G) = 0.384 +- 0.003, hence 1-theta = 0.616 +- 0.003 (an extrapolation in h, single method, not a bound: of the fits h, log(1/h), h^p only h^p is admissible at tolerance 1e-4, a tolerance fixed after the data were known; at 1e-3 the linear fit is admissible too for three families and gives 0.3781-0.3810; numerics/optimality_all/theta_three_fits.out)."
+ },
+ {
+  "id": "compression-not-optimal-exact-fidelity",
+  "key": "statement",
+  "old": "every computed finite-mesh value is below 0.38",
+  "new": "every computed taper-free finite-mesh value is below 0.38"
+ },
+ {
+  "id": "compression-not-optimal-exact-fidelity",
+  "key": "statement",
+  "old": "0.300 +- 0.005 is a taper-suppressed LOWER bound)",
+  "new": "0.300 +- 0.005 is taper-suppressed, with no proved direction)"
+ },
+ {
+  "id": "exact-fidelity-optimality-open",
+  "key": "statement",
+  "old": "every computed finite-mesh value is below 0.38",
+  "new": "every computed taper-free finite-mesh value is below 0.38"
+ },
+ {
+  "id": "exact-fidelity-optimality-open",
+  "key": "statement",
+  "old": "0.300(5) is a taper-suppressed LOWER bound)",
+  "new": "0.300(5) is taper-suppressed, with no proved direction)"
+ },
+ {
+  "id": "phi-derivative-nondecreasing",
+  "key": "statement",
+  "old": "(rigorous windowed lower bounds, extrapolated estimates;",
+  "new": "(windowed lower bounds computed with the uncertified D-hat quadrature, extrapolated estimates;"
+ }
+]

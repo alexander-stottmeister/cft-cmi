@@ -1,0 +1,9 @@
+[2] lambda=0.0: single-branch factor min 2 max 2 (n=52)
+[2] lambda=0.5: single-branch factor min 2.796 max 22.63 (n=52)
+[2] lambda=1.0: single-branch factor min 3.858 max 453.6 (n=52)
+[2] lambda=1.5: single-branch factor min 4.761 max 7574 (n=52)
+[6] lambda=0.5: single-branch factor min 4.06 max 22.38 (n=69)
+[6] lambda=1.0: single-branch factor min 22.85 max 406.6 (n=36)
+[6] lambda=1.5: single-branch factor min 985.2 max 5178 (n=10)
+lambda>0, both sections: min 2.796  max 7574
+lambda=0 [2]: all equal 2.0000: True

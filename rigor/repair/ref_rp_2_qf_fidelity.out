@@ -1,0 +1,14 @@
+n=1 trial=0 symbol check 1.1e-16  brute -logF=0.001449946061  |f1-bf|=2.1e-16 |f2-bf|=2.2e-16
+n=1 trial=1 symbol check 0.0e+00  brute -logF=0.000105445876  |f1-bf|=1.5e-16 |f2-bf|=2.2e-16
+n=1 trial=2 symbol check 1.2e-32  brute -logF=0.125961812294  |f1-bf|=5.6e-17 |f2-bf|=0.0e+00
+n=2 trial=0 symbol check 1.4e-16  brute -logF=0.024642453739  |f1-bf|=1.9e-16 |f2-bf|=1.1e-16
+n=2 trial=1 symbol check 5.3e-16  brute -logF=0.691997862161  |f1-bf|=2.2e-16 |f2-bf|=6.7e-16
+n=2 trial=2 symbol check 7.0e-17  brute -logF=0.378718524173  |f1-bf|=5.6e-17 |f2-bf|=5.0e-16
+n=3 trial=0 symbol check 3.0e-16  brute -logF=0.269271767484  |f1-bf|=1.1e-16 |f2-bf|=1.7e-16
+n=3 trial=1 symbol check 3.3e-16  brute -logF=0.139855504957  |f1-bf|=2.2e-16 |f2-bf|=8.9e-16
+n=3 trial=2 symbol check 1.7e-16  brute -logF=0.631230007061  |f1-bf|=4.4e-16 |f2-bf|=4.4e-16
+n=4 trial=0 symbol check 6.2e-16  brute -logF=0.078226014993  |f1-bf|=4.2e-17 |f2-bf|=1.2e-15
+n=4 trial=1 symbol check 3.4e-16  brute -logF=0.245030289117  |f1-bf|=3.1e-16 |f2-bf|=5.6e-16
+n=4 trial=2 symbol check 5.0e-16  brute -logF=0.064322575434  |f1-bf|=2.2e-16 |f2-bf|=3.5e-16
+worst 1.2e-15 PASS (tol 1e-10)
+block-diagonal factorisation (item 16): -logF full 0.677842030850 = sum of halves 0.677842030850, diff 6.7e-16

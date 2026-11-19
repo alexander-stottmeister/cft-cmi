@@ -1,0 +1,408 @@
+[
+ {
+  "file": "fidelity_recovered_quasifree.tex",
+  "old": "The result is \\(-\\log\\Fid=f_2\\zeta^2[1+O(\\log^{-2}(1/\\zeta))]\\) with",
+  "new": "The result is \\(-\\log\\Fid=f_2\\zeta^2(1+o(1))\\) as \\(\\zeta\\to0\\) (only a one-sided remainder bound is proved, Corollary~\\ref{cor:structure}) with",
+  "finding": "C3 F1",
+  "reason": "The log^-2 rate is refuted (cor:structure, card rate-of-remainder); proved is lim Phi/zeta^2 = f2 and an upper remainder bound only."
+ },
+ {
+  "file": "fidelity_recovered_quasifree.tex",
+  "old": " \\Phi(\\zeta)=f_2\\,\\zeta^2\\bigl[1+O(\\log^{-2}(1/\\zeta))\\bigr],\\qquad",
+  "new": " \\Phi(\\zeta)=f_2\\,\\zeta^2\\bigl(1+o(1)\\bigr)\\ (\\zeta\\to0),\\qquad \\Phi(\\zeta)-f_2\\zeta^2\\le\\frac{f_2^2\\zeta^4}{1-2f_2\\zeta^2}\\ (\\zeta<\\pi\\sqrt3,\\ \\text{\\texttt{rigor/rate\\_of\\_remainder.tex}}),\\qquad",
+  "finding": "C3 F1",
+  "reason": "Main box stated the refuted log^-2 rate as two-sided; replaced by Theorem A's limit and the proved one-sided bound of card rate-of-remainder in its settled range zeta < pi sqrt 3 (Correction C3)."
+ },
+ {
+  "file": "fidelity_recovered_quasifree.tex",
+  "old": "Corollary~\\ref{cor:structure} shows that \\(\\Phi(\\zeta)=f_2\\zeta^2[1+O(\\log^{-2}(1/\\zeta))]\\): the leading coefficient is finite,",
+  "new": "Corollary~\\ref{cor:structure} and \\texttt{rigor/rate\\_of\\_remainder.tex} show that \\(\\Phi(\\zeta)=f_2\\zeta^2(1+o(1))\\) with \\(\\Phi-f_2\\zeta^2\\le f_2^2\\zeta^4/(1-2f_2\\zeta^2)\\) for \\(\\zeta<\\pi\\sqrt3\\) (no two-sided rate is proved): the leading coefficient is finite,",
+  "finding": "C3 F1",
+  "reason": "Stale refuted rate in the conclusions."
+ },
+ {
+  "file": "fidelity_recovered_quasifree.tex",
+  "old": "and the \\(\\log^{-2}\\) corrections are a genuine zero-collar phenomenon.",
+  "new": "and the occupation tail \\eqref{eq:tail} is a genuine zero-collar phenomenon (the \\(\\log^{-2}\\) correction of an earlier version is refuted, Corollary~\\ref{cor:structure}).",
+  "finding": "C3 F1",
+  "reason": "Same paragraph still asserted the refuted log^-2 corrections."
+ },
+ {
+  "file": "fidelity_recovered_quasifree.tex",
+  "old": "\\item the exact small-cross-ratio law \\(\\Phi(\\zeta)=f_2\\zeta^2[1+O(\\log^{-2}(1/\\zeta))]\\),",
+  "new": "\\item the small-cross-ratio law \\(\\Phi(\\zeta)=f_2\\zeta^2(1+o(1))\\), with the one-sided remainder bound \\(\\Phi-f_2\\zeta^2\\le f_2^2\\zeta^4/(1-2f_2\\zeta^2)\\) for \\(\\zeta<\\pi\\sqrt3\\) (\\texttt{rigor/rate\\_of\\_remainder.tex}),",
+  "finding": "C3 F1",
+  "reason": "Stale refuted rate in the summary list."
+ },
+ {
+  "file": "fidelity_recovered_quasifree.tex",
+  "old": "=8f_2\\,\\eta_{\\mathrm V}^2+O(\\eta_{\\mathrm V}^3),",
+  "new": "=8f_2\\,\\eta_{\\mathrm V}^2\\,(1+o(1)),\\quad -\\log F^{(0)}(\\eta_{\\mathrm V})\\le8f_2\\,\\eta_{\\mathrm V}^2+O(\\eta_{\\mathrm V}^3),",
+  "finding": "C3 F2",
+  "reason": "Only the upper side is O(eta^3) (global bound of rate-of-remainder); the lower side is (1+o(1)) only (quadratic_limit thm:lower)."
+ },
+ {
+  "file": "fidelity_recovered_quasifree.tex",
+  "old": " -\\log F^{(0)}_{\\mathrm{Dirac}}(\\eta)=8f_2\\,\\eta^2+O(\\eta^3)=0.0676(1)\\,\\eta^2,",
+  "new": " -\\log F^{(0)}_{\\mathrm{Dirac}}(\\eta)=8f_2\\,\\eta^2(1+o(1))=0.0676(1)\\,\\eta^2(1+o(1))\\quad(\\text{upper side }8f_2\\eta^2+O(\\eta^3)),",
+  "finding": "C3 F2",
+  "reason": "Same two-sided O(eta^3) overstatement; lower side has only (1+o(1))."
+ },
+ {
+  "file": "fidelity_recovered_quasifree.tex",
+  "old": "reported below is a rigorous lower bound for \\(-\\log\\Fid\\) (resp.\\ \\(S\\));",
+  "new": "reported below is a lower bound for \\(-\\log\\Fid\\) (resp.\\ \\(S\\)) up to the error of the \\(\\widehat D\\) quadrature, which is computed in double precision and not certified (\\texttt{rigor/certified\\_numerics.tex}, Sec.~\\(\\widehat D\\)); the lower-bound property is a theorem for the exact compression only;",
+  "finding": "C3 F3",
+  "reason": "D-hat is an uncertified 2D quadrature (certified_numerics.tex l. 421, 619), so the reported values are not rigorous bounds."
+ },
+ {
+  "file": "fidelity_recovered_quasifree.tex",
+  "old": "(rigorous lower ends; the upper ends are extrapolations, not bounds)",
+  "new": "(lower ends: lower bounds for the exact compression, computed with the uncertified \\(\\widehat D\\) quadrature, hence not certified; the upper ends are extrapolations, not bounds)",
+  "finding": "C3 F3",
+  "reason": "Same uncertified quadrature; 'rigorous' overstated."
+ },
+ {
+  "file": "continuum_petz_free_fermion.tex",
+  "old": "  see Powers--St\\o rmer and Araki \\cite{PowersStormer,ArakiCAR}.",
+  "new": "  see Powers--St\\o rmer \\cite[Thm.~5.1, p.~25]{PowersStormer} and Araki \\cite{ArakiCAR}.  Quasi-equivalence of two representations \\(\\pi_1,\\pi_2\\) means, by definition \\cite[Def.~1.1 and p.~4]{PowersStormer}, that there is a \\(*\\)-isomorphism \\(\\phi\\) of \\(\\pi_1(\\mathfrak A)''\\) onto \\(\\pi_2(\\mathfrak A)''\\) with \\(\\phi\\circ\\pi_1=\\pi_2\\).",
+  "finding": "C3 F4",
+  "reason": "Gives the theorem/page locator (PS70 Thm 5.1, p. 25, read from refs/PowersStormer70.pdf) and the definition of quasi-equivalence that the proof of thm:normal-extension uses."
+ },
+ {
+  "file": "continuum_petz_free_fermion.tex",
+  "old": "extends uniquely to a normal \\(*\\)-isomorphism between their von Neumann closures.",
+  "new": "extends uniquely to a normal \\(*\\)-isomorphism between their von Neumann closures: existence is the definition of quasi-equivalence recalled in item 4 of the external inputs (Section~1), uniqueness holds because two normal maps that agree on the ultraweakly dense \\(*\\)-subalgebra \\(\\pi_I(\\CAR(H_I))\\) agree, and the range is \\(\\cF_r(J_s)\\) because \\(\\beta_s\\) maps \\(\\CAR(H_I)\\) onto \\(\\CAR(H_{J_s})\\) (\\(W_s\\) is unitary); the steps are written out in \\texttt{rigor/check\\_note4.tex}, proof of Theorem~8.2 (label \\texttt{thm:normal}), \\(\\langle1\\rangle1\\)--\\(\\langle1\\rangle8\\).",
+  "finding": "C3 F4",
+  "reason": "The one-line justification had no locator; points to the definition and to the Lamport proof in check_note4.tex thm:normal."
+ },
+ {
+  "file": "continuum_petz_free_fermion.tex",
+  "old": "Joint concavity of root fidelity and the arithmetic--geometric mean inequality imply",
+  "new": "Concavity of root fidelity in its second argument, in integral form, and Jensen's inequality for the logarithm imply the two lines below.  The first: by the arithmetic-mean form of Alberti's formula in the proof of Lemma~\\ref{lem:fidelity-below}, and \\(\\int p=1\\), \\(\\Fid(\\omega,\\overline\\omega)=\\inf_{x>0}\\int p(t)\\,\\tfrac12\\bigl(\\omega(x)+\\widetilde\\omega_t(x^{-1})\\bigr)\\dd t\\ge\\int p(t)\\inf_{x>0}\\tfrac12\\bigl(\\omega(x)+\\widetilde\\omega_t(x^{-1})\\bigr)\\dd t\\); the second is Jensen's inequality \\(\\int p\\log\\Fid_t\\le\\log\\int p\\,\\Fid_t\\).  Hence",
+  "finding": "C3 F4",
+  "reason": "Joint concavity on von Neumann algebras was uncited; replaced by a two-line derivation from the variational formula the note already cites (AlbertiUhlmann02 Thm 2)."
+ },
+ {
+  "file": "continuum_petz_free_fermion.tex",
+  "old": "The corresponding norm estimate is",
+  "new": "The corresponding norm estimate follows from the Fuchs--van de Graaf inequality \\(\\tfrac12\\norm{\\omega_\\psi-\\omega_\\phi}\\le\\sqrt{1-\\Fid(\\omega_\\psi,\\omega_\\phi)^2}\\) for vector states of a von Neumann algebra (\\cite[Lemma~3(3), eq.~(58)]{FHWS}, arXiv:2006.08002v1 p.~11; \\(\\omega\\) and \\(\\overline\\omega\\) are normal, hence vector states in the standard form of \\(\\cF_r(ABC)\\) on the vacuum Hilbert space, where \\(\\Omega\\) is cyclic and separating):",
+  "finding": "C3 F4",
+  "reason": "Fuchs-van de Graaf step was uncited; locator read from refs/FHSW20_2006.08002.pdf p. 11."
+ },
+ {
+  "file": "continuum_petz_free_fermion.tex",
+  "old": "verification document \\texttt{rigor/check\\_note4.tex}).  Let",
+  "new": "verification document \\texttt{rigor/check\\_note4.tex}).  The identification is checked as follows.  Let \\(\\Gamma\\) be the grading unitary (\\(\\Gamma\\Omega=\\Omega\\)) and \\(Z=(1+i\\Gamma)/(1+i)\\), so that \\(ZyZ^*=y\\) for even and \\(ZyZ^*=i\\Gamma y\\) for odd \\(y\\), and \\(Z\\Omega=\\Omega\\).  (a) The product state of the commuting pair \\(\\cF_r(A_\\eps)\\), \\(Z\\cF_r(D)Z^*\\) and the graded product state agree: on \\(x\\,ZyZ^*\\) with \\(x\\in\\cF_r(A_\\eps)\\), \\(y\\in\\cF_r(D)\\) the first gives \\(\\omega(x)\\omega(ZyZ^*)=\\omega(x)\\omega(y)\\), since \\(Z\\) fixes \\(\\Omega\\), and the odd part of \\(y\\) contributes zero to both because the vacuum is even.  (b) The transfer map \\(\\alpha^{D\\to B}=\\mathrm{Ad}\\,U(s_t)\\) commutes with \\(\\Gamma\\), hence with \\(Z\\), so \\(\\mathrm{Ad}Z\\circ\\alpha\\circ\\mathrm{Ad}Z^*=\\alpha\\).  Let",
+  "finding": "C3 F5",
+  "reason": "The Klein bookkeeping was only asserted; writes out the check C3 F5 performed (Z fixes Omega, odd parts have zero vacuum expectation, U(s_t) commutes with Gamma)."
+ },
+ {
+  "file": "fidelity_recovered_quasifree.tex",
+  "old": "Its half-density action \\(U(g)\\) on \\(L^2(\\mathbb R;\\mathbb C^r)\\) commutes with \\(P_+\\),",
+  "new": "Its half-density action \\((U(g)f)(x)=(a-cx)^{-1}f(g^{-1}(x))\\) on \\(L^2(\\mathbb R;\\mathbb C^r)\\), for \\(g(x)=\\frac{ax+b}{cx+d}\\) with \\(ad-bc=1\\), uses the Neveu--Schwarz choice of the square root of \\((g^{-1})'(x)=(a-cx)^{-2}\\), which changes sign across the pole \\(x=a/c\\); with this choice the factor \\((a-cz)^{-1}\\) and \\(f\\circ g^{-1}\\) are holomorphic in each open half-plane for \\(f\\) in the corresponding Hardy space, so \\(U(g)\\) preserves both Hardy spaces of the line and commutes with \\(P_+\\),",
+  "finding": "C3 F6",
+  "reason": "The sign choice of (g')^{1/2} that makes U(g) commute with P_+ (NS, sign flips across the pole) was not stated; with |.|^{1/2} the claim is false."
+ },
+ {
+  "file": "rigor/check_note5_theory.tex",
+  "old": "Araki 1977 Thm.\\ 3.8(2)($\\gamma$)}",
+  "new": "Araki 1977 Thm.\\ 3.8(2)($\\gamma$) (p.~181; its hypothesis ``$N$ approximately finite'' holds for $N=\\cF_r(I_1)$, the weak closure of $\\CAR(H_{I_1})$, which is the increasing union of the finite-dimensional algebras $\\CAR(P_nH_{I_1})$ for finite-rank projections $P_n\\nearrow1$)}",
+  "finding": "C3 F7",
+  "reason": "Araki77 Thm 3.8(2)(gamma) requires N approximately finite (refs/Araki77_PRIMS13.pdf p. 181); the hypothesis was used but not stated or checked."
+ },
+ {
+  "file": "rigor/check_note5_theory.tex",
+  "old": "\\lby{$\\Fid$ of a tensor product of states in a factorised vacuum is the product of the factors;",
+  "new": "\\lby{multiplicativity over the two chiral halves: they anticommute (graded, not ordinary, tensor product), but with block-diagonal compressions $P_n^+\\oplus P_n^-$ both symbols are block diagonal, so the finite-dimensional formula (Note~5 Thm.~2.1) factorises as $\\Fid_n=\\Fid_n^+\\Fid_n^-$, and the monotone limit of Note~5 Thm.~3.1 (the algebras of $P_n^+\\oplus P_n^-$ increase and generate the Dirac field algebra) gives the product of the two limits;",
+  "finding": "C3 F8",
+  "reason": "The chiral halves form a graded product; the document asserted tensor-product multiplicativity without saying why it holds."
+ },
+ {
+  "file": "fidelity_recovered_quasifree.tex",
+  "old": "the family is monotone in \\(t\\) for a single chirality, and its best member is the limit \\(t\\to+\\infty\\) (in the convention of the preceding note), where \\(\\zeta_t\\downarrow z\\) and the recovery map becomes the pure geometric compression \\(\\overline\\beta_\\lambda\\) of \\(ABC\\) onto \\(AB\\).  For a single chirality and small \\(z\\) the ordinary Petz map is therefore worse than the optimal rotation by a factor \\(4\\) in \\(-\\log\\Fid\\);",
+  "new": "for a single chirality \\(-\\log\\Fid(\\omega,\\widetilde\\omega_t)\\) is nonincreasing in \\(t\\) (monotonicity of \\(\\Phi\\) is proved only in the non-strict form), and as \\(t\\to+\\infty\\) (in the convention of the preceding note) \\(\\zeta_t\\downarrow z\\) and the maps tend to the pure geometric compression \\(\\overline\\beta_\\lambda\\) of \\(ABC\\) onto \\(AB\\), which is not a member of the family but is itself a recovery channel, with \\(-\\log\\Fid=\\Phi(z)\\le\\Phi(\\zeta_t)\\) for every \\(t\\).  For a single chirality the ordinary Petz map is therefore worse than this compression by the factor \\(\\Phi(2z)/\\Phi(z)\\to4\\) as \\(z\\to0\\) (Theorem~A);",
+  "finding": "C3 F9",
+  "reason": "Only non-strict monotonicity is proved and the t -> infinity limit is not a member of the family; the card two-chirality-law was corrected on 2026-09-23, the document was not."
+ },
+ {
+  "file": "fidelity_recovered_quasifree.tex",
+  "old": "every normal recovery channel's recovered symbol lies in the quasi-free feasible set, so the second-order problem over all channels is the convex programme of \\texttt{rigor/optimality\\_all\\_channels.tex};",
+  "new": "for every normal unital completely positive even recovery map the symbol of the recovered state lies in the quasi-free feasible set (\\texttt{rigor/optimality\\_all\\_channels.tex}, thm:range), and the second-order error of every such channel is bounded below by the value of the convex programme there (same document, thm:main); since the fidelity of a non-quasi-free state is not a function of its symbol, the reduction rests on these two theorems, not on the symbol alone;",
+  "finding": "C3 F10",
+  "reason": "The remark asserted the reduction to the convex programme without argument and for all (not only even) channels; now cites the theorems behind cards all-channels-symbol-feasible and all-channel-equals-quasi-free."
+ },
+ {
+  "file": "rigor/collar_and_invariant_formula.tex",
+  "old": "Theorem~B remains\nconditional exactly on Note~7's Lemma~3.2 / Gap~2;",
+  "new": "At the date of this document (2026-09-05) Theorem~B remained\nconditional exactly on Note~7's Lemma~3.2 / Gap~2 [superseded: Theorem~B is now refereed under the implementer hypotheses (H1)--(H3), \\texttt{rigor/universality\\_theorem\\_B.tex} with \\texttt{rigor/implementation\\_C11.tex}; KB cards thm-b-universality, implementer-hypotheses];",
+  "finding": "C3 F11",
+  "reason": "The status sentence is stale against card thm-b-universality [refereed] and was not marked as superseded."
+ },
+ {
+  "file": "cmi_as_quantum_markov_defect.tex",
+  "old": "Petz's sufficiency theorem gives several equivalent characterizations of equality:",
+  "new": "Petz's sufficiency theorem gives several equivalent characterizations of equality, in the form of Jen\\v{c}ov\\'a--Petz \\cite{JencovaPetz}: their Theorem~2 (pp.~12--13), applied to the inclusion map \\(\\cN\\hookrightarrow\\cM\\) as coarse-graining with the faithful dominating state \\(\\sigma\\), together with their Remark on p.~14, which replaces the transition-probability condition (iii) by equality of the relative entropies when these are finite; a coarse-graining is a unital 2-positive map (p.~3), sufficiency is defined on p.~5, and a normal choice of \\(\\alpha\\) is the generalized conditional expectation of their Theorem~1(v), p.~7:",
+  "finding": "C3 F14",
+  "reason": "Petz's sufficiency theorem was cited without paper/theorem/page; locators read from refs/JencovaPetz06_math-ph-0412093.pdf."
+ },
+ {
+  "file": "cmi_as_quantum_markov_defect.tex",
+  "old": "For faithful states, another equivalent condition is the Connes-cocycle criterion",
+  "new": "For faithful states, another equivalent condition is the Connes-cocycle criterion (\\cite{JencovaPetz}, Theorem~1 (i)\\(\\Leftrightarrow\\)(iv), p.~7, with \\(M_0=\\cN\\), the family \\(\\{\\rho\\}\\) and the faithful dominating state \\(\\omega=\\sigma\\))",
+  "finding": "C3 F14",
+  "reason": "Connes-cocycle criterion cited without locator."
+ },
+ {
+  "file": "cmi_as_quantum_markov_defect.tex",
+  "old": "doi:10.1088/1751-8121/aa7eaa}.\n\n\\end{thebibliography}",
+  "new": "doi:10.1088/1751-8121/aa7eaa}.\n\n\\bibitem{JencovaPetz}\nA.~Jen\\v{c}ov\\'a and D.~Petz,\n\\emph{Sufficiency in quantum statistical inference},\narXiv:math-ph/0412093v1 (2004); page numbers refer to this version (\\texttt{refs/JencovaPetz06\\_math-ph-0412093.pdf}).\n\n\\end{thebibliography}",
+  "finding": "C3 F14",
+  "reason": "Bibliography entry for the new citation (refs/JencovaPetz06_math-ph-0412093.pdf)."
+ },
+ {
+  "file": "rigor/check_note4.tex",
+  "old": "One genuine proof-breaking issue is found: the note's normalisation of the",
+  "new": "[WITHDRAWN, see the Orchestrator's correction at the end: the following finding is incorrect; Longo--Xu's $\\mathcal A_r$ is the net of $r$ complex fermions, $c=r$, and the Note's coefficient $r/6$ is right.] One proof-breaking issue was reported: the note's normalisation of the",
+  "finding": "C3 F15",
+  "reason": "The factor-2 BREAK is false (C3 row 13, LX Sec. 3.1) and was retracted only in an appendix; the abstract still stated it."
+ },
+ {
+  "file": "rigor/check_note4.tex",
+  "old": "\\begin{theorem}[The normalisation is inconsistent]\\label{thm:break}",
+  "new": "\\begin{theorem}[The normalisation is inconsistent --- WITHDRAWN]\\label{thm:break}\n\\textbf{[Withdrawn: this statement is false; see the Orchestrator's correction at the end.]}",
+  "finding": "C3 F15",
+  "reason": "Mark the withdrawn theorem in place."
+ },
+ {
+  "file": "rigor/check_note4.tex",
+  "old": "\\textbf{[BREAK] Note \\S1.1 vs.\\ \\S9:",
+  "new": "\\textbf{[BREAK, WITHDRAWN: see the Orchestrator's correction at the end] Note \\S1.1 vs.\\ \\S9:",
+  "finding": "C3 F15",
+  "reason": "Mark the withdrawn verdict in place."
+ },
+ {
+  "file": "rigor/check_note4.tex",
+  "old": "subject to the factor-$2$ issue of \\cref{thm:break}:",
+  "new": "subject to the factor-$2$ issue of \\cref{thm:break} [withdrawn: there is no factor-$2$ issue and the Note's values stand; Orchestrator's correction at the end]:",
+  "finding": "C3 F15",
+  "reason": "Mark the withdrawn consequence in place."
+ },
+ {
+  "file": "rigor/check_note4.tex",
+  "old": "See \\cref{thm:break}.\\\\",
+  "new": "See \\cref{thm:break} [withdrawn: the Note's values stand; Orchestrator's correction at the end].\\\\",
+  "finding": "C3 F15",
+  "reason": "Mark the withdrawn consequence in place."
+ },
+ {
+  "file": "rigor/check_note4.tex",
+  "old": "bound). The single genuine error is the factor $2$ of \\cref{thm:break}, which\nis a normalisation mismatch and not an error in any operator computation.",
+  "new": "bound). The factor $2$ of \\cref{thm:break}, reported here as the single genuine error, is withdrawn (Orchestrator's correction at the end); no proof-breaking error remains.",
+  "finding": "C3 F15",
+  "reason": "Summary still reported the withdrawn factor-2 error."
+ },
+ {
+  "file": "continuum_petz_free_fermion.tex",
+  "old": "and then on the von Neumann algebra by bounded strong approximation from the increasing collar algebras.",
+  "new": "and then on the von Neumann algebra by a sequence: \\(\\cF_r(I)\\) acts on the separable vacuum Hilbert space, so its unit ball is strongly metrisable and Kaplansky's density theorem gives a bounded sequence \\(x_n\\in\\CAR(H_I)\\) with \\(x_n\\to x\\) strongly, hence ultraweakly; since each \\(\\overline\\beta_{s_t}\\) is normal, \\(\\varphi(\\overline\\beta_{s_t}(x))=\\lim_n\\varphi(\\overline\\beta_{s_t}(x_n))\\) for every normal \\(\\varphi\\), a pointwise limit of measurable functions of \\(t\\).",
+  "finding": "C3 F16",
+  "reason": "Bounded strong approximation gives a net, and a pointwise limit of a net of measurable functions need not be measurable; separability and Kaplansky give a sequence."
+ },
+ {
+  "file": "rigor/exact_fidelity_upper_half.tex",
+  "old": "With the numerical\n$\\theta_{\\rm fr}\\ge0.38$ (Phase~5, F3: $\\theta=0.384\\pm0.003$) this says that the zero-collar\ncompression is \\emph{not} optimal in exact fidelity.",
+  "new": "With the numerical inputs\n$E_DuE_D\\ne0$ (S10, not proved) and $\\theta_{\\rm fr}\\approx0.384\\pm0.003$ (Phase~5, F3: an extrapolated estimate; every computed finite-mesh value is below $0.38$ and none is a proved bound) this says, \\emph{numerically}, that the zero-collar\ncompression is not optimal in exact fidelity.",
+  "finding": "C4 F1, F2",
+  "reason": "theta_fr > 0 (E_D u E_D != 0) and theta_fr >= 0.38 are numerical input; the abstract read as proved."
+ },
+ {
+  "file": "rigor/exact_fidelity_upper_half.tex",
+  "old": "what is needed is $\\theta_{\\rm fr}\\ge0.38$.  Three observations supply it.",
+  "new": "what is needed is $\\theta_{\\rm fr}\\ge0.38$.  Three observations supply it as numerical input, not as a bound (see (iii)).",
+  "finding": "C4 F2",
+  "reason": "The remark supplies an extrapolated estimate, not a bound."
+ },
+ {
+  "file": "rigor/exact_fidelity_upper_half.tex",
+  "old": "S10 \\S7's $0.300\\pm0.005$ is a\n taper-suppressed \\emph{lower} bound,",
+  "new": "S10 \\S7's $0.300\\pm0.005$ is a\n taper-suppressed value (below the taper-free frames; not a proved bound),",
+  "finding": "C4 F2(a)",
+  "reason": "No proved direction relates finite-mesh or tapered values to the continuum theta."
+ },
+ {
+  "file": "rigor/exact_fidelity_upper_half.tex",
+  "old": "Since F3's extrapolations are\n themselves taken over finite meshes, $\\theta_{\\rm fr}\\ge0.38$ is exactly as well supported\n numerically as $\\theta=0.384\\pm0.003$, and \\eqref{eq:main} gives\n $\\Erec\\le0.616f_2z^2(1+o(1))$, i.e.\\ $\\kappa_{\\rm opt}\\le0.616\\pm0.003$: \\emph{the zero-collar\n compression is not optimal in exact fidelity}.",
+  "new": "Every computed finite-mesh value is below $0.38$ (largest $0.3789$, circle mesh at $L=2048$; $0.3764$ in the T0 frame at\n $h=0.015$ after the $y_{\\max}$ correction), and no proved direction relates the finite-mesh values to $\\theta_{\\rm fr}$; $0.384\\pm0.003$ is an extrapolation in $h$\n with the fitted order $h^{0.77}$, the only one of the fits $h$, $\\log(1/h)$, $h^p$ admissible at tolerance $10^{-4}$ (\\texttt{numerics/optimality\\_all/theta\\_three\\_fits.out}).  As numerical input, not as a bound, $\\theta_{\\rm fr}\\approx0.384\\pm0.003$, and \\eqref{eq:main} gives\n $\\Erec\\le0.616f_2z^2(1+o(1))$, i.e.\\ $\\kappa_{\\rm opt}\\le0.616\\pm0.003$ (numerical): \\emph{numerically, the zero-collar\n compression is not optimal in exact fidelity}; $\\theta_{\\rm fr}>0$ itself rests on the numerical $E_DuE_D\\ne0$ (S10 \\S7).",
+  "finding": "C4 F1, F2",
+  "reason": "'theta_fr >= 0.38' is an extrapolated estimate not witnessed by any finite-rank G; the three-fit check (theta_three_fits.out) is cited."
+ },
+ {
+  "file": "rigor/exact_fidelity_upper_half.tex",
+  "old": "S10's $0.300\\pm0.005$ being a taper-suppressed lower bound and E2's",
+  "new": "S10's $0.300\\pm0.005$ being a taper-suppressed value (not a proved bound) and E2's",
+  "finding": "C4 F2(a)",
+  "reason": "Same direction issue."
+ },
+ {
+  "file": "rigor/exact_fidelity_upper_half.tex",
+  "old": "\\emph{numerical} statements are $\\theta_{\\rm fr}\\ge0.38$ (Remark~\\ref{rem:thetafr}) and hence",
+  "new": "\\emph{numerical} statements (extrapolated estimates, not bounds) are $\\theta_{\\rm fr}\\approx0.384\\pm0.003$ (Remark~\\ref{rem:thetafr}) and hence",
+  "finding": "C4 F2",
+  "reason": "theta_fr >= 0.38 is not a bound."
+ },
+ {
+  "file": "rigor/exact_fidelity_upper_half.tex",
+  "old": "The only numerical inputs are the \\emph{value}\n$\\theta_{\\rm fr}\\ge0.38$ ($\\theta=0.384\\pm0.003$, F3)",
+  "new": "The only numerical inputs are $E_DuE_D\\ne0$ (S10) and the \\emph{value}\n$\\theta_{\\rm fr}\\approx0.384\\pm0.003$ (F3; an extrapolated estimate, not a bound)",
+  "finding": "C4 F1, F2",
+  "reason": "E_D u E_D != 0 is a numerical input too; 0.38 is not a bound."
+ },
+ {
+  "file": "rigor/exact_fidelity_upper_half.tex",
+  "old": "$\\theta_{\\rm fr}\\ge0.38$ and $\\kappa_{\\rm opt}\\le0.616\\pm0.003$ in place of",
+  "new": "$\\theta_{\\rm fr}\\approx0.384\\pm0.003$ (extrapolated, not a bound) and $\\kappa_{\\rm opt}\\le0.616\\pm0.003$ (numerical) in place of",
+  "finding": "C4 F2",
+  "reason": "Same."
+ },
+ {
+  "file": "rigor/exact_fidelity_upper_half.tex",
+  "old": "The item is not recorded on a\n knowledge-base card;",
+  "new": "The item was not recorded on a\n knowledge-base card when this correction was written (it is now: card uhlmann-upper-half-proved, Statement, `Correction C3');",
+  "finding": "C4 F7",
+  "reason": "Stale: the card now records the item."
+ },
+ {
+  "file": "fidelity_recovered_quasifree.tex",
+  "old": "The geometric compression is the best member of the rotated family, but not the best recovery channel:",
+  "new": "The geometric compression is the best member of the rotated family, but, numerically, not the best recovery channel (the only input that is not proved is \\(E_DuE_D\\ne0\\), i.e.\\ \\(\\theta_{\\rm fr}>0\\), \\texttt{rigor/sdp\\_dual\\_certificate.tex}):",
+  "finding": "C4 F1 (N5 inheritance)",
+  "reason": "theta_fr > 0 is numerical (S10 verdict box), so 'not the best channel' is a numerical statement."
+ },
+ {
+  "file": "fidelity_recovered_quasifree.tex",
+  "old": "the smaller \\(\\theta\\ge0.30\\) of \\texttt{rigor/sdp\\_dual\\_certificate.tex} is a taper-suppressed lower bound)",
+  "new": "the smaller \\(\\theta\\approx0.30\\) of \\texttt{rigor/sdp\\_dual\\_certificate.tex} is a taper-suppressed value, not a proved bound)",
+  "finding": "C4 F2(a)",
+  "reason": "No proved direction for tapered finite-mesh values."
+ },
+ {
+  "file": "fidelity_recovered_quasifree.tex",
+  "old": "\\le0.616f_2z^2(1+o(1))\\) per chirality, \\(\\theta_{\\rm fr}\\ge0.38\\) numerically.",
+  "new": "\\) per chirality, with the extrapolated estimate \\(\\theta_{\\rm fr}\\approx0.384\\pm0.003\\) (numerical input, not a bound: every computed finite-mesh value is below \\(0.38\\)), i.e.\\ \\(E_{\\rm rec}\\lessapprox0.616f_2z^2(1+o(1))\\) numerically.",
+  "finding": "C4 F2",
+  "reason": "theta_fr >= 0.38 is an extrapolated estimate, not a bound."
+ },
+ {
+  "file": "rigor/optimality_all_channels.tex",
+  "old": "the right side of \\eqref{eq:red} is increasing\nin \\(\\Tr t\\delta^\\beta\\) on the range where the bracket is positive.}\n\\lby{Prop.~\\ref{prop:red}, Thm.~\\ref{thm:range}; monotonicity of \\(x\\mapsto x^2(1-cx)\\) for \\(0<x<2/(3c)\\),\nwhich covers the range where the bracket of the statement is positive after replacing \\(\\Delta\\) by\n\\(\\Delta_z(t)\\le\\Tr t\\delta^\\beta\\) (if \\(\\Tr t\\delta^\\beta\\) exceeds \\(2V/(3\\|t\\|_1)\\) the bound with\n\\(\\Delta_z(t)\\) is weaker than the one with \\(\\Tr t\\delta^\\beta\\) only if the latter is past the maximum\nof \\(x^2(1-cx)\\), in which case use \\(x=2/(3c)\\) instead; in all cases the stated bound holds)}",
+  "new": "in \\eqref{eq:single} the parameter is chosen from \\(\\Delta_z(t)\\), not from \\(\\Tr t\\delta^\\beta\\).}\n\\lby{put \\(x:=\\Tr t\\delta^\\beta\\ge\\Delta_z(t)>0\\), \\(N:=\\|T-\\omega(T)\\|\\le\\|t\\|_1\\) (Prop.~\\ref{prop:red} $\\langle1\\rangle1$), \\(V':=V(t)+2\\sqrt{2\\Phi(z)}\\|t\\|_1^2\\ge\\omega^\\beta((T-\\omega(T))^2)\\)\n(Lemma~\\ref{lem:variance} with \\(E=\\Phi(z)\\)) and \\(\\eps:=\\Delta_z(t)/(2V')\\); \\(\\eps N<1\\) because the bracket of the statement is positive,\n\\(2\\Delta_z(t)\\|t\\|_1<V(t)\\le V'\\).  Lemma~\\ref{lem:single}, \\eqref{eq:single}, with \\(\\Delta=x\\): the right side\n\\(1-\\frac\\eps2x+\\frac{\\eps^2}2\\frac{V'}{1-\\eps N}\\) is decreasing in \\(x\\), so it is at most its value at \\(x=\\Delta_z(t)\\), and\n\\(1-\\Fid\\ge\\frac{\\Delta_z(t)^2}{8V'}\\cdot\\frac{1-\\Delta_z(t)N/V'}{1-\\Delta_z(t)N/(2V')}\\ge\\frac{\\Delta_z(t)^2}{8V'}\\bigl(1-\\frac{\\Delta_z(t)N}{V'}\\bigr)\n\\ge\\frac{\\Delta_z(t)^2}{8V'}\\bigl(1-\\frac{2\\Delta_z(t)\\|t\\|_1}{V(t)}\\bigr)\\) (as in Lemma~\\ref{lem:single} $\\langle1\\rangle4$; \\(N\\le\\|t\\|_1\\), \\(V'\\ge V(t)\\));\nfinally \\(-\\log\\Fid\\ge1-\\Fid\\).  (The earlier argument, monotonicity of the right side of \\eqref{eq:red} in \\(\\Tr t\\delta^\\beta\\), fails for\n\\(\\Tr t\\delta^\\beta\\in[2V'/(3\\|t\\|_1),2V'/\\|t\\|_1)\\), where \\(x\\mapsto x^2(1-cx)\\) decreases.)}",
+  "finding": "C4 F4",
+  "reason": "<1>1's monotonicity argument is invalid past the maximum of x^2(1-cx); choosing eps from Delta_z(t) in eq:single gives statement (1) unchanged."
+ },
+ {
+  "file": "rigor/optimality_all_channels.tex",
+  "old": "\\item Consequently \\(\\Erec\\ge\\mathcal D_z\\,(1-o(1))\\) along any family of test operators\n\\(t_z\\) with",
+  "new": "\\item Consequently \\(\\Erec\\ge\\frac{\\Delta_z(t_z)_+^2}{8V(t_z)}\\,(1-o(1))\\), and hence \\(\\Erec\\ge\\mathcal D_z\\,(1-o(1))\\) if the family is near-optimal (\\(\\Delta_z(t_z)_+^2/(8V(t_z))\\ge\\mathcal D_z(1-o(1))\\)), along any family of test operators\n\\(t_z\\) with",
+  "finding": "C4 S12 thm:main(2) [MINOR]",
+  "reason": "A general admissible family gives only its own dual value; D_z(1-o(1)) needs a near-optimal family."
+ },
+ {
+  "file": "rigor/optimality_all_channels.tex",
+  "old": "a taper-suppressed lower bound \\(\\theta\\ge0.300\\pm0.005\\);",
+  "new": "a taper-suppressed value \\(\\theta\\approx0.300\\pm0.005\\), not a proved bound;",
+  "finding": "C4 F2(a)",
+  "reason": "No proved direction for tapered finite-mesh values."
+ },
+ {
+  "file": "rigor/optimality_all_channels.tex",
+  "old": "Hence \\(\\mathcal D_z=\\min_{\\mathcal F}g_Q\\le(1-\\theta)f_2z^2(1+o(1))\\le0.616f_2z^2\\): the zero-collar\ncompression is \\emph{not} the optimum",
+  "new": "Hence \\(\\mathcal D_z=\\min_{\\mathcal F}g_Q\\le(1-\\theta)f_2z^2(1+o(1))\\), numerically \\(\\approx0.616f_2z^2\\) (\\(\\theta\\approx0.384\\pm0.003\\) is an extrapolated estimate, not a bound): numerically, the zero-collar\ncompression is \\emph{not} the optimum",
+  "finding": "C4 F1, F2",
+  "reason": "theta > 0 and its value are numerical input."
+ },
+ {
+  "file": "rigor/optimality_all_channels.tex",
+  "old": "now known to lie in \\([\\,\\mathcal D_z,\\ 0.616f_2z^2]\\) (\\(1-\\theta=0.616\\pm0.003\\), F3).",
+  "new": "lying in \\([\\,\\mathcal D_z,\\ (1-\\theta)f_2z^2(1+o(1))]\\) at second order, with the numerical estimate \\(1-\\theta=0.616\\pm0.003\\) (F3; an extrapolation, not a bound).",
+  "finding": "C4 F2",
+  "reason": "0.616 is a numerical estimate, not a known bound."
+ },
+ {
+  "file": "numerics/optimality_all/F3_RESULTS.md",
+  "old": "Galerkin frame is right and the S10 spectral-circle number is a **taper-suppressed lower bound**:",
+  "new": "Galerkin frame is right and the S10 spectral-circle number is **taper-suppressed** (it lies below the taper-free frames; no direction is proved, so it is not a rigorous lower bound):",
+  "finding": "C4 F2(a)",
+  "reason": "Finite-mesh/tapered values have no proved direction relative to the continuum theta."
+ },
+ {
+  "file": "numerics/optimality_all/F3_RESULTS.md",
+  "old": "        theta = 0.384 +- 0.003      (h -> 0, measured order h^0.77, five mesh families)\n",
+  "new": "        theta = 0.384 +- 0.003      (h -> 0, measured order h^0.77, five mesh families)\n\n(Added 2026-11-19, repair seat R3.)  This is an extrapolated estimate, numerical input, not a bound:\nevery computed finite-mesh value is below 0.38 (largest 0.37893, circle mesh L = 2048; 0.37544 raw /\n0.37635 y_max-corrected in T0 at h = 0.015), the finite-mesh values are neither lower nor upper bounds\non theta, and the extrapolation adds about +0.008.  Of the three fits of AGENTS.md Sec. 5 (h, log(1/h),\nh^p; finest five rungs, admissibility = residuals at the three finest rungs <= 1e-4) only h^p is\nadmissible, in every family, with h -> 0 values 0.38388 ... 0.38445 (raw) and 0.38393 ... 0.38436\n(y_max-corrected); at the looser 1e-3 the linear fit is also admissible for families A, C, C' and gives\n0.3781 ... 0.3810.  `${PYTHON:-python3} numerics/optimality_all/theta_three_fits.py >\nnumerics/optimality_all/theta_three_fits.out`.\n",
+  "finding": "C4 F2(b),(c)",
+  "reason": "States the direction status of theta and records the three-fit check AGENTS.md Sec. 5 requires."
+ },
+ {
+  "file": "numerics/optimality_all/F3_RESULTS.md",
+  "old": "so 1 - theta = 0.616 +- 0.003.  S10's 0.300 +- 0.005 is a lower bound,",
+  "new": "so 1 - theta = 0.616 +- 0.003 (numerical).  S10's 0.300 +- 0.005 is taper-suppressed (not a proved bound),",
+  "finding": "C4 F2(a)",
+  "reason": "Same direction issue."
+ },
+ {
+  "file": "numerics/optimality_all/F3_RESULTS.md",
+  "old": "**Conclusion.** S10 Sec. 7(c)'s theta = 0.300 +- 0.005 is a **taper-suppressed lower bound**, not",
+  "new": "**Conclusion.** S10 Sec. 7(c)'s theta = 0.300 +- 0.005 is a **taper-suppressed value** (no proved direction), not",
+  "finding": "C4 F2(a)",
+  "reason": "Same direction issue."
+ },
+ {
+  "file": "numerics/optimality_all/F3_RESULTS.md",
+  "old": "qualitative conclusions drawn from it (theta > 0, condition (S) fails,",
+  "new": "qualitative conclusions drawn from it (all numerical: theta > 0, condition (S) fails,",
+  "finding": "C4 F1",
+  "reason": "theta > 0 (E_D u E_D != 0) is numerical, not proved."
+ },
+ {
+  "file": "rigor/sdp_dual_certificate.tex",
+  "old": "ultraviolet taper and in the geometry, and the full supremum is\n$\\theta=0.300\\pm0.005$.",
+  "new": "ultraviolet taper and in the geometry, and the full supremum is\n$\\theta=0.300\\pm0.005$ [superseded 2026-09-15: the value is taper-suppressed, the taper stability fails once the taper is relaxed further (\\texttt{numerics/optimality\\_all/F3\\_RESULTS.md} Sec.~5(b)), and the taper-free frames give the extrapolated estimate $\\theta\\approx0.384\\pm0.003$, numerical input and not a bound].",
+  "finding": "C4 Sec. 2 item 3, F2",
+  "reason": "S10's own number is superseded by F3 and its taper-stability claim is refuted there; the document did not say so."
+ },
+ {
+  "file": "rigor/exact_optimum_tangent_problem.tex",
+  "old": "\\emph{taper-suppressed lower bound}: relaxing",
+  "new": "\\emph{taper-suppressed} value (below the taper-free frames; no direction is proved): relaxing",
+  "finding": "C4 F2(a)",
+  "reason": "No proved direction for tapered finite-mesh values."
+ },
+ {
+  "file": "rigor/exact_optimum_tangent_problem.tex",
+  "old": " S10's $0.300$ is a taper-suppressed lower bound.  Remark~\\ref{rem:twonum}.",
+  "new": " S10's $0.300$ is taper-suppressed (not a proved bound).  Remark~\\ref{rem:twonum}.",
+  "finding": "C4 F2(a)",
+  "reason": "Same."
+ },
+ {
+  "file": "rigor/network_second_order.tex",
+  "old": " $E(s):=2\\zeta_1\\zeta_2\\norm k_2\\,[\\eta(s\\zeta_1)+\\eta(s\\zeta_2)+\\theta(s\\zeta_1)+\\theta(s\\zeta_2)]$.}",
+  "new": " $E(s):=2\\zeta_1\\zeta_2\\bigl(\\norm k_2\\,[\\eta(s\\zeta_1)+\\eta(s\\zeta_2)+\\theta(s\\zeta_1)+\\theta(s\\zeta_2)]+\\eta(s\\zeta_1)\\eta(s\\zeta_2)\\bigr)$ (the product term added after the council of 2026-11-19, C5).}",
+  "finding": "C5 item 2",
+  "reason": "The expansion of Tr(A2* V1* B1 V2) has a third term Tr(A2* R1* B1 R2) that the bound omitted."
+ },
+ {
+  "file": "rigor/network_second_order.tex",
+  "old": "\\lstep{2}{2}{$\\abs{\\Tr(A_2^*V_1^*B_1V_2)-s^2\\zeta_1\\zeta_2\\Tr(A_2^*k_{y_1}^*B_1k_{y_2})}\\le s^2\\zeta_1\\zeta_2\n \\norm k_2[\\eta(s\\zeta_1)+\\eta(s\\zeta_2)]$.}\n\\lby{$V_j=s\\zeta_jk_{y_j}+R_j$, $\\norm{R_j}_2\\le s\\zeta_j\\eta(s\\zeta_j)$ (Lemma~\\ref{lem:onegroup}(ii)),\n $\\abs{\\Tr XY}\\le\\norm X_2\\norm Y_2$}",
+  "new": "\\lstep{2}{2}{$\\abs{\\Tr(A_2^*V_1^*B_1V_2)-s^2\\zeta_1\\zeta_2\\Tr(A_2^*k_{y_1}^*B_1k_{y_2})}\\le s^2\\zeta_1\\zeta_2\n \\bigl(\\norm k_2[\\eta(s\\zeta_1)+\\eta(s\\zeta_2)]+\\eta(s\\zeta_1)\\eta(s\\zeta_2)\\bigr)$.}\n\\lby{$V_j=s\\zeta_jk_{y_j}+R_j$, $\\norm{R_j}_2\\le s\\zeta_j\\eta(s\\zeta_j)$ (Lemma~\\ref{lem:onegroup}(ii)); the difference is\n $s\\zeta_1\\Tr(A_2^*k_{y_1}^*B_1R_2)+s\\zeta_2\\Tr(A_2^*R_1^*B_1k_{y_2})+\\Tr(A_2^*R_1^*B_1R_2)$ (bilinearity), and each term is\n bounded by $\\abs{\\Tr XY}\\le\\norm X_2\\norm Y_2$, $\\norm{A_2},\\norm{B_1}\\le1$ and $\\norm{k_{y_j}}_2=\\norm k_2$ ($W_{d_{y_j}}$ unitary):\n $s^2\\zeta_1\\zeta_2\\norm k_2\\eta(s\\zeta_2)$, $s^2\\zeta_1\\zeta_2\\norm k_2\\eta(s\\zeta_1)$ and $s^2\\zeta_1\\zeta_2\\eta(s\\zeta_1)\\eta(s\\zeta_2)$}",
+  "finding": "C5 item 2",
+  "reason": "Writes the corrected step in full, with the omitted product term."
+ },
+ {
+  "file": "rigor/network_corner_calculus.tex",
+  "old": "\\lby{Lemma~\\ref{lem:same-schwarz} and $\\langle1\\rangle4$}\n\\lqed{1}{6}",
+  "new": "\\lby{Lemma~\\ref{lem:same-schwarz} and $\\langle1\\rangle4$; $\\langle1\\rangle4$ is an identity of states on the CAR $C^*$-algebra of $J_N$, and it\n extends to $\\Fr(J_N)$ because both recovered states $\\omega\\circ\\beta_{\\PP_1}$, $\\omega\\circ\\beta_{\\PP_2}$ are normal on $\\Fr(J_N)$ (part (1):\n $\\beta_\\PP$ is normal, $\\omega$ is normal) and agree on its ultraweakly dense $*$-subalgebra generated by the CAR generators, on which\n $\\beta_\\PP=\\beta_{V_\\Phi}$ (part (1))}\n\\lqed{1}{6}",
+  "finding": "C5 item 5",
+  "reason": "The passage from the C*-level equality to the von Neumann algebra F(J_N) needs normality of both states, which was used but not stated."
+ }
+]

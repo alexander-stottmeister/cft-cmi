@@ -1,0 +1,9 @@
+g_B                                      quad =    0.067547455761558514296 closed =    0.067547455761558514296 |diff| =      0.0 ok: True
+g_KM                                     quad =     0.16666666666666666667 closed =     0.16666666666666666667 |diff| =      0.0 ok: True
+h2                                       quad =    0.011705082128780479401 closed =    0.011705082128780479401 |diff| =      0.0 ok: True
+int tanh(pi k)/(k(k^2+1)) dk             quad =                        2.0 closed =                        2.0 |diff| =      0.0 ok: True
+f2 = g_B/8                               quad =    0.008443431970194814287 closed =    0.008443431970194814287 |diff| =      0.0 ok: True
+h2 / f2                                  quad =      1.3862943611198906188 closed =      1.3862943611198906188 |diff| =  2.3e-41 ok: True
+8 f2 (both chiralities, c = cbar = 1)    quad =    0.067547455761558514296 closed =    0.067547455761558514296 |diff| =      0.0 ok: True
+f2 to 8 digits: 0.008443432 (paper: 0.00844343)
+4/0.616 = 6.494 ; 4/0.71 = 5.634 (paper: "at least 5.6")

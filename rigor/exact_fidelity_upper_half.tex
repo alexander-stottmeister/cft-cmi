@@ -29,9 +29,9 @@ isometric channel} (Theorem~\ref{thm:reduction}), which is the missing upper hal
 exact-fidelity question; with the one-parameter-group remainder estimate this upgrades to a
 statement about the exact fidelity (Theorem~\ref{thm:UH}), and hence $\Erec\le(1-\theta_{\rm fr})f_2z^2(1+o(1))$
 (Theorem~\ref{thm:main}), where $\theta_{\rm fr}$ is the isometric-orbit gain over finite-rank
-rotations $\Gs$ with $v_\Gs\ne0$, and $\theta_{\rm fr}>0$ iff $E_DuE_D\ne0$.  With the numerical
-$\theta_{\rm fr}\ge0.38$ (Phase~5, F3: $\theta=0.384\pm0.003$) this says that the zero-collar
-compression is \emph{not} optimal in exact fidelity.
+rotations $\Gs$ with $v_\Gs\ne0$, and $\theta_{\rm fr}>0$ iff $E_DuE_D\ne0$.  With the numerical inputs
+$E_DuE_D\ne0$ (S10, not proved) and $\theta_{\rm fr}\approx0.384\pm0.003$ (Phase~5, F3: an extrapolated estimate; every computed finite-mesh value is below $0.38$ and none is a proved bound) this says, \emph{numerically}, that the zero-collar
+compression is not optimal in exact fidelity.
 \end{abstract}
 \tableofcontents
 \section{Setting, and the exact Uhlmann bound for an arbitrary extension}\label{sec:setting}
@@ -824,7 +824,7 @@ and $\theta_{\rm fr}>0$ if and only if $R_a:=\tfrac12(E_DuE_D-(E_DuE_D)^*)\ne0$,
 $\theta_{\rm fr}\le\theta:=\sup\{\cos^2\angle(u,v_\Gs):\Gs\ \text{bounded}\}$ by definition, so
 the numerical statement $\theta=0.384\pm0.003$ (Phase~5, F3,
 \texttt{numerics/optimality\_all/F3\_RESULTS.md}) does \emph{not} by itself give
-$\Erec\le0.616f_2z^2$: what is needed is $\theta_{\rm fr}\ge0.38$.  Three observations supply it.
+$\Erec\le0.616f_2z^2$: what is needed is $\theta_{\rm fr}\ge0.38$.  Three observations supply it as numerical input, not as a bound (see (iii)).
 \begin{enumerate}[label=(\roman*),leftmargin=2.2em,itemsep=1pt]
 \item $\theta_{\rm fr}=\theta_{\rm HS}:=\sup\{\cos^2\angle(u,v_\Gs):\Gs\in\Stwo\}$.  Indeed both
  $\Re\ip u{v_\Gs}=\Re\ip u{\Pperp\Gs P}$ and $\norm{v_\Gs}_2^2$ depend on $\Gs$ only through
@@ -844,12 +844,12 @@ $\Erec\le0.616f_2z^2$: what is needed is $\theta_{\rm fr}\ge0.38$.  Three observ
  parameter-free modular Wiener--Hopf frame (\texttt{rigor/exact\_optimum\_tangent\_problem.tex}
  Prop.~6.2), which agree to $3\cdot10^{-4}$ after extrapolation and give
  $\theta=0.384\pm0.003$ (measured convergence order $h^{0.77}$); S10 \S7's $0.300\pm0.005$ is a
- taper-suppressed \emph{lower} bound, the ultraviolet smoothstep taper on the spectral
- derivative removing modes that carry $\approx20\%$ of $\theta$.  Since F3's extrapolations are
- themselves taken over finite meshes, $\theta_{\rm fr}\ge0.38$ is exactly as well supported
- numerically as $\theta=0.384\pm0.003$, and \eqref{eq:main} gives
- $\Erec\le0.616f_2z^2(1+o(1))$, i.e.\ $\kappa_{\rm opt}\le0.616\pm0.003$: \emph{the zero-collar
- compression is not optimal in exact fidelity}.  Whether non-isometric channels lower
+ taper-suppressed value (below the taper-free frames; not a proved bound), the ultraviolet smoothstep taper on the spectral
+ derivative removing modes that carry $\approx20\%$ of $\theta$.  Every computed taper-free finite-mesh value is below $0.38$ (largest $0.3789$, circle mesh at $L=2048$; $0.3764$ in the T0 frame at
+ $h=0.015$ after the $y_{\max}$ correction), and no proved direction relates the finite-mesh values to $\theta_{\rm fr}$; $0.384\pm0.003$ is an extrapolation in $h$
+ with the fitted order $h^{0.77}$, the only one of the fits $h$, $\log(1/h)$, $h^p$ admissible at tolerance $10^{-4}$ (\texttt{numerics/optimality\_all/theta\_three\_fits.out}; the tolerance was fixed after the data were known, and at $10^{-3}$ the linear fit is admissible too for three families and gives $0.3781$--$0.3810$).  As numerical input, not as a bound, $\theta_{\rm fr}\approx0.384\pm0.003$, and \eqref{eq:main} gives
+ $\Erec\le0.616f_2z^2(1+o(1))$, i.e.\ $\kappa_{\rm opt}\le0.616\pm0.003$ (numerical): \emph{numerically, the zero-collar
+ compression is not optimal in exact fidelity}; $\theta_{\rm fr}>0$ itself rests on the numerical $E_DuE_D\ne0$ (S10 \S7).  Whether non-isometric channels lower
  $\kappa_{\rm opt}$ further is the subject of Phase~5 and is not settled here.
 \end{enumerate}
 \end{remark}
@@ -950,11 +950,11 @@ theorems above point by point.
 \item \textbf{$\theta_{\rm fr}>0$ is still numerical.}  Nothing here proves
  $E_DuE_D\ne0$; that remains S10 \S7 and S12 \S5.1--5.2, reconciled in Phase~5 (F3) to
  $\theta=0.384\pm0.003$ from two independent discretisations (modular Galerkin and modular
- Wiener--Hopf), S10's $0.300\pm0.005$ being a taper-suppressed lower bound and E2's
+ Wiener--Hopf), S10's $0.300\pm0.005$ being a taper-suppressed value (not a proved bound) and E2's
  $\mathrm{UB}_{\rm rot}/\mathrm{UB}_c=0.708\ldots0.711$ at $L=128\ldots384$ reconfirming the
  same tapered circle-model value.  The inequality \eqref{eq:main} with
  $\theta_{\rm fr}$, and the equivalence $\theta_{\rm fr}>0\iff E_DuE_D\ne0$, are proved; the
- \emph{numerical} statements are $\theta_{\rm fr}\ge0.38$ (Remark~\ref{rem:thetafr}) and hence
+ \emph{numerical} statements (extrapolated estimates, not bounds) are $\theta_{\rm fr}\approx0.384\pm0.003$ (Remark~\ref{rem:thetafr}) and hence
  $\kappa_{\rm opt}\le0.616\pm0.003$.
 \item \textbf{The rotation class.}  Theorem~\ref{thm:UH} assumes $\Pperp\Gs P\in\Stwo$, which is
  \emph{not} automatic for bounded $\Gs=E_D\Gs E_D$ (for $\Gs=i\one_D$, $\Pperp\Gs P$ is not
@@ -1063,8 +1063,8 @@ After R1--R10 the load-bearing chain is: Theorem~\ref{thm:Q} ($\overline\Ext=\Nv
 proved, no compactness, no duality, no numerics) $\Rightarrow$ Theorem~\ref{thm:reduction} and
 Corollary~\ref{cor:extindep} $\Rightarrow$ Theorem~\ref{thm:UH} and \eqref{eq:UH}
 $\Rightarrow$ \eqref{eq:main}, $\Erec\le(1-\theta_{\rm fr})f_2z^2(1+o(1))$ with
-$\theta_{\rm fr}>0\iff E_DuE_D\ne0$.  The only numerical inputs are the \emph{value}
-$\theta_{\rm fr}\ge0.38$ ($\theta=0.384\pm0.003$, F3) and, through $f_2$, the constant $g_B=2/(3\pi^2)$ of
+$\theta_{\rm fr}>0\iff E_DuE_D\ne0$.  The only numerical inputs are $E_DuE_D\ne0$ (S10) and the \emph{value}
+$\theta_{\rm fr}\approx0.384\pm0.003$ (F3; an extrapolated estimate, not a bound) and, through $f_2$, the constant $g_B=2/(3\pi^2)$ of
 \texttt{quadratic\_limit.tex} Thm.~4.2 (which is proved, not numerical).  No statement of the
 document is now known to be false.
 \end{verdictok}
@@ -1082,7 +1082,7 @@ carrying $\approx20\%$ of $\theta$, there is no taper-free lattice limit (the pe
 second Fermi point), and $\theta_{\rm circ}$ rises linearly in $\log L$, so the $1/L$ Richardson
 extrapolation used the wrong variable.  Running the modular-Galerkin functional on the circle
 model's own mesh reproduces the Galerkin values.  Accordingly the numerical riders above now read
-$\theta_{\rm fr}\ge0.38$ and $\kappa_{\rm opt}\le0.616\pm0.003$ in place of
+$\theta_{\rm fr}\approx0.384\pm0.003$ (extrapolated, not a bound) and $\kappa_{\rm opt}\le0.616\pm0.003$ (numerical) in place of
 $\theta_{\rm fr}\ge0.30$ and $\kappa_{\rm opt}\le0.71$; whether non-isometric channels lower
 $\kappa_{\rm opt}$ further is the subject of Phase~5.  Nothing proved in this document changes:
 all statements are inequalities in $\theta_{\rm fr}$, and only the numerical input moved.  S10
@@ -1157,8 +1157,8 @@ $PU\Pperp$ are PA's $P_-UP_+$ and $P_+UP_-$.
  (Prop.~\ref{prop:uhl} $\langle1\rangle3$, l.~149--152; Lemma~\ref{lem:group} $\langle1\rangle1$,
  l.~666--667).  No proof text was changed for this item; in a fourth round, pointers to it were
  added within l.~112 (Prop.~\ref{prop:uhl}) and l.~662 (Lemma~\ref{lem:group} $\langle1\rangle1$),
- at the request of the referee of these corrections.  The item is not recorded on a
- knowledge-base card; it was found while checking the uses of $\mathcal E(W_I)$ for
+ at the request of the referee of these corrections.  The item was not recorded on a
+ knowledge-base card when this correction was written (it is now: card uhlmann-upper-half-proved, Statement, `Correction C3'); it was found while checking the uses of $\mathcal E(W_I)$ for
  Correction~\ref{corr0924:C2}.
  \emph{What the document says:} the two off-diagonal blocks of a unitary have the same singular
  values (the cosine--sine decomposition), so that $A=P\Wt\Pperp$ and $V=\Pperp\Wt P$ have the same

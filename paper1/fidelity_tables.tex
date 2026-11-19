@@ -1,5 +1,5 @@
 \begin{table}[ht]\centering\small
-\caption{Convergence of \(\Phi(1/15)\) (\(\eps=10^{-8}\), \(\kappa_c=18.4\)). Raw values are rigorous lower bounds; corrected values add \(\zeta^2/(15\kappa_c^2)=8.73\times10^{-7}\).}\label{tab:convergence}
+\caption{Convergence of \(\Phi(1/15)\) (\(\eps=10^{-8}\), \(\kappa_c=18.4\)). Raw values are lower bounds up to the uncertified \(\widehat D\) quadrature; corrected values add \(\zeta^2/(15\kappa_c^2)=8.73\times10^{-7}\).}\label{tab:convergence}
 \begin{tabular}{rrrr r r}\toprule
 \(\Lambda\) & \(\kappa_{\max}\) & \(N\) & \(n_{\mathrm{sub}}\) & \(10^5\,\Phi_{\mathrm{sub}}\) & \(10^5\,(\Phi_{\mathrm{sub}}+\text{tail})\) \\\midrule
 60 & 30 & 91 & 61 & 3.43196 & 3.51928 \\
@@ -13,7 +13,7 @@
 240 & 60 & 729 & 231 & 3.42999 & 3.51731 \\
 \bottomrule\end{tabular}\end{table}
 \begin{table}[ht]\centering\small
-\caption{Second-order coefficients from the first-order kernel (corrected basis) in the spectral window \(\eps<w<1-\eps\) of the box compression, \(\kappa_c=\log(1/\eps)\). \(f_2^{\rm sub}\) and \(s_2^{\rm sub}\) are rigorous lower bounds; the tail \(\zeta^2/(15\kappa_c^2)\) is added to \(f_2\). Last row: \(f_2\) from the stable tail-corrected values at \(\kappa_c\ge25\); \(s_2\) from two-point \(1/\kappa_c\) extrapolations (\(0.0841\) from \(\kappa_c=18.4,25.3\); \(0.0833\) from \(25.3,32.2\)). Windows below \(10^{-14}\) are at the double-precision floor and omitted.}\label{tab:second-order}
+\caption{Second-order coefficients from the first-order kernel (corrected basis) in the spectral window \(\eps<w<1-\eps\) of the box compression, \(\kappa_c=\log(1/\eps)\). \(f_2^{\rm sub}\) and \(s_2^{\rm sub}\) are lower bounds up to the uncertified \(\widehat D\) quadrature; the tail \(\zeta^2/(15\kappa_c^2)\) is added to \(f_2\). Last row: \(f_2\) from the stable tail-corrected values at \(\kappa_c\ge25\); \(s_2\) from two-point \(1/\kappa_c\) extrapolations (\(0.0841\) from \(\kappa_c=18.4,25.3\); \(0.0834\) from \(25.3,32.2\); rows \(\Lambda=120\), \(\kappa_{\max}=45\)). Windows below \(10^{-14}\) are at the double-precision floor and omitted.}\label{tab:second-order}
 \begin{tabular}{r r r r r r r}\toprule
 \(\eps\) & \(\kappa_c\) & \(\Lambda\) & \(\kappa_{\max}\) & \(f_2^{\rm sub}\) & \(f_2^{\rm sub}+\)tail & \(s_2^{\rm sub}\) \\\midrule
 \(10^{-8}\) & 18.4 & 120 & 45 & 0.0082392 & 0.0084356 & 0.067167 \\

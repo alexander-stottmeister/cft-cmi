@@ -1,0 +1,6 @@
+validation: spectrum of Q on 40 sites lies in [0,1]: min -5.994e-16 max 1.000000
+(LA,LB,LC)=(4,8,2) residual 3.6e-17 ||T|| 0.5524 margins 1-T*T 0.6949 Qcc-T*QbbT 0.1216 1-T*(1-Qbb)T-Qcc 0.1216 Tcond HOLDS
+(LA,LB,LC)=(4,12,2) residual 2.2e-17 ||T|| 0.3779 margins 1-T*T 0.8572 Qcc-T*QbbT 0.1510 1-T*(1-Qbb)T-Qcc 0.1510 Tcond HOLDS
+(LA,LB,LC)=(4,16,2) residual 3.5e-17 ||T|| 0.2894 margins 1-T*T 0.9162 Qcc-T*QbbT 0.1630 1-T*(1-Qbb)T-Qcc 0.1630 Tcond HOLDS
+(LA,LB,LC)=(6,12,3) residual 9.1e-16 ||T|| 0.8016 margins 1-T*T 0.3575 Qcc-T*QbbT -0.1330 1-T*(1-Qbb)T-Qcc -0.1330 Tcond FAILS
+(LA,LB,LC)=(8,16,4) residual 7.6e-16 ||T|| 1.2850 margins 1-T*T -0.6514 Qcc-T*QbbT -0.4641 1-T*(1-Qbb)T-Qcc -0.4641 Tcond FAILS

@@ -1,0 +1,93 @@
+[
+ {
+  "file": "rigor/uhlmann_upper_bound.tex",
+  "old": "\\lby{A.~L.~Foit, ``Abstract twisted duality for quantum free Fermi fields'', Publ.\\ RIMS \\textbf{19}\n (1983) 729--741, Theorem~1; for the chiral fermion on the line it is also part of the standard\n Bisognano--Wichmann package used in Longo--Xu (\\texttt{arXiv:1712.07283}) (\\emph{screenshot NOT OBTAINED};\n the statement is used only through $\\cM'\\subseteq Z\\cF(I')Z^*$, i.e.\\ the \\emph{duality} half)}",
+  "new": "\\lby{Baumg\\\"artel--Jurke--Lled\\'o, ``Twisted duality of the CAR-algebra'' (\\texttt{refs/BJL\\_twisted\\_duality\\_math-ph-0204029.pdf}),\n Theorem~7.1 (PDF p.~27): $\\mathcal M(\\mathfrak q)'=\\widetilde Z\\mathcal M(\\mathfrak q^\\perp)\\widetilde Z^*$ for every\n basis projection and every closed $\\Gamma$-invariant $\\mathfrak q$, applied with the hypotheses checked in the box\n below; the inclusion $\\cM'\\subseteq Z\\cF(I')Z^*$ (the \\emph{duality} half) is what is used.  (Replaces the earlier\n citation of Foit 1983, whose screenshot was NOT OBTAINED.)}\n\\begin{citedbox}{BJL 2002, Theorem 7.1 (twisted duality)}\n(i) Verbatim: ``Let $(\\mathfrak h,\\Gamma)$ be a Hilbert space with anti-unitary involution $\\Gamma$, $P$ \\emph{any}\nbasis projection and $\\mathfrak q$ \\emph{any} closed $\\Gamma$-invariant subspace in $\\mathfrak h$'' (p.~26, start of\n\\S7); ``7.1 Theorem (Twisted Duality) \\dots\\ Then $\\mathcal M(\\mathfrak q)'=\\widetilde Z\\,\\mathcal M(\\mathfrak q^\\perp)\\,\n\\widetilde Z^*$'' (p.~27).  Definitions: basis projection $P+\\Gamma P\\Gamma=\\one$, Fock state $\\omega_P(a(f)^*a(f))=0$\nfor $Pf=f$ (p.~4, eq.~(2)); $\\mathcal M(\\mathfrak q):=\\{a(q)\\mid q\\in\\mathfrak q\\}''$ (p.~7, eq.~(7));\n$\\widetilde Z:=\\frac1{1+i}(\\one+iZ)$, $Z$ the implementer of the even--odd automorphism (p.~5 before eq.~(4); p.~8,\neq.~(8)); the complex case: $\\mathfrak h:=H\\oplus H$, $\\Gamma:=\\begin{pmatrix}0&\\gamma\\\\\\gamma&0\\end{pmatrix}$,\ndiagonal basis projection $\\mathrm{diag}(\\mathcal P,\\gamma\\mathcal P^\\perp\\gamma)$ (p.~25).\n\\shot[0.8\\textwidth]{r1_BJL_sec7_setup.png}\\shot[0.8\\textwidth]{r1_BJL_thm71.png}\n\\shot[0.8\\textwidth]{r1_BJL_basisproj.png}\\shot[0.8\\textwidth]{r1_BJL_Mq.png}\n\\shot[0.8\\textwidth]{r1_BJL_twist.png}\\shot[0.8\\textwidth]{r1_BJL_complex.png}\n(iv) Use and (v) hypotheses, one by one.  $H=L^2(\\mathbb R)$, $\\gamma$ complex conjugation, $\\mathfrak h=H\\oplus H$,\n$\\Gamma(f\\oplus g)=\\gamma g\\oplus\\gamma f$: an anti-unitary involution.  Self-dual field\n$a(f\\oplus g):=a(f)+a^*(\\gamma g)$ with (C2)'s $a$: antilinear, $a(F)^*=a(\\Gamma F)$, and\n$\\{a(F),a(G)^*\\}=\\ip FG$ (from the CAR of (C2) and $\\ip{\\gamma g'}{\\gamma g}=\\ip g{g'}$): BJL Thm.~2.1 (i)--(iii).\n$\\mathfrak P:=\\mathrm{diag}(\\Pm,\\gamma\\Pp\\gamma)$ (BJL's $\\mathcal P=\\Pm$): $\\Gamma\\mathfrak P\\Gamma=\n\\mathrm{diag}(\\Pp,\\gamma\\Pm\\gamma)$, so $\\mathfrak P+\\Gamma\\mathfrak P\\Gamma=\\one$.  For $\\mathfrak PF=F$,\n$F=f\\oplus g$: $\\omega(a^*(f)a(f))=\\ip f{\\Pp f}=0$ and $\\omega(a(\\gamma g)a^*(\\gamma g))=\\ip{\\gamma g}{\\Pm\\gamma g}=0$\nby \\eqref{eq:qf} ($\\gamma g\\in\\Pp H$), the cross terms vanish (gauge invariance of the quasi-free $\\omega$), so\n$\\omega=\\omega_{\\mathfrak P}$ on the field algebra, and the Fock representation of (C2) with its cyclic $\\Om$ is the GNS\nrepresentation of $\\omega_{\\mathfrak P}$, unitarily equivalent to BJL's with $\\Om\\mapsto\\Om$.\n$\\mathfrak q:=L^2(I)\\oplus L^2(I)$ is closed and $\\Gamma$-invariant, $\\mathcal M(\\mathfrak q)=\\CAR(L^2(I))''=\\cM$, and\n$\\mathfrak q^\\perp=L^2(I')\\oplus L^2(I')$ because $\\mathbb R\\setminus I=[1,\\infty)$ differs from $I'$ by a null set,\nso $\\mathcal M(\\mathfrak q^\\perp)=\\cF(I')$.  Twist: $Z$ and $V$ both implement the grading; BJL's $Z$ is the second\nquantisation of the Bogoliubov unitary $-1$ (\\emph{paraphrase} of p.~5; its source [4] is NOT OBTAINED), which fixes\n$\\Om$, as $V$ does, so $Z=V$ on the dense set $\\CAR(H)\\Om$.  The sign is in any case immaterial: replacing $Z$ by\n$-Z$ replaces $\\widetilde Z$ by $-i\\widetilde Z^*$, and $\\widetilde Z^*\\cN\\widetilde Z=\\widetilde Z(Z\\cN Z)\\widetilde Z^*\n=\\widetilde Z\\cN\\widetilde Z^*$ for $\\cN=\\cF(I')$ ($\\widetilde Z^2=Z$, $Z\\cN Z=\\cN$).  Verdict: hypotheses met.\n\\end{citedbox}",
+  "finding": "C1 F3",
+  "reason": "Load-bearing twisted duality was cited with screenshot NOT OBTAINED; BJL Thm 7.1 is in refs/ and its hypotheses hold for the chiral fermion Fock state."
+ },
+ {
+  "file": "rigor/rate_of_remainder.tex",
+  "old": "PA Prop.~2.4 and the identity $\\Tr(G^2)=2\\norm{\\Pm W\\Pp}_2^2$ recorded in",
+  "new": "PA Prop.~2.4 and the identity $\\Tr(G^2)=2\\norm{\\Pm W\\Pp}_2^2$ (valid for $W=\\Wt_s$, every real $s$, by index zero: \\texttt{index\\_zero.tex}, under review, Lemma~6.1 and Theorem~4.2) recorded in",
+  "finding": "C1 F1",
+  "reason": "Tr(G^2)=2||V||_2^2 needs index zero; supplied for every s."
+ },
+ {
+  "file": "rigor/rate_of_remainder.tex",
+  "old": "have the same singular values (the ``sines'')",
+  "new": "have the same singular values (the ``sines''; this needs $\\operatorname{ind}(\\Pp\\Wt_s\\Pp|_{\\Pp H})=0$, which holds for every real $s$: \\texttt{index\\_zero.tex}, under review, Lemma~6.1)",
+  "finding": "C1 F1",
+  "reason": "The CS claim is false for unitaries of nonzero index; the hypothesis is named and supplied."
+ },
+ {
+  "file": "rigor/rate_of_remainder.tex",
+  "old": "hypothesis, so no smallness assumption beyond $2f_2^\\chi\\zeta^2<1$ is used}",
+  "new": "hypothesis; PA Thm.~4.1 also needs $\\norm{\\Pp\\Wt_\\zeta\\Pm}<1$, which follows from $\\norm{\\Pp\\Wt_\\zeta\\Pm}=\\norm{V_\\zeta}$ (index zero for every $\\zeta$: \\texttt{index\\_zero.tex}, under review, Lemma~6.1 and Theorem~4.2); so no smallness assumption beyond $2f_2^\\chi\\zeta^2<1$ is used}",
+  "finding": "C1 F1",
+  "reason": "Second hypothesis of PA Thm 4.1 was unchecked."
+ },
+ {
+  "file": "rigor/rate_of_remainder.tex",
+  "old": "\\lby{$\\Tr(G_s^2)=\\Tr\\Pp+\\Tr(U^*\\Pp U)-2\\Tr(\\Pp U^*\\Pp U)$ and\n $\\Tr(\\Pp U^*\\Pp U)=\\Tr(\\Pp U^*U)-\\Tr(\\Pp U^*\\Pm U)=\\Tr\\Pp-\\norm{\\Pm U\\Pp}_2^2$, all the divergent\n traces cancelling in pairs (rigorously: apply the identity to $\\Pi_nG_s\\Pi_n$ for an increasing\n sequence of finite-rank projections $\\Pi_n\\uparrow\\one$ and pass to the limit, both sides being monotone)}",
+  "new": "\\lby{$U_sG_s=U_s\\Pp-\\Pp U_s=\\Pm U_s\\Pp-\\Pp U_s\\Pm$ (insert $\\one=\\Pp+\\Pm$), two operators in\n $\\Stwo$-orthogonal positions, so $\\norm{G_s}_2^2=\\norm{\\Pm U_s\\Pp}_2^2+\\norm{\\Pp U_s\\Pm}_2^2$ with no traces of\n non-trace-class operators (\\texttt{index\\_zero.tex}, under review, Lemma~4.1); the two terms are equal because $U_s$ has index zero\n for every real $s$ (\\texttt{index\\_zero.tex}, under review, Theorems~4.2 and~5.1, Lemma~5.2; not for an arbitrary unitary, Correction~\\ref{corr0924:C3})}",
+  "finding": "C1 F8, F1",
+  "reason": "The divergent-trace argument is not a proof, and equality needs index zero."
+ },
+ {
+  "file": "rigor/rate_of_remainder.tex",
+  "old": "evenness: for \\emph{any} unitary $U$, $\\Pm U\\Pp$ and $\\Pp U\\Pm$ have the same",
+  "new": "evenness: for $U=U_s$ (index zero for every real $s$: \\texttt{index\\_zero.tex}, under review, Theorem~5.1 and Lemma~5.2; false for an arbitrary unitary, Correction~\\ref{corr0924:C3}), $\\Pm U\\Pp$ and $\\Pp U\\Pm$ have the same",
+  "finding": "C1 F1",
+  "reason": "'for any unitary' is false; the group property gives index zero."
+ },
+ {
+  "file": "rigor/rate_of_remainder.tex",
+  "old": "for $\\zeta<(2f_2)^{-1/2}$, with no hypothesis.",
+  "new": "for $\\zeta<(2f_2)^{-1/2}$, with no hypothesis (for $(4f_2)^{-1/2}\\le\\zeta<(2f_2)^{-1/2}$ this rests on index zero of $e^{sK}$, \\texttt{index\\_zero.tex}, under review, Lemma~6.2).",
+  "finding": "C1 F2",
+  "reason": "'with no hypothesis' overstates what the document proves on the upper range."
+ },
+ {
+  "file": "rigor/rate_of_remainder.tex",
+  "old": "\\lby{Lemma~\\ref{lem:groupbound} applied to $U_s=e^{sK}$",
+  "new": "\\lby{Lemma~\\ref{lem:groupbound} applied to $U_s=e^{sK}$ (index zero for every $s$: \\texttt{index\\_zero.tex}, under review, Lemma~6.2)",
+  "finding": "C1 F1",
+  "reason": "prop:rrr <1>3 uses lem:groupbound and PA Thm 4.1 beyond ||G_s||_2<1."
+ },
+ {
+  "file": "rigor/rate_of_remainder.tex",
+  "old": "\\emph{unconditional}: the $\\zeta\\ge6\\cdot10^{-17}$",
+  "new": "\\emph{unconditional} (on $\\zeta\\ge(4f_2)^{-1/2}$ subject to \\texttt{index\\_zero.tex}, under review): the $\\zeta\\ge6\\cdot10^{-17}$",
+  "finding": "C1 F2",
+  "reason": "'now unconditional' overstates the upper range."
+ },
+ {
+  "file": "rigor/rate_of_remainder.tex",
+  "old": "The rest needs a standard Fredholm-index continuity argument that no\n document contains, and is open:",
+  "new": "The rest is settled for every $s$ by \\texttt{rigor/index\\_zero.tex} (added 2026-11-19, under review:\n $\\Tr(G_s^3)=\\operatorname{ind}X_s$ is integer valued and $\\norm\\cdot_2$-continuous in $s$, Theorems~3.1, 5.1,\n Lemmas~6.1--6.3); until that review passes it is open:",
+  "finding": "C1 F4",
+  "reason": "Points to the written argument; F4's 'continuity is not needed' concerns C1's other route."
+ },
+ {
+  "file": "rigor/rate_of_remainder.tex",
+  "old": "This one-line argument is not yet written in any document.",
+  "new": "This one-line argument is not yet written in any document; index zero of $\\Wt_s$ for every real $s$ is proved by a different argument in \\texttt{rigor/index\\_zero.tex}, Lemma~6.1 (added 2026-11-19, under review).",
+  "finding": "C1 F1",
+  "reason": "Records the written proof."
+ },
+ {
+  "file": "rigor/rate_of_remainder.tex",
+  "old": "\\lqed{1}{3}\\lby{PA Prop.~4.5 with $\\epsilon(s)\\le\\Lambda_2s$; squaring",
+  "new": "\\lqed{1}{3}\\lby{PA Prop.~4.5 with $\\epsilon(s)\\le\\Lambda_2s$ (PA Thm.~4.1 also needs $\\norm{\\Pp U_\\zeta\\Pm}<1$, which equals $\\norm{V^{\\mathrm{tot}}_\\zeta}$ by index zero of the product family, \\texttt{index\\_zero.tex}, under review, Lemma~6.3(a) and Theorem~4.2); squaring",
+  "finding": "C1 F1",
+  "reason": "cor:quartic <1>3 applies PA Thm 4.1 with only ||V||<1 checked (RR Correction C3)."
+ },
+ {
+  "file": "rigor/quadratic_limit.tex",
+  "old": "\\section{Summary, verdicts, and the residual list}\\label{sec:summary}",
+  "new": "\\section{Summary, verdicts, and the residual list}\\label{sec:summary}\n\n\\emph{Status (2026-11-19).} Theorem~\\ref{thm:summary} and the verdict box after it record the state of this\ndocument only: the sharp upper bound and the existence of $\\lim_{\\zeta\\to0}\\Phi/\\zeta^2=g_B/8$, called open below,\nare proved in \\texttt{rigor/uhlmann\\_upper\\_bound.tex} (see the status update at the end of this document).",
+  "finding": "C1 F7",
+  "reason": "A reader stopping at thm:summary gets an outdated picture."
+ }
+]

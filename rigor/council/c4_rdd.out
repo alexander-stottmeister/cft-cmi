@@ -1,0 +1,9 @@
+columns: h, N, spec(Q) range, g_Q(ddot)/f2, (1/2)||u||^2/g_Q, rho=||E_D u E_D||^2/||u||^2, ||R+R*||/||R||
+h=0.24 N=84 q in [4.59e-03,4.59e-03 from 1] g/f2=0.91733 half_u2/g=1.0000000000 rho=0.01404 herm=2.3e-14
+h=0.12 N=166 q in [1.49e-03,1.49e-03 from 1] g/f2=0.95989 half_u2/g=1.0000000000 rho=0.01462 herm=3.4e-14
+h=0.06 N=334 q in [4.69e-04,4.69e-04 from 1] g/f2=0.98164 half_u2/g=1.0000000000 rho=0.01474 herm=5.3e-14
+h=0.03 N=666 q in [1.45e-04,1.45e-04 from 1] g/f2=0.99193 half_u2/g=1.0000000000 rho=0.01473 herm=8.0e-14
+window scan at h = 0.06 (Y, Ymax):
+Y=6.0 Ymax=10.0 g/f2=0.97644 rho=0.01474 herm=4.8e-14
+Y=10.0 Ymax=16.0 g/f2=0.98174 rho=0.01474 herm=5.9e-14
+Y=10.0 Ymax=20.0 g/f2=0.98174 rho=0.01474 herm=6.3e-14

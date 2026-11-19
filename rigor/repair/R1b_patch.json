@@ -1,0 +1,51 @@
+[
+ {
+  "file": "rigor/rate_of_remainder.tex",
+  "old": "(valid for $W=\\Wt_s$, every real $s$, by index zero: \\texttt{index\\_zero.tex}, under review, Lemma~6.1 and Theorem~4.2)",
+  "new": "(valid for $W=\\Wt_s$, every real $s$, for $\\chi$ satisfying (W) of \\texttt{index\\_zero.tex} Lemma~6.1 (PA's field; for a general admissible $\\chi$ as asserted in Lemma~\\ref{lem:autocorr}), by index zero: \\texttt{index\\_zero.tex}, under review, Lemma~6.1 and Theorem~4.2)",
+  "finding": "REF-RP-4 item 10",
+  "reason": "Lemma 6.1 is conditional on (W)."
+ },
+ {
+  "file": "rigor/rate_of_remainder.tex",
+  "old": "which holds for every real $s$: \\texttt{index\\_zero.tex}, under review, Lemma~6.1)",
+  "new": "which holds for every real $s$ for $\\chi$ satisfying (W) of \\texttt{index\\_zero.tex} Lemma~6.1 (PA's field; for a general admissible $\\chi$ as asserted in Lemma~\\ref{lem:autocorr}): \\texttt{index\\_zero.tex}, under review, Lemma~6.1)",
+  "finding": "REF-RP-4 item 10",
+  "reason": "Lemma 6.1 is conditional on (W)."
+ },
+ {
+  "file": "rigor/rate_of_remainder.tex",
+  "old": "(index zero for every $\\zeta$: \\texttt{index\\_zero.tex}, under review, Lemma~6.1 and Theorem~4.2)",
+  "new": "(index zero for every $\\zeta$, for $\\chi$ satisfying (W) of \\texttt{index\\_zero.tex} Lemma~6.1 (PA's field; for a general admissible $\\chi$ as asserted in Lemma~\\ref{lem:autocorr}): \\texttt{index\\_zero.tex}, under review, Lemma~6.1 and Theorem~4.2)",
+  "finding": "REF-RP-4 item 10",
+  "reason": "Lemma 6.1 is conditional on (W)."
+ },
+ {
+  "file": "rigor/rate_of_remainder.tex",
+  "old": "index zero of $\\Wt_s$ for every real $s$ is proved by a different argument in \\texttt{rigor/index\\_zero.tex}, Lemma~6.1",
+  "new": "index zero of $\\Wt_s$ for every real $s$ is proved, for $\\chi$ satisfying (W) of that lemma (PA's field; for a general admissible $\\chi$ as asserted in Lemma~\\ref{lem:autocorr}), by a different argument in \\texttt{rigor/index\\_zero.tex}, Lemma~6.1",
+  "finding": "REF-RP-4 item 10",
+  "reason": "'is proved' only for chi satisfying (W)."
+ },
+ {
+  "file": "rigor/uhlmann_upper_bound.tex",
+  "old": "\\item \\emph{Twisted duality} $\\cF(I)'=Z\\cF(I')Z^*$ for the free fermion (Foit, Publ.\\ RIMS\n \\textbf{19} (1983) 729, Thm~1).  Used only in Lemma~\\ref{lem:wick} $\\langle1\\rangle1$.\n \\textbf{Screenshot NOT OBTAINED}.",
+  "new": "\\item \\emph{Twisted duality} $\\cF(I)'=Z\\cF(I')Z^*$ for the free fermion: Baumg\\\"artel--Jurke--Lled\\'o,\n \\texttt{refs/BJL\\_twisted\\_duality\\_math-ph-0204029.pdf}, Theorem~7.1 (PDF p.~27), with the hypotheses checked in the\n cited box of Lemma~\\ref{lem:wick} $\\langle2\\rangle1$ (2026-11-19; replaces Foit, Publ.\\ RIMS \\textbf{19} (1983) 729,\n Thm~1, whose screenshot was not obtained).  Used only in Lemma~\\ref{lem:wick} $\\langle1\\rangle1$.",
+  "finding": "REF-RP-4 item 10",
+  "reason": "Stale Foit entry contradicted the new citation."
+ },
+ {
+  "file": "rigor/uhlmann_upper_bound.tex",
+  "old": "BJL's $Z$ is the second\nquantisation of the Bogoliubov unitary $-1$ (\\emph{paraphrase} of p.~5; its source [4] is NOT OBTAINED), which fixes\n$\\Om$, as $V$ does,",
+  "new": "BJL's $Z$ fixes $\\Om$:\nby BJL p.~8, after eq.~(8), $\\widetilde Z(p_1\\wedge\\dots\\wedge p_n)=\\eta(n)\\,p_1\\wedge\\dots\\wedge p_n$ with $\\eta(n)=1$\nfor even $n$, so $\\widetilde Z\\Om=\\Om$ ($n=0$), equivalently $\\Om\\in E^+$ by eq.~(9), $\\widetilde Z=E^+-iE^-$; hence\n$Z\\Om=\\Om$ ($Z=E^+-E^-$, eq.~(4)), as $V\\Om=\\Om$,",
+  "finding": "REF-RP-4 item 10",
+  "reason": "Direct locator replaces the paraphrase."
+ },
+ {
+  "file": "rigor/uhlmann_upper_bound.tex",
+  "old": "\\shot[0.8\\textwidth]{r1_BJL_twist.png}",
+  "new": "\\shot[0.8\\textwidth]{r1_BJL_twist89.png}",
+  "finding": "REF-RP-4 item 10",
+  "reason": "Excerpt now includes eqs. (8)-(9)."
+ }
+]

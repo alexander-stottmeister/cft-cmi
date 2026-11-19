@@ -67,16 +67,16 @@ combined with the Legendre form of the SLD (Bures) information; the upper bound
 is a single Uhlmann trial vector, built from a Bogoliubov extension of the
 compression $\overline\beta_s$ to a diffeomorphism of the line, whose vacuum
 overlap is a Fredholm determinant.  The two halves meet exactly.  The
-corresponding relative-entropy coefficient is
-$D(\omega\Vert\widetilde\omega_s)=\frac{c_{\rm cft}}{12}\zeta^2+o(\zeta^2)$; the
-Kubo--Mori half is proved here at the level of the quantum Fisher information and
-confirmed numerically, see \cref{rem:s2-status}.
+corresponding relative-entropy coefficient is conjecturally $c_{\rm cft}/12$:
+the Kubo--Mori quadratic form of the curve gives $\frac12g_{\rm KM}=c_{\rm cft}/12$ (proved, \cref{prop:gBvalue}), and
+$D(\omega\Vert\widetilde\omega_s)/\zeta^2$ follows it numerically to $0.5\%$; the expansion
+$D(\omega\Vert\widetilde\omega_s)=\frac{c_{\rm cft}}{12}\zeta^2+o(\zeta^2)$ itself is not proved, see \cref{rem:s2-status}.
 
 Third (\cref{sec:2d}), because $\zeta$ is the only variable, the entire rotated
 family collapses onto the one function $\Phi$: the rotated Petz map with modular
 parameter $t$ has $\zeta_t=z(1+e^{-2\pi t})$, so the ordinary Petz map sits at
 $\zeta_0=2z$ and, for a single chirality, is no better than any rotation with $t>0$ and, at small $z$, worse than the limit $t\to\infty$ by a
-factor $4$ in $-\log\Fid$ at leading order.  In a two-dimensional CFT the Bisognano--Wichmann
+factor $4$ in $-\log\Fid$ at leading order.  For the massless Dirac fermion (and conjecturally in every two-dimensional CFT, \cref{rem:twobranch-general}) the Bisognano--Wichmann
 boost dilates the two light-ray coordinates oppositely, so the two chiralities
 see opposite rotations and the recovery error is a \emph{sum of two branches},
 \begin{equation}\label{eq:twobranch-intro}
@@ -98,7 +98,7 @@ $\norm{Q_I-\widetilde Q_s}_1$ & $\frac r{2\pi}\log(1+\zeta)$ & theorem (\cref{th
 $\lim_{\zeta\to0}\Phi(\zeta)/\zeta^2$ & $c_{\rm cft}/(12\pi^2)=0.00844343\,r$ & theorem (\cref{thm:main})\\
 $\lim_{\zeta\to0}\cD(\zeta)/\zeta^2$ & $c_{\rm cft}/12$ & quadratic form proved; identification numerical (\cref{rem:s2-status})\\
 $\Phi(\zeta)$, $\zeta\lesssim0.5$ & \cref{tab:scan} & numerics, heuristic tail correction\\
-$\Phi(\zeta)$, $\zeta\gtrsim1$ & brackets, \cref{rem:largezeta} & lower bounds plus extrapolation only\\
+$\Phi(\zeta)$, $\zeta\gtrsim1$ & \cref{tab:largezeta} & lower bounds (up to the uncertified $\widehat D$ quadrature) plus uncertified extrapolation, $0.45$--$6.6\%$\\
 \bottomrule\end{tabular}\end{table}
 
 \paragraph{Relation to earlier work.}
@@ -111,7 +111,7 @@ $-\log F^{(0)}\propto\eta_{\rm V}^{2}$ with a $\lambda$-dependent apparent
 exponent; \eqref{eq:twobranch-intro} together with \eqref{eq:main-intro} explains
 both the exponent $2$ at $\lambda=0$ and its apparent decrease with $\lambda$, and
 fixes the coefficient, $-\log F^{(0)}=\frac{c+\bar c}{3\pi^2}\eta_{\rm V}^2
-+O(\eta_{\rm V}^3)$.
++o(\eta_{\rm V}^2)$ (proved for the massless Dirac fermion, $c=\bar c=1$).
 
 \paragraph{Plan.}
 \Cref{sec:setting} fixes the net, the geometry and the Longo--Xu conditional

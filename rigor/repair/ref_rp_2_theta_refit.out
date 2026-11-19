@@ -1,0 +1,15 @@
+/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/rigor/repair/ref_rp_2_theta_refit.py:27: RuntimeWarning: overflow encountered in power
+  def hp(h, t, a, p): return t + a * h ** p
+# validation h^p synthetic: t=0.400000000000 p=0.770000000 PASS
+# finite-mesh theta values parsed from f3*.out: n=198; largest three:
+#    (0.67399, 'f3_circ_taper2.out', 'L=768', 'L=768 a=2.0 Lg=1.0 taper=smooth(0.46, 0.499) cap=1e+10 al=3.')
+#    (0.72688, 'f3_circ_taper.out', 'L=256', 'L=256 a=2.0 Lg=1.0 taper=smooth(0.42, 0.49) cap=1e+10 alpha=')
+#    (0.72688, 'f3_circ_taper2.out', 'L=256', 'L=256 a=2.0 Lg=1.0 taper=smooth(0.42, 0.49) cap=1e+10 al=3.0')
+# family A: rungs used [(0.06, 0.35934), (0.04, 0.36588), (0.03, 0.36945), (0.02, 0.37334), (0.015, 0.37544)]
+  A h    t_inf= 0.38046 extra=[-0.3565] max|res|3=3.33e-04 adm(1e-4)=False adm(1e-3)=True
+  A log  t_inf=    none extra=[0.0115] max|res|3=1.03e-03 adm(1e-4)=False adm(1e-3)=False
+  A h^p  t_inf= 0.38417 extra=[-0.2075, 0.7546] max|res|3=9.23e-06 adm(1e-4)=True adm(1e-3)=True
+# family D: rungs used [(0.0078125, 0.34058), (0.00390625, 0.3583), (0.00195312, 0.36904), (0.00097656, 0.37534), (0.00048828, 0.37893)]
+  D h    t_inf= 0.38011 extra=[-5.1768] max|res|3=1.35e-03 adm(1e-4)=False adm(1e-3)=False
+  D log  t_inf=    none extra=[0.0135] max|res|3=4.60e-03 adm(1e-4)=False adm(1e-3)=False
+  D h^p  t_inf= 0.38445 extra=[-1.6898, 0.7524] max|res|3=7.36e-05 adm(1e-4)=True adm(1e-3)=True

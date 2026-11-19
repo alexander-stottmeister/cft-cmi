@@ -1,0 +1,14 @@
+[
+ {
+  "id": "two-branch-law-lattice",
+  "key": "statement",
+  "old": "at lambda = 1 and 1.5 ([6]) the ratio is 0.836-0.940 and 0.61-0.80 for eta_V <= 0.05,",
+  "new": "for eta_V <= 0.05 ([6]) the ratio at lambda = 1 is 0.836-0.940, 0.941-0.961, 0.964-0.970 at L = 4, 6, 8, and at lambda = 1.5 it is 0.613-0.799 over all three L (0.613-0.799, 0.682-0.790, 0.745-0.793),"
+ },
+ {
+  "id": "paper1-status",
+  "key": "next",
+  "old": "Apply the 13 proposed wording edits of rigor/referee_paper1.md; replace",
+  "new": "(The 13 wording edits of rigor/referee_paper1.md are applied since 2026-11-19.) Replace"
+ }
+]

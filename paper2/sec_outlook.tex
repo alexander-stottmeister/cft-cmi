@@ -1,6 +1,6 @@
 % sec_outlook.tex -- Sources: rigor/phase2b_brief.md (tracks RR, RC), open_problems_plan.tex (O8-O11).
-\paragraph{Optimality of the Petz map.}  \Cref{thm:B} computes the error of \emph{the} zero-collar Petz
-recovery.  It does not say that no recovery channel does better.  A natural first conjecture was that the
+\paragraph{Optimality of the geometric compression.}  \Cref{thm:B} computes the error of the zero-collar
+compression $k_{s}$, the limit $t\to\infty$ ($\zeta_{\infty}=z$) of the rotated Petz family of \Cref{app:conv}, not the ordinary Petz map $t=0$ ($\zeta_{0}=2z$); its identification with that limit is proved for the free fermion only \cite{Paper1}.  It does not say that no recovery channel does better.  A natural first conjecture was that the
 coefficient $c/(12\pi^{2})$ is optimal among all channels $\cA(AB)\to\cA(ABC)$ preserving $\omega|_{\cA(AB)}$,
 and that the rotated Petz family of \cite{FHSW} attains it at rotation parameter $t=0$.  The second half is false: for one chirality the geometric compression beats the ordinary Petz map by a factor $4$ at leading order; and the first is contradicted numerically, since a Bogoliubov rotation inside $B$ lowers the compression's second-order error \cite{Paper1}.  Note~7 already
 computes the rotated family in the present normalisation: with $\zeta_{t}=z(1+e^{-2\pi t})$, the chiral
@@ -10,11 +10,9 @@ minimum at $\lambda=0$, observed numerically on the lattice by Vardhan--Wei--Zou
 optimality statement would need a lower bound over all recovery channels, presumably from the strengthened
 data-processing inequality of \cite{FHSW}.
 
-\paragraph{The rate of the remainder.}  Everything above is a statement about the leading coefficient.  The
-free-fermion data suggest the sharper law $\Phi(\zeta)=f_{2}\zeta^{2}(1+c_{3}\zeta+O(\zeta^{2}))$ with
-$c_{3}=-0.99(1)$ per component --- linear, not logarithmic, in $\zeta$.  Making the Uhlmann step
-quantitative (a Lipschitz estimate for $\sigma\mapsto W_{\sigma}^{*}G^{(1)}W_{\sigma}$ in Hilbert--Schmidt
-norm) should give the upper bound $\Phi\le f_{2}\zeta^{2}(1+C\zeta)$; the matching lower bound is harder,
+\paragraph{The rate of the remainder.}  Everything above is a statement about the leading coefficient.  For the
+free fermion the companion note (\texttt{rigor/rate\_of\_remainder.tex}, Prop.~6.2, in the range that its Correction~C3 settles) proves the upper bound $\Phi(\zeta)\le-\tfrac12\log(1-2f_{2}\zeta^{2})=f_{2}\zeta^{2}(1+O(\zeta^{2}))$ for $0\le\zeta<\pi\sqrt3$, per component, hence $\limsup_{\zeta\to0}(\Phi-f_{2}\zeta^{2})/\zeta^{3}\le0$.  Numerical data, not reproducible from the published scripts, suggest the sharper law $\Phi(\zeta)=f_{2}\zeta^{2}(1+c_{3}\zeta+O(\zeta^{2}))$ with
+$c_{3}$ about $-1$ per component (an unreproduced estimate) --- linear, not logarithmic, in $\zeta$; neither the existence of this expansion nor the value of $c_{3}$ is proved.  The matching lower bound is harder,
 because the Alberti route passes through a cutoff whose cubic constant we do not control.  This is the
 subject of a companion note.
 
@@ -34,10 +32,11 @@ operator, and the difference between sectors is a finite-index perturbation whic
 second-order local quantity.  A clean statement would use Longo's index-entropy relation \cite{LX}.
 
 \paragraph{Networks of intervals.}  For $n$ adjacent intervals there are $n-2$ independent cross ratios and
-a corresponding family of compressions.  \Cref{thm:impl} already covers piecewise-M\"obius maps with several
-touching points for Fock representations with integer $c$ (via \cite{DIT}), and the $\|\cdot\|_{3/2}$
-estimate of \Cref{thm:reg}(c) is insensitive to the number of kinks, so the implementation half generalises
-directly.  What changes is the variational problem: the tangent field now has several jumps of its second
+a corresponding family of compressions.  For Fock representations with integer $c$ piecewise-M\"obius maps
+with several touching points would be implemented by the extension reported from \cite{DIT} in
+\Cref{sec:impl} (a source we have not obtained), and the $\|\cdot\|_{3/2}$ estimate of \Cref{thm:reg}(c) is
+insensitive to the number of kinks, so we expect the implementation half to generalise; this is not proved
+here.  What changes is the variational problem: the tangent field now has several jumps of its second
 derivative, and the quadratic form $\|(1-J)(1+\Delta)^{-1/2}\cdot\|^{2}$ becomes a genuine multi-variable
 Hessian.  Its off-diagonal entries would be the CFT analogue of a multipartite recovery defect.
 

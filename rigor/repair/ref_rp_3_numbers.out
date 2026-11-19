@@ -1,0 +1,30 @@
+== validation: two-point 1/k extrapolation of an exact law X = 1 - 2/k must return 1
+    1.0
+== (a) fidelity_tables s2: two-point 1/kappa_c extrapolations, kappa_c = log(1/eps)
+s2 from kappa 25.3,32.2 rows Lam=120,kmax=45            computed 0.08337233  quoted 0.0834  |diff| 2.77e-05  tol 5.0e-05  OK
+    (4 digits: 0.08337; patch reason says 0.08337)
+s2 from kappa 18.4,25.3 rows Lam=120,kmax=45            computed 0.08409967  quoted 0.0841  |diff| 3.33e-07  tol 5.0e-05  OK
+    Lam=240 rows 25.3,32.2: 0.08325 ; Lam=120,kmax=90: 0.08339
+== (b) large-zeta lower bounds: largest kappa_c Phi_sub per zeta, box 120/45, results_largezeta_certified.txt
+Phi_sub(zeta=1.0667) at kappa_c=39.14                   computed 0.004381243  quoted 0.004381  |diff| 2.42e-07  tol 5.0e-07  OK
+Phi_sub(zeta=2.1333) at kappa_c=39.14                   computed 0.01067246  quoted 0.010672  |diff| 4.64e-07  tol 5.0e-07  OK
+Phi_sub(zeta=4.2667) at kappa_c=39.14                   computed 0.02187202  quoted 0.021872  |diff| 2.00e-08  tol 5.0e-07  OK
+Phi_sub(zeta=8.5333) at kappa_c=43.75                   computed 0.03825878  quoted 0.038259  |diff| 2.24e-07  tol 5.0e-07  OK
+Phi_sub(zeta=17.0667) at kappa_c=39.14                  computed 0.05739516  quoted 0.057395  |diff| 1.59e-07  tol 5.0e-07  OK
+== (c) Petz/best-channel factor
+    4/0.62 = 6.4516 ; 4/0.616 = 6.4935 ; 4/(0.616+0.003) = 6.4620 ; 4/(0.616-0.003) = 6.5253
+    4/(1-0.0143) = 4.0580 (only proved lower bound on theta_fr, per the card)
+== (d) boson: tail fits X = Xinf - b k^-p over kappa_c >= 2.3, own code, rows from boson_recovery.out
+    N=60 sig=1.6   f2: free p=2.84 -> 0.0084258 | p=1 -> 0.0085637 | p=2 -> 0.0084571
+    N=60 sig=1.6   s2: free p=1.39 -> 0.0809764 | p=1 -> 0.0841930 | p=2 -> 0.0784725
+    N=120 sig=1.6  f2: free p=2.29 -> 0.0084377 | p=1 -> 0.0085546 | p=2 -> 0.0084510
+    N=120 sig=1.6  s2: free p=1.14 -> 0.0823759 | p=1 -> 0.0837700 | p=2 -> 0.0781831
+    N=120 sig=2.26 f2: free p=2.33 -> 0.0084375 | p=1 -> 0.0085552 | p=2 -> 0.0084520
+    N=120 sig=2.26 s2: free p=1.18 -> 0.0821067 | p=1 -> 0.0838458 | p=2 -> 0.0782600
+    s2 fit#0: range [0.080976, 0.082376] quoted (0.081, 0.0824)
+    s2 fit#2: range [0.083770, 0.084193] quoted (0.0838, 0.0842)
+    s2 fit#3: range [0.078183, 0.078472] quoted (0.0782, 0.0785)
+    f2 fit#None: range [0.008426, 0.008457] quoted (0.008426, 0.008457)
+== (e) abstract 0.3-1%: (error of correction) x (correction / Phi), kappa_c = 18.4, Phi(A) from tab:scan
+    zeta=0.06667: correction/Phi = 0.0248, x 0.12 = 0.30 %
+    zeta=0.00833: correction/Phi = 0.0235, x 0.56 = 1.31 %

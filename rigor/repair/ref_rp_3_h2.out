@@ -1,0 +1,9 @@
+/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/rigor/repair/ref_rp_3_h2.py:32: IntegrationWarning: The occurrence of roundoff error is detected, which prevents 
+  the requested tolerance from being achieved.  The error may be 
+  underestimated.
+  + quad(lambda v: f(u, v), u + 120, np.inf, epsabs=0, epsrel=1e-12, limit=200)[0]
+validation g_B/8 = 0.008443431970196678  exact 1/(12 pi^2) = 0.00844343197019481  rel.dev 2.21e-13
+h2 (2D quadrature)        = 0.01170508212878632
+r log2/(6 pi^2), r = 1    = 0.0117050821287805  rel.dev 4.99e-13 OK
+(1/6) int tanh(u/4)/(u(u^2+4pi^2)) du = 0.0117050821287805  rel.dev 0.0
+h2 / f2 = 1.3862943611205822  2 log 2 = 1.38629436112

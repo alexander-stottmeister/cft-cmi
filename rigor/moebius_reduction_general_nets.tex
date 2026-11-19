@@ -1,0 +1,483 @@
+% Repair round 2026-11-19, seat R2: Moebius reduction of the zero-collar configuration to the half-line chart,
+% for every conformal net in the class of rigor/implementation_C11.tex (council item C6 B6, C2 F2).
+\documentclass[11pt]{article}
+\input{rigor_preamble}
+\newcommand{\Om}{\Omega}
+\newcommand{\one}{\mathbf 1}
+\newcommand{\Hil}{\mathcal H}
+\newcommand{\Hfin}{\Hil^{\mathrm{fin}}}
+\newcommand{\ip}[2]{\langle#1,#2\rangle}
+\newcommand{\norm}[1]{\lVert#1\rVert}
+\newcommand{\Ad}{\operatorname{Ad}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\gtot}{g_{\mathrm{tot}}}
+\newcommand{\kt}{\widetilde k}
+\newcommand{\Diff}{\mathrm{Diff}_+}
+\newcommand{\PSL}{\mathrm{PSL}(2,\mathbb R)}
+\newcommand{\gB}{g_B}
+\title{M\"obius reduction of the zero-collar compression to the half-line chart\\[2pt]
+\large for every conformal net in the class of \texttt{implementation\_C11.tex}}
+\author{Track agent R2 (repair round of 2026-11-19)}
+\date{2026-11-19}
+\begin{document}\maketitle
+\begin{abstract}\noindent
+For a conformal net on $S^1$ (CDIT axioms, Haag duality) and the implementers $U_s=e^{is\overline{T(g_{\rm tot})}}$ of the zero-collar compression of three adjacent intervals $(-a,0)$, $(0,\frac L{1+s})$, $(\frac L{1+s},L)$, we prove that the M\"obius unitary $U(g)$, $g(x)=(a+L)x/(L(x+a))$, carries the recovered state onto the half-line normal-form state at $\zeta=as/(a+L)$, for $s\ge0$ and every admissible extension, and for both signs for one extension.  With Theorem~B this gives $-\log F=\frac c{12\pi^2}\zeta^2+o(\zeta^2)$ for every configuration.  The new ingredient is M\"obius covariance of $\overline{T(f)}$ for the $C^{1,1}$ field, obtained from the smooth case by an $H^2$ approximation.
+\end{abstract}
+\tableofcontents
+
+\section{Statement, scope and status}\label{sec:status}
+\textbf{Claim.}  Theorem~\ref{thm:main}: for every conformal net and every configuration of three adjacent intervals
+$A=(-a,0)$, $B=(0,\frac L{1+s})$, $C=(\frac L{1+s},L)$, the state recovered by the zero-collar compression implemented by
+$U_s=e^{is\overline{T(\gtot)}}$ (C11) is unitarily equivalent, through the vacuum-preserving Möbius unitary $U(g)$, to
+the half-line normal-form state of UB at parameter $\zeta=as/(a+L)$; hence the fidelity is a function of $\zeta$ only,
+and Theorem~B gives $-\log\Fid=\frac c{12\pi^2}\zeta^2+o(\zeta^2)$ for every configuration.  Scope: $s\ge0$ for every
+extension $\gtot\in\mathcal E(a,L)$; both signs for one explicit extension.
+
+\textbf{Inputs.}  Möbius covariance and vacuum invariance of the net; the Möbius case of the stress-tensor covariance
+for smooth fields (CDIT Prop.~2.1); the Carpi--Weiner package and C11's (H1); Theorem~B for part (c).  The step from
+smooth to $C^{1,1}$ fields is Proposition~\ref{prop:cov}, an $H^2$ approximation at fixed Möbius map
+(\S\ref{sec:h2}).  No covariance under a non-smooth diffeomorphism is used (brief: ``direction 5 \dots\ open'').
+
+\textbf{Status.}  Author verdict: proved, under review (card \texttt{moebius-reduction-general-nets}).  The points a
+referee must check are listed in \S\ref{sec:open}.
+
+\section{Conventions and standing hypotheses}\label{sec:conv}
+Throughout, $(\cA,U,\Om)$ is a \emph{conformal net} on $S^1$ in the sense of CDIT \S4, axioms (1)--(10)
+(\S\ref{sec:cited}, box C1): a Möbius covariant net with a strongly continuous unitary representation $U$ of $\PSL$,
+positive energy, a unique (up to phase) $U(\PSL)$-invariant vector $\Om$, and $U$ extended to a projective unitary
+representation of $\Diff(S^1)$ with $U(\gamma)\cA(K)U(\gamma)^*=\cA(\gamma K)$.  We also use Haag duality (HD) as
+\texttt{rigor/implementation\_C11.tex} (below: C11) does in its Theorem~``(H1) for every conformal net''
+$\langle2\rangle4$; it is a standing fact of \texttt{rigor/universality\_theorem\_B.tex} (below: UB), (S2).
+No other property of the net is used.
+
+\paragraph{Charts.}  Points of $S^1$ are written in the line chart $x\in\mathbb R\cup\{\infty\}$ (Cayley transform,
+$x=\tan(\theta/2)$, as in C11 eq.~(field-transf)).  A Möbius map is $x\mapsto(\alpha x+\beta)/(\gamma x+\delta)$
+with $\alpha\delta-\beta\gamma>0$.  A vector field is $f(x)\partial_x$; its circle representative is
+$F(\theta)=2f(x)/(1+x^2)$ (C11, (C1)).  The \emph{push-forward} of a field $f$ by a diffeomorphism $\varphi$ is
+\begin{equation}\label{eq:push}
+ (\varphi_*f)(\varphi(x)):=\varphi'(x)\,f(x),
+\end{equation}
+which is CDIT eq.~(2.1) (box C2) written in the line chart; it satisfies
+$\varphi\circ\mathrm{Exp}(tf)\circ\varphi^{-1}=\mathrm{Exp}(t\,\varphi_*f)$ (Lemma~\ref{lem:geom}(4)).
+
+\paragraph{The configuration.}  Fix $a>0$, $L>0$ and put, as in C11 (C6),
+\begin{equation}\label{eq:conf}
+ A=(-a,0),\quad D=(0,L),\quad I=(-a,L),\quad m(x):=-x^2/L,\quad h_s:=\mathrm{Exp}(sm),\ h_s(x)=\frac{Lx}{L+sx}.
+\end{equation}
+$\mathcal E(a,L)$ is C11's class (Definition ``the extension class and the field''): real fields $\gtot$ with
+(E1) $\gtot=0$ on $(-a,0]$, (E2) $\gtot=m$ on $[0,L]$, (E3) $\gtot$ is $C^\infty$ on $S^1\setminus\{0\}$, continuous,
+with $\gtot'$ continuous on $S^1$.  For $\gtot\in\mathcal E(a,L)$, $\kt_s:=\mathrm{Exp}(s\gtot)$ and
+\begin{equation}\label{eq:Us}
+ U_s:=e^{is\overline{T(\gtot)}},\qquad \omega_s^{\gtot}:=\omega\circ\Ad U_s\big|_{\cA(I)},\qquad s\in\mathbb R,
+\end{equation}
+(C11 Definition ``$U_s$''; $\omega=\ip\Om{\cdot\,\Om}$).  These are the implementers of C11 Theorem ``main''.
+The three adjacent intervals are $A$, $B:=(0,\frac L{1+s})=h_s(D)$ and $C:=(\frac L{1+s},L)$, $s>0$.
+
+\paragraph{The half-line chart (UB (S3)).}  $\widehat A=(-\infty,0)$, $\widehat D=(0,1)$,
+$\widehat I=(-\infty,1)$, $\widehat m(y):=-y^2$, $\widehat h_\sigma(y)=y/(1+\sigma y)$.  $\mathcal E_\infty$ is the set of
+real fields $\widehat g$ with $\widehat g=0$ on $(-\infty,0]$, $\widehat g=\widehat m$ on $[0,1]$ and (E3); then
+$\mathcal E_\infty\subseteq\mathcal E(a',1)$ for every $a'>0$, and UB's field $-\chi$ (UB eq.~(chi)) lies in
+$\mathcal E_\infty$.  For $\widehat g\in\mathcal E_\infty$: $\widehat U_\sigma:=e^{i\sigma\overline{T(\widehat g)}}$ and
+$\widehat\omega_\sigma^{\widehat g}:=\omega\circ\Ad\widehat U_\sigma|_{\cA(\widehat I)}$.
+
+\paragraph{Cross ratio.}  With $\kappa:=a/(a+L)$, the parameter is
+\begin{equation}\label{eq:zeta}
+ \zeta:=\kappa s=\frac{as}{a+L}=z=\frac1\eta-1,
+\end{equation}
+where $z=\ell_A\ell_C/(\ell_B(\ell_A+\ell_B+\ell_C))$ and $\eta$ are the cross ratios of card
+\texttt{cross-ratio-conventions} for the lengths $\ell_A=a$, $\ell_B=\frac L{1+s}$, $\ell_C=\frac{Ls}{1+s}$
+(Lemma~\ref{lem:geom}(5)).  No other convention is introduced.
+
+\section{Cited results}\label{sec:cited}
+Sources read from the PDFs in \texttt{refs/} (\texttt{pdftotext}); excerpts in \texttt{rigor/shots/}.
+The new excerpt \texttt{R2\_CDIT\_axioms15.png} was cut with \texttt{pdftoppm} (page 22, 170 dpi), because
+\texttt{rigor/snap.py} needs \texttt{pymupdf}, which is not installed in this session.
+
+\begin{citedbox}{C1. CDIT (arXiv:1808.02384), \S4, axioms (1)--(5) and (10), p.~22}
+\emph{Verbatim} (axioms (3), (5)): ``(3) Möbius covariance: for $g\in\PSL$, $I\in\mathcal I$,
+$U(g)\cA(I)U(g)^{-1}=\cA(gI)$ \dots\ (5) Vacuum vector: $\Om$ is the unique vector (up to a scalar) with the property
+$U(g)\Om=\Om$ for $g\in\PSL$.''  (10): $U$ extends to a projective unitary representation of $\Diff(S^1)$ with
+$U(\gamma)\cA(I)U(\gamma)^*=\cA(\gamma I)$.\\[2pt]
+\shot[\linewidth]{R2_CDIT_axioms15.png}\\[2pt]
+\shot[\linewidth]{QB_CDIT_netaxioms.png}\\[2pt]
+\emph{Use.} Lemma~\ref{lem:ext}, Theorem~\ref{thm:main}: $V:=U(g)$ for the Möbius map $g$ of
+Lemma~\ref{lem:geom} maps $\cA(K)$ onto $\cA(gK)$, and $V\Om=\Om$.  \emph{Verdict:} hypotheses are the definition of
+the class; $U|_{\PSL}$ is a true representation (strongly continuous unitary representation of $\PSL$).
+\end{citedbox}
+
+\begin{citedbox}{C2. CDIT, \S2.1, eq.~(2.1) and Proposition~2.1, pp.~4--5}
+\emph{Verbatim} (2.1): ``$(\gamma_*f)(e^{i\theta})=-ie^{-i\theta}\frac{d}{d\varphi}\gamma(e^{i\varphi})
+\big|_{e^{i\varphi}=\gamma^{-1}(e^{i\theta})}f(\gamma^{-1}(e^{i\theta}))$''.  Prop.~2.1: ``The stress-energy tensor $T$
+on $\mathcal H(c,h)$ transforms according to $U(\gamma)T(f)U(\gamma)^*=T(\mathring\gamma_*(f))+\frac c{24\pi}
+\int_0^{2\pi}\{\mathring\gamma,z\}|_{z=e^{i\theta}}f(e^{i\theta})e^{i2\theta}d\theta$ on vectors in
+$\mathcal H^{\mathrm{fin}}(c,h)$, for $f\in\mathrm{Vect}(S^1)$ and $\gamma\in\widetilde{\Diff}(S^1)$'', with
+$\{\mathring\gamma,z\}=\frac{\mathring\gamma'''}{\mathring\gamma'}-\frac32\bigl(\frac{\mathring\gamma''}{\mathring\gamma'}\bigr)^2$
+the Schwarzian derivative.\\[2pt]
+\shot[\linewidth]{QB_CDIT_prop21.png}\\[2pt]
+\emph{Use.} Proposition~\ref{prop:cov} $\langle2\rangle2$, for smooth $f$ (trigonometric polynomials) and
+Möbius $\gamma$ only, on one irreducible summand $\mathcal H(c,h_j)$ at a time.  We read ``on vectors in
+$\mathcal H^{\mathrm{fin}}$'' as: for $\psi\in\mathcal H^{\mathrm{fin}}(c,h)$, $U(\gamma)^*\psi\in D(\overline{T(f)})$
+and $U(\gamma)\overline{T(f)}U(\gamma)^*\psi=T(\mathring\gamma_*f)\psi+(\text{c-number})\psi$ (paraphrase of the domain
+statement, which the excerpt leaves implicit).  \emph{Verdict:} applicable; for Möbius $\mathring\gamma$ the Schwarzian
+vanishes (Lemma~\ref{lem:geom}(6)).  No non-smooth $f$ and no non-Möbius $\gamma$ enter.
+\end{citedbox}
+
+\begin{citedbox}{C3. CDIT, Proposition~2.2 (= CW05 Prop.~4.2, Thm.~4.4, Prop.~4.5) and Proposition~2.3, pp.~5--6}
+\emph{Verbatim.} ``If $f:S^1\to\mathbb C$ is continuous and such that $\sum_n|\hat f_n|(1+|n|^{3/2})<\infty$ then
+(1) the operator $T(f)=\sum_nL_n\hat f_n$ on the domain $\mathcal H^{\mathrm{fin}}(c,h)$ is well defined, (i.e.\ the sum
+is strongly convergent on the domain) \dots\ (3) \dots\ if $f$ is a real-valued function, then $T(f)$ is
+essentially self-adjoint on $\mathcal H^{\mathrm{fin}}(c,h)$.  (4) For every $\xi\in D(L_0)$ we have
+$\norm{T(f)\xi}\le r\norm f_{3/2}\norm{(1+L_0)\xi}$, where $r$ is a function of the central charge $c$ only.''
+Prop.~2.3: ``If a real-valued function $f$ on the circle is piecewise smooth and once continuously differentiable on
+the whole $S^1$, then $f\in\mathcal S_{3/2}(S^1)$.''\\[2pt]
+\shot[\linewidth]{QB_CDIT_prop22a.png}\\[2pt]
+\shot[\linewidth]{QB_CDIT_prop22b.png}\\[2pt]
+\shot[\linewidth]{QB_CDIT_prop23.png}\\[2pt]
+\emph{Use.} Lemma~\ref{lem:Th2} (with $f=e_n$, complex, continuous) and Proposition~\ref{prop:cov}.  On the vacuum
+Hilbert space of the net the statements hold by C11 Lemma ``the Carpi--Weiner package holds in the vacuum
+representation of any conformal net'' (direct sum over irreducible summands, CDIT Prop.~3.14, p.~21, same $c$ and
+the same $r$ on every summand).  \emph{Verdict:} applicable.
+\end{citedbox}
+
+\begin{citedbox}{C4. Alberti--Uhlmann (arXiv:math-ph/0202038), Theorem~2(3), p.~6}
+\emph{Verbatim.} ``if $\{\pi,\mathcal K\}$ is any unital $*$-representation of $M$ over some Hilbert space
+$\mathcal K$ such that $\mathcal S_{\pi,M}(\nu)\ne\emptyset$ and $\mathcal S_{\pi,M}(\varrho)\ne\emptyset$ \dots\
+(3) $\sqrt{P_M(\nu,\varrho)}=\sup_{\psi\in\mathcal S_{\pi,M}(\varrho)}|\langle\psi,\varphi\rangle|$,
+$\forall\varphi\in\mathcal S_{\pi,M}(\nu)$'', $\mathcal S_{\pi,M}(\nu)$ the vectors $\varphi$ with
+$\langle\varphi,\pi(\cdot)\varphi\rangle=\nu$.\\[2pt]
+\shot[\linewidth]{PA_AU02_thm2.png}\\[2pt]
+\emph{Use.} Theorem~\ref{thm:main} $\langle1\rangle6$: invariance of the root fidelity $\Fid=\sqrt{P}$ under a $*$-isomorphism.
+\emph{Verdict:} applicable (normal states of von Neumann algebras, identity representation).
+\end{citedbox}
+
+\paragraph{Internal results used (all on cards).}  C11 Theorem ``regularity of the first-order field'' (c), (e)
+($\norm{\gtot}_{3/2}<\infty$; $\gtot\in H^\sigma$, $\sigma<5/2$), Lemma ``the Carpi--Weiner package \dots'',
+Theorem ``(H1) for every conformal net'' (iii) and step $\langle1\rangle2$ (card \texttt{implementer-hypotheses},
+refereed); UB Theorem~B (card \texttt{thm-b-universality}, refereed).  C11 Lemma ``the phase \dots\ is scalar''
+(whose perfectness citation is flagged by council C2 F6) is \emph{not} used here.
+
+\section{The geometry: one M\"obius map}\label{sec:geom}
+\begin{lemma}[the Möbius map]\label{lem:geom}
+Let $g(x):=\dfrac{(a+L)\,x}{L\,(x+a)}$ and $\kappa=a/(a+L)$.  Then:
+(1) $g\in\PSL$, $g(-a)=\infty$, $g(0)=0$, $g(L)=1$; (2) $g(A)=\widehat A$, $g(D)=\widehat D$, $g(I)=\widehat I$;
+(3) $g_*m=\kappa\,\widehat m$; (4) for every diffeomorphism $\varphi$ of $S^1$ of class $C^1$ and every Lipschitz field
+$f$, $\varphi\circ\mathrm{Exp}(tf)\circ\varphi^{-1}=\mathrm{Exp}(t\,\varphi_*f)$, $t\in\mathbb R$;
+(5) $g\circ h_s\circ g^{-1}=\widehat h_{\kappa s}$ and $\kappa s=\zeta=z$ of \eqref{eq:zeta};
+(6) the Schwarzian derivative of every Möbius map of $S^1$ vanishes;
+(7) $\gtot\in\mathcal E(a,L)\Rightarrow\kappa^{-1}g_*\gtot\in\mathcal E_\infty$, and
+$\widehat g\in\mathcal E_\infty\Rightarrow\kappa\,(g^{-1})_*\widehat g\in\mathcal E(a,L)$.
+\end{lemma}
+\lstep{1}{1}{(1).}\lby{$g(x)=(\alpha x+\beta)/(\gamma x+\delta)$ with $\alpha=a+L$, $\beta=0$, $\gamma=L$,
+ $\delta=La$, and $\alpha\delta-\beta\gamma=La(a+L)>0$; the three values by substitution}
+\lstep{1}{2}{$g'(x)=\dfrac{a(a+L)}{L(x+a)^2}>0$ for $x\ne-a$.}\lby{quotient rule:
+ $g'=(\alpha\delta-\beta\gamma)/(\gamma x+\delta)^2=La(a+L)/(L^2(x+a)^2)$}
+\lstep{1}{3}{(2).}\lby{by $\langle1\rangle2$ $g$ is increasing on $(-a,\infty)$, so it maps $(-a,0)$, $(0,L)$, $(-a,L)$
+ onto the open intervals between the images $\infty$ ($=-\infty$ from the right of $-a$), $0$, $1$ of $\langle1\rangle1$}
+\lstep{1}{4}{$g^{-1}(y)=\dfrac{aLy}{a+L-Ly}$ and $g^{-1}(y)+a=\dfrac{a(a+L)}{a+L-Ly}$.}
+\lby{solve $yL(x+a)=(a+L)x$ for $x$: $x(a+L-Ly)=aLy$; then add $a$ over the common denominator}
+\lstep{1}{5}{(3).}
+\lproof
+\lstep{2}{1}{$g'(g^{-1}y)=\dfrac{(a+L-Ly)^2}{aL(a+L)}$.}\lby{$\langle1\rangle2$ with $x+a$ from $\langle1\rangle4$}
+\lstep{2}{2}{$m(g^{-1}y)=-\dfrac{a^2L\,y^2}{(a+L-Ly)^2}$.}\lby{$m(x)=-x^2/L$ with $x$ from $\langle1\rangle4$}
+\lqed{2}{3}\lby{\eqref{eq:push}: $(g_*m)(y)=g'(g^{-1}y)\,m(g^{-1}y)=-\frac{a}{a+L}y^2=\kappa\,\widehat m(y)$, the
+ product of $\langle2\rangle1$ and $\langle2\rangle2$}
+\lstep{1}{6}{(4).}\lby{put $\Phi_t:=\mathrm{Exp}(tf)$ and $y(t):=\varphi(\Phi_t(\varphi^{-1}y_0))$.  The chain rule gives
+ $\dot y(t)=\varphi'(\Phi_t\varphi^{-1}y_0)\,f(\Phi_t\varphi^{-1}y_0)=(\varphi_*f)(y(t))$ by \eqref{eq:push}, with
+ $y(0)=y_0$; $\varphi_*f$ is Lipschitz ($\varphi,\varphi^{-1}$ are $C^1$, $f$ Lipschitz, $S^1$ compact), so the solution is
+ unique (Picard--Lindelöf) and equals $\mathrm{Exp}(t\varphi_*f)(y_0)$.  In the circle chart the same computation holds
+ with CDIT (2.1) (box C2) in place of \eqref{eq:push}; the two are the same vector field in two charts}
+\lstep{1}{7}{(5).}\lby{$h_s=\mathrm{Exp}(sm)$ by \eqref{eq:conf}; $\langle1\rangle6$ with $\varphi=g$, $f=m$, then
+ $\langle1\rangle5$: $g h_sg^{-1}=\mathrm{Exp}(s\kappa\widehat m)=\widehat h_{\kappa s}$.  For the lengths
+ $\ell_A=a$, $\ell_B=\frac L{1+s}$, $\ell_C=\frac{Ls}{1+s}$:
+ $z=\frac{\ell_A\ell_C}{\ell_B(\ell_A+\ell_B+\ell_C)}=\frac{a\,Ls/(1+s)}{L/(1+s)\cdot(a+L)}=\frac{as}{a+L}=\kappa s$}
+\lstep{1}{8}{(6).}\lby{a Möbius map of $S^1$ is $\gamma(z)=(pz+q)/(\bar qz+\bar p)$, $|p|^2-|q|^2=1$; then
+ $\gamma'=(\bar qz+\bar p)^{-2}$, $\gamma''=-2\bar q(\bar qz+\bar p)^{-3}$, $\gamma'''=6\bar q^2(\bar qz+\bar p)^{-4}$, so
+ $\gamma'''/\gamma'-\frac32(\gamma''/\gamma')^2=6\bar q^2(\bar qz+\bar p)^{-2}-6\bar q^2(\bar qz+\bar p)^{-2}=0$.  CDIT's
+ derivative $-i\bar z\frac{d}{d\theta}$ (box C2) equals $\frac d{dz}$ on holomorphic functions on $|z|=1$, because
+ $\frac d{d\theta}\gamma(e^{i\theta})=iz\gamma'(z)$ and $\bar zz=1$}
+\lstep{1}{9}{(7).}\lby{$g$ is a smooth diffeomorphism of $S^1$, so push-forward by $g$ or $g^{-1}$ preserves (E3) away
+ from the image of the point $0$, which is $g(0)=0$; the value of $\varphi_*f$ on $\varphi(J)$ depends only on $f|_J$
+ \eqref{eq:push}; $f=0$ on $(-a,0]$ gives $g_*f=0$ on $g((-a,0])=(-\infty,0]$ by $\langle1\rangle3$; $f=m$ on $[0,L]$ gives
+ $g_*f=\kappa\widehat m$ on $[0,1]$ by $\langle1\rangle5$.  The converse is the same computation with $g^{-1}$ and
+ $(g^{-1})_*\widehat m=\kappa^{-1}m$ (from $\langle1\rangle5$, since $(g^{-1})_*g_*=\mathrm{id}$)}
+\lqed{1}{10}\lby{$\langle1\rangle1$--$\langle1\rangle9$}
+\begin{verdictok}
+Elementary.  Item (5) is the general-net form of the geometric half of Note~5 Lemma~1.1 (card
+\texttt{mobius-reduction-cross-ratio}): the M\"obius map is fixed by $g(-a)=\infty$, $g(0)=0$, $g(L)=1$, the
+compression is conjugated into the half-line compression with parameter $\zeta=as/(a+L)$, and $1+\zeta$ is the cross
+ratio of $-a<0<\frac L{1+s}<L$ (the identity checked on that card).
+\end{verdictok}
+
+\section{Two estimates in $H^2(S^1)$}\label{sec:h2}
+Fourier coefficients are those of C11 (C2) for the circle representative $F$ of a field; we write
+$\norm F^2_{H^2}:=\sum_n(1+n^2)^2|\hat F_n|^2$ and $\norm F_{3/2}:=\sum_n|\hat F_n|(1+|n|^{3/2})$ (CDIT \S2.2).
+$\norm\cdot_2$ is the norm of $L^2(S^1,\frac{d\theta}{2\pi})$.
+
+\begin{lemma}[push-forward is bounded on $H^2$]\label{lem:push}
+Let $\varphi$ be a $C^\infty$ orientation-preserving diffeomorphism of $S^1$.  There is $C_\varphi<\infty$ with
+$\norm{\varphi_*F}_{H^2}\le C_\varphi\norm F_{H^2}$ for every real $F\in H^2(S^1)$.
+\end{lemma}
+\lstep{1}{1}{For $F\in H^2$: $F\in C^1$, $F'$ is absolutely continuous, $F''\in L^2$, and
+ $\norm F_{H^2}^2=\norm F_2^2+2\norm{F'}_2^2+\norm{F''}_2^2$; conversely every $F\in C^1$ with $F'$ absolutely continuous
+ and $F''\in L^2$ lies in $H^2$.}
+\lby{Cauchy--Schwarz: $\sum_n|n||\hat F_n|\le\norm F_{H^2}(\sum_nn^2(1+n^2)^{-2})^{1/2}<\infty$, so
+ $\sum_n in\hat F_ne^{in\theta}$ converges uniformly to $F'$; $G:=\sum_n(in)^2\hat F_ne^{in\theta}\in L^2$ and
+ $F'(\theta)-F'(0)=\int_0^\theta G$ (termwise integration of an $L^2$-convergent series against $\mathbf 1_{[0,\theta]}$),
+ so $F'$ is absolutely continuous with $F''=G$; Parseval and $(1+n^2)^2=1+2n^2+n^4$ give the identity.  Conversely,
+ integration by parts for absolutely continuous periodic functions gives $\widehat{(F')}_n=in\hat F_n$ and
+ $\widehat{(F'')}_n=(in)^2\hat F_n$ (C11 (C2)), and Parseval gives $\norm F_{H^2}<\infty$}
+\lstep{1}{2}{$\varphi_*F=(\mathring\varphi'\,F)\circ\psi$, $\psi:=\mathring\varphi^{-1}$, $\mathring\varphi$ a smooth lift.}
+\lby{CDIT (2.1) (box C2) in the angle coordinate: $-ie^{-i\theta}\frac d{d\phi}\varphi(e^{i\phi})=\mathring\varphi'(\phi)$}
+\lstep{1}{3}{For $b\in C^\infty(S^1)$: $\norm{bF}_{H^2}\le C_b\norm F_{H^2}$.}
+\lby{$\langle1\rangle1$ for $F$; Leibniz, $(bF)'=b'F+bF'$, $(bF)''=b''F+2b'F'+bF''$ a.e.\ ($bF'$ is absolutely
+ continuous as a product of absolutely continuous functions); each term has $L^2$ norm at most
+ $\max_{j\le2}\sup|b^{(j)}|$ times $\norm F_2$, $\norm{F'}_2$ or $\norm{F''}_2$; then $\langle1\rangle1$ for $bF$}
+\lstep{1}{4}{For a $C^\infty$ diffeomorphism $\psi$ of $S^1$: $\norm{F\circ\psi}_{H^2}\le C_\psi\norm F_{H^2}$.}
+\lby{$(F\circ\psi)'=(F'\circ\psi)\psi'$ and, $F'\circ\psi$ being absolutely continuous (composition of an absolutely
+ continuous function with a $C^1$ increasing bijection), $(F\circ\psi)''=(F''\circ\psi)\psi'^2+(F'\circ\psi)\psi''$ a.e.;
+ for $H\in L^2$, $\norm{H\circ\psi}_2^2=\int|H(u)|^2(\psi^{-1})'(u)\frac{du}{2\pi}\le\sup|(\psi^{-1})'|\,\norm H_2^2$ (change
+ of variables $u=\psi(\theta)$); then $\langle1\rangle1$}
+\lqed{1}{5}\lby{$\langle1\rangle2$--$\langle1\rangle4$ with $b=\mathring\varphi'$; $C_\varphi=C_\psi C_b$}
+
+\begin{lemma}[$H^2$ control of $T$ on finite-energy vectors]\label{lem:Th2}
+In the vacuum representation of the net, let $\psi\in\Hfin$ be an $L_0$-eigenvector with eigenvalue $E$.  For
+every continuous $F$ with $\norm F_{3/2}<\infty$:
+$\norm{T(F)\psi}\le\sqrt2\,r\,(1+E)\norm\psi\,\norm F_{H^2}$, $r=r(c)$ of box C3.  For a general $\psi\in\Hfin$ (a
+finite sum of eigenvectors) the bound holds with a constant $C_\psi$ by the triangle inequality.
+\end{lemma}
+\lstep{1}{1}{$L_0L_n\psi=(E-n)L_n\psi$; hence the vectors $L_n\psi$, $n\in\mathbb Z$, are mutually orthogonal.}
+\lby{$[L_0,L_n]=-nL_n$ on $\Hfin$ (C11 (C5), Virasoro relations with $m=0$); eigenvectors of the self-adjoint $L_0$
+ with different eigenvalues are orthogonal}
+\lstep{1}{2}{$\norm{L_n\psi}\le r(1+|n|^{3/2})(1+E)\norm\psi$.}
+\lby{box C3 (4) on each irreducible summand $\Hil_j$ (CDIT Prop.~3.14) with $f=e_n:=e^{in\theta}$, which is continuous
+ with $\norm{e_n}_{3/2}=1+|n|^{3/2}$ and $T(e_n)=L_n$; summing the squares over $j$ as in C11 Lemma ``the
+ Carpi--Weiner package'' $\langle1\rangle3$; $\norm{(1+L_0)\psi}=(1+E)\norm\psi$}
+\lstep{1}{3}{$\norm{T(F)\psi}^2=\sum_n|\hat F_n|^2\norm{L_n\psi}^2$.}
+\lby{$T(F)\psi=\sum_n\hat F_nL_n\psi$ converges strongly (box C3 (1), C11 Lemma ``the Carpi--Weiner package''), and
+ for a convergent series of orthogonal vectors ($\langle1\rangle1$) the squared norm is the sum of the squared norms}
+\lqed{1}{4}\lby{$\langle1\rangle2$, $\langle1\rangle3$ and $(1+|n|^{3/2})^2\le2(1+|n|^3)\le2(1+n^2)^2$}
+
+\begin{verdictok}
+Both lemmas are elementary.  The point of Lemma~\ref{lem:Th2} is that on a \emph{fixed} finite-energy vector the
+Carpi--Weiner $\ell^1$-type norm can be replaced by the Hilbertian norm $H^2$, which, unlike the $\ell^1$ norm, is
+stable under push-forward by a smooth diffeomorphism (Lemma~\ref{lem:push}).  This is how the present document
+avoids the multiplier question raised in \texttt{rigor/council/C7\_directions.md} \S2(iv)(a).
+\end{verdictok}
+
+\section{M\"obius covariance of $T(f)$ for $f\in H^2\cap\mathcal S^{3/2}$}\label{sec:cov}
+\begin{proposition}[Möbius covariance of $\overline{T(f)}$ beyond smooth $f$]\label{prop:cov}
+Let $g\in\PSL$, $V:=U(g)$, and let $f$ be a real continuous field with $\norm f_{3/2}<\infty$, $f\in H^2(S^1)$ and
+$\norm{g_*f}_{3/2}<\infty$.  Then $V\,\overline{T(f)}\,V^*=\overline{T(g_*f)}$, and
+$V e^{is\overline{T(f)}}V^*=e^{is\overline{T(g_*f)}}$ for all $s\in\mathbb R$.
+\end{proposition}
+\lstep{1}{1}{$\Hil=\bigoplus_j\Hil_j$ with $\Hil_j\cong\Hil(c,h_j)$ irreducible and invariant under $U(\Diff(S^1))$;
+ $V=\bigoplus_jV_j$ with $V_j=\mu_jU^{(c,h_j)}(\gamma)$, $|\mu_j|=1$, $\gamma$ a lift of $g$; $L_n$, $T(\cdot)$ and
+ $\Hfin_j$ decompose accordingly.}
+\lby{CDIT Prop.~3.14 (p.~21) as used in C11 Lemma ``the Carpi--Weiner package'' $\langle1\rangle1$--$\langle1\rangle2$;
+ $V_j$ and $U^{(c,h_j)}(\gamma)$ are unitaries representing the same element of the projective group, hence differ by a
+ phase}
+\lstep{1}{2}{For a real trigonometric polynomial $p$ and $\psi\in\Hfin_j$: $V_j^*\psi\in D(\overline{T_j(p)})$ and
+ $V_j\overline{T_j(p)}V_j^*\psi=T_j(g_*p)\psi$.}
+\lby{box C2 on $\Hil(c,h_j)$ with $f=p\in\mathrm{Vect}(S^1)$; the phase $\mu_j$ cancels in $V_j(\cdot)V_j^*$; the
+ Schwarzian term vanishes by Lemma~\ref{lem:geom}(6)}
+\lstep{1}{3}{For $\phi,\psi\in\Hfin_j$: $\ip{T_j(f)\phi}{V_j^*\psi}=\ip{V_j\phi}{T_j(g_*f)\psi}$.}
+\lproof
+\lstep{2}{1}{$p_k:=\sum_{|n|\le k}\hat f_ne^{in\theta}$ is a real trigonometric polynomial and
+ $\norm{p_k-f}_{H^2}\to0$.}\lby{$\hat f_{-n}=\overline{\hat f_n}$ ($f$ real); $\norm{p_k-f}_{H^2}^2=\sum_{|n|>k}(1+n^2)^2|\hat f_n|^2$,
+ the tail of a convergent series}
+\lstep{2}{2}{$\ip{T_j(p_k)\phi}{V_j^*\psi}=\ip{V_j\phi}{T_j(g_*p_k)\psi}$ for every $k$.}
+\lby{$\overline{T_j(p_k)}$ is self-adjoint (box C3 (3)) and $\phi\in\Hfin_j\subseteq D$, $V_j^*\psi\in D$ by
+ $\langle1\rangle2$, so the left side is $\ip\phi{\overline{T_j(p_k)}V_j^*\psi}=\ip\phi{V_j^*T_j(g_*p_k)\psi}$ by
+ $\langle1\rangle2$; then move $V_j^*$ across}
+\lstep{2}{3}{$\ip{T_j(p_k)\phi}{V_j^*\psi}\to\ip{T_j(f)\phi}{V_j^*\psi}$.}
+\lby{$T_j(p_k)\phi-T_j(f)\phi=T_j(p_k-f)\phi$ (the defining sums are linear in the coefficients) and
+ $\norm{T_j(p_k-f)\phi}\le C_\phi\norm{p_k-f}_{H^2}\to0$ by Lemma~\ref{lem:Th2} (on $\Hil_j$) and $\langle2\rangle1$}
+\lstep{2}{4}{$\ip{V_j\phi}{T_j(g_*p_k)\psi}\to\ip{V_j\phi}{T_j(g_*f)\psi}$.}
+\lby{$g_*$ is linear, $g_*p_k$ is smooth and $\norm{g_*f}_{3/2}<\infty$ by hypothesis, so
+ $T_j(g_*p_k)\psi-T_j(g_*f)\psi=T_j(g_*(p_k-f))\psi$, of norm $\le C_\psi\norm{g_*(p_k-f)}_{H^2}\le C_\psi C_g
+ \norm{p_k-f}_{H^2}\to0$ by Lemmas~\ref{lem:Th2}, \ref{lem:push} and $\langle2\rangle1$}
+\lqed{2}{5}\lby{$\langle2\rangle2$--$\langle2\rangle4$: two convergent sequences that agree termwise}
+\lstep{1}{4}{For $\psi\in\Hfin_j$: $V_j^*\psi\in D(\overline{T_j(f)})$ and $\overline{T_j(f)}V_j^*\psi=V_j^*T_j(g_*f)\psi$.}
+\lby{$\langle1\rangle3$ says $\ip{T_j(f)\phi}{V_j^*\psi}=\ip\phi{V_j^*T_j(g_*f)\psi}$ for all $\phi$ in $\Hfin_j$, a core of
+ the self-adjoint $\overline{T_j(f)}$ (box C3 (3)); hence $V_j^*\psi\in D((T_j(f)|_{\Hfin_j})^*)=D(\overline{T_j(f)}^*)
+ =D(\overline{T_j(f)})$ with the stated value}
+\lstep{1}{5}{$B_j:=V_j\overline{T_j(f)}V_j^*$ is self-adjoint and $B_j\supseteq T_j(g_*f)|_{\Hfin_j}$.}
+\lby{unitary conjugation preserves self-adjointness; $\langle1\rangle4$}
+\lstep{1}{6}{$B_j=\overline{T_j(g_*f)}$.}
+\lby{$B_j$ is closed, so $B_j\supseteq\overline{T_j(g_*f)}$, which is self-adjoint (box C3 (3): $g_*f$ real, continuous,
+ $\norm{g_*f}_{3/2}<\infty$); taking adjoints, $B_j=B_j^*\subseteq\overline{T_j(g_*f)}^*=\overline{T_j(g_*f)}$}
+\lstep{1}{7}{$V\overline{T(f)}V^*=\overline{T(g_*f)}$.}
+\lby{$\overline{T(h)}=\bigoplus_j\overline{T_j(h)}$ for $h=f,g_*f$ (C11 Lemma ``the Carpi--Weiner package''
+ $\langle1\rangle4$: the direct sum of the self-adjoint $\overline{T_j(h)}$ is a self-adjoint extension of the
+ essentially self-adjoint $T(h)|_{\bigoplus^{\mathrm{alg}}\Hfin_j}$); $\langle1\rangle1$, $\langle1\rangle6$}
+\lqed{1}{8}\lby{$\langle1\rangle7$ and $Ve^{isA}V^*=e^{isVAV^*}$ for self-adjoint $A$ (both sides are strongly continuous
+ unitary groups with generator $VAV^*$; Stone's theorem)}
+
+\begin{corollary}[the conjugated implementer]\label{cor:conj}
+Let $\gtot\in\mathcal E(a,L)$, $g$ as in Lemma~\ref{lem:geom}, $V=U(g)$, and $\widehat g:=\kappa^{-1}g_*\gtot\in\mathcal E_\infty$.
+Then $V\,e^{is\overline{T(\gtot)}}\,V^*=e^{i\kappa s\overline{T(\widehat g)}}=\widehat U_{\kappa s}$ for every $s\in\mathbb R$.
+\end{corollary}
+\lstep{1}{1}{$\gtot$ is real, continuous, $\norm{\gtot}_{3/2}<\infty$ and $\gtot\in H^2$.}
+\lby{C11 Thm.~``regularity of the first-order field'' (c) and (e) (with $s=2<5/2$), for the circle representative}
+\lstep{1}{2}{$\norm{g_*\gtot}_{3/2}<\infty$.}\lby{Lemma~\ref{lem:geom}(7): $g_*\gtot=\kappa\widehat g$ is piecewise smooth
+ and $C^1$ on $S^1$; box C3, CDIT Prop.~2.3}
+\lstep{1}{3}{$\overline{T(\kappa\widehat g)}=\kappa\,\overline{T(\widehat g)}$.}\lby{equality on $\Hfin$ termwise, then closures}
+\lqed{1}{4}\lby{Proposition~\ref{prop:cov} with $f=\gtot$, $\langle1\rangle1$--$\langle1\rangle3$, Lemma~\ref{lem:geom}(7)}
+
+\begin{verdictok}
+Only Möbius covariance enters: box C2 is used for Möbius $\gamma$ and smooth (trigonometric-polynomial) fields only,
+and the passage to the $C^{1,1}$ field $\gtot$ is an approximation in the \emph{field}, at fixed Möbius $g$, controlled by
+Lemmas~\ref{lem:push} and~\ref{lem:Th2}.  No unitary $U(\phi)$ for a non-smooth $\phi$ and no covariance under
+non-Möbius maps is used.  \emph{Referee attention:} the domain reading of box C2 (stated there as a paraphrase) is the
+one input not transcribed verbatim.
+\end{verdictok}
+
+\section{Extension independence on the half line}\label{sec:ext}
+This is C11 Theorem ``(H1) for every conformal net'' $\langle1\rangle7$, rewritten for $\widehat I=(-\infty,1)$ (C11 states it
+for $I=(-a,L)$, $a<\infty$); the same text is proposed as the repaired Lemma ``ext'' of UB
+(\texttt{rigor/repair/R2\_patch.json}).
+
+\begin{lemma}[extension independence, half line]\label{lem:ext}
+Let $\widehat g,\widehat g^\sharp\in\mathcal E_\infty$ and $\sigma\ge0$.  Then
+$\Ad e^{i\sigma\overline{T(\widehat g)}}\big|_{\cA(\widehat I)}=\Ad e^{i\sigma\overline{T(\widehat g^\sharp)}}\big|_{\cA(\widehat I)}$; in particular
+$\widehat\omega^{\widehat g}_\sigma=\widehat\omega^{\widehat g^\sharp}_\sigma$.
+\end{lemma}
+\lstep{1}{1}{$\phi:=\widehat g-\widehat g^\sharp$ is real, $\norm\phi_{3/2}<\infty$, $\phi=0$ on $\widehat I$, and
+ $e^{it\overline{T(\phi)}}\in\cA(\widehat I)'$ for all $t$.}
+\lby{both fields equal $0$ on $(-\infty,0]$ and $\widehat m$ on $[0,1]$; $\mathcal E_\infty\subseteq\mathcal E(1,1)$, so C11
+ Thm.~``regularity'' (c) and the triangle inequality give the norm; C11 Thm.~``(H1) for every conformal net''
+ $\langle1\rangle2$ with $I_0=\widehat I$ (it uses (HD))}
+\lstep{1}{2}{For $b\ge0$ and $X\in\cA(\widehat I)$: $\Ad\widehat U^\sharp_b(X)\in\cA(\widehat I)$, where
+ $\widehat U^\sharp_b:=e^{ib\overline{T(\widehat g^\sharp)}}$.}
+\lby{C11 Thm.~``(H1) for every conformal net''(iii) (with $\widehat g^\sharp\in\mathcal E(1,1)$):
+ $\Ad\widehat U^\sharp_b\cA(\widehat I)=\cA(\kt^\sharp_b\widehat I)$, $\kt^\sharp_b:=\mathrm{Exp}(b\widehat g^\sharp)$; $\kt^\sharp_b$ fixes
+ $(-\infty,0]$ pointwise and equals $\widehat h_b$ on $[0,1)$, so $\kt^\sharp_b\widehat I=(-\infty,\frac1{1+b})\subseteq\widehat I$;
+ isotony}
+\lstep{1}{3}{For $b\ge0$, $X\in\cA(\widehat I)$: $\Ad(e^{ib\overline{T(\phi)}}\widehat U^\sharp_b)(X)=\Ad\widehat U^\sharp_b(X)$.}
+\lby{$\langle1\rangle2$, $\langle1\rangle1$}
+\lstep{1}{4}{$e^{i\sigma\overline{T(\widehat g)}}=\lim_n(e^{i\frac\sigma n\overline{T(\phi)}}\widehat U^\sharp_{\sigma/n})^n$ strongly.}
+\lby{Reed--Simon~I Thm.~VIII.31 (Trotter), as in C11 Thm.~``(H1) \dots'' $\langle1\rangle4\langle2\rangle1$:
+ $\overline{T(\phi)}$, $\overline{T(\widehat g^\sharp)}$ are self-adjoint, $T(\widehat g)=T(\phi)+T(\widehat g^\sharp)$ on $\Hfin$, which
+ is a core for $\overline{T(\widehat g)}$, so the sum on $D(\overline{T(\phi)})\cap D(\overline{T(\widehat g^\sharp)})$ is a symmetric
+ extension of an essentially self-adjoint operator, with closure $\overline{T(\widehat g)}$}
+\lstep{1}{5}{For $X\in\cA(\widehat I)$: $\Ad(e^{i\frac\sigma n\overline{T(\phi)}}\widehat U^\sharp_{\sigma/n})^n(X)=\Ad\widehat U^\sharp_\sigma(X)$.}
+\lby{induction on the number of factors with $\langle1\rangle3$, $b=\sigma/n$; after $k$ factors the image is
+ $\Ad\widehat U^\sharp_{k\sigma/n}(X)\in\cA(\widehat I)$ by $\langle1\rangle2$; $(\widehat U^\sharp_{\sigma/n})^n=\widehat U^\sharp_\sigma$}
+\lqed{1}{6}\lby{$\langle1\rangle4$, $\langle1\rangle5$: for unitaries $W_n\to W$ strongly, $W_nXW_n^*\to WXW^*$ strongly,
+ and the left side of $\langle1\rangle5$ does not depend on $n$}
+\begin{verdictok}
+Proved for $\sigma\ge0$ only (the step $\kt^\sharp_b\widehat I\subseteq\widehat I$); for $\sigma<0$ the image leaves
+$\cA(\widehat I)$ and the argument does not apply.  Theorem~\ref{thm:main}(b) avoids $\sigma<0$ by a choice of extension.
+\end{verdictok}
+
+\section{The reduction theorem}\label{sec:main}
+\begin{theorem}[Möbius reduction for general nets]\label{thm:main}
+Let $(\cA,U,\Om)$ be a conformal net as in \S\ref{sec:conv}, $a,L>0$, $\kappa=a/(a+L)$, $\zeta=\kappa s$, $g$ the Möbius
+map of Lemma~\ref{lem:geom}, $V=U(g)$, and $\chi$ the field of UB eq.~(chi), so that $-\chi\in\mathcal E_\infty$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For every $\gtot\in\mathcal E(a,L)$ and every $s\in\mathbb R$: $\Ad V$ maps $\cA(I)$ onto $\cA(\widehat I)$,
+ $\omega|_{\cA(\widehat I)}\circ\Ad V=\omega|_{\cA(I)}$, and $\omega^{\gtot}_s=\widehat\omega^{\widehat g}_{\zeta}\circ\Ad V|_{\cA(I)}$ with
+ $\widehat g=\kappa^{-1}g_*\gtot\in\mathcal E_\infty$.
+\item If $s\ge0$, then $\widehat\omega^{\widehat g}_\zeta=\widehat\omega^{-\chi}_\zeta$ (UB's normal-form state) for every
+ $\gtot\in\mathcal E(a,L)$.  For the extension $\gtot^\flat:=\kappa\,(g^{-1})_*(-\chi)\in\mathcal E(a,L)$ this holds for
+ every $s\in\mathbb R$.
+\item In the cases of (b): $\Fid\bigl(\omega|_{\cA(I)},\omega^{\gtot}_s\bigr)=\Fid\bigl(\omega|_{\cA(\widehat I)},\widehat\omega^{-\chi}_\zeta\bigr)$.
+ If moreover the net satisfies the standing hypotheses (HD), (BW), (RS) of Theorem~B (UB (S2)), then
+ $-\log\Fid(\omega,\omega^{\gtot}_s)=\frac{c}{12\pi^2}\zeta^2+o(\zeta^2)$ as $s\to0^+$, and as $s\to0$ for $\gtot^\flat$.
+\end{enumerate}
+\end{theorem}
+\lstep{1}{1}{$V\Om=\Om$ and $\Ad V$ maps $\cA(I)$ onto $\cA(\widehat I)$.}
+\lby{box C1 axioms (5) and (3) with Lemma~\ref{lem:geom}(2), $g(I)=\widehat I$}
+\lstep{1}{2}{$\omega(VXV^*)=\omega(X)$ for all bounded $X$.}\lby{$\langle1\rangle1$: $\ip\Om{VXV^*\Om}=\ip{V^*\Om}{XV^*\Om}$ and $V^*\Om=\Om$}
+\lstep{1}{3}{$VU_sV^*=\widehat U_\zeta$, $\widehat U_\zeta=e^{i\zeta\overline{T(\widehat g)}}$, $\widehat g=\kappa^{-1}g_*\gtot\in\mathcal E_\infty$.}
+\lby{Corollary~\ref{cor:conj}, Lemma~\ref{lem:geom}(7)}
+\lstep{1}{4}{(a): for $X\in\cA(I)$, $\omega(U_sXU_s^*)=\omega\bigl(\widehat U_\zeta(VXV^*)\widehat U_\zeta^*\bigr)$.}
+\lproof
+\lstep{2}{1}{$U_sXU_s^*=V^*\bigl(VU_sV^*\bigr)\bigl(VXV^*\bigr)\bigl(VU_s^*V^*\bigr)V$.}\lby{$V^*V=\one$, inserted four times}
+\lstep{2}{2}{$\omega(U_sXU_s^*)=\omega\bigl(\widehat U_\zeta(VXV^*)\widehat U_\zeta^*\bigr)$.}\lby{$\langle2\rangle1$, $\langle1\rangle2$
+ applied to $V^*(\cdot)V$, and $\langle1\rangle3$}
+\lqed{2}{3}\lby{$\langle2\rangle2$; $VXV^*\in\cA(\widehat I)$ by $\langle1\rangle1$, so the right side is
+ $\widehat\omega^{\widehat g}_\zeta(VXV^*)$; the identity $\omega|_{\cA(\widehat I)}\circ\Ad V=\omega|_{\cA(I)}$ is $\langle1\rangle2$}
+\lstep{1}{5}{(b).}
+\lby{for $s\ge0$, $\zeta=\kappa s\ge0$ and Lemma~\ref{lem:ext} with $\sigma=\zeta$, $\widehat g^\sharp=-\chi$.  For
+ $\gtot^\flat$: $\gtot^\flat\in\mathcal E(a,L)$ by Lemma~\ref{lem:geom}(7), and
+ $\kappa^{-1}g_*\gtot^\flat=g_*(g^{-1})_*(-\chi)=-\chi$ (push-forward is linear and functorial,
+ $(\varphi\circ\psi)_*=\varphi_*\psi_*$ by the chain rule in \eqref{eq:push}), so (a) already gives $\widehat g=-\chi$}
+\lstep{1}{6}{For a $*$-isomorphism $\alpha:\cM\to\cN$ of von Neumann algebras on $\Hil$ and normal states $\nu,\rho$ of $\cN$
+ with vector representatives: $\Fid_\cM(\nu\circ\alpha,\rho\circ\alpha)=\Fid_\cN(\nu,\rho)$.}
+\lby{box C4 for $\cM$ with the representation $\pi=\alpha$ on $\Hil$: $\varphi\in\mathcal S_{\alpha,\cM}(\nu\circ\alpha)$ iff
+ $\ip\varphi{\alpha(x)\varphi}=\nu(\alpha(x))$ for all $x\in\cM$ iff $\ip\varphi{y\varphi}=\nu(y)$ for all $y\in\cN$, i.e.\
+ $\mathcal S_{\alpha,\cM}(\nu\circ\alpha)=\mathcal S_{\mathrm{id},\cN}(\nu)$, likewise for $\rho$; so the two suprema of
+ box C4 (3) coincide; $\Fid=\sqrt P$ (UB (S1))}
+\lstep{1}{7}{First assertion of (c).}
+\lby{$\langle1\rangle6$ with $\alpha=\Ad V|_{\cA(I)}$, $\nu=\omega|_{\cA(\widehat I)}$ (representative $\Om$),
+ $\rho=\widehat\omega^{-\chi}_\zeta$ (representative $\widehat U_\zeta^*\Om$); $\nu\circ\alpha=\omega|_{\cA(I)}$ and
+ $\rho\circ\alpha=\omega^{\gtot}_s$ by (a), (b)}
+\lstep{1}{8}{$-\log\Fid(\omega|_{\cA(\widehat I)},\widehat\omega^{-\chi}_\sigma)=\frac c{12\pi^2}\sigma^2+o(\sigma^2)$ as
+ $\sigma\to0$.}
+\lby{UB Theorem~B (card \texttt{thm-b-universality}, refereed): $-\log\Fid=\frac{\sigma^2}8\gB+o(\sigma^2)$,
+ $\gB=\frac{2c}{3\pi^2}$, in the half-line chart, under (HD), (BW), (RS) and (H1)--(H3) for the implementers
+ $e^{i\sigma\overline{T(-\chi)}}$; (H1)--(H3) hold by C11 Theorem ``main'' (card \texttt{implementer-hypotheses},
+ refereed), with (H1) in the form (C7), which is all that Theorem~B's proof uses (council C2 F3); $\frac18\gB=\frac c{12\pi^2}$}
+\lqed{1}{9}\lby{$\langle1\rangle4$, $\langle1\rangle5$, $\langle1\rangle7$, and $\langle1\rangle8$ with $\sigma=\zeta=\kappa s$;
+ $o(\zeta^2)=o(s^2)$ because $\kappa>0$ is fixed}
+
+\begin{verdictok}
+Theorem~\ref{thm:main} is proved from: Möbius covariance and vacuum invariance (box C1), the Möbius case of CDIT
+Prop.~2.1 for smooth fields (box C2), the Carpi--Weiner package (box C3, C11), Alberti--Uhlmann (box C4), and C11's
+(H1) with its localisation step; for (c) also the refereed Theorem~B.  The only restriction beyond the free-fermion card
+\texttt{mobius-reduction-cross-ratio} is $s\ge0$ for a general extension in $\mathcal E(a,L)$; for the pulled-back
+extension $\gtot^\flat$ both signs are covered.  Direction ledger: (a) and the first part of (c) are \emph{equalities}
+of states and of the exact fidelity; the asymptotic statement inherits both directions (upper and lower bound) from
+Theorem~B.  Not covered: extensions outside $\mathcal E(a,L)$, implementers other than $e^{is\overline{T(\gtot)}}$, and
+relative entropy (not needed for the paper-2 sentence; it would follow from the same spatial isomorphism, but the
+definition of Araki's relative entropy was not re-read for this document).
+\end{verdictok}
+
+\section{What it licenses in paper 2}\label{sec:paper2}
+\paragraph{The sentences in question (council C6 B6, C2 F2).}  \texttt{paper2/sec\_setting.tex} l.~43--45: ``All
+quantities below depend on the configuration only through the cross ratio $\zeta$ of the four endpoints; this is the
+content of [Note5, Lemma 1.1]''; \texttt{paper2/main.tex} abstract, in the version read by council C6 (item B6; the file is being edited in this round): ``the recovery error obeys
+$-\log\Fid(\omega,\omega_s)=\frac c{12\pi^2}\zeta^2+o(\zeta^2)$, $\zeta$ the cross ratio of the four endpoints''; and UB (S3)
+l.~90--92 (same citation).  Note~5 Lemma~1.1 is a free-fermion statement (card \texttt{mobius-reduction-cross-ratio}).
+
+\paragraph{What Theorem~\ref{thm:main} licenses.}  For every conformal net (CDIT axioms (1)--(10), (HD)), every
+configuration $(-a,0,L)$, every first-order field $\gtot\in\mathcal E(a,L)$ and the implementers
+$U_s=e^{is\overline{T(\gtot)}}$ of C11: the recovered state on $\cA(I)$ is, through the vacuum-preserving Möbius unitary
+$U(g)$, the half-line normal-form state at parameter $\zeta=as/(a+L)$ ($=z=1/\eta-1$ of card
+\texttt{cross-ratio-conventions}; $1+\zeta$ is the cross ratio of $-a<0<\frac L{1+s}<L$), for $s\ge0$; for both signs of
+$s$ with the extension $\gtot^\flat$.  Hence the exact fidelity, and with Theorem~B the law
+$-\log\Fid=\frac c{12\pi^2}\zeta^2+o(\zeta^2)$ ($s\to0^+$), hold for every configuration.  Proposed wording for
+\texttt{paper2/sec\_setting.tex} l.~43--45 (seat R5 owns the paper-2 patch):
+\begin{quote}\small
+``For the zero-collar compression implemented by $U_s=e^{isT(g_{\rm tot})}$, the recovered state depends on the
+configuration only through $\zeta=as/(a+L)$, where $1+\zeta$ is the cross ratio of the four endpoints: a vacuum-preserving
+M\"obius unitary carries it onto the half-line normal form below at parameter $\zeta$, for $s\ge0$ and every admissible
+extension (for both signs of $s$ with a suitable extension) [\texttt{rigor/moebius\_reduction\_general\_nets.tex},
+under review]; for the free fermion this is [Note5, Lemma 1.1].''
+\end{quote}
+Not licensed: ``all quantities'' for implementers other than those of C11, for extensions outside $\mathcal E(a,L)$, or for
+the relative entropy (not treated here); and ``$\zeta$ the cross ratio'' literally ($1+\zeta$ is the cross ratio).
+
+\section{Numerical instance; open points}\label{sec:open}
+\paragraph{Numerical instance (AGENTS.md \S4).}  The computable content of Theorem~\ref{thm:main} for a general net is
+the geometry of Lemma~\ref{lem:geom}; the operator statements have no finite-dimensional instance in a general net.  The
+identities (3) and (5) and the cross-ratio identity were checked in floating point at random $(a,L,s,y)$ (maximal
+deviation $5\times10^{-15}$, tolerance $10^{-12}$), in a scratch computation only: the repair brief lists no script path
+for seat R2, so no project script exists (NOT DONE; listed for the orchestrator).  For the free fermion the
+configuration independence is card \texttt{mobius-reduction-cross-ratio} (proved).
+
+\paragraph{Open points and what a referee must check.}
+\begin{enumerate}[leftmargin=1.6em]
+\item Box C2 is used with a domain reading stated as a paraphrase ($U(\gamma)^*\Hfin\subseteq D(\overline{T(f)})$ for
+ smooth $f$, Möbius $\gamma$).
+\item The identification $\Hil_j\cong\Hil(c,h_j)$ of the irreducible summands, and the lift $\gamma$ of $g$, are taken
+ from C11 Lemma ``the Carpi--Weiner package'' $\langle1\rangle1$--$\langle1\rangle2$.
+\item $s<0$ for a general extension in $\mathcal E(a,L)$ is not covered (Lemma~\ref{lem:ext}).
+\item No covariance under non-smooth maps is used, and none under smooth non-Möbius maps; direction~5 of
+ \texttt{rigor/council/C7\_directions.md} (covariance of the $C^{1,1}$ implementer for corners moved by a Möbius map,
+ needed for the network law) is \emph{not} addressed beyond the case of Corollary~\ref{cor:conj}, which is its Möbius,
+ single-corner instance.
+\end{enumerate}
+
+\end{document}

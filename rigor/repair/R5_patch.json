@@ -1,0 +1,268 @@
+[
+ {
+  "file": "paper2/main.tex",
+  "old": "\\title{Universality of the Petz recovery error in conformal nets}",
+  "new": "\\title{Universality of the zero-collar compression error in conformal nets}",
+  "finding": "C2 F1",
+  "reason": "Theorem B concerns the geometric compression; its identification with the zero-collar Petz limit is proved for the free fermion only (card petz-zero-collar-channel)."
+ },
+ {
+  "file": "paper2/main.tex",
+  "old": "inside the range of the Carpi--Weiner energy bound --- and that the recovery error obeys",
+  "new": "inside the range of the Carpi--Weiner energy bound --- and that the error of this geometric recovery obeys",
+  "finding": "C2 F1",
+  "reason": "names the recovery that thm:B is about, not a Petz map."
+ },
+ {
+  "file": "paper2/sec_intro.tex",
+  "old": "$\\cA(AB)$.  The size of that failure is the subject of this paper.",
+  "new": "$\\cA(AB)$.  We measure that failure through a geometric recovery, the zero-collar compression of \\Cref{ss:geom}; that it is the zero-collar limit of the rotated Petz maps of \\cite{FHSW} is proved for the free fermion only \\cite{Paper1}, and for a general net we make no claim about the Petz map itself.",
+  "finding": "C2 F1",
+  "reason": "the intro presented the paper as computing the Petz-map error; the Petz identification is a free-fermion result (card petz-zero-collar-channel)."
+ },
+ {
+  "file": "paper2/sec_outlook.tex",
+  "old": "\\paragraph{Optimality of the Petz map.}  \\Cref{thm:B} computes the error of \\emph{the} zero-collar Petz\nrecovery.",
+  "new": "\\paragraph{Optimality of the geometric compression.}  \\Cref{thm:B} computes the error of the zero-collar\ncompression $k_{s}$, the limit $t\\to\\infty$ ($\\zeta_{\\infty}=z$) of the rotated Petz family of \\Cref{app:conv}, not the ordinary Petz map $t=0$ ($\\zeta_{0}=2z$); its identification with that limit is proved for the free fermion only \\cite{Paper1}.",
+  "finding": "C2 F1; C6 B9",
+  "reason": "thm:B is about the compression, not the ordinary Petz map, and the Petz identification is free-fermion only."
+ },
+ {
+  "file": "paper2/sec_outlook.tex",
+  "old": "free-fermion data suggest the sharper law $\\Phi(\\zeta)=f_{2}\\zeta^{2}(1+c_{3}\\zeta+O(\\zeta^{2}))$ with\n$c_{3}=-0.99(1)$ per component --- linear, not logarithmic, in $\\zeta$.  Making the Uhlmann step\nquantitative (a Lipschitz estimate for $\\sigma\\mapsto W_{\\sigma}^{*}G^{(1)}W_{\\sigma}$ in Hilbert--Schmidt\nnorm) should give the upper bound $\\Phi\\le f_{2}\\zeta^{2}(1+C\\zeta)$; the matching lower bound is harder,",
+  "new": "free fermion the companion note (\\texttt{rigor/rate\\_of\\_remainder.tex}, Prop.~3.1, in the range that its Correction~C3 settles) proves the upper bound $\\Phi(\\zeta)\\le-\\tfrac12\\log(1-2f_{2}\\zeta^{2})=f_{2}\\zeta^{2}(1+O(\\zeta^{2}))$ for $0\\le\\zeta<\\pi\\sqrt3$, per component, hence $\\limsup_{\\zeta\\to0}(\\Phi-f_{2}\\zeta^{2})/\\zeta^{3}\\le0$.  Numerical data, not reproducible from the published scripts, suggest the sharper law $\\Phi(\\zeta)=f_{2}\\zeta^{2}(1+c_{3}\\zeta+O(\\zeta^{2}))$ with\n$c_{3}$ about $-1$ per component (an unreproduced estimate) --- linear, not logarithmic, in $\\zeta$; neither the existence of this expansion nor the value of $c_{3}$ is proved.  The matching lower bound is harder,",
+  "finding": "C6 B9; C6 A7; referee_paper2 P10",
+  "reason": "the outlook asked for an upper bound weaker than the proved one (card rrr-bound-small-zeta) and quoted c3 = -0.99(1) with an error bar no script in the project reproduces (card remainder-c3-c4-values [heuristic])."
+ },
+ {
+  "file": "paper2/sec_intro.tex",
+  "old": "exactly for the chiral free fermion ($c=\\tfrac12$ per Majorana component) and found a",
+  "new": "exactly for the net of $r$ complex (Dirac) chiral free fermions ($c=r$) and found a",
+  "finding": "C6 B4",
+  "reason": "Paper 1 treats r complex fermions with c = r (paper1/sec_intro.tex:25-26), as does thm:value here (one-component Dirac fermion, c = 1)."
+ },
+ {
+  "file": "paper2/main.tex",
+  "old": "is known for a general net is the bracket\n$0.034\\,c\\le\\liminf_{s\\to0}s^{-2}D\\le\\limsup_{s\\to0}s^{-2}D\\le0.924\\,c$, its upper end",
+  "new": "is known for a general net is a bracket for the \\emph{reversed} relative entropy,\n$0.034\\,c\\le\\liminf_{s\\to0}s^{-2}D(\\omega_{s}\\Vert\\omega)\\le\\limsup_{s\\to0}s^{-2}D(\\omega_{s}\\Vert\\omega)\\le0.924\\,c$ (whereas $s_{2}$ is defined through $D(\\omega\\Vert\\omega_{s})$), its upper end",
+  "finding": "C6 B1",
+  "reason": "rigor/kubo_mori_gauge_lemma.tex eq:final (l. 601) and thm:lower (l. 704) bound D(omega_s||omega), not the D(omega||omega_s) of eq:s2."
+ },
+ {
+  "file": "paper2/sec_intro.tex",
+  "old": "(\\Cref{sec:km}); what is known there for a general net is the bracket\n$0.034\\,c\\le\\liminf_{s\\to0}s^{-2}D\\le\\limsup_{s\\to0}s^{-2}D\\le0.924\\,c$, and it is conditional:",
+  "new": "(\\Cref{sec:km}); what is known there for a general net is the bracket\n$0.034\\,c\\le\\liminf_{s\\to0}s^{-2}D(\\omega_{s}\\Vert\\omega)\\le\\limsup_{s\\to0}s^{-2}D(\\omega_{s}\\Vert\\omega)\\le0.924\\,c$ for the \\emph{reversed} relative entropy (the conjecture concerns $D(\\omega\\Vert\\omega_{s})$, and no argument relating the two orders at second order is available, $U_{s}$ not being in $\\cM$), and it is conditional:",
+  "finding": "C6 B1",
+  "reason": "argument order of the bracket as proved in rigor/kubo_mori_gauge_lemma.tex l. 601, 704."
+ },
+ {
+  "file": "paper2/sec_kubo_mori.tex",
+  "old": "The bracket $0.034\\,c\\le\\liminf_{s\\to0}s^{-2}D\\le\\limsup_{s\\to0}s^{-2}D\\le0.924\\,c$ of the\nfinal paragraph is conditional:",
+  "new": "The bracket $0.034\\,c\\le\\liminf_{s\\to0}s^{-2}D(\\omega_{s}\\Vert\\omega)\\le\\limsup_{s\\to0}s^{-2}D(\\omega_{s}\\Vert\\omega)\\le0.924\\,c$ of the\nfinal paragraph concerns the reversed relative entropy, not the $D(\\omega\\Vert\\omega_{s})$ of \\eqref{eq:s2}, and is conditional:",
+  "finding": "C6 B1",
+  "reason": "argument order as in rigor/kubo_mori_gauge_lemma.tex eq:final and eq:lowerb."
+ },
+ {
+  "file": "paper2/sec_kubo_mori.tex",
+  "old": "the bracket for a general net is $0.034\\,c\\le\\liminf_{s\\to0}s^{-2}D\\le\\limsup_{s\\to0}s^{-2}D\\le0.924\\,c$, the upper half",
+  "new": "the bracket for a general net is $0.034\\,c\\le\\liminf_{s\\to0}s^{-2}D(\\omega_{s}\\Vert\\omega)\\le\\limsup_{s\\to0}s^{-2}D(\\omega_{s}\\Vert\\omega)\\le0.924\\,c$ --- for the reversed order of the arguments; since $U_{s}\\notin\\cM$, no argument available to us converts it into a bracket for the $D(\\omega\\Vert\\omega_{s})$ of \\eqref{eq:s2} at second order --- the upper half",
+  "finding": "C6 B1",
+  "reason": "the gauge-lemma bounds are for D(omega_s||omega) (RK l. 601, 704); the swap s -> -s is unavailable because U_s is not in M."
+ },
+ {
+  "file": "paper2/app_conventions.tex",
+  "old": "$0.034\\,c\\le\\liminf\\le\\limsup\\le0.924\\,c$ \\cite{RigorRK}",
+  "new": "$0.034\\,c\\le\\liminf\\le\\limsup\\le0.924\\,c$ for $s^{-2}D(\\omega_{s}\\Vert\\omega)$, the reversed order \\cite{RigorRK}",
+  "finding": "C6 B1",
+  "reason": "argument order of the bracket."
+ },
+ {
+  "file": "paper2/sec_setting.tex",
+  "old": "Let $\\tilde k_{s}$ and $\\tilde k_{s}^{\\sharp}$ be $C^{1,1}$ diffeomorphisms of $S^{1}$ with\n$\\tilde k_{s}|_{I}=\\tilde k_{s}^{\\sharp}|_{I}=k_{s}$, and let $U_{s},U_{s}^{\\sharp}$ be implementers as in\n\\Cref{H1}.  Then $\\omega\\circ\\Ad U_{s}|_{\\cM}=\\omega\\circ\\Ad U_{s}^{\\sharp}|_{\\cM}$.",
+  "new": "Let $g_{\\rm tot}$ and $g_{\\rm tot}^{\\sharp}$ be two first-order fields in the extension class $\\mathcal E$ of\n\\cite[Def.~2.1]{RigorC} (real, $C^{1}$ on $S^{1}$, $C^{\\infty}$ off the touching point, $0$ on $A$ and equal to\nthe M\\\"obius field $m$ on $D$; \\eqref{eq:chi} is one of them), so that their flows $\\tilde k_{s}$,\n$\\tilde k_{s}^{\\sharp}$ both restrict to $k_{s}$ on $I$, and let $U_{s}=e^{is\\overline{T(g_{\\rm tot})}}$ and\n$U_{s}^{\\sharp}=e^{is\\overline{T(g^{\\sharp}_{\\rm tot})}}$ be the implementers of \\Cref{thm:H1}.  Then\n$\\omega\\circ\\Ad U_{s}|_{\\cM}=\\omega\\circ\\Ad U_{s}^{\\sharp}|_{\\cM}$ for every $s\\ge0$.",
+  "finding": "C2 F3/F3b",
+  "reason": "restates lem:ext in the form implementation_C11.tex Thm 4.7 step <1>7 proves (class E, s >= 0); the old statement (arbitrary C^{1,1} extensions, both signs of s) is unproved."
+ },
+ {
+  "file": "paper2/sec_setting.tex",
+  "old": "Put $\\phi:=\\tilde k_{s}\\circ(\\tilde k_{s}^{\\sharp})^{-1}$ and $J_{s}:=k_{s}(I)$.  For $y\\in J_{s}$ write\n$y=k_{s}(x)$ with $x\\in I$; then $(\\tilde k^{\\sharp}_{s})^{-1}(y)=x$ and $\\tilde k_{s}(x)=k_{s}(x)=y$, so\n$\\phi|_{J_{s}}=\\mathrm{id}$, i.e.\\ $\\phi\\in\\mathrm{Diff}(J_{s}')$.  By the locality clause\n\\eqref{eq:H1loc} with $K=J_{s}'$ we get $U(\\phi)\\in\\cA(J_{s}')$, and hence $U(\\phi)\\in\\cA(J_{s})'$ by\n\\emph{locality} alone.  Now let $X\\in\\cM$.  By covariance, $Y:=U^{\\sharp}_{s}XU_{s}^{\\sharp*}\\in\n\\cA(\\tilde k^{\\sharp}_{s}(I))=\\cA(J_{s})$, so $U(\\phi)YU(\\phi)^{*}=Y$.  Since $U_{s}$ and\n$U(\\phi)U^{\\sharp}_{s}$ implement the same diffeomorphism they agree up to a phase $\\lambda$, $|\\lambda|=1$,\nwhich cancels in $\\Ad$; therefore\n$U_{s}XU_{s}^{*}=U(\\phi)YU(\\phi)^{*}=Y=U^{\\sharp}_{s}XU_{s}^{\\sharp*}$, and applying $\\omega$ finishes the\nproof.\n\\end{proof}\n\nNote that $\\phi$ is in general supported on the \\emph{closed} arc $\\overline{J_s'}$, which is why\n\\eqref{eq:H1loc} rather than a support condition is the right hypothesis.",
+  "new": "This is \\cite[Thm.~4.7, step $\\langle1\\rangle7$]{RigorC}; we give the argument.  Put\n$f:=g_{\\rm tot}-g^{\\sharp}_{\\rm tot}$.  It is real, $\\|f\\|_{3/2}<\\infty$ (\\cite[Thm.~2.3(c)]{RigorC}, which holds on\nall of $\\mathcal E$), and $f=0$ on the open interval $I$, so $V_{t}:=e^{it\\overline{T(f)}}\\in\\cA(I)'=\\cM'$ for all\n$t$ by \\Cref{lem:loc}(i).  Let $X\\in\\cM$ and $a\\ge0$.  By \\Cref{thm:H1}(iii) for $g^{\\sharp}_{\\rm tot}$ (\\cite[Thm.~4.7]{RigorC} proves it on all of $\\mathcal E$),\n$\\Ad U^{\\sharp}_{a}(X)\\in\\cA(\\tilde k^{\\sharp}_{a}I)$, and $\\tilde k^{\\sharp}_{a}I=k_{a}(I)\\subseteq I$ because\n$a\\ge0$ moves the far endpoint of $I$ inwards; so $\\Ad U^{\\sharp}_{a}(X)\\in\\cM$ commutes with $V_{a}$ and\n$\\Ad(V_{a}U^{\\sharp}_{a})(X)=\\Ad U^{\\sharp}_{a}(X)\\in\\cM$.  By induction on $n$,\n$\\Ad\\bigl((V_{s/n}U^{\\sharp}_{s/n})^{n}\\bigr)(X)=\\Ad U^{\\sharp}_{s}(X)$ for $s\\ge0$.  On the common core\n$\\Hil_{\\rm fin}$ one has $T(g_{\\rm tot})=T(f)+T(g^{\\sharp}_{\\rm tot})$ term by term, and $T(g_{\\rm tot})$ is\nessentially self-adjoint there \\cite[Thm.~4.4]{CW}; so $\\overline{T(f)}+\\overline{T(g^{\\sharp}_{\\rm tot})}$, a\nsymmetric extension of it, is essentially self-adjoint with closure $\\overline{T(g_{\\rm tot})}$, and the\nTrotter product formula (Reed--Simon Thm.~VIII.31, as in \\Cref{thm:H1}) gives\n$(V_{s/n}U^{\\sharp}_{s/n})^{n}\\to U_{s}$ strongly.  Strong convergence of unitaries implies that of their\nadjoints, hence $\\Ad\\bigl((V_{s/n}U^{\\sharp}_{s/n})^{n}\\bigr)(X)\\to\\Ad U_{s}(X)$ strongly, so\n$\\Ad U_{s}(X)=\\Ad U^{\\sharp}_{s}(X)$, and applying $\\omega$ finishes the proof.\n\\end{proof}\n\nThe restrictions $s\\ge0$ and $\\mathcal E$ are those of the proof: for $s<0$ the arc $\\tilde k_{s}I$ is not\ncontained in $I$, and for a $C^{1,1}$ extension outside $\\mathcal E$ no implementer statement is proved here.\nAn earlier version of this lemma applied \\eqref{eq:H1loc} to $\\phi=\\tilde k_{s}\\circ(\\tilde k_{s}^{\\sharp})^{-1}$,\nwhich is only $C^{1,1}$, so that $U(\\phi)$ is not defined; that argument is withdrawn.  \\Cref{thm:B} does not\nuse \\Cref{lem:ext}.",
+  "finding": "C2 F3b",
+  "reason": "the old proof applied eq:H1loc to the C^{1,1} map phi, for which U(phi) is not defined; the new proof uses only lem:loc(i), thm:H1(iii) and Trotter, as C11 <1>7 does."
+ },
+ {
+  "file": "paper2/sec_setting.tex",
+  "old": "in the situation of \\Cref{lem:ext}: there $\\supp\\phi=\\overline{J_{s}'}$ contains $\\partial J_{s}$, and no\nopen interval $K$ with $\\supp\\phi\\subset K\\subseteq J_{s}'$ exists.",
+  "new": "for a $\\phi$ that is the identity exactly on an interval $J$: then $\\supp\\phi=\\overline{J'}$ contains $\\partial J$,\nand no open interval $K$ with $\\supp\\phi\\subset K\\subseteq J'$ exists.  The clause concerns \\emph{smooth}\n$\\phi\\in\\mathrm{Diff}^{+}(S^{1})$ only (it is the CDIT axiom \\cite[\\S4]{CDIT}): $U(\\phi)$ is not defined for a\n$C^{1,1}$ map, and no argument of this paper applies \\eqref{eq:H1loc} to one; non-smooth fields enter only\nthrough \\Cref{lem:loc}(i).",
+  "finding": "C2 F3",
+  "reason": "the remark pointed to the withdrawn lem:ext argument, which applied eq:H1loc to a C^{1,1} map."
+ },
+ {
+  "file": "paper2/sec_implementation.tex",
+  "old": "\\item $\\Ad U_{s}|_{\\cA(D)}=\\Ad U(h_{s})|_{\\cA(D)}$, where $U(h_{s})$ is the M\\\"obius unitary of",
+  "new": "\\item $\\Ad U_{s}|_{\\cA(D)}=\\Ad U(h_{s})|_{\\cA(D)}$ for $s\\ge0$, where $U(h_{s})$ is the M\\\"obius unitary of",
+  "finding": "C2 F3 (C11 thm:H1(ii) is stated for 0 <= s)",
+  "reason": "rigor/implementation_C11.tex l. 555 proves (ii) for s >= 0 only; the paper said 'for every s'."
+ },
+ {
+  "file": "paper2/sec_universality.tex",
+  "old": "with $\\Omega\\in D(T(h))$ and $e^{i\\tau T(h)}=U(\\phi'_{\\tau})$, $\\phi'_{\\tau}$ the flow of $h\\partial_{x}$.",
+  "new": "with $\\Omega\\in D(T(h))$, and $\\|h\\|_{3/2}<\\infty$ (for smooth $h$, $e^{i\\tau\\overline{T(h)}}=U(\\phi'_{\\tau})$ up to a phase, $\\phi'_{\\tau}$ the flow of $h\\partial_{x}$; for $C^{1,1}$ $h$ the right-hand side is not defined and is not used).",
+  "finding": "C2 F3 (paper-2 copy of UB prop:geom <1>1)",
+  "reason": "the proof applied eq:H1loc to the flow of a C^{1,1} field, for which U(phi'_tau) is undefined; lem:loc(i) needs only the 3/2-norm."
+ },
+ {
+  "file": "paper2/sec_universality.tex",
+  "old": "Since $\\supp\\phi'_{\\tau}\\subseteq\\supp h$ is a compact subset of the \\emph{open} arc $I'$, there is an\ninterval $K$ with $\\supp h\\subset K\\subseteq I'$ and $\\phi'_{\\tau}\\in\\mathrm{Diff}(K)$, so\n$u'_{\\tau}:=U(\\phi'_{\\tau})\\in\\cA(K)\\subseteq\\cA(I')\\subseteq\\cM'$ by \\eqref{eq:H1loc}, isotony and\nlocality; in particular $u'_{\\tau}\\in\\U(\\cM')$.",
+  "new": "Since $\\supp h$ is a nonempty compact subset of the \\emph{open} arc $I'$, $h$ vanishes on the connected\ncomponent $I_{0}$ of $S^{1}\\setminus\\supp h$ that contains $\\bar I$, an open interval; so\n$u'_{\\tau}:=e^{i\\tau\\overline{T(h)}}\\in\\cA(I_{0})'\\subseteq\\cA(I)'=\\cM'$ by \\Cref{lem:loc}(i) and isotony\n(for $h=0$ there is nothing to prove); in particular $u'_{\\tau}\\in\\U(\\cM')$.",
+  "finding": "C2 F3",
+  "reason": "replaces the use of eq:H1loc on a non-smooth flow by lem:loc(i), which holds for every real h with finite 3/2-norm."
+ },
+ {
+  "file": "paper2/sec_universality.tex",
+  "old": "$g_{\\rm tot}+h$ but not the recovered state (\\Cref{lem:ext}).",
+  "new": "$g_{\\rm tot}+h$ but not the recovered state (\\Cref{lem:ext}, for smooth $h$, so that $g_{\\rm tot}+h\\in\\mathcal E$, and $s\\ge0$; \\Cref{prop:geom} does not use it).",
+  "finding": "C2 F3",
+  "reason": "lem:ext is now stated for class E and s >= 0 only."
+ },
+ {
+  "file": "paper2/sec_kubo_mori.tex",
+  "old": "extension $h$ --- the extension changes $U_{s}$ but not $\\omega_{s}|_{\\cM}$ by \\Cref{lem:ext}.",
+  "new": "extension $h$ --- the extension changes $U_{s}$ but, for smooth $h$ and $s\\ge0$, not $\\omega_{s}|_{\\cM}$, by \\Cref{lem:ext}.",
+  "finding": "C2 F3",
+  "reason": "lem:ext is now stated for class E and s >= 0 only."
+ },
+ {
+  "file": "paper2/main.tex",
+  "old": "$\\zeta$ the cross ratio of the four endpoints.  The coefficient is",
+  "new": "in the half-line normal form, where the cross ratio $\\zeta$ of the four endpoints equals the compression\nparameter $s$ (the reduction of a finite configuration to this normal form for a general net rests on an\ninternal document under review).  The coefficient is",
+  "finding": "C6 B6; C2 F2",
+  "reason": "thm:B is proved in the half-line normal form only; the Moebius reduction is carded for the free fermion only (mobius-reduction-cross-ratio)."
+ },
+ {
+  "file": "paper2/sec_setting.tex",
+  "old": "All quantities below depend on\nthe configuration only through the cross ratio $\\zeta$ of the four endpoints; this is the content of\n\\cite[Lemma 1.1]{Note5}, and it allows us to pass to a normal form.  We use the half-line normal form",
+  "new": "For the free fermion the recovery\nquantities depend on a finite configuration only through the cross ratio $\\zeta$ of the four endpoints\n\\cite[Lemma 1.1]{Note5}.  For a general net the corresponding reduction to the normal form below rests on\nthe internal document \\texttt{rigor/moebius\\_reduction\\_general\\_nets.tex} (under review); \\Cref{thm:B} is\nstated and proved in that normal form and does not use it.  We use the half-line normal form",
+  "finding": "C6 B6; C2 F2",
+  "reason": "the Moebius reduction is proved (card mobius-reduction-cross-ratio) for the free fermion only; for general nets it rests on a document under review."
+ },
+ {
+  "file": "paper2/app_conventions.tex",
+  "old": "and all recovery quantities depend on $(a,L,s)$ only through the cross ratio",
+  "new": "and for the free fermion all recovery quantities depend on $(a,L,s)$ only through the cross ratio (for a\ngeneral net, the $U(1)$ current net of \\Cref{sec:boson} included, the reduction rests on \\texttt{rigor/moebius\\_reduction\\_general\\_nets.tex}, under review)",
+  "finding": "C6 B6",
+  "reason": "same scope restriction as in the abstract and sec_setting."
+ },
+ {
+  "file": "paper2/sec_boson.tex",
+  "old": "$\\kappa_{c}$ & 1.58 & 2.31 & 3.04 & 3.77 & 4.51 & 5.24\\\\\\midrule",
+  "new": "$\\kappa_{c}$ & 1.58 & 2.31 & 3.41 & 4.14 & 4.51 & 5.24\\\\\\midrule",
+  "finding": "C6 B2",
+  "reason": "the third and fourth columns carry the values of kappa_c = 3.41 and 4.14 (numerics/boson/boson_recovery.out, basis N=120, sigma=1.6: f2 = 0.0083508, s2 = 0.0724870; f2 = 0.0083832, s2 = 0.0745522)."
+ },
+ {
+  "file": "paper2/sec_boson.tex",
+  "old": "$s_{2}$.  The different exponents are expected, not fitted: the discarded per-mode weight decays like",
+  "new": "$s_{2}$.  The different exponents have a heuristic explanation (the exponents themselves were fitted): the discarded per-mode weight decays like",
+  "finding": "C6 B2",
+  "reason": "the quoted values come from free-exponent fits, so 'not fitted' was false."
+ },
+ {
+  "file": "paper2/sec_boson.tex",
+  "old": "i.e.\\ agreement at the $0.2\\%$ level for $f_{2}$ and the $1\\%$ level for $s_{2}$: \\emph{universality is",
+  "new": "from a single method.  For $f_{2}$ the fits with free $p$ and with $p=2$ agree (0.008426--0.008457).  For $s_{2}$\nthe extrapolation depends on the tail exponent: free $p$ gives 0.0810--0.0824, $p=1$ gives 0.0838--0.0842,\n$p=2$ gives 0.0782--0.0785 (outside the quoted interval), against the raw value $0.0763$ at the finest window\n(\\texttt{numerics/boson/boson\\_recovery.out}); the quoted $s_{2}$ therefore rests on the heuristic $p\\approx1$\ntail law.  With this caveat, $f_{2}$ agrees with $1/(12\\pi^{2})$ at the $0.2\\%$ level and $s_{2}$ with $1/12$\nat the $1\\%$ level: \\emph{universality is",
+  "finding": "C6 B2",
+  "reason": "the s2 value depends on the assumed tail exponent (boson_recovery.out l. 42, 56, 70; rigor/council/c6_boson_extrap.out); the paper must state this."
+ },
+ {
+  "file": "paper2/main.tex",
+  "old": "together with an analytic\nproof of the $c$-linearity of the vacuum overlap at second order.",
+  "new": "the value of $s_{2}$ resting on an assumed tail exponent, together with an\nanalytic second-order computation (not a refereed proof) of the $c$-linearity of the vacuum overlap.",
+  "finding": "C6 B3; C6 B2",
+  "reason": "card boson-check is NUMERICAL and eq:clin has no refereed proof; the s2 extrapolation depends on the tail exponent."
+ },
+ {
+  "file": "paper2/sec_intro.tex",
+  "old": "$f_2=0.00844(2)$ and $s_2=0.083(2)$ agree with $1/(12\\pi^2)=0.0084434$ and $1/12=0.083333$.\nIn addition the $c$-linearity of the vacuum overlap is proved analytically at second\norder:",
+  "new": "$f_2=0.00844(2)$ and $s_2=0.083(2)$ agree with $1/(12\\pi^2)=0.0084434$ and $1/12=0.083333$,\nthe second only under an assumed tail exponent of the extrapolation (\\Cref{sec:boson}).\nIn addition an analytic second-order computation (not a refereed proof) gives the\n$c$-linearity of the vacuum overlap:",
+  "finding": "C6 B3; C6 B2",
+  "reason": "same as in the abstract."
+ },
+ {
+  "file": "paper2/sec_universality.tex",
+  "old": "If $\\cA=\\cA_{1}\\otimes\\cA_{2}$ with central charges $c_{1},c_{2}$, then $f_{2}(\\cA)=f_{2}(\\cA_{1})+\nf_{2}(\\cA_{2})$, consistent with $c=c_{1}+c_{2}$.  Indeed $T(f)=T_{1}(f)\\otimes\\one+\\one\\otimes T_{2}(f)$,\n$U_{s}=U_{s}^{(1)}\\otimes U_{s}^{(2)}$, and $\\|T(g_{\\rm tot})\\Omega\\|^{2}$ adds.",
+  "new": "Let $\\cA_{1},\\cA_{2}$ satisfy the hypotheses of \\Cref{thm:B}, with central charges $c_{1},c_{2}$, and assume\nthat $\\cA=\\cA_{1}\\otimes\\cA_{2}$ does too.  Then $f_{2}(\\cA)=f_{2}(\\cA_{1})+f_{2}(\\cA_{2})$.  Indeed the stress\ntensor of $\\cA$ is $T(f)=T_{1}(f)\\otimes\\one+\\one\\otimes T_{2}(f)$, so its central charge is $c=c_{1}+c_{2}$,\nand \\Cref{thm:B} applied to each of the three nets gives $f_{2}=c/(12\\pi^{2})$, which is additive in $c$.\n(Additivity of $\\|T(g_{\\rm tot})\\Omega\\|^{2}$ alone would not suffice: $\\gB$ is a distance to\n$\\overline{\\cM'_{\\rm sa}\\Omega}$, not a norm.)",
+  "finding": "C6 B5",
+  "reason": "the old one-line proof used additivity of ||T(g)Omega||^2, which does not imply additivity of g_B (a distance); the corollary follows from thm:B and c = c1 + c2."
+ },
+ {
+  "file": "paper2/sec_implementation.tex",
+  "old": "\\emph{(b) Fock representations with integer $c$.}  By \\cite{DIT} (via the Outlook of \\cite{CDIT}),\n$U^{(n,h)}$ extends to $D^{\\sigma}(S^{1})$ for $\\sigma>2$; since",
+  "new": "\\emph{(b) Fock representations with integer $c$.}  According to the Outlook of \\cite{CDIT} (\\S5, PDF p.~24),\nfor every positive integer $n$ and \\emph{some} $h$ the representation $U^{(n,h)}$ extends to $D^{\\sigma}(S^{1})$\nfor $\\sigma>2$ \\cite{DIT}.  We have not obtained \\cite{DIT}, so this paragraph is not checked against that\nsource and nothing in the paper uses it.  If it applies, then, since",
+  "finding": "C6 B7; referee_paper2 P2",
+  "reason": "DIT is NOT OBTAINED (refs/ has no copy); the CDIT Outlook states the extension for 'some h' only."
+ },
+ {
+  "file": "paper2/sec_implementation.tex",
+  "old": "This is strictly stronger than \\Cref{thm:impl} for those models, and it is open for general $c$.",
+  "new": "This would be strictly stronger than \\Cref{thm:impl} for those representations; it is open for general $c$.",
+  "finding": "C6 B7",
+  "reason": "conditional on the unobtained source."
+ },
+ {
+  "file": "paper2/sec_outlook.tex",
+  "old": "a corresponding family of compressions.  \\Cref{thm:impl} already covers piecewise-M\\\"obius maps with several\ntouching points for Fock representations with integer $c$ (via \\cite{DIT}), and the $\\|\\cdot\\|_{3/2}$\nestimate of \\Cref{thm:reg}(c) is insensitive to the number of kinks, so the implementation half generalises\ndirectly.",
+  "new": "a corresponding family of compressions.  For Fock representations with integer $c$ piecewise-M\\\"obius maps\nwith several touching points would be implemented by the extension reported from \\cite{DIT} in\n\\Cref{sec:impl} (a source we have not obtained), and the $\\|\\cdot\\|_{3/2}$ estimate of \\Cref{thm:reg}(c) is\ninsensitive to the number of kinks, so we expect the implementation half to generalise; this is not proved\nhere.",
+  "finding": "C6 B7",
+  "reason": "thm:impl does not cover several touching points; the statement rested on the unobtained DIT and was asserted as fact."
+ },
+ {
+  "file": "paper2/main.tex",
+  "old": "conformal nets}, Commun.\\ Math.\\ Phys.\\ \\textbf{375} (2020) 391--427, arXiv:1811.04501.",
+  "new": "conformal nets}, Commun.\\ Math.\\ Phys.\\ \\textbf{375} (2020) 391--427, arXiv:1811.04501.  Not obtained by\nus; consulted only through the Outlook of \\cite{CDIT}.",
+  "finding": "C6 B7; referee_paper2 P2",
+  "reason": "bibitem carried no NOT OBTAINED caveat."
+ },
+ {
+  "file": "paper2/sec_universality.tex",
+  "old": "Brunetti--Guido--Longo.  \\emph{This is a gap}, and we flag it as such; it is known in the models where\n(H1)--(H3) were first verified.",
+  "new": "Brunetti--Guido--Longo, together with the one-particle Bisognano--Wichmann property (BW1) that the modular\ndata of the standard subspace of $\\HT$ for $I'$ are geometric \\cite{RigorB}.  \\emph{This is a gap}, and we flag\nit as such.",
+  "finding": "C6 B8; referee_paper2 P7",
+  "reason": "the claim 'known in the models where (H1)-(H3) were first verified' has no source (universality_theorem_B.tex lem:RST and (BW1) are GAPs there); the companion gap (BW1) was not mentioned."
+ },
+ {
+  "file": "paper2/sec_setting.tex",
+  "old": "Only locality --- not (HD) --- is used in the upper bound and in the $c$-linearity theorem; this matters",
+  "new": "Only locality --- not (HD) --- is used in the upper bound, and the $c$-linearity theorem uses neither; this matters",
+  "finding": "C6 D2; referee_paper2 P1",
+  "reason": "thm:linear uses neither locality nor (HD) nor (RS) (sec_universality.tex:185)."
+ },
+ {
+  "file": "paper2/sec_second_variation.tex",
+  "old": "see \\cite[\\S(B)]{RigorSV}",
+  "new": "see \\cite[Prop.~5.2, `Identification of the two metrics in finite dimensions']{RigorSV}",
+  "finding": "C6 D2; referee_paper2 P3",
+  "reason": "there is no section (B) in lemma_second_variation.tex; the statement is its Prop. 5.2 (prop:findim-id, lemma_second_variation.aux)."
+ },
+ {
+  "file": "paper2/sec_kubo_mori.tex",
+  "old": "the upper half under a uniform-integrability hypothesis on the negative part of $\\log\\Delta_K$ along the orbit, which is open;",
+  "new": "the upper half under hypothesis $(\\mathrm V)$ of \\cite[Def.~4.3]{RigorRK}, uniform integrability of the negative part of $\\log\\Delta_K$ along the orbit, which is open (Gap~RK1; modular analyticity is not available here, since $(\\mathrm U_{\\varepsilon})$ fails for every admissible gauge, \\cite[Prop.~4.1]{RigorRK});",
+  "finding": "C6 D2; referee_paper2 P4",
+  "reason": "names the hypothesis as RK defines it (kubo_mori_gauge_lemma.aux: def:V = Def. 4.3, prop:Afails = Prop. 4.1)."
+ },
+ {
+  "file": "paper2/sec_kubo_mori.tex",
+  "old": "\\cite[\\S5]{RigorKM}.  The large-$\\lambda$ tail",
+  "new": "\\cite[\\S5, Thm.~5.9 with Thm.~5.8]{RigorKM}.  The large-$\\lambda$ tail",
+  "finding": "C6 D2; referee_paper2 P5",
+  "reason": "the statement quoted is RigorKM Thm 5.9 (thm:main); Thm 5.8 gives the limsup (kubo_mori_second_variation.aux)."
+ },
+ {
+  "file": "paper2/sec_boson.tex",
+  "old": "i.e.\\ $c=1$ in the convention \\eqref{eq:TT}.  For real",
+  "new": "i.e.\\ $c=1$ in the convention \\eqref{eq:TT}.  In this section, as in the numerics, $\\hat f(p)=\\int fe^{+ipx}dx$,\nopposite to \\Cref{app:conv}; for real $f$ this replaces $\\hat f$ by $\\overline{\\hat f}$ and changes none of the\nquoted numbers.  For real",
+  "finding": "C6 D2; referee_paper2 P6",
+  "reason": "the displayed <J(f)J(g)> = (1/4 pi^2) int_0^inf p conj(f^) g^ dp holds with the e^{+ipx} convention (with e^{-ipx} the conjugate sits on g^); app_conventions fixes e^{-ipx}."
+ }
+]

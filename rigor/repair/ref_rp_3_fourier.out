@@ -1,0 +1,15 @@
+/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/rigor/repair/ref_rp_3_fourier.py:15: IntegrationWarning: The maximum number of subdivisions (50) has been achieved.
+  If increasing the limit yields no improvement it is advised to analyze 
+  the integrand in order to determine the difficulties.  If the position of a 
+  local difficulty can be determined (singularity, discontinuity) one will 
+  probably gain from splitting up the interval and calling the integrator 
+  on the subranges.  Perhaps a special-purpose integrator should be used.
+  re = quad(lambda x: h(x)*np.cos(p*x), -L, L, epsabs=1e-13)[0]; im = quad(lambda x: h(x)*np.sin(p*x), -L, L, epsabs=1e-13)[0]
+/Users/alex/Documents/Uni/Hannover/claude-team/cft_cmi/rigor/repair/ref_rp_3_fourier.py:15: IntegrationWarning: The integral is probably divergent, or slowly convergent.
+  re = quad(lambda x: h(x)*np.cos(p*x), -L, L, epsabs=1e-13)[0]; im = quad(lambda x: h(x)*np.sin(p*x), -L, L, epsabs=1e-13)[0]
+validation: int_0^inf p e^{-ipu-eps p} dp vs -1/(u-i eps)^2 at u=0.7: (-2.0098430776846152-0.2885928521073853j) (-2.009843077636631-0.28859285217346503j)
+position space              : (0.04153010447127262+0.055513717873900505j)
+fhat=e^{+ipx}, conj on fhat : (0.04153010447126265+0.05551371787385825j)   rel.dev 6.26e-13  MATCH
+fhat=e^{+ipx}, conj on ghat : (0.04153010447126265-0.05551371787385825j)   rel.dev 1.60e+00  
+fhat=e^{-ipx}, conj on fhat : (0.04153010447126265-0.05551371787385825j)   rel.dev 1.60e+00  
+fhat=e^{-ipx}, conj on ghat : (0.04153010447126265+0.05551371787385825j)   rel.dev 6.26e-13  MATCH

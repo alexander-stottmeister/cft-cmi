@@ -1,0 +1,6 @@
+validation int 1/(u^2+4pi^2) = 0.5 exact 0.5, dev 0.0
+(a) J = 0.1013211836423377714438795  1/pi^2 = 0.1013211836423377714438795  rel dev 0.0 PASS
+(b) 2 iint D1^2/N = 0.0675474557615585143  target 2/(3pi^2) = 0.0675474557615585143  rel dev 4.8e-23 PASS
+(c) k=+1.0 k'=-2.0: |direct| = 4.20706565e-03  |closed| = 4.20706565e-03  phase(direct) = +0.0000  rel dev 1.4e-15 PASS
+(c) k=+3.0 k'=+0.5: |direct| = 1.01066413e-02  |closed| = 1.01066413e-02  phase(direct) = +3.1416  rel dev 5.6e-16 PASS
+(c) k=-4.0 k'=+2.0: |direct| = 3.81040875e-03  |closed| = 3.81040875e-03  phase(direct) = +0.0000  rel dev 2.2e-16 PASS

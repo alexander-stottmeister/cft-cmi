@@ -4,7 +4,7 @@ theta := sup_G cos^2(u, v_G)   (S10 eq:theta), u = visible compression defect,
 v_G = E_I[G,P]E_I projected, G anti-self-adjoint supported in D.
 
 **Verdict (short).**  The two published numbers do **not** have different limits.  The modular
-Galerkin frame is right and the S10 spectral-circle number is a **taper-suppressed lower bound**:
+Galerkin frame is right and the S10 spectral-circle number is **taper-suppressed** (it lies below the taper-free frames; no direction is proved, so it is not a rigorous lower bound):
 the ultraviolet smoothstep taper that S10 puts on the spectral derivative (to kill the periodic
 grid's second Fermi point) removes exactly the modes that carry ~20% of theta.  Running the
 *same* modular-Galerkin functional on the *circle model's own mesh* (no taper, exact continuum
@@ -12,7 +12,17 @@ defect kernel) reproduces the Galerkin values, not the circle ones.  The reconci
 
         theta = 0.384 +- 0.003      (h -> 0, measured order h^0.77, five mesh families)
 
-so 1 - theta = 0.616 +- 0.003.  S10's 0.300 +- 0.005 is a lower bound, and the Galerkin table of
+(Added 2026-11-19, repair seat R3.)  This is an extrapolated estimate, numerical input, not a bound:
+every computed finite-mesh value is below 0.38 (largest 0.37893, circle mesh L = 2048; 0.37544 raw /
+0.37635 y_max-corrected in T0 at h = 0.015), the finite-mesh values are neither lower nor upper bounds
+on theta, and the extrapolation adds about +0.008.  Of the three fits of AGENTS.md Sec. 5 (h, log(1/h),
+h^p; finest five rungs, admissibility = residuals at the three finest rungs <= 1e-4) only h^p is
+admissible, in every family, with h -> 0 values 0.38388 ... 0.38445 (raw) and 0.38393 ... 0.38436
+(y_max-corrected); at the looser 1e-3 the linear fit is also admissible for families A, C, C' and gives
+0.3781 ... 0.3810.  `${PYTHON:-python3} numerics/optimality_all/theta_three_fits.py >
+numerics/optimality_all/theta_three_fits.out`.
+
+so 1 - theta = 0.616 +- 0.003 (numerical).  S10's 0.300 +- 0.005 is taper-suppressed (not a proved bound), and the Galerkin table of
 `optimality_all_channels.tex` Sec. 5.2 (0.286 ... 0.336, "at least 0.30, plausibly 0.34-0.40")
 confirmed and sharpened.
 
@@ -222,10 +232,10 @@ theta_j = 2 pi j/L mapped through xi = log((x+a)/(Lg-x)), x = tan(theta_j/2):
 Same mesh, same geometry, same |D|: 0.379 vs 0.295.  **The mesh is not the problem; the taper is.**
 (The circle mesh is in fact an efficient mesh -- it extrapolates to 0.3837+0.001, family D above.)
 
-**Conclusion.** S10 Sec. 7(c)'s theta = 0.300 +- 0.005 is a **taper-suppressed lower bound**, not
+**Conclusion.** S10 Sec. 7(c)'s theta = 0.300 +- 0.005 is a **taper-suppressed value** (no proved direction), not
 an estimate of theta: the smoothstep taper on the spectral derivative removes precisely the
 ultraviolet modes near the moving endpoint that carry ~20% of theta (cf. phi(Delta), Sec. 2).  All
-qualitative conclusions drawn from it (theta > 0, condition (S) fails, the compression is not the
+qualitative conclusions drawn from it (all numerical: theta > 0, condition (S) fails, the compression is not the
 second-order minimiser, E^(2) <= (1-theta) f2 z^2) are unaffected and in fact strengthened:
 1 - theta = 0.616 +- 0.003 instead of 0.70.
 

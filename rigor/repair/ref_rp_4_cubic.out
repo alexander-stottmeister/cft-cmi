@@ -1,0 +1,13 @@
+TOL = 1e-10
+(a) n=6 k=2: Tr G^3 = +4.996e-16  |.|<TOL: True;  max|sv(B)-sv(C)| = 2.22e-16
+(a) n=11 k=5: Tr G^3 = +4.330e-15  |.|<TOL: True;  max|sv(B)-sv(C)| = 4.44e-16
+(a) n=40 k=17: Tr G^3 = +0.000e+00  |.|<TOL: True;  max|sv(B)-sv(C)| = 4.44e-16
+(b) u=exp(i a sin) a=0.7: Tr G_W^3 = +0.00000000000000  expected +0  dev 5.90e-17 < TOL: True; m(1)-m(-1) = 0; ||G||_2^2 exact 0.230591132121 window 0.230591132121 discarded 8.3e-17 trunc.bound 6.3e-09
+    top sv B: [3.39533218e-01 3.57210143e-03 7.29455000e-06 6.38300000e-09]  top sv C: [3.39533218e-01 3.57210143e-03 7.29455000e-06 6.38300000e-09]
+(b) u=exp(i a sin) a=3.0: Tr G_W^3 = +0.00000000000000  expected +0  dev 1.11e-16 < TOL: True; m(1)-m(-1) = 0; ||G||_2^2 exact 1.907810804420 window 1.907810804420 discarded 0.0e+00 trunc.bound 0.0e+00
+    top sv B: [9.41833503e-01 2.58351359e-01 1.04691112e-02 1.69132102e-04]  top sv C: [9.41833503e-01 2.58351359e-01 1.04691112e-02 1.69132102e-04]
+(b) u=z exp(i a sin) a=0.7: Tr G_W^3 = -1.00000000000000  expected -1  dev 5.55e-16 < TOL: True; m(1)-m(-1) = -1; ||G||_2^2 exact 1.007106138204 window 1.007106138204 discarded 2.2e-16 trunc.bound 4.5e-08
+    top sv B: [1.00000000e+00 5.96072634e-02 2.07962732e-04 2.55160000e-07]  top sv C: [5.96072634e-02 2.07962732e-04 2.55160000e-07 1.60000000e-10]
+(b) u=z exp(i a sin) a=3.0: Tr G_W^3 = -1.00000000000000  expected -1  dev 7.77e-16 < TOL: True; m(1)-m(-1) = -1; ||G||_2^2 exact 1.975437823668 window 1.975437823668 discarded 0.0e+00 trunc.bound 0.0e+00
+    top sv B: [1.         0.69517528 0.06669184 0.00156047]  top sv C: [6.95175284e-01 6.66918391e-02 1.56046551e-03 1.80577920e-05]
+(c) shift: nonzero entries of G (interior): [(-1, np.float64(-1.0))]  Tr G^3 = -1.0  off-diag max 0.0

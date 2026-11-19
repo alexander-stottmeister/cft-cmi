@@ -1,0 +1,16 @@
+[
+ {
+  "file": "paper1/sec_numerics.tex",
+  "old": "whose lower end is a rigorous lower bound and whose upper end",
+  "new": "whose lower end is a lower bound up to the uncertified quadrature of \\(\\widehat D\\) and whose upper end",
+  "finding": "REF-RR-C",
+  "reason": "unqualified 'rigorous' contradicted the table caption and card large-zeta-values"
+ },
+ {
+  "file": "paper1/sec_2d_lattice.tex",
+  "old": "at $\\lambda=1$ and $1.5$ the ratio is $0.84$--$0.94$ and $0.61$--$0.80$ for $\\eta_{\\rm V}\\le0.05$, with $L(1-\\text{ratio})=0.37,\\,0.28,\\,0.26$ and $1.2,\\,1.6,\\,1.9$ at $L=4,6,8$)",
+  "new": "for $\\eta_{\\rm V}\\le0.05$ the ratio at $\\lambda=1$ is $0.84$--$0.94$, $0.94$--$0.96$, $0.96$--$0.97$ at $L=4,6,8$ and at $\\lambda=1.5$ it is $0.61$--$0.80$ over all three $L$, with $L(1-\\text{ratio})=0.37,\\,0.28,\\,0.26$ and $1.2,\\,1.6,\\,1.8$ at $L=4,6,8$)",
+  "finding": "REF-RR-C",
+  "reason": "the lambda = 1 range was L = 4 only; 1.8480 rounds to 1.8"
+ }
+]

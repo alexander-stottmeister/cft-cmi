@@ -1,0 +1,4 @@
+[
+{"id":"thm-b-universality","key":"statement","old":"with (H1) an implementation U_s of the C^{1,1} map,","new":"with (H1) unitaries U_s with U_s A(K) U_s^* = A(ktilde_s K) for every interval K (the (C7) form of rigor/implementation_C11.tex; no locality clause for non-smooth maps is assumed),"},
+{"id":"implementer-hypotheses","key":"statement","old":"the Nelson route and D(L0)-invariance are closed in the negative.","new":"the Nelson route and D(L0)-invariance are closed in the negative. (H1) is proved in the (C7) form; independence of omega_s of the extension is proved for fields of class E and s >= 0 only (thm:H1 <1>7)."}
+]

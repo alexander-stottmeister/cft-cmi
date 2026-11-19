@@ -331,7 +331,7 @@ and the \emph{dual value}
  \Bigl(1-\frac{2\,\Delta_z(t)\,\|t\|_1}{V(t)}\Bigr)\Bigr\}
  \quad\text{(when the last bracket is positive)}.
 \]
-\item Consequently \(\Erec\ge\mathcal D_z\,(1-o(1))\) along any family of test operators
+\item Consequently \(\Erec\ge\frac{\Delta_z(t_z)_+^2}{8V(t_z)}\,(1-o(1))\), and hence \(\Erec\ge\mathcal D_z\,(1-o(1))\) if the family is near-optimal (\(\Delta_z(t_z)_+^2/(8V(t_z))\ge\mathcal D_z(1-o(1))\)), along any family of test operators
 \(t_z\) with \(\|t_z\|_1^2/V(t_z)\) bounded and \(\Delta_z(t_z)\|t_z\|_1/V(t_z)\to0\); in particular
 \begin{equation}\label{eq:liminf}
  \liminf_{z\to0}\ z^{-2}\Erec\ \ge\ \sup_{(t_z)}\ \liminf_{z\to0}\ z^{-2}\frac{\Delta_z(t_z)^2}{8V(t_z)}
@@ -349,13 +349,15 @@ remainder control of (2), which for finite-dimensional \(\hh_I\) is automatic.
 \lstep{1}{1}{(1).  \lassume{} \(E(\beta):=-\log\Fid(\omega,\omega^\beta)<\Phi(z)\) (otherwise the bound holds
 with the first alternative).  Then Prop.~\ref{prop:red} applies with \(E=\Phi(z)\), and
 \(\Tr\,t\,\delta^\beta\ge\Delta_z(t)\) because \(Q^\beta=Q^{\mathrm{rec}}(X,Z)\) for some
-\((X,Z)\in\mathcal F\) by Theorem~\ref{thm:range}; the right side of \eqref{eq:red} is increasing
-in \(\Tr t\delta^\beta\) on the range where the bracket is positive.}
-\lby{Prop.~\ref{prop:red}, Thm.~\ref{thm:range}; monotonicity of \(x\mapsto x^2(1-cx)\) for \(0<x<2/(3c)\),
-which covers the range where the bracket of the statement is positive after replacing \(\Delta\) by
-\(\Delta_z(t)\le\Tr t\delta^\beta\) (if \(\Tr t\delta^\beta\) exceeds \(2V/(3\|t\|_1)\) the bound with
-\(\Delta_z(t)\) is weaker than the one with \(\Tr t\delta^\beta\) only if the latter is past the maximum
-of \(x^2(1-cx)\), in which case use \(x=2/(3c)\) instead; in all cases the stated bound holds)}
+\((X,Z)\in\mathcal F\) by Theorem~\ref{thm:range}; in \eqref{eq:single} the parameter is chosen from \(\Delta_z(t)\), not from \(\Tr t\delta^\beta\).}
+\lby{put \(x:=\Tr t\delta^\beta\ge\Delta_z(t)>0\), \(N:=\|T-\omega(T)\|\le\|t\|_1\) (Prop.~\ref{prop:red} $\langle1\rangle1$), \(V':=V(t)+2\sqrt{2\Phi(z)}\|t\|_1^2\ge\omega^\beta((T-\omega(T))^2)\)
+(Lemma~\ref{lem:variance} with \(E=\Phi(z)\)) and \(\eps:=\Delta_z(t)/(2V')\); \(\eps N<1\) because the bracket of the statement is positive,
+\(2\Delta_z(t)\|t\|_1<V(t)\le V'\).  Lemma~\ref{lem:single}, \eqref{eq:single}, with \(\Delta=x\): the right side
+\(1-\frac\eps2x+\frac{\eps^2}2\frac{V'}{1-\eps N}\) is decreasing in \(x\), so it is at most its value at \(x=\Delta_z(t)\), and
+\(1-\Fid\ge\frac{\Delta_z(t)^2}{8V'}\cdot\frac{1-\Delta_z(t)N/V'}{1-\Delta_z(t)N/(2V')}\ge\frac{\Delta_z(t)^2}{8V'}\bigl(1-\frac{\Delta_z(t)N}{V'}\bigr)
+\ge\frac{\Delta_z(t)^2}{8V'}\bigl(1-\frac{2\Delta_z(t)\|t\|_1}{V(t)}\bigr)\) (as in Lemma~\ref{lem:single} $\langle1\rangle4$; \(N\le\|t\|_1\), \(V'\ge V(t)\));
+finally \(-\log\Fid\ge1-\Fid\).  (The earlier argument, monotonicity of the right side of \eqref{eq:red} in \(\Tr t\delta^\beta\), fails for
+\(\Tr t\delta^\beta\in[2V'/(3\|t\|_1),2V'/\|t\|_1)\), where \(x\mapsto x^2(1-cx)\) decreases.)}
 \lstep{1}{2}{(2).}
 \lby{take the infimum over \(\beta\) in (1) and let \(z\to0\); \(\Phi(z)=O(z^2)\) (Theorem~A) makes
 \(2\sqrt{2\Phi}\|t_z\|_1^2/V(t_z)=O(z)\), and \(\Erec\le\Phi(z)\) (S8 Prop.~1.3(4)) rules the first
@@ -482,7 +484,7 @@ channels --- is therefore \emph{false at the level of the second-order functiona
 \(\theta>0\) (numerical, \(0.384\pm0.003\); F3); whether it is false in exact fidelity depends on the upper half of
 the expansion for the rotated channel, examined in Sec.~\ref{sec:exactfid} and left open in the
 Verdict.  What survives is the equivalence of Section~\ref{sec:cert}: the
-all-channel optimum is the quasi-free optimum, now known to lie in \([\,\mathcal D_z,\ 0.616f_2z^2]\) (\(1-\theta=0.616\pm0.003\), F3).
+all-channel optimum is the quasi-free optimum, lying in \([\,\mathcal D_z,\ (1-\theta)f_2z^2(1+o(1))]\) at second order, with the numerical estimate \(1-\theta=0.616\pm0.003\) (F3; an extrapolation, not a bound).
 \end{verdictbreak}
 
 \subsection{Exact-fidelity check of the rotated channel}\label{sec:exactfid}
@@ -675,10 +677,10 @@ second-order functional \(g_Q\) over \(\mathcal F\)?'' to the single statement \
 
 \begin{verdictbreak}[\;The compression is not the minimiser of the second-order functional]
 \(E_DuE_D\ne0\) numerically in two independent discretisations (S10's spectral model,
-a taper-suppressed lower bound \(\theta\ge0.300\pm0.005\); the modular Galerkin model,
+a taper-suppressed value \(\theta\approx0.300\pm0.005\), not a proved bound; the modular Galerkin model,
 \(\theta=0.29\to0.34\) increasing with resolution), and the Phase~5 reconciliation of the two
 frames gives \(\theta=0.384\pm0.003\) (F3, \texttt{numerics/optimality\_all/F3\_RESULTS.md}).
-Hence \(\mathcal D_z=\min_{\mathcal F}g_Q\le(1-\theta)f_2z^2(1+o(1))\le0.616f_2z^2\): the zero-collar
+Hence \(\mathcal D_z=\min_{\mathcal F}g_Q\le(1-\theta)f_2z^2(1+o(1))\), numerically \(\approx0.616f_2z^2\) (\(\theta\approx0.384\pm0.003\) is an extrapolated estimate, not a bound): numerically, the zero-collar
 compression is \emph{not} the optimum of the quasi-free second-order programme, the KKT certificate
 does not exist at the compression, and no dual test operator can certify \(\liminf z^{-2}\Erec\ge f_2\).
 S8's Verdict~Q2 (``consistent with optimal'') is superseded at the level of the second-order functional.

@@ -153,7 +153,7 @@ with equality to second order: $E(s)=2f_2^\chi s^2+O(s^4)$.  Moreover $E(-s)=E(s
 generally $\det(\one-V_s^*V_s)$ is an even function of $s$.
 \end{theorem}
 \lstep{1}{1}{$E(s)=\frac1{8\pi^2}\iint\kappa_{\kt_s}^2$.}
-\lby{PA Prop.~2.4 and the identity $\Tr(G^2)=2\norm{\Pm W\Pp}_2^2$ recorded in
+\lby{PA Prop.~2.4 and the identity $\Tr(G^2)=2\norm{\Pm W\Pp}_2^2$ (valid for $W=\Wt_s$, every real $s$, for $\chi$ satisfying (W) of \texttt{index\_zero.tex} Lemma~6.1 (PA's field; for a general admissible $\chi$ as asserted in Lemma~\ref{lem:autocorr}), by index zero: \texttt{index\_zero.tex}, refereed 2026-11-19 (\texttt{rigor/repair/REF\_RP\_4\_report.md}), Lemma~6.1 and Theorem~4.2) recorded in
  \texttt{p1\_bogoliubov.out}~(1); equivalently PA's $\langle$PDP$\rangle$ identity with $\kt_s$ in place of $\kt$}
 \lstep{1}{2}{$\iint\kappa_{\kt_s}^2\le s^2\iint(\kappa^{(1)})^2=16\pi^2f_2^\chi s^2$.}
 \lby{Lemma~\ref{lem:autocorr}: $2\int_0^s(s-u)R(u)\dd u\le R(0)\cdot2\int_0^s(s-u)\dd u=s^2R(0)$}
@@ -167,7 +167,7 @@ generally $\det(\one-V_s^*V_s)$ is an even function of $s$.
 \lby{$G_{-s}=\Pp-\Wt_s\Pp\Wt_s^*=-\Wt_sG_s\Wt_s^*$, so $\norm{G_{-s}}_2=\norm{G_s}_2$;
  for the determinant, $V_{-s}=\Pm\Wt_s^*\Pp=(\Pp\Wt_s\Pm)^*$, and in the CS decomposition of the
  unitary $\Wt_s$ with respect to $H=\Pp H\oplus\Pm H$ the two off-diagonal blocks
- $\Pm\Wt_s\Pp$ and $\Pp\Wt_s\Pm$ have the same singular values (the ``sines''), whence the same
+ $\Pm\Wt_s\Pp$ and $\Pp\Wt_s\Pm$ have the same singular values (the ``sines''; this needs $\operatorname{ind}(\Pp\Wt_s\Pp|_{\Pp H})=0$, which holds for every real $s$ for $\chi$ satisfying (W) of \texttt{index\_zero.tex} Lemma~6.1 (PA's field; for a general admissible $\chi$ as asserted in Lemma~\ref{lem:autocorr}): \texttt{index\_zero.tex}, refereed 2026-11-19, Lemma~6.1), whence the same
  Fredholm determinant}
 \lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$}
 
@@ -200,7 +200,7 @@ there is no cubic term in the bound.
 \lstep{1}{3}{$\norm{V_\zeta}_2^2\le2f_2^\chi\zeta^2$, hence \eqref{eq:global}.}
 \lby{Theorem~\ref{thm:exactquad} and $\langle1\rangle1$, $\langle1\rangle2$: $-\log$ is decreasing.
  Note that $\norm{V_\zeta}\le\norm{V_\zeta}_2\le(2f_2^\chi)^{1/2}\zeta<1$ is exactly the standing
- hypothesis, so no smallness assumption beyond $2f_2^\chi\zeta^2<1$ is used}
+ hypothesis; PA Thm.~4.1 also needs $\norm{\Pp\Wt_\zeta\Pm}<1$, which follows from $\norm{\Pp\Wt_\zeta\Pm}=\norm{V_\zeta}$ (index zero for every $\zeta$, for $\chi$ satisfying (W) of \texttt{index\_zero.tex} Lemma~6.1 (PA's field; for a general admissible $\chi$ as asserted in Lemma~\ref{lem:autocorr}): \texttt{index\_zero.tex}, refereed 2026-11-19, Lemma~6.1 and Theorem~4.2); so no smallness assumption beyond $2f_2^\chi\zeta^2<1$ is used}
 \lstep{1}{4}{The infimum may be taken inside.}
 \lby{$\langle1\rangle3$ holds for each $\chi$; $t\mapsto-\frac12\log(1-2t\zeta^2)$ is continuous and
  increasing on $[0,\frac1{2\zeta^2})$, so the pointwise infimum of the right sides is its value at
@@ -389,7 +389,7 @@ $\zeta\le\zeta_0:=\min\{1,\frac1{2\gamma(1+\theta)}\}$ (the bound $\norm{G_s}_2\
  $R''(0)=-\norm{\kappa^{(2)}}^2$ by $\langle1\rangle1$; then
  $2\int_0^s(s-u)u^2\dd u=\frac{s^4}6$ and $\frac1{8\pi^2}\cdot\frac12\cdot\frac{s^4}6
  =\frac{s^4}{96\pi^2}$}
-\lqed{1}{3}\lby{PA Prop.~4.5 with $\epsilon(s)\le\Lambda_2s$; squaring
+\lqed{1}{3}\lby{PA Prop.~4.5 with $\epsilon(s)\le\Lambda_2s$ (PA Thm.~4.1 also needs $\norm{\Pp U_\zeta\Pm}<1$, which equals $\norm{V^{\mathrm{tot}}_\zeta}$ by index zero of the product family, \texttt{index\_zero.tex}, refereed 2026-11-19, Lemma~6.3(a) and Theorem~4.2); squaring
  $\norm V_2\le\zeta\gamma(1+\theta\zeta)$, then
  $\Phi\le-\frac12\log(1-\norm V_2^2)\le\frac{\norm V_2^2}{2(1-\norm V_2^2)}$ and
  $\frac1{1-v^2}\le1+\frac43v^2$ for $v\le\frac12$}
@@ -826,10 +826,10 @@ $V_s:=\Pm U_s\Pp$, $G_s:=\Pp-U_s^*\Pp U_s$.  Then, for all $s$,
 and $\det(\one-V_s^*V_s)$ is an even function of $s$.
 \end{lemma}
 \lstep{1}{1}{$\norm{G_s}_2^2=2\norm{V_s}_2^2$.}
-\lby{$\Tr(G_s^2)=\Tr\Pp+\Tr(U^*\Pp U)-2\Tr(\Pp U^*\Pp U)$ and
- $\Tr(\Pp U^*\Pp U)=\Tr(\Pp U^*U)-\Tr(\Pp U^*\Pm U)=\Tr\Pp-\norm{\Pm U\Pp}_2^2$, all the divergent
- traces cancelling in pairs (rigorously: apply the identity to $\Pi_nG_s\Pi_n$ for an increasing
- sequence of finite-rank projections $\Pi_n\uparrow\one$ and pass to the limit, both sides being monotone)}
+\lby{$U_sG_s=U_s\Pp-\Pp U_s=\Pm U_s\Pp-\Pp U_s\Pm$ (insert $\one=\Pp+\Pm$), two operators in
+ $\Stwo$-orthogonal positions, so $\norm{G_s}_2^2=\norm{\Pm U_s\Pp}_2^2+\norm{\Pp U_s\Pm}_2^2$ with no traces of
+ non-trace-class operators (\texttt{index\_zero.tex}, refereed 2026-11-19, Lemma~4.1); the two terms are equal because $U_s$ has index zero
+ for every real $s$ (\texttt{index\_zero.tex}, refereed 2026-11-19, Theorems~4.2 and~5.1, Lemma~5.2; not for an arbitrary unitary, Correction~\ref{corr0924:C3})}
 \lstep{1}{2}{$G_s=-\int_0^sU_\sigma^*[\Pp,K]U_\sigma\dd\sigma$ as a Bochner integral in $\Stwo$,
  hence $\norm{G_s}_2\le\abs s\norm{[\Pm,K]}_2$.}
 \lby{$\frac{\dd}{\dd\sigma}U_\sigma^*\Pp U_\sigma=U_\sigma^*[\Pp,K]U_\sigma$ on a core, the
@@ -839,7 +839,7 @@ and $\det(\one-V_s^*V_s)$ is an even function of $s$.
  $\langle1\rangle1$--$\langle1\rangle2$ gives the third inequality.}
 \lby{$K^*=-K$ gives $[\Pm,K]=\Pm K\Pp-\Pp K\Pm$ with $\Pp K\Pm=-(\Pm K\Pp)^*$, and the two
  off-diagonal blocks are $\Stwo$-orthogonal (PA Lemma~5.2 $\langle2\rangle2$)}
-\lqed{1}{4}\lby{evenness: for \emph{any} unitary $U$, $\Pm U\Pp$ and $\Pp U\Pm$ have the same
+\lqed{1}{4}\lby{evenness: for $U=U_s$ (index zero for every real $s$: \texttt{index\_zero.tex}, refereed 2026-11-19, Theorem~5.1 and Lemma~5.2; false for an arbitrary unitary, Correction~\ref{corr0924:C3}), $\Pm U\Pp$ and $\Pp U\Pm$ have the same
  singular values (CS decomposition; or: $V^*V=\one-A^*A$ and $BB^*=\one-AA^*$ with
  $A=\Pp U\Pp$, and $A^*A$, $AA^*$ are isospectral off $0$), and
  $V_{-s}=\Pm U_s^*\Pp=(\Pp U_s\Pm)^*$.  This is a theorem, not a numerical observation; the table of
@@ -852,7 +852,7 @@ vector $\Gamma(U_s)^*\Om$ represents $\widetilde\omega_s$ on $\cM=\cF(I)$, and
  \Phi(\zeta)\le-\tfrac12\log\bigl(1-2f_2^K\zeta^2\bigr),\quad f_2^K:=\tfrac12\norm{\Pm K\Pp}_2^2,
  \qquad \inf_{h'\in\mathcal A'}f_2^K=\frac{g_B}8=f_2 .
 \end{equation}
-Hence $\Phi(\zeta)\le-\frac12\log(1-2f_2\zeta^2)$ for $\zeta<(2f_2)^{-1/2}$, with no hypothesis.
+Hence $\Phi(\zeta)\le-\frac12\log(1-2f_2\zeta^2)$ for $\zeta<(2f_2)^{-1/2}$, with no hypothesis (for $(4f_2)^{-1/2}\le\zeta<(2f_2)^{-1/2}$ this rests on index zero of $e^{sK}$, \texttt{index\_zero.tex}, refereed 2026-11-19, Lemma~6.2).
 \end{proposition}
 \lstep{1}{1}{$U_s=\Wt_s c_s$ with the Dyson cocycle
  $c_s=\mathcal T\exp\bigl(i\int_0^sh'_\sigma\dd\sigma\bigr)$,
@@ -869,7 +869,7 @@ Hence $\Phi(\zeta)\le-\frac12\log(1-2f_2\zeta^2)$ for $\zeta<(2f_2)^{-1/2}$, wit
  then PA Prop.~3.1 and Lemma~3.2 with $\widehat W'$ replaced by $c_s$ (that lemma now assumes both off-diagonal blocks Hilbert--Schmidt, PA Correction C4; for $c_s$ both follow from self-adjointness: $h'_\sigma=h_\sigma'^*$ gives $\Pp h'_\sigma\Pm=(\Pm h'_\sigma\Pp)^*\in\Stwo$, and Duhamel's formula for $\partial_sc_s=(ih'_s)c_s$ as in PA Correction C4(b); Correction~\ref{corr0924:C2}), the commutant factor dropping
  out of $\ip{\Gamma(U_s)^*\Om}{m\Gamma(U_s)^*\Om}$}
 \lstep{1}{3}{\eqref{eq:rrrbound}.}
-\lby{Lemma~\ref{lem:groupbound} applied to $U_s=e^{sK}$ ($[\Pm,K]\in\Stwo$ by $\langle1\rangle2$ and
+\lby{Lemma~\ref{lem:groupbound} applied to $U_s=e^{sK}$ (index zero for every $s$: \texttt{index\_zero.tex}, refereed 2026-11-19, Lemma~6.2) ($[\Pm,K]\in\Stwo$ by $\langle1\rangle2$ and
  PA Lemma~5.2), then PA Prop.~3.4, PA Thm.~4.1 and $\prod(1-a_j)\ge1-\sum a_j$ exactly as in
  Theorem~\ref{thm:global} $\langle1\rangle1$--$\langle1\rangle3$}
 \lqed{1}{4}\lby{$\langle1\rangle3$, PA Prop.~7.6
@@ -879,7 +879,7 @@ Hence $\Phi(\zeta)\le-\frac12\log(1-2f_2\zeta^2)$ for $\zeta<(2f_2)^{-1/2}$, wit
 \begin{verdictok}
 Theorem~\ref{thm:global}, Corollary~\ref{cor:c3sign} ($c_3\le0$ and the exclusion of a positive
 $\zeta^2/\log^2(1/\zeta)$ remainder) and the corrected N5 Cor.~4.2 of \S\ref{sec:corrected} are now
-\emph{unconditional}: the $\zeta\ge6\cdot10^{-17}$ caveat of Corollary~\ref{cor:c3sign}
+\emph{unconditional} (on $\zeta\ge(4f_2)^{-1/2}$ subject to \texttt{index\_zero.tex}, refereed 2026-11-19): the $\zeta\ge6\cdot10^{-17}$ caveat of Corollary~\ref{cor:c3sign}
 $\langle1\rangle2$ and the \texttt{verdictgap} after Proposition~\ref{prop:f2star} are void.  Two
 steps RRr flags as routine but unwritten: (i) upgrading
 $\frac{\dd}{\dd\sigma}U_\sigma^*\Pp U_\sigma=-U_\sigma^*[\Pm,K]U_\sigma$ from weak on the core
@@ -1065,15 +1065,16 @@ the same text.
  $W_\phi$ is a real operator (PA eq.~\texttt{eq:pushforward}), i.e.\ it commutes with complex
  conjugation $\mathcal C$, and $\mathcal C\Pp\mathcal C=\Pm$ (PA eq.~\texttt{eq:hardy}; PA
  Correction C1), so $\Pp\Wt_s\Pm=\mathcal C(\Pm\Wt_s\Pp)\mathcal C$ and the two blocks have the same
- singular values.  This one-line argument is not yet written in any document.
+ singular values.  This one-line argument is not yet written in any document; index zero of $\Wt_s$ for every real $s$ is proved, for $\chi$ satisfying (W) of that lemma (PA's field; for a general admissible $\chi$ as asserted in Lemma~\ref{lem:autocorr}), by a different argument in \texttt{rigor/index\_zero.tex}, Lemma~6.1 (added 2026-11-19, refereed 2026-11-19).
  (ii) For $e^{sK}$, $K=D+ih'$ (Lemma~\ref{lem:groupbound}, Proposition~\ref{prop:rrr}) and the
  product family of Corollary~\ref{cor:quartic}, the documents settle index zero only while
  $\norm{G_s}_2<1$, $G_s=\Pp-U_s^*\Pp U_s$.  For $e^{sK}$ this holds for $\zeta<(4f_2^K)^{-1/2}$ by
  Lemma~\ref{lem:groupbound} $\langle1\rangle2$, since $\norm{G_s}_2\le|s|\,\norm{[\Pm,K]}_2$ and
  $\norm{[\Pm,K]}_2^2=2\norm{\Pm K\Pp}_2^2=4f_2^K$.  Then both blocks have norm $<1$ (they are
  blocks of $[\Pp,U_s]=-U_sG_s$), so $X$ is invertible (PA Thm.~4.1 $\langle1\rangle1$) and
- $\operatorname{ind}X=0$.  The rest needs a standard Fredholm-index continuity argument that no
- document contains, and is open: in Lemma~\ref{lem:groupbound}, which is stated for all $s$, every
+ $\operatorname{ind}X=0$.  The rest is settled for every $s$ by \texttt{rigor/index\_zero.tex} (added 2026-11-19, refereed 2026-11-19:
+ $\Tr(G_s^3)=\operatorname{ind}X_s$ is integer valued and $\norm\cdot_2$-continuous in $s$, Theorems~3.1, 5.1,
+ Lemmas~6.1--6.3); before that document it was open: in Lemma~\ref{lem:groupbound}, which is stated for all $s$, every
  $s$ with $|s|\,\norm{[\Pm,K]}_2\ge1$; in Proposition~\ref{prop:rrr} the range
  $(4f_2^K)^{-1/2}\le\zeta<(2f_2^K)^{-1/2}$; and in Corollary~\ref{cor:quartic} any
  $\zeta\le\zeta_0$ with $\norm{G_\zeta}_2\ge1$.

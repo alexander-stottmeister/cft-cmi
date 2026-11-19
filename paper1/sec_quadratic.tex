@@ -9,15 +9,15 @@ $D^{(1)}(\kappa,\kappa')=\langle\psi_\kappa,D^{(1)}\psi_{\kappa'}\rangle$.
 \begin{definition}[The Bures form]\label{def:gB}
 $\displaystyle
  g_B:=\sup\bigl\{\Omega(\ell):\ell=\ell^*\text{ finite rank on }H_I\bigr\}$, where
-$\Omega(\ell)$ is the Legendre functional of \cref{lem:legendre}; equivalently, for
+$\Omega(\ell)$ is the Legendre functional \eqref{eq:Omega-ell} of \cref{prop:oneparticle}; equivalently, for
 the quasi-free curve $s\mapsto\widetilde\omega_s$,
 \begin{equation}\label{eq:gB-int}
  g_B=2r\iint_{\mathbb R^2}\frac{|D^{(1)}(\kappa,\kappa')|^2}{N(\kappa,\kappa')}
  \,d\kappa\,d\kappa' ,
 \end{equation}
 normalized so that $-\log\Fid=\frac{\zeta^2}8g_B+o(\zeta^2)$ along the curve, and
-$g_{\mathrm{KM}}$ is the Kubo--Mori form of \eqref{eq:km}, normalized by
-$D(\omega\Vert\widetilde\omega_s)=\frac{\zeta^2}2g_{\mathrm{KM}}+o(\zeta^2)$.
+$g_{\mathrm{KM}}$ is the Kubo--Mori form of \eqref{eq:km}, i.e.\ the coefficient of $\eps^2/2$ there with the tangent $D^{(1)}$ in place of $D$; whether
+$D(\omega\Vert\widetilde\omega_s)=\frac{\zeta^2}2g_{\mathrm{KM}}+o(\zeta^2)$ holds is open (\cref{rem:s2-status}).
 \end{definition}
 
 \begin{theorem}[Main theorem]\label{thm:main}
@@ -191,7 +191,7 @@ $\Phi(\zeta)\le-\frac12\log\det(\one-V_\zeta^*V_\zeta)$ by \cref{thm:det}.
 \item \emph{Quadratic expansion.}  $-\frac12\log\det(\one-V^*V)
 =\frac12\norm{V_\zeta}_2^2+O(\norm{V_\zeta}_2^4)$, and
 $\norm{V_\zeta}_2^2=\zeta^2\norm{P_-(D+ih')P_+}_2^2+o(\zeta^2)$, where $D$ is the
-generator of the recovery flow inside $I$ (the flow of $-x^2\,d/dx$ on $D$ in the
+generator of the recovery flow inside $I$ (the flow of $-(x^2/L)\,d/dx$ on $D$ in the
 $q$-coordinate, i.e.\ $g_{\rm tot}=0$ on $(-a,0)$ and $-x^2/L$ on $(0,L)$), and
 $h'$ ranges over the vector fields supported in $I'$ that implement the freedom in
 the extension.  The expansion is controlled by an exact integral representation of
@@ -220,7 +220,7 @@ $\Phi_{P_n}$ is bounded by the Hellinger (Powers--St\o rmer) functional
 $-\log\det(S_n\widetilde S_n+C_n\widetilde C_n)$, and the operator-monotonicity
 estimate $\norm{X^{1/2}-Y^{1/2}}\le\norm{X-Y}^{1/2}$ \cite[Thm.~X.1.1]{Bhatia}
 together with \cref{thm:tracenorm} bounds the latter by
-$\tau(\zeta)/(1-\tau(\zeta))$; see \cite[Thm.~``Upper bound'']{RigorQL}.
+$\tau(\zeta)/(1-\tau(\zeta))$; see \cite[Thm.~6.3]{RigorQL}.
 \end{proof}
 
 \begin{remark}[Why the natural-cone bound is not enough]\label{rem:hellinger}
@@ -228,7 +228,7 @@ The Hellinger (Powers--St\o rmer) functional
 $-\log\det(S_n\widetilde S_n+C_n\widetilde C_n)$ used for
 \eqref{eq:unconditional} also has a second-order coefficient, and it is
 \emph{not} $f_2$: one finds $h_2=\frac{r\log2}{6\pi^2}=2\log2\cdot f_2$
-\cite[Prop.~``Value of the Hellinger coefficient'']{RigorQL}.  Its weight $1/W$ differs pointwise from the SLD weight
+\cite[Prop.~6.5]{RigorQL}.  Its weight $1/W$ differs pointwise from the SLD weight
 $1/N$ of \eqref{eq:qfi} except on the diagonal $\kappa=\kappa'$, and the natural
 cone does not compute the fidelity: $\langle\xi_\rho,\xi_\sigma\rangle
 =\Tr\rho^{1/2}\sigma^{1/2}\le\Fid$, so the supremum over $U(\cM')$ in Uhlmann's
@@ -241,7 +241,7 @@ appearing in the variational characterization of $g_B$.
 \end{remark}
 
 \begin{remark}[What the argument does not give]\label{rem:norate}
-(i) Rate: with the extension chosen as the flow of a fixed field, $s\mapsto\widetilde W_s$ is a one-parameter group and the exact identity of step (iii) gives $\|V_s\|_2^2\le s^2\|P_-DP_+\|_2^2$, hence the global bound $\Phi(\zeta)\le-\tfrac12\log(1-2f_2\zeta^2)=f_2\zeta^2(1+f_2\zeta^2+O(\zeta^4))$ with no cubic term \cite{RigorRR}; the lower bound of step (i) carries only $o(\zeta^2)$, so the sign and size of the cubic term, $c_3=-0.99(1)$, rest on numerics.  (ii) Nothing about the Kubo--Mori coefficient
+(i) Rate: with the extension chosen as the flow of a fixed field, $s\mapsto\widetilde W_s$ is a one-parameter group and the exact identity of step (iii) gives $\|V_s\|_2^2\le s^2\|P_-DP_+\|_2^2$, hence, for $r=1$ and $0\le\zeta<(4f_2)^{-1/2}=\pi\sqrt3$ (where the two off-diagonal blocks of the group element are proved to have equal singular values; for larger $\zeta$ this rests on an unproved index-zero statement), the bound $\Phi(\zeta)\le-\tfrac12\log(1-2f_2\zeta^2)=f_2\zeta^2(1+f_2\zeta^2+O(\zeta^4))$ with no cubic term \cite{RigorRR}; the lower bound of step (i) carries only $o(\zeta^2)$, so the sign and size of the cubic term, $c_3\approx-1$, rest on a numerical estimate whose scripts are not in the published repository.  (ii) Nothing about the Kubo--Mori coefficient
 $s_2$: see \cref{rem:s2-status}.  (iii) Nothing beyond the free fermion: both
 \cref{prop:gBvalue} in the form used here and the Wick reduction are quasi-free
 statements.  For a general diffeomorphism-covariant net the Uhlmann half would

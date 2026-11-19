@@ -4,12 +4,12 @@ intervals, $B$ the middle one.  The vacuum state $\omega$ restricted to the alge
 $A\cup B\cup C$ is not a quantum Markov state: the conditional mutual information
 $I(A:C\mid B)$ is strictly positive, and, equivalently, the Petz recovery map built from
 $\omega|_{\cA(AB)}$ fails to reconstruct $\omega|_{\cA(ABC)}$ from its restriction to
-$\cA(AB)$.  The size of that failure is the subject of this paper.
+$\cA(AB)$.  We measure that failure through a geometric recovery, the zero-collar compression of \Cref{ss:geom}; that it is the zero-collar limit of the rotated Petz maps of \cite{FHSW} is proved for the free fermion only \cite{Paper1}, and for a general net we make no claim about the Petz map itself.
 
 The natural regime is the \emph{zero-collar} one, in which the middle interval is shrunk
 away and the recovery defect is governed by a single conformally invariant parameter, the
 cross ratio $\zeta$ of the four endpoints.  In Paper~1 \cite{Paper1} we computed the defect
-exactly for the chiral free fermion ($c=\tfrac12$ per Majorana component) and found a
+exactly for the net of $r$ complex (Dirac) chiral free fermions ($c=r$) and found a
 quadratic law
 \begin{equation}\label{eq:paper1}
  \Phi(\zeta):=-\log \Fid(\omega,\omega_\zeta)=f_2\,\zeta^2+o(\zeta^2),
@@ -73,7 +73,7 @@ $T(g_{\rm tot})$ of the recovery curve is affiliated with neither $\cM$ nor $\cM
 gauge lemma that would remove this discrepancy is \emph{refuted}: its infimum over admissible gauges is
 $(11+5\sqrt5)c/12=11.09\times c/6$, not $c/6$.  We therefore state $s_2=c/12$ as a \emph{conjecture}
 (\Cref{sec:km}); what is known there for a general net is the bracket
-$0.034\,c\le\liminf_{s\to0}s^{-2}D\le\limsup_{s\to0}s^{-2}D\le0.924\,c$, and it is conditional: its upper end holds under a uniform-integrability hypothesis along the orbit that is open, and its lower end rests on Araki's perturbation theory, which is carried as a hypothesis.
+$0.034\,c\le\liminf_{s\to0}s^{-2}D(\omega_{s}\Vert\omega)\le\limsup_{s\to0}s^{-2}D(\omega_{s}\Vert\omega)\le0.924\,c$ for the \emph{reversed} relative entropy (the conjecture concerns $D(\omega\Vert\omega_{s})$, and no argument relating the two orders at second order is available, $U_{s}$ not being in $\cM$), and it is conditional: its upper end holds under a uniform-integrability hypothesis along the orbit that is open, and its lower end rests on Araki's perturbation theory, which is carried as a hypothesis.
 We also record, in \Cref{sec:km}, a route that does \emph{not} work: the Kosaki and
 Petz--Donald variational expressions are suprema and yield lower bounds only.
 
@@ -83,9 +83,10 @@ Since the argument is structural, a genuinely independent model is a meaningful 
 \Cref{sec:boson} reports a numerical computation of both coefficients in the $U(1)$ current
 net (the chiral free boson, $c=1$), a bosonic Gaussian theory sharing no algebraic
 structure with the free fermion beyond conformal covariance.  The results
-$f_2=0.00844(2)$ and $s_2=0.083(2)$ agree with $1/(12\pi^2)=0.0084434$ and $1/12=0.083333$.
-In addition the $c$-linearity of the vacuum overlap is proved analytically at second
-order: boson and fermion both give $\frac{s^2}{96\pi^2}\int_0^\infty k^3|\hat g(k)|^2\,dk$.
+$f_2=0.00844(2)$ and $s_2=0.083(2)$ agree with $1/(12\pi^2)=0.0084434$ and $1/12=0.083333$,
+the second only under an assumed tail exponent of the extrapolation (\Cref{sec:boson}).
+In addition an analytic second-order computation (not a refereed proof) gives the
+$c$-linearity of the vacuum overlap: boson and fermion both give $\frac{s^2}{96\pi^2}\int_0^\infty k^3|\hat g(k)|^2\,dk$.
 
 \subsection*{Notation and organisation}
 

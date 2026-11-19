@@ -1,0 +1,72 @@
+[
+ {
+  "file": "paper1/sec_outlook.tex",
+  "old": "$\\theta_{\\rm fr}\\ge0.38$ (numerical: an extrapolation over finite meshes, every computed finite-mesh value lying below $0.38$, not a rigorous bound).",
+  "new": "$\\theta_{\\rm fr}\\approx0.384\\pm0.003$ (numerical: an extrapolated estimate, not a bound; every computed taper-free finite-mesh value lies below $0.38$).",
+  "reason": "card compression-not-optimal-exact-fidelity: estimate, not a bound",
+  "finding": "REF-RP-3 fails/minors of 2026-11-19"
+ },
+ {
+  "file": "paper1/sec_outlook.tex",
+  "old": "The exact optimum is bracketed between the dual value of the programme and $0.616\\,f_2z^2$; the Petz map, at $4f_2z^2$, is worse than the best channel by a factor of at least $4/0.62\\approx6.4$ at leading order in $z$ (numerical input $\\theta_{\\rm fr}\\ge0.38$).",
+  "new": "The exact optimum lies between the dual value of the programme and $(1-\\theta_{\\rm fr})f_2z^2(1+o(1))$, numerically about $0.616\\,f_2z^2$ (an estimate of the upper end, not a bound); the Petz map, at $4f_2z^2$, is then worse than the best channel by a factor of about $4/0.616\\approx6.5$ at leading order in $z$ (a numerical estimate: a lower bound on this factor would need a lower bound on $\\theta_{\\rm fr}$, and none is proved: $\\theta_{\\rm fr}>0$ itself is numerical).",
+  "reason": "REF-RP-3: 'at least 6.4' needs a lower bound on theta_fr; the bracket's upper end is an estimate",
+  "finding": "REF-RP-3 fails/minors of 2026-11-19"
+ },
+ {
+  "file": "paper1/sec_outlook.tex",
+  "old": "the smaller value $\\theta\\ge0.30$ of the spectral circle model \\cite{RigorS10} (reproduced with the optimised exterior extension in \\cite{RigorE2}) is a lower bound, its ultraviolet taper suppressing",
+  "new": "the smaller value $\\theta\\approx0.30$ of the spectral circle model \\cite{RigorS10} (reproduced with the optimised exterior extension in \\cite{RigorE2}) is taper-suppressed (no direction is proved, so it is not a bound), its ultraviolet taper suppressing",
+  "reason": "card theta-value: no proved direction",
+  "finding": "REF-RP-3 fails/minors of 2026-11-19"
+ },
+ {
+  "file": "paper1/sec_outlook.tex",
+  "old": "is a taper-suppressed lower estimate)",
+  "new": "is taper-suppressed, with no proved direction)",
+  "reason": "same",
+  "finding": "REF-RP-3 fails/minors of 2026-11-19"
+ },
+ {
+  "file": "paper1/sec_outlook.tex",
+  "old": "$(1-\\theta)f_2z^2=0.616\\,f_2z^2$.",
+  "new": "$(1-\\theta)f_2z^2\\approx0.616\\,f_2z^2$ (numerical estimate).",
+  "reason": "estimate",
+  "finding": "REF-RP-3 fails/minors of 2026-11-19"
+ },
+ {
+  "file": "paper1/sec_2d_lattice.tex",
+  "old": "The best rigorous lower bounds from",
+  "new": "The best lower bounds (rigorous up to the uncertified $\\widehat D$ quadrature) from",
+  "reason": "card large-zeta-values",
+  "finding": "REF-RP-3 fails/minors of 2026-11-19"
+ },
+ {
+  "file": "paper1/sec_intro.tex",
+  "old": "rigorous lower bounds plus uncertified extrapolation, $0.45$--$6.6\\%$",
+  "new": "lower bounds (up to the uncertified $\\widehat D$ quadrature) plus uncertified extrapolation, $0.45$--$6.6\\%$",
+  "reason": "card large-zeta-values",
+  "finding": "REF-RP-3 fails/minors of 2026-11-19"
+ },
+ {
+  "file": "paper1/sec_2d_lattice.tex",
+  "old": "measured $-\\log F^{(\\lambda)}$ with a ratio that is \\emph{constant in\n$\\eta_{\\rm V}$} and equal to $1-0.15/L$ at fixed block size $L$ ($0.962$ at $L=4$) ---",
+  "new": "measured $-\\log F^{(\\lambda)}$ with a ratio that, for $\\eta_{\\rm V}\\le0.05$, is \\emph{constant in\n$\\eta_{\\rm V}$} and equal to $1-a/L$ with $a=0.15,\\,0.14,\\,0.14$ at block sizes $L=4,6,8$ ($0.962$ at $L=4$; at larger $\\eta_{\\rm V}$ the ratio falls, to $0.73$ at $\\eta_{\\rm V}=0.33$, $L=4$) ---",
+  "reason": "REF-RP-3 recomputation from petz_lattice.out [6], [8]",
+  "finding": "REF-RP-3 fails/minors of 2026-11-19"
+ },
+ {
+  "file": "paper1/sec_2d_lattice.tex",
+  "old": "alone is off by factors between $4$ and $7600$ over\nthe same data.",
+  "new": "alone is off by factors between $2.8$ and $7600$ over\nthe same data.",
+  "reason": "REF-RP-3: minimum 2.80 at lambda = 0.5, eta_V = 0.92",
+  "finding": "REF-RP-3 fails/minors of 2026-11-19"
+ },
+ {
+  "file": "paper2/sec_outlook.tex",
+  "old": "The\nfree fermion the companion note (\\texttt{rigor/rate\\_of\\_remainder.tex}, Prop.~3.1,",
+  "new": "For the\nfree fermion the companion note (\\texttt{rigor/rate\\_of\\_remainder.tex}, Prop.~6.2,",
+  "reason": "REF-RP-3 MINOR: broken sentence; the proposition is 6.2 in the compiled document",
+  "finding": "REF-RP-3 fails/minors of 2026-11-19"
+ }
+]

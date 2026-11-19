@@ -1,7 +1,7 @@
 % !TeX root = main.tex
 \label{sec:outlook}
 \subsection{Universality}
-The constants $f_2=c_{\rm cft}/(12\pi^2)$ and $s_2=c_{\rm cft}/12$ of
+The constant $f_2=c_{\rm cft}/(12\pi^2)$ and the Kubo--Mori form value $\frac12g_{\rm KM}=c_{\rm cft}/12$ (whose identification with $s_2$ is conjectural, \cref{rem:s2-status}) of
 \cref{prop:gBvalue} were obtained here from the one-particle kernel identity, a
 free-fermion computation.  They should be universal, and Note~7 \cite{Note7} gives
 the argument for an arbitrary diffeomorphism-covariant conformal net in four
@@ -53,8 +53,8 @@ in the choice of chart.
 \item \emph{A rate for the remainder.}  \Cref{thm:main} gives
 $\Phi=f_2\zeta^2+o(\zeta^2)$ with no rate.  The expansion
 \eqref{eq:expansion-structure} is expected, but not proved, to proceed in integer powers; what is missing is a
-two-sided $O(\zeta^3)$ remainder.  The upper half is available: the global bound of
-\cref{rem:norate} gives $\Phi-f_2\zeta^2\le f_2^2\zeta^4/(1-2f_2\zeta^2)$, whence
+two-sided $O(\zeta^3)$ remainder.  The upper half is available: the bound of
+\cref{rem:norate} gives, for $r=1$ and $0\le\zeta<\pi\sqrt3$, $\Phi-f_2\zeta^2\le f_2^2\zeta^4/(1-2f_2\zeta^2)$, whence
 $c_3\le0$ once the limit defining $c_3$ exists \cite{RigorRR}.  A matching lower
 bound needs a cubic remainder uniform in the modular cutoff.  (The formal
 fourth-order Taylor coefficient of the quadratic quantum-Fisher functional
@@ -68,18 +68,18 @@ go through Araki's relative entropy as a supremum over Connes cocycles.
 $c_{\rm cft}=1$ should give the same $f_2$; a quasi-free bosonic computation would
 test the universality claim outside the CAR setting and would exercise the
 implementability step in its Weyl form.
-\item \emph{Optimality.}  \Cref{cor:collapse} shows that the best member of the
-rotated family for a single chirality is the pure geometric compression
-$\overline\beta_\lambda$.  It is \emph{not} optimal among all normal recovery maps
+\item \emph{Optimality.}  \Cref{cor:collapse} shows that for a single chirality the infimum over the
+rotated family is attained only in its limit $t\to+\infty$, the pure geometric compression
+$\overline\beta_\lambda$.  Numerically, it is not optimal among all normal recovery maps
 $\cF_r(AB)\to\cF_r(ABC)$: every recovery channel's recovered symbol is quasi-free
 feasible, so the second-order problem over all channels is an explicit convex
 programme \cite{RigorAll}; the compression is not its minimiser, a Bogoliubov
 rotation inside $B$ lowering the second-order functional by a factor $1-\theta$,
-$\theta=0.384\pm0.003$ numerically \cite{RigorS10,RigorF3}; and the corresponding
+$\theta=0.384\pm0.003$ numerically \cite{RigorAll,RigorF3} (the value $0.300$ of \cite{RigorS10} is taper-suppressed, with no proved direction); and the corresponding
 upper bound on the exact fidelity holds because exterior directions are dense in the
 invisible space (\cite{RigorE1}, Theorem~5.3).  The open question is the exact value
 of the all-channel optimum, bracketed between the dual value and
-$(1-\theta)f_2z^2=0.616\,f_2z^2$.
+$(1-\theta)f_2z^2\approx0.616\,f_2z^2$ (numerical estimate).
 \item \emph{Beyond the vacuum.}  Thermal states and states on the circle have the
 same modular geometry after a conformal map, so the collapse
 \eqref{eq:collapse} should persist with $\zeta$ replaced by the appropriate cross
@@ -99,4 +99,4 @@ without the two-branch sum.
 \paragraph{Beyond the vacuum and beyond adjacency (lattice results).}
 Three lattice experiments with the Gaussian pipeline of \cref{sec:2d} indicate the reach of the quadratic law \cite{RigorS9}.  For the thermal state of the chain the two-branch law holds verbatim with the cross ratio replaced by its cylinder form $\eta_\beta=\sinh(\pi a/\beta_\ell)\sinh(\pi c/\beta_\ell)/[\sinh(\pi(a+b)/\beta_\ell)\sinh(\pi(b+c)/\beta_\ell)]$ (ratio $0.98$--$1.01$ over five decades), and for $L_B\gg\beta$ the error is shielded exponentially, with rate $2\pi$ for $-\log F$ and $\pi$ for the conditional mutual information in units of the thermal length.  Away from criticality, for a staggered mass with $mL_B\gtrsim1.6$, and likewise for a gap between $A$ and $B$, the recovery error becomes \emph{linear} in the conditional mutual information (ratio $0.10$--$0.17$): the quadratic law is a statement about the conformal fixed point and adjacency.  Along the massive flow the Markov $c$-function of \cite{Note3} dominates the entropic one, $c_M\ge c_E$, both decreasing monotonically from $c$ to $0$ with $c_M/c_E\to mR$.
 
-\paragraph{Optimality at second order.} Among quasi-free channels acting on $B$ the second-order recovery error is an exact semidefinite programme in the one-particle data \cite{RigorS8}, and \emph{every} normal unital completely positive even recovery channel has a recovered symbol in its feasible set (Kadison--Schwarz, the Tomita operator of $\cF_r(B)$, and the one-particle restriction of the modular objects), so the all-channel second-order problem has the same value \cite{RigorAll}.  The zero-collar compression is not the minimiser: composing it with a Bogoliubov rotation inside $B$ lowers the second-order functional by the factor $1-\theta$, $\theta=0.384\pm0.003$ from two independent discretisations that agree to $3\cdot10^{-4}$ after extrapolation, the modular Galerkin frame \cite{RigorAll} and a parameter-free modular Wiener--Hopf frame \cite{RigorF3}; the smaller value $\theta\ge0.30$ of the spectral circle model \cite{RigorS10} (reproduced with the optimised exterior extension in \cite{RigorE2}) is a lower bound, its ultraviolet taper suppressing modes that carry about a fifth of $\theta$ \cite{RigorF3}.  The Uhlmann bound with an optimised purification on the exterior of $ABC$ turns this into an upper bound on the exact fidelity, because the exterior directions exhaust the invisible space \cite{RigorE1}: per chirality $E_{\rm rec}\le(1-\theta_{\rm fr})f_2z^2\,(1+o(1))$, with $\theta_{\rm fr}>0$ iff the $D$-block of the Riesz vector of the compression direction is not self-adjoint (proved) and $\theta_{\rm fr}\ge0.38$ (numerical).  The exact optimum is bracketed between the dual value of the programme and $0.616\,f_2z^2$; the Petz map, at $4f_2z^2$, is at least $5.6$ times worse than the best channel.
+\paragraph{Optimality at second order.} Among quasi-free channels acting on $B$ the second-order recovery error is an exact semidefinite programme in the one-particle data \cite{RigorS8}, and \emph{every} normal unital completely positive even recovery channel has a recovered symbol in its feasible set (Kadison--Schwarz, the Tomita operator of $\cF_r(B)$, and the one-particle restriction of the modular objects), so the all-channel second-order problem has the same value \cite{RigorAll}.  Numerically, the zero-collar compression is not the minimiser: composing it with a Bogoliubov rotation inside $B$ lowers the second-order functional by the factor $1-\theta$, $\theta=0.384\pm0.003$ from two independent discretisations that agree to $3\cdot10^{-4}$ after extrapolation, the modular Galerkin frame \cite{RigorAll} and a parameter-free modular Wiener--Hopf frame \cite{RigorF3}; the smaller value $\theta\approx0.30$ of the spectral circle model \cite{RigorS10} (reproduced with the optimised exterior extension in \cite{RigorE2}) is taper-suppressed (no direction is proved, so it is not a bound), its ultraviolet taper suppressing modes that carry about a fifth of $\theta$ \cite{RigorF3}.  The Uhlmann bound with an optimised purification on the exterior of $ABC$ turns this into an upper bound on the exact fidelity, because the exterior directions exhaust the invisible space \cite{RigorE1}: per chirality $E_{\rm rec}\le(1-\theta_{\rm fr})f_2z^2\,(1+o(1))$, with $\theta_{\rm fr}>0$ iff the $D$-block of the Riesz vector of the compression direction is not self-adjoint (proved) and $\theta_{\rm fr}\approx0.384\pm0.003$ (numerical: an extrapolated estimate, not a bound; every computed taper-free finite-mesh value lies below $0.38$).  The exact optimum lies between the dual value of the programme and $(1-\theta_{\rm fr})f_2z^2(1+o(1))$, numerically about $0.616\,f_2z^2$ (an estimate of the upper end, not a bound); the Petz map, at $4f_2z^2$, is then worse than the best channel by a factor of about $4/0.616\approx6.5$ at leading order in $z$ (a numerical estimate: a lower bound on this factor would need a lower bound on $\theta_{\rm fr}$, and none is proved: $\theta_{\rm fr}>0$ itself is numerical).

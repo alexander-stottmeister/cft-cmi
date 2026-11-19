@@ -1,0 +1,67 @@
+# theta_three_fits.py -- the three convergence fits of AGENTS.md Sec. 5 for theta = 0.384 +- 0.003
+# (numerics/optimality_all/F3_RESULTS.md Sec. 4), from the SAVED rung data only (no new sweep).
+# Repair round 2026-11-19, seat R3 (finding C4 F2(c): only an h^p closure was tried).
+# 
+# Run from anywhere:  ${PYTHON:-python3} numerics/optimality_all/theta_three_fits.py                        > numerics/optimality_all/theta_three_fits.out
+# 
+# Quantity: theta_h = the finite-mesh value printed as 'theta=' in the F3 output files (sup over a finite
+# cell class of cos^2(u, v_G), F3 Sec. 0-4).  No proved direction relates theta_h to the continuum theta
+# (C4 report Sec. 4 F2(a)); every number below is an extrapolation, not a bound.
+# Resolution: the mesh width h (T0 and Galerkin frames) or 1/L (family D, circle mesh), the only knob
+# (F3 Sec. 1(b)); the modular window (Y, Ymax, Lambda) is held fixed per family and is cut off; its
+# weight is F3's y_max law theta(Ymax) = theta_inf - c(h)/Ymax (|c/Ymax| <= 3.2e-3 at Ymax = 10, see the
+# 'ycorr' column), applied exactly as in f3_close.py; fits are reported both raw and y_max-corrected.
+
+# VALIDATION (exact synthetic cases on family A's h grid, tolerance 1e-8)
+#   h^p : t_inf=0.400000000005 params=[-0.2, 0.77] max|resid|=1.7e-12  PASS
+#   1/L : t_inf=0.400000000000 params=[-0.1] max|resid|=2.2e-16  PASS
+#   control: 1/L fit to the h^0.77 data, max|resid| = 2.8e-03 (must exceed TOL)
+# VALIDATION PASS
+
+# y_max correction (f3_close.py law, recomputed from the saved y_max scans)
+#   y_max law h=0.12: Ymax=[10, 12, 16, 20, 24, 30, 40] t=0.34552 c=0.0315 max|resid|=1.5e-05
+#   y_max law h=0.06: Ymax=[12, 16, 20, 24, 30] t=0.36140 c=0.0208 max|resid|=5.2e-06
+#   c(h) = 0.0208 (h/0.06)^0.599
+
+# RUNG DATA (h, theta raw, ycorr = +c(h)/Ymax)
+#   A  T0 Y=Ymax=10: (0.32, 0.29622, +0.00567), (0.24, 0.31367, +0.00477), (0.16, 0.33225, +0.00374), (0.12, 0.34236, +0.00315), (0.08, 0.35334, +0.00247), (0.06, 0.35934, +0.00208), (0.04, 0.36588, +0.00163), (0.03, 0.36945, +0.00137), (0.02, 0.37334, +0.00108), (0.015, 0.37544, +0.00091)
+#   B  T0 Y=6 Ymax=20: (0.24, 0.31581, +0.00238), (0.12, 0.34395, +0.00157), (0.06, 0.36036, +0.00104), (0.03, 0.37009, +0.00069), (0.02, 0.37380, +0.00054)
+#   C  Galerkin Lam=12: (0.32, 0.29797, +0.00368), (0.24, 0.31518, +0.00310), (0.16, 0.33357, +0.00243), (0.12, 0.34350, +0.00204), (0.08, 0.35423, +0.00160), (0.06, 0.36007, +0.00135), (0.04, 0.36644, +0.00106), (0.03, 0.36991, +0.00089)
+#   C' Galerkin Lam=8: (0.12, 0.34277, +0.00276), (0.06, 0.35960, +0.00182), (0.04, 0.36608, +0.00143), (0.03, 0.36962, +0.00120), (0.02, 0.37346, +0.00094)
+#   D  mimic h=1/L: (0.0078125, 0.34058, +0.00000), (0.0039062, 0.35830, +0.00000), (0.0019531, 0.36904, +0.00000), (0.00097656, 0.37534, +0.00000), (0.00048828, 0.37893, +0.00000)
+
+# FITS: finest NFIT=5 rungs; admissible iff max|resid| over 3 finest <= TOL=0.0001 (TOL2=0.001 in brackets)
+# family               data  model     t_inf                 params  max|res|3  adm  adm2
+  A  T0 Y=Ymax=10      raw   1/L     0.38046              [-0.3565]    3.3e-04   no   yes
+  A  T0 Y=Ymax=10      raw   logL     (none)               [0.0115]    1.0e-03   no    no
+  A  T0 Y=Ymax=10      raw   h^p     0.38417      [-0.2075, 0.7546]    9.2e-06  yes   yes
+  A  T0 Y=Ymax=10      ycorr 1/L     0.38101              [-0.3307]    2.9e-04   no   yes
+  A  T0 Y=Ymax=10      ycorr logL     (none)               [0.0107]    9.7e-04   no   yes
+  A  T0 Y=Ymax=10      ycorr h^p     0.38423      [-0.1974, 0.7669]    9.5e-06  yes   yes
+  B  T0 Y=6 Ymax=20    raw   1/L     0.37736              [-0.2613]    1.7e-03   no    no
+  B  T0 Y=6 Ymax=20    raw   logL     (none)               [0.0227]    6.3e-03   no    no
+  B  T0 Y=6 Ymax=20    raw   h^p     0.38388      [-0.2036, 0.7679]    4.6e-05  yes   yes
+  B  T0 Y=6 Ymax=20    ycorr 1/L     0.37783               [-0.253]    1.6e-03   no    no
+  B  T0 Y=6 Ymax=20    ycorr logL     (none)                [0.022]    6.1e-03   no    no
+  B  T0 Y=6 Ymax=20    ycorr h^p     0.38393      [-0.1983, 0.7736]    4.5e-05  yes   yes
+  C  Galerkin Lam=12   raw   1/L     0.37812              [-0.2923]    5.6e-04   no   yes
+  C  Galerkin Lam=12   raw   logL     (none)               [0.0188]    1.7e-03   no    no
+  C  Galerkin Lam=12   raw   h^p     0.38426       [-0.2012, 0.753]    5.2e-06  yes   yes
+  C  Galerkin Lam=12   ycorr 1/L     0.37867              [-0.2795]    5.2e-04   no   yes
+  C  Galerkin Lam=12   ycorr logL     (none)                [0.018]    1.6e-03   no    no
+  C  Galerkin Lam=12   ycorr h^p     0.38432      [-0.1943, 0.7601]    5.1e-06  yes   yes
+  C' Galerkin Lam=8    raw   1/L     0.37865              [-0.3027]    8.6e-04   no   yes
+  C' Galerkin Lam=8    raw   logL     (none)               [0.0172]    2.6e-03   no    no
+  C' Galerkin Lam=8    raw   h^p     0.38430        [-0.2037, 0.75]    5.9e-06  yes   yes
+  C' Galerkin Lam=8    ycorr 1/L     0.37933               [-0.285]    7.8e-04   no   yes
+  C' Galerkin Lam=8    ycorr logL     (none)               [0.0162]    2.5e-03   no    no
+  C' Galerkin Lam=8    ycorr h^p     0.38436      [-0.1944, 0.7597]    6.4e-06  yes   yes
+  D  mimic h=1/L       raw   1/L     0.38011              [-5.1768]    1.3e-03   no    no
+  D  mimic h=1/L       raw   logL     (none)               [0.0135]    4.6e-03   no    no
+  D  mimic h=1/L       raw   h^p     0.38445      [-1.6898, 0.7524]    7.4e-05  yes   yes
+
+# SUMMARY (t_inf of admissible convergent fits; logL has no limit and is reported separately)
+  TOL  raw  : n=5 min 0.38388 max 0.38445 spread 0.00057; all inside [0.381, 0.387]: True; [('A', 'h^p'), ('B', 'h^p'), ('C', 'h^p'), ("C'", 'h^p'), ('D', 'h^p')]
+  TOL  ycorr: n=4 min 0.38393 max 0.38436 spread 0.00043; all inside [0.381, 0.387]: True; [('A', 'h^p'), ('B', 'h^p'), ('C', 'h^p'), ("C'", 'h^p')]
+  TOL2 raw  : n=8 min 0.37812 max 0.38445 spread 0.00633; all inside [0.381, 0.387]: False; [('A', '1/L'), ('A', 'h^p'), ('B', 'h^p'), ('C', '1/L'), ('C', 'h^p'), ("C'", '1/L'), ("C'", 'h^p'), ('D', 'h^p')]
+  TOL2 ycorr: n=7 min 0.37867 max 0.38436 spread 0.00569; all inside [0.381, 0.387]: False; [('A', '1/L'), ('A', 'h^p'), ('B', 'h^p'), ('C', '1/L'), ('C', 'h^p'), ("C'", '1/L'), ("C'", 'h^p')]

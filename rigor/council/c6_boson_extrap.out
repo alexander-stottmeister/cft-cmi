@@ -1,0 +1,76 @@
+===== PART A: printed table (paper2/sec_boson.tex:76-83)
+--- f2: raw value at kappa_c = 5.24: 0.008405; quoted interval (0.00842, 0.00846)
+free p (5 pts)               X_inf = 0.008407 p=4.197    max resid = 4.76e-06  inside quoted: False
+fixed p=2.0                  X_inf = 0.008457            max resid = 2.08e-05  inside quoted: True
+fixed p=2.0, 3 finest        X_inf = 0.008425            max resid = 3.75e-06  inside quoted: True
+fixed p=2.5                  X_inf = 0.008437            max resid = 1.62e-05  inside quoted: True
+fixed p=2.5, 3 finest        X_inf = 0.008419            max resid = 4.00e-06  inside quoted: False
+fixed p=3.0                  X_inf = 0.008424            max resid = 1.16e-05  inside quoted: True
+fixed p=3.0, 3 finest        X_inf = 0.008414            max resid = 4.24e-06  inside quoted: False
+p=2.0 + next order           X_inf = 0.008392            max resid = 5.46e-06  inside quoted: False
+--- s2: raw value at kappa_c = 5.24: 0.076322; quoted interval (0.081, 0.085)
+free p (5 pts)               X_inf = 0.077065 p=2.781    max resid = 4.09e-04  inside quoted: False
+fixed p=1.0                  X_inf = 0.083866            max resid = 9.26e-04  inside quoted: True
+fixed p=1.0, 3 finest        X_inf = 0.080531            max resid = 3.24e-04  inside quoted: False
+fixed p=1.5                  X_inf = 0.080293            max resid = 7.04e-04  inside quoted: False
+fixed p=1.5, 3 finest        X_inf = 0.078771            max resid = 3.45e-04  inside quoted: False
+fixed p=2.0                  X_inf = 0.078525            max resid = 4.72e-04  inside quoted: False
+fixed p=2.0, 3 finest        X_inf = 0.077895            max resid = 3.66e-04  inside quoted: False
+p=1.0 + next order           X_inf = 0.075010            max resid = 4.38e-04  inside quoted: False
+===== PART B: boson_recovery.out basis N=60 sig=1.6 (Lam=35.1, kmax=6.85)
+--- f2: raw value at kappa_c = 5.24: 0.008408; quoted interval (0.00842, 0.00846)
+free p (5 pts)               X_inf = 0.008426 p=2.843    max resid = 9.34e-06  inside quoted: True
+fixed p=2.0                  X_inf = 0.008457            max resid = 1.32e-05  inside quoted: True
+fixed p=2.0, 3 finest        X_inf = 0.008437            max resid = 1.67e-06  inside quoted: True
+fixed p=2.5                  X_inf = 0.008436            max resid = 1.11e-05  inside quoted: True
+fixed p=2.5, 3 finest        X_inf = 0.008430            max resid = 1.73e-06  inside quoted: True
+fixed p=3.0                  X_inf = 0.008422            max resid = 9.71e-06  inside quoted: True
+fixed p=3.0, 3 finest        X_inf = 0.008425            max resid = 1.79e-06  inside quoted: True
+p=2.0 + next order           X_inf = 0.008428            max resid = 9.41e-06  inside quoted: True
+--- s2: raw value at kappa_c = 5.24: 0.076505; quoted interval (0.081, 0.085)
+free p (5 pts)               X_inf = 0.080976 p=1.390    max resid = 4.12e-04  inside quoted: False
+fixed p=1.0                  X_inf = 0.084193            max resid = 4.58e-04  inside quoted: True
+fixed p=1.0, 3 finest        X_inf = 0.081813            max resid = 1.39e-04  inside quoted: True
+fixed p=1.5                  X_inf = 0.080374            max resid = 4.39e-04  inside quoted: False
+fixed p=1.5, 3 finest        X_inf = 0.079867            max resid = 1.44e-04  inside quoted: False
+fixed p=2.0                  X_inf = 0.078472            max resid = 6.37e-04  inside quoted: False
+fixed p=2.0, 3 finest        X_inf = 0.078894            max resid = 1.50e-04  inside quoted: False
+p=1.0 + next order           X_inf = 0.081914            max resid = 4.02e-04  inside quoted: True
+===== PART B: boson_recovery.out basis N=120 sig=1.6 (Lam=49.6, kmax=9.68)
+--- f2: raw value at kappa_c = 5.24: 0.008405; quoted interval (0.00842, 0.00846)
+free p (5 pts)               X_inf = 0.008438 p=2.294    max resid = 1.52e-06  inside quoted: True
+fixed p=2.0                  X_inf = 0.008451            max resid = 2.50e-06  inside quoted: True
+fixed p=2.0, 3 finest        X_inf = 0.008448            max resid = 7.48e-07  inside quoted: True
+fixed p=2.5                  X_inf = 0.008430            max resid = 2.20e-06  inside quoted: True
+fixed p=2.5, 3 finest        X_inf = 0.008438            max resid = 6.57e-07  inside quoted: True
+fixed p=3.0                  X_inf = 0.008417            max resid = 6.15e-06  inside quoted: False
+fixed p=3.0, 3 finest        X_inf = 0.008432            max resid = 5.66e-07  inside quoted: True
+p=2.0 + next order           X_inf = 0.008441            max resid = 1.48e-06  inside quoted: True
+--- s2: raw value at kappa_c = 5.24: 0.076322; quoted interval (0.081, 0.085)
+free p (5 pts)               X_inf = 0.082376 p=1.142    max resid = 1.11e-04  inside quoted: True
+fixed p=1.0                  X_inf = 0.083770            max resid = 1.17e-04  inside quoted: True
+fixed p=1.0, 3 finest        X_inf = 0.083951            max resid = 6.45e-05  inside quoted: True
+fixed p=1.5                  X_inf = 0.080041            max resid = 2.25e-04  inside quoted: False
+fixed p=1.5, 3 finest        X_inf = 0.081226            max resid = 5.68e-05  inside quoted: True
+fixed p=2.0                  X_inf = 0.078183            max resid = 4.63e-04  inside quoted: False
+fixed p=2.0, 3 finest        X_inf = 0.079865            max resid = 4.92e-05  inside quoted: False
+p=1.0 + next order           X_inf = 0.082991            max resid = 1.09e-04  inside quoted: True
+===== PART B: boson_recovery.out basis N=120 sig=2.26 (Lam=70.0, kmax=6.85)
+--- f2: raw value at kappa_c = 5.24: 0.008405; quoted interval (0.00842, 0.00846)
+free p (5 pts)               X_inf = 0.008438 p=2.328    max resid = 1.34e-06  inside quoted: True
+fixed p=2.0                  X_inf = 0.008452            max resid = 3.81e-06  inside quoted: True
+fixed p=2.0, 3 finest        X_inf = 0.008441            max resid = 1.27e-06  inside quoted: True
+fixed p=2.5                  X_inf = 0.008432            max resid = 2.04e-06  inside quoted: True
+fixed p=2.5, 3 finest        X_inf = 0.008433            max resid = 1.19e-06  inside quoted: True
+fixed p=3.0                  X_inf = 0.008418            max resid = 5.76e-06  inside quoted: False
+fixed p=3.0, 3 finest        X_inf = 0.008427            max resid = 1.12e-06  inside quoted: True
+p=2.0 + next order           X_inf = 0.008441            max resid = 1.30e-06  inside quoted: True
+--- s2: raw value at kappa_c = 5.24: 0.076280; quoted interval (0.081, 0.085)
+free p (5 pts)               X_inf = 0.082107 p=1.184    max resid = 1.10e-04  inside quoted: True
+fixed p=1.0                  X_inf = 0.083846            max resid = 1.99e-04  inside quoted: True
+fixed p=1.0, 3 finest        X_inf = 0.082575            max resid = 1.10e-04  inside quoted: True
+fixed p=1.5                  X_inf = 0.080118            max resid = 2.03e-04  inside quoted: False
+fixed p=1.5, 3 finest        X_inf = 0.080342            max resid = 1.03e-04  inside quoted: False
+fixed p=2.0                  X_inf = 0.078260            max resid = 4.42e-04  inside quoted: False
+fixed p=2.0, 3 finest        X_inf = 0.079226            max resid = 9.71e-05  inside quoted: False
+p=1.0 + next order           X_inf = 0.082837            max resid = 1.17e-04  inside quoted: True

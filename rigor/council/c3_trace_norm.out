@@ -1,0 +1,18 @@
+VALIDATION rank-one n=100: nystrom=0.417565892025675 exact=0.417565892025676 rel.dev=3.46e-15
+VALIDATION rank-one n=200: nystrom=0.417565892025666 exact=0.417565892025676 rel.dev=2.27e-14
+a=1.0 L=1.0 s=1.0 zeta=0.500000 n=200 X=40.0: ||R||_1=0.202732554054 target=0.202732554054 rel.dev=8.91e-14 cutoff-HS<= 1.1e-18
+a=1.0 L=1.0 s=1.0 zeta=0.500000 n=400 X=50.0: ||R||_1=0.202732554054 target=0.202732554054 rel.dev=5.00e-13 cutoff-HS<= 4.8e-23
+a=1.0 L=1.0 s=1.0 zeta=0.500000 n=800 X=60.0: ||R||_1=0.202732554054 target=0.202732554054 rel.dev=1.64e-13 cutoff-HS<= 2.2e-27
+  PASS (finest two differ by 3.36e-13 rel.)
+a=2.0 L=0.7 s=3.1 zeta=2.296296 n=200 X=40.0: ||R||_1=0.596399751864 target=0.596399751864 rel.dev=6.09e-14 cutoff-HS<= 5.6e-18
+a=2.0 L=0.7 s=3.1 zeta=2.296296 n=400 X=50.0: ||R||_1=0.596399751864 target=0.596399751864 rel.dev=3.50e-13 cutoff-HS<= 2.5e-22
+a=2.0 L=0.7 s=3.1 zeta=2.296296 n=800 X=60.0: ||R||_1=0.596399751864 target=0.596399751864 rel.dev=1.06e-13 cutoff-HS<= 1.1e-26
+  PASS (finest two differ by 2.45e-13 rel.)
+a=0.3 L=5.0 s=0.5 zeta=0.028302 n=200 X=40.0: ||R||_1=0.013954394059 target=0.013954394059 rel.dev=1.08e-13 cutoff-HS<= 1.3e-19
+a=0.3 L=5.0 s=0.5 zeta=0.028302 n=400 X=50.0: ||R||_1=0.013954394059 target=0.013954394059 rel.dev=6.07e-13 cutoff-HS<= 5.9e-24
+a=0.3 L=5.0 s=0.5 zeta=0.028302 n=800 X=60.0: ||R||_1=0.013954394059 target=0.013954394059 rel.dev=1.57e-13 cutoff-HS<= 2.7e-28
+  PASS (finest two differ by 4.50e-13 rel.)
+a=1.0 L=3.0 s=20.0 zeta=5.000000 n=200 X=40.0: ||R||_1=0.895879734614 target=0.895879734614 rel.dev=4.75e-14 cutoff-HS<= 1.2e-17
+a=1.0 L=3.0 s=20.0 zeta=5.000000 n=400 X=50.0: ||R||_1=0.895879734614 target=0.895879734614 rel.dev=2.75e-13 cutoff-HS<= 5.6e-22
+a=1.0 L=3.0 s=20.0 zeta=5.000000 n=800 X=60.0: ||R||_1=0.895879734614 target=0.895879734614 rel.dev=7.68e-14 cutoff-HS<= 2.5e-26
+  PASS (finest two differ by 1.98e-13 rel.)

@@ -672,7 +672,7 @@ rotated away.}
 \section{Consequences for the dual value and for the recovery error}\label{sec:conseq}
 
 \begin{theorem}[Second-order value of the programme]\label{thm:value}
-Assume the numerical value $\theta=0.300\pm0.005>0$ of \S\ref{sec:num}.  Then, for the
+Assume the numerical value $\theta=0.300\pm0.005>0$ of \S\ref{sec:num} [superseded 2026-09-15 by the taper-free estimate $\theta\approx0.384\pm0.003$, \texttt{numerics/optimality\_all/F3\_RESULTS.md}; the statement below uses only $\theta>0$ and the value, both numerical input].  Then, for the
 chiral free fermion,
 \begin{equation}\label{eq:final}
  E^{(2)}=\min_{(X,Z)\in\cF}g_Q\bigl(Q-Q_{\rm rec}(X,Z)\bigr)\ \le\ (1-\theta)\,f_2z^2(1+o(1))
@@ -860,7 +860,7 @@ Lemma~\ref{lem:rigid} and Corollary~\ref{cor:maximal} reduce the certificate to 
 single question ``$E_DuE_D=0$?''.  The answer is no: $\|E_DuE_D\|_2^2/\|u\|_2^2=0.0143$
 in the spectral model of \S\ref{sec:num}, stable in $L$, in the weight cap, in the
 ultraviolet taper and in the geometry, and the full supremum is
-$\theta=0.300\pm0.005$.  The non-perturbative check \S\ref{sec:num}(d) reproduces
+$\theta=0.300\pm0.005$ [superseded 2026-09-15: the value is taper-suppressed, the taper stability fails once the taper is relaxed further (\texttt{numerics/optimality\_all/F3\_RESULTS.md} Sec.~5(b)), and the taper-free frames give the extrapolated estimate $\theta\approx0.384\pm0.003$, numerical input and not a bound].  The non-perturbative check \S\ref{sec:num}(d) reproduces
 $1-\theta$ to $10^{-3}$ from the exact defect of an explicitly constructed feasible
 channel.  Consequently the KKT certificate of Theorem~\ref{thm:kkt} does not exist at the
 zero-collar compression, and \eqref{eq:final} holds.  The one ingredient that is

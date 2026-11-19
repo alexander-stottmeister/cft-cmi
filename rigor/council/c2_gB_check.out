@@ -1,0 +1,12 @@
+# c2_gB_check.py  (c = 1; circle grid M = 262144, modes n <= 16384 resolved, tail analytic)
+(V) exp(-x^2): circle 0.013262911924325  exact 1/(24pi) 0.013262911924325  rel.dev 2.22e-16  tol 1e-9  PASS
+(A1) line quadrature ||T(g_tot)Om||^2 = 0.1947699503
+(A2) circle FFT      ||T(g_tot)Om||^2 = 0.1947699503   rel.dev 1.27e-11  tol 1e-6  PASS
+     ratio ||a||^2 / (gB/4 claimed = 1/(6pi^2) = 0.0168868639) = 11.533814  (must be >= 1)
+(B) Rayleigh-Ritz upper bounds U_N on inf_h ||T(g_tot+h)Om||^2 ; claimed limit 1/(6pi^2) = 0.0168868639
+    N = 16  U_N = 0.0290408090  U_N/target = 1.719728  cond = 5.7e+04  consistent
+    N = 32  U_N = 0.0181563628  U_N/target = 1.075177  cond = 3.7e+06  consistent
+    N = 48  U_N = 0.0170587694  U_N/target = 1.010180  cond = 4.4e+07  consistent
+    N = 64  U_N = 0.0169223860  U_N/target = 1.002104  cond = 2.6e+08  consistent
+    N = 96  U_N = 0.0168900471  U_N/target = 1.000188  cond = 3.1e+09  consistent
+    N = 128  U_N = 0.0168878554  U_N/target = 1.000059  cond = 1.8e+10  consistent

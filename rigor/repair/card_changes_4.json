@@ -1,0 +1,4 @@
+[
+{"id":"thm-b-universality","key":"statement","old":"where zeta = s,, g_B","new":"where zeta = s, with g_B"},
+{"id":"moebius-reduction-general-nets","key":"statement","old":"for real f with finite 3/2-norm in H^2(S^1) (Prop. prop:cov,","new":"for real f in H^2(S^1) with ||f||_{3/2} < infinity and ||g_* f||_{3/2} < infinity (both are hypotheses of Prop. prop:cov; the second does not follow from the first, and it holds for the fields used, since g_* g_tot is again in the extension class;"}
+]

@@ -1247,7 +1247,7 @@ vacuum restricted to a subalgebra is the vacuum}
 \lstep{1}{4}{Hence $\Fid_{\cF_r(I_1)}\ge\Fid_{\cF_r(I_2)}$ and $\mathcal D_{I_1}\le\mathcal D_{I_2}$,
 i.e.\ $\Phi(\zeta(a_1,L,s))\le\Phi(\zeta(a_2,L,s))$.}
 \lby{monotonicity of root fidelity and of Araki relative entropy under restriction, (C4) and
-Araki 1977 Thm.\ 3.8(2)($\gamma$)}
+Araki 1977 Thm.\ 3.8(2)($\gamma$) (p.~181; its hypothesis ``$N$ approximately finite'' holds for $N=\cF_r(I_1)$, the weak closure of $\CAR(H_{I_1})$, which is the increasing union of the finite-dimensional algebras $\CAR(P_nH_{I_1})$ for finite-rank projections $P_n\nearrow1$)}
 \lstep{1}{5}{For any $0<\zeta_1<\zeta_2$ there exist $L,s,a_1<a_2$ realising them.}
 \lby{pick $s>\zeta_2$, $L=1$, $a_i=\zeta_i/(s-\zeta_i)>0$; then $\zeta(a_i,1,s)=\zeta_i$ and
 $a_1<a_2$ because $\zeta\mapsto\zeta/(s-\zeta)$ is increasing on $(0,s)$}
@@ -1407,7 +1407,7 @@ automorphism leaves $\Fid$ invariant (step $\langle1\rangle5$ of \S\ref{sec:mobi
 conjugation is implemented by an antiunitary, under which $\Fid$ is also invariant}
 \lstep{1}{7}{$-\log\Fid_{\mathrm{Dirac}}^{(t)}=\Phi(\zeta(s^{(+)}_t))+\Phi(\zeta(s^{(-)}_t))
 =\Phi(z(1+e^{-2\pi t}))+\Phi(z(1+e^{2\pi t}))$.}
-\lby{$\Fid$ of a tensor product of states in a factorised vacuum is the product of the factors;
+\lby{multiplicativity over the two chiral halves: they anticommute (graded, not ordinary, tensor product), but with block-diagonal compressions $P_n^+\oplus P_n^-$ both symbols are block diagonal, so the finite-dimensional formula (Note~5 Thm.~2.1) factorises as $\Fid_n=\Fid_n^+\Fid_n^-$, and the monotone limit of Note~5 Thm.~3.1 (the algebras of $P_n^+\oplus P_n^-$ increase and generate the Dirac field algebra) gives the product of the two limits;
 $\langle1\rangle4$--$\langle1\rangle6$ and Corollary 5.1 for each chiral factor}
 \lstep{1}{8}{$g(t):=\Phi(\zeta_-)+\Phi(\zeta_+)$ with $\zeta_\mp=z(1+e^{\mp2\pi t})$ satisfies
 $g(-t)=g(t)$, $g'(0)=0$, and $g'(t)>0$ for $t>0$ [the last claim is not proved: Correction~C1].}

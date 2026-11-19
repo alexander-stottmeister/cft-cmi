@@ -1170,10 +1170,42 @@ $H_{\cM'}\cap\mathcal H^{(1,1)}=\overline{\mathcal K}$, where $H_\cN:=\overline{
 \lproof
 \lstep{2}{1}{$\cM'=Z\cF(I')Z^*$ with $Z=\frac{1+iV}{1+i}$, $V$ the parity unitary (twisted duality
  for the free chiral fermion net).}
-\lby{A.~L.~Foit, ``Abstract twisted duality for quantum free Fermi fields'', Publ.\ RIMS \textbf{19}
- (1983) 729--741, Theorem~1; for the chiral fermion on the line it is also part of the standard
- Bisognano--Wichmann package used in Longo--Xu (\texttt{arXiv:1712.07283}) (\emph{screenshot NOT OBTAINED};
- the statement is used only through $\cM'\subseteq Z\cF(I')Z^*$, i.e.\ the \emph{duality} half)}
+\lby{Baumg\"artel--Jurke--Lled\'o, ``Twisted duality of the CAR-algebra'' (\texttt{refs/BJL\_twisted\_duality\_math-ph-0204029.pdf}),
+ Theorem~7.1 (PDF p.~27): $\mathcal M(\mathfrak q)'=\widetilde Z\mathcal M(\mathfrak q^\perp)\widetilde Z^*$ for every
+ basis projection and every closed $\Gamma$-invariant $\mathfrak q$, applied with the hypotheses checked in the box
+ below; the inclusion $\cM'\subseteq Z\cF(I')Z^*$ (the \emph{duality} half) is what is used.  (Replaces the earlier
+ citation of Foit 1983, whose screenshot was NOT OBTAINED.)}
+\begin{citedbox}{BJL 2002, Theorem 7.1 (twisted duality)}
+(i) Verbatim: ``Let $(\mathfrak h,\Gamma)$ be a Hilbert space with anti-unitary involution $\Gamma$, $P$ \emph{any}
+basis projection and $\mathfrak q$ \emph{any} closed $\Gamma$-invariant subspace in $\mathfrak h$'' (p.~26, start of
+\S7); ``7.1 Theorem (Twisted Duality) \dots\ Then $\mathcal M(\mathfrak q)'=\widetilde Z\,\mathcal M(\mathfrak q^\perp)\,
+\widetilde Z^*$'' (p.~27).  Definitions: basis projection $P+\Gamma P\Gamma=\one$, Fock state $\omega_P(a(f)^*a(f))=0$
+for $Pf=f$ (p.~4, eq.~(2)); $\mathcal M(\mathfrak q):=\{a(q)\mid q\in\mathfrak q\}''$ (p.~7, eq.~(7));
+$\widetilde Z:=\frac1{1+i}(\one+iZ)$, $Z$ the implementer of the even--odd automorphism (p.~5 before eq.~(4); p.~8,
+eq.~(8)); the complex case: $\mathfrak h:=H\oplus H$, $\Gamma:=\begin{pmatrix}0&\gamma\\\gamma&0\end{pmatrix}$,
+diagonal basis projection $\mathrm{diag}(\mathcal P,\gamma\mathcal P^\perp\gamma)$ (p.~25).
+\shot[0.8\textwidth]{r1_BJL_sec7_setup.png}\shot[0.8\textwidth]{r1_BJL_thm71.png}
+\shot[0.8\textwidth]{r1_BJL_basisproj.png}\shot[0.8\textwidth]{r1_BJL_Mq.png}
+\shot[0.8\textwidth]{r1_BJL_twist89.png}\shot[0.8\textwidth]{r1_BJL_complex.png}
+(iv) Use and (v) hypotheses, one by one.  $H=L^2(\mathbb R)$, $\gamma$ complex conjugation, $\mathfrak h=H\oplus H$,
+$\Gamma(f\oplus g)=\gamma g\oplus\gamma f$: an anti-unitary involution.  Self-dual field
+$a(f\oplus g):=a(f)+a^*(\gamma g)$ with (C2)'s $a$: antilinear, $a(F)^*=a(\Gamma F)$, and
+$\{a(F),a(G)^*\}=\ip FG$ (from the CAR of (C2) and $\ip{\gamma g'}{\gamma g}=\ip g{g'}$): BJL Thm.~2.1 (i)--(iii).
+$\mathfrak P:=\mathrm{diag}(\Pm,\gamma\Pp\gamma)$ (BJL's $\mathcal P=\Pm$): $\Gamma\mathfrak P\Gamma=
+\mathrm{diag}(\Pp,\gamma\Pm\gamma)$, so $\mathfrak P+\Gamma\mathfrak P\Gamma=\one$.  For $\mathfrak PF=F$,
+$F=f\oplus g$: $\omega(a^*(f)a(f))=\ip f{\Pp f}=0$ and $\omega(a(\gamma g)a^*(\gamma g))=\ip{\gamma g}{\Pm\gamma g}=0$
+by \eqref{eq:qf} ($\gamma g\in\Pp H$), the cross terms vanish (gauge invariance of the quasi-free $\omega$), so
+$\omega=\omega_{\mathfrak P}$ on the field algebra, and the Fock representation of (C2) with its cyclic $\Om$ is the GNS
+representation of $\omega_{\mathfrak P}$, unitarily equivalent to BJL's with $\Om\mapsto\Om$.
+$\mathfrak q:=L^2(I)\oplus L^2(I)$ is closed and $\Gamma$-invariant, $\mathcal M(\mathfrak q)=\CAR(L^2(I))''=\cM$, and
+$\mathfrak q^\perp=L^2(I')\oplus L^2(I')$ because $\mathbb R\setminus I=[1,\infty)$ differs from $I'$ by a null set,
+so $\mathcal M(\mathfrak q^\perp)=\cF(I')$.  Twist: $Z$ and $V$ both implement the grading; BJL's $Z$ fixes $\Om$:
+by BJL p.~8, after eq.~(8), $\widetilde Z(p_1\wedge\dots\wedge p_n)=\eta(n)\,p_1\wedge\dots\wedge p_n$ with $\eta(n)=1$
+for even $n$, so $\widetilde Z\Om=\Om$ ($n=0$), equivalently $\Om\in E^+$ by eq.~(9), $\widetilde Z=E^+-iE^-$; hence
+$Z\Om=\Om$ ($Z=E^+-E^-$, eq.~(4)), as $V\Om=\Om$, so $Z=V$ on the dense set $\CAR(H)\Om$.  The sign is in any case immaterial: replacing $Z$ by
+$-Z$ replaces $\widetilde Z$ by $-i\widetilde Z^*$, and $\widetilde Z^*\cN\widetilde Z=\widetilde Z(Z\cN Z)\widetilde Z^*
+=\widetilde Z\cN\widetilde Z^*$ for $\cN=\cF(I')$ ($\widetilde Z^2=Z$, $Z\cN Z=\cN$).  Verdict: hypotheses met.
+\end{citedbox}
 \lstep{2}{2}{$Z\Om=\Om$, $ZE=EZ=E$, hence $EZbZ^*\Om=Eb\Om$.}
 \lby{$V\Om=\Om$ so $Z\Om=\Om$; $V=+1$ on the even subspace, which contains
  $\mathcal H^{(1,1)}$ and is $E$-invariant, so $Z$ acts as $1$ there}
@@ -1361,9 +1393,10 @@ Shale--Stinespring.
  Corollary~\ref{cor:implementer}.  \textbf{Screenshot NOT OBTAINED} (not online here).
 \item \emph{Alberti--Uhlmann 2002, Theorem~2(3)} (\texttt{math-ph/0202038}, p.~7).  Only the
  elementary half.  Screenshot: \texttt{shots/PA\_AU02\_thm2.png}.
-\item \emph{Twisted duality} $\cF(I)'=Z\cF(I')Z^*$ for the free fermion (Foit, Publ.\ RIMS
- \textbf{19} (1983) 729, Thm~1).  Used only in Lemma~\ref{lem:wick} $\langle1\rangle1$.
- \textbf{Screenshot NOT OBTAINED}.
+\item \emph{Twisted duality} $\cF(I)'=Z\cF(I')Z^*$ for the free fermion: Baumg\"artel--Jurke--Lled\'o,
+ \texttt{refs/BJL\_twisted\_duality\_math-ph-0204029.pdf}, Theorem~7.1 (PDF p.~27), with the hypotheses checked in the
+ cited box of Lemma~\ref{lem:wick} $\langle2\rangle1$ (2026-11-19; replaces Foit, Publ.\ RIMS \textbf{19} (1983) 729,
+ Thm~1, whose screenshot was not obtained).  Used only in Lemma~\ref{lem:wick} $\langle1\rangle1$.
 \item \emph{Reeh--Schlieder} ($\Om$ cyclic separating for $\cF(I)$).  Standard.
 \item \emph{Three faces of the Bures form}: \texttt{rigor/lemma\_second\_variation.tex}, theorem
  ``Three faces of the Bures form'' (internal, proved there; no domain hypothesis on $a$).

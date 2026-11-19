@@ -1,0 +1,331 @@
+[
+ {
+  "file": "paper1/sec_2d_lattice.tex",
+  "old": "light rays by \\emph{opposite} dilations.  Consequently the rotated Petz map with\nparameter $t$ is the pair of chiral rotated Petz maps with parameters $t$ and\n$-t$.",
+  "new": "light rays by \\emph{opposite} dilations.  For the massless Dirac fermion this makes the rotated Petz map with\nparameter $t$ the pair of chiral rotated Petz maps with parameters $t$ and\n$-t$ (\\cref{prop:twobranch}); for a general CFT of this form the resulting law is conjectural (\\cref{rem:twobranch-general}).",
+  "finding": "C6 A1",
+  "reason": "The factorisation of the rotated Petz map is proved only for the massless Dirac fermion (card two-chirality-law, proved); the general case is card two-chirality-law-general-cft (conjectural)."
+ },
+ {
+  "file": "paper1/sec_2d_lattice.tex",
+  "old": "\\begin{proposition}[Two-chirality law]\\label{prop:twobranch}\nWrite $\\lambda=2t$",
+  "new": "\\begin{proposition}[Two-chirality law, massless Dirac fermion]\\label{prop:twobranch}\nLet $\\cA_{\\rm chiral}=\\overline{\\cA}_{\\rm chiral}=\\cF_1$ (the massless Dirac fermion: one complex chiral fermion per chirality), so $c=\\bar c=1$ and $\\Phi_c=\\Phi_{\\bar c}=\\Phi$ is the function of \\cref{cor:collapse} for $r=1$.\nWrite $\\lambda=2t$",
+  "finding": "C6 A1",
+  "reason": "prop:twobranch was stated for every 2D CFT; card two-chirality-law (proved) covers only the massless Dirac fermion."
+ },
+ {
+  "file": "paper1/sec_2d_lattice.tex",
+  "old": "the chiral modular data, and the state is the product vacuum.",
+  "new": "the chiral modular data (the Dirac net is the tensor product of the two chiral $\\cF_1$ nets), and the state is the product vacuum.",
+  "finding": "C6 A1",
+  "reason": "The proof's factorisation step is the Dirac case of card two-chirality-law; the sentence 'for a two-dimensional CFT' claimed more."
+ },
+ {
+  "file": "paper1/sec_2d_lattice.tex",
+  "old": "which for a two-dimensional CFT is the tensor product of",
+  "new": "which for the massless Dirac fermion is the tensor product of",
+  "finding": "C6 A1",
+  "reason": "Scope of the proof restricted to the case card two-chirality-law proves."
+ },
+ {
+  "file": "paper1/sec_2d_lattice.tex",
+  "old": "the minimum would follow if $\\zeta\\Phi'(\\zeta)$ were nondecreasing, which is not proved.\n\\end{proof}",
+  "new": "the minimum would follow if $\\zeta\\Phi'(\\zeta)$ were nondecreasing, which is not proved.\n\\end{proof}\n\n\\begin{remark}[Conjecture: general two-dimensional CFTs]\\label{rem:twobranch-general}\nFor $\\cA=\\cA_{\\rm chiral}\\otimes\\overline{\\cA}_{\\rm chiral}$ with general chiral halves of central charges $c,\\bar c$ we conjecture \\eqref{eq:twobranch}, with $\\Phi_c$ the single-chirality zero-collar recovery error of the chiral half.  The argument above would need (i) the factorisation of the rotated Petz map into chiral rotated maps with parameters $t$ and $-t$, and (ii) a per-chirality function $\\Phi_c$: the collapse of \\cref{cor:collapse} and the normal extension behind it are proved only for the free fermion, and for a general chiral net only the second-order coefficient $f_2=c/(12\\pi^2)$ is known.\n\\end{remark}",
+  "finding": "C6 A1",
+  "reason": "States the general-CFT version as the conjecture of card two-chirality-law-general-cft (conjectural), with its two missing inputs."
+ },
+ {
+  "file": "paper1/main.tex",
+  "old": "with $\\zeta_t=z(1+e^{-2\\pi t})$; in a two-dimensional CFT the two chiralities see\nopposite modular rotations, so the recovery error is a sum of two branches,",
+  "new": "with $\\zeta_t=z(1+e^{-2\\pi t})$; for the massless Dirac fermion (conjecturally in every two-dimensional CFT) the two chiralities see\nopposite modular rotations, so the recovery error is a sum of two branches,",
+  "finding": "C6 A1",
+  "reason": "Abstract stated the two-branch law for every 2D CFT; card two-chirality-law (proved) is the Dirac case, two-chirality-law-general-cft is conjectural."
+ },
+ {
+  "file": "paper1/sec_intro.tex",
+  "old": "factor $4$ in $-\\log\\Fid$ at leading order.  In a two-dimensional CFT the Bisognano--Wichmann\nboost dilates",
+  "new": "factor $4$ in $-\\log\\Fid$ at leading order.  For the massless Dirac fermion (and conjecturally in every two-dimensional CFT, \\cref{rem:twobranch-general}) the Bisognano--Wichmann\nboost dilates",
+  "finding": "C6 A1",
+  "reason": "Intro stated eq:twobranch-intro for every 2D CFT; only the Dirac case is on a proved card (two-chirality-law)."
+ },
+ {
+  "file": "paper1/sec_2d_lattice.tex",
+  "old": " +O(\\eta_{\\rm V}^3),\n",
+  "new": " +o(\\eta_{\\rm V}^2),\n",
+  "finding": "C6 A2",
+  "reason": "Theorem A (card thm-a-quadratic-law, refereed) gives only o(zeta^2); the lower side of an O(eta^3) remainder is on no card (rrr-bound-small-zeta is upper only, remainder-c3-c4-values heuristic)."
+ },
+ {
+  "file": "paper1/sec_2d_lattice.tex",
+  "old": "\\eta_{\\rm V}^2+O(\\eta_{\\rm V}^3),",
+  "new": "\\eta_{\\rm V}^2+o(\\eta_{\\rm V}^2),",
+  "finding": "C6 A2",
+  "reason": "Theorem A (card thm-a-quadratic-law, refereed) gives only o(zeta^2); the lower side of an O(eta^3) remainder is on no card (rrr-bound-small-zeta is upper only, remainder-c3-c4-values heuristic)."
+ },
+ {
+  "file": "paper1/sec_2d_lattice.tex",
+  "old": "with $f_2=c/(12\\pi^2)$ per chiral component.  The relative entropy",
+  "new": "as $\\eta_{\\rm V}\\to0$ at fixed $\\lambda$ (not uniformly in $\\lambda$), with $f_2=c/(12\\pi^2)$ per chiral component.  The relative entropy",
+  "finding": "C6 A2",
+  "reason": "The o(eta^2) of card two-chirality-minimum-at-lambda-zero (b) is not uniform in lambda; the order of limits is stated."
+ },
+ {
+  "file": "paper1/sec_2d_lattice.tex",
+  "old": "at $\\lambda=0$ the bracket is $8$ and\n$8f_2=2c/(3\\pi^2)$ per chirality.",
+  "new": "at $\\lambda=0$ the bracket is $8$ and\n$8f_2=2c/(3\\pi^2)$ is the sum of both chiralities ($4f_2=c/(3\\pi^2)$ each).",
+  "finding": "C6 A2 addendum",
+  "reason": "8 f2 eta^2 is the two-chirality total (card const-f2: 'with both chiralities ... 8 f2'), not the per-chirality value."
+ },
+ {
+  "file": "paper1/sec_intro.tex",
+  "old": "fixes the coefficient, $-\\log F^{(0)}=\\frac{c+\\bar c}{3\\pi^2}\\eta_{\\rm V}^2\n+O(\\eta_{\\rm V}^3)$.",
+  "new": "fixes the coefficient, $-\\log F^{(0)}=\\frac{c+\\bar c}{3\\pi^2}\\eta_{\\rm V}^2\n+o(\\eta_{\\rm V}^2)$ (proved for the massless Dirac fermion, $c=\\bar c=1$).",
+  "finding": "C6 A2, A1",
+  "reason": "Theorem A (card thm-a-quadratic-law, refereed) gives only o(zeta^2); the lower side of an O(eta^3) remainder is on no card (rrr-bound-small-zeta is upper only, remainder-c3-c4-values heuristic)."
+ },
+ {
+  "file": "paper1/main.tex",
+  "old": "High-precision numerics for $\\Phi$ over three\ndecades of cross ratio confirm the quadratic law to $10^{-4}$ relative.",
+  "new": "Numerically, the second-order coefficient agrees with $c/(12\\pi^2)$ to $10^{-4}$ relative\n(with a heuristic tail correction), and $\\Phi$ itself is computed for $0.008\\le\\zeta\\le0.53$ with a realistic uncertainty of $0.3$--$1\\%$.",
+  "finding": "C6 A3",
+  "reason": "The 1e-4 is f2^num = 0.008444(1) (card const-f2, numerical value; sec_numerics eq:f2s2, heuristic tail correction), not a confirmation of Phi over three decades (sec_numerics: 0.3-1% uncertainty)."
+ },
+ {
+  "file": "paper1/sec_intro.tex",
+  "old": "The\ncorresponding relative-entropy coefficient is\n$D(\\omega\\Vert\\widetilde\\omega_s)=\\frac{c_{\\rm cft}}{12}\\zeta^2+o(\\zeta^2)$; the\nKubo--Mori half is proved here at the level of the quantum Fisher information and\nconfirmed numerically, see \\cref{rem:s2-status}.",
+  "new": "The\ncorresponding relative-entropy coefficient is conjecturally $c_{\\rm cft}/12$:\nthe Kubo--Mori quadratic form of the curve gives $\\frac12g_{\\rm KM}=c_{\\rm cft}/12$ (proved, \\cref{prop:gBvalue}), and\n$D(\\omega\\Vert\\widetilde\\omega_s)/\\zeta^2$ follows it numerically to $0.5\\%$; the expansion\n$D(\\omega\\Vert\\widetilde\\omega_s)=\\frac{c_{\\rm cft}}{12}\\zeta^2+o(\\zeta^2)$ itself is not proved, see \\cref{rem:s2-status}.",
+  "finding": "C6 A5",
+  "reason": "The expansion of D is card conj-s2 (conjectural); only the Kubo-Mori form value g_KM = r/6 is proved (card const-gb)."
+ },
+ {
+  "file": "paper1/sec_quadratic.tex",
+  "old": "$\\Omega(\\ell)$ is the Legendre functional of \\cref{lem:legendre}; equivalently, for",
+  "new": "$\\Omega(\\ell)$ is the Legendre functional \\eqref{eq:Omega-ell} of \\cref{prop:oneparticle}; equivalently, for",
+  "finding": "D1 item 4 (referee_paper1.md 6.4)",
+  "reason": "Omega(l) is defined in eq:Omega-ell of prop:oneparticle, not in lem:legendre (confirmed sec_quadratic.tex:57-63)."
+ },
+ {
+  "file": "paper1/sec_quadratic.tex",
+  "old": "$g_{\\mathrm{KM}}$ is the Kubo--Mori form of \\eqref{eq:km}, normalized by\n$D(\\omega\\Vert\\widetilde\\omega_s)=\\frac{\\zeta^2}2g_{\\mathrm{KM}}+o(\\zeta^2)$.",
+  "new": "$g_{\\mathrm{KM}}$ is the Kubo--Mori form of \\eqref{eq:km}, i.e.\\ the coefficient of $\\eps^2/2$ there with the tangent $D^{(1)}$ in place of $D$; whether\n$D(\\omega\\Vert\\widetilde\\omega_s)=\\frac{\\zeta^2}2g_{\\mathrm{KM}}+o(\\zeta^2)$ holds is open (\\cref{rem:s2-status}).",
+  "finding": "C6 A5 (def:gB, MINOR)",
+  "reason": "def:gB normalised g_KM by an expansion of D that card conj-s2 (conjectural) does not prove."
+ },
+ {
+  "file": "paper1/sec_quadratic.tex",
+  "old": "hence the global bound $\\Phi(\\zeta)\\le-\\tfrac12\\log(1-2f_2\\zeta^2)",
+  "new": "hence, for $r=1$ and $0\\le\\zeta<(4f_2)^{-1/2}=\\pi\\sqrt3$ (where the two off-diagonal blocks of the group element are proved to have equal singular values; for larger $\\zeta$ this rests on an unproved index-zero statement), the bound $\\Phi(\\zeta)\\le-\\tfrac12\\log(1-2f_2\\zeta^2)",
+  "finding": "C6 A6",
+  "reason": "Card rrr-bound-small-zeta (proved) has the range zeta < pi sqrt 3 for one chiral component; the rest rests on group-index-zero-large-s (conjectural)."
+ },
+ {
+  "file": "paper1/sec_quadratic.tex",
+  "old": "so the sign and size of the cubic term, $c_3=-0.99(1)$, rest on numerics.",
+  "new": "so the sign and size of the cubic term, $c_3\\approx-1$, rest on a numerical estimate whose scripts are not in the published repository.",
+  "finding": "C6 A7",
+  "reason": "c3, c4 are on card remainder-c3-c4-values (heuristic, scripts not in the repository); an error bar no project script reproduces violates AGENTS.md 5."
+ },
+ {
+  "file": "paper1/sec_fidelity.tex",
+  "old": "\\qquad c_3=-0.99(1),\\ c_4=+0.9(1):",
+  "new": "\\qquad c_3\\approx-1,\\ c_4\\approx+0.9\\ \\text{(unreproduced estimates)}:",
+  "finding": "C6 A7",
+  "reason": "c3, c4 are on card remainder-c3-c4-values (heuristic, scripts not in the repository); an error bar no project script reproduces violates AGENTS.md 5."
+ },
+ {
+  "file": "paper1/sec_fidelity.tex",
+  "old": "the cubic coefficient $c_3=-0.99(1)$ is a numerical estimate \\cite{RigorRR}, not yet reproducible from the published scripts.",
+  "new": "the cubic coefficient $c_3\\approx-1$ is a numerical estimate \\cite{RigorRR}, not yet reproducible from the published scripts, so no error bar is quoted.",
+  "finding": "C6 A7",
+  "reason": "c3, c4 are on card remainder-c3-c4-values (heuristic, scripts not in the repository); an error bar no project script reproduces violates AGENTS.md 5."
+ },
+ {
+  "file": "paper1/sec_fidelity.tex",
+  "old": "excluded by the global bound $\\Phi\\le-\\tfrac12\\log(1-2f_2\\zeta^2)$ of \\cref{sec:quadratic})",
+  "new": "excluded by the bound $\\Phi\\le-\\tfrac12\\log(1-2f_2\\zeta^2)$, $0\\le\\zeta<\\pi\\sqrt3$, of \\cref{rem:norate})",
+  "finding": "C6 A6",
+  "reason": "The bound is proved only on zeta < pi sqrt 3 (card rrr-bound-small-zeta); the small-zeta exclusion of the log^-2 term survives."
+ },
+ {
+  "file": "paper1/sec_outlook.tex",
+  "old": "The upper half is available: the global bound of\n\\cref{rem:norate} gives",
+  "new": "The upper half is available: the bound of\n\\cref{rem:norate} gives, for $r=1$ and $0\\le\\zeta<\\pi\\sqrt3$,",
+  "finding": "C6 A6",
+  "reason": "The bound of rem:norate is proved only on zeta < pi sqrt 3 for one chiral component (card rrr-bound-small-zeta); c3 <= 0 is a small-zeta consequence and survives."
+ },
+ {
+  "file": "paper1/sec_outlook.tex",
+  "old": "It is \\emph{not} optimal among all normal recovery maps",
+  "new": "Numerically, it is not optimal among all normal recovery maps",
+  "finding": "C6 A12, C4 F1",
+  "reason": "theta > 0 is numerical (cards compression-not-second-order-minimiser, compression-not-optimal-exact-fidelity, both numerical)."
+ },
+ {
+  "file": "paper1/sec_outlook.tex",
+  "old": "$\\theta=0.384\\pm0.003$ numerically \\cite{RigorS10,RigorF3}; and the corresponding",
+  "new": "$\\theta=0.384\\pm0.003$ numerically \\cite{RigorAll,RigorF3} (the value $0.300$ of \\cite{RigorS10} is a taper-suppressed lower estimate); and the corresponding",
+  "finding": "C6 A12 (citation)",
+  "reason": "RigorS10 gives 0.300, not 0.384 (card theta-value: S10's 0.300 is taper-suppressed); 0.384 comes from the Galerkin and Wiener-Hopf frames."
+ },
+ {
+  "file": "paper1/sec_outlook.tex",
+  "old": "The zero-collar compression is not the minimiser: composing",
+  "new": "Numerically, the zero-collar compression is not the minimiser: composing",
+  "finding": "C4 F1",
+  "reason": "theta > 0 is numerical (card compression-not-second-order-minimiser: 'theta > 0 is numerical, not proved')."
+ },
+ {
+  "file": "paper1/sec_outlook.tex",
+  "old": "and $\\theta_{\\rm fr}\\ge0.38$ (numerical).",
+  "new": "and $\\theta_{\\rm fr}\\ge0.38$ (numerical: an extrapolation over finite meshes, every computed finite-mesh value lying below $0.38$, not a rigorous bound).",
+  "finding": "C4 F2",
+  "reason": "F3_RESULTS.md (iii): theta(h_min) = 0.367-0.379 in every family, 0.384 only after extrapolation in h^0.77; card compression-not-optimal-exact-fidelity (numerical) is kept, its basis stated."
+ },
+ {
+  "file": "paper1/sec_outlook.tex",
+  "old": "the Petz map, at $4f_2z^2$, is at least $5.6$ times worse than the best channel.",
+  "new": "the Petz map, at $4f_2z^2$, is worse than the best channel by a factor of at least $4/0.62\\approx6.4$ at leading order in $z$ (numerical input $\\theta_{\\rm fr}\\ge0.38$).",
+  "finding": "C6 A12, C4 F3",
+  "reason": "5.6 = 4/0.71 is the pre-F3 bracket; with (1 - theta_fr) <= 0.62 (card compression-not-optimal-exact-fidelity, numerical) the factor is >= 6.4, asymptotically in z only."
+ },
+ {
+  "file": "paper1/sec_fidelity.tex",
+  "old": "for a single chirality the family is monotone in $t$ and its best\nmember is the limit $t\\to+\\infty$, where",
+  "new": "for a single chirality the family is monotone in $t$ and its infimum\nover the family is attained only in the limit $t\\to+\\infty$ (not a member), where",
+  "finding": "C6 A10",
+  "reason": "Card two-chirality-law (proved): the t -> +infinity compression is 'a limit point and not a member of the family', at least as good as every member."
+ },
+ {
+  "file": "paper1/sec_fidelity.tex",
+  "old": "worse than the optimal rotation by a factor $4$ in $-\\log\\Fid$.",
+  "new": "worse than this limit by a factor $4$ in $-\\log\\Fid$ at leading order.",
+  "finding": "C6 A10",
+  "reason": "Card two-chirality-law (proved): the t -> +infinity compression is 'a limit point and not a member of the family', at least as good as every member. The factor 4 = Phi(2z)/Phi(z) holds at leading order in z (Theorem A)."
+ },
+ {
+  "file": "paper1/sec_outlook.tex",
+  "old": "shows that the best member of the\nrotated family for a single chirality is the pure geometric compression",
+  "new": "shows that for a single chirality the infimum over the\nrotated family is attained only in its limit $t\\to+\\infty$, the pure geometric compression",
+  "finding": "C6 A10",
+  "reason": "Card two-chirality-law (proved): the t -> +infinity compression is 'a limit point and not a member of the family', at least as good as every member."
+ },
+ {
+  "file": "paper1/sec_2d_lattice.tex",
+  "old": "$\\eta_{\\rm V}$} and equal to $1-0.15/L$ at fixed block size $L$ --- i.e.\\ the law\nis exact in the continuum limit and the deviation is a pure finite-size effect\n($0.962$ at $L=4$).",
+  "new": "$\\eta_{\\rm V}$} and equal to $1-0.15/L$ at fixed block size $L$ ($0.962$ at $L=4$) ---\nconsistent with the law being exact in the continuum limit and the deviation a finite-size effect\n(an extrapolation of a fit at finitely many $L$, not a lattice result).",
+  "finding": "C6 A4",
+  "reason": "The continuum exactness is an extrapolation of the 1-0.15/L fit (card two-branch-law-lattice, numerical); AGENTS.md 5: extrapolation is an estimate."
+ },
+ {
+  "file": "paper1/sec_2d_lattice.tex",
+  "old": "The rigorous lower bounds from\n\\cref{thm:detrep} give $\\Phi_{\\rm sub}=4.230\\times10^{-3},\\,1.012\\times10^{-2},\n\\,2.010\\times10^{-2},\\,3.343\\times10^{-2},\\,4.779\\times10^{-2}$ at",
+  "new": "The best rigorous lower bounds from\n\\cref{thm:detrep} (the largest-$\\kappa_c$ columns of \\cref{tab:largezeta}) give $\\Phi_{\\rm sub}=4.381\\times10^{-3},\\,1.0672\\times10^{-2},\n\\,2.1872\\times10^{-2},\\,3.8259\\times10^{-2},\\,5.7395\\times10^{-2}$ at",
+  "finding": "D1 item 3 (referee_paper1.md 6.3)",
+  "reason": "The quoted values were the kappa_c = 18.4 bounds; tab:largezeta (numerics/fidelity_table_largezeta.tex) has strictly better certified ones at kappa_c = 39.1 / 43.8 (checked entry by entry)."
+ },
+ {
+  "file": "paper1/sec_numerics.tex",
+  "old": "(\\texttt{results\\_largezeta.txt} and \\texttt{results\\_largezeta2.txt} for the\n$\\Phi_{\\rm sub}$ lower bounds quoted in \\cref{rem:largezeta}), the",
+  "new": "(also for the $\\Phi_{\\rm sub}$ lower bounds quoted in \\cref{rem:largezeta}), the",
+  "finding": "D1 item 3 (consequence)",
+  "reason": "After the rem:largezeta patch its lower bounds are the kappa_c = 39.1/43.8 columns of tab:largezeta, produced by the certified pipeline."
+ },
+ {
+  "file": "paper1/sec_quadratic.tex",
+  "old": "(the flow of $-x^2\\,d/dx$ on $D$ in the",
+  "new": "(the flow of $-(x^2/L)\\,d/dx$ on $D$ in the",
+  "finding": "D1 item 5 (referee_paper1.md 6.5)",
+  "reason": "The generator is -x^2/L d/dx (app_conventions.tex:29 and the parenthesis that follows in the same sentence)."
+ },
+ {
+  "file": "paper1/sec_quadratic.tex",
+  "old": "see \\cite[Thm.~``Upper bound'']{RigorQL}.",
+  "new": "see \\cite[Thm.~6.3]{RigorQL}.",
+  "finding": "D1 item 7 (referee_paper1.md 6.7)",
+  "reason": "rigor/quadratic_limit.aux:53: thm:upper is Theorem 6.3."
+ },
+ {
+  "file": "paper1/sec_quadratic.tex",
+  "old": "\\cite[Prop.~``Value of the Hellinger coefficient'']{RigorQL}.",
+  "new": "\\cite[Prop.~6.5]{RigorQL}.",
+  "finding": "D1 item 7 (referee_paper1.md 6.7)",
+  "reason": "rigor/quadratic_limit.aux:59: prop:h2 is Proposition 6.5."
+ },
+ {
+  "file": "paper1/sec_fidelity.tex",
+  "old": "\\begin{proposition}[Ultraviolet tail; {\\cite[Prop.~4.1]{Note5}}]\\label{prop:tail}\nLet $\\beta_0",
+  "new": "\\begin{remark}[Ultraviolet tail, proof sketch only; {\\cite[Prop.~4.1]{Note5}}; integrated form proved in {\\cite[Thm.~4.2]{RigorTB}}]\\label{prop:tail}\nThe following pointwise statement is argued in \\cite{Note5} only as a sketch (see \\cref{rem:tail-status}).  Let $\\beta_0",
+  "finding": "C6 A9, D1 item 9 (referee_paper1.md 6.9)",
+  "reason": "The pointwise O(kappa^-5) statement is on no card; card tail-bound proves only the integrated tail (RigorTB Thm 4.2 = thm:tau, tail_bound.aux:31); typeset as a Proposition it read as proved."
+ },
+ {
+  "file": "paper1/sec_fidelity.tex",
+  "old": "decays like $e^{-\\kappa}$ up to powers.\n\\end{proposition}",
+  "new": "decays like $e^{-\\kappa}$ up to powers.\n\\end{remark}",
+  "finding": "C6 A9",
+  "reason": "Closing environment of the relabelled prop:tail."
+ },
+ {
+  "file": "paper1/sec_fidelity.tex",
+  "old": "a complete proof of the remainder bound\n$|\\Sigma(\\kappa_c)-\\zeta^2/(15\\kappa_c^2)|\\le C_2\\,\\zeta^2\\kappa_c^{-3}+C_1\\,\\zeta(1+\\kappa_c)e^{-\\kappa_c}$ with finite constants",
+  "new": "a complete proof of the remainder bound\n$|\\Sigma(\\kappa_c)-\\zeta^2/(15\\kappa_c^2)|\\le C_2\\,\\zeta^2\\kappa_c^{-3}+C_1\\,\\zeta(1+\\kappa_c)e^{-\\kappa_c}$ for $0<\\zeta\\le1$ and $\\kappa_c\\ge8$, with finite constants",
+  "finding": "D1 item 8 (referee_paper1.md 6.8)",
+  "reason": "rigor/tail_bound.tex:61 (Thm 4.2) states the Sigma estimate for 0 < zeta <= 1 and kappa_c >= 8; the paper omitted the hypotheses."
+ },
+ {
+  "file": "paper1/fidelity_tables.tex",
+  "old": "(\\(0.0841\\) from \\(\\kappa_c=18.4,25.3\\); \\(0.0833\\) from \\(25.3,32.2\\))",
+  "new": "(\\(0.0841\\) from \\(\\kappa_c=18.4,25.3\\); \\(0.0834\\) from \\(25.3,32.2\\); rows \\(\\Lambda=120\\), \\(\\kappa_{\\max}=45\\))",
+  "finding": "D1 item 10 (referee_paper1.md 6.10)",
+  "reason": "Two-point 1/kappa_c extrapolation of 0.071785, 0.074268 gives 0.08337 (recomputed); the rows used are named because the Lambda=240 rows give 0.0833."
+ },
+ {
+  "file": "paper1/sec_fidelity.tex",
+  "old": "Proved in the verification document \\cite{RigorCN5}; the argument compares the\npairs $(\\omega,\\widetilde\\omega_s)$ and $(\\omega,\\widetilde\\omega_{s'})$ for\n$s\\le s'$ through the semigroup law $h_{s'}=h_{s'-s}\\circ h_s$ of \\eqref{eq:hs}\nand the monotonicity of root fidelity under the resulting compression.",
+  "new": "\\cite[Prop.~8.1]{RigorCN5}.  Fix $L$ and $s$, and write $I_i=(-a_i,L)$ with $a_1<a_2$.  The glued map does not depend on $a$, so by uniqueness of the normal extension (\\cref{thm:normal}) the normal map on $\\cF_r(I_2)$ restricts to the one on $\\cF_r(I_1)$.  Root fidelity is monotone under restriction to a subalgebra, hence $\\Phi(a_1s/(a_1+L))\\le\\Phi(a_2s/(a_2+L))$.  Every pair $0<\\zeta_1<\\zeta_2$ is realised by $L=1$, any $s>\\zeta_2$ and $a_i=\\zeta_i/(s-\\zeta_i)$, and $\\Phi$ depends on $(a,L,s)$ only through $\\zeta$ (\\cref{lem:mobius}).",
+  "finding": "D1 item 12 (referee_paper1.md 6.12), C6 cor:collapse/prop:monotone",
+  "reason": "The proof was only cited, and the cited sketch (semigroup law) is not the argument of card phi-monotone-in-zeta (proved, rigor/check_note5_theory.tex prop:mono = Prop 8.1), which is the restriction argument now transcribed."
+ },
+ {
+  "file": "paper1/sec_numerics.tex",
+  "old": "16 nodes\nchange the matrix by $3\\times10^{-11}$ relative.",
+  "new": "16 nodes\nchange the matrix by $3\\times10^{-11}$ relative (\\cite[\\S6]{Note5}; an uncertified diagnostic, not part of \\cite{RigorCN}).",
+  "finding": "D1 item 13 (referee_paper1.md 6.13)",
+  "reason": "The diagnostic is stated in Note 5 Sec. 6 (fidelity_recovered_quasifree.tex:441, aux: sec:numerics = 6), not in certified_numerics.tex."
+ },
+ {
+  "file": "paper1/sec_numerics.tex",
+  "old": "omitting it\nproduces an $O(h)$ error of $0.2\\%$ in $\\Phi$.",
+  "new": "omitting it\nproduces an $O(h)$ error of $0.2\\%$ in $\\Phi$ (\\cite[\\S6]{Note5}).",
+  "finding": "D1 item 13 (referee_paper1.md 6.13)",
+  "reason": "Same source, fidelity_recovered_quasifree.tex:441."
+ },
+ {
+  "file": "paper1/sec_intro.tex",
+  "old": "$\\Phi(\\zeta)$, $\\zeta\\gtrsim1$ & brackets, \\cref{rem:largezeta} & lower bounds plus extrapolation only\\\\",
+  "new": "$\\Phi(\\zeta)$, $\\zeta\\gtrsim1$ & \\cref{tab:largezeta} & rigorous lower bounds plus uncertified extrapolation, $0.45$--$6.6\\%$\\\\",
+  "finding": "D1 item 11 (referee_paper1.md 6.11)",
+  "reason": "The values are those of tab:largezeta (card large-zeta-values, numerical: estimates above rigorous windowed lower bounds, not certified; uncertainties 0.45-6.6%, sec_numerics.tex:108)."
+ },
+ {
+  "file": "paper1/sec_outlook.tex",
+  "old": "The constants $f_2=c_{\\rm cft}/(12\\pi^2)$ and $s_2=c_{\\rm cft}/12$ of\n\\cref{prop:gBvalue} were obtained here",
+  "new": "The constant $f_2=c_{\\rm cft}/(12\\pi^2)$ and the Kubo--Mori form value $\\frac12g_{\\rm KM}=c_{\\rm cft}/12$ (whose identification with $s_2$ is conjectural, \\cref{rem:s2-status}) of\n\\cref{prop:gBvalue} were obtained here",
+  "finding": "C6 A13 (second part), A5",
+  "reason": "prop:gBvalue proves the KM form value (card const-gb, proved), not s2 = lim D/zeta^2 (card conj-s2, conjectural)."
+ },
+ {
+  "file": "paper1/main.tex",
+  "old": "\\bibitem{VWZ} S. Vardhan, A. Wei, Y. Zou,",
+  "new": "\\bibitem{VWZ} S. Vardhan, A. Y. Wei, Y. Zou,",
+  "finding": "C6 A14",
+  "reason": "refs/VWZ_2307.14434.pdf p. 1 (pdftotext): 'Shreya Vardhan, Annie Y. Wei, and Yijian Zou'."
+ },
+ {
+  "file": "paper1/main.tex",
+  "old": "\\input{app_conventions}\n\\bibliographystyle{plain}\n",
+  "new": "\\input{app_conventions}\n",
+  "finding": "D1 item 6 (second part, referee_paper1.md 6.6)",
+  "reason": "Inert \\bibliographystyle next to the manual thebibliography; the bibitem markings of item 6 are already applied."
+ }
+]

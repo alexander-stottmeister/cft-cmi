@@ -1,0 +1,528 @@
+\documentclass[11pt]{article}
+\input{rigor_preamble}
+\newcommand{\Wt}{\widetilde W}
+\newcommand{\kt}{\widetilde k}
+\newcommand{\Stwo}{\mathfrak S_2}
+\newcommand{\Pp}{P_+}\newcommand{\Pm}{P_-}
+\newcommand{\one}{\mathbf 1}
+\newcommand{\norm}[1]{\lVert#1\rVert}
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\ip}[2]{\langle#1,#2\rangle}
+\newcommand{\ind}{\operatorname{ind}}
+\newcommand{\Pperp}{P^\perp}\newcommand{\Gs}{\mathcal G}
+\newcommand{\kb}[2]{\lvert#1\rangle\langle#2\rvert}
+\title{Index zero for unitary groups with Hilbert--Schmidt commutator,\\
+and the equal singular values of the two off-diagonal blocks}
+\author{Repair seat R1 (2026-11-19); under review}
+\date{}
+\begin{document}
+\maketitle
+
+\section{Setting, conventions and summary}\label{sec:setting}
+\paragraph{Conventions (fixed once, cited as (C1)--(C4)).}
+(C1) $H$ is a complex Hilbert space, $\Pp$ an orthogonal projection on $H$, $\Pm:=\one-\Pp$; in the Theorem~A
+documents $H=L^2(\mathbb R)$ and $\Pp$ is the projection of \texttt{uhlmann\_upper\_bound.tex} eq.~(1)
+(\texttt{eq:hardy}); in \texttt{exact\_fidelity\_upper\_half.tex} the same pair is written $P,\Pperp$.
+(C2) For a unitary $U$ on $H$:
+$X_U:=\Pp U\Pp|_{\Pp H}:\Pp H\to\Pp H$, $B_U:=\Pp U\Pm$, $C_U:=\Pm U\Pp$ and
+$G_U:=\Pp-U^*\Pp U$.  For a family $U_s$ we write $X_s,B_s,C_s,G_s$.  So $C_s=V_s$ and $G_s$ are the $V_s$, $G_s$
+of \texttt{rate\_of\_remainder.tex} Lemma~6.1 (\texttt{lem:groupbound}).
+(C3) $\Stwo$ is the class of Hilbert--Schmidt operators, $\norm T_2^2:=\sum_i\norm{Te_i}^2$ for an orthonormal
+basis $(e_i)$ (basis independent, Lemma~\ref{lem:hsbasics}).  The \emph{singular values} of $T\in\Stwo$ are the
+nonzero eigenvalues of $T^*T$ (Theorem~\ref{thm:spec}), each repeated by its multiplicity, square-rooted.
+(C4) For a bounded $X$ with $\dim\ker X<\infty$ and $\dim\ker X^*<\infty$:
+$\ind X:=\dim\ker X-\dim\ker X^*$.  No Fredholm theory is used; the finiteness is proved where needed.
+
+\paragraph{Results.}
+Theorem~\ref{thm:path}: if $s\mapsto U_s$ ($s$ in an interval $J\ni0$) is a family of unitaries with $U_0=\one$,
+$G_s\in\Stwo$ and $s\mapsto G_s$ continuous in $\norm\cdot_2$, then $\ind X_s=0$ for every $s\in J$.
+Theorem~\ref{thm:sv}: if $G_U\in\Stwo$ and $\ind X_U=0$, then $B_U$ and $C_U$ are Hilbert--Schmidt with the same
+singular values, with multiplicities; in particular $\norm{G_U}_2^2=2\norm{C_U}_2^2$, $\norm{B_U}=\norm{C_U}$ and
+$\det(\one-C_U^*C_U)=\det(\one-B_U^*B_U)$ whenever these are defined.
+Theorem~\ref{thm:group}: for a one-parameter unitary group with $\norm{G_t}_2\to0$ as $t\to0$, the hypotheses of
+Theorem~\ref{thm:path} hold on $J=\mathbb R$; Lemma~\ref{lem:gen} gives $\norm{G_t}_2\le\abs t\,\norm{[\Pm,K]}_2$
+from a form version of ``$[\Pm,K]\in\Stwo$'' on a core.  Section~\ref{sec:apps} checks the hypotheses for the
+push-forwards $\Wt_s$, for $e^{s(D+ih')}$, for the product families of \texttt{rate\_of\_remainder.tex}
+Cor.~2.9 (\texttt{cor:quartic}) and of \texttt{network\_second\_order.tex} Thm.~T3, and for
+\texttt{exact\_fidelity\_upper\_half.tex} Lemma~6.1 (\texttt{lem:group}) $\langle1\rangle1$.
+Section~\ref{sec:ranges} lists the ranges that are lifted.  Section~\ref{sec:num} gives the numerical instance
+(\texttt{rigor/index\_zero\_check.py}) and a shift example of index $-1$, where the Hilbert--Schmidt
+continuity fails.
+
+\paragraph{Route.}  The proof follows the route of card \texttt{group-index-zero-large-s} (\texttt{next}): the
+index of the pair $(\Pp,U_s^*\Pp U_s)$, made self-contained by expressing it as the cubic trace
+$\tau(G_s)=\Tr(G_s^3)$, which is $\norm\cdot_2$-continuous and integer valued (Lemma~\ref{lem:cubic}).
+The alternative route of council report C1 \S2a (index additivity, $\ind X_s=n\ind X_{s/n}$) needs the
+logarithmic law and the compact-perturbation stability of the Fredholm index, for which no source is in
+\texttt{refs/}; it is not used.  Everything below rests on elementary Hilbert-space facts proved in
+Appendix~\ref{app:spec}, on Cauchy--Schwarz and on absolutely convergent double series.
+Status: written by a track agent, \emph{not refereed}.
+
+\section{Three elementary lemmas on a pair of projections}\label{sec:pair}
+Fix a unitary $U$, write $P:=\Pp$, $Q:=U^*PU$ (an orthogonal projection), $A:=P-Q=G_U$ and $S:=\one-P-Q$.
+
+\begin{lemma}[Kernels of $X_U$ and $X_U^*$]\label{lem:kernels}
+(a) $\ker(A-\one)=PH\cap\ker Q=\ker X_U$.  (b) $\ker(A+\one)=\ker P\cap QH$, and $U^*$ maps $\ker X_U^*$
+bijectively onto it.  Hence, when $A\in\Stwo$, $\dim\ker X_U=m_A(1)$ and $\dim\ker X_U^*=m_A(-1)$ are finite
+and $\ind X_U=m_A(1)-m_A(-1)$.
+\end{lemma}
+\lstep{1}{1}{$\ker(A-\one)=PH\cap\ker Q$.}
+\lby{if $Px-Qx=x$, then $\norm x^2=\ip x{Px}-\ip x{Qx}=\norm{Px}^2-\norm{Qx}^2\le\norm x^2-\norm{Qx}^2$, so
+ $Qx=0$ and $\norm{Px}=\norm x$, i.e.\ $\norm{x-Px}^2=\norm x^2-\norm{Px}^2=0$; the converse is immediate}
+\lstep{1}{2}{$\ker(A+\one)=\ker P\cap QH$.}
+\lby{$\langle1\rangle1$ with the roles of $P$ and $Q$ exchanged ($-A=Q-P$)}
+\lstep{1}{3}{$\ker X_U=PH\cap\ker Q$.}
+\lby{for $x\in PH$: $\norm{X_Ux}^2=\norm{PUx}^2=\ip{Ux}{PUx}=\ip x{Qx}=\norm{Qx}^2$}
+\lstep{1}{4}{$X_U^*=PU^*P|_{PH}$, and $y\mapsto U^*y$ maps $\ker X_U^*$ bijectively onto $\ker P\cap QH$.}
+\lby{$\ip y{PUPx}=\ip{PU^*Py}x$ for $x,y\in PH$; if $y\in PH$ and $PU^*y=0$, then $z:=U^*y$ has $Pz=0$ and
+ $Qz=U^*PUz=U^*Py=z$; conversely, if $Pz=0$ and $Qz=z$, then $U^*PUz=z$ gives $PUz=Uz$, so $y:=Uz\in PH$ and
+ $PU^*y=Pz=0$; $U^*$ is injective}
+\lqed{1}{5}\lby{$\langle1\rangle1$--$\langle1\rangle4$; finiteness: Theorem~\ref{thm:spec}(iii) with $\lambda=\pm1$;
+ definition (C4)}
+
+\begin{lemma}[Spectral symmetry of $P-Q$]\label{lem:sym}
+Let $P,Q$ be orthogonal projections with $A:=P-Q\in\Stwo$.  Then $\norm A\le1$ and $m_A(\lambda)=m_A(-\lambda)$ for
+every $0<\abs\lambda<1$.
+\end{lemma}
+\lstep{1}{1}{$AS=QP-PQ$ and $SA=PQ-QP$, so $AS=-SA$.}
+\lby{$(P-Q)(\one-P-Q)=P-P-PQ-Q+QP+Q=QP-PQ$ and $(\one-P-Q)(P-Q)=P-Q-P+PQ-QP+Q=PQ-QP$, using $P^2=P$, $Q^2=Q$}
+\lstep{1}{2}{$A^2+S^2=\one$.}
+\lby{$A^2=P-PQ-QP+Q$ and $S^2=\one-2P-2Q+P+Q+PQ+QP=\one-P-Q+PQ+QP$}
+\lstep{1}{3}{$\norm A\le1$.}
+\lby{$\norm{Ax}^2=\ip x{A^2x}=\norm x^2-\norm{Sx}^2$ by $\langle1\rangle2$ and $S=S^*$}
+\lstep{1}{4}{For $0<\abs\lambda<1$, $S$ maps $\ker(A-\lambda)$ injectively into $\ker(A+\lambda)$.}
+\lby{$A(Sx)=-SAx=-\lambda Sx$ by $\langle1\rangle1$; $S^2x=(1-\lambda^2)x$ by $\langle1\rangle2$, nonzero for $x\ne0$}
+\lqed{1}{5}\lby{$\langle1\rangle4$ for $\lambda$ and $-\lambda$; both multiplicities are finite
+ (Theorem~\ref{thm:spec}(iii))}
+
+\begin{lemma}[The cubic trace]\label{lem:cubic}
+For $A=A^*\in\Stwo$ and an orthonormal basis $(f_j)$ put $\tau(A):=\sum_j\ip{f_j}{A^3f_j}$.
+(a) For bounded $X,Y,Z$ with $X,Y\in\Stwo$: $\sum_j\abs{\ip{f_j}{XYZf_j}}\le\norm X_2\norm Y_2\norm Z$.
+(b) $\tau(A)$ converges absolutely, does not depend on the basis, and $\tau(A)=\sum_k\lambda_k^3$
+(Theorem~\ref{thm:spec}).
+(c) $\abs{\tau(A)-\tau(A')}\le\bigl(\norm A_2^2+\norm A_2\norm{A'}_2+\norm{A'}_2^2\bigr)\norm{A-A'}_2$ for
+$A'=A'^*\in\Stwo$.
+(d) If $A=P-Q$ with orthogonal projections $P,Q$, then $\tau(A)=m_A(1)-m_A(-1)\in\mathbb Z$.
+\end{lemma}
+\lstep{1}{1}{(a).}
+\lby{$\abs{\ip{f_j}{XYZf_j}}=\abs{\ip{X^*f_j}{YZf_j}}\le\norm{X^*f_j}\norm{YZf_j}$, Cauchy--Schwarz for the sum
+ over $j$, and Lemma~\ref{lem:hsbasics}(a),(b)}
+\lstep{1}{2}{(b): absolute convergence, and $\tau(A)=\sum_k\lambda_k^3$ when $(f_j)$ consists of the $\varphi_k$ of
+ Theorem~\ref{thm:spec} and a basis of $\{\varphi_k\}^\perp$.}
+\lby{(a) with $X=Y=Z=A$; $\ip{\varphi_k}{A^3\varphi_k}=\lambda_k^3$, and $A=0$ on $\{\varphi_k\}^\perp$ (Theorem~\ref{thm:spec}(i))}
+\lstep{1}{3}{(b): basis independence.}
+\lby{for bases $(e_i),(f_j)$: $\ip{f_j}{A^3f_j}=\ip{Af_j}{A^2f_j}=\sum_i\ip{Af_j}{e_i}\ip{e_i}{A^2f_j}$ (Parseval);
+ the double series converges absolutely, $\sum_{i,j}\abs{\ip{f_j}{Ae_i}}\abs{\ip{e_i}{A^2f_j}}\le\norm A_2\norm{A^2}_2$
+ (Cauchy--Schwarz over $(i,j)$, Parseval), so the order may be exchanged, and
+ $\sum_j\ip{Af_j}{e_i}\ip{e_i}{A^2f_j}=\sum_j\ip{A^2e_i}{f_j}\ip{f_j}{Ae_i}=\ip{A^2e_i}{Ae_i}=\ip{e_i}{A^3e_i}$ (using $A=A^*$)}
+\lstep{1}{4}{(c).}
+\lby{$A^3-A'^3=AA(A-A')+A(A-A')A'+(A-A')A'A'$; (a) term by term with $\norm Z\le\norm Z_2$
+ (Lemma~\ref{lem:hsbasics}(b)); each of the three series converges absolutely by (a), so they may be added}
+\lqed{1}{5}\lby{(d): $\abs{\lambda_k}\le1$ (Lemma~\ref{lem:sym}); group the absolutely convergent series
+ $\sum_k\lambda_k^3$ by values, $\sum_{\lambda}m_A(\lambda)\lambda^3$; by Lemma~\ref{lem:sym} the terms of
+ $\lambda$ and $-\lambda$ cancel for $0<\abs\lambda<1$, leaving $m_A(1)-m_A(-1)$}
+
+\section{Index zero along Hilbert--Schmidt continuous families}\label{sec:path}
+\begin{theorem}[Index zero along an $\Stwo$-continuous path]\label{thm:path}
+Let $J\subseteq\mathbb R$ be an interval with $0\in J$, and $(U_s)_{s\in J}$ unitaries on $H$ such that
+(P1) $G_s=\Pp-U_s^*\Pp U_s\in\Stwo$ for every $s\in J$;
+(P2) $s\mapsto G_s$ is continuous from $J$ to $(\Stwo,\norm\cdot_2)$;
+(P3) $\ind X_0=0$ (e.g.\ $U_0=\one$, or $U_0$ commutes with $\Pp$).
+Then $\dim\ker X_s=\dim\ker X_s^*<\infty$, i.e.\ $\ind X_s=0$, for every $s\in J$.
+\end{theorem}
+\lstep{1}{1}{$\ind X_s=\tau(G_s)$ for every $s\in J$, both sides finite integers.}
+\lby{Lemma~\ref{lem:kernels} ($\ind X_s=m_{G_s}(1)-m_{G_s}(-1)$) and Lemma~\ref{lem:cubic}(d) with $P=\Pp$,
+ $Q=U_s^*\Pp U_s$, $A=G_s$, which is in $\Stwo$ by (P1)}
+\lstep{1}{2}{$s\mapsto\tau(G_s)$ is continuous on $J$.}
+\lby{Lemma~\ref{lem:cubic}(c) with $A=G_s$, $A'=G_r$: the prefactor stays bounded as $r\to s$ because
+ $\norm{G_r}_2\to\norm{G_s}_2$ by (P2), and $\norm{G_s-G_r}_2\to0$ by (P2)}
+\lstep{1}{3}{An integer-valued continuous function on an interval is constant.}
+\lby{if $n(s_1)\ne n(s_2)$, the intermediate value theorem gives $s$ between them with
+ $n(s)=n(s_1)+\frac12$ when $n(s_2)>n(s_1)$ (resp.\ $-\frac12$), not an integer}
+\lqed{1}{4}\lby{$\langle1\rangle1$--$\langle1\rangle3$ give $\ind X_s=\ind X_0$, which is $0$ by (P3); for
+ $U_0=\one$, $X_0=\one_{\Pp H}$; if $U_0\Pp=\Pp U_0$, $X_0$ is unitary on $\Pp H$}
+
+\begin{verdictok}
+No smallness of $\norm{G_s}_2$ or $\norm{G_s}$ is assumed: the only inputs are (P1)--(P3).  Without (P2) the
+conclusion fails: Section~\ref{sec:num}(B) exhibits a strongly continuous unitary group $U_s$ with $G_1\in\Stwo$ and
+$\ind X_1=-1$; there $G_s\notin\Stwo$ for non-integer $s$, so no $\Stwo$-continuous path joins $U_1$ to $\one$.
+\end{verdictok}
+
+\begin{lemma}[Conjugation and products]\label{lem:products}
+(a) If $(V_s)_{s\in J}$ are unitaries with $s\mapsto V_s$ strongly continuous and $s\mapsto T_s$ is
+$\norm\cdot_2$-continuous, then $s\mapsto V_s^*T_sV_s$ is $\norm\cdot_2$-continuous.
+(b) If $(U_s)$ and $(V_s)$ both satisfy (P1)--(P2) and $s\mapsto V_s$ is strongly continuous, then
+$G^{UV}_s=G^V_s+V_s^*G^U_sV_s$, and $(U_sV_s)$ satisfies (P1)--(P2).  By induction the same holds for finite
+products $U^{(1)}_s\cdots U^{(M)}_s$ whose factors satisfy (P1)--(P2) and, except the first, are strongly continuous.
+\end{lemma}
+\lstep{1}{1}{$s\mapsto V_s^*$ is strongly continuous.}
+\lby{$\norm{V_s^*a-V_r^*a}^2=2\norm a^2-2\operatorname{Re}\ip a{V_sV_r^*a}$ and
+ $V_sV_r^*a-a=(V_s-V_r)V_r^*a\to0$ as $s\to r$}
+\lstep{1}{2}{For fixed $T\in\Stwo$, $s\mapsto V_s^*TV_s$ is $\norm\cdot_2$-continuous.}
+\lby{for $T=\kb{x}{y}$: $V_s^*TV_s=\kb{V_s^*x}{V_s^*y}$, and
+ $\norm{\kb{a}{b}-\kb{a'}{b'}}_2\le\norm{a-a'}\norm b+\norm{a'}\norm{b-b'}$, so $\langle1\rangle1$ gives
+ continuity, hence also for finite rank $T$; finite-rank operators $T\Pi_N$ are $\norm\cdot_2$-dense in $\Stwo$
+ (proof of Lemma~\ref{lem:hsbasics}, $\langle1\rangle3$, with $\norm\cdot_2$ in place of $\norm\cdot$), and
+ $\norm{V^*TV}_2=\norm T_2$ (Lemma~\ref{lem:hsbasics}(b)) makes the approximation uniform in $s$}
+\lstep{1}{3}{(a).}
+\lby{$\norm{V_s^*T_sV_s-V_r^*T_rV_r}_2\le\norm{T_s-T_r}_2+\norm{V_s^*T_rV_s-V_r^*T_rV_r}_2$ and $\langle1\rangle2$}
+\lstep{1}{4}{$\Pp-(UV)^*\Pp UV=(\Pp-V^*\Pp V)+V^*(\Pp-U^*\Pp U)V$.}
+\lby{add and subtract $V^*\Pp V$}
+\lqed{1}{5}\lby{$\langle1\rangle4$, $\Stwo$ is a vector space invariant under unitary conjugation
+ (Lemma~\ref{lem:hsbasics}(b)), and (a) with $T_s=G^U_s$; the product $U_sV_s$ is strongly continuous when both
+ factors are, which the induction uses}
+
+\section{Equal singular values of the two blocks}\label{sec:sv}
+\begin{lemma}[Blocks and $G_U$; no index needed]\label{lem:blocks}
+For every unitary $U$: $UG_U=C_U-B_U$, hence $G_U\in\Stwo$ if and only if $B_U,C_U\in\Stwo$, and then
+$\norm{G_U}_2^2=\norm{B_U}_2^2+\norm{C_U}_2^2$.
+\end{lemma}
+\lstep{1}{1}{$UG_U=U\Pp-\Pp U=\Pm U\Pp-\Pp U\Pm$.}
+\lby{$UU^*=\one$ for the first equality; insert $\one=\Pp+\Pm$ on the left of $U\Pp$ and on the right of $\Pp U$}
+\lqed{1}{2}\lby{$\norm{UG}_2=\norm G_2$ (Lemma~\ref{lem:hsbasics}(b)); compute $\norm{C-B}_2^2$ in an orthonormal
+ basis made of bases of $\Pp H$ and of $\Pm H$: on $e\in\Pp H$, $(C-B)e=Ce$, on $e\in\Pm H$, $(C-B)e=-Be$, and
+ $Ce=0$ for $e\in\Pm H$, $Be=0$ for $e\in\Pp H$}
+
+\begin{theorem}[Equal singular values]\label{thm:sv}
+Let $U$ be unitary with $G_U\in\Stwo$ and $\ind X_U=0$.  Then $B_U$ and $C_U$ have the same singular values, with
+multiplicities.  Consequently $\norm{B_U}=\norm{C_U}$, $\norm{G_U}_2^2=2\norm{C_U}_2^2=2\norm{B_U}_2^2$,
+$\prod_j(1-\sigma_j(C_U)^2)=\prod_j(1-\sigma_j(B_U)^2)$ (the Fredholm determinants $\det(\one-C_U^*C_U)$ and
+$\det(\one-B_U^*B_U)$), and $C_{U^*}=B_U^*$ has the same singular values as $C_U$.
+\end{theorem}
+\lstep{1}{1}{On $\Pp H$: $X^*X+C^*C=\one$ and $XX^*+BB^*=\one$ (writing $X=X_U$, $B=B_U$, $C=C_U$).}
+\lby{$\Pp U^*(\Pp+\Pm)U\Pp=\Pp$ and $\Pp U(\Pp+\Pm)U^*\Pp=\Pp$ (unitarity), with $X^*=\Pp U^*\Pp|_{\Pp H}$
+ (Lemma~\ref{lem:kernels}$\langle1\rangle4$)}
+\lstep{1}{2}{For $\mu\ne0$, $X$ maps $\ker(X^*X-\mu)$ injectively into $\ker(XX^*-\mu)$ and $X^*$ maps
+ $\ker(XX^*-\mu)$ injectively into $\ker(X^*X-\mu)$; the same holds for $B^*,B$ in place of $X,X^*$.}
+\lby{$XX^*(Xx)=X(X^*Xx)=\mu Xx$ and $X^*Xx=\mu x\ne0$ for $x\ne0$; symmetrically for $X^*$}
+\lstep{1}{3}{$B,C\in\Stwo$, so $C^*C$, $BB^*$, $B^*B$ are self-adjoint Hilbert--Schmidt and their nonzero
+ eigenvalues have finite multiplicity; all lie in $(0,1]$.}
+\lby{Lemma~\ref{lem:blocks}, Lemma~\ref{lem:hsbasics}(b), Theorem~\ref{thm:spec}(iii); $\norm C,\norm B\le\norm U=1$}
+\lstep{1}{4}{For $0<\sigma<1$: $m_{C^*C}(\sigma^2)=m_{BB^*}(\sigma^2)$.}
+\lby{$\ker(C^*C-\sigma^2)=\ker(X^*X-(1-\sigma^2))$ and $\ker(BB^*-\sigma^2)=\ker(XX^*-(1-\sigma^2))$ inside $\Pp H$ by
+ $\langle1\rangle1$ (the eigenvectors of $C^*C$, $BB^*$ for nonzero eigenvalues lie in $\Pp H$, since both vanish on
+ $\Pm H$), and $\langle1\rangle2$ with $\mu=1-\sigma^2\ne0$ in both directions (the dimensions are finite by $\langle1\rangle3$)}
+\lstep{1}{5}{$m_{C^*C}(1)=\dim\ker X=\dim\ker X^*=m_{BB^*}(1)$.}
+\lby{$\langle1\rangle1$: $\ker(C^*C-\one)=\ker X^*X=\ker X$ (as $\norm{Xx}^2=\ip x{X^*Xx}$), similarly
+ $\ker(BB^*-\one)=\ker X^*$; and $\ind X=0$}
+\lstep{1}{6}{$m_{BB^*}(\mu)=m_{B^*B}(\mu)$ for $\mu>0$.}
+\lby{$\langle1\rangle2$ with $B^*$ in place of $X$}
+\lqed{1}{7}\lby{$\langle1\rangle3$--$\langle1\rangle6$ and (C3) give the equality of singular values; then
+ $\norm C=\sigma_1(C)=\sigma_1(B)=\norm B$ (Theorem~\ref{thm:spec}: the largest eigenvalue of $C^*C$ is $\norm{C^*C}=\norm C^2$),
+ $\norm C_2^2=\sum_j\sigma_j(C)^2=\norm B_2^2$ (Theorem~\ref{thm:spec}(ii)) and Lemma~\ref{lem:blocks}; the products
+ run over equal multisets; $C_{U^*}=\Pm U^*\Pp=(\Pp U\Pm)^*=B_U^*$ and $\langle1\rangle6$}
+
+\begin{verdictok}
+Theorem~\ref{thm:sv} is the statement used, without the index hypothesis, in
+\texttt{rate\_of\_remainder.tex} Thm.~2.3 $\langle1\rangle1$, $\langle1\rangle4$ (l.~156, 168--171) and Lemma~6.1
+$\langle1\rangle1$, $\langle1\rangle4$ (l.~828--832, 842--846), and in \texttt{exact\_fidelity\_upper\_half.tex}
+Lemma~6.1 $\langle1\rangle1$.  Lemma~\ref{lem:blocks} replaces the trace computation of \texttt{rate\_of\_remainder.tex}
+Lemma~6.1 $\langle1\rangle1$ (``divergent traces cancelling in pairs'', council C1 F8) by an argument without traces of
+non-trace-class operators.  The hypothesis $\ind X_U=0$ cannot be dropped: Section~\ref{sec:num}(B).
+\end{verdictok}
+
+\section{One-parameter groups}\label{sec:group}
+\begin{theorem}[Index zero for all $s$ along a group]\label{thm:group}
+Let $(U_t)_{t\in\mathbb R}$ be unitaries with $U_{s+t}=U_sU_t$, $U_0=\one$, and assume
+(G) there is $\delta>0$ with $G_t\in\Stwo$ for $\abs t<\delta$, and $\norm{G_t}_2\to0$ as $t\to0$.
+Then $G_s\in\Stwo$ and $\ind X_s=0$ for every real $s$; hence Theorem~\ref{thm:sv} applies to every $U_s$:
+$\Pm U_s\Pp$ and $\Pp U_s\Pm$ have the same singular values with multiplicities, and
+$\norm{G_s}_2^2=2\norm{\Pm U_s\Pp}_2^2$, for every real $s$.
+\end{theorem}
+\lstep{1}{1}{$G_{s+t}=G_s+U_s^*G_tU_s$ for all real $s,t$.}
+\lby{$U_{s+t}=U_tU_s$ and Lemma~\ref{lem:products}$\langle1\rangle4$ with $U=U_t$, $V=U_s$}
+\lstep{1}{2}{$G_s\in\Stwo$ for every $s$.}
+\lby{pick $n$ with $\abs s/n<\delta$; $\langle1\rangle1$ $n-1$ times writes $G_s$ as a sum of $n$ unitary conjugates
+ of $G_{s/n}\in\Stwo$; Lemma~\ref{lem:hsbasics}(b)}
+\lstep{1}{3}{$\norm{G_{s+t}-G_s}_2=\norm{G_t}_2\to0$ as $t\to0$, for every $s$.}
+\lby{$\langle1\rangle1$ and $\norm{U^*TU}_2=\norm T_2$}
+\lqed{1}{4}\lby{Theorem~\ref{thm:path} on $J=\mathbb R$: (P1) by $\langle1\rangle2$, (P2) by $\langle1\rangle3$, (P3)
+ by $U_0=\one$; then Theorem~\ref{thm:sv}}
+
+\begin{lemma}[A form criterion for (G)]\label{lem:gen}
+Let $(U_t)$ be a strongly continuous unitary group with generator $K$ ($D(K)$ is the set of $\varphi$ for which
+$K\varphi:=\lim_{h\to0}h^{-1}(U_h\varphi-\varphi)$ exists; $K^*=-K$, so $D(K)$ is dense).  Assume
+(K) there are a core $\mathcal D_0$ of $K$ and $C\in\Stwo$ with
+$\ip{\Pp x}{Ky}+\ip{Kx}{\Pp y}=\ip x{Cy}$ for all $x,y\in\mathcal D_0$
+(the form meaning of ``$[\Pp,K]=C\in\Stwo$''; then $C=-[\Pm,K]$ in the same sense).
+Then for all real $t$: $\ip\varphi{(U_t^*\Pp U_t-\Pp)\psi}=\int_0^t\ip\varphi{U_\sigma^*CU_\sigma\psi}\dd\sigma$ for
+all $\varphi,\psi\in H$, and $\norm{G_t}_2\le\abs t\,\norm C_2$.  In particular (G) holds with every $\delta>0$.
+\end{lemma}
+\lstep{1}{1}{The identity of (K) holds for all $x,y\in D(K)$.}
+\lby{a core is dense in $D(K)$ for the graph norm: $x_n\to x$, $Kx_n\to Kx$, $y_n\to y$, $Ky_n\to Ky$ with
+ $x_n,y_n\in\mathcal D_0$; both sides of the identity are continuous under these limits ($\Pp$, $C$ bounded)}
+\lstep{1}{2}{For $\varphi\in D(K)$: $U_\sigma\varphi\in D(K)$, and $\sigma\mapsto U_\sigma\varphi$ is differentiable
+ with derivative $KU_\sigma\varphi=U_\sigma K\varphi$, continuous in $\sigma$.}
+\lby{$h^{-1}(U_{\sigma+h}\varphi-U_\sigma\varphi)=U_\sigma h^{-1}(U_h\varphi-\varphi)\to U_\sigma K\varphi$ and
+ $h^{-1}(U_hU_\sigma\varphi-U_\sigma\varphi)$ is the same vector (group law, $U_\sigma$ bounded); continuity by strong
+ continuity of $U$}
+\lstep{1}{3}{For $\varphi,\psi\in D(K)$, $f(\sigma):=\ip{U_\sigma\varphi}{\Pp U_\sigma\psi}$ has the continuous
+ derivative $f'(\sigma)=\ip{U_\sigma\varphi}{CU_\sigma\psi}$.}
+\lby{product rule for the inner product of two differentiable vector functions and $\langle1\rangle2$:
+ $f'=\ip{KU_\sigma\varphi}{\Pp U_\sigma\psi}+\ip{\Pp U_\sigma\varphi}{KU_\sigma\psi}$, which is
+ $\ip{U_\sigma\varphi}{CU_\sigma\psi}$ by $\langle1\rangle1$ with $x=U_\sigma\varphi$, $y=U_\sigma\psi$; continuity
+ by strong continuity of $U$ and boundedness of $C$}
+\lstep{1}{4}{The integral identity, for all $\varphi,\psi\in H$.}
+\lby{fundamental theorem of calculus for $f$ ($\langle1\rangle3$) on $D(K)\times D(K)$; both sides are bounded
+ sesquilinear forms in $(\varphi,\psi)$ (the right side by $\abs t\norm C\norm\varphi\norm\psi$), equal on a dense
+ set, hence everywhere}
+\lstep{1}{5}{For an orthonormal basis $(e_i)$, every $N$ and every $c\in\mathbb C^{N\times N}$ with
+ $\sum_{i,j\le N}\abs{c_{ij}}^2\le1$: $\bigl|\sum_{i,j\le N}\overline{c_{ij}}\ip{e_i}{G_te_j}\bigr|\le\abs t\norm C_2$.}
+\lby{$\langle1\rangle4$ ($G_t=\Pp-U_t^*\Pp U_t$) moves the finite sum under the integral; for
+ $Y=U_\sigma^*CU_\sigma$, Cauchy--Schwarz in $\mathbb C^{N^2}$ gives
+ $\abs{\sum\overline{c_{ij}}\ip{e_i}{Ye_j}}\le(\sum_{i,j}\abs{\ip{e_i}{Ye_j}}^2)^{1/2}\le\norm Y_2=\norm C_2$
+ (Parseval, Lemma~\ref{lem:hsbasics}(b))}
+\lqed{1}{6}\lby{choosing $c$ proportional to $(\ip{e_i}{G_te_j})_{i,j\le N}$ in $\langle1\rangle5$ gives
+ $\sum_{i,j\le N}\abs{\ip{e_i}{G_te_j}}^2\le t^2\norm C_2^2$ for every $N$; let $N\to\infty$ (monotone) and use
+ Parseval: $\norm{G_t}_2^2=\sum_j\norm{G_te_j}^2=\sum_{i,j}\abs{\ip{e_i}{G_te_j}}^2$}
+
+\begin{verdictok}
+Lemma~\ref{lem:gen} needs only the weak (form) identity on a core; the upgrade ``from weak on the core to Bochner in
+$\Stwo$'' that \texttt{rate\_of\_remainder.tex} lists as routine but unwritten (verdict box after Prop.~6.2,
+l.~885--886, item (i)) is not needed for the bound $\norm{G_t}_2\le\abs t\norm{[\Pm,K]}_2$.
+\end{verdictok}
+
+\section{Applications to the Theorem A documents}\label{sec:apps}
+Labels \texttt{PA:}\dots\ refer to \texttt{rigor/uhlmann\_upper\_bound.tex}, \texttt{RR:}\dots\ to
+\texttt{rigor/rate\_of\_remainder.tex}, \texttt{EF:}\dots\ to \texttt{rigor/exact\_fidelity\_upper\_half.tex},
+\texttt{NW:}\dots\ to \texttt{rigor/network\_second\_order.tex}.  These are documents of this project (proved status
+on their cards); they are cited with label and line, and their own hypotheses are restated where used.
+
+\begin{lemma}[Push-forwards]\label{lem:app-W}
+Let $\chi$ be an admissible field (RR \texttt{def:flow}, l.~88--103) for which
+(W) $\Wt_s=e^{sD}$ is a strongly continuous unitary group and $G_s=\int_0^s\Wt_\sigma^*G^{(1)}\Wt_\sigma\dd\sigma$
+(Bochner integral in $\Stwo$) with $G^{(1)}\in\Stwo$, for every real $s$.
+Then $\ind(\Pp\Wt_s\Pp|_{\Pp H})=0$ and $\Pm\Wt_s\Pp$, $\Pp\Wt_s\Pm$ have the same singular values, for every real $s$.
+(W) is PA \texttt{lem:gen} (l.~638--645) together with PA \texttt{lem:integralrep}, eq.~\texttt{eq:intrep}
+(l.~670--686), for PA's field ($\chi=\chi'=0$ off $[0,2]$, PA l.~698--699); for a general admissible field it is the
+content of RR \texttt{lem:autocorr} $\langle1\rangle1$--$\langle1\rangle2$ (l.~115--139), which RR derives from the same
+PA lemmas.
+\end{lemma}
+\lstep{1}{1}{$\norm{G_t}_2\le\abs t\norm{G^{(1)}}_2$ for all $t$.}
+\lby{(W) and the triangle inequality for Bochner integrals with $\norm{\Wt_\sigma^*G^{(1)}\Wt_\sigma}_2=\norm{G^{(1)}}_2$}
+\lqed{1}{2}\lby{Theorem~\ref{thm:group}: the group law is part of (W), and (G) holds by $\langle1\rangle1$}
+
+\begin{lemma}[The groups $e^{s(D+ih')}$]\label{lem:app-K}
+Let $\chi$ satisfy (W), $h'\in\mathcal A'$ (PA \texttt{def:admissible}, l.~745--747: $h'$ bounded,
+self-adjoint, $h'=E_{I'}h'E_{I'}$, $\Pm h'\Pp\in\Stwo$) and $K:=D+ih'$ with $D(K)=D(D)$.  Then (K) of
+Lemma~\ref{lem:gen} holds with $\mathcal D_0=D(K)$ and $C=-G^{(1)}+i[\Pp,h']$; hence
+$\norm{\Pp-e^{-tK}\Pp e^{tK}}_2\le\abs t\,\norm C_2$, and $\ind(\Pp e^{sK}\Pp|_{\Pp H})=0$ and the two off-diagonal
+blocks of $e^{sK}$ have the same singular values, for every real $s$.
+\end{lemma}
+\lstep{1}{1}{$K$ is skew-adjoint on $D(D)$ and generates the strongly continuous group $e^{sK}$.}
+\lby{PA l.~758 ($K$ skew-adjoint; RR \texttt{prop:rrr} uses $e^{sK}$); $ih'$ is bounded and skew-adjoint}
+\lstep{1}{2}{For $x,y\in D(D)$: $\ip{\Pp x}{Dy}+\ip{Dx}{\Pp y}=-\ip x{G^{(1)}y}$.}
+\lby{$\frac{\dd}{\dd s}\ip{\Wt_sx}{\Pp\Wt_sy}|_{s=0}=\ip{Dx}{\Pp y}+\ip{\Pp x}{Dy}$ (Lemma~\ref{lem:gen}
+ $\langle1\rangle2$ and the product rule); the same function is $\ip x{(\Pp-G_s)y}$, whose derivative at $0$ is
+ $-\ip x{G^{(1)}y}$ by (W), the integrand being $\norm\cdot_2$-continuous in $\sigma$ (PA \texttt{lem:integralrep}
+ $\langle1\rangle4$, or Lemma~\ref{lem:products}$\langle1\rangle2$)}
+\lstep{1}{3}{For all $x,y$: $\ip{\Pp x}{ih'y}+\ip{ih'x}{\Pp y}=\ip x{i[\Pp,h']y}$, and
+ $[\Pp,h']=\Pp h'\Pm-\Pm h'\Pp\in\Stwo$.}
+\lby{$(ih')^*=-ih'$; insert $\one=\Pp+\Pm$; $\Pp h'\Pm=(\Pm h'\Pp)^*\in\Stwo$ (Lemma~\ref{lem:hsbasics}(a))}
+\lqed{1}{4}\lby{$\langle1\rangle2$ $+$ $\langle1\rangle3$ is (K) on $D(K)$, which is trivially a core; Lemma~\ref{lem:gen},
+ Theorem~\ref{thm:group}}
+
+\begin{lemma}[Product families]\label{lem:app-prod}
+(a) PA's family $U_s=\Wt_se^{ish'}$ with PA's field (PA l.~750; RR \texttt{cor:quartic}, l.~365--378), $h'\in\mathcal A'$:
+$\ind(\Pp U_s\Pp|_{\Pp H})=0$ for every real $s$.
+(b) The network composite $U(s)=\prod_{k=1}^MW_{d_k}e^{s\zeta_kK}W_{d_k}^*$ of NW \texttt{thm:T3} $\langle1\rangle2$
+(l.~700--704), with $W_{d_k}$ unitaries commuting with $\Pp$: each factor and $U(s)$ have index zero, every $s$.
+(c) EF \texttt{thm:UH}: $U_s=\Wt_se^{-\lambda s\Gs}e^{sZ_e}$ with bounded anti-self-adjoint $\Gs$, $Z_e$ whose
+$\Pm(\cdot)\Pp$ blocks are in $\Stwo$, \emph{for $\chi$ satisfying (W) of Lemma~\ref{lem:app-W}} (EF takes a general
+admissible $\chi$; for PA's field (W) holds): index zero for every real $s$.
+\end{lemma}
+\lstep{1}{1}{A norm-continuous group $e^{sZ}$, $Z$ bounded with $Z^*=-Z$ and $\Pm Z\Pp\in\Stwo$, satisfies (P1)--(P2) on
+ $\mathbb R$.}
+\lby{(K) with $\mathcal D_0=H$, $C=[\Pp,Z]=\Pp Z\Pm-\Pm Z\Pp$, $\Pp Z\Pm=-(\Pm Z\Pp)^*\in\Stwo$; Lemma~\ref{lem:gen}
+ and Theorem~\ref{thm:group} $\langle1\rangle2$--$\langle1\rangle3$}
+\lstep{1}{2}{$\Wt_s$ and $e^{sK}$ satisfy (P1)--(P2) on $\mathbb R$ and are strongly continuous; so is
+ $W e^{sK}W^*$ for a unitary $W$ commuting with $\Pp$, with $G^{WUW^*}=WG^UW^*$.}
+\lby{Lemmas~\ref{lem:app-W}, \ref{lem:app-K} with Theorem~\ref{thm:group} $\langle1\rangle2$--$\langle1\rangle3$;
+ $\Pp-WU^*W^*\Pp WUW^*=W(\Pp-U^*\Pp U)W^*$ when $W^*\Pp W=\Pp$}
+\lqed{1}{3}\lby{Lemma~\ref{lem:products}(b) for the products (a): $ih'$ is $Z$ of $\langle1\rangle1$; (b): factors by
+ $\langle1\rangle2$; (c): $-\lambda\Gs$ and $Z_e$ are $Z$ of $\langle1\rangle1$ ($\Pm\Gs\Pp\in\Stwo$, $\Pm Z_e\Pp\in\Stwo$
+ are hypotheses of EF \texttt{thm:UH}); in each case $U_0=\one$, and Theorem~\ref{thm:path} with $J=\mathbb R$}
+
+\begin{lemma}[EF Lemma~6.1 $\langle1\rangle1$]\label{lem:app-EF}
+Under the hypotheses of EF \texttt{lem:group} (l.~652--660: $Z$ anti-self-adjoint generator, $[P,Z]\in\Stwo$, and for
+unbounded $Z$ the $\Stwo$-valued identity $U_t^*PU_t-P=\int_0^tU_\sigma^*[P,Z]U_\sigma\dd\sigma$),
+$\norm{P-U_t^*PU_t}_2^2=2\norm{\Pperp U_tP}_2^2$ for every real $t$.  The step's ``for any unitary $U$'' is false
+(Section~\ref{sec:num}(B)); restricted to $U=U_t$ it holds.
+\end{lemma}
+\lqed{1}{1}\lby{the hypothesis gives $\norm{P-U_t^*PU_t}_2\le\abs t\norm{[P,Z]}_2$ (EF \texttt{lem:group}
+ $\langle1\rangle2$, which does not use $\langle1\rangle1$), i.e.\ (G); Theorem~\ref{thm:group} with $\Pp=P$}
+
+\section{Consequences: the ranges that are lifted}\label{sec:ranges}
+Constants: $f_2=\frac1{12\pi^2}=\inf_{h'\in\mathcal A'}f_2^K$ (PA Prop.~7.6, used in RR \texttt{prop:rrr}
+$\langle1\rangle4$); for flows only $f_2\le f_2^\star$ is proved, $f_2^\star=f_2$ is numerical ($f_2^\star\le1.00071f_2$,
+RR \texttt{prop:f2star}, l.~210--246);
+$(4f_2)^{-1/2}=\pi\sqrt3=5.4414$ and $(2f_2)^{-1/2}=\pi\sqrt6=7.6953$ (\texttt{rigor/council/c1\_constants.out}).
+The old restrictions all come from settling index zero only while $\norm{G_s}_2<1$ (RR Correction C3 (ii),
+l.~1069--1079).  By Lemmas~\ref{lem:app-W}--\ref{lem:app-EF} index zero holds for every real parameter, so each
+statement below holds on the range shown.
+\emph{Scope of (W).}  For PA's field ($\chi=\chi'=0$ off $[0,2]$) condition (W) of Lemma~\ref{lem:app-W} is proved in
+PA (\texttt{lem:gen}, \texttt{lem:integralrep}); items 1 (with $K=D+ih'$), 4, 5, 6 and 7 below use only PA's field or no
+field, and hold without further hypothesis.  For a general admissible $\chi$ (RR \texttt{def:flow}) (W) is only asserted
+in RR \texttt{lem:autocorr} $\langle1\rangle1$, whose PA inputs assume $\chi$ supported in $[0,2]$: items 2 and 3 are
+stated \emph{for $\chi$ satisfying (W)}, and so is Lemma~\ref{lem:app-prod}(c).
+
+\begin{proposition}[Ranges]\label{prop:ranges}
+\begin{enumerate}
+\item RR \texttt{lem:groupbound} (l.~818--826): all three relations of eq.~\texttt{eq:groupbound} and the evenness of
+ $\det(\one-V_s^*V_s)$ hold for every real $s$, for every $K$ satisfying (K) of Lemma~\ref{lem:gen} with
+ $C=-[\Pm,K]$ (in particular $K=D+ih'$, Lemma~\ref{lem:app-K}).  Old: $\abs s\norm{[\Pm,K]}_2<1$.
+\item RR \texttt{thm:exactquad} (l.~146--174), for $\chi$ satisfying (W): $E(s)=\frac1{8\pi^2}\iint\kappa_{\kt_s}^2$, $E(-s)=E(s)$ and the evenness
+ of the determinant, for every real $s$.  Old: $s<(4f_2^\chi)^{-1/2}$ (card \texttt{pushforward-blocks-equal-singular-values},
+ heuristic, for the rest).
+\item RR \texttt{thm:global} (l.~180--208), for $\chi$ satisfying (W): as printed, every $\zeta\ge0$ with
+ $2f_2^\chi\zeta^2<1$, and with $f_2^\star$ in place of $f_2^\chi$ whenever $2f_2^\star\zeta^2<1$.  It does \emph{not}
+ give the form with $f_2$ (that would need $f_2^\star=f_2$, which is unproved); the form with $f_2$ on
+ $0\le\zeta<\pi\sqrt6$ is item 4.  The missing hypothesis
+ $\norm{\Pp\Wt_\zeta\Pm}<1$ of PA Thm.~4.1 in $\langle1\rangle1$ follows from $\norm{\Pp\Wt_\zeta\Pm}=\norm{V_\zeta}$
+ (Theorem~\ref{thm:sv}).  Old: $\zeta<(4f_2^\chi)^{-1/2}$.
+\item RR \texttt{prop:rrr} (l.~848--880; PA's field, $h'\in\mathcal A'$, no (W) hypothesis beyond PA): $\Phi(\zeta)\le-\frac12\log(1-2f_2^K\zeta^2)$ for $2f_2^K\zeta^2<1$, and
+ $\Phi(\zeta)\le-\frac12\log(1-2f_2\zeta^2)$ for $0\le\zeta<\pi\sqrt6$.  Old: $\zeta<(4f_2^K)^{-1/2}$, resp.\ $\pi\sqrt3$ (card \texttt{rate-of-remainder}).  This is the only source of the
+ form with $f_2$.
+\item RR \texttt{cor:quartic} (l.~365--378): the product-family part needs no condition $\norm{G_\zeta}_2<1$; its range
+ is $\zeta\le\zeta_0$ as printed (Lemma~\ref{lem:app-prod}(a)).
+\item NW \texttt{thm:T3} (l.~688--700): the second condition $4\hat f_2s^2\zeta_{\max}^2<1$ ($s\zeta_{\max}<\pi\sqrt3$)
+ is not needed; the theorem holds for every $s\ge0$ with $2\hat f_2s^2Z^2<1$, i.e.\ $sZ<\pi\sqrt6$.  In
+ $\langle1\rangle5$ the assumption $s\zeta_{\max}\norm{[\Pm,K]}_2<1$ is not needed (each factor has index zero by
+ Lemma~\ref{lem:app-prod}(b)), and $\langle1\rangle6$--$\langle1\rangle7$ need only $s^2Z^2\norm{\Pm K\Pp}_2^2<1$.
+ NW \texttt{lem:onegroup}(i) holds for every $\sigma\ge0$, so NW Corrections R2, R3 become void.
+\item EF \texttt{lem:group} (l.~652--660) $\langle1\rangle1$: for the group $U_t$ of the lemma, every real $t$
+ (Lemma~\ref{lem:app-EF}); not for an arbitrary unitary.
+\end{enumerate}
+\end{proposition}
+\lqed{1}{1}\lby{each item: the printed proof with ``the two off-diagonal blocks have the same singular values'' (or
+ $\norm{G}_2^2=2\norm V_2^2$, or $\norm{\Pp U\Pm}=\norm V$) supplied by Theorem~\ref{thm:sv}, whose hypothesis
+ $\ind X=0$ is Lemma~\ref{lem:app-W} (items 2, 3), \ref{lem:app-K} (items 1, 4), \ref{lem:app-prod} (items 5, 6),
+ \ref{lem:app-EF} (item 7); no other step of these proofs uses the range (RR Correction C3 (ii), l.~1069--1079, lists
+ the uses; NW Correction R1, l.~1262--1276)}
+
+\begin{verdictgap}
+Proposition~\ref{prop:ranges} inherits every other hypothesis of the cited proofs unchanged; it removes only the
+index restriction.  It is not a referee check of those proofs.  Items 2, 3 and Lemma~\ref{lem:app-prod}(c) are
+proved here only for $\chi$ satisfying (W); for a general admissible $\chi$, (W) is asserted in RR \texttt{lem:autocorr}
+$\langle1\rangle1$, but PA \texttt{lem:kernel} is stated for $\phi=\mathrm{id}$ off a compact set and PA
+\texttt{lem:integralrep} for $\chi$ supported in $[0,2]$ (referee REF-RP-4, item 6: GAP, pre-existing in RR).
+\end{verdictgap}
+
+\section{Numerical instance}\label{sec:num}
+Script \texttt{rigor/index\_zero\_check.py}, output \texttt{rigor/index\_zero\_check.out}; command
+\texttt{\$\{PYTHON:-python3\} rigor/index\_zero\_check.py > rigor/index\_zero\_check.out}.  Tolerance fixed in the script
+before the run: $\mathrm{TOL}=10^{-10}$.  $H=\ell^2(\mathbb Z)$, $\Pp$ the projection onto $\{e_n:n\ge0\}$.
+(Revised 2026-11-19 after referee REF-RP-4, items 9 (i)--(iii).)
+
+\paragraph{What a finite truncation can and cannot test.}  The infinite-dimensional content of
+Theorem~\ref{thm:group} is the statement $\ind X_s=0$.  A finite unitary has index zero automatically, so its two
+off-diagonal blocks always have the same singular values; a test that computes $U_s$ as a finite unitary
+(test (A)) therefore checks the \emph{instance} up to a truncation bound, but cannot detect a failure of the
+theorem.  The discriminating read-out is (B): the blocks of an infinite-dimensional unitary read off directly from its
+matrix elements, which does detect a nonzero index.  A discriminating check of the theorem itself would need an
+unbounded $K$ with $U_s$ not norm continuous; none is in the project.
+\begin{itemize}
+\item[(0)] Validation against an exact case: uniform hopping $h$, $\ip{e_m}{e^{ish}e_n}=i^{m-n}J_{m-n}(2s)$; at $s=2.7$,
+ $\max\abs{\cdot}$ deviation $7.1\cdot10^{-16}<\mathrm{TOL}$ over $\abs m,\abs n<60$.
+\item[(A)] Instance of Lemma~\ref{lem:gen} and Theorem~\ref{thm:group}, non-discriminating: $K=iH$, $H$ with
+ nearest-neighbour bonds $1$ ($n\ge0$), $0.8$ (the bond $(-1,0)$), $0.6$ (else), next-nearest-neighbour hopping
+ $H_{n,n+2}=0.4i=\overline{H_{n+2,n}}$ (a flux through every triangle), potential $0.5$ ($n\ge0$), $-0.3$ ($n<0$).
+ $H$ is not real, so the transposition identity $\Pp U_s\Pm=(\Pm U_s\Pp)^T$ that made the first version of this test
+ trivial does not hold (measured $\max\abs{B-C^T}$ between $0.335$ and $0.765$).  $\norm{[\Pm,K]}_2=1.3856$, old range
+ $\abs s<0.7217$.  At $s=0.5,\,1.5,\,3,\,4,\,-3.5$ ($\abs s\norm{[\Pm,K]}_2$ up to $5.54$, $\norm{G_s}_2^2$ up to $4.39$)
+ the sorted singular values of $\Pm U_s\Pp$ and $\Pp U_s\Pm$ agree to $\le6.7\cdot10^{-16}<\mathrm{TOL}$.
+ $U_s$ is the finite unitary $\exp(isH_N)$ on $[-450,450)$, blocks read on $\abs n<150$; with $\norm H\le3.3$ the
+ inner-window entry error is $\le2\sum_{k\ge300}(3.3\abs s)^k/k!$ and the Hilbert--Schmidt norm of the dropped part
+ is $\le6.8\cdot10^{-25}$ (printed per $s$); singular values move by at most these.  Single method
+ (\texttt{scipy.linalg.expm}, \texttt{svdvals}).
+\item[(B)] Shift-type example, where (P2) fails (discriminating): $U_s$ is multiplication by $e^{is\theta}$,
+ $\theta\in(-\pi,\pi)$, in the Fourier basis $\ip{e_m}{U_se_n}=\operatorname{sinc}(s-(m-n))$; a strongly continuous
+ unitary group with generator $K=i\theta$.  At $s=1$ (the bilateral shift) $\Pp U_1\Pm$ has the singular value $1$ once
+ and $\Pm U_1\Pp=0$, so $\ind X_1=-1$; at $s=2$ the value $1$ appears twice in $\Pp U_2\Pm$ and not in $\Pm U_2\Pp$,
+ $\ind X_2=-2$.  At $s=\frac12$, $\norm{\Pm U_s\Pp}_2^2$ on windows of size $M=100,200,400,800$ is
+ $0.4474,0.5172,0.5873,0.6574$, growing by $0.070$ per doubling (compare $\pi^{-2}\log2=0.0702$, no derivation here):
+ $G_{1/2}\notin\Stwo$, so (P1)--(P2) fail and Theorem~\ref{thm:path} does not apply.  This is the mechanism of RR
+ Correction C3 (l.~1034--1043) in exact form.
+\end{itemize}
+
+\section{Sources}\label{sec:sources}
+No external theorem is used.  Appendix~\ref{app:spec} proves the spectral facts needed (Hilbert--Schmidt case) from
+Cauchy--Schwarz, Parseval, Bolzano--Weierstrass, completeness of $H$ and the intermediate value theorem.  The
+generator facts of Lemma~\ref{lem:gen} $\langle1\rangle2$ follow from the definition of the generator given there; that
+$K^*=-K$ for $K=D+ih'$ and the core property of $H^1_c$ are taken from PA \texttt{lem:gen} (which cites Stone's
+theorem and Nelson, Ann.\ Math.\ 70 (1959) 572, Cor.~9.2) and PA l.~758.
+Project documents cited (not external sources): PA, RR, EF, NW as listed at the head of Section~\ref{sec:apps}.
+Not used: the index additivity route of council report C1 \S2a (needs the logarithmic law of the Fredholm index and
+its stability under compact perturbations; no source for either is in \texttt{refs/}: NOT OBTAINED), and the index of
+a pair of projections of Avron--Seiler--Simon (J.\ Funct.\ Anal.\ 120 (1994) 220, cited in
+\texttt{refs/BJL\_twisted\_duality\_math-ph-0204029.pdf} as [6]; the paper itself is not in \texttt{refs/}: NOT
+OBTAINED).  Lemma~\ref{lem:cubic}(d) is proved here directly instead.
+
+\appendix
+\section{Spectral theorem for self-adjoint Hilbert--Schmidt operators}\label{app:spec}
+Throughout, $H$ is separable (true for $L^2(\mathbb R)$ and $\ell^2(\mathbb Z)$); bases are countable.
+
+\begin{lemma}[Hilbert--Schmidt basics]\label{lem:hsbasics}
+Let $T,S,R$ be bounded, $T\in\Stwo$. (a) $\sum_i\norm{Te_i}^2$ does not depend on the orthonormal basis, and
+$\norm{T^*}_2=\norm T_2$. (b) $\norm T\le\norm T_2$ and $\norm{STR}_2\le\norm S\norm T_2\norm R$.
+(c) Every bounded sequence $(x_n)$ has a subsequence along which $(Tx_n)$ converges.
+\end{lemma}
+\lstep{1}{1}{(a): for orthonormal bases $(e_i),(f_j)$, $\sum_i\norm{Te_i}^2=\sum_j\norm{T^*f_j}^2$.}
+\lby{Parseval, $\norm{Te_i}^2=\sum_j\abs{\ip{f_j}{Te_i}}^2=\sum_j\abs{\ip{T^*f_j}{e_i}}^2$, and the order of
+ summation of a double series of nonnegative terms is immaterial (Tonelli for counting measure); applying the
+ identity with $(f_j)$ and then with $(e_i)$ in place of $(f_j)$ gives basis independence and $\norm{T^*}_2=\norm T_2$}
+\lstep{1}{2}{(b).}
+\lby{for a unit vector $x$ complete $\{x\}$ to an orthonormal basis: $\norm{Tx}^2\le\norm T_2^2$;
+ $\norm{STRe_i}\le\norm S\norm{TRe_i}$ gives $\norm{STR}_2\le\norm S\norm{TR}_2$, and
+ $\norm{TR}_2=\norm{R^*T^*}_2\le\norm{R^*}\norm{T^*}_2=\norm R\norm T_2$ by $\langle1\rangle1$}
+\lstep{1}{3}{With $\Pi_N$ the projection onto $\mathrm{span}\{e_1,\dots,e_N\}$:
+ $\norm{T-T\Pi_N}\le\bigl(\sum_{i>N}\norm{Te_i}^2\bigr)^{1/2}\to0$.}
+\lby{$\langle1\rangle2$ applied to $T(\one-\Pi_N)$, whose basis sum is $\sum_{i>N}\norm{Te_i}^2$, the tail of a
+ convergent series}
+\lqed{1}{4}\lby{(c): $T\Pi_N$ has range in the finite-dimensional space $T\Pi_NH$; by Bolzano--Weierstrass and a
+ diagonal extraction there is a subsequence $(y_n)$ of $(x_n)$, $\norm{x_n}\le c$, with $(T\Pi_Ny_n)_n$ convergent for
+ every $N$; then $\norm{Ty_n-Ty_m}\le2c\norm{T-T\Pi_N}+\norm{T\Pi_N(y_n-y_m)}$, so $(Ty_n)$ is Cauchy by
+ $\langle1\rangle3$, and $H$ is complete}
+
+\begin{lemma}\label{lem:numrad}
+For bounded $A=A^*$: $\norm A=\sup_{\norm x=1}\abs{\ip x{Ax}}$.
+\end{lemma}
+\lstep{1}{1}{Let $m$ be the supremum; then $\abs{\ip x{Ay}}\le m$ for unit $x,y$.}
+\lby{replacing $x$ by $e^{i\alpha}x$ we may assume $\ip x{Ay}\ge0$; with $A=A^*$,
+ $4\operatorname{Re}\ip x{Ay}=\ip{x+y}{A(x+y)}-\ip{x-y}{A(x-y)}\le m(\norm{x+y}^2+\norm{x-y}^2)=4m$
+ (parallelogram law)}
+\lqed{1}{2}\lby{$\langle1\rangle1$ gives $\norm A\le m$; Cauchy--Schwarz gives $m\le\norm A$}
+
+\begin{theorem}[Spectral theorem, self-adjoint Hilbert--Schmidt case]\label{thm:spec}
+Let $A=A^*\in\Stwo$.  There are an orthonormal family $(\varphi_k)_{k\in\mathcal K}$, $\mathcal K=\{1,\dots,n\}$ or
+$\mathbb N$, and real $\lambda_k\ne0$ with $\abs{\lambda_k}$ nonincreasing, such that
+(i) $Ax=\sum_k\lambda_k\ip{\varphi_k}x\varphi_k$ for every $x$ (norm convergent);
+(ii) $\sum_k\lambda_k^2=\norm A_2^2$;
+(iii) for $\lambda\ne0$, $\ker(A-\lambda)=\overline{\mathrm{span}}\{\varphi_k:\lambda_k=\lambda\}$, of dimension
+$m_A(\lambda)\le\norm A_2^2/\lambda^2$.
+\end{theorem}
+\lstep{1}{1}{If $A\ne0$ there is a unit $\varphi$ with $A\varphi=\lambda\varphi$, $\abs\lambda=\norm A$.}
+\lby{Lemma~\ref{lem:numrad}: unit $x_n$ with $\ip{x_n}{Ax_n}\to\lambda\in\{\pm\norm A\}$ (a subsequence with a fixed
+ sign; $\ip{x}{Ax}\in\mathbb R$); then $\norm{Ax_n-\lambda x_n}^2=\norm{Ax_n}^2-2\lambda\ip{x_n}{Ax_n}+\lambda^2
+ \le2\lambda^2-2\lambda\ip{x_n}{Ax_n}\to0$; by Lemma~\ref{lem:hsbasics}(c) a subsequence has $Ax_n\to y$; then
+ $\lambda x_n\to y$, so $x_n\to\varphi:=y/\lambda$, $\norm\varphi=1$, and $A\varphi=\lim Ax_n=y=\lambda\varphi$}
+\lstep{1}{2}{\ldefine recursively $H_1:=H$, $H_{k+1}:=H_k\cap\{\varphi_k\}^\perp$, where $\varphi_k\in H_k$ is a
+ unit eigenvector of $A|_{H_k}$ with $\abs{\lambda_k}=\norm{A|_{H_k}}$, as long as $A|_{H_k}\ne0$.  This is
+ well defined, and $\abs{\lambda_k}$ is nonincreasing.}
+\lby{$AH_k\subseteq H_k$ ($\ip{\varphi_j}{Ax}=\lambda_j\ip{\varphi_j}x=0$ for $x\perp\varphi_j$, $A=A^*$), so
+ $A|_{H_k}$ is a self-adjoint operator on $H_k$, Hilbert--Schmidt with $\norm{A|_{H_k}}_2\le\norm A_2$ (an
+ orthonormal basis of $H_k$ extends to one of $H$), and $\langle1\rangle1$ applies; $H_{k+1}\subseteq H_k$}
+\lstep{1}{3}{$\sum_k\lambda_k^2\le\norm A_2^2$; if $\mathcal K=\mathbb N$, $\lambda_k\to0$.}
+\lby{extend $(\varphi_k)$ to an orthonormal basis; $\norm{A\varphi_k}^2=\lambda_k^2$; Lemma~\ref{lem:hsbasics}(a)}
+\lstep{1}{4}{(i).}
+\lby{$x_n:=x-\sum_{k<n}\ip{\varphi_k}x\varphi_k\in H_n$, $\norm{x_n}\le\norm x$, and
+ $Ax-\sum_{k<n}\lambda_k\ip{\varphi_k}x\varphi_k=Ax_n$, with $\norm{Ax_n}\le\norm{A|_{H_n}}\norm x$, which is
+ $\abs{\lambda_n}\norm x\to0$ by $\langle1\rangle3$, or $0$ if the recursion stopped at $n$}
+\lstep{1}{5}{(ii).}
+\lby{by $\langle1\rangle4$, $A=0$ on $\{\varphi_k\}^\perp$; compute $\norm A_2^2$ in an orthonormal basis made of
+ $(\varphi_k)$ and a basis of $\{\varphi_k\}^\perp$ (Lemma~\ref{lem:hsbasics}(a))}
+\lqed{1}{6}\lby{(iii): if $Ax=\lambda x$, the inner product of $\langle1\rangle4$ with $\varphi_j$ gives
+ $(\lambda_j-\lambda)\ip{\varphi_j}x=0$, and $x=\lambda^{-1}Ax=\sum_{\lambda_k=\lambda}\ip{\varphi_k}x\varphi_k$;
+ the converse inclusion is immediate; the count follows from (ii): $m_A(\lambda)\lambda^2\le\sum_k\lambda_k^2$}
+
+\end{document}

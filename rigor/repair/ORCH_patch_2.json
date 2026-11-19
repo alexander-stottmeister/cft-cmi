@@ -1,0 +1,44 @@
+[
+ {
+  "file": "cmi_as_quantum_markov_defect.tex",
+  "old": "the family \\(\\{\\rho\\}\\) and the faithful dominating state \\(\\omega=\\sigma\\))",
+  "new": "the family \\(\\{\\rho,\\sigma\\}\\) and the faithful dominating state \\(\\omega=\\sigma\\), a member of the family as their definition of a dominated family requires)",
+  "finding": "REF-RP-2 item (7)",
+  "reason": "Jencova-Petz's 'dominated' needs omega to be a mixture of family members, so the family must contain sigma."
+ },
+ {
+  "file": "rigor/exact_fidelity_upper_half.tex",
+  "old": "Every computed finite-mesh value is below $0.38$ (largest $0.3789$,",
+  "new": "Every computed taper-free finite-mesh value is below $0.38$ (largest $0.3789$,",
+  "finding": "REF-RP-2 card fails / item (10)",
+  "reason": "Tapered circle runs reach 0.727 (f3_circ_taper.out); the sentence holds for the taper-free meshes only."
+ },
+ {
+  "file": "rigor/exact_fidelity_upper_half.tex",
+  "old": "admissible at tolerance $10^{-4}$ (\\texttt{numerics/optimality\\_all/theta\\_three\\_fits.out}).",
+  "new": "admissible at tolerance $10^{-4}$ (\\texttt{numerics/optimality\\_all/theta\\_three\\_fits.out}; the tolerance was fixed after the data were known, and at $10^{-3}$ the linear fit is admissible too for three families and gives $0.3781$--$0.3810$).",
+  "finding": "REF-RP-2 item (10)",
+  "reason": "The 1e-3 outcome and the after-the-fact tolerance were disclosed in F3_RESULTS.md only."
+ },
+ {
+  "file": "rigor/sdp_dual_certificate.tex",
+  "old": "Assume the numerical value $\\theta=0.300\\pm0.005>0$ of \\S\\ref{sec:num}.",
+  "new": "Assume the numerical value $\\theta=0.300\\pm0.005>0$ of \\S\\ref{sec:num} [superseded 2026-09-15 by the taper-free estimate $\\theta\\approx0.384\\pm0.003$, \\texttt{numerics/optimality\\_all/F3\\_RESULTS.md}; the statement below uses only $\\theta>0$ and the value, both numerical input].",
+  "finding": "REF-RP-2 NEEDS ORCHESTRATOR",
+  "reason": "thm:value still assumed the superseded 0.300 without a marker."
+ },
+ {
+  "file": "numerics/results_largezeta_certified.txt",
+  "old": "for zeta >= 1: rigorous lower bounds Phi_sub,",
+  "new": "for zeta >= 1: lower bounds Phi_sub (lower bounds for the exact compression, computed with the uncertified double-precision D-hat quadrature, so not certified; header corrected 2026-11-19),",
+  "finding": "REF-RP-2 NEEDS ORCHESTRATOR",
+  "reason": "Header still said rigorous."
+ },
+ {
+  "file": "cmi_as_quantum_markov_defect.tex",
+  "old": "sufficiency is defined on p.~5, and a normal",
+  "new": "sufficiency of a coarse-graining for the experiment \\(\\{\\rho,\\sigma\\}\\) is defined on p.~11 (of a subalgebra on p.~5), and a normal",
+  "finding": "REF-RP-2 item (7), item 20",
+  "reason": "The notion used (sufficient coarse-graining) is defined on p. 11; p. 5 defines a sufficient subalgebra."
+ }
+]

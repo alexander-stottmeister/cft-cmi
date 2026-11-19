@@ -1,0 +1,100 @@
+[
+ {
+  "file": "paper1/fidelity_tables.tex",
+  "old": "Raw values are rigorous lower bounds;",
+  "new": "Raw values are lower bounds up to the uncertified \\(\\widehat D\\) quadrature;",
+  "finding": "REF-RR-B fails/minors of 2026-11-19",
+  "reason": "REF-RR-B: computed with the uncertified D-hat quadrature (rigor/certified_numerics.tex l. 418-421)"
+ },
+ {
+  "file": "paper1/fidelity_tables.tex",
+  "old": "\\(f_2^{\\rm sub}\\) and \\(s_2^{\\rm sub}\\) are rigorous lower bounds;",
+  "new": "\\(f_2^{\\rm sub}\\) and \\(s_2^{\\rm sub}\\) are lower bounds up to the uncertified \\(\\widehat D\\) quadrature;",
+  "finding": "REF-RR-B fails/minors of 2026-11-19",
+  "reason": "REF-RR-B: computed with the uncertified D-hat quadrature (rigor/certified_numerics.tex l. 418-421)"
+ },
+ {
+  "file": "paper1/sec_numerics.tex",
+  "old": "are \\emph{rigorous lower bounds} for $\\Phi$;",
+  "new": "are \\emph{lower bounds} for $\\Phi$, rigorous up to the uncertified quadrature of $\\widehat D$ (last item);",
+  "finding": "REF-RR-B fails/minors of 2026-11-19",
+  "reason": "REF-RR-B: computed with the uncertified D-hat quadrature (rigor/certified_numerics.tex l. 418-421)"
+ },
+ {
+  "file": "paper1/sec_2d_lattice.tex",
+  "old": "measured $-\\log F^{(\\lambda)}$ with a ratio that, for $\\eta_{\\rm V}\\le0.05$, is",
+  "new": "measured $-\\log F^{(\\lambda)}$ with a ratio that, at $\\lambda=0.5$ and for $\\eta_{\\rm V}\\le0.05$, is",
+  "finding": "REF-RR-B fails/minors of 2026-11-19",
+  "reason": "REF-RR-B: the 1 - a/L law is the lambda = 0.5 data of section [8]"
+ },
+ {
+  "file": "paper1/sec_2d_lattice.tex",
+  "old": "$L=4$) ---",
+  "new": "$L=4$; at $\\lambda=1$ and $1.5$ the ratio is $0.84$--$0.94$ and $0.61$--$0.80$ for $\\eta_{\\rm V}\\le0.05$, with $L(1-\\text{ratio})=0.37,\\,0.28,\\,0.26$ and $1.2,\\,1.6,\\,1.9$ at $L=4,6,8$) ---",
+  "finding": "REF-RR-B fails/minors of 2026-11-19",
+  "reason": "REF-RR-B: values at lambda = 1, 1.5 from petz_lattice.out [6]"
+ },
+ {
+  "file": "numerics/results_largezeta_certified.txt",
+  "old": "sub-compression = rigorous LOWER bound.",
+  "new": "sub-compression = LOWER bound up to the uncertified D-hat quadrature.",
+  "finding": "REF-RR-B fails/minors of 2026-11-19",
+  "reason": "REF-RR-B: computed with the uncertified D-hat quadrature (rigor/certified_numerics.tex l. 418-421)"
+ },
+ {
+  "file": "numerics/results_largezeta_certified.txt",
+  "old": "(lower end rigorous; upper end extrapolated",
+  "new": "(lower end a lower bound up to the uncertified D-hat quadrature; upper end extrapolated",
+  "finding": "REF-RR-B fails/minors of 2026-11-19",
+  "reason": "REF-RR-B: computed with the uncertified D-hat quadrature (rigor/certified_numerics.tex l. 418-421)"
+ },
+ {
+  "file": "numerics/analyze_largezeta.py",
+  "old": "sub-compression = rigorous LOWER bound.",
+  "new": "sub-compression = LOWER bound up to the uncertified D-hat quadrature.",
+  "finding": "REF-RR-B fails/minors of 2026-11-19",
+  "reason": "REF-RR-B: computed with the uncertified D-hat quadrature (rigor/certified_numerics.tex l. 418-421)"
+ },
+ {
+  "file": "numerics/analyze_largezeta.py",
+  "old": "(lower end rigorous; upper end extrapolated",
+  "new": "(lower end a lower bound up to the uncertified D-hat quadrature; upper end extrapolated",
+  "finding": "REF-RR-B fails/minors of 2026-11-19",
+  "reason": "REF-RR-B: computed with the uncertified D-hat quadrature (rigor/certified_numerics.tex l. 418-421)"
+ },
+ {
+  "file": "numerics/analyze_largezeta.py",
+  "old": "for zeta >= 1: rigorous lower bounds Phi_sub,",
+  "new": "for zeta >= 1: lower bounds Phi_sub (lower bounds for the exact compression, computed with the uncertified double-precision D-hat quadrature, so not certified; header corrected 2026-11-19),",
+  "finding": "REF-RR-B fails/minors of 2026-11-19",
+  "reason": "REF-RR-B: computed with the uncertified D-hat quadrature (rigor/certified_numerics.tex l. 418-421)"
+ },
+ {
+  "file": "numerics/fidelity_table_largezeta.tex",
+  "old": "at large cross ratio: rigorous lower bounds and uncertified",
+  "new": "at large cross ratio: lower bounds (up to the uncertified \\(\\widehat D\\) quadrature) and uncertified",
+  "finding": "REF-RR-B fails/minors of 2026-11-19",
+  "reason": "REF-RR-B: computed with the uncertified D-hat quadrature (rigor/certified_numerics.tex l. 418-421)"
+ },
+ {
+  "file": "numerics/fidelity_table_largezeta.tex",
+  "old": "is a rigorous lower bound; the small-",
+  "new": "is a lower bound up to the uncertified \\(\\widehat D\\) quadrature; the small-",
+  "finding": "REF-RR-B fails/minors of 2026-11-19",
+  "reason": "REF-RR-B: computed with the uncertified D-hat quadrature (rigor/certified_numerics.tex l. 418-421)"
+ },
+ {
+  "file": "numerics/analyze_largezeta.py",
+  "old": "at large cross ratio: rigorous lower bounds and uncertified",
+  "new": "at large cross ratio: lower bounds (up to the uncertified \\(\\widehat D\\) quadrature) and uncertified",
+  "finding": "REF-RR-B fails/minors of 2026-11-19",
+  "reason": "REF-RR-B: computed with the uncertified D-hat quadrature (rigor/certified_numerics.tex l. 418-421)"
+ },
+ {
+  "file": "numerics/analyze_largezeta.py",
+  "old": "is a rigorous lower bound; the small-",
+  "new": "is a lower bound up to the uncertified \\(\\widehat D\\) quadrature; the small-",
+  "finding": "REF-RR-B fails/minors of 2026-11-19",
+  "reason": "REF-RR-B: computed with the uncertified D-hat quadrature (rigor/certified_numerics.tex l. 418-421)"
+ }
+]

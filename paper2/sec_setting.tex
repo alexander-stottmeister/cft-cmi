@@ -25,7 +25,7 @@ $U(\mathrm{Exp}(tf\partial_x))=e^{itT(f)}$ up to phase, with central charge $c>0
  subgroup preserving $I$, and $J_I$ implements the reflection fixing $\partial I$;
 \item[(RS)] \emph{Reeh--Schlieder}: $\Omega$ is cyclic and separating for every $\cA(I)$.
 \end{itemize}
-Only locality --- not (HD) --- is used in the upper bound and in the $c$-linearity theorem; this matters
+Only locality --- not (HD) --- is used in the upper bound, and the $c$-linearity theorem uses neither; this matters
 for the free fermion, where (HD) fails and only twisted duality holds (\Cref{rem:graded}).
 
 Inner products are conjugate linear in the \emph{first} variable.  For a von Neumann algebra $\cM$ with
@@ -40,9 +40,11 @@ $\Fid=\sqrt{P_{\cM}}$ with $P_{\cM}$ the Uhlmann transition probability \cite{AU
 
 \subsection{Geometry: three adjacent intervals and the zero-collar compression}\label{ss:geom}
 
-Let $A$, $B$, $C$ be adjacent intervals of the line with $B$ in the middle.  All quantities below depend on
-the configuration only through the cross ratio $\zeta$ of the four endpoints; this is the content of
-\cite[Lemma 1.1]{Note5}, and it allows us to pass to a normal form.  We use the half-line normal form
+Let $A$, $B$, $C$ be adjacent intervals of the line with $B$ in the middle.  For the free fermion the recovery
+quantities depend on a finite configuration only through the cross ratio $\zeta$ of the four endpoints
+\cite[Lemma 1.1]{Note5}.  For a general net the corresponding reduction to the normal form below rests on
+the internal document \texttt{rigor/moebius\_reduction\_general\_nets.tex} (under review); \Cref{thm:B} is
+stated and proved in that normal form and does not use it.  We use the half-line normal form
 \begin{equation}\label{eq:geom}
  A=(-\infty,0),\qquad D=(0,L),\qquad I=AD=(-\infty,L),\qquad I'=(L,\infty),
 \end{equation}
@@ -115,8 +117,11 @@ $\Psi_{s}:=U_{s}^{*}\Omega$ and
 
 The form \eqref{eq:H1loc} of the locality clause is the one that is both provable and usable.  The
 apparently equivalent phrasing ``$U(\phi)\in\cA(K)$ for every interval $K\supseteq\supp\phi$'' is ill-posed
-in the situation of \Cref{lem:ext}: there $\supp\phi=\overline{J_{s}'}$ contains $\partial J_{s}$, and no
-open interval $K$ with $\supp\phi\subset K\subseteq J_{s}'$ exists.
+for a $\phi$ that is the identity exactly on an interval $J$: then $\supp\phi=\overline{J'}$ contains $\partial J$,
+and no open interval $K$ with $\supp\phi\subset K\subseteq J'$ exists.  The clause concerns \emph{smooth}
+$\phi\in\mathrm{Diff}^{+}(S^{1})$ only (it is the CDIT axiom \cite[\S4]{CDIT}): $U(\phi)$ is not defined for a
+$C^{1,1}$ map, and no argument of this paper applies \eqref{eq:H1loc} to one; non-smooth fields enter only
+through \Cref{lem:loc}(i).
 
 \begin{hypothesis}[differentiability on the vacuum]\label{H2}
 $T(g_{\rm tot})\Omega\in\Hil$ and $\|\Psi_{s}-\Omega+is\,T(g_{\rm tot})\Omega\|=o(s)$ as $s\to0$.
@@ -151,23 +156,34 @@ the recovered state and, simultaneously, the supply of commutant unitaries in Uh
 record the first half now.
 
 \begin{lemma}[extension independence]\label{lem:ext}
-Let $\tilde k_{s}$ and $\tilde k_{s}^{\sharp}$ be $C^{1,1}$ diffeomorphisms of $S^{1}$ with
-$\tilde k_{s}|_{I}=\tilde k_{s}^{\sharp}|_{I}=k_{s}$, and let $U_{s},U_{s}^{\sharp}$ be implementers as in
-\Cref{H1}.  Then $\omega\circ\Ad U_{s}|_{\cM}=\omega\circ\Ad U_{s}^{\sharp}|_{\cM}$.
+Let $g_{\rm tot}$ and $g_{\rm tot}^{\sharp}$ be two first-order fields in the extension class $\mathcal E$ of
+\cite[Def.~2.1]{RigorC} (real, $C^{1}$ on $S^{1}$, $C^{\infty}$ off the touching point, $0$ on $A$ and equal to
+the M\"obius field $m$ on $D$; \eqref{eq:chi} is one of them), so that their flows $\tilde k_{s}$,
+$\tilde k_{s}^{\sharp}$ both restrict to $k_{s}$ on $I$, and let $U_{s}=e^{is\overline{T(g_{\rm tot})}}$ and
+$U_{s}^{\sharp}=e^{is\overline{T(g^{\sharp}_{\rm tot})}}$ be the implementers of \Cref{thm:H1}.  Then
+$\omega\circ\Ad U_{s}|_{\cM}=\omega\circ\Ad U_{s}^{\sharp}|_{\cM}$ for every $s\ge0$.
 \end{lemma}
 
 \begin{proof}
-Put $\phi:=\tilde k_{s}\circ(\tilde k_{s}^{\sharp})^{-1}$ and $J_{s}:=k_{s}(I)$.  For $y\in J_{s}$ write
-$y=k_{s}(x)$ with $x\in I$; then $(\tilde k^{\sharp}_{s})^{-1}(y)=x$ and $\tilde k_{s}(x)=k_{s}(x)=y$, so
-$\phi|_{J_{s}}=\mathrm{id}$, i.e.\ $\phi\in\mathrm{Diff}(J_{s}')$.  By the locality clause
-\eqref{eq:H1loc} with $K=J_{s}'$ we get $U(\phi)\in\cA(J_{s}')$, and hence $U(\phi)\in\cA(J_{s})'$ by
-\emph{locality} alone.  Now let $X\in\cM$.  By covariance, $Y:=U^{\sharp}_{s}XU_{s}^{\sharp*}\in
-\cA(\tilde k^{\sharp}_{s}(I))=\cA(J_{s})$, so $U(\phi)YU(\phi)^{*}=Y$.  Since $U_{s}$ and
-$U(\phi)U^{\sharp}_{s}$ implement the same diffeomorphism they agree up to a phase $\lambda$, $|\lambda|=1$,
-which cancels in $\Ad$; therefore
-$U_{s}XU_{s}^{*}=U(\phi)YU(\phi)^{*}=Y=U^{\sharp}_{s}XU_{s}^{\sharp*}$, and applying $\omega$ finishes the
-proof.
+This is \cite[Thm.~4.7, step $\langle1\rangle7$]{RigorC}; we give the argument.  Put
+$f:=g_{\rm tot}-g^{\sharp}_{\rm tot}$.  It is real, $\|f\|_{3/2}<\infty$ (\cite[Thm.~2.3(c)]{RigorC}, which holds on
+all of $\mathcal E$), and $f=0$ on the open interval $I$, so $V_{t}:=e^{it\overline{T(f)}}\in\cA(I)'=\cM'$ for all
+$t$ by \Cref{lem:loc}(i).  Let $X\in\cM$ and $a\ge0$.  By \Cref{thm:H1}(iii) for $g^{\sharp}_{\rm tot}$ (\cite[Thm.~4.7]{RigorC} proves it on all of $\mathcal E$),
+$\Ad U^{\sharp}_{a}(X)\in\cA(\tilde k^{\sharp}_{a}I)$, and $\tilde k^{\sharp}_{a}I=k_{a}(I)\subseteq I$ because
+$a\ge0$ moves the far endpoint of $I$ inwards; so $\Ad U^{\sharp}_{a}(X)\in\cM$ commutes with $V_{a}$ and
+$\Ad(V_{a}U^{\sharp}_{a})(X)=\Ad U^{\sharp}_{a}(X)\in\cM$.  By induction on $n$,
+$\Ad\bigl((V_{s/n}U^{\sharp}_{s/n})^{n}\bigr)(X)=\Ad U^{\sharp}_{s}(X)$ for $s\ge0$.  On the common core
+$\Hil_{\rm fin}$ one has $T(g_{\rm tot})=T(f)+T(g^{\sharp}_{\rm tot})$ term by term, and $T(g_{\rm tot})$ is
+essentially self-adjoint there \cite[Thm.~4.4]{CW}; so $\overline{T(f)}+\overline{T(g^{\sharp}_{\rm tot})}$, a
+symmetric extension of it, is essentially self-adjoint with closure $\overline{T(g_{\rm tot})}$, and the
+Trotter product formula (Reed--Simon Thm.~VIII.31, as in \Cref{thm:H1}) gives
+$(V_{s/n}U^{\sharp}_{s/n})^{n}\to U_{s}$ strongly.  Strong convergence of unitaries implies that of their
+adjoints, hence $\Ad\bigl((V_{s/n}U^{\sharp}_{s/n})^{n}\bigr)(X)\to\Ad U_{s}(X)$ strongly, so
+$\Ad U_{s}(X)=\Ad U^{\sharp}_{s}(X)$, and applying $\omega$ finishes the proof.
 \end{proof}
 
-Note that $\phi$ is in general supported on the \emph{closed} arc $\overline{J_s'}$, which is why
-\eqref{eq:H1loc} rather than a support condition is the right hypothesis.
+The restrictions $s\ge0$ and $\mathcal E$ are those of the proof: for $s<0$ the arc $\tilde k_{s}I$ is not
+contained in $I$, and for a $C^{1,1}$ extension outside $\mathcal E$ no implementer statement is proved here.
+An earlier version of this lemma applied \eqref{eq:H1loc} to $\phi=\tilde k_{s}\circ(\tilde k_{s}^{\sharp})^{-1}$,
+which is only $C^{1,1}$, so that $U(\phi)$ is not defined; that argument is withdrawn.  \Cref{thm:B} does not
+use \Cref{lem:ext}.

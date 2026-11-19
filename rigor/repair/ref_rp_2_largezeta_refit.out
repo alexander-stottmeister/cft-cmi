@@ -1,0 +1,12 @@
+zeta=  1.0667 box=120/45 n=4 kc_max=39.14 Phi_sub(max)=4.381243e-03 -> Phi_inf=4.410388e-03 p=2.486 maxres=1.2e-04; card 4.4100e-03+-2.0e-05: OK
+zeta=  2.1333 box=120/45 n=4 kc_max=39.14 Phi_sub(max)=1.067246e-02 -> Phi_inf=1.079687e-02 p=2.309 maxres=2.2e-04; card 1.0797e-02+-5.0e-05: OK
+zeta=  4.2667 box=120/45 n=4 kc_max=39.14 Phi_sub(max)=2.187202e-02 -> Phi_inf=2.241404e-02 p=1.981 maxres=4.3e-04; card 2.2410e-02+-1.4e-04: OK
+zeta=  8.5333 box=120/45 n=5 kc_max=43.75 Phi_sub(max)=3.825878e-02 -> Phi_inf=3.974032e-02 p=1.757 maxres=1.6e-03; card 3.9740e-02+-7.2e-04: OK
+zeta= 17.0667 box=120/45 n=4 kc_max=39.14 Phi_sub(max)=5.739516e-02 -> Phi_inf=6.412122e-02 p=1.209 maxres=1.1e-03; card 6.4100e-02+-4.3e-03: OK
+# phi-derivative-nondecreasing arithmetic
+  Phi/zeta at 4.2667: card value 5.252e-03; my refit 5.253e-03
+  Phi/zeta at 8.5333: card value 4.657e-03; my refit 4.657e-03
+  Phi/zeta at 17.0667: card value 3.756e-03; my refit 3.757e-03
+  max Phi_sub(4.2667) = 2.1872e-02; convexity => Phi(8.5333) >= 2*that = 4.3744e-02
+  largest extrapolated estimate at 8.5333 in the file's sec. 2 table: read by hand, 4.30574e-2 (Phi_inf(p=1), 180/45)
+  log bound check: (1/6) log(1+zeta/2) at 17.0667 = 3.7580e-01 >= card 6.41e-2

@@ -1,0 +1,4 @@
+[
+{"id":"const-f2","key":"statement","old":"against 0.0676 c eta^2 = 8 f2 eta^2","new":"against 0.0675 c eta^2 = 8 f2 eta^2 (8/(12 pi^2) = 0.067547)"},
+{"id":"rate-of-remainder","key":"statement","old":"(thm:global with prop:rrr, unconditional)","new":"(thm:global with prop:rrr; proved for zeta < pi sqrt 3 = (4 f2)^{-1/2}; for pi sqrt 3 <= zeta < pi sqrt 6 = (2 f2)^{-1/2} subject to index zero of e^{sK}, rigor/index_zero.tex, under review since 2026-11-19, cards group-index-zero-large-s and pushforward-blocks-equal-singular-values)"}
+]

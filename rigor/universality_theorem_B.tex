@@ -90,7 +90,7 @@ $u:=L-x\mapsto e^{2\pi t}u$, and $J$ implements $x\mapsto 2L-x$, i.e.\ $u\mapsto
 (\texttt{rigor/collar\_and\_invariant\_formula.tex}, eq.~(dil); the sign is audited there, \S{}Convention audit).
 
 \paragraph{(S3) Geometry and the recovery curve.}
-Half-line configuration of Note~7 \S1, scaled to $L=1$ (legitimate: by Note~5 Lemma~1.1 all quantities
+Half-line configuration of Note~7 \S1, scaled to $L=1$ (legitimate: by Note~5 Lemma~1.1 for the free fermion, and for every net by \texttt{rigor/moebius\_reduction\_general\_nets.tex} Theorem~``M\"obius reduction'' (under review; implementers of \texttt{implementation\_C11.tex}, $s\ge0$ for every extension of class $\mathcal E$), the recovered state and its fidelity
 depend on $(a,L,s)$ only through the cross ratio $\zeta=as/(a+L)$; $a=\infty$ gives $\zeta=s$, and
 dilation covariance removes $L$):
 \begin{equation}\label{eq:geom}
@@ -117,17 +117,20 @@ $x=1$; $\gtot$ is $C^{1,1}$, $C^\infty$ off $\{0\}$, and $\gtot''$ jumps by $-2$
 \paragraph{(S4) The hypotheses.}
 \begin{itemize}[leftmargin=3em]
 \item[(H1)] \emph{Implementation.}  For $|s|<s_0$ there are unitaries $U_s$ on $\Hil$ with
- $U_s\cA(K)U_s^*=\cA(\kt_s(K))$ for every interval $K$; the assignment is local in the sense that
- $U_s=U(\phi)\,U_s^{\sharp}$ (up to a phase) whenever $U_s,U_s^\sharp$ implement two $C^{1,1}$ extensions of
- $k_s$ that differ by $\phi:=\kt_s\circ(\kt^\sharp_s)^{-1}$, and
+ $U_s\cA(K)U_s^*=\cA(\kt_s(K))$ for every interval $K$.  This is (H1) in the form (C7) of
+ \texttt{rigor/implementation\_C11.tex}, which Theorem~``(H1) for every conformal net'' there proves for every
+ $s\in\mathbb R$ with $U_s=e^{is\overline{T(\gtot)}}$.  \emph{No} locality clause for non-smooth maps is assumed:
+ $U(\phi)$ is defined only for smooth $\phi\in\mathrm{Diff}^+(S^1)$ (CDIT axiom (10)), and for those
+ \texttt{rigor/implementation\_C11.tex} Lemma~``locality of implementers'' (i) gives the standing fact
  \begin{equation}\label{eq:H1loc}
   U\bigl(\mathrm{Diff}(K)\bigr)\subseteq\cA(K),\qquad
-  \mathrm{Diff}(K):=\{\phi:\ \phi|_{K'}=\mathrm{id}\}
+  \mathrm{Diff}(K):=\{\phi\in\mathrm{Diff}^+(S^1):\ \phi|_{K'}=\mathrm{id}\}
  \end{equation}
  for every interval $K$, i.e.\ $U(\phi)\in\cA(K)$ whenever $\phi$ acts trivially on the \emph{complement}
  of $K$ (equivalently $\supp\phi\subseteq\overline K$).  This is the form in which the covariance theorem
  is proved; the stronger-looking clause ``$U(\phi)\in\cA(K)$ for every interval $K\supseteq\supp\phi$''
- is \emph{unusable} here, because the $\phi$ of Lemma~\ref{lem:ext} has
+ would be \emph{unusable} even if $U(\phi)$ were defined, because the map $\phi=\kt_s\circ(\kt^\sharp_s)^{-1}$
+ relating two extensions (only $C^{1,1}$; Lemma~\ref{lem:ext} does not use it) has
  $\supp\phi=\overline{J_s'}\ni\partial J_s$ and no open interval $K$ with
  $\supp\phi\subset K\subseteq J_s'$ exists.  In general $U_s\Om\ne\Om$.  We write $\cM:=\cA(I)$,
  $\Psi_s:=U_s^*\Om$ and
@@ -176,36 +179,49 @@ representative of the same tangent functional (Lemma~\ref{lem:gauge}) for which 
 \end{remark}
 
 \begin{lemma}[The recovered state does not depend on the extension beyond $L$]\label{lem:ext}
-Let $\kt_s$ and $\kt_s^\sharp$ be two $C^{1,1}$ diffeomorphisms of $\mathbb R$ (or of $S^1$) with
-$\kt_s|_I=\kt_s^\sharp|_I=k_s$, and let $U_s,U_s^\sharp$ be implementers as in \textup{(H1)}.  Then
-$\omega\circ\Ad U_s|_{\cM}=\omega\circ\Ad U_s^\sharp|_{\cM}$.
+Let $\gtot$ and $\gtot^\sharp$ be two fields of the class $\mathcal E$ of \texttt{rigor/implementation\_C11.tex},
+Definition~``the extension class and the field'' (conditions (E1)--(E3), with $L=1$ and some $a>0$), both
+equal to $0$ on $(-\infty,0]$ and to $-x^2$ on $[0,1]$ (the class $\mathcal E_\infty$ of \texttt{rigor/moebius\_reduction\_general\_nets.tex}; in particular they
+agree on $I=(-\infty,1)$, and their flows fix $(-\infty,0]$, which step $\langle1\rangle2$ uses), let $\kt_s,\kt_s^\sharp$ be their flows and $U_s:=e^{is\overline{T(\gtot)}}$,
+$U_s^\sharp:=e^{is\overline{T(\gtot^\sharp)}}$ (the implementers of \textup{(H1)} constructed there).  Then
+$\omega\circ\Ad U_s|_{\cM}=\omega\circ\Ad U_s^\sharp|_{\cM}$ for every $s\ge0$.  (Arbitrary $C^{1,1}$
+extensions, arbitrary implementers and $s<0$ are \emph{not} covered; nothing below uses them.)
 \end{lemma}
-\lstep{1}{1}{\ldefine $\phi:=\kt_s\circ(\kt^\sharp_s)^{-1}$.  Then $\phi|_{J_s}=\mathrm{id}$ with
- $J_s=k_s(I)$, i.e.\ $\phi\in\mathrm{Diff}(J_s')$; in general $\supp\phi=\overline{J_s'}$, so $\phi$ is
- \emph{not} supported in any interval strictly inside $J_s'$.}
-\lby{for $y\in J_s$ write $y=k_s(x)$, $x\in I$; then $(\kt^\sharp_s)^{-1}(y)=x$ and $\kt_s(x)=k_s(x)=y$;
- for $y$ just to the right of $\partial J_s$ the two continuations differ, so
- $\partial J_s\in\supp\phi$}
-\lstep{1}{2}{$U(\phi)\in\cA(J_s)'$.}
-\lby{$\langle1\rangle1$ and the locality clause \eqref{eq:H1loc} of (H1) with $K=J_s'$ give
- $U(\phi)\in\cA(J_s')$; then $\cA(J_s')\subseteq\cA(J_s)'$ by \emph{locality} alone (Haag duality is not
- needed, and fails for the graded net of \S\ref{sec:models})}
-\lstep{1}{3}{For $X\in\cM$: $Y:=U^\sharp_sX U_s^{\sharp*}\in\cA(J_s)$ and $U(\phi)YU(\phi)^*=Y$.}
-\lby{(H1) covariance with $\kt^\sharp_s(I)=J_s$; then $\langle1\rangle2$}
-\lstep{1}{4}{$\omega(U_sXU_s^*)=\omega(Y)=\omega(U^\sharp_sXU_s^{\sharp*})$.}
-\lby{(H1) locality: $U_s=\lambda\,U(\phi)U^\sharp_s$ with $|\lambda|=1$, so
- $U_sXU_s^*=U(\phi)YU(\phi)^*=Y$ by $\langle1\rangle3$ (the phase cancels)}
-\lqed{1}{5}\lby{$\langle1\rangle4$}
+\lstep{1}{1}{$\phi:=\gtot-\gtot^\sharp$ is real, $\norm{\phi}_{3/2}<\infty$, $\phi=0$ on $I$, and
+ $e^{it\overline{T(\phi)}}\in\cA(I)'=\cM'$ for every $t\in\mathbb R$.}
+\lby{both fields agree on $I$; $\norm{\gtot}_{3/2},\norm{\gtot^\sharp}_{3/2}<\infty$ by
+ \texttt{implementation\_C11.tex} Thm.~``regularity of the first-order field''(c) and the triangle inequality;
+ then that document's Thm.~``(H1) for every conformal net'' step $\langle1\rangle2$ with $I_0=I$ (it uses (HD))}
+\lstep{1}{2}{For $b\ge0$ and $X\in\cM$: $U^\sharp_bXU^{\sharp*}_b\in\cA(\kt^\sharp_bI)\subseteq\cM$.}
+\lby{\texttt{implementation\_C11.tex} Thm.~``(H1) for every conformal net''(iii); $\kt_b^\sharp$ fixes
+ $(-\infty,0]$ pointwise ($\gtot^\sharp=0$ there) and equals $k_b$ on $[0,1)$ (eq.~\eqref{eq:ks}), so
+ $\kt^\sharp_bI=(-\infty,\frac1{1+b})\subseteq I$; isotony}
+\lstep{1}{3}{For $b\ge0$ and $X\in\cM$: $\Ad\bigl(e^{ib\overline{T(\phi)}}U^\sharp_b\bigr)(X)=\Ad U^\sharp_b(X)$.}
+\lby{$\langle1\rangle2$ puts $\Ad U^\sharp_b(X)$ in $\cM$, and $\langle1\rangle1$ says $e^{ib\overline{T(\phi)}}$
+ commutes with $\cM$}
+\lstep{1}{4}{$U_s=\lim_n\bigl(e^{i\frac sn\overline{T(\phi)}}U^\sharp_{s/n}\bigr)^n$ strongly.}
+\lby{Trotter's formula, Reed--Simon~I Thm.~VIII.31, as in \texttt{implementation\_C11.tex}
+ Thm.~``(H1) for every conformal net'' $\langle2\rangle1$ of $\langle1\rangle4$: $\overline{T(\phi)}$,
+ $\overline{T(\gtot^\sharp)}$ are self-adjoint, $T(\gtot)=T(\phi)+T(\gtot^\sharp)$ termwise on the finite-energy
+ vectors, which are a core for $\overline{T(\gtot)}$ (that document's Lemma ``the Carpi--Weiner package''), so
+ the sum on $D(\overline{T(\phi)})\cap D(\overline{T(\gtot^\sharp)})$ is a symmetric extension of an
+ essentially self-adjoint operator and has closure $\overline{T(\gtot)}$}
+\lstep{1}{5}{For $X\in\cM$ and $s\ge0$: $\Ad\bigl(e^{i\frac sn\overline{T(\phi)}}U^\sharp_{s/n}\bigr)^n(X)=
+ \Ad U^\sharp_s(X)$.}
+\lby{$n$-fold iteration of $\langle1\rangle3$ with $b=s/n$; after $k$ steps the image is
+ $\Ad U^\sharp_{ks/n}(X)\in\cM$ by $\langle1\rangle2$; and $(U^\sharp_{s/n})^n=U^\sharp_s$ (one-parameter group)}
+\lstep{1}{6}{$\Ad U_s|_\cM=\Ad U^\sharp_s|_\cM$ for $s\ge0$.}
+\lby{$\langle1\rangle4$, $\langle1\rangle5$: if unitaries $V_n\to V$ strongly then $V_nXV_n^*\to VXV^*$
+ strongly, and the left-hand side of $\langle1\rangle5$ is constant in $n$}
+\lqed{1}{7}\lby{$\langle1\rangle6$ and $\omega_s=\omega\circ\Ad U_s|_\cM$}
 
 \begin{verdictok}
 The independence is exactly the statement that the two implementers differ by a unitary of $\cA(J_s)'$,
 which is why the \emph{state} on $\cA(I)$, i.e.\ on $\cA(J_s)$ after transport, does not see the extension.
-Only two inputs are used, and neither is Haag duality: \emph{locality} ($\cA(J_s')\subseteq\cA(J_s)'$),
-and the locality clause \eqref{eq:H1loc} of (H1) in its correct form
-$U(\mathrm{Diff}(K))\subseteq\cA(K)$, which for smooth $\phi$ is the standard theorem of diffeomorphism
-covariance (\'a la Carpi--Weiner) and for the $C^{1,1}$ maps used here is part of what track QB
-(\texttt{rigor/implementation\_C11.tex}) must verify.  The naive clause ``$\supp\phi\subset K$'' is
-inapplicable here, see $\langle1\rangle1$.  Note that the \emph{vector} $\Psi_s$ and the tangent vector $T(\gtot)\Om$
+The inputs are (HD) (inside the cited step $\langle1\rangle2$ of \texttt{implementation\_C11.tex}), the covariance
+(H1)(iii) proved there, and Trotter's formula; \emph{no} locality clause for a non-smooth map is used, and none is
+available: $U(\phi)$ is undefined for $\phi=\kt_s\circ(\kt^\sharp_s)^{-1}$, which is only $C^{1,1}$.  The
+restriction $s\ge0$ enters through $\kt^\sharp_bI\subseteq I$ in $\langle1\rangle2$.  Note that the \emph{vector} $\Psi_s$ and the tangent vector $T(\gtot)\Om$
 \emph{do} depend on the extension --- only their classes modulo $\HMp$ do not (Lemma~\ref{lem:gauge}).
 \end{verdictok}
 
@@ -426,9 +442,11 @@ makes Section~\ref{sec:value} possible and it is the exact net-independent analo
 \texttt{rigor/uhlmann\_upper\_bound.tex}, Prop.~``Uhlmann lower bound for the fidelity''.
 
 \begin{proposition}[Geometric trial unitaries]\label{prop:geom}
-Let $h$ be real, $C^{1,1}$, with $\supp h\subset I'$ compact, and assume $T(h)$ is essentially self-adjoint
-with $\Om\in D(T(h))$ and $e^{i\tau T(h)}=U(\phi'_\tau)$, $\phi'_\tau$ the flow of $h\partial_x$
-\textup{(}so $\supp\phi'_\tau\subset I'$\textup{)}.  Then, under \textup{(H1)}, \textup{(H2)}:
+Let $h$ be real with $\supp h\subset I'$ compact and $\norm h_{3/2}<\infty$ (the Carpi--Weiner norm of
+\texttt{rigor/implementation\_C11.tex}).  Then $T(h)$ is essentially self-adjoint on the finite-energy vectors,
+$\Om$ is one of them, and we write $e^{i\tau T(h)}:=e^{i\tau\overline{T(h)}}$ (that document's Lemma ``the
+Carpi--Weiner package''); for smooth $h$ this equals $U(\phi'_\tau)$ up to a scalar phase, $\phi'_\tau$ the flow
+of $h\partial_x$ (its Lemma ``the phase \dots\ is scalar''), and for non-smooth $h$ no $U(\phi'_\tau)$ is used.  Then, under \textup{(H1)}, \textup{(H2)}:
 \begin{equation}\label{eq:geombound}
  -\log\Fid(\omega,\omega_s)\ \le\ \frac{s^2}{2}\,\bigl\|T(\gtot+h)\Om\bigr\|^2+o(s^2)
  \qquad (s\to0),
@@ -437,11 +455,11 @@ and therefore
 $\displaystyle\limsup_{s\to0}s^{-2}\bigl(-\log\Fid\bigr)\le\frac12\inf_h\norm{T(\gtot+h)\Om}^2$,
 the infimum over all such $h$.
 \end{proposition}
-\lstep{1}{1}{$u'_\tau:=U(\phi'_\tau)=e^{i\tau T(h)}\in\U(\cM')$ for every $\tau\in\mathbb R$.}
-\lby{$\supp\phi'_\tau\subseteq\supp h$ is a \emph{compact} subset of the open arc $I'$, so
- $\phi'_\tau\in\mathrm{Diff}(K)$ for an interval $K$ with $\supp h\subset K\subseteq I'$, whence
- $U(\phi'_\tau)\in\cA(K)$ by \eqref{eq:H1loc}; then $\cA(K)\subseteq\cA(I')\subseteq\cA(I)'=\cM'$ by
- isotony and \emph{locality} (Haag duality is not needed)}
+\lstep{1}{1}{$u'_\tau:=e^{i\tau\overline{T(h)}}\in\U(\cM')$ for every $\tau\in\mathbb R$.}
+\lby{$h=0$ on the open interval $I$, because $\supp h$ is a compact subset of the open arc $I'$; then
+ \texttt{rigor/implementation\_C11.tex} Thm.~``(H1) for every conformal net'' step $\langle1\rangle2$ (with
+ $\phi=h$, $I_0=I$; it uses (HD)) gives $e^{i\tau\overline{T(h)}}\in\cA(I)'=\cM'$.  No locality clause for a
+ non-smooth map is used}
 \lstep{1}{2}{$\Fid(\omega,\omega_s)\ \ge\ \bigl|\ip{\Om}{u'_{-s}\Psi_s}\bigr|$.}
 \lby{Alberti--Uhlmann Theorem~2(3), ``$\ge$'' half: $u'_{-s}\Psi_s$ is a vector representative of $\omega_s$
  by $\langle1\rangle1$ ($\ip{u'\Psi_s}{Xu'\Psi_s}=\ip{\Psi_s}{X\Psi_s}$ for $X\in\cM$, $u'\in\U(\cM')$), and
@@ -471,7 +489,7 @@ Proposition~\ref{prop:geom} is proved.  Three remarks.  (i) The passage from fir
 differentiability to a \emph{second}-order fidelity bound is step $\langle1\rangle3$, the elementary
 inequality $|\ip\xi\psi|\ge1-\frac12\norm{\xi-\psi}^2$; this is the explicit ``$o(s^2)$ argument'' asked for
 in the brief and it is the same device as in the imported Theorem~\ref{thm:uhllower}.
-(ii) The trial unitary is $u'_{-s}=U(\phi'_{-s})$, i.e.\ \emph{the recovery is compared with a different
+(ii) For smooth $h$ the trial unitary is $u'_{-s}=U(\phi'_{-s})$ up to a phase, i.e.\ \emph{the recovery is compared with a different
 extension of $k_s$ beyond $L$}: $\kt_s$ replaced by $\phi'_{-s}\circ\kt_s$, whose first-order field is
 $\gtot+h$.  Thus ``the infimum over extensions'' is literally an infimum over the choice of the
 $C^{1,1}$ continuation of $k_s$ past $x=1$ (plus arbitrary further motion inside $I'$).
@@ -912,7 +930,7 @@ For the $r$-component free chiral fermion net $\cF_r$ in the Fock representation
  implementer'' (Shale--Stinespring: the Bogoliubov automorphism of $\Wt_s$ is unitarily implemented),
  Prop.~``Vector representative'' ($\Psi_s=\Gamma(\Wt_s)^*\Om$ represents $\widetilde\omega_s$ on
  $\cM=\cF(I)$), and Lemma ``Commutant elements from $I'$'' plus Remark ``The graded structure''
- for the locality clause}
+ (cited for the commutant elements; (H1) carries no locality clause since 2026-11-19, so this citation is no longer needed for (H1))}
 \lstep{1}{2}{(2).}
 \lby{\texttt{uhlmann\_upper\_bound.tex}, Lemma ``\texttt{lem:tangentvec}'' $\langle1\rangle2$,
  $\langle1\rangle4$: $s\mapsto\widetilde Q_s=Q-E_IG_sE_I$ is $\Stwo$-differentiable at $s=0$ with
@@ -1022,13 +1040,13 @@ essentially $a\in D(\Delta^{1/2})$ up to a logarithm).  With it, $s_2=\gKM/2=c/1
 \item \emph{The collar interchange.}  \texttt{collar\_and\_invariant\_formula.tex} \S{}Status, item~2, and
  \texttt{lemma\_second\_variation.tex} Gap~3, note that
  $\lim_{\eps\to0}\lim_{s\to0}$ versus $\lim_{s\to0}\lim_{\eps\to0}$ is unproved.  The present document works
- at \emph{zero collar throughout}: $\cM=\cA(I)$ with $I=ABC$, no $\cM_\eps$, no collar limit.  The
+ at \emph{zero collar throughout}: $\cM=\cA(I)$ with $I=AD$ (eq.~\eqref{eq:geom}), no $\cM_\eps$, no collar limit.  The
  monotone-convergence proposition ``Data processing and monotone convergence of $\gB$'' is not used.
 \item \emph{The domain condition $T(\gtot)\Om\in D(\Delta^{-1/2})$.}  Note~7's Lemma~3.1 needs it for
  $\eta=i(S^*-1)a$; the $J$-form of $\gB$ used here needs nothing beyond $a\in\Hil$
  (Theorem~\ref{thm:three}), and $a\in\Hil$ is arranged by the smooth extension
  (Remark~\ref{rem:vector}), which is legitimate because the tangent functional on $\cM$ does not see it
- (Lemma~\ref{lem:gauge}) and the recovered state does not either (Lemma~\ref{lem:ext}).
+ (Lemma~\ref{lem:gauge}) and the recovered state does not either (Lemma~\ref{lem:ext}, for $s\ge0$ and smooth extensions that vanish on $(-\infty,0]$ and equal $-x^2$ on $[0,1]$, the class in which that lemma is proved).
 \end{enumerate}
 
 \section{Summary}\label{sec:summary}
@@ -1037,7 +1055,7 @@ essentially $a\in D(\Delta^{1/2})$ up to a logarithm).  With it, $s_2=\gKM/2=c/1
 \begin{tabular}{@{}p{0.36\textwidth}p{0.58\textwidth}@{}}\toprule
 \textbf{Step} & \textbf{Status}\\\midrule
 Recovered state independent of the extension beyond $L$ (Lemma~\ref{lem:ext})
- & \textbf{proved}, from (HD) and the locality clause of (H1)\\
+ & \textbf{proved} for fields of class $\mathcal E$ that vanish on $(-\infty,0]$ and equal $-x^2$ on $[0,1]$ (class $\mathcal E_\infty$), and $s\ge0$, from (HD), (H1)(iii) and Trotter (\texttt{implementation\_C11.tex}); no locality clause for non-smooth maps\\
 $T(\gtot)\Om\in\Hil$; gauge freedom (Rem.~\ref{rem:vector}, Lemma~\ref{lem:gauge})
  & \textbf{proved}\\
 $-\log\Fid\ge\frac{s^2}8\gB+o(s^2)$ (Prop.~\ref{prop:H3})
@@ -1045,7 +1063,7 @@ $-\log\Fid\ge\frac{s^2}8\gB+o(s^2)$ (Prop.~\ref{prop:H3})
 $-\log\Fid\le\frac{s^2}8\gB+o(s^2)$ (Prop.~\ref{prop:H2})
  & \textbf{proved} from (H2)\\
 Geometric trial unitaries $u'=U(\phi')$, explicit $o(s^2)$ (Prop.~\ref{prop:geom})
- & \textbf{proved} from (H1), (H2), (HD)\\
+ & \textbf{proved} from (H1), (H2), (HD), for $\norm h_{3/2}<\infty$\\
 $\HT$ reduces $\Delta$, $J$; $\frac14\gB$ computed inside $\HT$ (Lemma~\ref{lem:reduce},
  Prop.~\ref{prop:reduce}) & \textbf{proved} from (BW)\\
 Universality and $c$-linearity $\gB=c\,\gamma_0$ (Thm.~\ref{thm:linear})
@@ -1060,7 +1078,7 @@ Modular-frame / Mellin evaluation
  (verdict in \S\ref{sec:value})\\
 Theorem~B: $-\log\Fid=\frac{s^2}8\frac{2c}{3\pi^2}+o(s^2)$, $f_2=\frac c{12\pi^2}$
  & \textbf{proved} modulo (H1)--(H3)\\
-(H1)--(H3) for general nets & \textbf{open} (track QB)\\
+(H1)--(H3) for general nets & \textbf{proved} in \texttt{implementation\_C11.tex} Thm.~``main (card implementer-hypotheses), with (H1) in the form of (S4), for fields of class $\mathcal E$; \S\ref{sec:remains}(QB) records the earlier state\\
 Kubo--Mori $s_2=c/12$ & \textbf{open} (track QK)\\\bottomrule
 \end{tabular}
 \end{center}
@@ -1090,7 +1108,7 @@ Theorem~\ref{thm:B} stands, no proof-breaking issue; four repairs required.  All
  $\mathrm{Diff}(K)=\{\phi:\phi|_{K'}=\mathrm{id}\}$ (eq.~\eqref{eq:H1loc}); steps
  $\langle1\rangle1$--$\langle1\rangle2$ of Lemma~\ref{lem:ext} were rewritten accordingly.  In
  Proposition~\ref{prop:geom} $\langle1\rangle1$ the clause applies as before, $\supp\phi'_\tau$ being a
- compact subset of the open arc $I'$.
+ compact subset of the open arc $I'$.  \emph{Superseded on 2026-11-19:} $U(\phi)$ is undefined for the non-smooth maps of both places; (H1) now carries no clause for them, Lemma~\ref{lem:ext} is proved by the Trotter argument of \texttt{implementation\_C11.tex}, and Proposition~\ref{prop:geom} $\langle1\rangle1$ by that document's localisation step.
 \item[\textbf{R3}] \textbf{The graded case: the old statement was backwards.}  Theorem~\ref{thm:value}
  $\langle1\rangle2$ asserted that the Dirac field net is Haag dual.  It is not: Haag duality \emph{fails}
  and twisted duality $\cF(I)'=Z\cF(I')Z^*$ holds, $Z=\frac{1+iV}{1+i}$ (Foit 1983), which is precisely what
@@ -1113,7 +1131,7 @@ Theorem~\ref{thm:B} stands, no proof-breaking issue; four repairs required.  All
  vector is known.
  (d) Haag duality was replaced by locality in the three places where only
  $\cA(K)\subseteq\cA(I)'$, $K\subseteq I'$, is used (Lemmas~\ref{lem:ext}, \ref{lem:gauge},
- Proposition~\ref{prop:geom}).
+ Proposition~\ref{prop:geom}).  \emph{Superseded on 2026-11-19 for Lemma~\ref{lem:ext} and Proposition~\ref{prop:geom}:} their repaired proofs use (HD) again, through the localisation step of \texttt{implementation\_C11.tex}.
  (e) Proposition~\ref{prop:fermion}(3) now states explicitly that it is quoted from
  ``Theorem~A closed'' and is \emph{not} an instance of Theorem~\ref{thm:B}: the fermion is the input of
  Theorem~\ref{thm:value}, not a test.

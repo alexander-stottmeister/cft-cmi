@@ -1,0 +1,30 @@
+[
+ {
+  "file": "rigor/universality_theorem_B.tex",
+  "old": " for the locality clause}\n\\lstep{1}{2}{(2).}",
+  "new": " (cited for the commutant elements; (H1) carries no locality clause since 2026-11-19, so this citation is no longer needed for (H1))}\n\\lstep{1}{2}{(2).}",
+  "finding": "REF-RR-A / REF-RP-1 minors, 2026-11-19",
+  "reason": "stale reference to the removed locality clause"
+ },
+ {
+  "file": "rigor/universality_theorem_B.tex",
+  "old": "and the recovered state does not either (Lemma~\\ref{lem:ext}).",
+  "new": "and the recovered state does not either (Lemma~\\ref{lem:ext}, for $s\\ge0$ and smooth extensions that vanish on $(-\\infty,0]$ and equal $-x^2$ on $[0,1]$, the class in which that lemma is proved).",
+  "finding": "REF-RR-A / REF-RP-1 minors, 2026-11-19",
+  "reason": "lem:ext is proved only in the class E_inf"
+ },
+ {
+  "file": "rigor/universality_theorem_B.tex",
+  "old": "\\textbf{proved} for fields of class $\\mathcal E$ and $s\\ge0$, from (HD),",
+  "new": "\\textbf{proved} for fields of class $\\mathcal E$ that vanish on $(-\\infty,0]$ and equal $-x^2$ on $[0,1]$ (class $\\mathcal E_\\infty$), and $s\\ge0$, from (HD),",
+  "finding": "REF-RR-A / REF-RP-1 minors, 2026-11-19",
+  "reason": "summary row wider than the lemma"
+ },
+ {
+  "file": "rigor/universality_theorem_B.tex",
+  "old": " (d) Haag duality was replaced by locality in the three places where only\n $\\cA(K)\\subseteq\\cA(I)'$, $K\\subseteq I'$, is used (Lemmas~\\ref{lem:ext}, \\ref{lem:gauge},\n Proposition~\\ref{prop:geom}).",
+  "new": " (d) Haag duality was replaced by locality in the three places where only\n $\\cA(K)\\subseteq\\cA(I)'$, $K\\subseteq I'$, is used (Lemmas~\\ref{lem:ext}, \\ref{lem:gauge},\n Proposition~\\ref{prop:geom}).  \\emph{Superseded on 2026-11-19 for Lemma~\\ref{lem:ext} and Proposition~\\ref{prop:geom}:} their repaired proofs use (HD) again, through the localisation step of \\texttt{implementation\\_C11.tex}.",
+  "finding": "REF-RR-A / REF-RP-1 minors, 2026-11-19",
+  "reason": "item (d) contradicted the repaired proofs"
+ }
+]
