@@ -52,3 +52,4 @@ Third pass: REF-RR-C on the 7 pending cards (packet <scratchpad>/review_packet_3
 - REF-RR-C  agent a595e7fa03ec7986b  rigor/repair/REF_RR_C_report.md  [running] third pass, 7 cards
 REF-RR-C: 5 PASS; two-branch-law-lattice, paper1-status FAIL -> repaired (ORCH_patch_6.json, card_changes_8.json); REF-RR-C resumed for the re-check of these two.
 REF-RR-C re-check: two-branch-law-lattice, paper1-status PASS. kb lint: 0 issues, 0 awaiting review (cft_cmi). Round closed 2026-11-19.
+Committed b972fdd (public), pgit sync done (private). kb sync REFUSED: lint issues in area_law (169) and zed (303): evidence paths missing on this machine; not caused by this session; --force needs the user.
